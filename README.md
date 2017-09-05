@@ -23,6 +23,11 @@ $ vagrant ssh
 $ ./scripts/server
 ```
 
+Once you've started the server you'll need to create a login user. This can be done with:
+```bash
+$ ./scripts/manage createsuperuser
+```
+
 ### Importing data
 
 Database migrations and initial data loading is handled by `./scripts/update`.
