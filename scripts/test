@@ -1,0 +1,40 @@
+#! /bin/bash
+
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+    set -x
+fi
+
+GIT_COMMIT="${GIT_COMMIT:-latest}"
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "${0}")
+Run linters and tests.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        if which shellcheck > /dev/null; then
+            find ./scripts -maxdepth 1 -type f -print0 | xargs -0 shellcheck
+        fi
+
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint flake8 \
+                  django --exit-zero --exclude planit/migrations .
+
+        sleep 3
+
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint python \
+                  django manage.py test --noinput
+    fi
+fi

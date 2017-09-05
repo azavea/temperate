@@ -1,0 +1,52 @@
+[
+    {
+        "cpu": 512,
+        "environment": [
+            {
+                "name": "POSTGRES_DB",
+                "value": "${database_name}"
+            },
+            {
+                "name": "POSTGRES_USER",
+                "value": "${database_username}"
+            },
+            {
+                "name": "POSTGRES_PASSWORD",
+                "value": "${database_password}"
+            },
+            {
+                "name": "POSTGRES_HOST",
+                "value": "${database_host}"
+            },
+            {
+                "name": "DJANGO_ENV",
+                "value": "${environment}"
+            },
+            {
+                "name": "DJANGO_SECRET_KEY",
+                "value": "${django_secret_key}"
+            },
+            {
+                "name": "DJANGO_LOG_LEVEL",
+                "value": "INFO"
+            },
+            {
+                "name": "DJANGO_DEFAULT_FROM_EMAIL",
+                "value": "${django_from_email}"
+            }
+        ],
+        "essential": true,
+        "image": "${image_url}",
+        "entryPoint": ["./manage.py"],
+        "memory": 256,
+        "name": "django",
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-group": "log${environment}AppCLI",
+                "awslogs-region": "${region}",
+                "awslogs-stream-prefix": "management"
+            }
+        }
+    }
+]
