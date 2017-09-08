@@ -18,10 +18,10 @@ Vagrant.configure(2) do |config|
   end
 
   # Gunicorn
-  config.vm.network :forwarded_port, guest: 9090, host: 9090
+  config.vm.network :forwarded_port, guest: 8100, host: 8100
 
   # Django debug server
-  config.vm.network :forwarded_port, guest: 9091, host: 9091
+  config.vm.network :forwarded_port, guest: 8101, host: 8101
 
   # Change working directory to /vagrant upon session start.
   config.vm.provision "shell", inline: <<SCRIPT

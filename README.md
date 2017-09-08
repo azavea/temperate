@@ -49,8 +49,8 @@ To run the containers during development use the following commands:
 
 | Port | Service |
 | --- | --- |
-| [9090](http://localhost:9090) | Gunicorn |
-| [9091](http://localhost:9091) | Django debug server |
+| [8100](http://localhost:8100) | Gunicorn |
+| [8101](http://localhost:8101) | Django debug server |
 
 ### Scripts
 
