@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0") SERVICE COMMAND[S]
+Use Docker Compose to run a command for a service, or drop into a console.
+Example: ./scripts/console django bash
+"
+}
+
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+    if [ "${1:-}" = "--help" ]
+    then
+        usage
+    else
+        docker-compose run \
+                       --rm \
+                       --service-ports \
+                       --entrypoint "/bin/bash -c" \
+                       "$1" "${@:2}"
+    fi
+    exit
+fi

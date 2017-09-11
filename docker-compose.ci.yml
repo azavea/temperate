@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  terraform:
+    image: "quay.io/azavea/terraform:0.9.11"
+    volumes:
+      - ./:/usr/local/src
+      - ~/.aws:/root/.aws
+    environment:
+      - PLANIT_DEBUG=1
+      - AWS_PROFILE=${AWS_PROFILE:-planit}
+      - PLANIT_SETTINGS_BUCKET=${PLANIT_SETTINGS_BUCKET:-planit-staging-config-us-east-1}
+      - GIT_COMMIT=${GIT_COMMIT:-latest}
+    working_dir: /usr/local/src
+    entrypoint: bash

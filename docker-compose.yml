@@ -1,0 +1,43 @@
+version: '2.1'
+services:
+  database:
+    image: quay.io/azavea/postgis:2.3-postgres9.6-slim
+    environment:
+      - POSTGRES_USER=planit
+      - POSTGRES_PASSWORD=planit
+      - POSTGRES_DB=planit
+
+  django:
+    image: planit-app
+    environment:
+      - POSTGRES_HOST=database.service.planit.internal
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=planit
+      - POSTGRES_PASSWORD=planit
+      - POSTGRES_DB=planit
+      - DJANGO_ENV=development
+      - DJANGO_DEFAULT_FROM_EMAIL=planit@azavea.com
+      - DJANGO_SECRET_KEY=secret
+      - DJANGO_LOG_LEVEL=INFO
+      - AWS_PROFILE=planit
+    build:
+      context: ./src/django
+      dockerfile: Dockerfile
+    command:
+      - "--workers=2"
+      - "--timeout=60"
+      - "--bind=0.0.0.0:8080"
+      - "--reload"
+      - "--log-level=debug"
+      - "--access-logfile=-"
+      - "--error-logfile=-"
+      - "-kgevent"
+      - "planit.wsgi"
+    ports:
+      - "8100:8080"
+      - "8101:8081"
+    links:
+      - database:database.service.planit.internal
+    volumes:
+      - ./src/django:/usr/src
+      - $HOME/.aws:/root/.aws:ro

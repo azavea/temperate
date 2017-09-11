@@ -1,0 +1,4 @@
+version: '2.1'
+services:
+  django:
+    image: "planit-app:${GIT_COMMIT:-latest}"
