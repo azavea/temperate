@@ -20,10 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lyq3#s1zubnp3_vwhp%q-xso@7%x2n#*sqk6^iy+@%o4+-6n9y'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+
+ENVIRONMENT = os.getenv('DJANGO_ENV')
+
+LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (ENVIRONMENT == 'development')
 
 ALLOWED_HOSTS = []
 
@@ -75,10 +79,16 @@ WSGI_APPLICATION = 'planit.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT')
+    },
 }
+
+POSTGIS_VERSION = os.getenv('PG_VERSION')
 
 
 # Password validation
