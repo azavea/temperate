@@ -30,5 +30,11 @@ then
             -f docker-compose.yml \
             run --rm --entrypoint python \
             django manage.py migrate --noinput
+
+        # Collect static files
+        docker-compose \
+            -f docker-compose.yml \
+            run --rm --entrypoint python \
+            django manage.py collectstatic
     fi
 fi
