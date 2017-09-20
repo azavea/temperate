@@ -1,76 +1,139 @@
 #
+# Security group resources
+#
+resource "aws_security_group" "planit_app_alb" {
+  vpc_id = "${data.terraform_remote_state.core.vpc_id}"
+
+  tags {
+    Name        = "sgPlanItAppLoadBalancer"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+#
+# ALB resources
+#
+resource "aws_alb" "planit_app" {
+  security_groups = ["${aws_security_group.planit_app_alb.id}"]
+  subnets         = ["${data.terraform_remote_state.core.public_subnet_ids}"]
+  name            = "alb${var.environment}PlanItApp"
+
+  tags {
+    Name        = "albPlanItApp"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+resource "aws_alb_target_group" "planit_app_https" {
+  name = "tg${var.environment}HTTPSPlanItApp"
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "30"
+    protocol            = "HTTP"
+    timeout             = "3"
+    path                = "/health-check/"
+    unhealthy_threshold = "2"
+  }
+
+  port     = "443"
+  protocol = "HTTP"
+  vpc_id   = "${data.terraform_remote_state.core.vpc_id}"
+
+  tags {
+    Name        = "tg${var.environment}HTTPSPlanItApp"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+resource "aws_alb_listener" "planit_app_https" {
+  load_balancer_arn = "${aws_alb.planit_app.id}"
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = "${var.ssl_certificate_arn}"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.planit_app_https.id}"
+    type             = "forward"
+  }
+}
+
+#
 # ECS resources
 #
-data "template_file" "app_cli" {
-  template = "${file("task-definitions/cli.json")}"
-
-  vars {
-    image_url           = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/planit-app:${var.version}"
-    database_host       = "database.service.${var.r53_private_hosted_zone}"
-    database_name       = "${var.rds_database_name}"
-    database_username   = "${var.rds_database_username}"
-    database_password   = "${var.rds_database_password}"
-    django_secret_key   = "${var.django_secret_key}"
-    django_from_email   = "${var.django_from_email}"
-    google_analytics_id = "${var.google_analytics_id}"
-    google_maps_key     = "${var.google_maps_key}"
-    environment         = "${var.environment}"
-    region              = "${var.aws_region}"
-  }
-}
-
-resource "aws_ecs_task_definition" "app_cli" {
-  family                = "${var.environment}AppCLI"
-  container_definitions = "${data.template_file.app_cli.rendered}"
-}
-
-data "template_file" "app" {
+data "template_file" "planit_app_https_ecs_task" {
   template = "${file("task-definitions/app.json")}"
 
-  vars {
-    image_url           = "${var.aws_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/planit-app:${var.version}"
-    database_host       = "database.service.${var.r53_private_hosted_zone}"
-    database_name       = "${var.rds_database_name}"
-    database_username   = "${var.rds_database_username}"
-    database_password   = "${var.rds_database_password}"
-    django_secret_key   = "${var.django_secret_key}"
-    django_from_email   = "${var.django_from_email}"
-    google_analytics_id = "${var.google_analytics_id}"
-    google_maps_key     = "${var.google_maps_key}"
-    environment         = "${var.environment}"
-    region              = "${var.aws_region}"
+  vars = {
+    app_server_django_url            = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
+    django_secret_key                = "${var.django_secret_key}"
+    rds_host                         = "${data.terraform_remote_state.core.rds_host}"
+    rds_database_name                = "${var.rds_database_name}"
+    rds_username                     = "${data.terraform_remote_state.core.rds_username}"
+    rds_password                     = "${data.terraform_remote_state.core.rds_password}"
+    django_allowed_hosts             = "${aws_route53_record.planit_app.fqdn}"
+    git_commit                       = "${var.git_commit}"
+    rollbar_server_side_access_token = "${var.rollbar_server_side_access_token}"
+    environment                      = "${var.environment}"
+    planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
+    aws_region                       = "${var.aws_region}"
   }
 }
 
-resource "aws_ecs_task_definition" "app" {
-  family                = "${var.environment}App"
-  container_definitions = "${data.template_file.app.rendered}"
+resource "aws_ecs_task_definition" "planit_app_https" {
+  family                = "${var.environment}HTTPSPlanItApp"
+  container_definitions = "${data.template_file.planit_app_https_ecs_task.rendered}"
 }
 
-module "app_web_service" {
-  source = "github.com/azavea/terraform-aws-ecs-web-service?ref=0.1.0"
+resource "aws_ecs_service" "planit_app_https" {
+  name                               = "${var.environment}HTTPSPlanItApp"
+  cluster                            = "${data.terraform_remote_state.core.container_service_cluster_id}"
+  task_definition                    = "${aws_ecs_task_definition.planit_app_https.arn}"
+  desired_count                      = "${var.planit_app_https_ecs_desired_count}"
+  deployment_minimum_healthy_percent = "${var.planit_app_https_ecs_deployment_min_percent}"
+  deployment_maximum_percent         = "${var.planit_app_https_ecs_deployment_max_percent}"
+  iam_role                           = "${data.terraform_remote_state.core.container_service_cluster_ecs_service_role_name}"
 
-  name                = "App"
-  vpc_id              = "${module.vpc.id}"
-  public_subnet_ids   = ["${module.vpc.public_subnet_ids}"]
-  access_log_bucket   = "${aws_s3_bucket.logs.id}"
-  access_log_prefix   = "ALB"
-  health_check_path   = "/health-check/"
-  port                = "8080"
-  ssl_certificate_arn = "${var.ssl_certificate_arn}"
+  placement_strategy {
+    type  = "spread"
+    field = "attribute:ecs.availability-zone"
+  }
 
-  cluster_name                   = "${module.container_service_cluster.name}"
-  task_definition_id             = "${aws_ecs_task_definition.app.family}:${aws_ecs_task_definition.app.revision}"
-  desired_count                  = "${var.app_ecs_desired_count}"
-  min_count                      = "${var.app_ecs_min_count}"
-  max_count                      = "${var.app_ecs_max_count}"
-  scale_up_cooldown_seconds      = "${var.app_ecs_scale_up_cooldown_seconds}"
-  scale_down_cooldown_seconds    = "${var.app_ecs_scale_down_cooldown_seconds}"
-  deployment_min_healthy_percent = "${var.app_ecs_deployment_min_percent}"
-  deployment_max_percent         = "${var.app_ecs_deployment_max_percent}"
-  container_name                 = "django"
-  container_port                 = "8080"
+  load_balancer {
+    target_group_arn = "${aws_alb_target_group.planit_app_https.id}"
+    container_name   = "django"
+    container_port   = "8080"
+  }
+}
 
-  project     = "${var.project}"
-  environment = "${var.environment}"
+data "template_file" "planit_app_management_ecs_task" {
+  template = "${file("task-definitions/management.json")}"
+
+  vars {
+    management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
+    django_secret_key                = "${var.django_secret_key}"
+    rds_host                         = "${data.terraform_remote_state.core.rds_host}"
+    rds_database_name                = "${var.rds_database_name}"
+    rds_username                     = "${data.terraform_remote_state.core.rds_username}"
+    rds_password                     = "${data.terraform_remote_state.core.rds_password}"
+    django_allowed_hosts             = "${aws_route53_record.planit_app.fqdn}"
+    git_commit                       = "${var.git_commit}"
+    rollbar_server_side_access_token = "${var.rollbar_server_side_access_token}"
+    environment                      = "${var.environment}"
+    planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
+    aws_region                       = "${var.aws_region}"
+  }
+}
+
+resource "aws_ecs_task_definition" "planit_app_management" {
+  family                = "${var.environment}ManagementPlanItApp"
+  container_definitions = "${data.template_file.planit_app_management_ecs_task.rendered}"
+
+  volume {
+    name      = "tmp"
+    host_path = "/tmp"
+  }
 }

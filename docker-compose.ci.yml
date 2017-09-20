@@ -7,8 +7,8 @@ services:
       - ~/.aws:/root/.aws
     environment:
       - PLANIT_DEBUG=1
-      - AWS_PROFILE=${AWS_PROFILE:-planit}
-      - PLANIT_SETTINGS_BUCKET=${PLANIT_SETTINGS_BUCKET:-planit-staging-config-us-east-1}
+      - AWS_PROFILE=${AWS_PROFILE:-climate}
+      - PLANIT_SETTINGS_BUCKET=${PLANIT_SETTINGS_BUCKET:-staging-us-east-1-climate-config}
       - GIT_COMMIT=${GIT_COMMIT:-latest}
     working_dir: /usr/local/src
     entrypoint: bash

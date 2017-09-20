@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import requests
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,8 +32,27 @@ LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (ENVIRONMENT == 'development')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', '')]
 
+if ENVIRONMENT in ['Production', 'Staging']:
+    # Within EC2, the Elastic Load Balancer HTTP health check will use the
+    # target instance's private IP address for the Host header.
+    #
+    # The following steps lookup the current instance's private IP address
+    # (via the EC2 instance metadata URL) and add it to the Django
+    # ALLOWED_HOSTS configuration so that health checks pass.
+    response = requests.get('http://169.254.169.254/latest/meta-data/local-ipv4')  # NOQA
+    if response.ok:
+        ALLOWED_HOSTS.append(response.text)
+    else:
+        raise ImproperlyConfigured('Unable to fetch instance metadata')
+
+# Health checks
+
+WATCHMAN_ERROR_CODE = 503
+WATCHMAN_CHECKS = (
+    'watchman.checks.databases',
+)
 
 # Application definition
 
@@ -45,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'users',
     'planit_data',
+    'watchman',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +78,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
+
+if not DEBUG:
+    ROLLBAR = {
+        'access_token': os.getenv('ROLLBAR_SERVER_SIDE_ACCESS_TOKEN'),
+        'environment': ENVIRONMENT,
+        'root': os.getcwd()
+    }
 
 ROOT_URLCONF = 'planit.urls'
 
@@ -100,16 +131,16 @@ POSTGIS_VERSION = os.getenv('PG_VERSION')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # NOQA
     },
 ]
 
