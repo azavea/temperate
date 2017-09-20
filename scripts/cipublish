@@ -26,7 +26,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         if [[ -n "${PLANIT_AWS_ECR_ENDPOINT}" ]]; then
             # Evaluate the return value of the get-login subcommand, which
             # is a docker login command with temporarily ECR credentials.
-            eval "$(aws ecr get-login)"
+            eval "$(aws ecr get-login --no-include-email)"
 
             docker tag "planit-app:${GIT_COMMIT}" \
                    "${PLANIT_AWS_ECR_ENDPOINT}/planit-app:${GIT_COMMIT}"
