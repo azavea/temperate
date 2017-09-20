@@ -7,7 +7,7 @@ Context
 The application developed in collaboration with ICLEI will be a standalone product. Application development is expected to be compressed to a relatively short time scale, on the order of 6-8 months. Our grant funding the work expires at the end of April 2018, and if the application does not gain traction, it would be a reasonable expectation to sunset it.
 
 Therefore, the largest factors influencing this decision are:
-- Can bootstrap to a working application quickly, without spending many hours configuring our development environment?
+- Can we bootstrap to a working application quickly, without spending many hours configuring our development environment?
 - Once bootstrapped, can we iterate on new features quickly?
 - Does our choice provide implementations for, or make it easy for us to implement the features we expect to be building?
 - Is it difficult for the team's developers, some who may not be particularly familiar or interested in client-side code, to be involved and make measurable contributions? What about if they are only irregularly contributing to the code?
@@ -16,9 +16,8 @@ Therefore, the largest factors influencing this decision are:
 We have a few options for developing the frontend for this application, listed here alphabetically:
 
 1. [Angular](https://angular.io)
-2. [Django Static Files](https://docs.djangoproject.com/en/1.11/howto/static-files/)
-3. [ReactJS](https://facebook.github.io/react/)
-4. [VueJS](https://vuejs.org/)
+2. [ReactJS](https://facebook.github.io/react/)
+3. [VueJS](https://vuejs.org/)
 
 Angular
 _______
@@ -31,12 +30,6 @@ The Urban Apps team has prior experience with Angular, having used it to develop
 
 Most frustrations with Angular revolve around "fighting the framework", cryptic and unhelpful error messages during development that are difficult to debug, or fighting package version mismatches. Some see TypeScript as an unnecessary burden, although we could mitigate this by actively choosing not to add types to our code as we start development. The third party package ecosystem exists, but is not nearly as robust as that of angularjs or React, and we may run into trouble finding high quality third party packages for some features we may want to implement.
 
-Django Static Files
-___________________
-
-Django allows for a hybrid client-side solution, where the majority of a page's information is rendered server side, and then JS is used client side to "enhance" the page's experience. This generally involves some sort of JS build as part of the application deployment process, and a JS dev server that compiles the client-side code any time a request is made in the dev environment.
-
-Even if using Django views, it is generally necessary to include some sort of JS build system because any non-trivial JavaScript becomes unweildy very quickly. We experienced this when we built parts of the Clean Air Council TripPlanner app using Django views, where a significant chunk of the client-side functionality was implemented in JavaScript. Thus the advantage of quick iteration on some of the simpler views is lost when it becomes necessary to implement a JS build system and integrate it with Django staticfiles. This is the only option of the four presented that would require us to initially spend time developing new bootstrapping and deployment tooling.
 
 ReactJS
 _______
@@ -107,7 +100,7 @@ Decision
 
 We will proceed forward by continuing to use Angular. The Urban Apps team already knows the framework which should allow us to iterate quickly on the short time scales required of the project. TypeScript, while potentially slightly slowing initial development time, should help us to quickly and efficiently refactor the application when necessary as we move along in the project. We can also choose to mostly eliminate our use of TypeScript, if we feel it slows development down.
 
-Django views and ReactJS have significantly higher spin-up times and learning costs. Django views would require additional effort to integrate with JS build systems, and it's likely that we would still need to choose one of these other options within a few weeks anyways, as our client-side development efforts ramp up. ReactJS, while in use at Azavea, has many pieces in addition to React that require training/learning time to become proficient. This includes choosing and learning the many other 3rd party libraries we would need to be successful and getting comfortable with JSX.
+ReactJS would have significantly higher spin-up times and learning costs. While in use by other teams at Azavea, React is only a view library. In addition to becoming comfortable with JSX, we would need to choose and learn a series of third party libraries for additional framework components such as routing and data management.
 
 VueJS was more heavily considered. While likely far too simple a comparison, VueJS feels like a very lightweight Angular. The HTML template languages, and the general framework Component-based design philosophies are very similar, and they both provide a CLI to quickly begin development. Urban Apps developers should have little trouble initially transitioning from Angular to VueJS. With that said, VueJS was not chosen at this time due to the short timeline of the project. The additional spin-up would still be costly, and knowledge retention of a new framework might be difficult, as most developers working on the application will not be doing so full-time. This could lead delays that easily offset any long-term gains from choosing VueJS.
 
