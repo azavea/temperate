@@ -51,6 +51,7 @@ To run the containers during development use the following commands:
 | --- | --- |
 | [8100](http://localhost:8100) | Gunicorn |
 | [8101](http://localhost:8101) | Django debug server |
+| [4210](http://localhost:4210) | ng serve |
 
 ### Scripts
 

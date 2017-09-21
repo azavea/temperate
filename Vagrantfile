@@ -23,6 +23,9 @@ Vagrant.configure(2) do |config|
   # Django debug server
   config.vm.network :forwarded_port, guest: 8101, host: 8101
 
+  # Angular
+  config.vm.network :forwarded_port, guest: 4210, host: 4210
+
   # Change working directory to /vagrant upon session start.
   config.vm.provision "shell", inline: <<SCRIPT
     if ! grep -q "cd /vagrant" "/home/vagrant/.bashrc"; then
