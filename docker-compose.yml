@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   database:
-    image: quay.io/azavea/postgis:2.3-postgres9.6-slim
+    image: quay.io/azavea/postgis:2.2-postgres9.5-slim
     environment:
       - POSTGRES_USER=planit
       - POSTGRES_PASSWORD=planit
