@@ -1,0 +1,166 @@
+.card {
+  min-height: 400px;
+  border: 1px solid $gray-1;
+  background-color: white;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  position: relative;
+
+  .button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+    text-decoration: none;
+
+    &:hover, &.hover,
+    &:active, &.active, {
+      color: $gray-5;
+      background-color: $gray-0;
+    }
+
+    &:active, &.active {
+      box-shadow: inset 0 1px 2px -1px rgba(black, .1);
+    }
+
+    &:focus, &.focus {
+      color: $gray-5;
+      background-color: lighten( $gray-1, 10% );
+      outline: 0;
+    }
+  
+    .heading {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.card-empty {
+  color: $gray-4;
+  background-color: $gray-1;
+  margin: 0 2rem 2rem;
+  text-align: center;
+  // align-self: stretch;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  >* {
+    max-width: 40rem;
+  }
+}
+
+.card-content {
+  padding: 2rem;
+}
+
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.card-full {
+  flex: 2 0 100%;
+}
+
+.card-half {
+  flex: 0 1 49.5%;
+}
+
+#top-concerns .card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.concern {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 400px;
+  flex: 1 0 32%;
+  margin-right: 1%;
+  position: relative;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+#indicator-1 {
+  background-image: url(../images/indicator-1.jpg);
+}
+#indicator-2 {
+  background-image: url(../images/indicator-2.jpg);
+}
+#indicator-3 {
+  background-image: url(../images/indicator-3.jpg);
+}
+.concern-options {
+  position: absolute;
+  background-color: white;
+  width: auto;
+  right: 1rem;
+  top: 1rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s;
+  padding: 0.5rem;
+  border-radius: $button-border-radius;
+}
+.concern:hover {
+  box-shadow: 0px 0px 20px rgba($gray-4, 0.5);
+  outline-offset: -5px;
+
+  .concern-options {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+.concern-stats {
+  color: white;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+
+  .stat {
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+    
+    .forward-slash{
+      line-height: 2;
+    }
+
+    .button {
+      color: white;
+      padding: 0.5rem;
+    
+      &:hover, &.hover,
+      &:active, &.active, {
+        color: $brand-primary;
+      }
+
+      &:focus, &.focus {
+        color: $gray-1;
+        outline: 0;
+      }
+
+    }
+  }
+  .number {
+    font-size: $text-jumbo;
+    font-weight: 700;
+  }
+}

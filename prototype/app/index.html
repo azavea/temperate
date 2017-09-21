@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Climate</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="https://use.fontawesome.com/efb8de7f51.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  </head>
+  <body id="marketing">
+    <header class="header-primary" role="banner">
+      <a href="index.html" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
+      <div class="button-group">
+        <button class="button button-primary button-small" data-toggle="modal" data-target="#modal-account">Create an Account</button>
+        <button class="button button-secondary button-small" data-toggle="modal" data-target="#modal-login">Log In</button>
+      </div>
+    </header>
+    <main class="main-content" role="main">
+      <section class="container-hero container-fullheight">
+        <div class="container-content hero-content light-content">
+          <h1 class="heading text-jumbo">Find out how to best plan for climate change.</h1>
+          <p><strong>Climate</strong> offers planners fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis.</p>
+          <button class="button button-primary button-large" data-toggle="modal" data-target="#modal-account">Create an Account</button>
+        </div>
+        <div class="helper-arrow">What is this?</div>
+      </section>
+      <section class="container-standard">
+        <div class="container-content">
+          <h2 class="heading">Climate Change Data for your Community</h2>
+          <p class="paragraph-intro"><strong>Climate</strong> gives you access to more data, identifies major risks to your region, assists you in anticipating the impacts of climate change on your community, and lets you come away with a robust first draft of an adaptation plan. It goes beyond the presentation of generic information by tailoring the projected risk factors to your specific city or town.</p><p>Unlike other applications that simply give you the data and expect you to know how to translate that into a plan, as a registered <strong>Climate</strong> member, you will have access to experts to help you find the right information, understand the impacts of climate change on your community, and create an adaptation plan for you to share with other stakeholders.</p>
+        </div>
+      </section>
+      <section class="container-standard">
+        <div class="container-content">
+          <h2 class="heading">Think through the impacts</h2>
+          <p class="paragraph-intro">Digesting the data is just the first step in the process. <strong>Climate</strong> will guide you through the next steps, which include conducting a vulnerability assessment and planning for action.</p>
+        </div>
+        <div class="illustration-fullwidth">
+          <div class="illustration-row">
+            <figure id="figure-1" class="illustration figure-third">
+              <img src="http://lorempixel.com/201/200" alt="" />
+              <figcaption>Access dependable projection data</figcaption>
+            </figure>
+            <figure id="figure-2" class="illustration figure-third">
+              <img src="http://lorempixel.com/203/200" alt="" />
+              <figcaption>Collaborate with  your team</figcaption>
+            </figure>
+            <figure id="figure-3" class="illustration figure-third">
+              <img src="http://lorempixel.com/200/200" alt="" />
+              <figcaption>Create and export  an assessment</figcaption>
+            </figure>
+          </div>
+          <div class="illustration-row">
+            <figure id="figure-4" class="illustration figure-full">
+              <img src="http://lorempixel.com/202/200" alt="" />
+              <figcaption>receive support from ICLEI every step of the way</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+      <section class="container-standard container-cta">
+        <div class="container-content light-content">
+          <h2 class="heading">Get expert guidance</h2>
+          <p class="paragraph-intro">As a registered member, you’ll have on-demand access to a adaptation planner at ICLEI. With more than 25 years of experience helping local governments adopt sustainable practices, ICLEI staff will assist you in building your adaptation plan.</p>
+          <button class="button button-inverted button-large" data-toggle="modal" data-target="#modal-account">Create an account</button>
+        </div>
+      </section>
+    </main>  
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <a href="index.html" class="logo"><img src="assets/images/climate-logo-white.svg" alt="Climate by Azavea logo"></a>
+      <nav class="footer-nav-container">
+        <ul class="footer-nav">
+          <li class="list-item"><a class="link" href="dashboard.html">Dashboard</a></li>
+          <li class="list-item"><a class="link" href="indicators.html">Indicators</a></li>
+          <li class="list-item"><a class="link" href="">Charts</a></li>
+          <li class="list-item"><a class="link" href="">Maps</a></li>
+          <li class="list-item"><a class="link" href="">Assessment</a></li>
+          <li class="list-item"><a class="link" href="">Action Steps</a></li>
+          <li class="list-item"><a class="link" href="">Resources</a></li>
+        </ul>
+      </nav>
+      <div class="site-information">
+        <p>© 2016-2017 <a href="http://www.azavea.com">Azavea,</a> using technology to inform research for civic and social impact. All rights reserved.</p>
+        <p>Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
+        <p>Contact us at <strong>climate@azavea.com</strong></p>
+      </div>
+    </footer> 
+ 
+ 
+
+    <!-- Create an Account Modal -->
+    <div class="modal" id="modal-account" tabindex="-1" role="dialog" aria-labelledby="Create an Account">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h1>Create an account</h1>
+            <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+          </header>
+          <main class="modal-body">
+            <p>Please enter your information below to create an <strong>Climate</strong> account.</p>
+            <form class="form" id="form-createaccount">
+              <!-- First name -->
+              <div class="required">
+                <label class="label"  for="name-first">First Name</label>
+                <input class="input input-textfield" id="name-first" type="text" name="textfield" required>
+              </div>
+
+              <!-- Last Name -->
+              <div class="required">
+                <label class="label"  for="name-last">Last Name</label>
+                <input class="input input-textfield" id="name-last" type="text" name="textfield" required>
+              </div>
+
+              <!-- Email Address -->
+              <div class="required">
+                <label class="label" for="email-address">Email Address</label>
+                <input class="input input-textfield" id="email-address" type="email" name="textfield" required>
+              </div>
+
+              <!-- Organization -->
+              <label class="label" for="organization">Organization Name</label>
+              <input class="input input-textfield" id="organization" type="text" name="textfield">
+
+              <!-- Location -->
+              <label class="label" for="location">City</label>
+              <input class="input input-textfield" id="location" type="text" name="textfield">
+            </form>
+          </main>
+          <footer class="modal-footer">  
+            <div class="button-group">
+              <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Cancel</button>
+              <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount">
+            </div>
+          </footer>
+        </div>
+      </div>  
+    </div>
+
+
+
+    <!-- Log in Modal -->
+    <div class="modal" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="Log In">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h1>Log Into Your Account</h1>
+            <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+          </header>
+          <main class="modal-body">
+            <form class="form" id="form-login">
+              <!-- Email Address/Username -->
+              <div class="required">
+                <label class="label"  for="email-address">Email Address/Username</label>
+                <input class="input input-textfield" id="email-address" type="text" name="textfield" required>
+              </div>
+
+              <!-- Password -->
+              <div class="required">
+                <label class="label" for="password">Password</label>
+                <input class="input input-textfield" id="password" type="text" name="textfield" required>
+              </div>
+            </form>
+          </main>
+          <footer class="modal-footer">  
+            <div class="button-group">
+              <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Cancel</button>
+              <input type="submit" class="button button-primary button-small" value="Log In" form="form-login">
+            </div>
+          </footer>
+        </div>
+      </div>  
+    </div>
+
+
+    <!-- Javascript Imports -->
+    <script src="https://use.fontawesome.com/efb8de7f51.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/assets/js/mobileTable.jquery.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover();
+        $('#mobileTable').mobileTable();
+      })
+    </script>
+  </body>
+</html>

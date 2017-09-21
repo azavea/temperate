@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Climate | My Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script src="https://use.fontawesome.com/efb8de7f51.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  </head>
+  <body id="dashboard">
+    <header class="header-primary" role="banner">
+      <div class="button-group">
+        <button class="button"><i class="fa fa-bars icon-menu"></i></button>
+        <a href="index.html" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
+      </div>
+      <div class="button-group">
+        <button class="button button-primary button-small button-icon-left" data-toggle="modal" data-target="#modal-contact"><i class="fa fa-envelope"></i>Contact ICLEI</button>
+        <div class="dropdown">
+          <button class="button button-profile button-small dropdown-toggle" type="button" id="menu-user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="fa fa-user-circle-o icon-avatar"></i>
+            <i class="fa fa-chevron-down icon-chevron"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="menu-user-options">
+            <li class="user-information">
+              <a href="#">
+                <div class="user-name">Jane Doe</div>
+                <div class="user-account">@janedoe</div>
+              </a>
+            </li>
+            <div class="divider"></div>
+            <li class="list-item"><a href="#">My Profile</a></li>
+            <li class="list-item"><a href="#">Give Feedback</a></li>
+            <div class="divider"></div>
+            <li class="list-item"><a href="#"><i class="fa fa-sign-out"></i>Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <div class="main-container">
+      <nav class="primary-nav-container" role="banner">
+        <ul class="primary-nav">
+          <li class="list-item current"><a class="link" href="dashboard.html">Dashboard</a></li>
+          <li class="list-item"><a class="link" href="indicators.html">Indicators</a></li>
+          <li class="list-item"><a class="link" href="">Charts</a></li>
+          <li class="list-item"><a class="link" href="">Maps</a></li>
+          <li class="list-item"><a class="link" href="">Assessment</a></li>
+          <li class="list-item"><a class="link" href="">Action Steps</a></li>
+          <li class="list-item"><a class="link" href="">Resources</a></li>
+        </ul>
+      </nav>
+      <main class="main-content" role="main">
+        <!-- Intro -->
+        <section class="page-intro">
+          <h1 class="heading">Dashboard</h1>
+          <p class="paragraph-intro">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        </section>
+        <div class="card-container">
+
+          <!-- Top Concerns card -->
+          <section id="top-concerns" class="card card-full">
+            <header class="card-header"><a href="#"><h2 class="heading">Top Concerns</h2></a><button class="button button-secondary button-small button-icon-left"><i class="fa fa-eye"></i>View all Indicators</button></header>
+            <div class="card-content">
+              <div id="indicator-1" class="concern">
+                <div class="concern-options">
+                  <button id="view-concern" class="button button-primary button-small"><i class="fa fa-eye"></i></button>
+                  <button id="delete-concern" class="button button-danger button-small"><i class="fa fa-trash"></i></button>
+                </div>
+                <div class="concern-stats">
+                  <div class="stat"><div class="number">8.5</div><button class="button button-link">in</button><span class="forward-slash">&#x2F;</span><button class="button button-link">cm</button></div>
+                  <div class="stat-description">more rain/snow/sleet</div>
+                </div>
+              </div>
+              <div id="indicator-2" class="concern">
+                <div class="concern-options">
+                  <button id="view-concern" class="button button-primary button-small"><i class="fa fa-eye"></i></button>
+                  <button id="delete-concern" class="button button-danger button-small"><i class="fa fa-trash"></i></button>
+                </div>
+                <div class="concern-stats">
+                  <div class="stat"><div class="number">5.1°</div><button class="button button-link">F</button><span class="forward-slash">&#x2F;</span><button class="button button-link">C</button></div>
+                  <div class="stat-description">hotter</div>
+                </div>
+              </div>
+              <div id="indicator-3" class="concern">
+                <div class="concern-options">
+                  <button id="view-concern" class="button button-primary button-small"><i class="fa fa-eye"></i></button>
+                  <button id="delete-concern" class="button button-danger button-small"><i class="fa fa-trash"></i></button>
+                </div>
+                <div class="concern-stats">
+                  <div class="stat"><div class="number">24%</div></div>
+                  <div class="stat-description">more extreme events</div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <!-- Maps card -->
+          <section class="card card-half">
+            <header class="card-header"><a href="#"><h2 class="heading">Maps</h2></a><button class="button button-secondary button-small button-icon-left"><i class="fa fa-map"></i>Create a map</button></header>
+            <div class="card-content">
+              <div id="slider-map" class="slider-container">
+                <ul class="slider">
+                  <li id="slide-1" class="slide"><a href="#"><img src="/assets/images/map-1.jpg" alt="Custom Map Description 1" /></a></li>
+                  <li id="slide-2" class="slide"><a href="#"><img src="/assets/images/map-2.jpg" alt="Custom Map Description 2" /></a></li>
+                  <li id="slide-3" class="slide"><a href="#"><img src="/assets/images/map-3.jpg" alt="Custom Map Description 3" /></a></li>
+                </ul>
+                <div class="slider-arrows">
+                  <button class="button slider-arrow slider-arrow-prev"><i class="fa fa-chevron-circle-left"></i></button>
+                  <button class="button slider-arrow slider-arrow-next"><i class="fa fa-chevron-circle-right"></i></button>
+                </div>
+              </div>
+            </div>
+            <footer class="card-footer"><span id="" class="number">1</span> of <span id="" class="number">5</span>
+            </footer>
+          </section>
+
+          <!-- Charts card -->
+          <section class="card card-half">
+            <header class="card-header"><a href="#"><h2 class="heading">Charts</h2></a></header>
+            <div class="card-content card-empty">
+              <p class="paragraph-intro"><strong>Create a chart</strong></p>
+              <p>Climate supplies you infrastructure data from OSM, dependable weather data over the next century from Global Daily Downscaled Projections (NEX-GDDP) and the Coupled Model Intercomparison Project Phase 5 (CMIP5). Creating a new chart for reports or presentations is easy.</p>
+              <button class="button button-secondary button-small">Get started</button>
+            </div>
+          </section>
+
+          <!-- Action Steps card -->
+          <section class="card card-full">
+            <header class="card-header"><a href="#"><h2 class="heading">Action Steps</h2></a></header>
+            <div class="card-content card-empty">
+              <p class="paragraph-intro"><strong>Start building action steps</strong></p>
+              <p>As you fill out <a href="#">risk assessments</a>we will build suggestive actions for you to take. Ask ICLEI for help along the way.</p>
+              <button class="button button-secondary button-small">Get started</button>
+            </div>
+          </section>
+        </div>
+      </main>  
+    </div>  <!-- END Container for Layout -->
+
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+      <a href="index.html" class="logo"><img src="assets/images/climate-logo-white.svg" alt="Climate by Azavea logo"></a>
+      <nav class="footer-nav-container">
+        <ul class="footer-nav">
+          <li class="list-item current"><a class="link" href="dashboard.html">Dashboard</a></li>
+          <li class="list-item"><a class="link" href="indicators.html">Indicators</a></li>
+          <li class="list-item"><a class="link" href="">Charts</a></li>
+          <li class="list-item"><a class="link" href="">Maps</a></li>
+          <li class="list-item"><a class="link" href="">Assessment</a></li>
+          <li class="list-item"><a class="link" href="">Action Steps</a></li>
+          <li class="list-item"><a class="link" href="">Resources</a></li>
+        </ul>
+      </nav>
+      <div class="site-information">
+        <p>© 2016-2017 <a href="http://www.azavea.com">Azavea,</a> using technology to inform research for civic and social impact. All rights reserved.</p>
+        <p>Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
+        <p>Contact us at <strong>climate@azavea.com</strong></p>
+      </div>
+    </footer> 
+
+
+
+    <!-- Create an Account Modal -->
+    <div class="modal" id="modal-account" tabindex="-1" role="dialog" aria-labelledby="Create an Account">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h1>Create an account</h1>
+            <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><span class="icon icon-cancel"></span></button>
+          </header>
+          <main class="modal-body">
+            <p>Please enter your information below to create an <strong>Action Plan-it</strong> account.</p>
+            <form id="form-createaccount">
+              <!-- First name -->
+              <label for="name-first">First Name</label>
+              <input id="name-first" type="text" name="textfield" required>
+
+              <!-- Last Name -->
+              <label for="name-last">Last Name</label>
+              <input id="name-last" type="text" name="textfield" required>
+
+              <!-- Email Address -->
+              <label for="email-address">Email Address</label>
+              <input id="email-address" type="text" name="textfield" required>
+
+              <!-- Organization -->
+              <label for="organization">Organization Name</label>
+              <input id="organization" type="text" name="textfield">
+
+              <!-- Location -->
+              <label for="location">City</label>
+              <input id="location" type="text" name="textfield">
+            </form>
+          </main>
+          <footer class="modal-footer">  
+            <div class="button-group">
+              <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Cancel</button>
+              <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount" disabled>
+            </div>
+          </footer>
+        </div>
+      </div>  
+    </div>
+
+
+
+    <!-- Log in Modal -->
+    <div class="modal" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="Log In">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h1>Log Into Your Account</h1>
+            <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><span class="icon icon-cancel"></span></button>
+          </header>
+          <main class="modal-body">
+            <form id="form-login">
+              <!-- Email Address/Username -->
+              <label for="email-address">Email Address/Username</label>
+              <input id="email-address" type="text" name="textfield">
+
+              <!-- Password -->
+              <label for="password">Password</label>
+              <input id="password" type="text" name="textfield">
+            </form>
+          </main>
+          <footer class="modal-footer">  
+            <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Cancel</button>
+            <input type="submit" class="button button-primary button-small" value="Log In" form="form-login" disabled>
+          </footer>
+        </div>
+      </div>  
+    </div>
+
+
+
+
+
+    <!-- Contact ICLEI Modal -->
+    <div class="modal" id="modal-contact" tabindex="-1" role="dialog" aria-labelledby="Contact ICLEI">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <header class="modal-header">
+            <h1>Contact ICLEI</h1>
+            <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><span class="icon icon-cancel"></span></button>
+          </header>
+          <main class="modal-body">
+            <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
+            <form id="form-contact">
+              <fieldset id="reason">
+                <legend>Select your reason for contacting ICLEI:</legend>
+                
+                <!-- Help -->
+                <input id="help" type="radio" name="reason" value="help">
+                <label for="help">I need help</label><br>
+
+                <!-- Help -->
+                <input id="feedback" type="radio" name="reason" value="feedback">
+                <label for="feedback">I have feedback</label><br>
+                
+                <input id="other" type="radio" name="reason" value="other">
+                <label for="other">Other</label>
+              </fieldset>
+
+              <!-- Comment -->
+              <label for="comment">Enter your concerns here:</label><br>
+              <textarea id="comment" name="addresstext"></textarea>
+            </form>
+          </main>
+          <footer class="modal-footer">  
+            <div class="button-group">
+              <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Nevermind</button>
+              <input type="submit" class="button button-primary button-small" value="Send" form="form-contact">
+            </div>
+          </footer>
+        </div>
+      </div>  
+    </div>
+
+
+      <!-- Javascript Imports -->
+      <script src="https://use.fontawesome.com/efb8de7f51.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script src="/assets/js/plugins.js"></script>
+      <script src="/assets/js/main.js"></script>
+      <script src="/assets/js/mobileTable.jquery.js"></script>
+      <script type="text/javascript">
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+          $('[data-toggle="popover"]').popover();
+          $('#mobileTable').mobileTable();
+        })
+      </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+.site-footer {
+  background-color: $gray-5;
+  color: $gray-2;
+  border-top: 1px solid $gray-4;
+  padding: 2rem 10rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.site-footer > .logo {
+  padding: 2rem;
+  line-height: 0;
+  overflow: hidden;
+
+  > img {
+    width: 11rem;
+    height: auto;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+
+  &:focus, &.focus {
+    outline: 0;
+    border-radius: $button-border-radius;
+    background-color: lighten($gray-5, 10%);
+  }
+}
+.footer-nav {
+  display: flex; 
+  justify-content: space-between;
+  align-content: stretch; 
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.footer-nav > .list-item {
+  list-style-type: none;
+
+  .link {
+    color: $gray-1;
+    margin: 0;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: $button-border-radius;
+
+    &:hover, &.hover,
+    &:active, &.active, {
+      color: $brand-primary;
+      background-color: lighten($gray-5, 5%);
+    }
+
+    &:active, &.active {
+      color: darken( $brand-primary, 2% );
+      background-color: lighten( $gray-5, 1% );
+    }
+
+    &:focus, &.focus {
+      outline: 0;
+      background-color: lighten( $gray-5, 10% );
+    }
+
+    // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
+    &:focus:active {
+      color: darken( $brand-primary, 2% );
+      background-color: lighten( $gray-5, 3% );
+    }
+  }
+}
+
+.site-information {
+  font-size: $text-tiny;
+  padding-left: 2rem;
+  
+  p {
+    margin-bottom: 0;
+  }
+}
