@@ -21,19 +21,24 @@ then
         usage
     else
         # Build the Django container image.
-        docker-compose \
-            -f docker-compose.yml \
-            build django
+        docker-compose build django
+
+        # Bring up PostgreSQL and Django in a way that respects
+        # configured service health checks.
+        docker-compose up -d database django
 
         # Apply any outstanding migrations.
         docker-compose \
-            -f docker-compose.yml \
             run --rm --entrypoint python \
             django manage.py migrate --noinput
 
+        # Remove Django service associated with `docker-compose up`
+        # command above.
+        docker-compose kill django \
+            && docker-compose rm -f django
+
         # Collect static files
         docker-compose \
-            -f docker-compose.yml \
             run --rm --entrypoint python \
             django manage.py collectstatic
     fi

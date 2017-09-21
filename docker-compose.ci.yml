@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2.3'
 services:
   terraform:
     image: "quay.io/azavea/terraform:0.9.11"
