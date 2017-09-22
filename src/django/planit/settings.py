@@ -25,16 +25,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
+# Set environment
 ENVIRONMENT = os.getenv('DJANGO_ENV')
+VALID_ENVIRONMENTS = ('Production', 'Staging', 'development')
+if ENVIRONMENT not in VALID_ENVIRONMENTS:
+    raise ImproperlyConfigured('Invalid ENVIRONMENT provided, must be one of {}'
+                               .format(VALID_ENVIRONMENTS))
 
 LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (ENVIRONMENT == 'development')
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', '')]
-
+# Set ALLOWED_HOSTS
 if ENVIRONMENT in ['Production', 'Staging']:
+    ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', '')]
     # Within EC2, the Elastic Load Balancer HTTP health check will use the
     # target instance's private IP address for the Host header.
     #
@@ -46,6 +51,11 @@ if ENVIRONMENT in ['Production', 'Staging']:
         ALLOWED_HOSTS.append(response.text)
     else:
         raise ImproperlyConfigured('Unable to fetch instance metadata')
+elif ENVIRONMENT in ['development']:
+    ALLOWED_HOSTS = []
+    extra_hosts = os.getenv('ALLOWED_HOSTS', None)
+    if extra_hosts:
+        ALLOWED_HOSTS.append(extra_hosts.split(','))
 
 # Health checks
 
