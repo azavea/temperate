@@ -45,12 +45,14 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     email = models.EmailField('email address', unique=True)
+    organization = models.CharField('organization', max_length=150, blank=True)
+    city = models.CharField('city', max_length=150, blank=True)
 
     objects = PlanItUserManager()
 
     # All fields below are copied from Django's AbstractUser
-    first_name = models.CharField('first name', max_length=30, blank=True)
-    last_name = models.CharField('last name', max_length=150, blank=True)
+    first_name = models.CharField('first name', max_length=30)
+    last_name = models.CharField('last name', max_length=150)
     is_staff = models.BooleanField(
         'staff status',
         default=False,
