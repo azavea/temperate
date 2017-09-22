@@ -1,0 +1,61 @@
+.primary-nav-container {
+  background-color: white;
+  border-right: 2px solid $gray-0;
+  padding: 1rem 0.25rem;
+}
+.primary-nav {
+  margin: 0;
+  padding: 0;
+}
+.primary-nav > .list-item {
+  list-style-type: none;
+  padding: 0.25rem 2rem;
+
+  &.current {
+    .link:before {
+      content: "";
+      display: block;
+      width: 6px;
+      height: 6px;
+      position: absolute;
+      left: 0.5rem;
+      top: 50%;
+      margin-top: -3px; // Helping to vertically center the dot
+      background-color: $brand-primary;
+      border-radius: 3px;
+    }
+  }
+
+  .link {
+    font-size: $text-base;
+    color: $gray-5;
+    margin: 0;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+    border-radius: $button-border-radius;
+    position: relative;
+    display: block;
+
+    &:hover, &.hover,
+    &:active, &.active, {
+      background-color: $gray-0;
+    }
+
+    &:active, &.active {
+      color: darken( $brand-primary, 2% );
+    }
+
+    &:focus, &.focus {
+    outline: 0;
+    border-radius: $button-border-radius;
+    background-color: $gray-0;
+    }
+
+    // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
+    &:focus:active {
+      color: darken( $brand-primary, 2% );
+      background-color: $gray-0;
+    }
+  }
+}
+

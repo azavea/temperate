@@ -1,0 +1,15 @@
+body:not(#marketing) {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  
+  .main-container {
+    display: flex;
+    flex: 1;
+
+    .main-content {
+      flex: 1;
+      padding: 2rem 4rem;
+    }
+  }
+}
