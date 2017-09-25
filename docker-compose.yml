@@ -13,6 +13,16 @@ services:
       retries: 3
       start_period: 5s
 
+  angular:
+    image: planit-spa
+    build:
+      context: ./src/angular
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/angular:/opt/planit/angular
+    ports:
+      - "4210:4210"
+
   django:
     image: planit-app
     build:
