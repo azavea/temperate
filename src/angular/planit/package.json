@@ -4,11 +4,14 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --port 4210 --poll 1000",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint --type-check",
+    "lint:ci": "ng lint --type-check --format checkstyle > jenkins/violations.xml",
+    "e2e": "ng e2e",
+    "build:prod": "ng build -prod --aot --extract-css",
+    "postinstall": "npm rebuild node-sass"
   },
   "private": true,
   "dependencies": {
