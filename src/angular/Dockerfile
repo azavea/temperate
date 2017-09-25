@@ -7,8 +7,6 @@ ENV PLANIT_NG_DIR /opt/planit/angular/planit/
 RUN apt-get update && apt-get install -y rsync \
     && rm -rf /var/lib/apt/lists/*
 
-RUN npm install --unsafe-perm -g @angular/cli
-
 WORKDIR ${PLANIT_NG_DIR}
 COPY ./planit/ ${PLANIT_NG_DIR}
 RUN npm install
