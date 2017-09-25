@@ -35,6 +35,16 @@ node {
                     }
                 }
             }
+
+            // Plan and apply the current state of the instracture as
+            // outlined by the `develop` branch of the `climate-planit`
+            // repository.
+            stage('infra') {
+                wrap([$class: 'AnsiColorBuildWrapper']) {
+                    sh 'docker-compose -f docker-compose.ci.yml run --rm terraform ./scripts/infra plan'
+                    sh 'docker-compose -f docker-compose.ci.yml run --rm terraform ./scripts/infra apply'
+                }
+            }
         }
     } catch (err) {
         // Some exception was raised in the `try` block above. Assemble
