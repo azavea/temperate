@@ -18,11 +18,18 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),
+
+    url(r'^', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 
 if settings.ENVIRONMENT == 'development':
