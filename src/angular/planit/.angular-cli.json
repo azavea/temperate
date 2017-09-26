@@ -51,7 +51,15 @@
     }
   },
   "defaults": {
+    "poll": 1000,
     "styleExt": "scss",
-    "component": {}
+    "component": {},
+    "build": {
+      "poll": 1000
+    },
+    "serve": {
+      "port": 4210,
+      "host": "0.0.0.0"
+    }
   }
 }
