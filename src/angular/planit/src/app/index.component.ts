@@ -4,6 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-index',
   templateUrl: './index.component.html'
 })
-export class IndexComponent {
-  title = 'landing page';
-}
+export class IndexComponent {}
