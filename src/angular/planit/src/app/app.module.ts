@@ -3,22 +3,24 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { IndexComponent } from './index.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { environment } from '../environments/environment';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const appRoutes: Routes = [
-  { path: 'index', component: IndexComponent },
-  { path: '', redirectTo: '/index', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    IndexComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SidebarComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
