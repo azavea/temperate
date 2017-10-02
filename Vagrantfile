@@ -10,12 +10,15 @@ Vagrant.configure(2) do |config|
 
   # Need to use rsync in order to prevent a vboxfs/docker/gunicorn-related
   # file corruption issue.
-  config.vm.synced_folder ".", "/vagrant"
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
   config.vm.provider :virtualbox do |vb|
     vb.memory = 2048
     vb.cpus = 2
   end
+
+  #NFS
+  config.vm.network "private_network", ip: "192.168.10.100"
 
   # Gunicorn
   config.vm.network :forwarded_port, guest: 8100, host: 8100
