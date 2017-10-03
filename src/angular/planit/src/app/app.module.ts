@@ -2,11 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppComponent } from './app.component';
-import { PageNotFoundComponent } from './not-found.component';
 import { environment } from '../environments/environment';
-import { SidebarComponent } from './sidebar/sidebar.component';
+
+import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { PageNotFoundComponent } from './not-found.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 const appRoutes: Routes = [
@@ -18,9 +19,9 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     PageNotFoundComponent,
-    SidebarComponent,
-    DashboardComponent
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
