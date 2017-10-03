@@ -17,6 +17,9 @@ import { SharedModule } from './shared/shared.module';
 
 import { ModalModule } from 'ngx-bootstrap';
 
+import { ModalModule } from 'ngx-bootstrap';
+import { HelpModalComponent } from './help-modal/help-modal.component';
+
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'indicators', component: IndicatorsComponent },
