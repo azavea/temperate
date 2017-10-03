@@ -7,7 +7,7 @@ services:
       - POSTGRES_PASSWORD=planit
       - POSTGRES_DB=planit
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ["CMD", "pg_isready", "-U", "planit"]
       interval: 3s
       timeout: 3s
       retries: 3
