@@ -2,12 +2,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.core.mail import send_mail
-from django.db.models import CASCADE
 from django.utils import timezone
-
-from planit_data.models import (CommunitySystem,
-                                Indicator,
-                                WeatherEvent)
 
 
 class PlanItUserManager(BaseUserManager):
@@ -91,17 +86,3 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
-
-
-class UserLocation(models.Model):
-    geom = models.MultiPolygonField()
-    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
-
-
-class UserRisk(models.Model):
-    name = models.CharField(max_length=256, unique=True, blank=False, null=False)
-    notes = models.TextField(null=False, blank=True, default='')
-    location = models.ForeignKey(UserLocation, on_delete=CASCADE, null=False)
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)

@@ -5,8 +5,16 @@ from .models import (
     GeoRegion,
     Indicator,
     RiskTemplate,
+    UserLocation,
+    UserRisk,
     WeatherEvent,
 )
 
-for Model in (CommunitySystem, GeoRegion, Indicator, RiskTemplate, WeatherEvent,):
+for Model in (CommunitySystem,
+              GeoRegion,
+              Indicator,
+              RiskTemplate,
+              UserLocation,
+              UserRisk,
+              WeatherEvent,):
     admin.site.register(Model)
