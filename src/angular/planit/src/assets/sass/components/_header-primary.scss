@@ -1,0 +1,59 @@
+.header-primary {
+  background-color: white;
+  border-bottom: 2px solid $gray-0;
+  display: block;
+  padding: 0.35rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    padding: 1rem;
+    line-height: 0;
+    overflow: hidden;
+
+    > img {
+      width: 12rem;
+      height: auto;
+    }
+
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &:focus, &.focus {
+      outline: 0;
+      border-radius: $button-border-radius;
+      background-color: $gray-0;
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 25rem;
+  }
+}
+.button-profile {
+  border: none;
+  display: flex;
+  align-self: space-between;
+  align-items: center;
+  justify-content: space-between;
+
+  .icon-avatar {
+    font-size: $text-large;
+  }
+  .icon-chevron {
+    font-size: $text-small;
+    padding-left: 0.45rem;
+  }
+}
+.dropdown.open .button-profile  .icon-chevron {
+  padding-right: 0.45rem;
+  padding-left: 0;
+}
+.user-name {
+  font-size: $text-base;
+}
+.user-account {
+  color: $gray-2;
+}

@@ -1,0 +1,115 @@
+
+.flex-container {
+  display: flex;
+  -webkit-justify-content: space-around;
+  flex-grow: 1;
+  flex-shrink: 1;
+  position: relative;
+}
+
+.flex-expand {
+  background-color: #000;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.app-fullscreen {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+
+/* * * *
+ * Containers
+ * * * */
+.content-scrollable {
+  overflow-y: auto;
+}
+
+.container-fluid {
+  position: relative;
+}
+
+.main-content{
+  background-color: lighten( $gray-1, 10% );
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  /* Widths/breakpoints should be figured out later and assigned to variables */
+  max-width: 1000px;
+}
+
+/* Style for this specific application */
+.container-fluid {
+  height: 300px;
+}
+
+.container-fullheight {
+  height: calc(100vh - 150px);
+  min-height: 45rem;
+  display: block;
+}
+
+.container-hero, .container-cta {
+  background: linear-gradient(to top left, darken($brand-primary,10%), $brand-primary);
+  position: relative;
+}
+
+.container-standard {
+  padding: 12rem 1rem;
+  text-align: center;
+
+  &:nth-child(even):not(.container-cta) {
+    background-color: $gray-4;
+
+    .heading {
+      color: white;
+    }
+    p {
+      color: $gray-1;
+    }
+  }
+
+  .container-content {
+    max-width: 70rem;
+    margin: 0 auto;
+
+    .heading {
+      font-size: $text-display;
+    }
+  }
+}
+.light-content {
+  > * {
+    color: white;
+  }
+}
+.hero-content {
+  text-align: center;
+  max-width: 70rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.card-container {
+  max-width: 150rem;
+}
+
+.page-intro {
+  max-width: 80rem;
+  margin: 4rem 0; 
+}
