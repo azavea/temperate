@@ -90,6 +90,8 @@ We will implement [token-based authentication](#token-based) for now, as it will
 
 Although JWT may be beneficial for us in terms of security by providing rapid expiry cycles, the additional difficulty of implementation both server and client side makes it a less attractive option for our initial MVP. Should reasons arise to switch to JWT later, that will remain an option that should not be made any more difficult by having a pre-existing [token-based authentication](#token-based) setup.
 
+For all of these options, the client site should be served over HTTPS. For authentication options involving tokens, which are token-based authentication, JWT, and a token-based implementation of OAuth2, SSL will be necessary to keep the token secure as it is passed to and from the client. For all options other than OAuth2 single sign-on, SSL should be used to protect the username and password transmitted to the server to log in. So generally, the production site should use SSL for secure authentication, particularly in token protection.
+
 
 ## Consequences
 
