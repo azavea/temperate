@@ -44,7 +44,7 @@ Generally for our applications featuring a DRF API and a separate front-end site
 
 The client may store the token in a cookie or in local storage on the browser, and so may be vulnerable to CSRF or [XSS](https://en.wikipedia.org/wiki/Cross-site_scripting).
 
-API tokens may also be provided to users who wish to query the API directly, outside of the front-end application. A downside is that the tokens do not expire, and so could be abused for an extended period of time if compromised. In other applications with API tokens, we have provided the user with the option to generate a new API token in the website interface, which would make the old token invalid.
+API tokens may also be provided to users who wish to query the API directly, outside of the front-end application. A downside is that tokens provided to the user should not expire to be user-friendly, and so could be abused for an extended period of time if compromised. In other applications with API tokens, we have provided the user with the option to generate a new API token in the website interface, which would make the old token invalid. Making the tokens expire would increase security by reducing the potential window for abuse, but would both complicate direct use of the API by users via tokens, and somewhat complicate our implementation, particularly on the client side, to handle expired or expiring tokens.
 
 
 #### OAuth2
