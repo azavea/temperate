@@ -5,6 +5,7 @@ from users.models import PlanItUser
 
 
 class GeoRegion(models.Model):
+    name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
 
 
@@ -30,6 +31,7 @@ class RiskTemplate(models.Model):
 
 
 class UserLocation(models.Model):
+    name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
     user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
 
