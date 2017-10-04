@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import PlanItUser
+from .models import PlanItUser, UserLocation, UserRisk
 
 # Need to change a few things in the built-in UserAdmin because we don't have a username field
 UserAdmin.fieldsets = (
@@ -21,3 +21,6 @@ UserAdmin.search_fields = ('first_name', 'last_name', 'email')
 UserAdmin.ordering = ('email',)
 
 admin.site.register(PlanItUser, UserAdmin)
+
+for Model in (UserLocation, UserRisk,):
+    admin.site.register(Model)
