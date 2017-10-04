@@ -62,7 +62,7 @@ In terms of implementation however, OAuth2 is more complicated than other method
 
 JWT, or [JSON web token](https://jwt.io/), is a standard for authentication via digitally signed JSON objects. JWT may also be used for secure exchange of data beyond for authentication. The token consists of a header, the payload, and a signature, passed as three dot-separated, base 64 encoded strings.
 
-Typically the tokens are kept in the client browser's local storage, but cookies may used instead. The client passes the token with a request by using the `Authorization` header with the `Bearer` schema, which has the benefit of being stateless (the server does not need to track user state).
+Typically the tokens are kept in the client browser's local storage, but cookies may be used instead. The client passes the token with a request by using the `Authorization` header with the `Bearer` schema, which has the benefit of being stateless (the server does not need to track user state).
 
 The token may be read by the client. This can be beneficial for easy debugging, but potentially introduces security risk.
 
