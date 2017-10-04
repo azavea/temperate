@@ -14,4 +14,3 @@ export class HelpModalComponent {
     this.modalRef = this.modalService.show(template);
   }
 }
-

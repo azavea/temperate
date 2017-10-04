@@ -1,13 +1,41 @@
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
+<button type="button"
+        class="btn btn-primary"
+        (click)="openModal(template)">Contact ICLEI</button>
 
 <template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
+    <h4 class="modal-title pull-left">Contact ICLEI</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    This is a modal.
+    <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
+    <form id="form-contact">
+      <fieldset id="reason">
+        <legend>Select your reason for contacting ICLEI:</legend>
+
+        <!-- Help -->
+        <input id="help" type="radio" name="reason" value="help">
+        <label for="help">I need help</label><br>
+
+        <!-- Help -->
+        <input id="feedback" type="radio" name="reason" value="feedback">
+        <label for="feedback">I have feedback</label><br>
+
+        <input id="other" type="radio" name="reason" value="other">
+        <label for="other">Other</label>
+      </fieldset>
+
+      <!-- Comment -->
+      <label for="comment">Enter your concerns here:</label><br>
+      <textarea id="comment" name="addresstext"></textarea>
+    </form>
   </div>
+  <footer class="modal-footer">
+    <div class="button-group">
+      <button type="button" class="button button-secondary button-small" data-dismiss="modal" aria-label="Close">Nevermind</button>
+      <input type="submit" class="button button-primary button-small" value="Send" form="form-contact">
+    </div>
+  </footer>
 </template>
