@@ -1,3 +1,46 @@
-<p>
-  create-account-modal works!
-</p>
+<button type="button"
+        class="btn btn-primary contact-iclei"
+        (click)="openModal(template)">Create an account</button>
+
+<template #template>
+  <header class="modal-header">
+    <h1>Create an account</h1>
+    <button type="button" class="button button-modal-close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+  </header>
+  <main class="modal-body">
+    <p>Please enter your information below to create an <strong>Climate</strong> account.</p>
+    <form class="form" id="form-createaccount">
+      <!-- First name -->
+      <div class="required">
+        <label class="label"  for="name-first">First Name</label>
+        <input class="input input-textfield" id="name-first" type="text" name="textfield" required>
+      </div>
+
+      <!-- Last Name -->
+      <div class="required">
+        <label class="label"  for="name-last">Last Name</label>
+        <input class="input input-textfield" id="name-last" type="text" name="textfield" required>
+      </div>
+
+      <!-- Email Address -->
+      <div class="required">
+        <label class="label" for="email-address">Email Address</label>
+        <input class="input input-textfield" id="email-address" type="email" name="textfield" required>
+      </div>
+
+      <!-- Organization -->
+      <label class="label" for="organization">Organization Name</label>
+      <input class="input input-textfield" id="organization" type="text" name="textfield">
+
+      <!-- Location -->
+      <label class="label" for="location">City</label>
+      <input class="input input-textfield" id="location" type="text" name="textfield">
+    </form>
+  </main>
+  <footer class="modal-footer">
+    <div class="button-group">
+      <button type="button" class="button button-secondary button-small" (click)="modalRef.hide()">Cancel</button>
+      <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount">
+    </div>
+  </footer>
+</template>
