@@ -5,10 +5,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+import { CreateAccountModalComponent } from './create-account-modal/create-account-modal.component';
 import { MarketingComponent } from './marketing/marketing.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { IndicatorsComponent } from './indicators/indicators.component';
 import { PageNotFoundComponent } from './not-found.component';
+
 
 import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -16,9 +16,6 @@ import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
 
 import { ModalModule } from 'ngx-bootstrap';
-
-import { ModalModule } from 'ngx-bootstrap';
-import { HelpModalComponent } from './help-modal/help-modal.component';
 
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -30,6 +27,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    CreateAccountModalComponent,
     MarketingComponent,
     PageNotFoundComponent
   ],
