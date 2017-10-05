@@ -14,6 +14,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
 
+import { ModalModule } from 'ngx-bootstrap';
+import { HelpModalComponent } from './help-modal/help-modal.component';
+
 const appRoutes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: '', component: MarketingComponent },
@@ -25,12 +28,14 @@ const appRoutes: Routes = [
     AppComponent,
     MarketingComponent,
     DashboardComponent,
+    HelpModalComponent,
     PageNotFoundComponent,
     SidebarComponent,
     UserDropdownComponent
   ],
   imports: [
     BrowserModule,
+    ModalModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: !environment.production } // <-- debugging purposes only
