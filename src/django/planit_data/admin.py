@@ -1,3 +1,20 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import (
+    CommunitySystem,
+    GeoRegion,
+    Indicator,
+    RiskTemplate,
+    UserLocation,
+    UserRisk,
+    WeatherEvent,
+)
+
+for Model in (CommunitySystem,
+              GeoRegion,
+              Indicator,
+              RiskTemplate,
+              UserLocation,
+              UserRisk,
+              WeatherEvent,):
+    admin.site.register(Model)
