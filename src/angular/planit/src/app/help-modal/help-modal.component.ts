@@ -4,7 +4,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-help-modal',
-  templateUrl: './help-modal.component.html'
+  templateUrl: './help-modal.component.html',
+  styleUrls: ['./help-modal.component.scss']
 })
 export class HelpModalComponent {
   public modalRef: BsModalRef;
