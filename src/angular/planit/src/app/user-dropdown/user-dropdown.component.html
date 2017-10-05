@@ -1,0 +1,24 @@
+<div class="btn-group" dropdown>
+  <button dropdownToggle type="button" class="button button-profile button-small dropdown-toggle">
+    <i class="icon-user-circle-o"></i> <i class="icon-up-open"></i>
+  </button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li role="menuitem">
+      <a class="dropdown-item" href="javascript:">
+        {{ user.name() }}
+        <p class="email">{{ user.email }}</p>
+      </a>
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="javascript:">
+        My Profile
+      </a>
+    </li>
+    <li role="menuitem">
+      <a class="dropdown-item" href="javascript:">
+        <i class="icon-user-circle-o"></i>
+        Sign out
+      </a>
+    </li>
+  </ul>
+</div>

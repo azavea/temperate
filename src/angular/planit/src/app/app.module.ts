@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -9,6 +11,7 @@ import { MarketingComponent } from './marketing/marketing.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
 
 const appRoutes: Routes = [
@@ -23,14 +26,16 @@ const appRoutes: Routes = [
     MarketingComponent,
     DashboardComponent,
     PageNotFoundComponent,
-    SidebarComponent
+    SidebarComponent,
+    UserDropdownComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: !environment.production } // <-- debugging purposes only
-    )
+    ),
+    BsDropdownModule.forRoot(),
   ],
   exports: [
     RouterModule
