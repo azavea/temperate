@@ -24,3 +24,15 @@ class UserForm(RegistrationFormUniqueEmail):
     class Meta:
         model = PlanItUser
         fields = ('email', 'first_name', 'last_name', 'organization',)
+
+
+class UserProfileForm(forms.ModelForm):
+    """Defines mutable fields in the user profile and validates user-made data changes."""
+
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+    organization = forms.CharField(max_length=255, required=True)
+
+    class Meta:
+        model = PlanItUser
+        fields = ('first_name', 'last_name', 'organization',)

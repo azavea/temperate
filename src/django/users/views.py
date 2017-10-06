@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 
 from users.serializers import AuthTokenSerializer
 
-from users.forms import UserForm
+from users.forms import UserForm, UserProfileForm
 
 
 logger = logging.getLogger(__name__)
@@ -51,6 +51,38 @@ class PlanitHomeView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         template = 'planit_home.html'
         return render(request, template)
+
+
+class UserProfileView(LoginRequiredMixin, View):
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (TokenAuthentication, )
+
+    def get_initial(self, request):
+        user = request.user
+        self.initial = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'organization': user.organization
+        }
+        return self.initial
+
+    def get(self, request, *args, **kwargs):
+        self.get_initial(request)
+        form = UserProfileForm(initial=self.initial)
+        template = 'registration/userprofile_update.html'
+        return render(request, template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        self.get_initial(request)
+        user = request.user
+        self.form = UserProfileForm(request._post, initial=self.initial)
+        if self.form.is_valid():
+            user.first_name = self.form.cleaned_data.get('first_name')
+            user.last_name = self.form.cleaned_data.get('last_name')
+            user.organization = self.form.cleaned_data.get('organization')
+            user.save()
+
+        return HttpResponseRedirect('{}'.format(reverse('edit_profile')))
 
 
 class PlanitObtainAuthToken(ObtainAuthToken):
