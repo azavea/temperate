@@ -67,18 +67,26 @@ WATCHMAN_CHECKS = (
 # Application definition
 
 INSTALLED_APPS = [
+    # prioritized to override django core
+    'users',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 3rd party apps
     'django_extensions',
     'django.contrib.gis',
-    'users',
-    'planit_data',
     'watchman',
     'rest_framework',
+    'rest_framework.authtoken',
+    'bootstrap3',
+
+    # local apps
+    'planit_data',
 ]
 
 MIDDLEWARE = [
@@ -113,10 +121,15 @@ if not DEBUG:
     }
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAuthenticated'
     ],
-    'PAGE_SIZE': 10
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'PAGE_SIZE': 20,
 }
 
 ROOT_URLCONF = 'planit.urls'
@@ -174,6 +187,19 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # NOQA
     },
 ]
+
+# Django-Registration
+ACCOUNT_ACTIVATION_DAYS = 14
+REGISTRATION_OPEN = True
+AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
+DEFAULT_FROM_EMAIL = os.getenv('CC_FROM_EMAIL', 'noreply@climate.azavea.com')
+DEFAULT_TO_EMAIL = os.getenv('CC_TO_EMAIL', 'climate@azavea.com')
+COMPANY_DOMAIN = '@azavea.com'
 
 
 # Internationalization
