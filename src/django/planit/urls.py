@@ -19,9 +19,14 @@ from django.contrib import admin
 
 from rest_framework import routers
 
+import planit_data.views as planit_data_views
+
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    url(r'^api/concern/$', planit_data_views.ConcernViewSet.as_view({'get': 'list'})),
+    url(r'^api/concern/(?P<pk>[0-9]+)$',
+        planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'})),
     url(r'^admin/', admin.site.urls),
 
     # Health check
