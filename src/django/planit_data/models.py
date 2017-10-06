@@ -3,6 +3,8 @@ from django.db.models import CASCADE
 
 from users.models import PlanItUser
 
+from planit_data.concerns import calculate_indicator_change
+
 
 class GeoRegion(models.Model):
     """A user-agnostic, arbitratry region of interest."""
@@ -81,6 +83,8 @@ class Concern(models.Model):
     meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
 
+    CONCERN_YEAR_INTERVAL = 5  # Evaluate Concerns by averaging start and end values over a decade
+
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
     tagline = models.CharField(max_length=256, blank=False, null=False)
     unit = models.CharField(max_length=16, blank=True, null=True)
@@ -88,6 +92,16 @@ class Concern(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline)
+
+    def calculate_value(self, location, start_year, end_year):
+        def interval(center, margin):
+            return range(center - margin, center + margin)
+        start_range = interval(start_year, self.CONCERN_YEAR_INTERVAL)
+        end_range = interval(end_year, self.CONCERN_YEAR_INTERVAL)
+
+        response = {}
+
+        return calculate_indicator_change(response, start_range, end_range, self.is_relative)
 
 
 class UserLocation(models.Model):
