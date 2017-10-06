@@ -74,6 +74,22 @@ class RiskTemplate(models.Model):
         return '{}, {}, {}'.format(self.community_system, self.weather_event, self.indicator)
 
 
+class Concern(models.Model):
+    """A configurable object used to intepret indicator results to convey anticipated changes.
+
+    Each Concern maintains the information necessary to turn year-by-year projection data into a
+    meaningful result like "3.4 more inches of rain/snow/sleet per year".
+    """
+
+    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    tagline = models.CharField(max_length=256, blank=False, null=False)
+    unit = models.CharField(max_length=16, blank=True, null=True)
+    is_relative = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{} - {}'.format(self.indicator, self.tagline)
+
+
 class UserLocation(models.Model):
     """A combination of user and location.
 
