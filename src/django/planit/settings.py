@@ -23,11 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'secret')
 
 # Set environment
-ENVIRONMENT = os.getenv('DJANGO_ENV')
-VALID_ENVIRONMENTS = ('Production', 'Staging', 'development')
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'Development')
+VALID_ENVIRONMENTS = ('Production', 'Staging', 'Development')
 if ENVIRONMENT not in VALID_ENVIRONMENTS:
     raise ImproperlyConfigured('Invalid ENVIRONMENT provided, must be one of {}'
                                .format(VALID_ENVIRONMENTS))
@@ -35,7 +35,7 @@ if ENVIRONMENT not in VALID_ENVIRONMENTS:
 LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (ENVIRONMENT == 'development')
+DEBUG = (ENVIRONMENT == 'Development')
 
 # Set ALLOWED_HOSTS
 ALLOWED_HOSTS = [
