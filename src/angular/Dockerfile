@@ -1,14 +1,9 @@
-FROM node:8.5.0-wheezy
+FROM node:6-slim
 
-MAINTAINER Azavea
+WORKDIR /opt/planit/angular/planit
 
-ENV PLANIT_NG_DIR /opt/planit/angular/planit/
-
-RUN apt-get update && apt-get install -y rsync \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR ${PLANIT_NG_DIR}
-COPY ./planit/ ${PLANIT_NG_DIR}
-RUN npm install
+COPY ./planit/package.json /opt/planit/angular/planit/
+RUN npm install && npm cache clean --force
+COPY ./planit/ /opt/planit/angular/planit
 
 CMD ["npm", "start"]
