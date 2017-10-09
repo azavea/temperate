@@ -19,7 +19,7 @@ services:
       context: ./src/angular
       dockerfile: Dockerfile
     volumes:
-      - ./src/angular:/opt/planit/angular
+      - ./src/angular/planit/src:/opt/planit/angular/planit/src
     ports:
       - "4210:4210"
 

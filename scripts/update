@@ -25,12 +25,6 @@ then
             -f docker-compose.yml \
             build angular
 
-        # npm install
-        docker-compose \
-            -f docker-compose.yml \
-            run --rm --entrypoint "/bin/bash -c" \
-            angular "npm install"
-
         # Build the Django container image.
         docker-compose build django
 
