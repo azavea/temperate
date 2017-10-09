@@ -42,6 +42,10 @@ variable "planit_app_https_ecs_deployment_max_percent" {
   default = "100"
 }
 
+variable "cdn_price_class" {
+  default = "PriceClass_All"
+}
+
 variable "git_commit" {}
 
 variable "django_secret_key" {}
