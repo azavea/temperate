@@ -83,7 +83,9 @@ class Concern(models.Model):
     meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
 
-    CONCERN_YEAR_INTERVAL = 5  # Evaluate Concerns by averaging start and end values over a decade
+    CONCERN_YEAR_LENGTH = 10  # Evaluate Concerns by averaging start and end values over a decade
+    CONCERN_START_YEAR = 1990
+    CONCERN_END_YEAR = 2050
 
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
     tagline = models.CharField(max_length=256, blank=False, null=False)
@@ -93,13 +95,17 @@ class Concern(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline)
 
-    def calculate_value(self, location, start_year, end_year):
-        def interval(center, margin):
-            return range(center - margin, center + margin)
-        start_range = interval(start_year, self.CONCERN_YEAR_INTERVAL)
-        end_range = interval(end_year, self.CONCERN_YEAR_INTERVAL)
+    def calculate_value(self, location):
+        start_range = range(self.CONCERN_START_YEAR,
+                            self.CONCERN_START_YEAR + self.CONCERN_YEAR_LENGTH)
+        end_range = range(self.CONCERN_END_YEAR, self.CONCERN_END_YEAR + self.CONCERN_YEAR_LENGTH)
 
-        response = {}
+        # Use mock response prior to integration with live CC API
+        start_values = [(year, 15) for year in start_range]
+        end_values = [(year, 30) for year in end_range]
+        response = {
+            'data': {str(year): {'avg': val} for year, val in start_values + end_values}
+        }
 
         return calculate_indicator_change(response, start_range, end_range, self.is_relative)
 

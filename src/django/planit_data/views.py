@@ -12,10 +12,10 @@ class ConcernViewSet(ReadOnlyModelViewSet):
     serializer_class = ConcernSerializer
 
     def retrieve(self, request, pk=None):
-        """Return details of specific indicator if found."""
-        concern = Concern.objects.get(id=pk)
+        """Return a specific Concern and its calculated value for the user's location."""
 
-        payload = concern.to_dict()
-        location = request.user.location_set.latest()
-        payload['value'] = concern.calculate_value(location, 1995, 2055)
+        location = request.user.userlocation_set.all()[0]
+        concern = Concern.objects.get(id=pk)
+        payload = ConcernSerializer(concern).data
+        payload['value'] = concern.calculate_value(location)
         return Response(payload)
