@@ -38,8 +38,13 @@ LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 DEBUG = (ENVIRONMENT == 'development')
 
 # Set ALLOWED_HOSTS
+ALLOWED_HOSTS = [
+    '.climate.azavea.com',
+    '.elb.amazonaws.com',
+    'localhost'
+]
+
 if ENVIRONMENT in ['Production', 'Staging']:
-    ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', '')]
     # Within EC2, the Elastic Load Balancer HTTP health check will use the
     # target instance's private IP address for the Host header.
     #
@@ -51,11 +56,6 @@ if ENVIRONMENT in ['Production', 'Staging']:
         ALLOWED_HOSTS.append(response.text)
     else:
         raise ImproperlyConfigured('Unable to fetch instance metadata')
-elif ENVIRONMENT in ['development']:
-    ALLOWED_HOSTS = []
-    extra_hosts = os.getenv('ALLOWED_HOSTS', None)
-    if extra_hosts:
-        ALLOWED_HOSTS.append(extra_hosts.split(','))
 
 # Health checks
 
@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django_extensions',
     'django.contrib.gis',
@@ -84,6 +85,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -192,9 +194,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_HOST = os.getenv('DJANGO_STATIC_HOST', '')
+STATIC_URL = STATIC_HOST + '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = '/srv/static/'
 
 AUTH_USER_MODEL = 'users.PlanItUser'
 

@@ -41,10 +41,5 @@ then
         # command above.
         docker-compose kill django \
             && docker-compose rm -f django
-
-        # Collect static files
-        docker-compose \
-            run --rm --entrypoint python \
-            django manage.py collectstatic
     fi
 fi
