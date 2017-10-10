@@ -9,9 +9,10 @@ fi
 GIT_COMMIT="${GIT_COMMIT:-latest}"
 
 function usage() {
-    echo -n \
+    echo -ne \
          "Usage: $(basename "${0}")
 Run linters and tests.
+--jenkins \tAlso run linter with file output for Jenkins CI server to parse.
 "
 }
 
@@ -23,14 +24,43 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             find ./scripts -maxdepth 1 -type f -print0 | xargs -0 shellcheck
         fi
 
+        if [ "${1:-}" = "--jenkins" ]; then
+            FLAKE8_ARGS="--output-file=violations.txt"
+            ANGULAR_LINT_CMD="lint:ci"
+        else
+            FLAKE8_ARGS=""
+            ANGULAR_LINT_CMD="lint"
+        fi
+
+        # Python Lint
+        # Need to remove file before running, as flake8 won't remove
+        # old violations from it if there are no violations now
+        set +e
+        echo "Remove linter output file, if present"
+        docker-compose \
+            run --rm --entrypoint "rm" \
+            django violations.txt
+        set -e
+
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm --entrypoint flake8 \
-                  django --exit-zero --exclude planit/migrations .
+                  django --exit-zero --tee "$FLAKE8_ARGS"
 
-        sleep 3
+        # Angular Lint
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm angular npm run "$ANGULAR_LINT_CMD"
 
+        # Angular Tests
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm angular npm run test
+
+        # Python Tests
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \

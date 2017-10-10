@@ -15,6 +15,19 @@ node {
         stage('cibuild') {
             wrap([$class: 'AnsiColorBuildWrapper']) {
                 sh 'scripts/cibuild'
+
+                step([$class: 'WarningsPublisher',
+                    parserConfigurations: [[
+                        parserName: 'JSLint',
+                        pattern: 'src/angular/planit/violations.xml'
+                    ], [
+                        parserName: 'Pep8',
+                        pattern: 'src/django/violations.txt'
+                    ]],
+                    // mark build unstable if there are any linter warnings
+                    unstableTotalAll: '0',
+                    usePreviousBuildAsReference: true
+                ])
             }
         }
 
