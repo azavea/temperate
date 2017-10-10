@@ -25,10 +25,10 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  build django
+                  build django angular
 
         echo "Running tests"
-        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test
+        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
         echo "All tests pass!"
     fi
 fi
