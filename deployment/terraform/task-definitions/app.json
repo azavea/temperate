@@ -49,6 +49,10 @@
                 "value": "${environment}"
             },
             {
+                "name": "DJANGO_STATIC_HOST",
+                "value": "${django_static_host}"
+            },
+            {
                 "name": "COMMIT",
                 "value": "${git_commit}"
             }
