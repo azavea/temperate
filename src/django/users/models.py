@@ -41,7 +41,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
     organization = models.CharField('organization', max_length=150, blank=True)
-    city = models.CharField('city', max_length=150, blank=True)
+    api_city_id = models.IntegerField(null=True)
 
     objects = PlanItUserManager()
 

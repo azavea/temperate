@@ -14,10 +14,8 @@ class ConcernViewSet(ReadOnlyModelViewSet):
 
     def retrieve(self, request, pk=None):
         """Return a specific Concern and its calculated value for the user's location."""
-
         concern = get_object_or_404(Concern, id=pk)
         payload = ConcernSerializer(concern).data
 
-        location = request.user.userlocation_set.all()[0]
-        payload['value'] = concern.calculate_value(location)
+        payload['value'] = concern.calculate_value(request.user.api_city_id)
         return Response(payload)

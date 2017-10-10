@@ -110,26 +110,11 @@ class Concern(models.Model):
         return calculate_indicator_change(response, start_range, end_range, self.is_relative)
 
 
-class UserLocation(models.Model):
-    """A combination of user and location.
-
-    This model serves as a top-level reference for all user interaction with a given location
-    of interest.
-
-    """
-    name = models.CharField(max_length=256, blank=False, null=False)
-    geom = models.MultiPolygonField()
-    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
-
-    def __str__(self):
-        return self.name
-
-
 class UserRisk(models.Model):
     """A concrete representation of a RiskTemplate for a given user."""
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     notes = models.TextField(null=False, blank=True, default='')
-    location = models.ForeignKey(UserLocation, on_delete=CASCADE, null=False)
+    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
     community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
     weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)

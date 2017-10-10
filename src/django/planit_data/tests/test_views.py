@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.contrib.gis.geos import MultiPolygon
 
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 
-from planit_data.models import UserLocation, Indicator, Concern
+from planit_data.models import Indicator, Concern
 
 
 class PlanitApiTestCase(APITestCase):
@@ -41,7 +40,6 @@ class PlanitApiTestCase(APITestCase):
                                          tagline='test',
                                          unit='t',
                                          is_relative=True)
-        UserLocation.objects.create(name='Test', user=self.user, geom=MultiPolygon())
 
         response = self.client.get('/api/concern/{}'.format(concern.id))
 

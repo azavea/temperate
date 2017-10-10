@@ -6,7 +6,6 @@ from .models import (
     Indicator,
     RiskTemplate,
     Concern,
-    UserLocation,
     UserRisk,
     WeatherEvent,
 )
@@ -16,7 +15,6 @@ for Model in (CommunitySystem,
               Indicator,
               RiskTemplate,
               Concern,
-              UserLocation,
               UserRisk,
               WeatherEvent,):
     admin.site.register(Model)
