@@ -1,0 +1,110 @@
+<header class="header-primary" role="banner">
+  <div class="button-group">
+    <button class="button"><i class="icon icon-bars icon-menu"></i></button>
+    <a href="index.html" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
+  </div>
+  <div class="button-group">
+    <button class="button button-primary button-small button-icon-left" data-toggle="modal" data-target="#modal-contact"><i class="icon icon-envelope"></i>Contact ICLEI</button>
+    <div class="dropdown">
+      <button class="button button-profile button-small dropdown-toggle" type="button" id="menu-user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="icon icon-user-circle-o icon-avatar"></i>
+        <i class="icon icon-chevron-down icon-chevron"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="menu-user-options">
+        <li class="user-information">
+          <a href="#">
+            <div class="user-name">Jane Doe</div>
+            <div class="user-account">@janedoe</div>
+          </a>
+        </li>
+        <li><a href="#">My Profile</a></li>
+        <li><a href="#"><i class="icon icon-user-circle-o icon-avatar"></i>Sign out</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="main-container">
+  <nav class="primary-nav-container" role="banner">
+    <ul class="primary-nav">
+      <li class="list-item"><a class="link" href="dashboard.html">Dashboard</a></li>
+      <li class="list-item current"><a class="link" href="indicators.html">Indicators</a></li>
+      <li class="list-item"><a class="link" href="">Charts</a></li>
+      <li class="list-item"><a class="link" href="">Maps</a></li>
+      <li class="list-item"><a class="link" href="">Assessment</a></li>
+      <li class="list-item"><a class="link" href="">Action Steps</a></li>
+      <li class="list-item"><a class="link" href="">Resources</a></li>
+    </ul>
+  </nav>
+  <main class="main-content" role="main">
+     <!-- Intro -->
+    <section class="page-intro">
+      <h1 class="heading">Indicators</h1>
+      <p class="paragraph-intro">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+    </section>
+    <section>
+      <h2>Top Concerns</h2>
+      <p>These are the indicators that we think you should be including in your risk assessment. Feel free to add or remove any—you know your city best!</p>
+      <div id="top-concerns" class="card card-full">
+        <div class="card-content">
+          <div id="indicator-1" class="concern">
+            <div class="concern-options">
+              <button id="view-concern" class="button button-primary button-small"><i class="icon icon-eye"></i></button>
+              <button id="delete-concern" class="button button-danger button-small"><i class="icon icon-trash"></i></button>
+            </div>
+            <div class="concern-stats">
+              <div class="stat"><div class="number">8.5</div><button class="button button-link">in</button><span class="forward-slash">&#x2F;</span><button class="button button-link">cm</button></div>
+              <div class="stat-description">more rain/snow/sleet</div>
+            </div>
+          </div>
+          <div id="indicator-2" class="concern">
+            <div class="concern-options">
+              <button id="view-concern" class="button button-primary button-small"><i class="icon icon-eye"></i></button>
+              <button id="delete-concern" class="button button-danger button-small"><i class="icon icon-trash"></i></button>
+            </div>
+            <div class="concern-stats">
+              <div class="stat"><div class="number">5.1°</div><button class="button button-link">F</button><span class="forward-slash">&#x2F;</span><button class="button button-link">C</button></div>
+              <div class="stat-description">hotter</div>
+            </div>
+          </div>
+          <div id="indicator-3" class="concern">
+            <div class="concern-options">
+              <button id="view-concern" class="button button-primary button-small"><i class="icon icon-eye"></i></button>
+              <button id="delete-concern" class="button button-danger button-small"><i class="icon icon-trash"></i></button>
+            </div>
+            <div class="concern-stats">
+              <div class="stat"><div class="number">24%</div></div>
+              <div class="stat-description">more extreme events</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="indicators">
+      <h2>All Indicators</h2>
+      <p>Below are all of the indicators for your city.</p>
+    </section>
+  </main> 
+</div>  <!-- END .main-container -->
+
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <a href="index.html" class="logo"><img src="assets/images/climate-logo-white.svg" alt="Climate by Azavea logo"></a>
+  <nav class="footer-nav-container">
+    <ul class="footer-nav">
+      <li class="list-item"><a class="link" href="dashboard.html">Dashboard</a></li>
+      <li class="list-item current"><a class="link" href="indicators.html">Indicators</a></li>
+      <li class="list-item"><a class="link" href="">Charts</a></li>
+      <li class="list-item"><a class="link" href="">Maps</a></li>
+      <li class="list-item"><a class="link" href="">Assessment</a></li>
+      <li class="list-item"><a class="link" href="">Action Steps</a></li>
+      <li class="list-item"><a class="link" href="">Resources</a></li>
+    </ul>
+  </nav>
+  <div class="site-information">
+    <p>© 2016-2017 <a href="http://www.azavea.com">Azavea,</a> using technology to inform research for civic and social impact. All rights reserved.</p>
+    <p>Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
+    <p>Contact us at <strong>climate@azavea.com</strong></p>
+  </div>
+</footer>
