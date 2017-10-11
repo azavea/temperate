@@ -18,7 +18,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('tagline', models.CharField(max_length=256)),
-                ('unit', models.CharField(blank=True, max_length=16, null=True)),
                 ('is_relative', models.BooleanField(default=False)),
                 ('indicator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='planit_data.Indicator')),
             ],

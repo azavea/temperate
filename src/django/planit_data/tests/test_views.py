@@ -24,7 +24,7 @@ class PlanitApiTestCase(APITestCase):
 
     def test_concern_list_nonempty(self):
         indicator = Indicator.objects.create()
-        Concern.objects.create(indicator=indicator, tagline='test', unit='t', is_relative=True)
+        Concern.objects.create(indicator=indicator, tagline='test', is_relative=True)
 
         url = reverse('concern-list')
         response = self.client.get(url)
@@ -43,7 +43,6 @@ class PlanitApiTestCase(APITestCase):
         indicator = Indicator.objects.create()
         concern = Concern.objects.create(indicator=indicator,
                                          tagline='test',
-                                         unit='t',
                                          is_relative=True)
 
         url = reverse('concern-detail', kwargs={'pk': concern.id})

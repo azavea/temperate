@@ -89,7 +89,6 @@ class Concern(models.Model):
 
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
     tagline = models.CharField(max_length=256, blank=False, null=False)
-    unit = models.CharField(max_length=16, blank=True, null=True)
     is_relative = models.BooleanField(default=False)
 
     def __str__(self):
