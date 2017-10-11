@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 
+from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 
 from users.models import PlanItUser
@@ -33,9 +34,35 @@ class AuthTokenSerializer(serializers.Serializer):
         return attrs
 
 
+"""
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
         fields = ('id', 'email', 'organization', 'city', 'first_name', 'last_name',
                   'is_staff', 'is_active', 'date_joined')
+"""
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """Serializer for PlanItUser
+    Note:
+        Retrieves token if available for a user, or returns ``null``
+    """
+
+    token = serializers.SerializerMethodField()
+    isActive = serializers.BooleanField(source='is_active', default=True)
+    firstName = serializers.CharField(source='first_name', allow_blank=True, required=False)
+    lastName = serializers.CharField(source='last_name', allow_blank=True, required=False)
+
+    class Meta:
+        model = PlanItUser
+        fields = ('id', 'email', 'isActive', 'firstName',
+                  'lastName', 'organization', 'city', 'token')
+
+    def get_token(self, obj):
+        token = Token.objects.get(user=obj)
+        if token:
+            return token.key
+        else:
+            return None
