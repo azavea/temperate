@@ -1,9 +1,8 @@
-<ul class="sidebar">
-    <li><a routerLink="/dashboard">Dashboard</a></li>
-    <li><a routerLink="/indicators">Indicators</a></li>
-    <li><a routerLink="">Charts</a></li>
-    <li><a routerLink="">Maps</a></li>
-    <li><a routerLink="">Assessment</a></li>
-    <li><a routerLink="">Action Steps</a></li>
-    <li><a routerLink="">Resources</a></li>
-</ul>
+<nav class="primary-nav-container" role="banner">
+    <ul class="primary-nav">
+        <li class="list-item current"
+            *ngFor="let tab of tabs">
+            <a class="link" routerLink="/{{tab | lowercase}}">{{ tab }}</a>
+        </li>
+    </ul>
+</nav>
