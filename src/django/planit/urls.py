@@ -21,9 +21,10 @@ from django.conf.urls.static import static
 from rest_framework import routers
 
 import planit_data.views as planit_data_views
-from users.views import PlanitObtainAuthToken, AppHomeView
+from users.views import PlanitObtainAuthToken, AppHomeView, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^api/concern/$',
@@ -43,7 +44,7 @@ urlpatterns = [
     url(r'^health-check/', include('watchman.urls')),
 
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 

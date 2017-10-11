@@ -10,10 +10,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.viewsets import ModelViewSet
 
 from users.serializers import AuthTokenSerializer
 
 from users.forms import UserForm, UserProfileForm
+from users.models import PlanItUser
+from users.serializers import UserSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -89,3 +92,8 @@ class PlanitObtainAuthToken(ObtainAuthToken):
     """Anonymous endpoint for users to request tokens from for authentication."""
 
     serializer_class = AuthTokenSerializer
+
+
+class UserViewSet(ModelViewSet):
+    queryset = PlanItUser.objects.all()
+    serializer_class = UserSerializer

@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 
+from users.models import PlanItUser
+
 
 class AuthTokenSerializer(serializers.Serializer):
     """Adopted from Django Rest Framework's AuthTokenSerializer to handle e-mail login."""
@@ -29,3 +31,11 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PlanItUser
+        fields = ('id', 'email', 'organization', 'city', 'first_name', 'last_name',
+                  'is_staff', 'is_active', 'date_joined')
