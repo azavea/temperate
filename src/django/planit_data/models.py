@@ -120,3 +120,8 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
+
+
+class APIToken(models.Model):
+    """Store active token(s) for access to Azavea's Climate API."""
+    token = models.CharField(max_length=256, unique=True, blank=False, null=False)
