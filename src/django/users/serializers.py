@@ -34,16 +34,6 @@ class AuthTokenSerializer(serializers.Serializer):
         return attrs
 
 
-"""
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = PlanItUser
-        fields = ('id', 'email', 'organization', 'city', 'first_name', 'last_name',
-                  'is_staff', 'is_active', 'date_joined')
-"""
-
-
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for PlanItUser
     Note:
@@ -51,7 +41,7 @@ class UserSerializer(serializers.ModelSerializer):
     """
 
     token = serializers.SerializerMethodField()
-    isActive = serializers.BooleanField(source='is_active', default=True)
+    isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
     firstName = serializers.CharField(source='first_name', allow_blank=True, required=False)
     lastName = serializers.CharField(source='last_name', allow_blank=True, required=False)
 

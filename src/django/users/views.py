@@ -6,10 +6,13 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from registration.backends.hmac.views import RegistrationView as BaseRegistrationView
+
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from users.serializers import AuthTokenSerializer
@@ -94,6 +97,20 @@ class PlanitObtainAuthToken(ObtainAuthToken):
     serializer_class = AuthTokenSerializer
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(LoginRequiredMixin, ModelViewSet):
     queryset = PlanItUser.objects.all()
     serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        # If created successfully, send email
+        user = serializer.instance
+        user.is_active = False
+        user.save()
+        # send the django registration email
+        RegistrationView(request=self.request).send_activation_email(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
