@@ -104,12 +104,14 @@ class UserViewSet(LoginRequiredMixin, ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        password = serializer.validated_data.pop('password')
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
         # If created successfully, send email
         user = serializer.instance
         user.is_active = False
+        user.set_password(password)
         user.save()
         # send the django registration email
         RegistrationView(request=self.request).send_activation_email(user)

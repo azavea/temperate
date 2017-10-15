@@ -238,6 +238,18 @@ LOGGING = {
         'django': {
             'handlers': ['console'],
             'propagate': True,
+        },
+        'users': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'planit_data': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'rest_framework': {
+            'handlers': ['console'],
+            'propagate': True,
         }
     }
 }
