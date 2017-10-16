@@ -31,15 +31,6 @@ class RegistrationView(BaseRegistrationView):
     form_class = UserForm
 
 
-class AppHomeView(LoginRequiredMixin, View):
-    permission_classes = (IsAuthenticated, )
-    authentication_classes = (TokenAuthentication, )
-
-    def get(self, request, *args, **kwargs):
-        template = 'app_home.html'
-        return render(request, template)
-
-
 class PlanitHomeView(LoginRequiredMixin, View):
     permission_classes = (IsAuthenticated, )
     authentication_classes = (TokenAuthentication, )

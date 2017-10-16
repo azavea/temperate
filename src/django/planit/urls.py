@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from rest_framework import routers
 
 import planit_data.views as planit_data_views
-from users.views import PlanitObtainAuthToken, AppHomeView, UserViewSet
+from users.views import PlanitObtainAuthToken, UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
