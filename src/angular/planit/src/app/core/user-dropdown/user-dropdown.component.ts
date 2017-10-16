@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { User } from '../../models/user.model';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   selector: 'app-user-dropdown',
