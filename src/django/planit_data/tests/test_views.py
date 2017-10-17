@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
 from rest_framework import status
 
 from planit_data.models import Indicator, Concern
@@ -37,9 +37,9 @@ class PlanitApiTestCase(APITestCase):
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 403 Forbidden response."""
-        client = APIClient()
+        self.client.logout()
         url = reverse('concern-list')
-        response = client.get(url)
+        response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -64,8 +64,8 @@ class PlanitApiTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_concern_detail_nonauth(self):
-        client = APIClient()
+        self.client.logout()
         url = reverse('concern-detail', kwargs={'pk': 1})
-        response = client.get(url)
+        response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
