@@ -43,8 +43,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     token = serializers.SerializerMethodField()
     isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
-    firstName = serializers.CharField(source='first_name', allow_blank=True, required=True)
-    lastName = serializers.CharField(source='last_name', allow_blank=True, required=True)
+    firstName = serializers.CharField(source='first_name', allow_blank=False, required=True)
+    lastName = serializers.CharField(source='last_name', allow_blank=False, required=True)
 
     password1 = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                       style={'input_type': 'password'})
