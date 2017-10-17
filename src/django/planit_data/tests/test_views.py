@@ -23,16 +23,20 @@ class PlanitApiTestCase(APITestCase):
         self.assertEqual(response.data['results'], [])
 
     def test_concern_list_nonempty(self):
-        indicator = Indicator.objects.create()
-        Concern.objects.create(indicator=indicator, tagline='test', is_relative=True)
+        indicator = Indicator.objects.create(name='Foobar')
+        concern = Concern.objects.create(indicator=indicator, tagline='test', is_relative=True)
 
         url = reverse('concern-list')
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertDictEqual(response.data['results'][0],
+                             {'id': concern.id, 'indicator': 'Foobar',
+                              'tagline': 'test', 'is_relative': True})
 
     def test_concern_list_nonauth(self):
-        """Ensure that unauthenticated users receive a 403 Forbidden reponse."""
+        """Ensure that unauthenticated users receive a 403 Forbidden response."""
         client = APIClient()
         url = reverse('concern-list')
         response = client.get(url)
@@ -40,7 +44,7 @@ class PlanitApiTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_concern_detail(self):
-        indicator = Indicator.objects.create()
+        indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
                                          tagline='test',
                                          is_relative=True)
@@ -49,6 +53,9 @@ class PlanitApiTestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(response.data,
+                             {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'test',
+                              'is_relative': True, 'value': 1.0})
 
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})

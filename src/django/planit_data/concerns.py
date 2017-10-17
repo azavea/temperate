@@ -1,5 +1,5 @@
 def calculate_indicator_change(response, start_range, end_range, is_relative=False):
-    """Calculate a numeric change value based on a Climate Change API Indicator reponse."""
+    """Calculate a numeric change value based on a Climate Change API Indicator response."""
     def extract_indicator_data(response, years, aggregation):
         return (response['data'][str(year)][aggregation] for year in years)
 
