@@ -1,0 +1,8 @@
+<nav class="primary-nav-container" role="banner">
+    <ul class="primary-nav">
+        <li class="list-item current"
+            *ngFor="let tab of tabs">
+            <a class="link" routerLink="/{{tab | lowercase}}">{{ tab }}</a>
+        </li>
+    </ul>
+</nav>

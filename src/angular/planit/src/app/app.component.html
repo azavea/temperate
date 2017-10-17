@@ -1,4 +1,12 @@
-<app-sidebar></app-sidebar>
-<app-user-dropdown></app-user-dropdown>
-<app-help-modal></app-help-modal>
+<!-- TODO: #115, move to navbar component-->
+<header class="header-primary" role="banner">
+  <div class="button-group">
+    <button class="button"><i class="icon-bars icon-menu"></i></button>
+    <a href="index.html" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
+  </div>
+  <div class="button-group">
+    <app-help-modal></app-help-modal>
+    <app-user-dropdown></app-user-dropdown>
+  </div>
+</header>
 <router-outlet></router-outlet>
