@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
-import { CreateAccountModalComponent } from './create-account-modal/create-account-modal.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { IndicatorsComponent } from './indicators/indicators.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { PageNotFoundComponent } from './not-found.component';
 
@@ -27,7 +28,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    CreateAccountModalComponent,
     MarketingComponent,
     PageNotFoundComponent
   ],
