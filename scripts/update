@@ -37,9 +37,20 @@ then
             run --rm --entrypoint python \
             django manage.py migrate --noinput
 
+        docker-compose \
+            run --rm --entrypoint python \
+            django manage.py collectstatic --noinput
+
         # Remove Django service associated with `docker-compose up`
         # command above.
         docker-compose kill django \
             && docker-compose rm -f django
+
+        # Build AngularJS bundle for use with nginx
+        docker-compose run --rm --entrypoint "bash -c" nginx "rm -rf /var/www/*"
+        docker-compose run --rm angular run build --delete-output-path false
+
+        # Build Nginx
+        docker-compose build nginx
     fi
 fi

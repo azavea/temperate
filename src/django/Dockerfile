@@ -8,8 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src
 
-RUN python /usr/src/manage.py collectstatic --noinput
-
 CMD ["--workers=4", \
      "--timeout=60", \
      "--bind=0.0.0.0:8080", \

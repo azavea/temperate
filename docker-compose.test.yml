@@ -2,3 +2,5 @@ version: '2.3'
 services:
   django:
     image: "planit-app:${GIT_COMMIT:-latest}"
+  nginx:
+    image: "planit-nginx:${GIT_COMMIT:-latest}"

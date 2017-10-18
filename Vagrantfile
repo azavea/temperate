@@ -25,6 +25,9 @@ Vagrant.configure(2) do |config|
   # NFS
   config.vm.network "private_network", ip: "192.168.10.100"
 
+  # Nginx
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
+
   # Gunicorn
   config.vm.network :forwarded_port, guest: 8100, host: 8100
 

@@ -82,3 +82,5 @@ npm-debug.log
 
 # Text editor files
 .vscode
+violations.txt
+nginx/static
