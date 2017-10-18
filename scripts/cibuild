@@ -30,7 +30,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
           django manage.py collectstatic --noinput
 
         # Clean out existing angular bundle before build
-        docker-compose run --rm --entrypoint "bash -c" nginx "rm -rf /var/www/*"
+        docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
         docker-compose run --rm angular run build --delete-output-path false
 
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \

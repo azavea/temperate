@@ -47,7 +47,7 @@ then
             && docker-compose rm -f django
 
         # Build AngularJS bundle for use with nginx
-        docker-compose run --rm --entrypoint "bash -c" nginx "rm -rf /var/www/*"
+        docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
         docker-compose run --rm angular run build --delete-output-path false
 
         # Build Nginx
