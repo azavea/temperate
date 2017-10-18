@@ -22,6 +22,17 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
+        # Make sure containers are up to date
+        docker-compose build angular django
+
+        # Copy static files into nginx folder
+        docker-compose run --rm --entrypoint python \
+          django manage.py collectstatic --noinput
+
+        # Clean out existing angular bundle before build
+        docker-compose run --rm --entrypoint "bash -c" nginx "rm -rf /var/www/*"
+        docker-compose run --rm angular run build --delete-output-path false
+
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \

@@ -31,7 +31,11 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             docker tag "planit-app:${GIT_COMMIT}" \
                    "${PLANIT_AWS_ECR_ENDPOINT}/planit-app:${GIT_COMMIT}"
 
+            docker tag "planit-nginx:${GIT_COMMIT}" \
+                   "${PLANIT_AWS_ECR_ENDPOINT}/planit-nginx:${GIT_COMMIT}"
+
             docker push "${PLANIT_AWS_ECR_ENDPOINT}/planit-app:${GIT_COMMIT}"
+            docker push "${PLANIT_AWS_ECR_ENDPOINT}/planit-nginx:${GIT_COMMIT}"
         else
             echo "ERROR: No PLANIT_AWS_ECR_ENDPOINT variable defined."
             exit 1
