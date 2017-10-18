@@ -193,10 +193,10 @@ ACCOUNT_ACTIVATION_DAYS = 14
 REGISTRATION_OPEN = True
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
+# TODO: #134 set up staging/production email
+# set to 'django_amazon_ses.backends.boto.EmailBackend' if not DEBUG
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 DEFAULT_FROM_EMAIL = os.getenv('CC_FROM_EMAIL', 'noreply@climate.azavea.com')
 DEFAULT_TO_EMAIL = os.getenv('CC_TO_EMAIL', 'climate@azavea.com')
 COMPANY_DOMAIN = '@azavea.com'
