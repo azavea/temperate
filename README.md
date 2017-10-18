@@ -16,12 +16,21 @@ $ aws configure --profile planit
 From there, clone the project, `cd` into the directory, then run `./scripts/setup` to create the
 Vagrant VM and build the Docker containers.
 
-To start the servers during development:
+To start nginx and django during development:
 
 ```bash
 $ vagrant ssh
 $ ./scripts/server
 ```
+
+If you'd like to run the Angular server:
+```bash
+# Starts angular, django
+$ vagrant ssh
+$ ./scripts/server --angular
+```
+
+***Note*** If you've run the Angular server, you'll need to rebuild the AngularJS bundle before starting Nginx again. Run `scripts/update` before `scripts/server`.
 
 Once you've started the server you'll need to create a login user. This can be done with:
 ```bash
