@@ -61,6 +61,41 @@ resource "aws_alb_listener" "planit_app_https" {
   }
 }
 
+resource "aws_alb_target_group" "planit_app_http" {
+  name = "tg${var.environment}HTTPPlanItApp"
+
+  health_check {
+    healthy_threshold   = "3"
+    interval            = "30"
+    protocol            = "HTTP"
+    timeout             = "3"
+    path                = "/"
+    unhealthy_threshold = "2"
+    matcher             = "301"
+  }
+
+  port     = "80"
+  protocol = "HTTP"
+  vpc_id   = "${data.terraform_remote_state.core.vpc_id}"
+
+  tags {
+    Name        = "tg${var.environment}HTTPPlanItApp"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+}
+
+resource "aws_alb_listener" "planit_app_http" {
+  load_balancer_arn = "${aws_alb.planit_app.id}"
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.planit_app_http.id}"
+    type             = "forward"
+  }
+}
+
 #
 # ECS resources
 #
@@ -106,6 +141,41 @@ resource "aws_ecs_service" "planit_app_https" {
     target_group_arn = "${aws_alb_target_group.planit_app_https.id}"
     container_name   = "django"
     container_port   = "8080"
+  }
+}
+
+data "template_file" "planit_app_http_ecs_task" {
+  template = "${file("task-definitions/nginx.json")}"
+
+  vars = {
+    nginx_url                      = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-nginx:${var.git_commit}"
+    planit_app_papertrail_endpoint = "${var.papertrail_host}:${var.papertrail_port}"
+  }
+}
+
+resource "aws_ecs_task_definition" "planit_app_http" {
+  family                = "${var.environment}HTTPPlanItApp"
+  container_definitions = "${data.template_file.planit_app_http_ecs_task.rendered}"
+}
+
+resource "aws_ecs_service" "planit_app_http" {
+  name                               = "${var.environment}HTTPPlanItApp"
+  cluster                            = "${data.terraform_remote_state.core.container_service_cluster_id}"
+  task_definition                    = "${aws_ecs_task_definition.planit_app_http.arn}"
+  desired_count                      = "${var.planit_app_http_ecs_desired_count}"
+  deployment_minimum_healthy_percent = "${var.planit_app_http_ecs_deployment_min_percent}"
+  deployment_maximum_percent         = "${var.planit_app_http_ecs_deployment_max_percent}"
+  iam_role                           = "${data.terraform_remote_state.core.container_service_cluster_ecs_service_role_name}"
+
+  placement_strategy {
+    type  = "spread"
+    field = "attribute:ecs.availability-zone"
+  }
+
+  load_balancer {
+    target_group_arn = "${aws_alb_target_group.planit_app_http.id}"
+    container_name   = "nginx"
+    container_port   = "80"
   }
 }
 
