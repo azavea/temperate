@@ -52,13 +52,13 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  run --rm angular npm run "$ANGULAR_LINT_CMD"
+                  run --rm angular run "$ANGULAR_LINT_CMD"
 
         # Angular Tests
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  run --rm angular npm run test
+                  run --rm angular run test
 
         # Python Tests
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
