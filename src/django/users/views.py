@@ -88,9 +88,11 @@ class PlanitObtainAuthToken(ObtainAuthToken):
     serializer_class = AuthTokenSerializer
 
 
-class UserViewSet(LoginRequiredMixin, ModelViewSet):
+class UserViewSet(ModelViewSet):
     queryset = PlanItUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (TokenAuthentication, )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
