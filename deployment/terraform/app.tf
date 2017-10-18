@@ -104,8 +104,8 @@ data "template_file" "planit_app_https_ecs_task" {
 
   vars = {
     app_server_django_url            = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
+    nginx_url                        = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-nginx:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
-    django_static_host               = "https://${aws_route53_record.cdn.fqdn}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"
     rds_database_name                = "${var.rds_database_name}"
     rds_username                     = "${data.terraform_remote_state.core.rds_username}"
@@ -139,8 +139,8 @@ resource "aws_ecs_service" "planit_app_https" {
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.planit_app_https.id}"
-    container_name   = "django"
-    container_port   = "8080"
+    container_name   = "nginx"
+    container_port   = "443"
   }
 }
 
@@ -185,7 +185,6 @@ data "template_file" "planit_app_management_ecs_task" {
   vars {
     management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
-    django_static_host               = "https://${aws_route53_record.cdn.fqdn}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"
     rds_database_name                = "${var.rds_database_name}"
     rds_username                     = "${data.terraform_remote_state.core.rds_username}"
