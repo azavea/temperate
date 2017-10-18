@@ -5,6 +5,7 @@ import { HelpModalComponent } from './help-modal/help-modal.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   ],
   declarations: [
     HelpModalComponent,
-    UserDropdownComponent
+    UserDropdownComponent,
+    NavbarComponent
   ],
   exports: [
     HelpModalComponent,
