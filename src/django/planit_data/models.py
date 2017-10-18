@@ -3,6 +3,8 @@ from django.db.models import CASCADE
 
 from users.models import PlanItUser
 
+from planit_data.concerns import calculate_indicator_change
+
 
 class GeoRegion(models.Model):
     """A user-agnostic, arbitratry region of interest."""
@@ -74,26 +76,44 @@ class RiskTemplate(models.Model):
         return '{}, {}, {}'.format(self.community_system, self.weather_event, self.indicator)
 
 
-class UserLocation(models.Model):
-    """A combination of user and location.
+class Concern(models.Model):
+    """A configurable object used to intepret indicator results to convey anticipated changes.
 
-    This model serves as a top-level reference for all user interaction with a given location
-    of interest.
-
+    Each Concern maintains the information necessary to turn year-by-year projection data into a
+    meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
-    name = models.CharField(max_length=256, blank=False, null=False)
-    geom = models.MultiPolygonField()
-    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
+
+    CONCERN_YEAR_LENGTH = 10  # Evaluate Concerns by averaging start and end values over a decade
+    CONCERN_START_YEAR = 1990
+    CONCERN_END_YEAR = 2050
+
+    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    tagline = models.CharField(max_length=256, blank=False, null=False)
+    is_relative = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return '{} - {}'.format(self.indicator, self.tagline)
+
+    def calculate_value(self, location):
+        start_range = range(self.CONCERN_START_YEAR,
+                            self.CONCERN_START_YEAR + self.CONCERN_YEAR_LENGTH)
+        end_range = range(self.CONCERN_END_YEAR, self.CONCERN_END_YEAR + self.CONCERN_YEAR_LENGTH)
+
+        # Use mock response prior to integration with live CC API
+        start_values = [(year, 15) for year in start_range]
+        end_values = [(year, 30) for year in end_range]
+        response = {
+            'data': {str(year): {'avg': val} for year, val in start_values + end_values}
+        }
+
+        return calculate_indicator_change(response, start_range, end_range, self.is_relative)
 
 
 class UserRisk(models.Model):
     """A concrete representation of a RiskTemplate for a given user."""
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     notes = models.TextField(null=False, blank=True, default='')
-    location = models.ForeignKey(UserLocation, on_delete=CASCADE, null=False)
+    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
     community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
     weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
