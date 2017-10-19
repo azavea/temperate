@@ -10,7 +10,7 @@ from registration.backends.hmac.views import RegistrationView as BaseRegistratio
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -33,7 +33,7 @@ class RegistrationView(BaseRegistrationView):
 
 class PlanitHomeView(LoginRequiredMixin, View):
     permission_classes = (IsAuthenticated, )
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (SessionAuthentication, TokenAuthentication, )
 
     def new_token(self, request):
         """Generate new auth token from within the profile page."""
@@ -52,7 +52,7 @@ class PlanitHomeView(LoginRequiredMixin, View):
 
 class UserProfileView(LoginRequiredMixin, View):
     permission_classes = (IsAuthenticated, )
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (SessionAuthentication, TokenAuthentication, )
 
     def get_initial(self, request):
         user = request.user
@@ -92,7 +92,7 @@ class UserViewSet(ModelViewSet):
     queryset = PlanItUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated, )
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = (SessionAuthentication, TokenAuthentication, )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
