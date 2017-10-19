@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('planit_data', '0003_add_name_to_georegion_userlocation'),
+        ('planit_data', '0005_auto_20171010_1644'),
     ]
 
     operations = [
