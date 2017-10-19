@@ -45,6 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
     isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
     firstName = serializers.CharField(source='first_name', allow_blank=False, required=True)
     lastName = serializers.CharField(source='last_name', allow_blank=False, required=True)
+    city = serializers.IntegerField(source='api_city_id', required=False, allow_null=True)
 
     password1 = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                       style={'input_type': 'password'})

@@ -27,19 +27,21 @@ class UserCreationApiTestCase(TestCase):
             'firstName': 'Test',
             'lastName': 'User',
             'organization': 'Azavea',
-            'city': 'Philadelphia',
+            'city': 1,
             'password1': 'sooperseekrit',
             'password2': 'sooperseekrit'
         }
 
         response = self.client.post('/api/users/', user_data, format='json')
 
+        print(response.content)
+
         # should get created status
         self.assertEqual(response.status_code, 201)
 
         # check user exists
         user = PlanItUser.objects.get(email=user_data['email'])
-        self.assertEqual(user.city, user_data['city'])
+        self.assertEqual(user.api_city_id, user_data['city'])
 
         self.assertFalse(user.is_active, 'User should not be active until email verified')
 
@@ -57,7 +59,7 @@ class UserCreationApiTestCase(TestCase):
             'firstName': 'Test',
             'lastName': 'User',
             'organization': 'Azavea',
-            'city': 'Philadelphia',
+            'city': None,
             'password1': 'sooperseekrit',
             'password2': 'sewperseekrit'
         }
@@ -73,7 +75,7 @@ class UserCreationApiTestCase(TestCase):
             'firstName': 'Test',
             'lastName': 'User',
             'organization': 'Azavea',
-            'city': 'Philadelphia',
+            'city': 0,
             'password1': '2short',
             'password2': '2short'
         }
