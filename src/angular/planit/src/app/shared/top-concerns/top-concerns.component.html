@@ -1,0 +1,19 @@
+<div class="card-content" id="top-concerns">
+  <div *ngFor="let concern of concerns" class="concern {{ concernClass(concern) }}">
+    <div class="concern-options">
+      <button class="button button-primary button-small"><i class="icon-eye"></i></button>
+      <button class="button button-danger button-small"><i class="icon-trash"></i></button>
+    </div>
+    <div class="concern-stats">
+      <div class="stat">
+        <div class="number">{{ format(concern) }}</div>
+        <div *ngIf="hasUnits(concern)">
+          <button class="button button-link" (click)="selectUnit(concern, 'default')">{{ defaultUnit(concern) }}</button>
+          <span class="forward-slash">&#x2F;</span>
+          <button class="button button-link" (click)="selectUnit(concern, 'alternate')">{{ alternateUnit(concern) }}</button>
+        </div>
+      </div>
+      <div class="stat-description">{{ concern.tagline }}</div>
+    </div>
+  </div>
+</div>
