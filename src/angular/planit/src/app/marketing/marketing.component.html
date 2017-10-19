@@ -1,7 +1,8 @@
 <header class="header-primary" role="banner">
   <a href="/dashboard" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
   <div class="button-group">
-    <button class="button button-primary button-small" data-toggle="modal" data-target="#modal-account">Create an Account</button>
+    <button class="contact-iclei button button-primary button-small"
+            (click)="openModal(template)">Create an Account</button>
     <button class="button button-secondary button-small" data-toggle="modal" data-target="#modal-login">Log In</button>
   </div>
 </header>
@@ -10,7 +11,8 @@
     <div class="container-content hero-content light-content">
       <h1 class="heading text-jumbo">Find out how to best plan for climate change.</h1>
       <p><strong>Climate</strong> offers planners fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Sed posuere consectetur est at lobortis.</p>
-      <button class="button button-primary button-large" data-toggle="modal" data-target="#modal-account">Create an Account</button>
+      <button class="contact-iclei button button-primary button-large"
+              (click)="openModal(template)">Create an Account</button>
     </div>
     <div class="helper-arrow">What is this?</div>
   </section>
@@ -52,10 +54,11 @@
     <div class="container-content light-content">
       <h2 class="heading">Get expert guidance</h2>
       <p class="paragraph-intro">As a registered member, you’ll have on-demand access to a adaptation planner at ICLEI. With more than 25 years of experience helping local governments adopt sustainable practices, ICLEI staff will assist you in building your adaptation plan.</p>
-      <button class="button button-inverted button-large" data-toggle="modal" data-target="#modal-account">Create an account</button>
+      <button class="contact-iclei button button-inverted button-large"
+              (click)="openModal(template)">Create an account</button>
     </div>
   </section>
-</main>  
+</main>
 
 <!-- Footer -->
 <footer class="site-footer" role="contentinfo">
@@ -65,4 +68,52 @@
     <p>Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
     <p>Contact us at <strong>climate@azavea.com</strong></p>
   </div>
-</footer> 
+</footer>
+
+
+<!-- Create Account Modal template -->
+<template #template>
+  <div class="modal-header">
+    <h1>Create an account</h1>
+    <button type="button" class="button button-modal-close" (click)="modalRef.hide()">
+      <i class="icon-cancel"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Please enter your information below to create a <strong>Climate</strong> account.</p>
+    <form class="form" id="form-createaccount">
+      <!-- First name -->
+      <div class="required">
+        <label for="name-first">First Name</label>
+        <input class="input input-textfield" id="name-first" type="text" name="textfield" required>
+      </div>
+
+      <!-- Last Name -->
+      <div class="required">
+        <label for="name-last">Last Name</label>
+        <input class="input input-textfield" id="name-last" type="text" name="textfield" required>
+      </div>
+
+      <!-- Email Address -->
+      <div class="required">
+        <label for="email-address">Email Address</label>
+        <input class="input input-textfield" id="email-address" type="email" name="textfield" required>
+      </div>
+
+      <!-- Organization -->
+      <label for="organization">Organization Name</label>
+      <input class="input input-textfield" id="organization" type="text" name="textfield">
+
+      <!-- Location -->
+      <label for="location">City</label>
+      <input class="input input-textfield" id="location" type="text" name="textfield">
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="button-group">
+      <button type="button" class="button button-secondary button-small" (click)="modalRef.hide()">Cancel</button>
+      <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount">
+    </div>
+  </div>
+</template>
+
