@@ -21,21 +21,28 @@ from django.conf.urls.static import static
 from rest_framework import routers
 
 import planit_data.views as planit_data_views
+from users.views import PlanitObtainAuthToken, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^api/concern/$',
         planit_data_views.ConcernViewSet.as_view({'get': 'list'}), name='concern-list'),
     url(r'^api/concern/(?P<pk>[0-9]+)$',
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
+
     url(r'^admin/', admin.site.urls),
+
+    # user management
+    url(r'^accounts/', include('users.urls')),
+    url(r'^api-token-auth/', PlanitObtainAuthToken.as_view()),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),
 
     url(r'^api/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 

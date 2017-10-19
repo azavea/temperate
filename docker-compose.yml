@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - django
-    ports: 
+    ports:
       - "8000:443"
     volumes:
       - "./nginx/dist:/var/www"

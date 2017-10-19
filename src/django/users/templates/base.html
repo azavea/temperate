@@ -1,0 +1,72 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% bootstrap_css %}
+
+    <link rel="icon" type="image/x-icon" href="{% static "images/favicon.ico" %}">
+
+    <title>{% block title %}User Navigation{% endblock %} - Azavea Climate App</title>
+</head>
+
+<body>
+    <div id="header">
+    <div class="navbar">
+      <div class="container">
+        <div class="navbar-left">
+          <a href="{% url 'planit_home' %}" class="brand">
+            <img src="{% static "images/climate-logo.svg" %}" alt="">
+          </a>
+        </div>
+        <div class="navbar-right">
+          <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'planit_home' %}">Home</a>
+                <button class="btn btn-default dropdown-toggle" type="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                    id="accountDropdown">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        User Settings
+                    {% endif %}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                    <li><a href="{% url 'auth_logout' %}">Log out</a></li>
+                </ul>
+            {% else %}
+                <a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
+            {% endif %}
+          </nav>
+        </div>
+      </div>
+    </div>
+    {% block header %}
+
+    {% endblock %}
+    </div>
+
+    {% block precontent %}{% endblock %}
+
+    <div class="container">
+        <div class="row">
+            <div class="column-12">
+                <div id="content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">
+
+    {% block footer %}
+    {% endblock %}
+    </div>
+    {% bootstrap_javascript jquery=1 %}
+</body>
+
+</html>

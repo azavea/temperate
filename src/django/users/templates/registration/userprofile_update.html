@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% load bootstrap3 %}
+
+<head>
+    <title>{% block title %}Account Profile{% endblock %}</title>
+</head>
+
+{% block content %}
+<div class="row stack-xs">
+  <div class="column-6">
+    <h3>Account Profile</h3>
+    <form action="" method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons submit='Update' button_class="btn-primary" %}{% endbuttons %}
+    </form>
+
+    <a href="{% url 'auth_password_change' %}"> {% trans "Change password" %}</a>
+  </div>
+</div>
+{% endblock content %}
