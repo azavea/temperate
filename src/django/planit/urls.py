@@ -32,8 +32,6 @@ urlpatterns = [
     url(r'^api/concern/(?P<pk>[0-9]+)$',
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
 
-    url(r'^$', AppHomeView.as_view(), name='app_home'),
-
     url(r'^admin/', admin.site.urls),
 
     # user management

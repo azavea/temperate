@@ -38,14 +38,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.test.yml \
                   build django angular nginx
 
-        # run collectstatic for django
-        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
-                  -f docker-compose.yml \
-                  -f docker-compose.test.yml \
-                  run --rm --no-deps --entrypoint "./manage.py" \
-                  -e "COMMIT=" \
-                  django collectstatic --noinput
-
         echo "Running tests"
         GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
         echo "All tests pass!"
