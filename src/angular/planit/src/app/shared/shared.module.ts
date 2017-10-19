@@ -18,7 +18,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
   ],
   declarations: [
     SidebarComponent,
-    TopConcernsComponent
+    TopConcernsComponent,
     HelpModalComponent,
     UserDropdownComponent,
     NavbarComponent
@@ -29,7 +29,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     CommonModule,
     RouterModule,
     SidebarComponent,
-    TopConcernsComponent
+    TopConcernsComponent,
     NavbarComponent
   ]
 })
