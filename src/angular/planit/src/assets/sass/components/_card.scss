@@ -80,7 +80,7 @@
   flex: 0 1 49.5%;
 }
 
-#top-concerns .card-content {
+#top-concerns {
   display: flex;
   justify-content: space-between;
 }
@@ -98,13 +98,13 @@
     margin-right: 0;
   }
 }
-#indicator-1 {
+.concern-Precipitation {
   background-image: url(../images/indicator-1.jpg);
 }
-#indicator-2 {
+.concern-Heat {
   background-image: url(../images/indicator-2.jpg);
 }
-#indicator-3 {
+.concern-ExtremeEvents {
   background-image: url(../images/indicator-3.jpg);
 }
 .concern-options {
