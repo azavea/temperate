@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -9,6 +9,5 @@ import { CommonModule } from '@angular/common';
   ],
   exports: [
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class CoreModule { }
