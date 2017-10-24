@@ -57,3 +57,7 @@ variable "papertrail_host" {}
 variable "papertrail_port" {}
 
 variable "ssl_certificate_arn" {}
+
+variable "ccapi_email" {}
+
+variable "ccapi_password" {}
