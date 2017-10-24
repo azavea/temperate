@@ -55,6 +55,8 @@ services:
       - DJANGO_SECRET_KEY=secret
       - DJANGO_LOG_LEVEL=INFO
       - AWS_PROFILE=planit
+      - CCAPI_EMAIL=
+      - CCAPI_PASSWORD=
     command:
       - "--workers=2"
       - "--timeout=60"
