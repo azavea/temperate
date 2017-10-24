@@ -2,13 +2,7 @@ from django.conf import settings
 
 
 def get_api_url(route):
-    environment = settings.ENVIRONMENT.lower()
-    base_url = {
-        'production': 'https://app.climate.azavea.com',
-        'staging': 'https://app.staging.climate.azavea.com',
-        'development': 'https://app.staging.climate.azavea.com',
-    }.get(environment)
-
+    base_url = settings.CCAPI_HOST
     return "{}/{}".format(base_url, route)
 
 

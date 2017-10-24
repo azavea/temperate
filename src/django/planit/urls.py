@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 from rest_framework import routers
 
+from climate_api.views import ClimateAPIProxyView
 import planit_data.views as planit_data_views
 from users.views import PlanitObtainAuthToken, UserViewSet
 
@@ -27,6 +28,8 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
+    url(r'^api/climate-api/(?P<route>.*)$',
+        ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
     url(r'^api/concern/$',
         planit_data_views.ConcernViewSet.as_view({'get': 'list'}), name='concern-list'),
     url(r'^api/concern/(?P<pk>[0-9]+)$',
