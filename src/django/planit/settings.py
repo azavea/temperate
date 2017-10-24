@@ -39,7 +39,7 @@ DEBUG = (ENVIRONMENT == 'Development')
 
 # Set ALLOWED_HOSTS
 ALLOWED_HOSTS = [
-    '.climate.azavea.com',
+    '.temperate.io',
     '.elb.amazonaws.com',
     'localhost'
 ]
