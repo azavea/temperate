@@ -39,6 +39,10 @@ then
 
         docker-compose \
             run --rm --entrypoint python \
+            django manage.py loaddata georegions
+
+        docker-compose \
+            run --rm --entrypoint python \
             django manage.py collectstatic --noinput
 
         # Remove Django service associated with `docker-compose up`
