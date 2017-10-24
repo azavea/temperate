@@ -11,8 +11,17 @@
   list-style-type: none;
   padding: 0.25rem 2rem;
 
-  &.current {
-    .link:before {
+  .link {
+    font-size: $text-base;
+    color: $gray-5;
+    margin: 0;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+    border-radius: $button-border-radius;
+    position: relative;
+    display: block;
+
+    &.current:before {
       content: "";
       display: block;
       width: 6px;
@@ -24,17 +33,6 @@
       background-color: $brand-primary;
       border-radius: 3px;
     }
-  }
-
-  .link {
-    font-size: $text-base;
-    color: $gray-5;
-    margin: 0;
-    padding: 0.5rem 2rem;
-    text-decoration: none;
-    border-radius: $button-border-radius;
-    position: relative;
-    display: block;
 
     &:hover, &.hover,
     &:active, &.active, {
