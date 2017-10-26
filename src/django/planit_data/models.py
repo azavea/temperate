@@ -1,3 +1,4 @@
+import logging
 import requests
 import json
 
@@ -8,6 +9,9 @@ from django.conf import settings
 from users.models import PlanItUser
 
 from planit_data.concerns import calculate_indicator_change
+
+
+logger = logging.getLogger(__name__)
 
 
 class GeoRegion(models.Model):
@@ -146,14 +150,17 @@ class APITokenManager(models.Manager):
             new_token = json.loads(request.text)['token']
             APIToken.objects.all().delete()
             APIToken.objects.create(token=new_token)
-            print('Token is now {}'.format(self.current()))
+            logger.debug('Token is now {}'.format(self.current()))
         else:
-            print('Error refreshing token. {}: {}'.format(request.status_code,
-                                                          request.reason))
+            logger.warn('Error refreshing token. {}: {}'.format(request.status_code,
+                                                                request.reason))
 
     def current(self):
         """Return current token as a string."""
-        return APIToken.objects.all()[0].token
+        token = APIToken.objects.first()
+        if token is None:
+            raise ValueError('No CC API token.')
+        return token.token
 
 
 class APIToken(models.Model):
