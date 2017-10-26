@@ -1,5 +1,6 @@
 django-bootstrap3==9.0.0
 djangorestframework==3.7.0
+django-amazon-ses==0.3.0
 django-debug-toolbar==1.8
 django-extensions==1.9.1
 django-registration==2.3
