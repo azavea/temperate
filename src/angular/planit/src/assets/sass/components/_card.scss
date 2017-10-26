@@ -10,10 +10,24 @@
 .card-header {
   position: relative;
 
+  .accordion {
+    position: absolute;
+    right: 3rem;
+  }
+
   .button {
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
+  }
+
+  .add-top-concern {
+    position: absolute;
+    right: 0rem;
+    color: $gray-4;
+    text-decoration: underline;
+    font-weight: 700;
+    font-size: $text-small;
   }
 
   a {
@@ -38,8 +52,9 @@
       background-color: lighten( $gray-1, 10% );
       outline: 0;
     }
-  
+
     .heading {
+      margin-top: 3rem;
       margin-bottom: 0;
     }
   }
@@ -138,15 +153,15 @@
     display: flex;
     align-items: flex-end;
     line-height: 1;
-    
-    .forward-slash{
+
+    .forward-slash {
       line-height: 2;
     }
 
     .button {
       color: white;
       padding: 0.5rem;
-    
+
       &:hover, &.hover,
       &:active, &.active, {
         color: $brand-primary;

@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndicatorsComponent implements OnInit {
 
-  constructor() { }
+  public isCollapsed: boolean;
+
+
+  constructor() {
+    this.isCollapsed = true;
+  }
 
   ngOnInit() {
+  }
+
+  public collapsed(event:any):void {
+    console.log(event);
+  }
+
+  public expanded(event:any):void {
+    console.log(event);
   }
 
 }
