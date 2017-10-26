@@ -17,6 +17,10 @@ export class IndicatorsComponent implements OnInit {
   ngOnInit() {
   }
 
+  public addTopConcern(event:any):void {
+    console.log(event);
+  }
+
   public collapsed(event:any):void {
     console.log(event);
   }

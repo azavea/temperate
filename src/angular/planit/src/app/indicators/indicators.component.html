@@ -21,7 +21,8 @@
       <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
         <div [ngClass]="{'card': true, 'card-full': true, 'collapsed': isCollapsed}">
           <div class="card-header" role="tab" id="headingOne">
-            <a class="add-top-concern" href="#">Add as top concern<i class="icon-question-circle-o"></i></a>
+            <a class="add-top-concern" ng-href="" (click)="addTopConcern($event)">Add as top concern
+              <i class="icon-question-circle-o"></i></a>
             <a ng-href="" (click)="isCollapsed = !isCollapsed"><h2 class="heading card-title">
               Heat Wave Incidents<i [ngClass]="{'accordion': true, 'icon-angle-down': isCollapsed,
               'icon-angle-up': !isCollapsed}"></i>
