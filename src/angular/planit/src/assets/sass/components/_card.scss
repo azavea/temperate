@@ -5,6 +5,10 @@
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
+
+  &.collapsed {
+    min-height: 0px;
+  }
 }
 
 .card-header {
