@@ -1,7 +1,6 @@
 {
   "name": "planit",
   "version": "0.0.0",
-  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --delete-output-path false",
@@ -10,7 +9,7 @@
     "lint": "ng lint --type-check",
     "lint:ci": "ng lint --type-check --force --format checkstyle > violations.xml",
     "e2e": "ng e2e",
-    "build:prod": "ng build -prod --aot --extract-css",
+    "build:prod": "ng build --prod --aot --extract-css --env=prod",
     "postinstall": "npm rebuild node-sass"
   },
   "private": true,
