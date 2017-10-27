@@ -14,6 +14,8 @@ node {
         // console.
         stage('cibuild') {
             wrap([$class: 'AnsiColorBuildWrapper']) {
+                writeFile file: 'src/django/ccapi_creds.env', text: """"""
+
                 sh 'scripts/cibuild'
 
                 step([$class: 'WarningsPublisher',
