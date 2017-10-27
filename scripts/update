@@ -50,7 +50,7 @@ then
         docker-compose kill django \
             && docker-compose rm -f django
 
-        # Build AngularJS bundle for use with nginx
+        # Build Angular bundle for use with nginx
         docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
         docker-compose run --rm angular run build --delete-output-path false
 

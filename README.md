@@ -13,6 +13,10 @@ On your host machine you need to set up a `planit` profile for the Azavea Climat
 $ aws configure --profile planit
 ```
 
+#### Connect with the Climate API
+
+Temperate will make requests to the Climate API. `cp src/django/ccapi_creds.env.example src/django/ccapi_creds.env`. Add your personal Climate API staging credentials to `ccapi_creds.env`.
+
 From there, clone the project, `cd` into the directory, then run `./scripts/setup` to create the
 Vagrant VM and build the Docker containers.
 
@@ -30,7 +34,7 @@ $ vagrant ssh
 $ ./scripts/server --angular
 ```
 
-***Note*** If you've run the Angular server, you'll need to rebuild the AngularJS bundle before starting Nginx again. Run `scripts/update` before `scripts/server`.
+***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server`.
 
 Once you've started the server you'll need to create a login user. This can be done with:
 ```bash
