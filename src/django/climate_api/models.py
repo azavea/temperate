@@ -1,5 +1,4 @@
 import requests
-import json
 import logging
 
 from django.db import models
@@ -22,7 +21,7 @@ class APITokenManager(models.Manager):
         url = get_api_url('api-token-auth/refresh/')
         request = requests.post(url, data=data, verify=False)
         if request.status_code == 200:
-            new_token = json.loads(request.text)['token']
+            new_token = request.json()['token']
             APIToken.objects.all().delete()
             APIToken.objects.create(token=new_token)
             logger.debug('Token is now {}'.format(self.current()))
