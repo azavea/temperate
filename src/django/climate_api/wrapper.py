@@ -1,7 +1,7 @@
 import requests
 
 from climate_api.models import APIToken
-from climate_api.utils import get_api_url
+from climate_api.utils import get_api_url, serialize_years
 
 
 def make_token_api_request(route, params=None):
@@ -14,7 +14,13 @@ def make_token_api_request(route, params=None):
 
 
 def make_indicator_api_request(indicator, city, scenario, params=None):
-    route = '/api/climate-data/{city}/{scenario}/indicator/{indicator_name}/'.format(
+    if params is None:
+        params = {}
+
+    if 'years' in params:
+        params['years'] = serialize_years(params['years'])
+
+    route = 'api/climate-data/{city}/{scenario}/indicator/{indicator}/'.format(
         city=city,
         scenario=scenario,
         indicator=indicator.name
