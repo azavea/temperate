@@ -1,9 +1,17 @@
+import logging
+import requests
+import json
+
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
+from django.conf import settings
 
 from users.models import PlanItUser
 
 from planit_data.concerns import calculate_indicator_change
+
+
+logger = logging.getLogger(__name__)
 
 
 class GeoRegion(models.Model):
@@ -120,3 +128,44 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
+
+
+class APITokenManager(models.Manager):
+
+    def refresh(self):
+        environment = settings.ENVIRONMENT.lower()
+        if environment == 'production':
+            url = 'https://app.climate.azavea.com'
+        elif environment == 'development' or environment == 'staging':
+            url = 'https://app.staging.climate.azavea.com'
+
+        data = [
+            ('email', settings.CCAPI_EMAIL),
+            ('password', settings.CCAPI_PASSWORD),
+        ]
+
+        # Get and set new token
+        request = requests.post(url + '/api-token-auth/refresh/', data=data, verify=False)
+        if request.status_code == 200:
+            new_token = json.loads(request.text)['token']
+            APIToken.objects.all().delete()
+            APIToken.objects.create(token=new_token)
+            logger.debug('Token is now {}'.format(self.current()))
+        else:
+            logger.warn('Error refreshing token. {}: {}'.format(request.status_code,
+                                                                request.reason))
+
+    def current(self):
+        """Return current token as a string."""
+        token = APIToken.objects.first()
+        if token is None:
+            raise ValueError('No CC API token.')
+        return token.token
+
+
+class APIToken(models.Model):
+    """Store active token(s) for access to Azavea's Climate API."""
+
+    objects = APITokenManager()
+
+    token = models.CharField(max_length=256, unique=True, blank=False, null=False)

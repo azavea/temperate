@@ -75,6 +75,14 @@
             {
                 "name": "COMMIT",
                 "value": "${git_commit}"
+            },
+            {
+                "name": "CCAPI_EMAIL",
+                "value": "${ccapi_email}"
+            },
+            {
+                "name": "CCAPI_PASSWORD",
+                "value": "${ccapi_password}"
             }
         ],
         "logConfiguration": {

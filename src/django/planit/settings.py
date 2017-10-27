@@ -253,3 +253,7 @@ LOGGING = {
         }
     }
 }
+
+# CCAPI Credentials
+CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
+CCAPI_PASSWORD = os.getenv('CCAPI_PASSWORD')

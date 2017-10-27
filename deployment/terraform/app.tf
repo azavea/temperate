@@ -115,6 +115,8 @@ data "template_file" "planit_app_https_ecs_task" {
     environment                      = "${var.environment}"
     planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
     aws_region                       = "${var.aws_region}"
+    ccapi_email                      = "${var.ccapi_email}"
+    ccapi_password                   = "${var.ccapi_password}"
   }
 }
 
@@ -194,6 +196,8 @@ data "template_file" "planit_app_management_ecs_task" {
     environment                      = "${var.environment}"
     planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
     aws_region                       = "${var.aws_region}"
+    ccapi_email                      = "${var.ccapi_email}"
+    ccapi_password                   = "${var.ccapi_password}"
   }
 }
 
