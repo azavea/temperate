@@ -15,30 +15,22 @@ def calculate_concern_value(concern, city_id):
     start_range = make_range(CONCERN_START_YEAR, CONCERN_YEAR_LENGTH)
     end_range = make_range(CONCERN_END_YEAR, CONCERN_YEAR_LENGTH)
 
-    params = {
-        'years': [start_range, end_range]
-    }
-    response = make_indicator_api_request(concern.indicator, city_id, CONCERN_SCENARIO,
-                                          params=params)
-    response.raise_for_status()
-    data = response.json()
-
-    return calculate_indicator_change(data, start_range, end_range, concern.is_relative)
-
-
-def calculate_indicator_change(response, start_range, end_range, is_relative=False):
-    """Calculate a numeric change value based on a Climate Change API Indicator response."""
-    def extract_indicator_data(response, years, aggregation):
-        return (response['data'][str(year)][aggregation] for year in years)
-
-    start_vals = extract_indicator_data(response, start_range, 'avg')
-    start_avg = sum(start_vals) / len(start_range)
-
-    end_vals = extract_indicator_data(response, end_range, 'avg')
-    end_avg = sum(end_vals) / len(start_range)
+    start_avg = get_indicator_average_value(concern, city_id, 'historical', start_range)
+    end_avg = get_indicator_average_value(concern, city_id, CONCERN_SCENARIO, end_range)
 
     difference = end_avg - start_avg
-    if is_relative:
+    if concern.is_relative:
         return difference / start_avg
     else:
         return difference
+
+
+def get_indicator_average_value(concern, city_id, scenario, timespan):
+    response = make_indicator_api_request(concern.indicator, city_id, scenario,
+                                          params={'years': [timespan]})
+    return calculate_indicator_average_value(response.json())
+
+
+def calculate_indicator_average_value(response):
+    values = [result['avg'] for result in response['data'].values()]
+    return sum(values) / len(values)

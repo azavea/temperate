@@ -10,7 +10,9 @@ def make_token_api_request(route, params=None):
     token = APIToken.objects.current()
     headers = {'Authorization': 'Token {}'.format(token)}
 
-    return requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params)
+    response.raise_for_status()
+    return response
 
 
 def make_indicator_api_request(indicator, city, scenario, params=None):
