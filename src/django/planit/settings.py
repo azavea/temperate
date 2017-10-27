@@ -188,18 +188,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Email Settings
+if ENVIRONMENT == 'Development':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
+DEFAULT_TO_EMAIL = 'support@temperate.io'
+
+
 # Django-Registration
 ACCOUNT_ACTIVATION_DAYS = 14
 REGISTRATION_OPEN = True
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
-
-# TODO: #134 set up staging/production email
-# set to 'django_amazon_ses.backends.boto.EmailBackend' if not DEBUG
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-DEFAULT_FROM_EMAIL = os.getenv('CC_FROM_EMAIL', 'noreply@climate.azavea.com')
-DEFAULT_TO_EMAIL = os.getenv('CC_TO_EMAIL', 'climate@azavea.com')
-COMPANY_DOMAIN = '@azavea.com'
 
 
 # Internationalization
