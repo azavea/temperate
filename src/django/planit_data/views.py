@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from planit_data.models import Concern
+from planit_data.concerns import calculate_concern_value
 from planit_data.serializers import ConcernSerializer
 
 
@@ -17,5 +18,5 @@ class ConcernViewSet(ReadOnlyModelViewSet):
         concern = get_object_or_404(Concern, id=pk)
         payload = ConcernSerializer(concern).data
 
-        payload['value'] = concern.calculate_value(request.user.api_city_id)
+        payload['value'] = calculate_concern_value(concern, request.user.api_city_id)
         return Response(payload)

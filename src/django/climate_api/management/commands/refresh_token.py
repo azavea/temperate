@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from planit_data.models import APIToken
+from climate_api.models import APIToken
 
 
 class Command(BaseCommand):

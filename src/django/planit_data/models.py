@@ -1,15 +1,9 @@
 import logging
-import requests
-import json
 
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
-from django.conf import settings
 
 from users.models import PlanItUser
-
-from planit_data.concerns import calculate_indicator_change
-
 
 logger = logging.getLogger(__name__)
 
@@ -91,30 +85,12 @@ class Concern(models.Model):
     meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
 
-    CONCERN_YEAR_LENGTH = 10  # Evaluate Concerns by averaging start and end values over a decade
-    CONCERN_START_YEAR = 1990
-    CONCERN_END_YEAR = 2050
-
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
     tagline = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline)
-
-    def calculate_value(self, location):
-        start_range = range(self.CONCERN_START_YEAR,
-                            self.CONCERN_START_YEAR + self.CONCERN_YEAR_LENGTH)
-        end_range = range(self.CONCERN_END_YEAR, self.CONCERN_END_YEAR + self.CONCERN_YEAR_LENGTH)
-
-        # Use mock response prior to integration with live CC API
-        start_values = [(year, 15) for year in start_range]
-        end_values = [(year, 30) for year in end_range]
-        response = {
-            'data': {str(year): {'avg': val} for year, val in start_values + end_values}
-        }
-
-        return calculate_indicator_change(response, start_range, end_range, self.is_relative)
 
 
 class UserRisk(models.Model):
@@ -128,44 +104,3 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
-
-
-class APITokenManager(models.Manager):
-
-    def refresh(self):
-        environment = settings.ENVIRONMENT.lower()
-        if environment == 'production':
-            url = 'https://app.climate.azavea.com'
-        elif environment == 'development' or environment == 'staging':
-            url = 'https://app.staging.climate.azavea.com'
-
-        data = [
-            ('email', settings.CCAPI_EMAIL),
-            ('password', settings.CCAPI_PASSWORD),
-        ]
-
-        # Get and set new token
-        request = requests.post(url + '/api-token-auth/refresh/', data=data, verify=False)
-        if request.status_code == 200:
-            new_token = json.loads(request.text)['token']
-            APIToken.objects.all().delete()
-            APIToken.objects.create(token=new_token)
-            logger.debug('Token is now {}'.format(self.current()))
-        else:
-            logger.warn('Error refreshing token. {}: {}'.format(request.status_code,
-                                                                request.reason))
-
-    def current(self):
-        """Return current token as a string."""
-        token = APIToken.objects.first()
-        if token is None:
-            raise ValueError('No CC API token.')
-        return token.token
-
-
-class APIToken(models.Model):
-    """Store active token(s) for access to Azavea's Climate API."""
-
-    objects = APITokenManager()
-
-    token = models.CharField(max_length=256, unique=True, blank=False, null=False)

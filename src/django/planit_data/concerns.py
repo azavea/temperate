@@ -1,3 +1,32 @@
+import json
+
+from climate_api.wrapper import make_indicator_api_request
+
+# Evaluate Concerns by averaging start and end values over a decade
+CONCERN_YEAR_LENGTH = 10
+CONCERN_START_YEAR = 1990
+CONCERN_END_YEAR = 2050
+CONCERN_SCENARIO = 'RCP85'
+
+
+def make_range(start, length):
+    return range(start, start + length)
+
+
+def calculate_concern_value(concern, city_id):
+    start_range = make_range(CONCERN_START_YEAR, CONCERN_YEAR_LENGTH)
+    end_range = make_range(CONCERN_END_YEAR, CONCERN_YEAR_LENGTH)
+
+    params = {
+        'years': start_range + end_range
+    }
+    response = make_indicator_api_request(concern.indicator, city_id, CONCERN_SCENARIO,
+                                          params=params)
+    data = json.loads(response.text)
+
+    return calculate_indicator_change(data, start_range, end_range, concern.is_relative)
+
+
 def calculate_indicator_change(response, start_range, end_range, is_relative=False):
     """Calculate a numeric change value based on a Climate Change API Indicator response."""
     def extract_indicator_data(response, years, aggregation):
