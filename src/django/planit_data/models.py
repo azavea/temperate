@@ -125,7 +125,6 @@ class Concern(models.Model):
         return sum(values) / len(response['data'])
 
 
-
 class UserRisk(models.Model):
     """A concrete representation of a RiskTemplate for a given user."""
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)

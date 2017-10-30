@@ -44,9 +44,9 @@ class PlanitApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_concern_detail(self):
-        calculate_value = mock.patch('planit_data.concerns.get_indicator_average_value')
-        calculate_value.return_value = 5.3
+    @mock.patch('planit_data.models.Concern.calculate')
+    def test_concern_detail(self, calculate_mock):
+        calculate_mock.return_value = 5.3
 
         self.user.api_city_id = 14
 
@@ -62,7 +62,7 @@ class PlanitApiTestCase(APITestCase):
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'test',
                               'is_relative': True, 'value': 5.3})
-        calculate_value.assert_called_with(concern, 14)
+        calculate_mock.assert_called_with(14)
 
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})
