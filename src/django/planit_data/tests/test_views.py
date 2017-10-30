@@ -1,6 +1,7 @@
+from unittest import mock
+
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
 from rest_framework.test import APITestCase
 from rest_framework import status
 
@@ -44,6 +45,11 @@ class PlanitApiTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_concern_detail(self):
+        calculate_value = mock.patch('planit_data.concerns.get_indicator_average_value')
+        calculate_value.return_value = 5.3
+
+        self.user.api_city_id = 14
+
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
                                          tagline='test',
@@ -55,7 +61,8 @@ class PlanitApiTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'test',
-                              'is_relative': True, 'value': 1.0})
+                              'is_relative': True, 'value': 5.3})
+        calculate_value.assert_called_with(concern, 14)
 
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})

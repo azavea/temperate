@@ -12,17 +12,24 @@ def make_range(start, length):
 
 
 def calculate_concern_value(concern, city_id):
-    start_range = make_range(CONCERN_START_YEAR, CONCERN_YEAR_LENGTH)
-    end_range = make_range(CONCERN_END_YEAR, CONCERN_YEAR_LENGTH)
-
-    start_avg = get_indicator_average_value(concern, city_id, 'historical', start_range)
-    end_avg = get_indicator_average_value(concern, city_id, CONCERN_SCENARIO, end_range)
+    start_avg = get_concern_start_value(concern, city_id)
+    end_avg = get_concern_end_value(concern, city_id)
 
     difference = end_avg - start_avg
     if concern.is_relative:
         return difference / start_avg
     else:
         return difference
+
+
+def get_concern_start_value(concern, city_id):
+    start_range = make_range(CONCERN_START_YEAR, CONCERN_YEAR_LENGTH)
+    return get_indicator_average_value(concern, city_id, 'historical', start_range)
+
+
+def get_concern_end_value(concern, city_id):
+    end_range = make_range(CONCERN_END_YEAR, CONCERN_YEAR_LENGTH)
+    return get_indicator_average_value(concern, city_id, CONCERN_SCENARIO, end_range)
 
 
 def get_indicator_average_value(concern, city_id, scenario, timespan):
@@ -32,5 +39,5 @@ def get_indicator_average_value(concern, city_id, scenario, timespan):
 
 
 def calculate_indicator_average_value(response):
-    values = [result['avg'] for result in response['data'].values()]
-    return sum(values) / len(values)
+    values = (result['avg'] for result in response['data'].values())
+    return sum(values) / len(response['data'])

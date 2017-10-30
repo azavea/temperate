@@ -1,47 +1,35 @@
+from unittest import mock
+
 from django.test import TestCase
-from planit_data.concerns import calculate_indicator_change
+from planit_data.concerns import (calculate_indicator_average_value,
+                                  get_concern_end_value,
+                                  get_concern_start_value)
 
 
 class IndicatorChangeTest(TestCase):
-    def test_flat_rise(self):
-        start_years = [2010]
-        end_years = [2050]
-        response = {
-            'data': {
-                '2010': {'avg': 15},
-                '2050': {'avg': 30}
-            }
-        }
+    def test_get_concern_start_value(self):
+        average_mock = mock.patch('concerns.get_indicator_average_value')
+        average_mock.return_value = 5.3
 
-        result = calculate_indicator_change(response, start_years, end_years, False)
-        self.assertEqual(result, 15.0)
+        concern = mock.Mock()
+        city_id = 17
+        end_value = get_concern_start_value(concern, city_id)
 
-    def test_relative_change(self):
-        start_years = [2010]
-        end_years = [2050]
-        response = {
-            'data': {
-                '2010': {'avg': 15},
-                '2050': {'avg': 30}
-            }
-        }
+        self.assertEqual(end_value, 5.3)
+        average_mock.assert_called_with(concern, city_id, 'historical', range(1990, 2000))
 
-        result = calculate_indicator_change(response, start_years, end_years, True)
-        self.assertEqual(result, 1.0)
+    def test_get_concern_end_value(self):
+        average_mock = mock.patch('planit_data.concerns.get_indicator_average_value')
+        average_mock.return_value = 5.3
 
-    def test_ranges(self):
-        start_years = [2010, 2011, 2012]
-        end_years = [2050, 2051, 2052]
-        response = {
-            'data': {
-                '2010': {'avg': 15},
-                '2011': {'avg': 16},
-                '2012': {'avg': 17},
-                '2050': {'avg': 25},
-                '2051': {'avg': 26},
-                '2052': {'avg': 27}
-            }
-        }
+        concern = mock.Mock()
+        city_id = 17
+        end_value = get_concern_end_value(concern, city_id)
 
-        result = calculate_indicator_change(response, start_years, end_years, False)
-        self.assertEqual(result, 10.0)
+        self.assertEqual(end_value, 5.3)
+        average_mock.assert_called_with(concern, city_id, 'RCP85', range(2050, 2060))
+
+    def test_calculate_indicator_average_value(self):
+        response = {'data': {'2050': {'avg': 15}, '2051': {'avg': 30}}}
+        indicator_average = calculate_indicator_average_value(response)
+        self.assertEqual(indicator_average, 22.5)
