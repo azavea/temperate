@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
     BrowserModule,
     CoreModule,
     DashboardModule,
+    FormsModule,
     IndicatorsModule,
     ModalModule.forRoot(),
     RouterModule.forRoot(

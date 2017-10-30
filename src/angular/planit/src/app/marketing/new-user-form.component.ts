@@ -8,12 +8,12 @@ import { User } from '../shared/models/user.model';
 })
 export class NewUserFormComponent {
 
-  model = null; //new User();
+  public model: User = new User({});
 
   submitted = false;
 
-  onSubmit() { this.submitted = true; }
-
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.model); }
+  onSubmit() {
+    this.submitted = true;
+    console.log(JSON.stringify(this.model));
+  }
 }

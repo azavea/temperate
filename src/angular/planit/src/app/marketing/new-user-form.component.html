@@ -3,35 +3,41 @@
   <!-- First name -->
   <div class="required form-group">
     <label for="name-first">First Name</label>
-    <input class="form-control" id="firstName" type="text" required autocomplete="given-name">
+    <input class="form-control" id="firstName" type="text" required autocomplete="given-name"
+      [(ngModel)]="model.firstName" name="firstName">
   </div>
 
   <!-- Last Name -->
   <div class="required form-group">
     <label for="name-last">Last Name</label>
-    <input class="form-control" id="lastName" type="text" required autocomplete="family-name">
+    <input class="form-control" id="lastName" type="text" required autocomplete="family-name"
+      [(ngModel)]="model.lastName" name="lastName">
   </div>
 
   <!-- Email Address -->
   <div class="required form-group">
     <label for="email-address">Email Address</label>
-    <input class="form-control" id="email" type="email" required autocomplete="email">
+    <input class="form-control" id="email" type="email" required autocomplete="email"
+      [(ngModel)]="model.email" name="email">
   </div>
 
   <!-- Organization -->
   <div class="form-group">
     <label for="organization">Organization Name</label>
-    <input class="form-control" id="organization" type="text" autocomplete="organization">
+    <input class="form-control" id="organization" type="text" autocomplete="organization"
+      [(ngModel)]="model.organization" name="organization">
   </div>
 
   <!-- Password -->
   <div class="required form-group">
     <label for="location">Password</label>
-    <input class="form-control" id="password1" type="password" required autocomplete="new-password">
+    <input class="form-control" id="password1" type="password" required autocomplete="new-password"
+      [(ngModel)]="model.password1" name="password1">
   </div>
 
   <div class="required form-group">
     <label for="location">Password (confirm)</label>
-    <input class="form-control" id="password2" type="password" required autocomplete="new-password">
+    <input class="form-control" id="password2" type="password" required autocomplete="new-password"
+      [(ngModel)]="model.password2" name="password2">
   </div>
 </form>
