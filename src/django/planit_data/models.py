@@ -101,8 +101,8 @@ class Concern(models.Model):
         return '{} - {}'.format(self.indicator, self.tagline)
 
     def calculate(self, city_id):
-        start_avg = self.get_start_value(city_id)
-        end_avg = self.get_end_value(city_id)
+        start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR)
+        end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR)
 
         difference = end_avg - start_avg
         if self.is_relative:
@@ -110,13 +110,9 @@ class Concern(models.Model):
         else:
             return difference
 
-    def get_start_value(self, city_id):
-        start_range = range(self.START_YEAR, self.START_YEAR + self.ERA_LENGTH)
-        return self.get_indicator_average_value(city_id, self.START_SCENARIO, start_range)
-
-    def get_end_value(self, city_id):
-        end_range = range(self.END_YEAR, self.END_YEAR + self.ERA_LENGTH)
-        return self.get_indicator_average_value(city_id, self.END_SCENARIO, end_range)
+    def get_average_value(self, city_id, scenario, start_year):
+        year_range = range(start_year, start_year + self.ERA_LENGTH)
+        return self.get_indicator_average_value(city_id, scenario, year_range)
 
     def get_indicator_average_value(self, city_id, scenario, timespan):
         response = make_indicator_api_request(self.indicator, city_id, scenario,
