@@ -13,11 +13,11 @@ On your host machine you need to set up a `planit` profile for the Azavea Climat
 $ aws configure --profile planit
 ```
 
+From there, clone the project, `cd` into the directory.
+
 #### Configure django docker container and connect with the Climate API
 
-Temperate will make requests to the Climate API. `cp src/django/docker-compose.env.example src/django/docker-compose.env`. Add your personal Climate API staging credentials to `docker-compose.env`.
-
-From there, clone the project, `cd` into the directory, then run `./scripts/setup` to create the
+Temperate will make requests to the Climate API. `cp src/django/docker-compose.env.example src/django/docker-compose.env`. Add your personal Climate API staging credentials to `docker-compose.env`. Run `./scripts/setup` to create the
 Vagrant VM and build the Docker containers.
 
 To start nginx and django during development:
