@@ -47,6 +47,7 @@ coverage.xml
 *.log
 src/django/staticfiles/
 src/django/db.sqlite3
+src/django/docker-compose.env
 
 # Sphinx documentation
 docs/_build/

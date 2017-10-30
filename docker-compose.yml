@@ -44,19 +44,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
-    environment:
-      - POSTGRES_HOST=database.service.planit.internal
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=planit
-      - POSTGRES_PASSWORD=planit
-      - POSTGRES_DB=planit
-      - DJANGO_ENV=Development
-      - DJANGO_DEFAULT_FROM_EMAIL=planit@azavea.com
-      - DJANGO_SECRET_KEY=secret
-      - DJANGO_LOG_LEVEL=INFO
-      - AWS_PROFILE=planit
-      - CCAPI_EMAIL=
-      - CCAPI_PASSWORD=
+    env_file:
+      - ./src/django/docker-compose.env
     command:
       - "--workers=2"
       - "--timeout=60"
