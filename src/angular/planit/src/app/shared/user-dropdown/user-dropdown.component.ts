@@ -13,11 +13,11 @@ export class UserDropdownComponent implements OnInit {
 
   constructor() {
     // TODO: Get this from Django (GH #98)
-    this.user = new User({first_name: 'Mike', last_name: 'M', email: 'mike@mike.com'});
+    this.user = new User({firstName: 'Mike', lastName: 'M', email: 'mike@mike.com'});
   }
 
   ngOnInit() {
-      console.log(this.user.first_name);
+      console.log(this.user.firstName);
   }
 
 }
