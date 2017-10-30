@@ -73,20 +73,6 @@
 
 <!-- Create Account Modal template -->
 <ng-template #template>
-  <div class="modal-header">
-    <h1>Create an account</h1>
-    <button type="button" class="button button-modal-close" (click)="modalRef.hide()">
-      <i class="icon-cancel"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <new-user-form></new-user-form>
-  </div>
-  <div class="modal-footer">
-    <div class="button-group">
-      <button type="button" class="button button-secondary button-small" (click)="modalRef.hide()">Cancel</button>
-      <input type="submit" class="button button-primary button-small" value="Create" form="new-user-form">
-    </div>
-  </div>
+  <new-user-form (closed)="modalRef.hide()"></new-user-form>
 </ng-template>
 

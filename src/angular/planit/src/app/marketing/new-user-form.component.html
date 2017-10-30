@@ -1,43 +1,57 @@
-<p>Please enter your information below to create a <strong>Climate</strong> account.</p>
-<form class="form" id="new-user-form">
-  <!-- First name -->
-  <div class="required form-group">
-    <label for="name-first">First Name</label>
-    <input class="form-control" id="firstName" type="text" required autocomplete="given-name"
-      [(ngModel)]="model.firstName" name="firstName">
-  </div>
+<div class="modal-header">
+  <h1>Create an account</h1>
+  <button type="button" class="button button-modal-close" (click)="onClose()">
+    <i class="icon-cancel"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Please enter your information below to create a <strong>Climate</strong> account.</p>
+  <form class="form" id="new-user-form" (ngSubmit)="onSubmit()">
+    <!-- First name -->
+    <div class="required form-group">
+      <label for="name-first">First Name</label>
+      <input class="form-control" id="firstName" type="text" required autocomplete="given-name"
+        [(ngModel)]="model.firstName" #name="ngModel" name="firstName">
+    </div>
 
-  <!-- Last Name -->
-  <div class="required form-group">
-    <label for="name-last">Last Name</label>
-    <input class="form-control" id="lastName" type="text" required autocomplete="family-name"
-      [(ngModel)]="model.lastName" name="lastName">
-  </div>
+    <!-- Last Name -->
+    <div class="required form-group">
+      <label for="name-last">Last Name</label>
+      <input class="form-control" id="lastName" type="text" required autocomplete="family-name"
+        [(ngModel)]="model.lastName" #name="ngModel" name="lastName">
+    </div>
 
-  <!-- Email Address -->
-  <div class="required form-group">
-    <label for="email-address">Email Address</label>
-    <input class="form-control" id="email" type="email" required autocomplete="email"
-      [(ngModel)]="model.email" name="email">
-  </div>
+    <!-- Email Address -->
+    <div class="required form-group">
+      <label for="email-address">Email Address</label>
+      <input class="form-control" id="email" type="email" required autocomplete="email"
+        [(ngModel)]="model.email" #name="ngModel" name="email">
+    </div>
 
-  <!-- Organization -->
-  <div class="form-group">
-    <label for="organization">Organization Name</label>
-    <input class="form-control" id="organization" type="text" autocomplete="organization"
-      [(ngModel)]="model.organization" name="organization">
-  </div>
+    <!-- Organization -->
+    <div class="form-group">
+      <label for="organization">Organization Name</label>
+      <input class="form-control" id="organization" type="text" autocomplete="organization"
+        [(ngModel)]="model.organization" #name="ngModel" name="organization">
+    </div>
 
-  <!-- Password -->
-  <div class="required form-group">
-    <label for="location">Password</label>
-    <input class="form-control" id="password1" type="password" required autocomplete="new-password"
-      [(ngModel)]="model.password1" name="password1">
-  </div>
+    <!-- Password -->
+    <div class="required form-group">
+      <label for="location">Password</label>
+      <input class="form-control" id="password1" type="password" required autocomplete="new-password"
+        [(ngModel)]="model.password1" #name="ngModel" name="password1">
+    </div>
 
-  <div class="required form-group">
-    <label for="location">Password (confirm)</label>
-    <input class="form-control" id="password2" type="password" required autocomplete="new-password"
-      [(ngModel)]="model.password2" name="password2">
+    <div class="required form-group">
+      <label for="location">Password (confirm)</label>
+      <input class="form-control" id="password2" type="password" required autocomplete="new-password"
+        [(ngModel)]="model.password2" #name="ngModel" name="password2">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <div class="button-group">
+    <button type="button" class="button button-secondary button-small" (click)="onClose()">Cancel</button>
+    <input type="submit" class="button button-primary button-small" value="Create" form="new-user-form">
   </div>
-</form>
+</div>

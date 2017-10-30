@@ -34,10 +34,9 @@
     color: $brand-danger;
   }
 }
-.form:submitted {
-  .input {
-    &:invalid {
-      outline: 2px solid $brand-danger;
-    }
+
+input.ng-invalid {
+  &:not(.ng-pristine) {
+    outline: 2px solid $brand-danger;
   }
 }
