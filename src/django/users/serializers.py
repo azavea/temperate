@@ -54,7 +54,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organization', 'api_city_id',
+        fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organization', 'city',
                   'password1', 'password2', 'token')
 
     def get_token(self, obj):
