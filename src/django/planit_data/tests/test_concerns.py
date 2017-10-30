@@ -5,28 +5,24 @@ from planit_data.models import Concern
 
 
 class IndicatorChangeTest(TestCase):
-    def test_get_average_value(self):
-        concern_mock = mock.Mock(spec=Concern)
-        indicator_value_mock = mock.Mock()
-        indicator_value_mock.return_value = 5.3
-        concern_mock.get_indicator_average_value = indicator_value_mock
-        concern_mock.ERA_LENGTH = 10
+    @mock.patch('planit_data.models.make_indicator_api_request')
+    def test_get_average_value(self, api_indicator_mock):
+        api_indicator_mock.return_value = {
+            'data': {
+                '2050': {'avg': 10},
+                '2051': {'avg': 17}
+            }}
 
+        concern = mock.Mock()
+        concern.ERA_LENGTH = 10
+
+        scenario = 'historical'
         city_id = 17
-        end_value = Concern.get_average_value(concern_mock, city_id, 'historical', 1990)
+        result = Concern.get_average_value(concern, city_id, scenario, 1990)
 
-        self.assertEqual(end_value, 5.3)
-        indicator_value_mock.assert_called_with(city_id, 'historical', range(1990, 2000))
-
-    def test_calculate_indicator_average(self):
-        response = {'data': {
-                    '2050': {'avg': 15},
-                    '2051': {'avg': 30}
-                    }}
-
-        result = Concern.calculate_indicator_average(response)
-
-        self.assertEqual(result, 22.5)
+        self.assertEqual(result, 13.5)
+        api_indicator_mock.assert_called_with(concern.indicator, city_id, scenario,
+                                              params={'years': [range(1990, 2000)]})
 
     def test_calculate(self):
         concern_mock = mock.Mock(spec=Concern)

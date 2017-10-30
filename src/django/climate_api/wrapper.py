@@ -12,7 +12,7 @@ def make_token_api_request(route, params=None):
 
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
-    return response
+    return response.json()
 
 
 def make_indicator_api_request(indicator, city, scenario, params=None):

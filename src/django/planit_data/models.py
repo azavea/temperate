@@ -112,15 +112,10 @@ class Concern(models.Model):
 
     def get_average_value(self, city_id, scenario, start_year):
         year_range = range(start_year, start_year + self.ERA_LENGTH)
-        return self.get_indicator_average_value(city_id, scenario, year_range)
 
-    def get_indicator_average_value(self, city_id, scenario, timespan):
         response = make_indicator_api_request(self.indicator, city_id, scenario,
-                                              params={'years': [timespan]})
-        return self.calculate_indicator_average(response.json())
+                                              params={'years': [year_range]})
 
-    @staticmethod
-    def calculate_indicator_average(response):
         values = (result['avg'] for result in response['data'].values())
         return sum(values) / len(response['data'])
 
