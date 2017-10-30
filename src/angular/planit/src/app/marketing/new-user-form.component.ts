@@ -8,7 +8,10 @@ import { User } from '../shared/models/user.model';
 })
 export class NewUserFormComponent {
 
-  public model: User = new User({});
+  public model: User = new User({
+    firstName: '',
+    lastName: ''
+  });
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
@@ -17,6 +20,7 @@ export class NewUserFormComponent {
   onSubmit() {
     console.log('onSubmit');
     this.submitted = true;
+    console.log(this.model);
     console.log(JSON.stringify(this.model));
   }
 
