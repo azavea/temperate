@@ -2,8 +2,5 @@ version: '2.3'
 services:
   django:
     image: "planit-app:${GIT_COMMIT:-latest}"
-    environment:
-      - CCAPI_EMAIL=
-      - CCAPI_PASSWORD=
   nginx:
     image: "planit-nginx:${GIT_COMMIT:-latest}"
