@@ -4,6 +4,7 @@ from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
 from users.models import PlanItUser
+from climate_api.wrapper import make_indicator_api_request
 
 logger = logging.getLogger(__name__)
 
@@ -85,12 +86,48 @@ class Concern(models.Model):
     meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
 
+    # Evaluate Concerns by averaging start and end values over a decade
+    ERA_LENGTH = 10
+    START_YEAR = 1990
+    START_SCENARIO = 'historical'
+    END_YEAR = 2050
+    END_SCENARIO = 'RCP85'
+
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
     tagline = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline)
+
+    def calculate(self, city_id):
+        start_avg = self.get_start_value(city_id)
+        end_avg = self.get_end_value(city_id)
+
+        difference = end_avg - start_avg
+        if self.is_relative:
+            return difference / start_avg
+        else:
+            return difference
+
+    def get_start_value(self, city_id):
+        start_range = range(self.START_YEAR, self.START_YEAR + self.ERA_LENGTH)
+        return self.get_indicator_average_value(city_id, self.START_SCENARIO, start_range)
+
+    def get_end_value(self, city_id):
+        end_range = range(self.END_YEAR, self.END_YEAR + self.ERA_LENGTH)
+        return self.get_indicator_average_value(city_id, self.END_SCENARIO, end_range)
+
+    def get_indicator_average_value(self, city_id, scenario, timespan):
+        response = make_indicator_api_request(self.indicator, city_id, scenario,
+                                              params={'years': [timespan]})
+        return self.calculate_indicator_average(response.json())
+
+    @staticmethod
+    def calculate_indicator_average(response):
+        values = (result['avg'] for result in response['data'].values())
+        return sum(values) / len(response['data'])
+
 
 
 class UserRisk(models.Model):
