@@ -22,6 +22,8 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
+        cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+
         # Make sure containers are up to date
         docker-compose build angular django
 
@@ -37,8 +39,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   build django angular nginx
-
-        cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
 
         echo "Running tests"
         GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
