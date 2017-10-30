@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndicatorsComponent } from './indicators/indicators.component';
 import { MarketingComponent } from './marketing/marketing.component';
+import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     MarketingComponent,
+    NewUserFormComponent,
     PageNotFoundComponent
   ],
   imports: [

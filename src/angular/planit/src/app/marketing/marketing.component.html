@@ -80,48 +80,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <p>Please enter your information below to create a <strong>Climate</strong> account.</p>
-    <form class="form" id="form-createaccount">
-      <!-- First name -->
-      <div class="required form-group">
-        <label for="name-first">First Name</label>
-        <input class="form-control" id="firstName" type="text" required autocomplete="given-name">
-      </div>
-
-      <!-- Last Name -->
-      <div class="required form-group">
-        <label for="name-last">Last Name</label>
-        <input class="form-control" id="lastName" type="text" required autocomplete="family-name">
-      </div>
-
-      <!-- Email Address -->
-      <div class="required form-group">
-        <label for="email-address">Email Address</label>
-        <input class="form-control" id="email" type="email" required autocomplete="email">
-      </div>
-
-      <!-- Organization -->
-      <div class="form-group">
-        <label for="organization">Organization Name</label>
-        <input class="form-control" id="organization" type="text" autocomplete="organization">
-      </div>
-
-      <!-- Password -->
-      <div class="required form-group">
-        <label for="location">Password</label>
-        <input class="form-control" id="password1" type="password" required autocomplete="new-password">
-      </div>
-
-      <div class="required form-group">
-        <label for="location">Password (confirm)</label>
-        <input class="form-control" id="password2" type="password" required autocomplete="new-password">
-      </div>
-    </form>
+    <new-user-form></new-user-form>
   </div>
   <div class="modal-footer">
     <div class="button-group">
       <button type="button" class="button button-secondary button-small" (click)="modalRef.hide()">Cancel</button>
-      <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount">
+      <input type="submit" class="button button-primary button-small" value="Create" form="new-user-form">
     </div>
   </div>
 </ng-template>
