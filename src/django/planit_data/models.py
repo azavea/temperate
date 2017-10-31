@@ -70,9 +70,9 @@ class RiskTemplate(models.Model):
     modify directly.
 
     """
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    community_system = models.ManyToManyField('CommunitySystem', related_name='risk', blank=True)
+    weather_event = models.ForeignKey(WeatherEvent, null=False)
+    indicator = models.ManyToManyField('Indicator', related_name='climate_risk', blank=True)
     regions = models.ManyToManyField('GeoRegion', related_name='risk')
 
     def __str__(self):
