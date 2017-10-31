@@ -20,21 +20,21 @@ From there, clone the project, `cd` into the directory.
 Temperate will make requests to the Climate API. `cp src/django/docker-compose.env.example src/django/docker-compose.env`. Add your personal Climate API staging credentials to `docker-compose.env`. Run `./scripts/setup` to create the
 Vagrant VM and build the Docker containers.
 
-To start nginx and django during development:
+To start nginx and django during development (served from port `8000`):
 
 ```bash
 $ vagrant ssh
-$ ./scripts/server
+$ ./scripts/server --nginx
 ```
 
 If you'd like to run the Angular server:
 ```bash
 # Starts angular, django
 $ vagrant ssh
-$ ./scripts/server --angular
+$ ./scripts/server
 ```
 
-***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server`.
+***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server --nginx`.
 
 Once you've started the server you'll need to create a login user. This can be done with:
 ```bash
@@ -62,6 +62,7 @@ To run the containers during development use the following commands:
 
 | Port | Service |
 | --- | --- |
+| [8000](http://localhost:8000) | Nginx |
 | [8100](http://localhost:8100) | Gunicorn |
 | [8101](http://localhost:8101) | Django debug server |
 | [4210](http://localhost:4210) | ng serve |
