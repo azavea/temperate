@@ -13,6 +13,8 @@ WORKDIR /opt/planit/angular/planit
 
 COPY ./planit/package.json /opt/planit/angular/planit/
 
+COPY ./planit/yarn.lock /opt/planit/angular/planit/
+
 RUN yarn install --pure-lockfile \
 	&& yarn cache clean --force
 
