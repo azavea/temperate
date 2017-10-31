@@ -11,6 +11,11 @@ function usage() {
 		 "Usage: $(basename "$0")
 
 Starts servers using docker-compose.
+
+Starts Django and the Angular development server (ng serve).
+
+Use the --nginx flag to serve the AoT Production Angular bundle from nginx
+instead of using 'ng serve'
 "
 }
 
@@ -19,10 +24,10 @@ then
 	if [ "${1:-}" = "--help" ]
 	then
 		usage
-	elif [ "${1:-}" = "--angular" ]
+	elif [ "${1:-}" = "--nginx" ]
 	then
-		docker-compose -f docker-compose.yml up django angular
-	else		
 		docker-compose -f docker-compose.yml up nginx django
+	else
+		docker-compose -f docker-compose.yml up django angular
 	fi
 fi
