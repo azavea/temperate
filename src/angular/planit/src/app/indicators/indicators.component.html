@@ -17,6 +17,24 @@
     <section class="indicators">
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
+      <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
+        <div *ngFor="let indicator of allIndicators"
+          [ngClass]="{'card': true, 'card-full': true, 'collapsed': indicator.isCollapsed}">
+          <div class="card-header" role="tab" id="headingOne">
+            <a class="add-top-concern" ng-href="" (click)="addTopConcern(indicator.name)">Add as top concern
+              <i class="icon-question-circle-o"></i></a>
+            <a ng-href="" (click)="indicator.isCollapsed = !indicator.isCollapsed"><h2 class="heading card-title">
+              {{ indicator.name }}<i [ngClass]="{'accordion': true, 'icon-angle-right': indicator.isCollapsed,
+              'icon-angle-down': !indicator.isCollapsed}"></i>
+            </h2></a>
+          </div>
+          <div (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="indicator.isCollapsed">
+            <div class="card-block">
+              {{ indicator.text }}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 </div>  <!-- END .main-container -->
