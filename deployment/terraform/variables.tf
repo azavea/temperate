@@ -61,3 +61,5 @@ variable "ssl_certificate_arn" {}
 variable "ccapi_email" {}
 
 variable "ccapi_password" {}
+
+variable "ccapi_host" {}
