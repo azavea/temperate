@@ -17,5 +17,5 @@ class ConcernViewSet(ReadOnlyModelViewSet):
         concern = get_object_or_404(Concern, id=pk)
         payload = ConcernSerializer(concern).data
 
-        payload['value'] = concern.calculate_value(request.user.api_city_id)
+        payload['value'] = concern.calculate(request.user.api_city_id)
         return Response(payload)

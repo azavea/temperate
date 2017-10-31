@@ -5,7 +5,7 @@ from .models import PlanItUser
 # Need to change a few things in the built-in UserAdmin because we don't have a username field
 UserAdmin.fieldsets = (
     (None, {'fields': ('email', 'password')}),
-    ('Personal info', {'fields': ('first_name', 'last_name', 'organization', 'city')}),
+    ('Personal info', {'fields': ('first_name', 'last_name', 'organization', 'api_city_id')}),
     ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
                                 'groups', 'user_permissions')}),
     ('Important dates', {'fields': ('last_login', 'date_joined')}),

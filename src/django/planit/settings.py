@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'bootstrap3',
 
     # local apps
+    'climate_api',
     'planit_data',
 ]
 
