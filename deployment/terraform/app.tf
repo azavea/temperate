@@ -117,6 +117,7 @@ data "template_file" "planit_app_https_ecs_task" {
     aws_region                       = "${var.aws_region}"
     ccapi_email                      = "${var.ccapi_email}"
     ccapi_password                   = "${var.ccapi_password}"
+    ccapi_host                       = "${var.ccapi_host}"
   }
 }
 
