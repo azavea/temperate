@@ -19,7 +19,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
 
-import { AccountCreateService } from './shared/services/account-create.service';
+import { AccountCreateService } from './core/services/account-create.service';
 
 import { ModalModule } from 'ngx-bootstrap';
 

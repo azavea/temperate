@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { AccountCreateService } from '../shared/services/account-create.service';
+import { AccountCreateService } from '../core/services/account-create.service';
 import { User } from '../shared/models/user.model';
 
 @Component({

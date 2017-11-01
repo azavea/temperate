@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { User } from '../models/user.model';
+import { User } from '../../shared/models/user.model';
 
 // TODO: add when #159 done
 //import { environment } from '../../../environments/environment';
