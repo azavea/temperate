@@ -9,10 +9,9 @@ import { User } from '../shared/models/user.model';
 })
 export class NewUserFormComponent {
 
-  public model: User = new User({
-    firstName: '',
-    lastName: ''
-  });
+  public model: User = new User({});
+
+  public errors: any[] = [];
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
@@ -21,13 +20,11 @@ export class NewUserFormComponent {
   constructor(private accountCreateService: AccountCreateService) {}
 
   onSubmit() {
-    console.log('onSubmit');
-    this.submitted = true;
-    console.log(this.model);
-    console.log(JSON.stringify(this.model));
-    this.accountCreateService.create(this.model).subscribe(data => {
-      console.log('got response');
-      console.log(data);
+    this.accountCreateService.create(this.model).subscribe(newUser => {
+      this.submitted = true;
+      this.model = newUser;
+    }, error => {
+      this.errors = error.json();
     });
   }
 

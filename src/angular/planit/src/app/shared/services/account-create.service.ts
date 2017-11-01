@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { User } from '../models/user.model';
@@ -21,6 +21,10 @@ export class AccountCreateService {
       const apiHost = 'http://localhost:8100';
 
       const url = `${apiHost}/api/users/`;
-      return this.http.post(url, user).map(resp => resp.json() || {} as User);
+      return this.http.post(url, user)
+        .map(resp => resp.json() || {} as User)
+        .catch((error: Response) => {
+            return Observable.throw(error);
+        });;
     }
 }
