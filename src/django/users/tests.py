@@ -105,3 +105,16 @@ class UserCreationApiTestCase(TestCase):
         self.assertEqual(result['lastName'][0], 'This field may not be null.')
         self.assertEqual(result['password1'][0], 'This field may not be blank.')
         self.assertEqual(result['password2'][0], 'This field may not be blank.')
+
+    def test_get_auth_required(self):
+        response = self.client.get('/api/users/', format='json')
+        self.assertEqual(response.status_code, 200)
+        result = json.loads(response.content)
+        # should have response with one user, the test admin user
+        self.assertEqual(result['count'], 1)
+        self.assertEqual(result['results'][0]['email'], 'admin@azavea.com')
+
+        # unset token; check request is rejected as forbidden
+        self.client.credentials()
+        response = self.client.get('/api/users/', format='json')
+        self.assertEqual(response.status_code, 403)
