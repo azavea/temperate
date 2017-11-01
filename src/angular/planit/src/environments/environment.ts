@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // In development the Angular app is served by 'ng serve' so we need
+  // an absolute URL for the Django application
+  apiUrl: 'http://localhost:8100'
 };

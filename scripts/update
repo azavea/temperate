@@ -52,7 +52,7 @@ then
 
         # Build Angular bundle for use with nginx
         docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
-        docker-compose run --rm angular run build --delete-output-path false
+        docker-compose run --rm angular run build:prod --delete-output-path false
 
         # Build Nginx
         docker-compose build nginx
