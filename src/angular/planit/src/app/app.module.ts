@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
@@ -17,6 +18,8 @@ import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
+
+import { AccountCreateService } from './shared/services/account-create.service';
 
 import { ModalModule } from 'ngx-bootstrap';
 
@@ -39,6 +42,7 @@ const appRoutes: Routes = [
     CoreModule,
     DashboardModule,
     FormsModule,
+    HttpModule,
     IndicatorsModule,
     ModalModule.forRoot(),
     RouterModule.forRoot(
@@ -51,7 +55,9 @@ const appRoutes: Routes = [
     RouterModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [],
+  providers: [
+    AccountCreateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
