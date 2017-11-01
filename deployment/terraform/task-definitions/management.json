@@ -61,6 +61,10 @@
             {
                 "name": "CCAPI_PASSWORD",
                 "value": "${ccapi_password}"
+            },
+            {
+                "name": "CCAPI_HOST",
+                "value": "${ccapi_host}"
             }
         ],
         "logConfiguration": {
