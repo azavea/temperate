@@ -11,7 +11,7 @@
 </div>
 <div *ngIf="!submitted" class="modal-body">
   <p>Please enter your information below to create a <strong>Climate</strong> account.</p>
-  <form #newUserForm="ngForm" class="form" id="new-user-form" (ngSubmit)="onSubmit()">
+  <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">
     <!-- First name -->
     <div class="required form-group">
       <label for="firstName">First Name</label>
@@ -84,7 +84,7 @@
   <div *ngIf="!submitted" class="button-group">
     <button type="button" class="button button-secondary button-small" (click)="onClose()">Cancel</button>
     <input type="submit" [disabled]="newUserForm && newUserForm.invalid"
-      class="button button-primary button-small" value="Create" form="new-user-form">
+      class="button button-primary button-small" value="Create" form="app-new-user-form">
   </div>
   <div *ngIf="submitted" class="button-group">
     <button type="button" class="button button-primary button-small" (click)="onClose()">Close</button>

@@ -31,7 +31,7 @@ class RegistrationView(BaseRegistrationView):
     form_class = UserForm
 
 
-class PlanitHomeView(LoginRequiredMixin,View):
+class PlanitHomeView(LoginRequiredMixin, View):
     permission_classes = (IsAuthenticated, )
 
     def new_token(self, request):

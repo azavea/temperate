@@ -4,7 +4,7 @@ import { AccountCreateService } from '../core/services/account-create.service';
 import { User } from '../shared/models/user.model';
 
 @Component({
-  selector: 'new-user-form',
+  selector: 'app-new-user-form',
   templateUrl: './new-user-form.component.html'
 })
 export class NewUserFormComponent {

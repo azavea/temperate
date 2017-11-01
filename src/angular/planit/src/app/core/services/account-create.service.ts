@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { User } from '../../shared/models/user.model';
 
 // TODO: add when #159 done
-//import { environment } from '../../../environments/environment';
+// import { environment } from '../../../environments/environment';
 
 /*
  * Account Creation Service
@@ -26,6 +26,6 @@ export class AccountCreateService {
         .map(resp => resp.json() || {} as User)
         .catch((error: Response) => {
             return Observable.throw(error);
-        });;
+        });
     }
 }
