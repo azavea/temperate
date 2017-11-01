@@ -10,7 +10,7 @@ from registration.backends.hmac.views import RegistrationView as BaseRegistratio
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -18,6 +18,7 @@ from users.serializers import AuthTokenSerializer
 
 from users.forms import UserForm, UserProfileForm
 from users.models import PlanItUser
+from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import UserSerializer
 
 
@@ -30,7 +31,7 @@ class RegistrationView(BaseRegistrationView):
     form_class = UserForm
 
 
-class PlanitHomeView(LoginRequiredMixin, View):
+class PlanitHomeView(LoginRequiredMixin,View):
     permission_classes = (IsAuthenticated, )
 
     def new_token(self, request):
@@ -82,13 +83,14 @@ class UserProfileView(LoginRequiredMixin, View):
 class PlanitObtainAuthToken(ObtainAuthToken):
     """Anonymous endpoint for users to request tokens from for authentication."""
 
+    permission_classes = (AllowAny, )
     serializer_class = AuthTokenSerializer
 
 
 class UserViewSet(ModelViewSet):
     queryset = PlanItUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticatedOrCreate, )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

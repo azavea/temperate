@@ -32,9 +32,9 @@ class UserCreationApiTestCase(TestCase):
             'password2': 'sooperseekrit'
         }
 
+        # unset credentials; should be able to create user without being authenticated
+        self.client.credentials()
         response = self.client.post('/api/users/', user_data, format='json')
-
-        print(response.content)
 
         # should get created status
         self.assertEqual(response.status_code, 201)
