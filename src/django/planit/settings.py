@@ -262,7 +262,9 @@ LOGGING = {
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
 CCAPI_PASSWORD = os.getenv('CCAPI_PASSWORD')
 # Climate API host to connect to
-CCAPI_HOST = os.getenv('CCAPI_HOST')
+CCAPI_HOST = os.getenv('CCAPI_HOST', None)
+if not CCAPI_HOST:
+    raise ImproperlyConfigured('Environment variable CCAPI_HOST is required.')
 # Timeout in seconds for proxy requests to Climate API
 CCAPI_REQUEST_TIMEOUT = 30
 # Whitelist for proxy routes to allow. These routes are checked using str.startswith
