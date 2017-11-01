@@ -45,14 +45,10 @@ export class AuthService {
     }
 
     private setToken(token: string | null) {
-        this.setLocalStorageValue(this.LOCALSTORAGE_TOKEN_KEY, token);
-    }
-
-    private setLocalStorageValue(key: string, value: string | null) {
-        if (value) {
-            window.localStorage.setItem(key, value);
+        if (token) {
+            window.localStorage.setItem(this.LOCALSTORAGE_TOKEN_KEY, token);
         } else {
-            window.localStorage.removeItem(key);
+            window.localStorage.removeItem(this.LOCALSTORAGE_TOKEN_KEY);
         }
     }
 }
