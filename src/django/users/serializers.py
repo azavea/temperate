@@ -72,10 +72,10 @@ class UserSerializer(serializers.ModelSerializer):
                   'password1', 'password2', 'token')
 
     def get_token(self, obj):
-        token = Token.objects.get(user=obj)
-        if token:
+        try:
+            token = Token.objects.get(user=obj)
             return token.key
-        else:
+        except Token.DoesNotExist:
             return None
 
     def validate(self, data):
