@@ -51,7 +51,6 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    token = serializers.SerializerMethodField()
     isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
     firstName = serializers.CharField(source='first_name', allow_blank=False, required=True)
     lastName = serializers.CharField(source='last_name', allow_blank=False, required=True)
@@ -69,14 +68,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanItUser
         fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organizations',
-                  'password1', 'password2', 'token')
-
-    def get_token(self, obj):
-        try:
-            token = Token.objects.get(user=obj)
-            return token.key
-        except Token.DoesNotExist:
-            return None
+                  'password1', 'password2',)
 
     def validate(self, data):
         # check passwords match
