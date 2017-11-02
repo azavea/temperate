@@ -135,10 +135,10 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
-CORS_ORIGIN_WHITELIST = (
-    'localhost:4210',
-    'localhost:8000'
-)
+if ENVIRONMENT == 'Development':
+    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:8000',)
+else:
+    CORS_ORIGIN_WHITELIST = tuple()
 
 ROOT_URLCONF = 'planit.urls'
 
