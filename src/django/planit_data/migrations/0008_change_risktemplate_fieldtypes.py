@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('planit_data', '0006_apitoken'),
+        ('planit_data', '0007_delete_apitoken'),
     ]
 
     operations = [
