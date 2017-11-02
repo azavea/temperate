@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +14,7 @@ describe('AuthService', () => {
         { path: '*', component: MarketingComponent }
       ])],
       declarations: [ MarketingComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
   });
 
