@@ -138,13 +138,12 @@ class RegionalRiskRank(models.Model):
 
     georegion = models.ForeignKey(GeoRegion, null=False)
     weather_event = models.ForeignKey(WeatherEvent)
-    next_ranked_event = models.ForeignKey(WeatherEvent, related_name='next_ranked_event',
-                                          null=True, blank=True)
+    prior_ranked_event = models.ForeignKey(WeatherEvent, related_name='prior_ranked_event',
+                                           null=True, blank=True)
 
     class Meta:
         unique_together = (('georegion', 'weather_event'),
-                           ('georegion', 'next_ranked_event'))
+                           ('georegion', 'prior_ranked_event'))
 
     def __str__(self):
-        return '{}: {}: {}'.format(self.georegion.name, self.weather_event,
-                                   self.next_ranked_event)
+        return '{}: {}: {}'.format(self.georegion.name, self.prior_ranked_event, self.weather_event)
