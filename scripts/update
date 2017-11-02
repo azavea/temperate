@@ -14,21 +14,12 @@ Builds and pulls container images using docker-compose.
 "
 }
 
-DIR=$(dirname ${0})
-
 if [ "${BASH_SOURCE[0]}" = "${0}" ]
 then
     if [ "${1:-}" = "--help" ]
     then
         usage
     else
-
-        # Make sure there's no node_modules folder on the host,
-        # or it will be included in the angular image
-        if [ -d "${DIR}/../src/angular/planit/node_modules" ];
-        then
-            rm -rf "${DIR}/../src/angular/planit/node_modules"
-        fi
 
         # Build the angular container image.
         docker-compose \
