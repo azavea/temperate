@@ -17,7 +17,7 @@ export class UserDropdownComponent implements OnInit {
   }
 
   ngOnInit() {
-      console.log(this.user.firstName);
+    // should have user here
   }
 
 }

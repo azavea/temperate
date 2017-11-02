@@ -11,11 +11,11 @@ export class NewUserFormComponent {
 
   public model: User = new User({});
 
+  public submitted = false;
+
   public errors: any[] = [];
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
-
-  submitted = false;
 
   constructor(private accountCreateService: AccountCreateService) {}
 
