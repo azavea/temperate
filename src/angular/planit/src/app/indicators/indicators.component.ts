@@ -9,7 +9,6 @@ export class IndicatorsComponent implements OnInit {
 
   public allIndicators: any[];
 
-
   constructor() {
 
     // test copy for accordion of collapsible cards of all indicators
@@ -27,16 +26,15 @@ export class IndicatorsComponent implements OnInit {
   ngOnInit() {
   }
 
-  public addTopConcern(concern: any):void {
+  public addTopConcern(concern: any) {
     console.log(concern);
   }
 
-  public collapsed(event: any):void {
+  public collapsed(event: any) {
     console.log(event);
   }
 
-  public expanded(event: any):void {
+  public expanded(event: any) {
     console.log(event);
   }
-
 }
