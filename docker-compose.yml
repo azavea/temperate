@@ -13,7 +13,7 @@ services:
       retries: 3
       start_period: 5s
   angular:
-    image: planit-spa
+    image: planit-spa:${GIT_COMMIT:-latest}
     build:
       context: ./src/angular
       dockerfile: Dockerfile
@@ -39,7 +39,7 @@ services:
       - "./nginx/etc/nginx/includes/security-headers.conf:/etc/nginx/includes/security-headers.conf"
       - "./nginx/etc/nginx/nginx.conf:/etc/nginx/nginx.conf"
   django:
-    image: planit-app
+    image: planit-app:${GIT_COMMIT:-latest}
     build:
       context: ./src/django
       dockerfile: Dockerfile

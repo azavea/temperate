@@ -25,15 +25,19 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
 
         # Make sure containers are up to date
-        docker-compose build angular django
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose build angular django
 
         # Copy static files into nginx folder
-        docker-compose run --rm --entrypoint python \
-          django manage.py collectstatic --noinput
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
+            --rm --entrypoint python \
+            django manage.py collectstatic --noinput
 
         # Clean out existing angular bundle before build
-        docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
-        docker-compose run --rm angular run build:prod --delete-output-path false
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
+            --rm --entrypoint "bash -c" angular "rm -rf dist/*"
+        
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
+            --rm angular run build:prod --delete-output-path false
 
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
