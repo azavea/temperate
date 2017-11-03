@@ -30,7 +30,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  build django angular nginx
+                  build django angular
 
         echo "Running tests"
         GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
@@ -47,6 +47,11 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         
         GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
             --rm angular run build:prod --delete-output-path false
+
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  build nginx
 
     fi
 fi
