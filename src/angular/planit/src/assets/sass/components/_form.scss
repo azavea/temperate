@@ -7,7 +7,7 @@
   font-size: $text-tiny;
   margin-bottom: 0.25rem;
 }
-.input {
+.form-control {
   margin-bottom: 1.5rem;
   position: relative;
   padding: 0.35rem 0.65rem;
@@ -34,10 +34,9 @@
     color: $brand-danger;
   }
 }
-.form:submitted {
-  .input {
-    &:invalid {
-      outline: 2px solid $brand-danger;
-    }
+
+input.ng-invalid {
+  &:not(.ng-pristine) {
+    outline: 2px solid $brand-danger;
   }
 }

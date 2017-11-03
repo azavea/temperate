@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd party apps
+    'corsheaders',
     'django_extensions',
     'django.contrib.gis',
     'watchman',
@@ -91,6 +92,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -132,6 +134,11 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE': 20,
 }
+
+if ENVIRONMENT == 'Development':
+    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:8000',)
+else:
+    CORS_ORIGIN_WHITELIST = tuple()
 
 ROOT_URLCONF = 'planit.urls'
 

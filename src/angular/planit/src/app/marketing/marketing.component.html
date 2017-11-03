@@ -72,48 +72,7 @@
 
 
 <!-- Create Account Modal template -->
-<template #template>
-  <div class="modal-header">
-    <h1>Create an account</h1>
-    <button type="button" class="button button-modal-close" (click)="modalRef.hide()">
-      <i class="icon-cancel"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Please enter your information below to create a <strong>Climate</strong> account.</p>
-    <form class="form" id="form-createaccount">
-      <!-- First name -->
-      <div class="required">
-        <label for="name-first">First Name</label>
-        <input class="input input-textfield" id="name-first" type="text" name="textfield" required>
-      </div>
-
-      <!-- Last Name -->
-      <div class="required">
-        <label for="name-last">Last Name</label>
-        <input class="input input-textfield" id="name-last" type="text" name="textfield" required>
-      </div>
-
-      <!-- Email Address -->
-      <div class="required">
-        <label for="email-address">Email Address</label>
-        <input class="input input-textfield" id="email-address" type="email" name="textfield" required>
-      </div>
-
-      <!-- Organization -->
-      <label for="organization">Organization Name</label>
-      <input class="input input-textfield" id="organization" type="text" name="textfield">
-
-      <!-- Location -->
-      <label for="location">City</label>
-      <input class="input input-textfield" id="location" type="text" name="textfield">
-    </form>
-  </div>
-  <div class="modal-footer">
-    <div class="button-group">
-      <button type="button" class="button button-secondary button-small" (click)="modalRef.hide()">Cancel</button>
-      <input type="submit" class="button button-primary button-small" value="Create" form="form-createaccount">
-    </div>
-  </div>
-</template>
+<ng-template #template>
+  <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>
+</ng-template>
 
