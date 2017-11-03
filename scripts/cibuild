@@ -27,6 +27,15 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         # Make sure containers are up to date
         GIT_COMMIT="${GIT_COMMIT}" docker-compose build angular django
 
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  build django angular nginx
+
+        echo "Running tests"
+        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
+        echo "All tests pass!"
+
         # Copy static files into nginx folder
         GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
             --rm --entrypoint python \
@@ -39,13 +48,5 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose run \
             --rm angular run build:prod --delete-output-path false
 
-        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
-                  -f docker-compose.yml \
-                  -f docker-compose.test.yml \
-                  build django angular nginx
-
-        echo "Running tests"
-        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
-        echo "All tests pass!"
     fi
 fi
