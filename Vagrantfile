@@ -3,11 +3,20 @@
 
 Vagrant.require_version ">= 1.8"
 
-MOUNT_OPTIONS = if Vagrant::Util::Platform.linux? then
-                  ['rw', 'vers=4', 'tcp', 'nolock']
-                else
-                  ['vers=3', 'udp']
-                end
+TEMPERATE_SHARED_FOLDER_TYPE = ENV.fetch("TEMPERATE_SHARED_FOLDER_TYPE", "nfs")
+if TEMPERATE_SHARED_FOLDER_TYPE == "nfs"
+  if Vagrant::Util::Platform.linux? then
+    TEMPERATE_MOUNT_OPTIONS = ['rw', 'vers=3', 'tcp', 'nolock']
+  else
+    TEMPERATE_MOUNT_OPTIONS = ['vers=3', 'udp']
+  end
+else
+  if ENV.has_key?("TEMPERATE_MOUNT_OPTIONS")
+    TEMPERATE_MOUNT_OPTIONS = ENV.fetch("TEMPERATE_MOUNT_OPTIONS").split
+  else
+    TEMPERATE_MOUNT_OPTIONS = ["rw"]
+  end
+end
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
@@ -15,7 +24,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder "~/.aws", "/home/vagrant/.aws"
 
   # Need to use NFS else Vagrant locks up on OSX
-  config.vm.synced_folder ".", "/vagrant", type: "nfs", mount_options: MOUNT_OPTIONS
+  config.vm.synced_folder ".", "/vagrant", type: TEMPERATE_SHARED_FOLDER_TYPE, mount_options: TEMPERATE_MOUNT_OPTIONS
 
   config.vm.provider :virtualbox do |vb|
     vb.memory = 2048
