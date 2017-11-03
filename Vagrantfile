@@ -4,7 +4,7 @@
 Vagrant.require_version ">= 1.8"
 
 MOUNT_OPTIONS = if Vagrant::Util::Platform.linux? then
-                  ['rw', 'vers=4', 'tcp', 'nolock']
+                  ['rw', 'vers=3', 'tcp', 'nolock']
                 else
                   ['vers=3', 'udp']
                 end
