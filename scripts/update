@@ -40,7 +40,7 @@ then
 
         docker-compose \
             run --rm --entrypoint python \
-            django manage.py loaddata georegions
+            django manage.py loaddata georegions_indicators_rankedrisktemplates
 
         docker-compose \
             run --rm --entrypoint python \

@@ -70,9 +70,9 @@ class RiskTemplate(models.Model):
     modify directly.
 
     """
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    community_system = models.ManyToManyField('CommunitySystem', related_name='risk', blank=True)
+    weather_event = models.ForeignKey(WeatherEvent, null=False)
+    indicator = models.ManyToManyField('Indicator', related_name='climate_risk', blank=True)
     regions = models.ManyToManyField('GeoRegion', related_name='risk')
 
     def __str__(self):
@@ -131,3 +131,19 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
+
+
+class RegionalRiskRank(models.Model):
+    """A pseudo linked list to rank weather events per georegion."""
+
+    georegion = models.ForeignKey(GeoRegion, null=False)
+    weather_event = models.ForeignKey(WeatherEvent)
+    prior_ranked_event = models.ForeignKey(WeatherEvent, related_name='prior_ranked_event',
+                                           null=True, blank=True)
+
+    class Meta:
+        unique_together = (('georegion', 'weather_event'),
+                           ('georegion', 'prior_ranked_event'))
+
+    def __str__(self):
+        return '{}: {}: {}'.format(self.georegion.name, self.prior_ranked_event, self.weather_event)
