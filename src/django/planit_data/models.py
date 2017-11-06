@@ -141,6 +141,7 @@ class RegionalRiskRank(models.Model):
     class Meta:
         unique_together = (('georegion', 'order'),
                            ('georegion', 'weather_event'))
+        ordering = ['georegion', 'order']
 
     def __str__(self):
         return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)

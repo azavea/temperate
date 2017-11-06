@@ -26,4 +26,8 @@ class Migration(migrations.Migration):
             name='regionalriskrank',
             unique_together=set([('georegion', 'weather_event'), ('georegion', 'order')]),
         ),
+        migrations.AlterModelOptions(
+            name='regionalriskrank',
+            options={'ordering': ['georegion', 'order']},
+        ),
     ]
