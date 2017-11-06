@@ -129,3 +129,18 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
+
+
+class RegionalRiskRank(models.Model):
+    """A ranking of severity of weather events per georegion."""
+
+    georegion = models.ForeignKey(GeoRegion, null=False)
+    weather_event = models.ForeignKey(WeatherEvent)
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = (('georegion', 'order'),
+                           ('georegion', 'weather_event'))
+
+    def __str__(self):
+        return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
