@@ -64,19 +64,17 @@ class Indicator(models.Model):
 
 class RiskTemplate(models.Model):
     """A generic template for a Climate Risk, not attached to any particular app user.
-
     When a user requests insight about a particular location in the app, these templates
     are used to generate new user-specific UserRisk objects that the user can then
     modify directly.
-
     """
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    community_system = models.ManyToManyField('CommunitySystem', related_name='risk', blank=True)
+    weather_event = models.ForeignKey(WeatherEvent, null=False)
+    indicator = models.ManyToManyField('Indicator', related_name='climate_risk', blank=True)
     regions = models.ManyToManyField('GeoRegion', related_name='risk')
 
     def __str__(self):
-        return '{}, {}, {}'.format(self.community_system, self.weather_event, self.indicator)
+        return '{}'.format(self.weather_event)
 
 
 class Concern(models.Model):
@@ -131,3 +129,19 @@ class UserRisk(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.location.user, self.name)
+
+
+class RegionalRiskRank(models.Model):
+    """A ranking of severity of weather events per georegion."""
+
+    georegion = models.ForeignKey(GeoRegion, null=False)
+    weather_event = models.ForeignKey(WeatherEvent)
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = (('georegion', 'order'),
+                           ('georegion', 'weather_event'))
+        ordering = ['georegion', 'order']
+
+    def __str__(self):
+        return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
