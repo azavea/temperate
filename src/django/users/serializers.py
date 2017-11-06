@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 
-from users.models import PlanItUser
+from users.models import PlanItOrganization, PlanItUser
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -35,6 +35,16 @@ class AuthTokenSerializer(serializers.Serializer):
         return attrs
 
 
+class OrganizationSerializer(serializers.ModelSerializer):
+    """Serializer for user organizations"""
+
+    city = serializers.IntegerField(source='api_city_id', required=False, allow_null=True)
+
+    class Meta:
+        model = PlanItOrganization
+        fields = ('id', 'name', 'city', 'units')
+
+
 class UserSerializer(serializers.ModelSerializer):
     """Serializer for PlanItUser
     Note:
@@ -45,7 +55,11 @@ class UserSerializer(serializers.ModelSerializer):
     isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
     firstName = serializers.CharField(source='first_name', allow_blank=False, required=True)
     lastName = serializers.CharField(source='last_name', allow_blank=False, required=True)
-    city = serializers.IntegerField(source='api_city_id', required=False, allow_null=True)
+    # will assign default organization if none given here
+    organizations = serializers.SlugRelatedField(many=True,
+                                                 queryset=PlanItOrganization.objects.all(),
+                                                 required=False,
+                                                 slug_field='name')
 
     password1 = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                       style={'input_type': 'password'})
@@ -54,7 +68,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organization', 'city',
+        fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organizations',
                   'password1', 'password2', 'token')
 
     def get_token(self, obj):

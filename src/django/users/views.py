@@ -17,9 +17,9 @@ from rest_framework.viewsets import ModelViewSet
 from users.serializers import AuthTokenSerializer
 
 from users.forms import UserForm, UserProfileForm
-from users.models import PlanItUser
+from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
-from users.serializers import UserSerializer
+from users.serializers import OrganizationSerializer, UserSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ class UserProfileView(LoginRequiredMixin, View):
         self.initial = {
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'organization': user.organization
+            'organizations': user.organizations.all()
         }
         return self.initial
 
@@ -74,7 +74,7 @@ class UserProfileView(LoginRequiredMixin, View):
         if self.form.is_valid():
             user.first_name = self.form.cleaned_data.get('first_name')
             user.last_name = self.form.cleaned_data.get('last_name')
-            user.organization = self.form.cleaned_data.get('organization')
+            user.organizations = self.form.cleaned_data.get('organizations')
             user.save()
 
         return HttpResponseRedirect('{}'.format(reverse('edit_profile')))
@@ -99,11 +99,22 @@ class UserViewSet(ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        # If created successfully, send email
+        # If got this far, user was created successfully. Update and send registration email.
         user = serializer.instance
+        # User is inactive until registration completed
         user.is_active = False
+        # Add user to default organization, if not assigned any organization yet
+        if not user.organizations.exists():
+            org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
+            user.organizations.add(org)
         user.set_password(password)
         user.save()
         # send the django registration email
         RegistrationView(request=self.request).send_activation_email(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class OrganizationViewSet(ModelViewSet):
+    queryset = PlanItOrganization.objects.all()
+    serializer_class = OrganizationSerializer
+    permission_classes = (IsAuthenticated,)

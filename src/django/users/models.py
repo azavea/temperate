@@ -10,6 +10,24 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 
+class PlanItOrganization(models.Model):
+    """Users belong to one or more organizations."""
+    METRIC = 'METRIC'
+    IMPERIAL = 'IMPERIAL'
+    UNITS_CHOICES = ((IMPERIAL, 'imperial'),
+                     (METRIC, 'metric'),)
+
+    # created by data migration and assigned to users by default
+    DEFAULT_ORGANIZATION = 'User Organization'
+
+    name = models.CharField(max_length=256, blank=False, null=False, unique=True)
+    units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
+    api_city_id = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.name
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     """Create auth token upon new user creation.
@@ -55,8 +73,8 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     email = models.EmailField('email address', unique=True)
-    organization = models.CharField('organization', max_length=150, blank=True)
-    api_city_id = models.IntegerField(null=True)
+    organizations = models.ManyToManyField('PlanItOrganization',
+                                           related_name='user_organizations')
 
     objects = PlanItUserManager()
 

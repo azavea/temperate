@@ -22,9 +22,10 @@ from rest_framework import routers
 
 from climate_api.views import ClimateAPIProxyView
 import planit_data.views as planit_data_views
-from users.views import PlanitObtainAuthToken, UserViewSet
+from users.views import PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'organizations', OrganizationViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [

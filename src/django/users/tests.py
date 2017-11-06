@@ -7,7 +7,7 @@ from django.test import TestCase
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
 
-from users.models import PlanItUser
+from users.models import PlanItOrganization, PlanItUser
 
 
 class UserCreationApiTestCase(TestCase):
@@ -20,14 +20,14 @@ class UserCreationApiTestCase(TestCase):
         self.admin_token = Token.objects.get(user=self.admin)
         # authenticate test reqeusts with an admin user token
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.admin_token.key)
+        self.default_org = PlanItOrganization.objects.get(name=PlanItOrganization.
+                                                          DEFAULT_ORGANIZATION)
 
     def test_user_created(self):
         user_data = {
             'email': 'test@azavea.com',
             'firstName': 'Test',
             'lastName': 'User',
-            'organization': 'Azavea',
-            'city': 1,
             'password1': 'sooperseekrit',
             'password2': 'sooperseekrit'
         }
@@ -41,9 +41,13 @@ class UserCreationApiTestCase(TestCase):
 
         # check user exists
         user = PlanItUser.objects.get(email=user_data['email'])
-        self.assertEqual(user.api_city_id, user_data['city'])
+        self.assertEqual(user.first_name, user_data['firstName'])
 
         self.assertFalse(user.is_active, 'User should not be active until email verified')
+
+        # check user belongs to default organization
+        self.assertEqual(user.organizations.first(), self.default_org,
+                         'User should belong to default organization')
 
         # make user active so can login
         user.is_active = True
@@ -53,13 +57,28 @@ class UserCreationApiTestCase(TestCase):
         self.assertTrue(self.client.login(username=user_data['email'],
                                           password=user_data['password1']))
 
+    def test_org_created(self):
+        org_data = {
+            'name': 'Test Organization',
+            'city': 1,
+            'units': 'METRIC'
+        }
+
+        response = self.client.post('/api/organizations/', org_data, format='json')
+
+        # should get created status
+        self.assertEqual(response.status_code, 201)
+
+        # check organization exists
+        org = PlanItOrganization.objects.get(name='Test Organization')
+        self.assertEqual(org.api_city_id, org_data['city'])
+        self.assertEqual(org.units, org_data['units'])
+
     def test_user_passwords_must_match(self):
         user_data = {
             'email': 'test@azavea.com',
             'firstName': 'Test',
             'lastName': 'User',
-            'organization': 'Azavea',
-            'city': None,
             'password1': 'sooperseekrit',
             'password2': 'sewperseekrit'
         }
@@ -74,8 +93,6 @@ class UserCreationApiTestCase(TestCase):
             'email': 'test@azavea.com',
             'firstName': 'Test',
             'lastName': 'User',
-            'organization': 'Azavea',
-            'city': 0,
             'password1': '2short',
             'password2': '2short'
         }
@@ -91,8 +108,6 @@ class UserCreationApiTestCase(TestCase):
             'email': 'test@azavea.com',
             'firstName': '',
             'lastName': None,
-            'organization': 'Azavea',
-            'city': 'Philadelphia',
             'password1': '',
             'password2': ''
         }
