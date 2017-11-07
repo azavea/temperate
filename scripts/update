@@ -21,6 +21,8 @@ then
         usage
     else
 
+        cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+
         # Build the angular container image.
         docker-compose \
             -f docker-compose.yml \
