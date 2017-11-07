@@ -4,3 +4,6 @@ services:
     image: "planit-app:${GIT_COMMIT:-latest}"
   nginx:
     image: "planit-nginx:${GIT_COMMIT:-latest}"
+  angular:
+    image: "planit-spa:${GIT_COMMIT:-latest}"
+
