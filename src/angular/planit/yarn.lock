@@ -3379,9 +3379,9 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-ngx-bootstrap@^1.9.3:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-1.9.3.tgz#28e75d14fb1beaee609383d7694de4eb3ba03b26"
+ngx-bootstrap@^2.0.0-beta.7:
+  version "2.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-2.0.0-beta.8.tgz#3209c818e89a4b4ea88c7c45fc53cebf000c0699"
 
 no-case@^2.2.0:
   version "2.3.2"
@@ -5537,6 +5537,13 @@ webpack-sources@^1.0.1:
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
+
+webpack-sources@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.2.tgz#d0148ec083b3b5ccef1035a6b3ec16442983b27a"
+  dependencies:
+    source-list-map "^2.0.0"
+    source-map "~0.6.1"
 
 webpack@~3.5.5:
   version "3.5.6"
