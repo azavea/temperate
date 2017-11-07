@@ -30,6 +30,9 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.test.yml \
                   build django angular
 
+        echo "Running tests"
+        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
+        echo "All tests pass!"
 
         # Copy django static files into nginx folder
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
@@ -52,10 +55,6 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  build django angular nginx
-
-        echo "Running tests"
-        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
-        echo "All tests pass!"
+                  build nginx
     fi
 fi
