@@ -1,22 +1,22 @@
 <div class="modal-header">
   <h1>Log Into Your Account</h1>
-  <button type="button" class="button button-modal-close" 
+  <button type="button" class="button button-modal-close"
       (click)="closeModal()" aria-label="Close"><i class="fa fa-times"></i></button>
 </div>
 <div class="modal-body">
   <form class="form" id="form-login">
     <!-- Email Address/Username -->
-    <div class="required">
-      <label class="label"  for="email-address">Email Address/Username</label>
-      <input class="input input-textfield" id="email-address"
+    <div class="required form-group">
+      <label for="email-address">Email Address/Username</label>
+      <input class="form-control" id="email-address"
           [(ngModel)]="username"
           type="text" name="textfield" required>
     </div>
 
     <!-- Password -->
-    <div class="required">
-      <label class="label" for="password">Password</label>
-      <input class="input input-textfield" id="password"
+    <div class="required form-group">
+      <label for="password">Password</label>
+      <input class="form-control" id="password"
           [(ngModel)]="password"
           type="password" name="password" required>
     </div>

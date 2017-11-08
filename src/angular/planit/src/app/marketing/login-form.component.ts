@@ -10,13 +10,11 @@ import { User } from '../shared/models/user.model';
 })
 export class LoginFormComponent {
 
-  public username = "";
+  public username = '';
 
-  public password = "";
+  public password = '';
 
-  public submitted = false;
-
-  public errors: any[] = [];
+  public errors: any = {};
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
