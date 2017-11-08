@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h1>Log Into Your Account</h1>
+  <button type="button" class="button button-modal-close" 
+      (click)="closeModal()" aria-label="Close"><i class="fa fa-times"></i></button>
+</div>
+<div class="modal-body">
+  <form class="form" id="form-login">
+    <!-- Email Address/Username -->
+    <div class="required">
+      <label class="label"  for="email-address">Email Address/Username</label>
+      <input class="input input-textfield" id="email-address"
+          [(ngModel)]="username"
+          type="text" name="textfield" required>
+    </div>
+
+    <!-- Password -->
+    <div class="required">
+      <label class="label" for="password">Password</label>
+      <input class="input input-textfield" id="password"
+          [(ngModel)]="password"
+          type="password" name="password" required>
+    </div>
+  </form>
+  <div *ngIf="errors.non_field_errors" class="alert alert-danger">
+      <div *ngFor="let error of errors.non_field_errors">
+          <p>{{ error }}</p>
+      </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="button-group">
+    <button type="button" class="button button-secondary button-small"
+        (click)="closeModal()" aria-label="Close">Cancel</button>
+    <input type="submit" class="button button-primary button-small"
+        (click)="submit()" value="Log In" form="form-login">
+  </div>
+</div>

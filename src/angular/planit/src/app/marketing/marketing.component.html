@@ -2,8 +2,9 @@
   <a href="/dashboard" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
   <div class="button-group">
     <button class="contact-iclei button button-primary button-small"
-            (click)="openModal(template)">Create an Account</button>
-    <button class="button button-secondary button-small" data-toggle="modal" data-target="#modal-login">Log In</button>
+            (click)="openModal(newUserForm)">Create an Account</button>
+    <button class="button button-secondary button-small"
+            (click)="openModal(loginForm)">Log In</button>
   </div>
 </header>
 <main class="main-content" role="main">
@@ -72,7 +73,12 @@
 
 
 <!-- Create Account Modal template -->
-<ng-template #template>
+<ng-template #newUserForm>
   <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>
+</ng-template>
+
+<!-- Login Modal template -->
+<ng-template #loginForm>
+  <app-login-form (closed)="modalRef.hide()"></app-login-form>
 </ng-template>
 

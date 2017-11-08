@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndicatorsComponent } from './indicators/indicators.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { NewUserFormComponent } from './marketing/new-user-form.component';
+import { LoginFormComponent } from './marketing/login-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 
@@ -20,6 +21,7 @@ import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AccountCreateService } from './core/services/account-create.service';
+import { AuthService } from './core/services/auth.service';
 
 import { ModalModule } from 'ngx-bootstrap';
 
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
     AppComponent,
     MarketingComponent,
     NewUserFormComponent,
+    LoginFormComponent,
     PageNotFoundComponent
   ],
   imports: [
@@ -56,7 +59,8 @@ const appRoutes: Routes = [
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
-    AccountCreateService
+    AccountCreateService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
