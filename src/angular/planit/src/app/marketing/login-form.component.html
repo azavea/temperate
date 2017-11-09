@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h1>Log Into Your Account</h1>
+  <button type="button" class="button button-modal-close"
+      (click)="closeModal()" aria-label="Close"><i class="icon-cancel"></i></button>
+</div>
+<div class="modal-body">
+  <form class="form" id="form-login">
+    <!-- Email Address/Username -->
+    <div class="required form-group">
+      <label for="email-address">Email Address</label>
+      <input class="form-control" id="email-address"
+          [(ngModel)]="username"
+          type="email" name="textfield" autocomplete="email" required>
+      <div *ngIf="errors.email" class="alert alert-danger">
+        <div *ngFor="let error of errors.email">
+          <p>{{ error }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="required form-group">
+      <label for="password">Password</label>
+      <input class="form-control" id="password"
+          [(ngModel)]="password" auto
+          type="password" name="password" autocomplete="current-password" required>
+      <div *ngIf="errors.password" class="alert alert-danger">
+        <div *ngFor="let error of errors.password">
+          <p>{{ error }}</p>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div *ngIf="errors.non_field_errors" class="alert alert-danger">
+      <div *ngFor="let error of errors.non_field_errors">
+          <p>{{ error }}</p>
+      </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="button-group">
+    <button type="button" class="button button-secondary button-small"
+        (click)="closeModal()" aria-label="Close">Cancel</button>
+    <input type="submit" class="button button-primary button-small"
+        (click)="submit()" value="Log In" form="form-login">
+  </div>
+</div>
