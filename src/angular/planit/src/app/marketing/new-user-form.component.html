@@ -48,18 +48,6 @@
       </div>
     </div>
 
-    <!-- Organization -->
-    <div class="form-group">
-      <label for="organization">Organization Name</label>
-      <input class="form-control" type="text" autocomplete="organization"
-        [(ngModel)]="model.organization" #organization="ngModel" name="organization">
-      <div *ngIf="errors.organization" class="alert alert-danger">
-        <div *ngFor="let error of errors.organization">
-          <p>{{ error }}</p>
-        </div>
-      </div>
-    </div>
-
     <!-- Password -->
     <div class="required form-group">
       <label for="password1">Password</label>

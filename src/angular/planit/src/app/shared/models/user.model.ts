@@ -4,7 +4,7 @@ export class User {
   lastName: string;
   email: string;
   isActive: boolean;
-  organization?: string;
+  organizations?: string[];
   city?: number;
 
   constructor(object: Object) {

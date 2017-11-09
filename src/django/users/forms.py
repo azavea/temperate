@@ -1,5 +1,5 @@
 from django import forms
-from users.models import PlanItUser
+from users.models import PlanItOrganization, PlanItUser
 from registration.forms import RegistrationFormUniqueEmail
 
 
@@ -12,8 +12,6 @@ class UserForm(RegistrationFormUniqueEmail):
     email = forms.EmailField(help_text=None, widget=forms.TextInput(attrs={'placeholder': ''}))
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': ''}))
     last_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': ''}))
-    organization = forms.CharField(max_length=255,
-                                   widget=forms.TextInput(attrs={'placeholder': ''}))
     password1 = forms.CharField(help_text=None,
                                 label='Password',
                                 widget=forms.PasswordInput(attrs={'placeholder': ''}))
@@ -23,7 +21,7 @@ class UserForm(RegistrationFormUniqueEmail):
 
     class Meta:
         model = PlanItUser
-        fields = ('email', 'first_name', 'last_name', 'organization',)
+        fields = ('email', 'first_name', 'last_name',)
 
 
 class UserProfileForm(forms.ModelForm):
@@ -31,8 +29,9 @@ class UserProfileForm(forms.ModelForm):
 
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
-    organization = forms.CharField(max_length=255, required=True)
+    organizations = forms.ModelMultipleChoiceField(queryset=PlanItOrganization.objects.all(),
+                                                   required=False)
 
     class Meta:
         model = PlanItUser
-        fields = ('first_name', 'last_name', 'organization',)
+        fields = ('first_name', 'last_name', 'organizations',)
