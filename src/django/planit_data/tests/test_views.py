@@ -6,6 +6,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 from planit_data.models import Indicator, Concern
+from users.models import PlanItLocation, PlanItOrganization
 
 
 class PlanitApiTestCase(APITestCase):
@@ -48,7 +49,9 @@ class PlanitApiTestCase(APITestCase):
     def test_concern_detail(self, calculate_mock):
         calculate_mock.return_value = 5.3
 
-        self.user.api_city_id = 14
+        location = PlanItLocation.objects.create(api_city_id=14)
+        org = PlanItOrganization.objects.create(name='Test', location=location)
+        self.user.organizations.add(org)
 
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
@@ -62,7 +65,7 @@ class PlanitApiTestCase(APITestCase):
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'test',
                               'is_relative': True, 'value': 5.3})
-        calculate_mock.assert_called_with(14)
+        calculate_mock.assert_called_with(self.user.get_current_location().api_city_id)
 
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})

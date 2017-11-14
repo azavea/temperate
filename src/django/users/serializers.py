@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 
-from rest_framework.authtoken.models import Token
 from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
-from users.models import PlanItOrganization, PlanItUser
+from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -35,14 +35,42 @@ class AuthTokenSerializer(serializers.Serializer):
         return attrs
 
 
+class LocationSerializer(GeoFeatureModelSerializer):
+    """Serializer for organization locations."""
+
+    class Meta:
+        model = PlanItLocation
+        geo_field = 'point'
+        fields = ('name', 'api_city_id',)
+        read_only_fields = ('name', 'point',)
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     """Serializer for user organizations"""
 
-    city = serializers.IntegerField(source='api_city_id', required=False, allow_null=True)
+    location = LocationSerializer()
+
+    def create(self, validated_data):
+        location_data = validated_data.pop('location')
+        instance = PlanItOrganization.objects.create(**validated_data)
+        if location_data['api_city_id'] is not None:
+            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
+            instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        validated_data.pop('name')
+        location_data = validated_data.pop('location')
+        for k, v in validated_data.items():
+            setattr(instance, k, v)
+        if location_data['api_city_id'] is not None:
+            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
+        instance.save()
+        return instance
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'name', 'city', 'units')
+        fields = ('id', 'name', 'location', 'units')
 
 
 class UserSerializer(serializers.ModelSerializer):

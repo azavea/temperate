@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import GEOSGeometry
 from django.core.mail import send_mail
 from django.utils import timezone
 
@@ -8,6 +9,28 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+
+from climate_api.wrapper import make_token_api_request
+
+
+class PlanItLocationManager(models.Manager):
+
+    def from_api_city(self, api_city_id):
+        location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
+        if created:
+            city = make_token_api_request('/api/city/{}/'.format(api_city_id))
+            location.name = city['properties']['name']
+            location.point = GEOSGeometry(str(city['geometry']))
+            location.save()
+        return location
+
+
+class PlanItLocation(models.Model):
+    name = models.CharField(max_length=256, null=True, blank=True)
+    api_city_id = models.IntegerField(null=True, blank=True)
+    point = models.PointField(srid=4326, null=True, blank=True)
+
+    objects = PlanItLocationManager()
 
 
 class PlanItOrganization(models.Model):
@@ -22,7 +45,7 @@ class PlanItOrganization(models.Model):
 
     name = models.CharField(max_length=256, blank=False, null=False, unique=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
-    api_city_id = models.IntegerField(null=True)
+    location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -104,6 +127,10 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
+
+    def get_current_location(self):
+        """ Return the appropriate PlanItLocation for this user."""
+        return self.organizations.select_related('location').first().location
 
     def get_full_name(self):
         """

@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'watchman',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_gis',
     'bootstrap3',
 
     # local apps
