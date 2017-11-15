@@ -113,6 +113,14 @@ class UserViewSet(ModelViewSet):
         RegistrationView(request=self.request).send_activation_email(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+
+        if pk == 'current' and self.request.user.is_authenticated:
+            return self.request.user
+
+        return super().get_object()
+
 
 class OrganizationViewSet(ModelViewSet):
     queryset = PlanItOrganization.objects.all()
