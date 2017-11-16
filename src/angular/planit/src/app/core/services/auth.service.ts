@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
+import { CacheService } from './cache.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AuthService {
 
     // TODO: Inject a window or localStorage service here to abstract implicit
     //       dependency on window
-    constructor(protected http: Http, protected router: Router) {}
+    constructor(protected http: Http, protected router: Router, private cache: CacheService) {}
 
     getToken(): string {
         return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
@@ -39,6 +40,7 @@ export class AuthService {
 
     logout(redirectTo: string = '/') {
         this.setToken(null);
+        this.cache.delete(CacheService.USER);
         if (redirectTo) {
             this.router.navigate([redirectTo]);
         }

@@ -23,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
 import { AccountCreateService } from './core/services/account-create.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
+import { CacheService } from './core/services/cache.service';
 import { UserService } from './core/services/user.service';
 
 import { ModalModule } from 'ngx-bootstrap';
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     AccountCreateService,
     apiHttpProvider,
     AuthService,
+    CacheService,
     UserService,
   ],
   bootstrap: [AppComponent]
