@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
 
 
 /**
- * Wrapper for Http that appends authorization headers for requests to the API backend,
- * and redirects unauthorized responses to the API login page.
+ * Wrapper for Http that appends authorization headers for requests to the PlanIt backend,
+ * and redirects unauthorized responses to the homepage.
  */
 @Injectable()
 export class PlanItApiHttp extends Http {
