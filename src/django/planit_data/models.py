@@ -9,10 +9,18 @@ from climate_api.wrapper import make_indicator_api_request
 logger = logging.getLogger(__name__)
 
 
+class GeoRegionManager(models.Manager):
+
+    def get_for_point(self, point):
+        return self.get_queryset().get(geom__intersects=point)
+
+
 class GeoRegion(models.Model):
     """A user-agnostic, arbitratry region of interest."""
     name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
+
+    objects = GeoRegionManager()
 
     def __str__(self):
         return self.name
