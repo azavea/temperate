@@ -1,11 +1,12 @@
 # User management tests
-
 import json
+from unittest import mock
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
+from rest_framework.test import APIClient, APITestCase
 
 from users.models import PlanItOrganization, PlanItUser
 
@@ -56,23 +57,6 @@ class UserCreationApiTestCase(TestCase):
         # check user can authenticate with password
         self.assertTrue(self.client.login(username=user_data['email'],
                                           password=user_data['password1']))
-
-    def test_org_created(self):
-        org_data = {
-            'name': 'Test Organization',
-            'city': 1,
-            'units': 'METRIC'
-        }
-
-        response = self.client.post('/api/organizations/', org_data, format='json')
-
-        # should get created status
-        self.assertEqual(response.status_code, 201)
-
-        # check organization exists
-        org = PlanItOrganization.objects.get(name='Test Organization')
-        self.assertEqual(org.api_city_id, org_data['city'])
-        self.assertEqual(org.units, org_data['units'])
 
     def test_user_passwords_must_match(self):
         user_data = {
@@ -133,3 +117,53 @@ class UserCreationApiTestCase(TestCase):
         self.client.credentials()
         response = self.client.get('/api/users/', format='json')
         self.assertEqual(response.status_code, 403)
+
+
+class OrganizationApiTestCase(APITestCase):
+
+    def setUp(self):
+        user_class = get_user_model()
+        self.user = user_class.objects.create_user('user', 'user@example.com',
+                                                   'password')
+        self.client.force_authenticate(user=self.user)
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_org_created(self, api_wrapper_mock):
+        api_wrapper_mock.return_value = {
+            "id": 7,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.16379,
+                    39.95233
+                ]
+            },
+            "properties": {
+                "datasets": [
+                    "NEX-GDDP",
+                    "LOCA"
+                ],
+                "name": "Philadelphia",
+                "admin": "PA",
+                "population": 1526006,
+                "region": 11
+            }
+        }
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC'
+        }
+
+        response = self.client.post('/api/organizations/', org_data, format='json')
+
+        # should get created status
+        self.assertEqual(response.status_code, 201)
+
+        # check organization exists
+        org = PlanItOrganization.objects.get(name='Test Organization')
+        self.assertEqual(org.location.api_city_id, org_data['location']['api_city_id'])
+        self.assertEqual(org.units, org_data['units'])
