@@ -22,7 +22,7 @@ from rest_framework import routers
 
 from climate_api.views import ClimateAPIProxyView
 import planit_data.views as planit_data_views
-from users.views import PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
+from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
 
 router = routers.DefaultRouter()
 router.register(r'organizations', OrganizationViewSet)
@@ -40,6 +40,7 @@ urlpatterns = [
 
     # user management
     url(r'^accounts/', include('users.urls')),
+    url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
     url(r'^api-token-auth/', PlanitObtainAuthToken.as_view()),
 
     # Health check

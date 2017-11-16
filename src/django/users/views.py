@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from users.serializers import AuthTokenSerializer
@@ -113,13 +114,12 @@ class UserViewSet(ModelViewSet):
         RegistrationView(request=self.request).send_activation_email(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def get_object(self):
-        pk = self.kwargs.get('pk')
 
-        if pk == 'current' and self.request.user.is_authenticated:
-            return self.request.user
+class CurrentUserView(APIView):
+    permission_classes = (IsAuthenticated, )
 
-        return super().get_object()
+    def get(self, request, *args, **kwargs):
+        return Response(UserSerializer(request.user).data)
 
 
 class OrganizationViewSet(ModelViewSet):
