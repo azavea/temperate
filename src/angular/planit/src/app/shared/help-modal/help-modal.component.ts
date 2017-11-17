@@ -12,6 +12,6 @@ export class HelpModalComponent {
   constructor(private modalService: BsModalService) {}
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, {animated: false});
   }
 }
