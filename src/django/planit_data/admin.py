@@ -7,7 +7,7 @@ from .models import (
     RiskTemplate,
     Concern,
     WeatherEvent,
-    RegionalRiskRank
+    WeatherEventRank
 )
 
 for Model in (CommunitySystem,
@@ -16,5 +16,5 @@ for Model in (CommunitySystem,
               RiskTemplate,
               Concern,
               WeatherEvent,
-              RegionalRiskRank,):
+              WeatherEventRank,):
     admin.site.register(Model)

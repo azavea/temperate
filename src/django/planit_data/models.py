@@ -3,7 +3,6 @@ import logging
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
-from users.models import PlanItUser
 from climate_api.wrapper import make_indicator_api_request
 
 logger = logging.getLogger(__name__)
@@ -126,9 +125,13 @@ class Concern(models.Model):
         return sum(values) / len(response['data'])
 
 
-class RegionalRiskRank(models.Model):
-    """A ranking of severity of weather events per georegion."""
+class WeatherEventRank(models.Model):
+    """A ranking of severity of weather events per georegion.
 
+    This model holds the default rankings for all organizations, which are used by the
+    "Top Concerns" feature of the app.
+
+    """
     georegion = models.ForeignKey(GeoRegion, null=False)
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()

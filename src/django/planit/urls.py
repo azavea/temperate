@@ -35,8 +35,8 @@ urlpatterns = [
         planit_data_views.ConcernViewSet.as_view({'get': 'list'}), name='concern-list'),
     url(r'^api/concern/(?P<pk>[0-9]+)$',
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
-    url(r'^api/ranked-risk/$',
-        planit_data_views.RankedRiskView.as_view(), name='ranked-risk-list'),
+    url(r'^api/weather-event-rank/$',
+        planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
 
 
     url(r'^admin/', admin.site.urls),

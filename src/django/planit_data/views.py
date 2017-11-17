@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from planit_data.models import Concern, GeoRegion, RegionalRiskRank
-from planit_data.serializers import ConcernSerializer, RegionalRiskRankSerializer
+from planit_data.models import Concern, GeoRegion, WeatherEventRank
+from planit_data.serializers import ConcernSerializer, WeatherEventRankSerializer
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):
@@ -25,12 +25,12 @@ class ConcernViewSet(ReadOnlyModelViewSet):
         return Response(payload)
 
 
-class RankedRiskView(APIView):
+class WeatherEventRankView(APIView):
 
-    model_class = RegionalRiskRank
+    model_class = WeatherEventRank
     # Explicit permission classes because we use request.user in the view
     permission_classes = [IsAuthenticated]
-    serializer_class = RegionalRiskRankSerializer
+    serializer_class = WeatherEventRankSerializer
 
     def get(self, request, *args, **kwargs):
         """Return ranked risks based on authenticated user's primary org location."""
@@ -39,7 +39,7 @@ class RankedRiskView(APIView):
             return Response({'error': 'No location attached to authenticated user'},
                             status=status.HTTP_400_BAD_REQUEST)
         georegion = GeoRegion.objects.get_for_point(location.point)
-        # TODO (#209): Update filter to query User's RegionalRiskRanks instead of the global default
+        # TODO (#209): Update filter to query User's WeatherEventRanks instead of the global default
         queryset = self.model_class.objects.filter(georegion=georegion)
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

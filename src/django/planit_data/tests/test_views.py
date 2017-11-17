@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 from planit_data.models import Concern, GeoRegion, Indicator, WeatherEvent
-from planit_data.views import RankedRiskView
+from planit_data.views import WeatherEventRankView
 from users.models import PlanItLocation, PlanItOrganization
 
 
@@ -83,7 +83,7 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class RankedRiskViewTestCase(APITestCase):
+class WeatherEventRankViewTestCase(APITestCase):
 
     def setUp(self):
         user_class = get_user_model()
@@ -101,26 +101,26 @@ class RankedRiskViewTestCase(APITestCase):
         georegion = GeoRegion.objects.create(name='test geom', geom=geom)
         we1 = WeatherEvent.objects.create(name='Heat Events')
         we2 = WeatherEvent.objects.create(name='Hurricanes')
-        self.rrr1 = RankedRiskView.model_class.objects.create(georegion=georegion,
-                                                              weather_event=we1,
-                                                              order=1)
-        self.rrr2 = RankedRiskView.model_class.objects.create(georegion=georegion,
-                                                              weather_event=we2,
-                                                              order=2)
+        self.rrr1 = WeatherEventRankView.model_class.objects.create(georegion=georegion,
+                                                                    weather_event=we1,
+                                                                    order=1)
+        self.rrr2 = WeatherEventRankView.model_class.objects.create(georegion=georegion,
+                                                                    weather_event=we2,
+                                                                    order=2)
 
-    def test_ranked_risk_list(self):
+    def test_weather_event_rank_list(self):
         self._create_data()
 
-        url = reverse('ranked-risk-list')
+        url = reverse('weather-event-rank-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = RankedRiskView.serializer_class([self.rrr1, self.rrr2], many=True)
+        serializer = WeatherEventRankView.serializer_class([self.rrr1, self.rrr2], many=True)
         self.assertEqual(response.json(), serializer.data)
 
-    def test_ranked_risk_list_no_location(self):
+    def test_weather_event_rank_list_no_location(self):
         self._create_data()
         PlanItLocation.objects.all().delete()
 
-        url = reverse('ranked-risk-list')
+        url = reverse('weather-event-rank-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

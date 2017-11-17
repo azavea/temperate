@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from planit_data.models import Concern, RegionalRiskRank
+from planit_data.models import Concern, WeatherEventRank
 
 
 class ConcernSerializer(serializers.ModelSerializer):
@@ -16,10 +16,10 @@ class ConcernSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class RegionalRiskRankSerializer(serializers.ModelSerializer):
+class WeatherEventRankSerializer(serializers.ModelSerializer):
 
     weather_event = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
 
     class Meta:
-        model = RegionalRiskRank
+        model = WeatherEventRank
         fields = ('weather_event', 'order',)
