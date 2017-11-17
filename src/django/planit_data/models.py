@@ -3,16 +3,23 @@ import logging
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
-from users.models import PlanItUser
 from climate_api.wrapper import make_indicator_api_request
 
 logger = logging.getLogger(__name__)
+
+
+class GeoRegionManager(models.Manager):
+
+    def get_for_point(self, point):
+        return self.get_queryset().get(geom__intersects=point)
 
 
 class GeoRegion(models.Model):
     """A user-agnostic, arbitratry region of interest."""
     name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
+
+    objects = GeoRegionManager()
 
     def __str__(self):
         return self.name
@@ -118,22 +125,13 @@ class Concern(models.Model):
         return sum(values) / len(response['data'])
 
 
-class UserRisk(models.Model):
-    """A concrete representation of a RiskTemplate for a given user."""
-    name = models.CharField(max_length=256, unique=True, blank=False, null=False)
-    notes = models.TextField(null=False, blank=True, default='')
-    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+class WeatherEventRank(models.Model):
+    """A ranking of severity of weather events per georegion.
 
-    def __str__(self):
-        return '{}: {}'.format(self.location.user, self.name)
+    This model holds the default rankings for all organizations, which are used by the
+    "Top Concerns" feature of the app.
 
-
-class RegionalRiskRank(models.Model):
-    """A ranking of severity of weather events per georegion."""
-
+    """
     georegion = models.ForeignKey(GeoRegion, null=False)
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()

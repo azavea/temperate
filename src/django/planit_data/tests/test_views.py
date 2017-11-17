@@ -1,15 +1,17 @@
 from unittest import mock
 
 from django.contrib.auth import get_user_model
+from django.contrib.gis.geos import MultiPolygon, Point, Polygon
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from rest_framework import status
 
-from planit_data.models import Indicator, Concern
+from planit_data.models import Concern, GeoRegion, Indicator, WeatherEvent
+from planit_data.views import WeatherEventRankView
 from users.models import PlanItLocation, PlanItOrganization
 
 
-class PlanitApiTestCase(APITestCase):
+class ConcernViewSetTestCase(APITestCase):
     def setUp(self):
         user_class = get_user_model()
         self.user = user_class.objects.create_user('user', 'user@example.com',
@@ -79,3 +81,46 @@ class PlanitApiTestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class WeatherEventRankViewTestCase(APITestCase):
+
+    def setUp(self):
+        user_class = get_user_model()
+        self.user = user_class.objects.create_user('user', 'user@example.com',
+                                                   'password')
+
+        self.client.force_authenticate(user=self.user)
+
+    def _create_data(self):
+        location = PlanItLocation.objects.create(name='test location', point=Point(1, 1))
+        organization = PlanItOrganization.objects.create(name='test org', location=location)
+        self.user.organizations.add(organization)
+
+        geom = MultiPolygon(Polygon([[0, 0], [0, 4], [4, 4], [4, 0], [0, 0]]))
+        georegion = GeoRegion.objects.create(name='test geom', geom=geom)
+        we1 = WeatherEvent.objects.create(name='Heat Events')
+        we2 = WeatherEvent.objects.create(name='Hurricanes')
+        self.rrr1 = WeatherEventRankView.model_class.objects.create(georegion=georegion,
+                                                                    weather_event=we1,
+                                                                    order=1)
+        self.rrr2 = WeatherEventRankView.model_class.objects.create(georegion=georegion,
+                                                                    weather_event=we2,
+                                                                    order=2)
+
+    def test_weather_event_rank_list(self):
+        self._create_data()
+
+        url = reverse('weather-event-rank-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        serializer = WeatherEventRankView.serializer_class([self.rrr1, self.rrr2], many=True)
+        self.assertEqual(response.json(), serializer.data)
+
+    def test_weather_event_rank_list_no_location(self):
+        self._create_data()
+        PlanItLocation.objects.all().delete()
+
+        url = reverse('weather-event-rank-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
