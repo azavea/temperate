@@ -126,19 +126,6 @@ class Concern(models.Model):
         return sum(values) / len(response['data'])
 
 
-class UserRisk(models.Model):
-    """A concrete representation of a RiskTemplate for a given user."""
-    name = models.CharField(max_length=256, unique=True, blank=False, null=False)
-    notes = models.TextField(null=False, blank=True, default='')
-    user = models.ForeignKey(PlanItUser, on_delete=CASCADE, null=False)
-    community_system = models.ForeignKey(CommunitySystem, on_delete=CASCADE, null=False)
-    weather_event = models.ForeignKey(WeatherEvent, on_delete=CASCADE, null=False)
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
-
-    def __str__(self):
-        return '{}: {}'.format(self.location.user, self.name)
-
-
 class RegionalRiskRank(models.Model):
     """A ranking of severity of weather events per georegion."""
 
