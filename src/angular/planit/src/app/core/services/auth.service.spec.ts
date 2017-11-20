@@ -4,12 +4,13 @@ import { HttpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthService } from './auth.service';
+import { CacheService } from './cache.service';
 import { MarketingComponent } from '../../marketing/marketing.component';
 
 describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthService],
+      providers: [AuthService, CacheService],
       imports: [ HttpModule, RouterTestingModule.withRoutes([
         { path: '*', component: MarketingComponent }
       ])],

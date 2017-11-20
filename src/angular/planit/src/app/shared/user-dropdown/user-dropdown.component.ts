@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { UserService } from '../../core/services/user.service';
 import { User } from '../../shared/models/user.model';
 
 @Component({
@@ -9,15 +10,14 @@ import { User } from '../../shared/models/user.model';
 })
 
 export class UserDropdownComponent implements OnInit {
-  @Input() user: User;
+  user: User;
 
-  constructor() {
-    // TODO: Get this from Django (GH #98)
-    this.user = new User({firstName: 'Mike', lastName: 'M', email: 'mike@mike.com'});
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
-    // should have user here
+    this.userService.current()
+      .subscribe(user => this.user = user);
   }
 
 }
