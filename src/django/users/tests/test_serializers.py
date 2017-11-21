@@ -43,12 +43,39 @@ class OrganizationSerializerTestCase(TestCase):
             },
             'units': 'METRIC'
         }
-        self._test_org_serializer_with_data(data)
+
+        organization = OrganizationSerializer.create(None, dict(data))
+
+        self.assertEqual(organization.name, data['name'])
+        self.assertEqual(organization.units, data['units'])
+        self.assertEqual(organization.location.api_city_id, data['location']['api_city_id'])
+        self.assertIsNotNone(organization.location.point)
 
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch('users.models.make_token_api_request')
-    def test_create_existing_location(self, api_wrapper_mock, import_weather_events_mock):
-        """Ensure existing location is used and API call not made.
+    def test_create_existing_location_no_api(self, api_wrapper_mock, import_weather_events_mock):
+        """Ensure existing location is used and API call not made."""
+        location = PlanItLocation.objects.create(name='Test Location',
+                                                 api_city_id=7,
+                                                 point=Point(0, 0, srid=4326))
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'units': 'METRIC'
+        }
+        organization = OrganizationSerializer.create(None, dict(data))
+
+        # The function should succeed and create an organization
+        self.assertIsNotNone(organization)
+        # Should have used the existing PlanItLocation
+        self.assertEqual(organization.location, location)
+        # Shouldn't have made external api request here for City data -- location already exists
+        self.assertFalse(api_wrapper_mock.called)
+
+    def test_create_existing_location_no_serializer_error(self):
+        """Ensure creating a Organization for an existing location does not cause a serialier error.
 
         If this test starts failing with:
 
@@ -59,10 +86,7 @@ class OrganizationSerializerTestCase(TestCase):
         are unique in the DB, the serializer barfs. See:
         - https://github.com/encode/django-rest-framework/issues/2996
         - https://medium.com/django-rest-framework/dealing-with-unique-constraints-in-nested-serializers-dade33b831d9 # NOQA
-
         """
-        api_wrapper_mock.return_value = self.api_city_response
-
         PlanItLocation.objects.create(name='Test Location',
                                       api_city_id=7,
                                       point=Point(0, 0, srid=4326))
@@ -73,17 +97,6 @@ class OrganizationSerializerTestCase(TestCase):
             },
             'units': 'METRIC'
         }
-        self._test_org_serializer_with_data(data)
-        # Shouldn't have made external api request here for City data -- location already exists
-        self.assertFalse(api_wrapper_mock.called)
-
-    def _test_org_serializer_with_data(self, data):
         serializer = OrganizationSerializer(data=data)
         self.assertTrue(serializer.is_valid())
         self.assertEqual(serializer.validated_data, data)
-
-        organization = serializer.create(serializer.validated_data)
-        self.assertEqual(organization.name, data['name'])
-        self.assertEqual(organization.units, data['units'])
-        self.assertEqual(organization.location.api_city_id, data['location']['api_city_id'])
-        self.assertIsNotNone(organization.location.point)
