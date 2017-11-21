@@ -129,8 +129,9 @@ class OrganizationApiTestCase(APITestCase):
                                                    'password')
         self.client.force_authenticate(user=self.user)
 
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch('users.models.make_token_api_request')
-    def test_org_created(self, api_wrapper_mock):
+    def test_org_created(self, api_wrapper_mock, import_weather_events_mock):
         api_wrapper_mock.return_value = {
             "id": 7,
             "type": "Feature",

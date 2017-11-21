@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from planit_data.models import Concern, GeoRegion, WeatherEventRank
+from planit_data.models import Concern, WeatherEventRank
 from planit_data.serializers import ConcernSerializer, WeatherEventRankSerializer
 
 
@@ -34,12 +34,6 @@ class WeatherEventRankView(APIView):
 
     def get(self, request, *args, **kwargs):
         """Return ranked risks based on authenticated user's primary org location."""
-        location = request.user.get_current_location()
-        if location is None:
-            return Response({'error': 'No location attached to authenticated user'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        georegion = GeoRegion.objects.get_for_point(location.point)
-        # TODO (#209): Update filter to query User's WeatherEventRanks instead of the global default
-        queryset = self.model_class.objects.filter(georegion=georegion)
+        queryset = request.user.primary_organization.weather_events.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

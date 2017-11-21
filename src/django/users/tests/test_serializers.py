@@ -3,7 +3,7 @@ from unittest import mock
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
-from users.models import PlanItLocation
+from users.models import PlanItLocation, PlanItOrganization
 from users.serializers import OrganizationSerializer
 
 
@@ -31,8 +31,9 @@ class OrganizationSerializerTestCase(TestCase):
         }
     }
 
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch('users.models.make_token_api_request')
-    def test_create_no_existing_data(self, api_wrapper_mock):
+    def test_create_no_existing_data(self, api_wrapper_mock, import_weather_events_mock):
         """Ensure a new location is created and API call made."""
         api_wrapper_mock.return_value = self.api_city_response
         data = {
@@ -44,8 +45,9 @@ class OrganizationSerializerTestCase(TestCase):
         }
         self._test_org_serializer_with_data(data)
 
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch('users.models.make_token_api_request')
-    def test_create_existing_location(self, api_wrapper_mock):
+    def test_create_existing_location(self, api_wrapper_mock, import_weather_events_mock):
         """Ensure existing location is used and API call not made.
 
         If this test starts failing with:

@@ -56,6 +56,10 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if location_data['api_city_id'] is not None:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
             instance.save()
+
+        # Copy the template WeatherEventRank objects for this new Organization
+        instance.import_weather_events()
+
         return instance
 
     def update(self, instance, validated_data):
