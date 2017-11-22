@@ -58,7 +58,8 @@ class UserProfileView(LoginRequiredMixin, View):
         self.initial = {
             'first_name': user.first_name,
             'last_name': user.last_name,
-            'organizations': user.organizations.all()
+            'organizations': user.organizations.all(),
+            'primary_organization': user.primary_organization,
         }
         return self.initial
 
@@ -76,6 +77,7 @@ class UserProfileView(LoginRequiredMixin, View):
             user.first_name = self.form.cleaned_data.get('first_name')
             user.last_name = self.form.cleaned_data.get('last_name')
             user.organizations = self.form.cleaned_data.get('organizations')
+            user.primary_organization = self.form.cleaned_data.get('primary_organization')
             user.save()
 
         return HttpResponseRedirect('{}'.format(reverse('edit_profile')))
@@ -108,6 +110,7 @@ class UserViewSet(ModelViewSet):
         if not user.organizations.exists():
             org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
             user.organizations.add(org)
+            user.primary_organization = org
         user.set_password(password)
         user.save()
         # send the django registration email

@@ -5,6 +5,7 @@ export class User {
   email: string;
   isActive: boolean;
   organizations?: string[];
+  primaryOrganization: string;
   city?: number;
 
   constructor(object: Object) {

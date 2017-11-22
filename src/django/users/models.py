@@ -98,6 +98,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
                                            related_name='user_organizations')
+    primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True)
 
     objects = PlanItUserManager()
 
@@ -123,14 +124,14 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
+    def get_current_location(self):
+        """ Return the appropriate PlanItLocation for this user."""
+        return self.primary_organization.location
+
     # All methods below copied from Django's AbstractUser
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
-
-    def get_current_location(self):
-        """ Return the appropriate PlanItLocation for this user."""
-        return self.organizations.select_related('location').first().location
 
     def get_full_name(self):
         """
