@@ -1,4 +1,4 @@
-"""Permission classes and helpers for limiting access to resources/actions"""
+"""Permission classes and helpers for limiting access to resources/actions."""
 
 from rest_framework import permissions
 
@@ -9,8 +9,7 @@ class IsAuthenticatedOrCreate(permissions.BasePermission):
     ALLOWED_ANONYMOUS_ACTIONS = ('create')
 
     def has_permission(self, request, view):
-        """Allow access to anonymous create or authenticated other actions"""
-
+        """Allow access to anonymous create or authenticated other actions."""
         if view.action and view.action in self.ALLOWED_ANONYMOUS_ACTIONS:
             return True
 

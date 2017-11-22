@@ -35,6 +35,7 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
+
     METRIC = 'METRIC'
     IMPERIAL = 'IMPERIAL'
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
@@ -62,7 +63,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class PlanItUserManager(BaseUserManager):
-    """Custom user manager, based on Django's UserManager"""
+    """Custom user manager, based on Django's UserManager."""
 
     def _create_user(self, email, first_name, last_name, password, **extra):
         if not email:
@@ -125,7 +126,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'users'
 
     def get_current_location(self):
-        """ Return the appropriate PlanItLocation for this user."""
+        """Return the appropriate PlanItLocation for this user."""
         return self.primary_organization.location
 
     # All methods below copied from Django's AbstractUser
@@ -134,9 +135,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         self.email = self.__class__.objects.normalize_email(self.email)
 
     def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
-        """
+        """Return the first_name plus the last_name, with a space in between."""
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 

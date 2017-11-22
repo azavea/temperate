@@ -22,7 +22,6 @@ class ClimateAPIProxyViewTestCase(APITestCase):
     @mock.patch('climate_api.views.requests')
     def test_proxy_success(self, requests_mock):
         """Call should be made to Climate API if route passes whitelist."""
-
         def requests_mock_get(*args, **kwargs):
             response = Response()
             response.status_code = status.HTTP_200_OK
