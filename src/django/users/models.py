@@ -58,6 +58,10 @@ class PlanItOrganization(models.Model):
         georegion = GeoRegion.objects.get_for_point(self.location.point)
         weather_events = WeatherEventRank.objects.filter(georegion=georegion)
 
+        if not self.location.is_coastal:
+            # For cities not on the coast, exclude Weather Events that only apply to coastal areas
+            weather_events = weather_events.filter(weather_event__coastal_only=False)
+
         # Use the many-to-many field's through model to bulk create the weather events this
         # organization should have by default
         ThroughModel = self.weather_events.through

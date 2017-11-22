@@ -60,6 +60,58 @@ class OrganizationTestCase(TestCase):
         org.import_weather_events()
         self.assertSequenceEqual(org.weather_events.all(), [])
 
+    def test_import_weather_events__non_coastal_city_exclude_coastal_only(self):
+        """Ensure that it does not copy coastal_only objects for non-coastal location."""
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            location=PlanItLocation.objects.create(
+                name="Test Location",
+                is_coastal=False,
+                point=Point(150, 150)
+            )
+        )
+        WeatherEventRank.objects.create(
+            georegion=GeoRegion.objects.create(
+                name="Test GeoRegion",
+                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200),
+                                           (200, 100), (100, 100))))
+            ),
+            weather_event=WeatherEvent.objects.create(
+                name="Test Weather Event",
+                coastal_only=True
+            ),
+            order=1
+        )
+
+        org.import_weather_events()
+        self.assertSequenceEqual(org.weather_events.all(), [])
+
+    def test_import_weather_events__coastal_city_include_coastal_only(self):
+        """Ensure that it does copy coastal_only objects for coastal locations."""
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            location=PlanItLocation.objects.create(
+                name="Test Location",
+                is_coastal=True,
+                point=Point(150, 150)
+            )
+        )
+        event_rank = WeatherEventRank.objects.create(
+            georegion=GeoRegion.objects.create(
+                name="Test GeoRegion",
+                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200),
+                                           (200, 100), (100, 100))))
+            ),
+            weather_event=WeatherEvent.objects.create(
+                name="Test Weather Event",
+                coastal_only=True
+            ),
+            order=1
+        )
+
+        org.import_weather_events()
+        self.assertSequenceEqual(org.weather_events.all(), [event_rank])
+
 
 class LocationManagerTestCase(TestCase):
     @mock.patch('users.models.make_token_api_request')
