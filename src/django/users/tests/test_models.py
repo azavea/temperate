@@ -62,37 +62,67 @@ class OrganizationTestCase(TestCase):
 
 
 class LocationManagerTestCase(TestCase):
-    api_city_response = {
-        "id": 7,
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                -75.16379,
-                39.95233
-            ]
-        },
-        "properties": {
-            "datasets": [
-                "NEX-GDDP",
-                "LOCA"
-            ],
-            "name": "Philadelphia",
-            "admin": "PA",
-            "population": 1526006,
-            "region": 11
-        }
-    }
-
     @mock.patch('users.models.make_token_api_request')
     def test_from_api_city_no_location(self, api_wrapper_mock):
         """Ensure calling from_api_city makes an API call and parses response correctly."""
-        api_wrapper_mock.return_value = self.api_city_response
+        api_wrapper_mock.return_value = {
+            "id": 7,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.16379,
+                    39.95233
+                ]
+            },
+            "properties": {
+                "datasets": [
+                    "NEX-GDDP",
+                    "LOCA"
+                ],
+                "name": "Philadelphia",
+                "admin": "PA",
+                "is_coastal": False,
+                "population": 1526006,
+                "region": 11
+            }
+        }
 
         result = PlanItLocation.objects.from_api_city(7)
 
         self.assertEqual(result.api_city_id, 7)
         self.assertEqual(result.point.coords, (-75.16379, 39.95233))
+        self.assertFalse(result.is_coastal)
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_from_api_city_no_location_is_coastal(self, api_wrapper_mock):
+        """Ensure calling from_api_city makes an API call and parses is_coastal correctly."""
+        api_wrapper_mock.return_value = {
+            "id": 2,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -118.24368,
+                    34.05223
+                ]
+            },
+            "properties": {
+                "datasets": [
+                    "NEX-GDDP",
+                    "LOCA"
+                ],
+                "name": "Los Angeles",
+                "admin": "CA",
+                "is_coastal": True,
+                "population": 3792621,
+                "region": 18
+            }
+        }
+
+        result = PlanItLocation.objects.from_api_city(2)
+
+        self.assertTrue(result.is_coastal)
 
     @mock.patch('users.models.make_token_api_request')
     def test_from_api_city_existing_location(self, api_wrapper_mock):
