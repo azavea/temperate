@@ -17,19 +17,16 @@ class AuthTokenSerializer(serializers.Serializer):
         email = attrs.get('email')
         password = attrs.get('password')
 
-        if email and password:
-            user = authenticate(email=email, password=password)
+        if not email or not password:
+            raise serializers.ValidationError('Must include "username" and "password".')
 
-            if user:
-                if not user.is_active:
-                    msg = 'User account is disabled.'
-                    raise serializers.ValidationError(msg)
-            else:
-                msg = 'Unable to log in with provided credentials.'
-                raise serializers.ValidationError(msg)
-        else:
-            msg = 'Must include "username" and "password".'
-            raise serializers.ValidationError(msg)
+        user = authenticate(email=email, password=password)
+
+        if not user:
+            raise serializers.ValidationError('Unable to log in with provided credentials.')
+
+        if not user.is_active:
+            raise serializers.ValidationError('User account is disabled.')
 
         attrs['user'] = user
         return attrs
