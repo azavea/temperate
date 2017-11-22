@@ -58,3 +58,54 @@ class OrganizationTestCase(TestCase):
 
         org.import_weather_events()
         self.assertSequenceEqual(org.weather_events.all(), [])
+
+
+class LocationManagerTestCase(TestCase):
+    api_city_response = {
+        "id": 7,
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -75.16379,
+                39.95233
+            ]
+        },
+        "properties": {
+            "datasets": [
+                "NEX-GDDP",
+                "LOCA"
+            ],
+            "name": "Philadelphia",
+            "admin": "PA",
+            "population": 1526006,
+            "region": 11
+        }
+    }
+
+    def setUp(self):
+        pass
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_from_api_city_no_location(self, api_wrapper_mock):
+        """Ensure calling from_api_city makes an API call and parses response correctly."""
+        api_wrapper_mock.return_value = self.api_city_response
+
+        result = PlanItLocation.objects.from_api_city(7)
+
+        self.assertEqual(result.api_city_id, 7)
+        self.assertEqual(result.point.coords, (-75.16379, 39.95233))
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_from_api_city_existing_location(self, api_wrapper_mock):
+        """Ensure calling from_api_city with an existing Location does not make an API call."""
+        location = PlanItLocation.objects.create(
+            name='Test Location',
+            api_city_id=7,
+            point=Point(0, 0, srid=4326)
+        )
+
+        result = PlanItLocation.objects.from_api_city(7)
+
+        self.assertEqual(result, location)
+        self.assertFalse(api_wrapper_mock.called)

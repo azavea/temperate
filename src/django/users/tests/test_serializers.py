@@ -8,34 +8,11 @@ from users.serializers import OrganizationSerializer
 
 
 class OrganizationSerializerTestCase(TestCase):
-
-    api_city_response = {
-        "id": 7,
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [
-                -75.16379,
-                39.95233
-            ]
-        },
-        "properties": {
-            "datasets": [
-                "NEX-GDDP",
-                "LOCA"
-            ],
-            "name": "Philadelphia",
-            "admin": "PA",
-            "population": 1526006,
-            "region": 11
-        }
-    }
-
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    @mock.patch('users.models.make_token_api_request')
-    def test_create_no_existing_data(self, api_wrapper_mock, import_weather_events_mock):
+    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    def test_create_no_existing_data(self, from_api_city_mock, import_weather_events_mock):
         """Ensure a new location is created and API call made."""
-        api_wrapper_mock.return_value = self.api_city_response
+        from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
         data = {
             'name': 'Test Org',
             'location': {
@@ -48,31 +25,8 @@ class OrganizationSerializerTestCase(TestCase):
 
         self.assertEqual(organization.name, data['name'])
         self.assertEqual(organization.units, data['units'])
-        self.assertEqual(organization.location.api_city_id, data['location']['api_city_id'])
-        self.assertIsNotNone(organization.location.point)
-
-    @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    @mock.patch('users.models.make_token_api_request')
-    def test_create_existing_location_no_api(self, api_wrapper_mock, import_weather_events_mock):
-        """Ensure existing location is used and API call not made."""
-        location = PlanItLocation.objects.create(name='Test Location',
-                                                 api_city_id=7,
-                                                 point=Point(0, 0, srid=4326))
-        data = {
-            'name': 'Test Org',
-            'location': {
-                'api_city_id': 7
-            },
-            'units': 'METRIC'
-        }
-        organization = OrganizationSerializer.create(None, dict(data))
-
-        # The function should succeed and create an organization
-        self.assertIsNotNone(organization)
-        # Should have used the existing PlanItLocation
-        self.assertEqual(organization.location, location)
-        # Shouldn't have made external api request here for City data -- location already exists
-        self.assertFalse(api_wrapper_mock.called)
+        from_api_city_mock.assert_called_with(data['location']['api_city_id'])
+        self.assertEqual(organization.location, from_api_city_mock.return_value)
 
     def test_create_existing_location_no_serializer_error(self):
         """Ensure creating a Organization for an existing location does not cause a serialier error.
