@@ -28,6 +28,25 @@ class OrganizationSerializerTestCase(TestCase):
         from_api_city_mock.assert_called_with(data['location']['api_city_id'])
         self.assertEqual(organization.location, from_api_city_mock.return_value)
 
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
+    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    def test_create_import_weather_rank(self, from_api_city_mock, import_weather_events_mock):
+        """Ensure that creating an Organization invokes import_weather_events()."""
+        from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'units': 'METRIC'
+        }
+        organization = OrganizationSerializer.create(None, dict(data))
+
+        # The function should succeed and create an organization
+        self.assertIsNotNone(organization)
+        # Should have told the organization to import all default weather events
+        self.assertTrue(import_weather_events_mock.called)
+
     def test_create_existing_location_no_serializer_error(self):
         """Ensure OrganizationSerializer does not encounter an error with an existing location.
 
@@ -80,22 +99,3 @@ class OrganizationSerializerTestCase(TestCase):
 
         # Serializer should not allow an Organization to be created without a location
         self.assertFalse(serializer.is_valid())
-
-    @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
-    def test_create_import_weather_rank(self, from_api_city_mock, import_weather_events_mock):
-        """Ensure that creating an Organization invokes import_weather_events()."""
-        from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
-        data = {
-            'name': 'Test Org',
-            'location': {
-                'api_city_id': 7
-            },
-            'units': 'METRIC'
-        }
-        organization = OrganizationSerializer.create(None, dict(data))
-
-        # The function should succeed and create an organization
-        self.assertIsNotNone(organization)
-        # Should have told the organization to import all default weather events
-        self.assertTrue(import_weather_events_mock.called)
