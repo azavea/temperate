@@ -58,6 +58,29 @@ class OrganizationSerializerTestCase(TestCase):
         # Should validate the data as is
         self.assertEqual(serializer.validated_data, data)
 
+    def test_create_no_location_specified(self):
+        """Ensure the Serializer raises an error if no location value is set."""
+        data = {
+            'name': 'Test Org',
+            'units': 'METRIC'
+        }
+        serializer = OrganizationSerializer(data=data)
+
+        # Serializer should not allow an Organization to be created without a location
+        self.assertFalse(serializer.is_valid())
+
+    def test_create_no_api_city_id_specified(self):
+        """Ensure the Serializer raises an error if the location does not have a valid entry."""
+        data = {
+            'name': 'Test Org',
+            'location': {'foobar': 123},
+            'units': 'METRIC'
+        }
+        serializer = OrganizationSerializer(data=data)
+
+        # Serializer should not allow an Organization to be created without a location
+        self.assertFalse(serializer.is_valid())
+
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     def test_create_import_weather_rank(self, from_api_city_mock, import_weather_events_mock):
