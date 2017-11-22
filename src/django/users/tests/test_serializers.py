@@ -97,5 +97,5 @@ class OrganizationSerializerTestCase(TestCase):
         }
         serializer = OrganizationSerializer(data=data)
 
-        # Serializer should not allow an Organization to be created without a location
+        # Serializer should not allow an Organization to be created without a valid location value
         self.assertFalse(serializer.is_valid())

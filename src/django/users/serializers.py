@@ -61,7 +61,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         location_data = validated_data.pop('location')
         instance = PlanItOrganization.objects.create(**validated_data)
-        if location_data['api_city_id'] is not None:
+        if 'api_city_id' in location_data:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
             instance.save()
 
