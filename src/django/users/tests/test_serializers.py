@@ -11,7 +11,7 @@ class OrganizationSerializerTestCase(TestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     def test_create_no_existing_data(self, from_api_city_mock, import_weather_events_mock):
-        """Ensure a new location is created and API call made."""
+        """Ensure a new location is created with its Location from from_api_city()."""
         from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
         data = {
             'name': 'Test Org',
@@ -29,7 +29,7 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertEqual(organization.location, from_api_city_mock.return_value)
 
     def test_create_existing_location_no_serializer_error(self):
-        """Ensure creating a Organization for an existing location does not cause a serialier error.
+        """Ensure OrganizationSerializer does not encounter an error with an existing location.
 
         If this test starts failing with:
 
@@ -61,6 +61,7 @@ class OrganizationSerializerTestCase(TestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     def test_create_import_weather_rank(self, from_api_city_mock, import_weather_events_mock):
+        """Ensure that creating an Organization invokes import_weather_events()."""
         from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
         data = {
             'name': 'Test Org',

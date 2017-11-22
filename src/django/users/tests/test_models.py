@@ -8,10 +8,8 @@ from planit_data.models import GeoRegion, WeatherEvent, WeatherEventRank
 
 
 class OrganizationTestCase(TestCase):
-    def setUp(self):
-        pass
-
     def test_import_weather_events_point_inside_geom_included(self):
+        """Ensure that import_weather_events imports objects in organization's georegion."""
         org = PlanItOrganization.objects.create(
             name="Test Organization",
             location=PlanItLocation.objects.create(
@@ -22,7 +20,8 @@ class OrganizationTestCase(TestCase):
         event_rank = WeatherEventRank.objects.create(
             georegion=GeoRegion.objects.create(
                 name="Test GeoRegion",
-                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200), (200, 100), (100, 100))))
+                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200),
+                                           (200, 100), (100, 100))))
             ),
             weather_event=WeatherEvent.objects.create(
                 name="Test Weather Event"
@@ -34,6 +33,7 @@ class OrganizationTestCase(TestCase):
         self.assertSequenceEqual(org.weather_events.all(), [event_rank])
 
     def test_import_weather_events_point_outside_geom_excluded(self):
+        """Ensure that import_weather_events excludes objects for outside regions."""
         org = PlanItOrganization.objects.create(
             name="Test Organization",
             location=PlanItLocation.objects.create(
@@ -48,7 +48,8 @@ class OrganizationTestCase(TestCase):
         WeatherEventRank.objects.create(
             georegion=GeoRegion.objects.create(
                 name="Test GeoRegion",
-                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200), (200, 100), (100, 100))))
+                geom=MultiPolygon(Polygon(((100, 100), (100, 200), (200, 200),
+                                          (200, 100), (100, 100))))
             ),
             weather_event=WeatherEvent.objects.create(
                 name="Test Weather Event"
@@ -82,9 +83,6 @@ class LocationManagerTestCase(TestCase):
             "region": 11
         }
     }
-
-    def setUp(self):
-        pass
 
     @mock.patch('users.models.make_token_api_request')
     def test_from_api_city_no_location(self, api_wrapper_mock):
