@@ -54,6 +54,8 @@ class ConcernViewSetTestCase(APITestCase):
         location = PlanItLocation.objects.create(api_city_id=14)
         org = PlanItOrganization.objects.create(name='Test', location=location)
         self.user.organizations.add(org)
+        self.user.primary_organization = org
+        self.user.save()
 
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
@@ -96,6 +98,8 @@ class WeatherEventRankViewTestCase(APITestCase):
         location = PlanItLocation.objects.create(name='test location', point=Point(1, 1))
         organization = PlanItOrganization.objects.create(name='test org', location=location)
         self.user.organizations.add(organization)
+        self.user.primary_organization = organization
+        self.user.save()
 
         geom = MultiPolygon(Polygon([[0, 0], [0, 4], [4, 4], [4, 0], [0, 0]]))
         georegion = GeoRegion.objects.create(name='test geom', geom=geom)
@@ -120,6 +124,7 @@ class WeatherEventRankViewTestCase(APITestCase):
     def test_weather_event_rank_list_no_location(self):
         self._create_data()
         PlanItLocation.objects.all().delete()
+        self.user.primary_organization.refresh_from_db()
 
         url = reverse('weather-event-rank-list')
         response = self.client.get(url)

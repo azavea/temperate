@@ -49,6 +49,8 @@ class UserCreationApiTestCase(TestCase):
         # check user belongs to default organization
         self.assertEqual(user.organizations.first(), self.default_org,
                          'User should belong to default organization')
+        self.assertEqual(user.primary_organization, self.default_org,
+                         'User should belong to default organization')
 
         # make user active so can login
         user.is_active = True
