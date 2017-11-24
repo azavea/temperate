@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from planit_data.models import Concern, WeatherEventRank
+from planit_data.models import Concern, WeatherEvent, WeatherEventRank
 
 
 class ConcernSerializer(serializers.ModelSerializer):
@@ -24,9 +24,16 @@ class ConcernSerializer(serializers.ModelSerializer):
         fields = ('id', 'indicator', 'is_relative', 'tagline', 'value',)
 
 
+class WeatherEventSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WeatherEvent
+        fields = ('name', 'coastal_only', 'concern')
+
+
 class WeatherEventRankSerializer(serializers.ModelSerializer):
 
-    weather_event = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    weather_event = WeatherEventSerializer()
 
     class Meta:
         model = WeatherEventRank

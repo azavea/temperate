@@ -51,6 +51,7 @@ class WeatherEvent(models.Model):
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     coastal_only = models.BooleanField(default=False)
+    concern = models.ForeignKey('Concern', null=True, blank=True)
 
     def __str__(self):
         return self.name
