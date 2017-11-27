@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IndicatorChartComponent } from './indicator-chart.component';
 
 @Component({
   selector: 'app-indicators',

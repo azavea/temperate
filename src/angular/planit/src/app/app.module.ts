@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ApiModule, ChartsModule } from 'climate-change-components';
+
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndicatorsComponent } from './indicators/indicators.component';
+import { IndicatorChartComponent } from './indicators/indicator-chart.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { LoginFormComponent } from './marketing/login-form.component';
@@ -55,7 +58,14 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: !environment.production } // <-- debugging purposes only
     ),
-    SharedModule
+    SharedModule,
+
+    ApiModule.forRoot({
+      apiHost: environment.apiUrl + '/api/climate-api',
+      apiHttpInjectionToken: apiHttpProvider.provide
+    }),
+    ChartsModule
+
   ],
   exports: [
     RouterModule
