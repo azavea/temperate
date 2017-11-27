@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ApiModule, ChartsModule } from 'climate-change-components';
+
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -46,13 +48,19 @@ const appRoutes: Routes = [
     HttpModule,
     // 3rd party
     ModalModule.forRoot(),
-    // local
+    // Local
     SharedModule,
+    ApiModule.forRoot({
+      apiHost: environment.apiUrl + '/api/climate-api',
+      apiHttpInjectionToken: apiHttpProvider.provide
+    }),
+    ChartsModule,
     AssessmentModule,
     DashboardModule,
     IndicatorsModule,
     AppRoutingModule
   ],
+  exports: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     AccountCreateService,
