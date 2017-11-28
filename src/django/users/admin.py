@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from users.forms import UserValidationMixin
-from users.models import PlanItOrganization, PlanItUser
+from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 
 
 class PlanItUserChangeForm(UserValidationMixin, UserChangeForm):
@@ -38,3 +38,4 @@ UserAdmin.add_form = PlanItUserAddForm
 
 admin.site.register(PlanItUser, UserAdmin)
 admin.site.register(PlanItOrganization)
+admin.site.register(PlanItLocation)
