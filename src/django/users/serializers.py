@@ -50,12 +50,24 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     location = LocationSerializer()
 
+    def validate_location(self, location_data):
+        allowed_keys = set(['api_city_id'])
+        provided_keys = set(location_data.keys())
+        # If the provided keys and the allowed keys do not share any items, raise a ValidationError
+        if allowed_keys.isdisjoint(provided_keys):
+            raise serializers.ValidationError("Valid location not provided")
+        return location_data
+
     def create(self, validated_data):
         location_data = validated_data.pop('location')
         instance = PlanItOrganization.objects.create(**validated_data)
-        if location_data['api_city_id'] is not None:
+        if 'api_city_id' in location_data:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
             instance.save()
+
+        # Copy the template WeatherEventRank objects for this new Organization
+        instance.import_weather_events()
+
         return instance
 
     def update(self, instance, validated_data):

@@ -11,6 +11,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
+from planit_data.models import GeoRegion, WeatherEventRank
 
 
 class PlanItLocationManager(models.Manager):
@@ -46,9 +47,22 @@ class PlanItOrganization(models.Model):
     name = models.CharField(max_length=256, blank=False, null=False, unique=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
+    weather_events = models.ManyToManyField('planit_data.WeatherEventRank')
 
     def __str__(self):
         return self.name
+
+    def import_weather_events(self):
+        georegion = GeoRegion.objects.get_for_point(self.location.point)
+        weather_events = WeatherEventRank.objects.filter(georegion=georegion)
+
+        # Use the many-to-many field's through model to bulk create the weather events this
+        # organization should have by default
+        ThroughModel = self.weather_events.through
+        ThroughModel.objects.bulk_create(
+            ThroughModel(planitorganization_id=self.id, weathereventrank_id=event.id)
+            for event in weather_events
+        )
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -62,7 +76,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class PlanItUserManager(BaseUserManager):
-    """Custom user manager, based on Django's UserManager"""
+    """Custom user manager, based on Django's UserManager."""
 
     def _create_user(self, email, first_name, last_name, password, **extra):
         if not email:
@@ -125,7 +139,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'users'
 
     def get_current_location(self):
-        """ Return the appropriate PlanItLocation for this user."""
+        """Return the appropriate PlanItLocation for this user."""
         return self.primary_organization.location
 
     # All methods below copied from Django's AbstractUser
@@ -134,9 +148,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         self.email = self.__class__.objects.normalize_email(self.email)
 
     def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
-        """
+        """Return the first_name plus the last_name, with a space in between."""
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
