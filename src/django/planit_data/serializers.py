@@ -10,10 +10,18 @@ class ConcernSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='name'
     )
+    tagline = serializers.SerializerMethodField()
+    value = serializers.SerializerMethodField()
+
+    def get_tagline(self, obj):
+        return obj.tagline(self.context['city_id'])
+
+    def get_value(self, obj):
+        return obj.calculate(self.context['city_id'])
 
     class Meta:
         model = Concern
-        fields = '__all__'
+        fields = ('indicator', 'tagline', 'value',)
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):

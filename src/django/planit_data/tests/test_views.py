@@ -28,7 +28,10 @@ class ConcernViewSetTestCase(APITestCase):
 
     def test_concern_list_nonempty(self):
         indicator = Indicator.objects.create(name='Foobar')
-        concern = Concern.objects.create(indicator=indicator, tagline='test', is_relative=True)
+        concern = Concern.objects.create(indicator=indicator,
+                                         tagline_positive='more',
+                                         tagline_negative='less',
+                                         is_relative=True)
 
         url = reverse('concern-list')
         response = self.client.get(url)
@@ -37,7 +40,8 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(len(response.data['results']), 1)
         self.assertDictEqual(response.data['results'][0],
                              {'id': concern.id, 'indicator': 'Foobar',
-                              'tagline': 'test', 'is_relative': True})
+                              'tagline_positive': 'more', 'tagline_negative': 'less',
+                              'is_relative': True})
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 403 Forbidden response."""
@@ -59,7 +63,8 @@ class ConcernViewSetTestCase(APITestCase):
 
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
-                                         tagline='test',
+                                         tagline_positive='more',
+                                         tagline_negative='less',
                                          is_relative=True)
 
         url = reverse('concern-detail', kwargs={'pk': concern.id})
@@ -67,7 +72,8 @@ class ConcernViewSetTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data,
-                             {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'test',
+                             {'id': concern.id, 'indicator': 'Foobar',
+                              'tagline_positive': 'more', 'tagline_negative': 'less',
                               'is_relative': True, 'value': 5.3})
         calculate_mock.assert_called_with(self.user.get_current_location().api_city_id)
 
