@@ -19,6 +19,12 @@ class ConcernViewSetTestCase(APITestCase):
 
         self.client.force_authenticate(user=self.user)
 
+        location = PlanItLocation.objects.create(api_city_id=14)
+        org = PlanItOrganization.objects.create(name='Test', location=location)
+        self.user.organizations.add(org)
+        self.user.primary_organization = org
+        self.user.save()
+
     def test_concern_list_empty(self):
         url = reverse('concern-list')
         response = self.client.get(url)
@@ -26,8 +32,10 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['results'], [])
 
-    def test_concern_list_nonempty(self):
+    @mock.patch('planit_data.models.Concern.calculate')
+    def test_concern_list_nonempty(self, calculate_mock):
         indicator = Indicator.objects.create(name='Foobar')
+        calculate_mock.return_value = 5.3
         concern = Concern.objects.create(indicator=indicator,
                                          tagline_positive='more',
                                          tagline_negative='less',
@@ -38,10 +46,9 @@ class ConcernViewSetTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
-        self.assertDictEqual(response.data['results'][0],
-                             {'id': concern.id, 'indicator': 'Foobar',
-                              'tagline_positive': 'more', 'tagline_negative': 'less',
-                              'is_relative': True})
+        self.assertDictEqual(dict(response.data['results'][0]),
+                             {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'more',
+                              'is_relative': True, 'value': 5.3})
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 403 Forbidden response."""
@@ -55,12 +62,6 @@ class ConcernViewSetTestCase(APITestCase):
     def test_concern_detail(self, calculate_mock):
         calculate_mock.return_value = 5.3
 
-        location = PlanItLocation.objects.create(api_city_id=14)
-        org = PlanItOrganization.objects.create(name='Test', location=location)
-        self.user.organizations.add(org)
-        self.user.primary_organization = org
-        self.user.save()
-
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
                                          tagline_positive='more',
@@ -73,8 +74,7 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': 'Foobar',
-                              'tagline_positive': 'more', 'tagline_negative': 'less',
-                              'is_relative': True, 'value': 5.3})
+                              'tagline': 'more', 'is_relative': True, 'value': 5.3})
         calculate_mock.assert_called_with(self.user.get_current_location().api_city_id)
 
     def test_concern_detail_invalid(self):

@@ -21,7 +21,7 @@ class ConcernSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Concern
-        fields = ('indicator', 'tagline', 'value',)
+        fields = ('id', 'indicator', 'is_relative', 'tagline', 'value',)
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):
