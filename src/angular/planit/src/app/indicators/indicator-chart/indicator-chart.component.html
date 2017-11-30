@@ -1,0 +1,24 @@
+<div class="chart"
+     [ngClass]="{'card': true, 'card-full': true, 'collapsed': isCollapsed}">
+  <div class="card-header" role="tab" id="headingOne">
+    <a class="add-top-concern" ng-href="" (click)="addTopConcern(indicator.name)">Add as top concern
+      <i class="icon-question-circle-o"></i></a>
+    <a ng-href="" (click)="isCollapsed = !isCollapsed"><h2 class="heading card-title">
+      {{ indicator.label }}<i [ngClass]="{'accordion': true, 'icon-angle-right': isCollapsed,
+      'icon-angle-down': !isCollapsed}"></i>
+    </h2></a>
+  </div>
+  <div (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
+    <div class="card-block">
+      <chart *ngIf="chartData"
+             [chart]="chartData"
+             [indicator]="indicator"
+             [city]="city"
+             [models]="chartData.climate_models"
+             [dataset]="dataset"
+             [scenario]="scenario"
+             [unit]="chartData.units"
+             [extraParams]="extraParams"></chart>
+    </div>
+  </div>
+</div>
