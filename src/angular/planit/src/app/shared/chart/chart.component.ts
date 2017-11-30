@@ -38,7 +38,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     @Output() onRemoveChart = new EventEmitter<Chart>();
     @Output() onExtraParamsChanged = new EventEmitter<IndicatorQueryParams>();
 
-    @Input() chart: ChartData;
+    @Input() chartData: ChartData;
     @Input() indicator: Indicator;
     @Input() dataset: Dataset;
     @Input() scenario: Scenario;
@@ -48,7 +48,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     @Input() extraParams: IndicatorQueryParams;
 
     private processedData: ChartData[];
-    public chartData: ChartData[];
+    public displayChartData: ChartData[];
     public rawChartData: any;
     public isHover: Boolean = false;
     private firstYear = 2006;
@@ -108,7 +108,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
 
     updateChart(extraParams: IndicatorQueryParams) {
         this.cancelDataRequest();
-        this.chartData = [];
+        this.displayChartData = [];
         this.rawChartData = [];
 
         const params: IndicatorQueryParams = {
@@ -128,18 +128,16 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
         };
 
         this.dateRange = [this.firstYear, this.lastYear]; // reset time slider range
-        this.processedData = this.chartService.convertChartData([this.chart]);
-        this.chartData = cloneDeep(this.processedData);
-
-        console.log(this.chartData);
+        this.processedData = this.chartService.convertChartData([this.chartData]);
+        this.displayChartData = cloneDeep(this.processedData);
     }
 
     sliceChartData(newRange: number[]) {
-        this.chartData = cloneDeep(this.processedData); // to trigger change detection
+        this.displayChartData = cloneDeep(this.processedData); // to trigger change detection
         this.dateRange = newRange;
         const startYear = this.dateRange[0];
         const endYear = this.dateRange[1];
-        this.chartData[0]['data'] = this.chartData[0]['data'].filter(obj => {
+        this.displayChartData[0]['data'] = this.displayChartData[0]['data'].filter(obj => {
             const year = obj['date'].getFullYear();
             return year >= startYear && year <= endYear;
         });
