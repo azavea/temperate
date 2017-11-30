@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { IndicatorsRoutingModule } from './indicators-routing.module';
 
 import { IndicatorsComponent } from './indicators.component';
-import { IndicatorChartComponent } from './indicator-chart.component';
+import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 
 @NgModule({
   imports: [
