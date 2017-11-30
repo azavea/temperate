@@ -36,6 +36,7 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
+
     METRIC = 'METRIC'
     IMPERIAL = 'IMPERIAL'
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),

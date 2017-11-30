@@ -16,6 +16,7 @@ class GeoRegionManager(models.Manager):
 
 class GeoRegion(models.Model):
     """A user-agnostic, arbitratry region of interest."""
+
     name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
 
@@ -32,8 +33,8 @@ class CommunitySystem(models.Model):
     - Hospitals
     - Energy delivery
     - Food supply
-
     """
+
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
 
     def __str__(self):
@@ -47,8 +48,8 @@ class WeatherEvent(models.Model):
     - Storm surge from a hurricane
     - River flood
     - Insect infestation
-
     """
+
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
 
     def __str__(self):
@@ -59,8 +60,8 @@ class Indicator(models.Model):
     """A derived aggregate computation that provides some form of climate insight.
 
     See https://docs.climate.azavea.com/indicators.html for some concrete examples
-
     """
+
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     label = models.CharField(max_length=512, blank=False, null=False)
     description = models.TextField(blank=True, null=False, default='')
@@ -71,10 +72,12 @@ class Indicator(models.Model):
 
 class RiskTemplate(models.Model):
     """A generic template for a Climate Risk, not attached to any particular app user.
+
     When a user requests insight about a particular location in the app, these templates
     are used to generate new user-specific UserRisk objects that the user can then
     modify directly.
     """
+
     community_system = models.ManyToManyField('CommunitySystem', related_name='risk', blank=True)
     weather_event = models.ForeignKey(WeatherEvent, null=False)
     indicator = models.ManyToManyField('Indicator', related_name='climate_risk', blank=True)
@@ -138,8 +141,8 @@ class WeatherEventRank(models.Model):
 
     This model holds the default rankings for all organizations, which are used by the
     "Top Concerns" feature of the app.
-
     """
+
     georegion = models.ForeignKey(GeoRegion, null=False)
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()

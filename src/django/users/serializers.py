@@ -46,7 +46,7 @@ class LocationSerializer(GeoFeatureModelSerializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    """Serializer for user organizations"""
+    """Serializer for user organizations."""
 
     location = LocationSerializer()
 
@@ -86,7 +86,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for PlanItUser
+    """Serializer for PlanItUser.
+
     Note:
         Retrieves token if available for a user, or returns ``null``
     """
