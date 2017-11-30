@@ -7,15 +7,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { IndicatorsComponent } from './indicators/indicators.component';
+import { LoginFormComponent } from './marketing/login-form.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { NewUserFormComponent } from './marketing/new-user-form.component';
-import { LoginFormComponent } from './marketing/login-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
-
 import { CoreModule } from './core/core.module';
+import { AssessmentModule } from './assessment/assessment.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
@@ -27,38 +25,33 @@ import { CacheService } from './core/services/cache.service';
 import { UserService } from './core/services/user.service';
 
 import { ModalModule } from 'ngx-bootstrap';
+import { AppRoutingModule } from './app-routing.module';
 
 const appRoutes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'indicators', component: IndicatorsComponent },
-  { path: '', component: MarketingComponent },
-  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginFormComponent,
     MarketingComponent,
     NewUserFormComponent,
-    LoginFormComponent,
     PageNotFoundComponent
   ],
   imports: [
+    // Angular
     BrowserModule,
     CoreModule,
-    DashboardModule,
     FormsModule,
     HttpModule,
-    IndicatorsModule,
+    // 3rd party
     ModalModule.forRoot(),
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: !environment.production } // <-- debugging purposes only
-    ),
-    SharedModule
-  ],
-  exports: [
-    RouterModule
+    // local
+    SharedModule,
+    AssessmentModule,
+    DashboardModule,
+    IndicatorsModule,
+    AppRoutingModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
