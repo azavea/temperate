@@ -1,5 +1,3 @@
-from django.shortcuts import get_object_or_404
-
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,14 +13,12 @@ class ConcernViewSet(ReadOnlyModelViewSet):
     serializer_class = ConcernSerializer
     permission_classes = [IsAuthenticated]
 
-    def retrieve(self, request, pk=None):
-        """Return a specific Concern and its calculated value for the user's location."""
-        concern = get_object_or_404(Concern, id=pk)
-        payload = ConcernSerializer(concern).data
-
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        request = context['request']
         location = request.user.get_current_location()
-        payload['value'] = concern.calculate(location.api_city_id)
-        return Response(payload)
+        context['city_id'] = location.api_city_id
+        return context
 
 
 class WeatherEventRankView(APIView):

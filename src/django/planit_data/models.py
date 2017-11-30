@@ -99,11 +99,12 @@ class Concern(models.Model):
     END_SCENARIO = 'RCP85'
 
     indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
-    tagline = models.CharField(max_length=256, blank=False, null=False)
+    tagline_positive = models.CharField(max_length=256, blank=False, null=False)
+    tagline_negative = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
 
     def __str__(self):
-        return '{} - {}'.format(self.indicator, self.tagline)
+        return '{} - {}'.format(self.indicator, self.tagline_positive)
 
     def calculate(self, city_id):
         start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR)
@@ -114,6 +115,13 @@ class Concern(models.Model):
             return difference / start_avg
         else:
             return difference
+
+    def tagline(self, city_id):
+        value = self.calculate(city_id)
+        if value >= 0:
+            return self.tagline_positive
+        else:
+            return self.tagline_negative
 
     def get_average_value(self, city_id, scenario, start_year):
         year_range = range(start_year, start_year + self.ERA_LENGTH)
