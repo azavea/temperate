@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IndicatorsComponent } from './indicators/indicators.component';
-import { IndicatorChartComponent } from './indicators/indicator-chart.component';
+import { IndicatorChartComponent } from './indicators/indicator-chart/indicator-chart.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { LoginFormComponent } from './marketing/login-form.component';

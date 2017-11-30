@@ -5,7 +5,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 import { SharedModule } from '../shared/shared.module';
 import { IndicatorsComponent } from './indicators.component';
-import { IndicatorChartComponent } from './indicator-chart.component';
+import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 
 @NgModule({
   imports: [
