@@ -56,7 +56,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm --entrypoint flake8 \
-                  django --tee "$FLAKE8_ARGS"
+                  django --tee $FLAKE8_ARGS
 
         echo "Execute Angular linter"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
