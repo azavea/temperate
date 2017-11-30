@@ -10,7 +10,7 @@ import { Scenario,
 @Component({
   selector: 'app-indicators',
   templateUrl: './indicators.component.html',
-  styleUrls: ['./indicators.component.scss']
+  styleUrls: []
 })
 export class IndicatorsComponent implements OnInit {
 
