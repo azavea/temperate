@@ -150,8 +150,6 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
             this.dataset.name,
             this.scenario.name
         ].join('_');
-
-        // this.imageExportService.downloadAsPNG(this.chart.indicator.name, fileName);
     }
 
     public onExtraParamsSelected(params: IndicatorQueryParams) {
