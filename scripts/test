@@ -44,36 +44,33 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         fi
 
         # Python Lint
-        # Need to remove file before running, as flake8 won't remove
-        # old violations from it if there are no violations now
-        set +e
         echo "Remove linter output file, if present"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  run --rm --entrypoint "rm" \
-                  django violations.txt
-        set -e
+                  run --rm --entrypoint rm \
+                  django -f violations.txt
 
+        echo "Execute flake8"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm --entrypoint flake8 \
-                  django --exit-zero --tee "$FLAKE8_ARGS"
+                  django --tee $FLAKE8_ARGS
 
-        # Angular Lint
+        echo "Execute Angular linter"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm angular run "$ANGULAR_LINT_CMD"
 
-        # Angular Tests
+        echo "Execute Angular tests"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm angular run test
 
-        # Python Tests
+        echo "Execute Django tests"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \

@@ -15,7 +15,7 @@ class GeoRegionManager(models.Manager):
 
 
 class GeoRegion(models.Model):
-    """A user-agnostic, arbitratry region of interest."""
+    """A user-agnostic, arbitrary region of interest."""
     name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
 
