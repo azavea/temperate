@@ -3,7 +3,7 @@ import logging
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
-from climate_api.wrapper import make_indicator_api_request
+from climate_api.wrapper import make_indicator_api_request, make_token_api_request
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +133,10 @@ class Concern(models.Model):
 
         values = (result['avg'] for result in response['data'].values())
         return sum(values) / len(response['data'])
+
+    def get_default_units(self):
+        response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
+        return response['default_units']
 
 
 class WeatherEventRank(models.Model):

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Concern, TOP_CONCERNS } from '../models/concern.model';
-import { Indicator } from '../models/indicator.enum';
+import { WeatherEventService } from '../../core/services/weather-event.service';
+import { Concern } from '../models/concern.model';
+import { WeatherEvent } from '../models/weather-event.model';
 
 
 @Component({
@@ -9,12 +10,21 @@ import { Indicator } from '../models/indicator.enum';
   templateUrl: './top-concerns.component.html',
   styleUrls: ['./top-concerns.component.scss']
 })
-export class TopConcernsComponent {
+export class TopConcernsComponent implements OnInit {
 
-  concerns = TOP_CONCERNS;
+  weatherEvents: WeatherEvent[];
 
-  concernClass(concern: Concern): string {
-    return 'concern-' + Indicator[concern.indicator];
+  constructor(private weatherEventService: WeatherEventService) {
+  }
+
+  ngOnInit() {
+    this.weatherEventService.rankedEvents()
+      .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
+  }
+
+  weatherEventClass(weatherEvent: WeatherEvent): string {
+    // TODO: Set class based on some property of the WeatherEvent (GH #251)
+    return 'concern-Heat';
   }
 
   format(concern: Concern): string {
@@ -26,27 +36,7 @@ export class TopConcernsComponent {
   }
 
   hasUnits(concern: Concern): boolean {
-    return concern.indicator !== Indicator.ExtremeEvents;
-  }
-
-  defaultUnit(concern: Concern): string {
-    if (concern.indicator === Indicator.Precipitation) {
-      return 'in';
-    } else if (concern.indicator === Indicator.Heat) {
-      return 'F';
-    }
-  }
-
-  alternateUnit(concern: Concern): string {
-    if (concern.indicator === Indicator.Precipitation) {
-      return 'cm';
-    } else if (concern.indicator === Indicator.Heat) {
-      return 'C';
-    }
-  }
-
-  selectUnit(concern: Concern, unitType: string): void {
-    // TODO: Actually pick alternate units... (GH #120)
+    return !concern.isRelative && concern.units !== 'count';
   }
 
 }

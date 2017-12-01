@@ -10,14 +10,19 @@ class ConcernSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='name'
     )
+    isRelative = serializers.BooleanField(source='is_relative')
     tagline = serializers.SerializerMethodField()
     value = serializers.SerializerMethodField()
+    units = serializers.SerializerMethodField()
 
     def get_tagline(self, obj):
         return obj.tagline(self._get_city_id())
 
     def get_value(self, obj):
         return obj.calculate(self._get_city_id())
+
+    def get_units(self, obj):
+        return obj.get_default_units()
 
     def _get_city_id(self):
         if 'request' not in self.context:
@@ -30,7 +35,7 @@ class ConcernSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Concern
-        fields = ('id', 'indicator', 'is_relative', 'tagline', 'value',)
+        fields = ('id', 'indicator', 'isRelative', 'tagline', 'units', 'value',)
 
 
 class WeatherEventSerializer(serializers.ModelSerializer):
@@ -45,8 +50,8 @@ class WeatherEventSerializer(serializers.ModelSerializer):
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):
 
-    weather_event = WeatherEventSerializer()
+    weatherEvent = WeatherEventSerializer(source='weather_event')
 
     class Meta:
         model = WeatherEventRank
-        fields = ('weather_event', 'order',)
+        fields = ('weatherEvent', 'order',)
