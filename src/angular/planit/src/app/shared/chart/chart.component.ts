@@ -5,6 +5,7 @@ import {
     EventEmitter,
     HostListener,
     Input,
+    OnInit,
     OnChanges,
     OnDestroy,
     Output
@@ -33,12 +34,10 @@ import * as cloneDeep from 'lodash.clonedeep';
   selector: 'chart',
   templateUrl: './chart.component.html'
 })
-export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
+export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit, OnInit {
 
-    @Output() onRemoveChart = new EventEmitter<Chart>();
     @Output() onExtraParamsChanged = new EventEmitter<IndicatorQueryParams>();
 
-    @Input() chartData: ChartData;
     @Input() indicator: Indicator;
     @Input() dataset: Dataset;
     @Input() scenario: Scenario;
@@ -48,11 +47,16 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     @Input() extraParams: IndicatorQueryParams;
 
     private processedData: ChartData[];
-    public displayChartData: ChartData[];
+    public chartData: ChartData[];
     public rawChartData: any;
     public isHover: Boolean = false;
-    private firstYear = 2006;
+    private firstYear = 1950;
     private lastYear = 2100;
+    private historicalScenario: Scenario = {
+        name: 'historical',
+        label: 'Historical',
+        description: ''
+    };
     public dateRange: number[] = [this.firstYear, this.lastYear];
     public isThresholdIndicator = isThresholdIndicator;
     public isBasetempIndicator = isBasetempIndicator;
@@ -66,7 +70,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
         step: 1,
         limit: 150,
         range: {
-          min: 2006,
+          min: 1950,
           max: 2100
         },
         pips: {
@@ -90,15 +94,13 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        // Manually trigger change detection in parent to avoid
-        // ExpressionChangedAfterItHasBeenCheckedError when extra params form
-        // calls to set initial values in ngAfterViewInit.
-        this.changeDetector.detectChanges();
+    }
+
+    ngOnInit() {
+        this.updateChart(this.extraParams);
     }
 
     ngOnChanges($event) {
-        // happens if different chart selected
-        if (!this.scenario || !this.city || !this.models || !this.dataset) { return; }
         this.updateChart($event);
     }
 
@@ -108,7 +110,7 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
 
     updateChart(extraParams: IndicatorQueryParams) {
         this.cancelDataRequest();
-        this.displayChartData = [];
+        this.chartData = [];
         this.rawChartData = [];
 
         const params: IndicatorQueryParams = {
@@ -128,16 +130,25 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
         };
 
         this.dateRange = [this.firstYear, this.lastYear]; // reset time slider range
-        this.processedData = this.chartService.convertChartData([this.chartData]);
-        this.displayChartData = cloneDeep(this.processedData);
+        const future = this.indicatorService.getData(queryOpts);
+        queryOpts.scenario = this.historicalScenario;
+        const historical = this.indicatorService.getData(queryOpts);
+        this.dataSubscription = Observable.forkJoin(
+            historical,
+            future
+        ).subscribe(data => {
+            this.rawChartData = data;
+            this.processedData = this.chartService.convertChartData(data);
+            this.chartData = cloneDeep(this.processedData);
+        });
     }
 
     sliceChartData(newRange: number[]) {
-        this.displayChartData = cloneDeep(this.processedData); // to trigger change detection
+        this.chartData = cloneDeep(this.processedData); // to trigger change detection
         this.dateRange = newRange;
         const startYear = this.dateRange[0];
         const endYear = this.dateRange[1];
-        this.displayChartData[0]['data'] = this.displayChartData[0]['data'].filter(obj => {
+        this.chartData[0]['data'] = this.chartData[0]['data'].filter(obj => {
             const year = obj['date'].getFullYear();
             return year >= startYear && year <= endYear;
         });
@@ -156,10 +167,6 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit {
         this.extraParams = params;
         this.onExtraParamsChanged.emit(this.extraParams);
         this.updateChart(this.extraParams);
-    }
-
-    removeChart(chart: Chart) {
-        this.onRemoveChart.emit(chart);
     }
 
     private cancelDataRequest() {

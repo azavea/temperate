@@ -18,16 +18,12 @@
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
       <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
-        <div>
+        <div *ngFor="let indicator of allIndicators">
               <indicator-chart
-                  *ngFor="let indicator of allIndicators"
                   [indicator]="indicator"
-                  [city]="city"
-                  [dataset]="dataset"
-                  [scenario]="scenario"
-                  [extraParams]="extraParams"></indicator-chart>
+                  [city]="city"></indicator-chart>
         </div>
       </div>
     </section>
   </main>
-</div>  <!-- END .main-container -->
+</div>
