@@ -1,22 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Observable } from 'rxjs/Rx';
 
+import { WeatherEventService } from '../../core/services/weather-event.service';
 import { TopConcernsComponent } from './top-concerns.component';
 
 describe('TopConcernsComponent', () => {
   let component: TopConcernsComponent;
-  let fixture: ComponentFixture<TopConcernsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TopConcernsComponent ]
-    })
-    .compileComponents();
-  }));
+  const mockEvents = [
+    {name: 'Hurricanes', concern: null},
+    {name: 'Heat Waves', concern: {value: 9.6, units: 'count'}},
+  ];
+
+  let mockWeatherEventService;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TopConcernsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    mockWeatherEventService = {
+      rankedEvents: jasmine.createSpy('rankedEvents').and.returnValue(
+        Observable.of({json: () => mockEvents}))
+    };
+    component = new TopConcernsComponent(mockWeatherEventService);
   });
 
   it('should create', () => {

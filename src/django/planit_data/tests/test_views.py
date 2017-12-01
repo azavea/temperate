@@ -33,9 +33,11 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.data['results'], [])
 
     @mock.patch('planit_data.models.Concern.calculate')
-    def test_concern_list_nonempty(self, calculate_mock):
+    @mock.patch('planit_data.models.Concern.get_default_units')
+    def test_concern_list_nonempty(self, default_unit_mock, calculate_mock):
         indicator = Indicator.objects.create(name='Foobar')
         calculate_mock.return_value = 5.3
+        default_unit_mock.return_value = 'farthing'
         concern = Concern.objects.create(indicator=indicator,
                                          tagline_positive='more',
                                          tagline_negative='less',
@@ -48,7 +50,7 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(len(response.data['results']), 1)
         self.assertDictEqual(dict(response.data['results'][0]),
                              {'id': concern.id, 'indicator': 'Foobar', 'tagline': 'more',
-                              'is_relative': True, 'value': 5.3})
+                              'isRelative': True, 'value': 5.3, 'units': 'farthing'})
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 403 Forbidden response."""
@@ -59,8 +61,10 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     @mock.patch('planit_data.models.Concern.calculate')
-    def test_concern_detail(self, calculate_mock):
+    @mock.patch('planit_data.models.Concern.get_default_units')
+    def test_concern_detail(self, default_units_mock, calculate_mock):
         calculate_mock.return_value = 5.3
+        default_units_mock.return_value = 'miles'
 
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
@@ -74,7 +78,8 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': 'Foobar',
-                              'tagline': 'more', 'is_relative': True, 'value': 5.3})
+                              'tagline': 'more', 'isRelative': True, 'value': 5.3,
+                              'units': 'miles'})
         calculate_mock.assert_called_with(self.user.get_current_location().api_city_id)
 
     def test_concern_detail_invalid(self):
