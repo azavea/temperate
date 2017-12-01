@@ -213,3 +213,19 @@ $popover-max-width: 28rem;
 $popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
 $popover-border: 1px solid rgba(48,47,77,.15);
 $popover-arrow: 8px;
+
+
+/* * * *
+ * chart
+ *
+ * * * */
+
+$chart-line: #3D57FF;
+$chart-minmax: $chart-line;
+$chart-trendline: #d44a34;
+$chart-min-bar: #41424d;
+$chart-max-bar: #f3b32f;
+$chart-axis: #757575;
+$chart-grid: #e3e3e3;
+$chart-scrubline: $chart-axis;
+$color-header: #32323C;
