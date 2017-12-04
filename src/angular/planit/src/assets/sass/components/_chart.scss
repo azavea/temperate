@@ -1,6 +1,5 @@
 .chart {
   height: 100%;
-  width: 700px; // temporary placeholder until chart responsivity is handled
 }
 
 .chart-graphic {
@@ -13,12 +12,6 @@ ccc-line-graph {
   display: block;
   box-shadow: 2px 2px 10px rgba(0,0,0,.05);
   height: 0;
-}
-
-.line-graph {
-}
-
-.chart-container {
 }
 
 chart {
@@ -111,6 +104,7 @@ chart {
 
     &.slider {
       padding: 0rem 2rem 3rem;
+      width: auto;
     }
 
     .chart-options-body {
@@ -344,4 +338,3 @@ chart {
   background-color: #EFF4F7!important;
   border-color: #EFF4F7!important;
 }
-

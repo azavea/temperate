@@ -1,5 +1,4 @@
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -28,13 +27,14 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 /*
  * Chart component
- * Container for each individual chart plus controls
+ * Container for each individual chart
  */
 @Component({
   selector: 'chart',
-  templateUrl: './chart.component.html'
+  templateUrl: './chart.component.html',
+  styleUrls: ['chart.component.scss']
 })
-export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit, OnInit {
+export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 
     @Output() onExtraParamsChanged = new EventEmitter<IndicatorQueryParams>();
 
@@ -81,19 +81,15 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit, OnIn
       };
     private dataSubscription: Subscription;
 
-
-    // Mousemove event must be at this level to listen to mousing over rect#overlay
-    @HostListener('mouseover', ['$event'])
-    onMouseOver(event) {
-        this.isHover = event.target.id === 'overlay' ? true : false;
-    }
-
     constructor(private chartService: ChartService,
                 private indicatorService: IndicatorService,
                 private changeDetector: ChangeDetectorRef) {
     }
 
-    ngAfterViewInit() {
+    // Mousemove event must be at this level to listen to mousing over rect#overlay
+    @HostListener('mouseover', ['$event'])
+    onMouseOver(event) {
+        this.isHover = event.target.id === 'overlay' ? true : false;
     }
 
     ngOnInit() {
@@ -152,15 +148,6 @@ export class ChartComponent implements OnChanges, OnDestroy, AfterViewInit, OnIn
             const year = obj['date'].getFullYear();
             return year >= startYear && year <= endYear;
         });
-    }
-
-    onDownloadImageClicked() {
-        const fileName: string = [
-            this.indicator.name,
-            this.city.properties.name,
-            this.dataset.name,
-            this.scenario.name
-        ].join('_');
     }
 
     public onExtraParamsSelected(params: IndicatorQueryParams) {

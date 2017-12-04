@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 
 import { City,
@@ -6,10 +6,9 @@ import { City,
 
 @Component({
   selector: 'app-indicators',
-  templateUrl: './indicators.component.html',
-  styleUrls: []
+  templateUrl: './indicators.component.html'
 })
-export class IndicatorsComponent implements OnInit {
+export class IndicatorsComponent {
 
   public allIndicators: Indicator[];
 
@@ -29,26 +28,19 @@ export class IndicatorsComponent implements OnInit {
     };
 
     this.allIndicators = [{
+      name: 'average_high_temperature',
+      label: 'Average High Temperature',
+      description: 'Average high temperature, calculated by averaging daily high temperatures over the year.',
+      time_aggregation: 'yearly',
+      variables: ['tasmax'],
+      default_units: 'F'
+    },{
       name: 'heat_wave_incidents',
       label: 'Heat Wave Incidents',
       description: 'Number of times daily high temperature exceeds 5C above historic norm for at least 5 consecutive days',
       time_aggregation: 'yearly',
       variables: ['tasmax'],
       default_units: 'count'
-    },{
-      name: 'heat_wave_incidents',
-      label: 'MeatBalls',
-      description: 'Number of times daily high temperature exceeds 5C above historic norm for at least 5 consecutive days',
-      time_aggregation: 'yearly',
-      variables: ['tasmax'],
-      default_units: 'count'
     }];
-  }
-
-  ngOnInit() {
-  }
-
-  public addTopConcern(concern: any) {
-    console.log(concern);
   }
 }

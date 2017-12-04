@@ -14,7 +14,7 @@ import { Point } from 'geojson';
 @Component({
   selector: 'indicator-chart',
   templateUrl: './indicator-chart.component.html',
-  styleUrls: []
+  styleUrls: ['indicator-chart.component.scss']
 })
 export class IndicatorChartComponent implements OnInit {
 
@@ -26,8 +26,9 @@ export class IndicatorChartComponent implements OnInit {
   public models: ClimateModel[];
   private extraParams: IndicatorQueryParams;
 
+  constructor() {}
 
-  constructor() {
+  ngOnInit() {
     this.scenario = {
         name: 'RCP85',
         label: 'RCP 8.5',
@@ -50,20 +51,5 @@ export class IndicatorChartComponent implements OnInit {
       base_time: null,
       enabled: true
     }];
-  }
-
-  ngOnInit() {
-  }
-
-  public addTopConcern(concern: any) {
-    console.log(concern);
-  }
-
-  public collapsed(event: any) {
-    console.log(event);
-  }
-
-  public expanded(event: any) {
-    console.log(event);
   }
 }

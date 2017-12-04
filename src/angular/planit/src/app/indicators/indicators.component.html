@@ -2,7 +2,6 @@
 <div class="main-container">
   <app-sidebar></app-sidebar>
   <main class="main-content" role="main">
-     <!-- Intro -->
     <section class="page-intro">
       <h1 class="heading">Indicators</h1>
       <p class="paragraph-intro">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
@@ -18,11 +17,10 @@
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
       <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
-        <div *ngFor="let indicator of allIndicators">
-              <indicator-chart
-                  [indicator]="indicator"
-                  [city]="city"></indicator-chart>
-        </div>
+        <indicator-chart *ngFor="let indicator of allIndicators"
+                         [indicator]="indicator"
+                         [city]="city">
+        </indicator-chart>
       </div>
     </section>
   </main>
