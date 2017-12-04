@@ -1,40 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+
+import { City,
+         Indicator } from 'climate-change-components';
 
 @Component({
   selector: 'app-indicators',
-  templateUrl: './indicators.component.html',
-  styleUrls: ['./indicators.component.scss']
+  templateUrl: './indicators.component.html'
 })
 export class IndicatorsComponent implements OnInit {
 
-  public allIndicators: any[];
+  public allIndicators: Indicator[];
+  public city: City;
 
-  constructor() {
-
-    // test copy for accordion of collapsible cards of all indicators
-    this.allIndicators = [{
-      name: 'Heat Wave Incidents',
-      isCollapsed: true,
-      text: 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
-    }, {
-      name: 'Raining Spagetti Meatballs',
-      isCollapsed: true,
-      text: 'This is Thing Two'
-    }];
-  }
+  constructor() {}
 
   ngOnInit() {
-  }
+    this.city = {
+      id: '7',
+      type: 'feature',
+      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
+      properties: {
+          name: 'Philadelphia',
+          admin: 'PA',
+          datasets: ['NEX-GDDP', 'LOCA'],
+          region: 11
+      },
+    };
 
-  public addTopConcern(concern: any) {
-    console.log(concern);
-  }
-
-  public collapsed(event: any) {
-    console.log(event);
-  }
-
-  public expanded(event: any) {
-    console.log(event);
+    this.allIndicators = [{
+      name: 'average_high_temperature',
+      label: 'Average High Temperature',
+      // tslint:disable-next-line:max-line-length
+      description: 'Average high temperature, calculated by averaging daily high temperatures over the year.',
+      time_aggregation: 'yearly',
+      variables: ['tasmax'],
+      default_units: 'F'
+    }, {
+      name: 'heat_wave_incidents',
+      label: 'Heat Wave Incidents',
+      // tslint:disable-next-line:max-line-length
+      description: 'Number of times daily high temperature exceeds 5C above historic norm for at least 5 consecutive days',
+      time_aggregation: 'yearly',
+      variables: ['tasmax'],
+      default_units: 'count'
+    }];
   }
 }

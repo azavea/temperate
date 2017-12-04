@@ -1,0 +1,15 @@
+.chart {
+  height: 100%;
+}
+
+.chart-graphic {
+  height: 100%;
+  width: 100%;
+}
+
+ccc-line-graph {
+  position: relative;
+  display: block;
+  box-shadow: 2px 2px 10px rgba(0,0,0,.05);
+  height: 0;
+}

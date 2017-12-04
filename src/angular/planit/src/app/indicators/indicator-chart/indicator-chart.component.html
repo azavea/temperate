@@ -1,0 +1,23 @@
+<div class="chart"
+     [ngClass]="{'card': true, 'card-full': true, 'collapsed': isCollapsed}">
+  <div class="card-header" role="tab" id="headingOne">
+    <a class="add-top-concern">Add as top concern<i class="icon-question-circle-o"></i></a>
+    <a (click)="isCollapsed = !isCollapsed">
+      <h2 class="heading card-title">
+        {{ indicator.label }}
+        <i [ngClass]="{'accordion': true, 'icon-angle-right': isCollapsed, 'icon-angle-down': !isCollapsed}"></i>
+      </h2>
+    </a>
+  </div>
+  <div [collapse]="isCollapsed">
+    <div class="card-block">
+      <app-chart [indicator]="indicator"
+             [city]="city"
+             [models]="models"
+             [dataset]="dataset"
+             [scenario]="scenario"
+             [unit]="indicator.default_units"
+             [extraParams]="extraParams"></app-chart>
+    </div>
+  </div>
+</div>
