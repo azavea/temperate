@@ -30,7 +30,7 @@ import * as cloneDeep from 'lodash.clonedeep';
  * Container for each individual chart
  */
 @Component({
-  selector: 'chart',
+  selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['chart.component.scss']
 })
@@ -114,7 +114,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
             dataset: this.dataset.name,
             unit: this.unit,
             time_aggregation: TimeAggParam.Yearly
-        }
+        };
 
         Object.assign(params, this.extraParams);
 

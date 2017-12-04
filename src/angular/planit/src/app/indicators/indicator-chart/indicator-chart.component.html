@@ -11,13 +11,13 @@
   </div>
   <div [collapse]="isCollapsed">
     <div class="card-block">
-      <chart [indicator]="indicator"
+      <app-chart [indicator]="indicator"
              [city]="city"
              [models]="models"
              [dataset]="dataset"
              [scenario]="scenario"
              [unit]="indicator.default_units"
-             [extraParams]="extraParams"></chart>
+             [extraParams]="extraParams"></app-chart>
     </div>
   </div>
 </div>
