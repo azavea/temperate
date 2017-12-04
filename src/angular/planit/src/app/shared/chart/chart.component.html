@@ -1,14 +1,14 @@
 <div class="chart-body">
-    <div class="chart-graphic" *ngIf="displayChartData && displayChartData.length">
+    <div class="chart-graphic" *ngIf="chartData && chartData.length">
         <div class="line-graph" style="height:200px;">
             <ccc-line-graph
-                [data]="displayChartData"
+                [data]="chartData"
                 [indicator]="indicator"
                 [hover]="isHover"
                 [unit]="unit">
             </ccc-line-graph>
         </div>
-        <div class="chart-legend" *ngIf="displayChartData && displayChartData.length">
+        <div class="chart-legend">
             <div class="chart-legend-icons">
                 <span><span class="icon-minus chart-legend-line"></span> {{ unit }}</span>
                 <span><span class="chart-legend-minmax"></span> Range between min/max of selected models</span>

@@ -10,14 +10,13 @@
   </div>
   <div (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
     <div class="card-block">
-      <chart *ngIf="chartData"
-             [chartData]="chartData"
+      <chart
              [indicator]="indicator"
              [city]="city"
-             [models]="chartData.climate_models"
+             [models]="models"
              [dataset]="dataset"
              [scenario]="scenario"
-             [unit]="chartData.indicator.default_units"
+             [unit]="indicator.default_units"
              [extraParams]="extraParams"></chart>
     </div>
   </div>
