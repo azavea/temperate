@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 
 import { City,
@@ -8,12 +8,14 @@ import { City,
   selector: 'app-indicators',
   templateUrl: './indicators.component.html'
 })
-export class IndicatorsComponent {
+export class IndicatorsComponent implements OnInit {
 
   public allIndicators: Indicator[];
   public city: City;
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     this.city = {
       id: '7',
       type: 'feature',
