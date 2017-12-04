@@ -7,7 +7,7 @@ Context
 One of Temperate.io’s main selling features is the ability to communicate easily with a climate consultant at ICLEI, included in pricing. Users will likely be small-midsize municipal employees who aren’t expected to be technically independent, hence the appeal of guidance via Temperate.io.
 
 Help Service Requirements:
--Simple communication workflow to connect users directly to ICLEI consultants
+- Simple communication workflow to connect users directly to ICLEI consultants
 - Free/low cost & low maintenance on the backend
 - Capture basic data:
     - datetime
