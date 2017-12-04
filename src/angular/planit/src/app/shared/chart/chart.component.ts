@@ -31,8 +31,7 @@ import * as cloneDeep from 'lodash.clonedeep';
  */
 @Component({
   selector: 'app-chart',
-  templateUrl: './chart.component.html',
-  styleUrls: ['chart.component.scss']
+  templateUrl: './chart.component.html'
 })
 export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 

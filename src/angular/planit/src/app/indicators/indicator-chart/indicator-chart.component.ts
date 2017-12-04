@@ -13,8 +13,7 @@ import { Point } from 'geojson';
 
 @Component({
   selector: 'app-indicator-chart',
-  templateUrl: './indicator-chart.component.html',
-  styleUrls: ['indicator-chart.component.scss']
+  templateUrl: './indicator-chart.component.html'
 })
 export class IndicatorChartComponent implements OnInit {
 
