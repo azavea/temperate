@@ -25,6 +25,7 @@ import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
 import { UserService } from './core/services/user.service';
+import { WeatherEventService } from './core/services/weather-event.service';
 
 import { ModalModule } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     AuthService,
     CacheService,
     UserService,
+    WeatherEventService,
   ],
   bootstrap: [AppComponent]
 })

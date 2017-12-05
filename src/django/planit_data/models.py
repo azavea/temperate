@@ -3,7 +3,7 @@ import logging
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
-from climate_api.wrapper import make_indicator_api_request
+from climate_api.wrapper import make_indicator_api_request, make_token_api_request
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +51,7 @@ class WeatherEvent(models.Model):
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     coastal_only = models.BooleanField(default=False)
+    concern = models.ForeignKey('Concern', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -99,7 +100,7 @@ class Concern(models.Model):
     END_YEAR = 2050
     END_SCENARIO = 'RCP85'
 
-    indicator = models.ForeignKey(Indicator, on_delete=CASCADE, null=False)
+    indicator = models.OneToOneField(Indicator, on_delete=CASCADE, null=False)
     tagline_positive = models.CharField(max_length=256, blank=False, null=False)
     tagline_negative = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
@@ -132,6 +133,10 @@ class Concern(models.Model):
 
         values = (result['avg'] for result in response['data'].values())
         return sum(values) / len(response['data'])
+
+    def get_default_units(self):
+        response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
+        return response['default_units']
 
 
 class WeatherEventRank(models.Model):

@@ -118,7 +118,8 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
                                            related_name='user_organizations')
-    primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True)
+    primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
+                                             on_delete=models.SET_NULL)
 
     objects = PlanItUserManager()
 
