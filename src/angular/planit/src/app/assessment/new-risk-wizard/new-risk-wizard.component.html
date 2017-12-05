@@ -1,16 +1,16 @@
 <wizard #wizard navBarLocation="left" navBarLayout="large-empty-symbols">
-  <va-new-risk-step-identify #identifyStep wizardStep
+  <va-new-risk-step-identify #identifyStep
+                             wizardStep
                              stepTitle="{{ identifyStep.title }}"
                              navigationSymbol="{{ identifyStep.navigationSymbol }}">
   </va-new-risk-step-identify>
 
-  <wizard-step optionalStep stepTitle="Hazard" navigationSymbol="2">
-
-    <h3>Hazard</h3>
-
-    <button type="button" nextStep>Continue</button>
-    <button type="button" previousStep>Back</button>
-  </wizard-step>
+  <va-new-risk-step-hazard #hazardStep
+                           wizardStep
+                           optionalStep
+                           stepTitle="{{ hazardStep.title }}"
+                           navigationSymbol="{{ hazardStep.navigationSymbol }}">
+  </va-new-risk-step-hazard>
 
   <wizard-step optionalStep stepTitle="Impact" navigationSymbol="3">
 

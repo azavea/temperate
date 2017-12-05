@@ -13,6 +13,7 @@ import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
 // New Risk Wizard imports
 import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.component';
 import { IdentifyStepComponent } from './new-risk-wizard/steps/identify-step.component';
+import { HazardStepComponent } from './new-risk-wizard/steps/hazard-step.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { IdentifyStepComponent } from './new-risk-wizard/steps/identify-step.com
 
     // New Risk Wizard
     NewRiskWizardComponent,
-    IdentifyStepComponent
+    IdentifyStepComponent,
+    HazardStepComponent
   ],
   entryComponents: [NewRiskWizardComponent],
   exports: []
