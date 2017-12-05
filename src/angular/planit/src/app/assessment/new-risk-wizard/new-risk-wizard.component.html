@@ -1,11 +1,8 @@
 <wizard #wizard navBarLocation="left" navBarLayout="large-empty-symbols">
-    <wizard-step stepTitle="Identify risk" navigationSymbol="1">
-
-        <h3>Identify risk</h3>
-
-        <button type="button" nextStep>Continue</button>
-        <button type="button" previousStep>Cancel</button>
-    </wizard-step>
+    <va-new-risk-step-identify #identifyStep wizardStep
+                               stepTitle="{{ identifyStep.title }}"
+                               navigationSymbol="{{ identifyStep.navigationSymbol }}">
+    </va-new-risk-step-identify>
 
     <wizard-step optionalStep stepTitle="Hazard" navigationSymbol="2">
 
@@ -35,7 +32,6 @@
 
         <h3>Review</h3>
 
-        <button type="button" nextStep>Continue</button>
         <button type="button" (click)="onWizardFinish()">Finish</button>
     </wizard-completion-step>
 </wizard>

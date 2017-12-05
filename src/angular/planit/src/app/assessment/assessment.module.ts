@@ -8,8 +8,11 @@ import { SharedModule } from '../shared/shared.module';
 
 import { AssessmentOverviewComponent } from './assessment-overview.component';
 import { CreateRiskComponent } from './create-risk.component';
-import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
+
+// New Risk Wizard imports
+import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.component';
+import { IdentifyStepComponent } from './new-risk-wizard/steps/identify-step.component';
 
 @NgModule({
   imports: [
@@ -22,7 +25,10 @@ import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
   declarations: [
     AssessmentOverviewComponent,
     CreateRiskComponent,
-    NewRiskWizardComponent
+
+    // New Risk Wizard
+    NewRiskWizardComponent,
+    IdentifyStepComponent
   ],
   entryComponents: [NewRiskWizardComponent],
   exports: []

@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 import { WizardComponent } from 'ng2-archwizard';
+import { IdentifyStepComponent } from './steps/identify-step.component';
 
 @Component({
     selector: 'va-new-risk-wizard',
@@ -9,12 +12,13 @@ import { WizardComponent } from 'ng2-archwizard';
 export class NewRiskWizardComponent implements OnInit {
 
     @ViewChild("wizard") wizard: WizardComponent;
+    @ViewChild("identifyStep") identifyStep: IdentifyStepComponent;
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     ngOnInit() { }
 
     onWizardFinish() {
-        console.log("Wizard done!");
+        this.router.navigate(['assessment']);
     }
 }

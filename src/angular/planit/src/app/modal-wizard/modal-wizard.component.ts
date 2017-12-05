@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -12,7 +12,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
     template: ''
 })
 
-export class ModalWizardComponent implements OnInit {
+export class ModalWizardComponent implements OnInit, OnDestroy {
 
   @Input() component: any;
   @Input() modalOptions: ModalOptions;
@@ -23,6 +23,10 @@ export class ModalWizardComponent implements OnInit {
 
   ngOnInit() {
     this.modalRef = this.showWizardModal();
+  }
+
+  ngOnDestroy() {
+    this.modalRef.hide();
   }
 
   showWizardModal() {
