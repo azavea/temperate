@@ -3,12 +3,14 @@ import json
 from unittest import mock
 
 from django.contrib.auth import get_user_model
+from django.contrib.gis.geos import Polygon, MultiPolygon
 from django.test import TestCase
 
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient, APITestCase
 
 from users.models import PlanItOrganization, PlanItUser
+from planit_data.models import GeoRegion
 
 
 class UserCreationApiTestCase(TestCase):
@@ -129,9 +131,8 @@ class OrganizationApiTestCase(APITestCase):
                                                    'password')
         self.client.force_authenticate(user=self.user)
 
-    @mock.patch.object(PlanItOrganization, 'import_weather_events')
     @mock.patch('users.models.make_token_api_request')
-    def test_org_created(self, api_wrapper_mock, import_weather_events_mock):
+    def test_org_created(self, api_wrapper_mock):
         api_wrapper_mock.return_value = {
             "id": 7,
             "type": "Feature",
@@ -154,6 +155,14 @@ class OrganizationApiTestCase(APITestCase):
                 "region": 11
             }
         }
+
+        # Create a GeoRegion that encompasses (-75.16379, 39.95233)
+        GeoRegion.objects.create(
+            name="Test GeoRegion",
+            geom=MultiPolygon(Polygon(((0, 0), (0, 100), (-100, 100),
+                                       (-100, 0), (0, 0))))
+        )
+
         org_data = {
             'name': 'Test Organization',
             'location': {
@@ -161,7 +170,6 @@ class OrganizationApiTestCase(APITestCase):
             },
             'units': 'METRIC'
         }
-
         response = self.client.post('/api/organizations/', org_data, format='json')
 
         # should get created status
