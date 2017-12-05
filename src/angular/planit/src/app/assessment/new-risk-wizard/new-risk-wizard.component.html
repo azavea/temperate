@@ -12,26 +12,24 @@
                            navigationSymbol="{{ hazardStep.navigationSymbol }}">
   </va-new-risk-step-hazard>
 
-  <wizard-step optionalStep stepTitle="Impact" navigationSymbol="3">
+  <va-new-risk-step-impact #impactStep
+                           wizardStep
+                           optionalStep
+                           stepTitle="{{ impactStep.title }}"
+                           navigationSymbol="{{ impactStep.navigationSymbol }}">
+  </va-new-risk-step-impact>
 
-    <h3>Impact</h3>
+  <va-new-risk-step-capacity #capacityStep
+                             wizardStep
+                             optionalStep
+                             stepTitle="{{ capacityStep.title }}"
+                             navigationSymbol="{{ capacityStep.navigationSymbol }}">
+  </va-new-risk-step-capacity>
 
-    <button type="button" nextStep>Continue</button>
-    <button type="button" previousStep>Back</button>
-  </wizard-step>
-
-  <wizard-step optionalStep stepTitle="Adaptive capacity" navigationSymbol="4">
-
-    <h3>Adaptive capacity</h3>
-
-    <button type="button" nextStep>Continue</button>
-    <button type="button" previousStep>Back</button>
-  </wizard-step>
-
-  <wizard-completion-step enableBackLinks stepTitle="Review" navigationSymbol="5">
-
-    <h3>Review</h3>
-
-    <button type="button" (click)="onWizardFinish()">Finish</button>
-  </wizard-completion-step>
+  <va-new-risk-step-review #reviewStep
+                           wizardCompletionStep
+                           enableBackLinks
+                           stepTitle="{{ reviewStep.title }}"
+                           navigationSymbol="{{ reviewStep.navigationSymbol }}">
+  </va-new-risk-step-review>
 </wizard>
