@@ -33,11 +33,13 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.data['results'], [])
 
     @mock.patch('planit_data.models.Concern.calculate')
-    @mock.patch('planit_data.models.Concern.get_default_units')
-    def test_concern_list_nonempty(self, default_unit_mock, calculate_mock):
+    def test_concern_list_nonempty(self, calculate_mock):
         indicator = Indicator.objects.create(name='Foobar')
-        calculate_mock.return_value = 5.3
-        default_unit_mock.return_value = 'farthing'
+        calculate_mock.return_value = {
+            'value': 5.3,
+            'units': 'farthing',
+            'tagline': 'more'
+        }
         concern = Concern.objects.create(indicator=indicator,
                                          tagline_positive='more',
                                          tagline_negative='less',
@@ -61,10 +63,12 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     @mock.patch('planit_data.models.Concern.calculate')
-    @mock.patch('planit_data.models.Concern.get_default_units')
-    def test_concern_detail(self, default_units_mock, calculate_mock):
-        calculate_mock.return_value = 5.3
-        default_units_mock.return_value = 'miles'
+    def test_concern_detail(self, calculate_mock):
+        calculate_mock.return_value = {
+            'value': 5.3,
+            'units': 'miles',
+            'tagline': 'more'
+        }
 
         indicator = Indicator.objects.create(name='Foobar')
         concern = Concern.objects.create(indicator=indicator,
@@ -80,7 +84,7 @@ class ConcernViewSetTestCase(APITestCase):
                              {'id': concern.id, 'indicator': 'Foobar',
                               'tagline': 'more', 'isRelative': True, 'value': 5.3,
                               'units': 'miles'})
-        calculate_mock.assert_called_with(self.user.get_current_location().api_city_id)
+        calculate_mock.assert_called_with(self.user.primary_organization)
 
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})
