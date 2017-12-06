@@ -22,7 +22,7 @@ import { ReviewStepComponent } from './new-risk-wizard/steps/review-step.compone
   imports: [
     CommonModule,
     ArchwizardModule,
-    ModalWizardModule,
+    ModalWizardModule.withComponents([NewRiskWizardComponent]),
     SharedModule,
     AssessmentRoutingModule
   ],
@@ -37,8 +37,6 @@ import { ReviewStepComponent } from './new-risk-wizard/steps/review-step.compone
     IdentifyStepComponent,
     ImpactStepComponent,
     ReviewStepComponent
-  ],
-  entryComponents: [NewRiskWizardComponent],
-  exports: []
+  ]
 })
 export class AssessmentModule { }

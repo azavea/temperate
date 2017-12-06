@@ -1,5 +1,5 @@
 
-import { NgModule } from '@angular/core';
+import { NgModule, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 
 import { ModalWizardComponent } from './modal-wizard.component';
 
@@ -9,4 +9,13 @@ import { ModalWizardComponent } from './modal-wizard.component';
   declarations: [ModalWizardComponent],
   providers: [],
 })
-export class ModalWizardModule {}
+export class ModalWizardModule {
+  static withComponents(components: any[]) {
+    return {
+      ngModule: ModalWizardModule,
+      providers: [
+        { provide: ANALYZE_FOR_ENTRY_COMPONENTS, useValue: components, multi: true }
+      ]
+    }
+  }
+}

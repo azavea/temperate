@@ -1,5 +1,19 @@
 ## ModalWizardModule
 
-**Note:** In order to properly support AOT, any module that uses this one should ensure that the component passed to `<app-modal-wizard [component]="yourComponent"></app-modal-wizard>` needs to be defined in the NgModule.entryComponents property of the module exporting `yourComponent`.
+Any module that uses this one should ensure that this module is imported using the `withComponents()` method, adding any component you intend to open via the ModalWizardComponent to the array passed to `withComponents()`.
 
-See ../assessment/assessment.module.ts for an example.
+For example:
+```
+@NgModule({
+  imports: [
+    CommonModule,
+    ModalWizardModule.withComponents([MyModalComponent]),
+  ],
+  declarations: [
+    MyModalComponent
+  ]
+})
+export class MyAppModule { }
+```
+
+See [../assessment/assessment.module.ts](../assessment/assessment.module.ts) for an example.
