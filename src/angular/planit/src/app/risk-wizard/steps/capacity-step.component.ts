@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'va-risk-step-capacity',
+  selector: 'app-risk-step-capacity',
   templateUrl: 'capacity-step.component.html'
 })
 

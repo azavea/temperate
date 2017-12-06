@@ -1,42 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ArchwizardModule } from 'ng2-archwizard';
-
 import { AssessmentRoutingModule } from './assessment-routing.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { AssessmentOverviewComponent } from './assessment-overview.component';
 import { CreateRiskComponent } from './create-risk.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
+import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 
-// New Risk Wizard imports
-import { RiskWizardComponent } from './risk-wizard/risk-wizard.component';
-import { CapacityStepComponent } from './risk-wizard/steps/capacity-step.component';
-import { HazardStepComponent } from './risk-wizard/steps/hazard-step.component';
-import { IdentifyStepComponent } from './risk-wizard/steps/identify-step.component';
-import { ImpactStepComponent } from './risk-wizard/steps/impact-step.component';
-import { ReviewStepComponent } from './risk-wizard/steps/review-step.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ArchwizardModule,
     ModalWizardModule.withComponents([RiskWizardComponent]),
     SharedModule,
+    RiskWizardModule,
     AssessmentRoutingModule
   ],
   declarations: [
     AssessmentOverviewComponent,
-    CreateRiskComponent,
-
-    // Risk Wizard
-    RiskWizardComponent,
-    CapacityStepComponent,
-    HazardStepComponent,
-    IdentifyStepComponent,
-    ImpactStepComponent,
-    ReviewStepComponent
+    CreateRiskComponent
   ]
 })
 export class AssessmentModule { }

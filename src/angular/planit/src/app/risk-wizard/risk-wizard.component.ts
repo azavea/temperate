@@ -10,7 +10,7 @@ import { ImpactStepComponent } from './steps/impact-step.component';
 import { ReviewStepComponent } from './steps/review-step.component';
 
 @Component({
-  selector: 'va-risk-wizard',
+  selector: 'app-risk-wizard',
   templateUrl: 'risk-wizard.component.html'
 })
 export class RiskWizardComponent implements AfterViewInit, OnInit {

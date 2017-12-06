@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'va-risk-step-hazard',
+  selector: 'app-risk-step-hazard',
   templateUrl: 'hazard-step.component.html'
 })
 

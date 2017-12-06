@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { RiskWizardComponent } from './risk-wizard/risk-wizard.component';
+import { RiskWizardComponent } from '../risk-wizard/';
 
 @Component({
   selector: 'va-create-risk',
