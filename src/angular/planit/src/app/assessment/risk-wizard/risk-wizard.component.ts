@@ -10,10 +10,10 @@ import { ImpactStepComponent } from './steps/impact-step.component';
 import { ReviewStepComponent } from './steps/review-step.component';
 
 @Component({
-  selector: 'va-new-risk-wizard',
-  templateUrl: 'new-risk-wizard.component.html'
+  selector: 'va-risk-wizard',
+  templateUrl: 'risk-wizard.component.html'
 })
-export class NewRiskWizardComponent implements AfterViewInit, OnInit {
+export class RiskWizardComponent implements AfterViewInit, OnInit {
 
   @ViewChild(WizardComponent) public wizard: WizardComponent;
   @ViewChild(IdentifyStepComponent) public identifyStep: IdentifyStepComponent;

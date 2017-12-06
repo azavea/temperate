@@ -2,37 +2,37 @@
         navigationMode="free"
         navBarLocation="left"
         navBarLayout="large-empty-symbols">
-  <va-new-risk-step-identify #identifyStep
+  <va-risk-step-identify #identifyStep
                              wizardStep
                              stepTitle="{{ identifyStep.title }}"
                              navigationSymbol="{{ identifyStep.navigationSymbol }}">
-  </va-new-risk-step-identify>
+  </va-risk-step-identify>
 
-  <va-new-risk-step-hazard #hazardStep
+  <va-risk-step-hazard #hazardStep
                            wizardStep
                            optionalStep
                            stepTitle="{{ hazardStep.title }}"
                            navigationSymbol="{{ hazardStep.navigationSymbol }}">
-  </va-new-risk-step-hazard>
+  </va-risk-step-hazard>
 
-  <va-new-risk-step-impact #impactStep
+  <va-risk-step-impact #impactStep
                            wizardStep
                            optionalStep
                            stepTitle="{{ impactStep.title }}"
                            navigationSymbol="{{ impactStep.navigationSymbol }}">
-  </va-new-risk-step-impact>
+  </va-risk-step-impact>
 
-  <va-new-risk-step-capacity #capacityStep
+  <va-risk-step-capacity #capacityStep
                              wizardStep
                              optionalStep
                              stepTitle="{{ capacityStep.title }}"
                              navigationSymbol="{{ capacityStep.navigationSymbol }}">
-  </va-new-risk-step-capacity>
+  </va-risk-step-capacity>
 
-  <va-new-risk-step-review #reviewStep
+  <va-risk-step-review #reviewStep
                            wizardCompletionStep
                            enableBackLinks
                            stepTitle="{{ reviewStep.title }}"
                            navigationSymbol="{{ reviewStep.navigationSymbol }}">
-  </va-new-risk-step-review>
+  </va-risk-step-review>
 </wizard>

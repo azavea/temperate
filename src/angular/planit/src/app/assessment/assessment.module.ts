@@ -11,18 +11,18 @@ import { CreateRiskComponent } from './create-risk.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
 
 // New Risk Wizard imports
-import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.component';
-import { CapacityStepComponent } from './new-risk-wizard/steps/capacity-step.component';
-import { HazardStepComponent } from './new-risk-wizard/steps/hazard-step.component';
-import { IdentifyStepComponent } from './new-risk-wizard/steps/identify-step.component';
-import { ImpactStepComponent } from './new-risk-wizard/steps/impact-step.component';
-import { ReviewStepComponent } from './new-risk-wizard/steps/review-step.component';
+import { RiskWizardComponent } from './risk-wizard/risk-wizard.component';
+import { CapacityStepComponent } from './risk-wizard/steps/capacity-step.component';
+import { HazardStepComponent } from './risk-wizard/steps/hazard-step.component';
+import { IdentifyStepComponent } from './risk-wizard/steps/identify-step.component';
+import { ImpactStepComponent } from './risk-wizard/steps/impact-step.component';
+import { ReviewStepComponent } from './risk-wizard/steps/review-step.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ArchwizardModule,
-    ModalWizardModule.withComponents([NewRiskWizardComponent]),
+    ModalWizardModule.withComponents([RiskWizardComponent]),
     SharedModule,
     AssessmentRoutingModule
   ],
@@ -30,8 +30,8 @@ import { ReviewStepComponent } from './new-risk-wizard/steps/review-step.compone
     AssessmentOverviewComponent,
     CreateRiskComponent,
 
-    // New Risk Wizard
-    NewRiskWizardComponent,
+    // Risk Wizard
+    RiskWizardComponent,
     CapacityStepComponent,
     HazardStepComponent,
     IdentifyStepComponent,

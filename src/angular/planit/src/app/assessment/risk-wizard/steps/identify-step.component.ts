@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { WizardState } from 'ng2-archwizard/dist/navigation/wizard-state.model';
 
 @Component({
-  selector: 'va-new-risk-step-identify',
+  selector: 'va-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
 

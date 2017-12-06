@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.component';
+import { RiskWizardComponent } from './risk-wizard/risk-wizard.component';
 
 @Component({
   selector: 'va-create-risk',
@@ -8,7 +8,7 @@ import { NewRiskWizardComponent } from './new-risk-wizard/new-risk-wizard.compon
 })
 export class CreateRiskComponent implements OnInit {
 
-  public wizardComponent = NewRiskWizardComponent;
+  public wizardComponent = RiskWizardComponent;
 
   constructor() { }
 

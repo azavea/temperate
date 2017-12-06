@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'va-new-risk-step-review',
+  selector: 'va-risk-step-review',
   templateUrl: 'review-step.component.html'
 })
 

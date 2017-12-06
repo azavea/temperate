@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'va-new-risk-step-impact',
+  selector: 'va-risk-step-impact',
   templateUrl: 'impact-step.component.html'
 })
 
