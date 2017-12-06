@@ -7,7 +7,7 @@ import { CreateRiskComponent } from './create-risk.component';
 
 const routes: Routes = [
   { path: 'assessment', component: AssessmentOverviewComponent },
-  { path: 'assessment/risk/new', component: CreateRiskComponent },
+  { path: 'assessment/risk/wizard', component: CreateRiskComponent },
 ];
 
 @NgModule({

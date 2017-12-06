@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class CapacityStepComponent implements OnInit {
 
-  public navigationSymbol = "4";
-  public title = "Adaptive capacity";
+  public navigationSymbol = '4';
+  public title = 'Adaptive capacity';
 
   constructor() { }
 

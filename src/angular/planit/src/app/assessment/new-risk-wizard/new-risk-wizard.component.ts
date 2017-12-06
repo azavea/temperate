@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
-import { WizardComponent } from 'ng2-archwizard';
+// Import from root doesn't seem to pickup types, so import directly from file
+import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
+
 import { CapacityStepComponent } from './steps/capacity-step.component';
 import { HazardStepComponent } from './steps/hazard-step.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
@@ -12,16 +13,19 @@ import { ReviewStepComponent } from './steps/review-step.component';
   selector: 'va-new-risk-wizard',
   templateUrl: 'new-risk-wizard.component.html'
 })
-export class NewRiskWizardComponent implements OnInit {
+export class NewRiskWizardComponent implements AfterViewInit, OnInit {
 
-  @ViewChild("wizard") wizard: WizardComponent;
-  @ViewChild("identifyStep") identifyStep: IdentifyStepComponent;
-  @ViewChild("hazardStep") hazardStep: HazardStepComponent;
-  @ViewChild("impactStep") impactStep: ImpactStepComponent;
-  @ViewChild("capacityStep") capacityStep: CapacityStepComponent;
-  @ViewChild("reviewStep") reviewStep: ReviewStepComponent;
+  @ViewChild(WizardComponent) public wizard: WizardComponent;
+  @ViewChild(IdentifyStepComponent) public identifyStep: IdentifyStepComponent;
+  @ViewChild(HazardStepComponent) public hazardStep: HazardStepComponent;
+  @ViewChild(ImpactStepComponent) public impactStep: ImpactStepComponent;
+  @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
+  @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
 
-  constructor(private router: Router) { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
+
+  // this.wizard.navigation and this.wizard.model are not available until this hook
+  ngAfterViewInit() {}
 }

@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class HazardStepComponent implements OnInit {
 
-  public navigationSymbol = "2";
-  public title = "Hazard";
+  public navigationSymbol = '2';
+  public title = 'Hazard';
 
   constructor() { }
 

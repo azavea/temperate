@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 
 export class ReviewStepComponent implements OnInit {
 
-  public navigationSymbol = "5";
-  public title = "Review";
+  public navigationSymbol = '5';
+  public title = 'Review';
 
   constructor(private router: Router) { }
 

@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class ImpactStepComponent implements OnInit {
 
-  public navigationSymbol = "3";
-  public title = "Impact";
+  public navigationSymbol = '3';
+  public title = 'Impact';
 
   constructor() { }
 
