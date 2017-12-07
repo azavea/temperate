@@ -35,7 +35,8 @@ export class IndicatorsComponent implements OnInit {
       description: 'Average high temperature, calculated by averaging daily high temperatures over the year.',
       time_aggregation: 'yearly',
       variables: ['tasmax'],
-      default_units: 'F'
+      default_units: 'F',
+      available_units: ['F', 'C', 'K']
     }, {
       name: 'heat_wave_incidents',
       label: 'Heat Wave Incidents',
@@ -43,7 +44,8 @@ export class IndicatorsComponent implements OnInit {
       description: 'Number of times daily high temperature exceeds 5C above historic norm for at least 5 consecutive days',
       time_aggregation: 'yearly',
       variables: ['tasmax'],
-      default_units: 'count'
+      default_units: 'count',
+      available_units: ['count']
     }];
   }
 }
