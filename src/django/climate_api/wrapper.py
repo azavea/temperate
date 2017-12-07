@@ -1,7 +1,10 @@
+import logging
 import requests
 
 from climate_api.models import APIToken
 from climate_api.utils import get_api_url, serialize_years
+
+logger = logging.getLogger(__name__)
 
 
 def make_token_api_request(route, params=None):
@@ -10,6 +13,7 @@ def make_token_api_request(route, params=None):
     token = APIToken.objects.current()
     headers = {'Authorization': 'Token {}'.format(token)}
 
+    logger.warning("Sending API request to {}".format(url))
     response = requests.get(url, headers=headers, params=params)
     response.raise_for_status()
     return response.json()
