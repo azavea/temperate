@@ -1,0 +1,29 @@
+.modal-actions {
+  margin-bottom: 20px;
+
+  button {
+    padding: 0;
+    color: #777;
+    border-width: 0;
+    box-shadow: none !important;
+    &:not(:last-child) {
+      border-right: 1px solid #ddd;
+      border-radius: 0;
+      padding-right: 10px;
+      margin-right: 5px;
+    }
+    &:hover {
+      background-color: transparent;
+      opacity: 0.64;
+    }
+  }
+}
+
+.models {
+  column-count: 3;
+  column-gap: 20px;
+
+  label {
+    font-size: $font-size-base;
+  }
+}

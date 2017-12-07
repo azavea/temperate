@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import {
-  ChartData,
   Chart,
-  IndicatorRequestOpts,
-  IndicatorQueryParams,
-  Indicator,
+  ChartData,
   City,
   ClimateModel,
   Dataset,
+  Indicator,
+  IndicatorRequestOpts,
+  IndicatorQueryParams,
   Scenario
 } from 'climate-change-components';
 import { Point } from 'geojson';
@@ -27,7 +27,7 @@ export class IndicatorChartComponent implements OnInit {
   public dataset: Dataset;
   public extraParams: IndicatorQueryParams;
   public isCollapsed = false;
-  public models: ClimateModel[];
+  public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
 
   constructor() {}
@@ -45,16 +45,13 @@ export class IndicatorChartComponent implements OnInit {
     this.extraParams = {
       dataset: 'NEX-GDDP'
     };
-    this.models = [{
-      datasets: ['NEX-GDDP'],
-      name: 'BNU-ESM',
-      description: 'BNU-ESM',
-      base_time: null,
-      enabled: true
-    }];
   }
 
   scenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
+  }
+
+  modelsChanged(models: ClimateModel[]) {
+    this.models = models;
   }
 }

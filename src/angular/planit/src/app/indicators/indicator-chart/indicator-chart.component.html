@@ -11,9 +11,20 @@
   </div>
   <div [collapse]="isCollapsed">
     <div class="card-block">
-      <div class="chart-toggle">
-        <span>Scenario:</span>
-        <ccc-scenario-toggle [scenario]="scenario" (onScenarioSelected)="scenarioSelected($event)"></ccc-scenario-toggle>
+      <div class="chart-controls">
+        <div class="chart-toggle">
+          <span>Scenario:</span>
+          <ccc-scenario-toggle [scenario]="scenario"
+                               (onScenarioSelected)="scenarioSelected($event)">
+          </ccc-scenario-toggle>
+        </div>
+        <div class="chart-toggle">
+          <span>Models:</span>
+          <ccc-model-modal [dataset]="dataset"
+                           [models]="models"
+                           (onModelsChanged)="modelsChanged($event)">
+          </ccc-model-modal>
+        </div>
       </div>
       <app-chart [indicator]="indicator"
              [city]="city"
