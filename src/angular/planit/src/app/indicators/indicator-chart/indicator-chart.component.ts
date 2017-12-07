@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Point } from 'geojson';
 
 import {
@@ -23,7 +23,7 @@ import {
   selector: 'app-indicator-chart',
   templateUrl: './indicator-chart.component.html'
 })
-export class IndicatorChartComponent implements OnInit {
+export class IndicatorChartComponent {
 
   @Input() indicator: Indicator;
   @Input() city: City;
@@ -37,6 +37,7 @@ export class IndicatorChartComponent implements OnInit {
 
   constructor() {}
 
+<<<<<<< HEAD
   ngOnInit() {
     this.unit = this.indicator.default_units;
   }
@@ -45,6 +46,8 @@ export class IndicatorChartComponent implements OnInit {
     this.models = models;
   }
 
+=======
+>>>>>>> Remove default models
   scenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
   }
