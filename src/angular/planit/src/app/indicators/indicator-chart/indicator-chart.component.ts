@@ -1,15 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChartData,
-         Chart,
-         IndicatorRequestOpts,
-         IndicatorQueryParams,
-         Indicator,
-         City,
-         ClimateModel,
-         Dataset,
-         Scenario } from 'climate-change-components';
 
+import {
+  ChartData,
+  Chart,
+  IndicatorRequestOpts,
+  IndicatorQueryParams,
+  Indicator,
+  City,
+  ClimateModel,
+  Dataset,
+  Scenario
+} from 'climate-change-components';
 import { Point } from 'geojson';
+
+import { DEFAULT_SCENARIO } from '../indicator-defaults';
 
 @Component({
   selector: 'app-indicator-chart',
@@ -24,17 +28,11 @@ export class IndicatorChartComponent implements OnInit {
   public extraParams: IndicatorQueryParams;
   public isCollapsed = false;
   public models: ClimateModel[];
-  public scenario: Scenario;
+  public scenario = DEFAULT_SCENARIO;
 
   constructor() {}
 
   ngOnInit() {
-    this.scenario = {
-        name: 'RCP85',
-        label: 'RCP 8.5',
-        // tslint:disable-next-line:max-line-length
-        description: 'Rising radiative forcing pathway leading to 8.5 W/m2 in 2100. See https://www.skepticalscience.com/rcp.php'
-    };
     this.dataset = {
         name: 'NEX-GDDP',
         label: 'Nasa Earth Exchange Global Daily Downscaled Projections',
@@ -54,5 +52,9 @@ export class IndicatorChartComponent implements OnInit {
       base_time: null,
       enabled: true
     }];
+  }
+
+  scenarioSelected(scenario: Scenario) {
+    this.scenario = scenario;
   }
 }
