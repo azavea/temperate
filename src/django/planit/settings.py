@@ -279,6 +279,7 @@ CCAPI_REQUEST_TIMEOUT = 30
 CCAPI_ROUTE_WHITELIST = (
     '^api/climate-data/[0-9]+/.+/indicator/.+/$',
     '^api/climate-model/$',
+    '^api/dataset/$',
     '^api/indicator/$',
     '^api/scenario/$',
 )

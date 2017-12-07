@@ -13,13 +13,13 @@
     <div class="card-block">
       <div class="chart-controls">
         <div class="chart-toggle">
-          <span>Scenario:</span>
+          <span>Scenario</span>
           <ccc-scenario-toggle [scenario]="scenario"
                                (onScenarioSelected)="scenarioSelected($event)">
           </ccc-scenario-toggle>
         </div>
         <div class="chart-toggle">
-          <span>Models:</span>
+          <span>Models</span>
           <ccc-model-modal [dataset]="dataset"
                            [models]="models"
                            (onModelsChanged)="modelsChanged($event)">
@@ -30,6 +30,13 @@
           <ccc-units-dropdown [unit]="unit"
                               [units]="indicator.available_units"
                               (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+        <div class="chart-toggle">
+          <span>Dataset</span>
+          <ccc-dataset-toggle [dataset]="dataset"
+                              [city]="city"
+                              [models]="models"
+                              (onDatasetSelected)="datasetSelected($event)">
+          </ccc-dataset-toggle>
         </div>
       </div>
       <app-chart [indicator]="indicator"
