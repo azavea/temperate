@@ -2,6 +2,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ChartsModule } from 'climate-change-components';
 
 import { SharedModule } from '../shared/shared.module';
 import { IndicatorsRoutingModule } from './indicators-routing.module';
@@ -13,6 +14,7 @@ import { IndicatorChartComponent } from './indicator-chart/indicator-chart.compo
   imports: [
     CollapseModule.forRoot(),
     CommonModule,
+    ChartsModule,
     SharedModule,
     IndicatorsRoutingModule
   ],

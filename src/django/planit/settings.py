@@ -278,5 +278,6 @@ CCAPI_REQUEST_TIMEOUT = 30
 # Whitelist for proxy routes to allow. These routes are checked using str.startswith
 CCAPI_ROUTE_WHITELIST = (
     '^api/indicator/$',
+    '^api/scenario/$',
     '^api/climate-data/[0-9]+/.+/indicator/.+/$',
 )
