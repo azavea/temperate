@@ -1,0 +1,38 @@
+<wizard #wizard
+        navigationMode="free"
+        navBarLocation="left"
+        navBarLayout="large-empty-symbols">
+  <app-risk-step-identify #identifyStep
+                             wizardStep
+                             stepTitle="{{ identifyStep.title }}"
+                             navigationSymbol="{{ identifyStep.navigationSymbol }}">
+  </app-risk-step-identify>
+
+  <app-risk-step-hazard #hazardStep
+                           wizardStep
+                           optionalStep
+                           stepTitle="{{ hazardStep.title }}"
+                           navigationSymbol="{{ hazardStep.navigationSymbol }}">
+  </app-risk-step-hazard>
+
+  <app-risk-step-impact #impactStep
+                           wizardStep
+                           optionalStep
+                           stepTitle="{{ impactStep.title }}"
+                           navigationSymbol="{{ impactStep.navigationSymbol }}">
+  </app-risk-step-impact>
+
+  <app-risk-step-capacity #capacityStep
+                             wizardStep
+                             optionalStep
+                             stepTitle="{{ capacityStep.title }}"
+                             navigationSymbol="{{ capacityStep.navigationSymbol }}">
+  </app-risk-step-capacity>
+
+  <app-risk-step-review #reviewStep
+                           wizardCompletionStep
+                           enableBackLinks
+                           stepTitle="{{ reviewStep.title }}"
+                           navigationSymbol="{{ reviewStep.navigationSymbol }}">
+  </app-risk-step-review>
+</wizard>

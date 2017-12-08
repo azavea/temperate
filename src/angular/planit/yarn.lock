@@ -3632,6 +3632,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+ng2-archwizard@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ng2-archwizard/-/ng2-archwizard-2.1.0.tgz#deab9e5f7211462ccefa88207660463cdf5e4ad2"
+
 ng2-nouislider@~1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/ng2-nouislider/-/ng2-nouislider-1.6.2.tgz#cacf2983afda6fd3dcdc94493cd1ddddfffa2cc5"

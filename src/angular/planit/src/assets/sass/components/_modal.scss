@@ -18,11 +18,13 @@
   position: relative;
   max-width: $modal-width;
   margin: auto;
-  .modal-large & {
+  &.modal-large {
     max-width: $modal-width-large;
+    width: $modal-width-large;
   }
-  .modal-small & {
+  &.modal-small {
     max-width: $modal-width-small;
+    width: $modal-width-small;
   }
   @include respond-to(xxs) {
     margin: 1rem;
