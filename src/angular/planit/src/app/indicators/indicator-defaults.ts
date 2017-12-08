@@ -13,6 +13,7 @@ export const DEFAULT_SCENARIO: Scenario = {
 export const DEFAULT_DATASET: Dataset = {
     name: 'LOCA',
     label: 'Localized Constructed Analogs Downscaled Projections',
+    // tslint:disable-next-line:max-line-length
     description: 'The LOCA (Localized Constructed Analogs) dataset includes downscaled projections from 32 global climate models calculated for two Representative Concentration Pathways (RCP 4.5 and RCP 8.5). Each of the climate projections includes daily maximum temperature, minimum temperature, and precipitation for every 6x6km (1/16th degree resolution) for the conterminous US from 1950 to 2100. LOCA attempts to better preserve extreme hot days, heavy rain events and regional patterns of precipitation. The total dataset size is approximately 10 TB.',
     url: 'http://loca.ucsd.edu/',
     models: [
@@ -49,4 +50,4 @@ export const DEFAULT_DATASET: Dataset = {
         'CESM1-CAM5',
         'EC-EARTH'
     ]
-}
+};
