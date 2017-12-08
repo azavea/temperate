@@ -30,7 +30,7 @@ export class IndicatorChartComponent {
 
   public dataset: Dataset = DEFAULT_DATASET;
   public extraParams: IndicatorQueryParams;
-  public isCollapsed = false;
+  public isCollapsed = true;
   public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
   public unit: string;

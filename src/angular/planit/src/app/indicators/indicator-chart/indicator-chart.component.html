@@ -9,7 +9,7 @@
       </h2>
     </a>
   </div>
-  <div [collapse]="isCollapsed">
+  <div *ngIf="!isCollapsed" [collapse]="isCollapsed">
     <div class="card-block">
       <div class="chart-controls">
         <div class="chart-toggle">
