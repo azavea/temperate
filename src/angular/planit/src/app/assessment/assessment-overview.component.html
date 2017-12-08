@@ -3,8 +3,42 @@
   <app-sidebar></app-sidebar>
   <main class="main-content" role="main">
     <section>
-      <h1 class="heading">Vulnerability Assessment</h1>
-      <button class="button" routerLink="risk/wizard">Create New</button>
+      <h1 class="heading">Vulnerability Assessment
+          <button class="button icon-edit" routerLink="risk/wizard"></button>
+      </h1>
+    </section>
+    <section>
+      <h2>Your city's risks</h2>
+      <p>Based on your chosen scope, we have identified the below hazards as
+      a high priority to assess vulnerability and include in your report.
+      Click on a row to assess each risk.</p>
+    </section>
+    <section>
+      <table class="table">
+        <caption>
+          Wondering why we selected these risks? <a href="#">Learn more</a>
+        </caption>
+        <thead>
+          <tr>
+            <th>Adaptive Need</th>
+            <th>Risk</th>
+            <th>Potential Impact</th>
+            <th>Adaptive Capacity</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let risk of risks">
+            <th>{{ risk.adaptiveNeed || '--' }}</th>
+            <th>{{ risk.name }}</th>
+            <th>{{ risk.potentialImpact || '--' }}</th>
+            <th>{{ risk.adaptiveCapacity || '--' }}</th>
+            <th><button class="button">Assess</button></th>
+            <th><button class="button icon-ellipsis"></button></th>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </main>
 </div>
