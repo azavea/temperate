@@ -11,31 +11,22 @@ class ConcernSerializer(serializers.ModelSerializer):
         slug_field='name'
     )
     isRelative = serializers.BooleanField(source='is_relative')
-    tagline = serializers.SerializerMethodField()
-    value = serializers.SerializerMethodField()
-    units = serializers.SerializerMethodField()
 
-    def get_tagline(self, obj):
-        return obj.tagline(self._get_city_id())
-
-    def get_value(self, obj):
-        return obj.calculate(self._get_city_id())
-
-    def get_units(self, obj):
-        return obj.get_default_units()
-
-    def _get_city_id(self):
+    def to_representation(self, obj):
         if 'request' not in self.context:
             raise ValueError("Missing required 'request' context variable")
         if not self.context['request'].user.is_authenticated:
             raise ValueError("Requires authenticated user")
+        organization = self.context['request'].user.primary_organization
 
-        location = self.context['request'].user.get_current_location()
-        return location.api_city_id
+        data = super().to_representation(obj)
+        data.update(obj.calculate(organization))
+
+        return data
 
     class Meta:
         model = Concern
-        fields = ('id', 'indicator', 'isRelative', 'tagline', 'units', 'value',)
+        fields = ('id', 'indicator', 'isRelative',)
 
 
 class WeatherEventSerializer(serializers.ModelSerializer):

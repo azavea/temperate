@@ -3,6 +3,7 @@ import logging
 from django.contrib.gis.db import models
 from django.db.models import CASCADE
 
+from climate_api.utils import IMPERIAL_TO_METRIC
 from climate_api.wrapper import make_indicator_api_request, make_token_api_request
 
 logger = logging.getLogger(__name__)
@@ -108,35 +109,52 @@ class Concern(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline_positive)
 
-    def calculate(self, city_id):
-        start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR)
-        end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR)
+    def calculate(self, organization):
+        city_id = organization.location.api_city_id
+        units = self.get_units(organization)
 
+        start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
+        end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
         difference = end_avg - start_avg
-        if self.is_relative:
-            return difference / start_avg
-        else:
-            return difference
 
-    def tagline(self, city_id):
-        value = self.calculate(city_id)
-        if value >= 0:
-            return self.tagline_positive
-        else:
-            return self.tagline_negative
+        value = difference / start_avg if self.is_relative else difference
+        tagline = self.tagline_positive if value >= 0 else self.tagline_negative
 
-    def get_average_value(self, city_id, scenario, start_year):
+        return {
+            'value': value,
+            'tagline': tagline,
+            'units': units,
+        }
+
+    def get_average_value(self, city_id, scenario, start_year, units=None):
         year_range = range(start_year, start_year + self.ERA_LENGTH)
+        params = {'years': [year_range]}
+        if units is not None:
+            params['units'] = units
 
         response = make_indicator_api_request(self.indicator, city_id, scenario,
-                                              params={'years': [year_range]})
+                                              params=params)
 
         values = (result['avg'] for result in response['data'].values())
         return sum(values) / len(response['data'])
 
-    def get_default_units(self):
+    def get_units(self, organization):
+        # If the value is relative, we can use the default unit for calculations
+        # which will save an API call
+        if self.is_relative:
+            return None
+
+        # Delayed import to break circular dependency
+        from users.models import PlanItOrganization
         response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
-        return response['default_units']
+        default_units = response['default_units']
+
+        # The API default units are either Imperial or don't need to be converted
+        if default_units not in IMPERIAL_TO_METRIC:
+            return default_units
+        if organization.units == PlanItOrganization.IMPERIAL:
+            return default_units
+        return IMPERIAL_TO_METRIC[default_units]
 
 
 class WeatherEventRank(models.Model):

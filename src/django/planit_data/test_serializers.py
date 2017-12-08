@@ -29,33 +29,39 @@ class ConcernSerializerTestCase(TestCase):
                                               is_relative=True)
 
     @mock.patch('planit_data.models.Concern.calculate')
-    @mock.patch('planit_data.models.Concern.get_default_units')
-    def test_context_requires_request(self, default_units_mock, calculate_mock):
+    def test_context_requires_request(self, calculate_mock):
         """Ensure the Serializer raises an error if the context does not have a request"""
-        calculate_mock.return_value = 5.3
-        default_units_mock.return_value = 'miles'
+        calculate_mock.return_value = {
+            'value': 5.3,
+            'units': 'miles',
+            'tagline': 'more'
+        }
 
         serializer = ConcernSerializer(self.concern)
         with self.assertRaises(ValueError):
             serializer.data
 
     @mock.patch('planit_data.models.Concern.calculate')
-    @mock.patch('planit_data.models.Concern.get_default_units')
-    def test_context_works_with_request(self, default_units_mock, calculate_mock):
+    def test_context_works_with_request(self, calculate_mock):
         """Ensure the Serializer works if the context does have a request"""
-        calculate_mock.return_value = 5.3
-        default_units_mock.return_value = 'miles'
+        calculate_mock.return_value = {
+            'value': 5.3,
+            'units': 'miles',
+            'tagline': 'more'
+        }
 
         serializer = ConcernSerializer(self.concern, context={'request': self.request})
         # No exception
         serializer.data
 
     @mock.patch('planit_data.models.Concern.calculate')
-    @mock.patch('planit_data.models.Concern.get_default_units')
-    def test_context_request_can_be_set_afterwards(self, default_units_mock, calculate_mock):
+    def test_context_request_can_be_set_afterwards(self, calculate_mock):
         """Ensure the Serializer works when the request is added after construction"""
-        calculate_mock.return_value = 5.3
-        default_units_mock.return_value = 'miles'
+        calculate_mock.return_value = {
+            'value': 5.3,
+            'units': 'miles',
+            'tagline': 'more'
+        }
 
         serializer = ConcernSerializer(self.concern)
         serializer.context['request'] = self.request
