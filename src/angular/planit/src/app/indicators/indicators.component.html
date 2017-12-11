@@ -23,7 +23,7 @@
              [ngClass]="{'active': activeFilter?.name === filter.name}"
              *ngFor="let filter of filters"
              (click)="setActiveFilter(filter)">
-          <span class="icon icon-sun"></span>
+          <span class="icon" [ngClass]="filter.name | weatherEventIcon"></span>
           <h4>{{ filter.name }}</h4>
         </div>
       </div>
