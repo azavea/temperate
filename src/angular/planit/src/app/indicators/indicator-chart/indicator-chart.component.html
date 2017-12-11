@@ -27,10 +27,11 @@
           </ccc-model-modal>
         </div>
         <div class="chart-toggle" *ngIf="indicator?.available_units">
-          <span>Units:</span>
+          <span>Units</span>
           <ccc-units-dropdown [unit]="unit"
                               [units]="indicator.available_units"
                               (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+        </div>
         <div class="chart-toggle">
           <span>Dataset</span>
           <ccc-dataset-toggle [dataset]="dataset"

@@ -37,7 +37,6 @@ export class IndicatorChartComponent {
 
   constructor() {}
 
-<<<<<<< HEAD
   ngOnInit() {
     this.unit = this.indicator.default_units;
   }
@@ -46,8 +45,6 @@ export class IndicatorChartComponent {
     this.models = models;
   }
 
-=======
->>>>>>> Remove default models
   scenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
   }
