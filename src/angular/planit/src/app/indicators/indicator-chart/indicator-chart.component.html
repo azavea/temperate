@@ -9,27 +9,36 @@
       </h2>
     </a>
   </div>
-  <div [collapse]="isCollapsed">
+  <!--We only want to create and show selected indicator chart components to prevent clogging the page with unwanted requests and page updates. Below looks repetitive but [collapse] only provides the accordion UI action which shows/hides the chart guts but doesn't manage requests; *ngIf does that by actually creating/removing DOM components -->
+  <div *ngIf="!isCollapsed" [collapse]="isCollapsed">
     <div class="card-block">
       <div class="chart-controls">
         <div class="chart-toggle">
-          <span>Scenario:</span>
+          <span>Scenario</span>
           <ccc-scenario-toggle [scenario]="scenario"
                                (onScenarioSelected)="scenarioSelected($event)">
           </ccc-scenario-toggle>
         </div>
         <div class="chart-toggle">
-          <span>Models:</span>
+          <span>Models</span>
           <ccc-model-modal [dataset]="dataset"
                            [models]="models"
                            (onModelsChanged)="modelsChanged($event)">
           </ccc-model-modal>
         </div>
         <div class="chart-toggle" *ngIf="indicator?.available_units">
-          <span>Units:</span>
+          <span>Units</span>
           <ccc-units-dropdown [unit]="unit"
                               [units]="indicator.available_units"
                               (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+        </div>
+        <div class="chart-toggle">
+          <span>Dataset</span>
+          <ccc-dataset-toggle [dataset]="dataset"
+                              [city]="city"
+                              [models]="models"
+                              (onDatasetSelected)="datasetSelected($event)">
+          </ccc-dataset-toggle>
         </div>
       </div>
       <app-chart [indicator]="indicator"
