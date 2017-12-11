@@ -22,7 +22,7 @@ class PlanItLocationManager(models.Manager):
             city = make_token_api_request('/api/city/{}/'.format(api_city_id))
             location.name = city['properties']['name']
             location.point = GEOSGeometry(str(city['geometry']))
-            location.is_coastal = city['properties']['is_coastal']
+            location.is_coastal = city['properties']['proximity']['ocean']
             location.save()
         return location
 

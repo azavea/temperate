@@ -134,7 +134,9 @@ class LocationManagerTestCase(TestCase):
                 ],
                 "name": "Philadelphia",
                 "admin": "PA",
-                "is_coastal": False,
+                "proximity": {
+                    "ocean": False
+                },
                 "population": 1526006,
                 "region": 11
             }
@@ -166,7 +168,9 @@ class LocationManagerTestCase(TestCase):
                 ],
                 "name": "Los Angeles",
                 "admin": "CA",
-                "is_coastal": True,
+                "proximity": {
+                    "ocean": True
+                },
                 "population": 3792621,
                 "region": 18
             }

@@ -150,7 +150,9 @@ class OrganizationApiTestCase(APITestCase):
                 ],
                 "name": "Philadelphia",
                 "admin": "PA",
-                "is_coastal": False,
+                "proximity": {
+                    "ocean": False
+                },
                 "population": 1526006,
                 "region": 11
             }
