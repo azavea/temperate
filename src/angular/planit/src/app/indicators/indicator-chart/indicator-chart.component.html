@@ -25,13 +25,19 @@
                            (onModelsChanged)="modelsChanged($event)">
           </ccc-model-modal>
         </div>
+        <div class="chart-toggle" *ngIf="indicator?.available_units">
+          <span>Units:</span>
+          <ccc-units-dropdown [unit]="unit"
+                              [units]="indicator.available_units"
+                              (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+        </div>
       </div>
       <app-chart [indicator]="indicator"
              [city]="city"
              [models]="models"
              [dataset]="dataset"
              [scenario]="scenario"
-             [unit]="indicator.default_units"
+             [unit]="unit"
              [extraParams]="extraParams"></app-chart>
     </div>
   </div>

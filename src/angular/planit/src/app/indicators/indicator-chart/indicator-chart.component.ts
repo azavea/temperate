@@ -29,10 +29,12 @@ export class IndicatorChartComponent implements OnInit {
   public isCollapsed = false;
   public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
+  public unit: string;
 
   constructor() {}
 
   ngOnInit() {
+    this.unit = this.indicator.default_units;
     this.dataset = {
         name: 'NEX-GDDP',
         label: 'Nasa Earth Exchange Global Daily Downscaled Projections',
@@ -47,11 +49,15 @@ export class IndicatorChartComponent implements OnInit {
     };
   }
 
+  modelsChanged(models: ClimateModel[]) {
+    this.models = models;
+  }
+
   scenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
   }
 
-  modelsChanged(models: ClimateModel[]) {
-    this.models = models;
+  unitSelected(unit: string) {
+    this.unit = unit;
   }
 }
