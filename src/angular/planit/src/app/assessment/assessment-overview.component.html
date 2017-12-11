@@ -35,7 +35,19 @@
             <th>{{ risk.potentialImpact || '--' }}</th>
             <th>{{ risk.adaptiveCapacity || '--' }}</th>
             <th><button class="button">Assess</button></th>
-            <th><button class="button icon-ellipsis"></button></th>
+            <th>
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn button dropdown-toggle">
+                        <span class="icon-ellipsis"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li role="menuitem"><a class="dropdown-item" href="#">View</a></li>
+                        <li role="menuitem"><a class="dropdown-item" href="#">Edit</a></li>
+                        <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>
+                        <li role="menuitem"><a class="dropdown-item" href="#">Remove</a></li>
+                    </ul>
+                </div>
+            </th>
           </tr>
         </tbody>
       </table>
