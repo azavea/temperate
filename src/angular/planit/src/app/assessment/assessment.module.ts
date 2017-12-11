@@ -9,6 +9,8 @@ import { CreateRiskComponent } from './create-risk.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
 import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 
 @NgModule({
   imports: [
@@ -16,7 +18,8 @@ import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
     ModalWizardModule.withComponents([RiskWizardComponent]),
     SharedModule,
     RiskWizardModule,
-    AssessmentRoutingModule
+    AssessmentRoutingModule,
+    BsDropdownModule.forRoot()
   ],
   declarations: [
     AssessmentOverviewComponent,
