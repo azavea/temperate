@@ -35,7 +35,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             FLAKE8_ARGS=""
             ANGULAR_LINT_CMD="lint"
 
-            # Make sure we've built a tagged image if 
+            # Make sure we've built a tagged image if
             # not in CI.
             GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                       -f docker-compose.yml \
@@ -70,11 +70,19 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.test.yml \
                   run --rm angular run test
 
+        echo "Check for missing migrations"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint python \
+                  django manage.py makemigrations --check --dry-run
+
         echo "Execute Django tests"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   run --rm --entrypoint python \
                   django manage.py test --noinput
+
     fi
 fi
