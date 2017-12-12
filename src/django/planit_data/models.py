@@ -53,6 +53,8 @@ class WeatherEvent(models.Model):
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     coastal_only = models.BooleanField(default=False)
     concern = models.ForeignKey('Concern', null=True, blank=True)
+    indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
+    community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
 
     def __str__(self):
         return self.name
@@ -72,19 +74,19 @@ class Indicator(models.Model):
         return self.name
 
 
-class RiskTemplate(models.Model):
-    """A generic template for a Climate Risk, not attached to any particular app user.
-    When a user requests insight about a particular location in the app, these templates
-    are used to generate new user-specific UserRisk objects that the user can then
-    modify directly.
-    """
-    community_system = models.ManyToManyField('CommunitySystem', related_name='risk', blank=True)
-    weather_event = models.ForeignKey(WeatherEvent, null=False)
-    indicator = models.ManyToManyField('Indicator', related_name='climate_risk', blank=True)
-    regions = models.ManyToManyField('GeoRegion', related_name='risk')
+class DefaultRisk(models.Model):
+    """A through model used to relate WeatherEvent to a list of ordered CommunitySytems.
 
-    def __str__(self):
-        return '{}'.format(self.weather_event)
+    Used to populate the starting list of risks when an Organization is created
+    """
+
+    weather_event = models.ForeignKey('WeatherEvent', null=False, blank=False)
+    community_system = models.ForeignKey('CommunitySystem', null=False, blank=False)
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = (('weather_event', 'community_system'), ('weather_event', 'order'))
+        ordering = ['weather_event', 'order']
 
 
 class Concern(models.Model):
