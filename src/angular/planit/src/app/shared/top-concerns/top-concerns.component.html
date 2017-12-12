@@ -1,5 +1,5 @@
 <div class="card-content" id="top-concerns">
-  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEventClass(weatherEvent) }}">
+  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEvent.displayClass }}">
     <div class="concern-options">
       <button class="button button-primary button-small"><i class="icon-eye"></i></button>
       <button class="button button-danger button-small"><i class="icon-trash"></i></button>

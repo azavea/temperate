@@ -56,6 +56,13 @@ class WeatherEvent(models.Model):
     indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
     community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
 
+    DISPLAY_CHOICES = (
+        ('precipitation', 'Precipitation'),
+        ('heat', 'Heat'),
+        ('extreme-events', 'Extreme Events')
+    )
+    display_class = models.CharField(max_length=32, choices=DISPLAY_CHOICES)
+
     def __str__(self):
         return self.name
 

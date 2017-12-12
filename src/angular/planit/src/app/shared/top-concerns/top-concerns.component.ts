@@ -22,11 +22,6 @@ export class TopConcernsComponent implements OnInit {
       .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
   }
 
-  weatherEventClass(weatherEvent: WeatherEvent): string {
-    // TODO: Set class based on some property of the WeatherEvent (GH #251)
-    return 'concern-Heat';
-  }
-
   format(concern: Concern): string {
     if (concern.isRelative) {
       return Number(concern.value * 100).toFixed(0) + '%';
