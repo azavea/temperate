@@ -49,7 +49,7 @@
         "pk": 7,
         "fields": {
             "name": "Coastal flooding",
-            "coastal_only": false,
+            "coastal_only": true,
             "concern": null
         }
     },
@@ -112,7 +112,7 @@
         "pk": 14,
         "fields": {
             "name": "Ocean acidification",
-            "coastal_only": false,
+            "coastal_only": true,
             "concern": null
         }
     },
@@ -157,7 +157,7 @@
         "pk": 19,
         "fields": {
             "name": "Storm surge",
-            "coastal_only": false,
+            "coastal_only": true,
             "concern": null
         }
     },
