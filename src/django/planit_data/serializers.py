@@ -33,10 +33,11 @@ class WeatherEventSerializer(serializers.ModelSerializer):
 
     concern = ConcernSerializer()
     coastalOnly = serializers.BooleanField(source='coastal_only')
+    indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     class Meta:
         model = WeatherEvent
-        fields = ('name', 'coastalOnly', 'concern')
+        fields = ('name', 'coastalOnly', 'concern', 'indicators',)
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):

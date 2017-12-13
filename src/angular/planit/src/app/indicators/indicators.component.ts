@@ -75,10 +75,6 @@ export class IndicatorsComponent implements OnInit {
   }
 
   private setupFilters(weatherEvents: WeatherEvent[]) {
-    // TODO: Remove once DB model changes are made in #285
-    weatherEvents.forEach(e => {
-      e.indicators = ['average_high_temperature', 'cooling_degree_days'];
-    });
     const events = weatherEvents.filter(e => e.indicators && e.indicators.length);
     this.filters = events.slice(0, this.MAX_FILTERS);
   }
