@@ -1,0 +1,45 @@
+$adaptive-need-low: #ffe486;
+$adaptive-need-medium: #fdac7c;
+$adaptive-need-high: #ff565d;
+
+
+.adaptive-need-table {
+    td {
+        width:50px;
+        height:50px;
+    }
+
+    td.selected {
+        border: 1px #000 solid;
+    }
+
+    .pi-1>.ac-2, .pi-0>.ac-1, .pi-0>.ac-2 {
+        background: $adaptive-need-low;
+    }
+
+    .pi-0>.ac-0, .pi-1>.ac-1, .pi-2>.ac-2 {
+        background: $adaptive-need-medium;
+    }
+
+    .pi-2>.ac-1, .pi-2>.ac-0, .pi-1>.ac-0 {
+        background: $adaptive-need-high;
+    }
+}
+
+.adaptive-need-box {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+
+    &.pi-1.ac-2, &.pi-0.ac-1, &.pi-0.ac-2 {
+        background: $adaptive-need-low;
+    }
+
+    &.pi-0.ac-0, &.pi-1.ac-1, &.pi-2.ac-2 {
+        background: $adaptive-need-medium;
+    }
+
+    &.pi-2.ac-1, &.pi-2.ac-0, &.pi-1.ac-0 {
+        background: $adaptive-need-high;
+    }
+}

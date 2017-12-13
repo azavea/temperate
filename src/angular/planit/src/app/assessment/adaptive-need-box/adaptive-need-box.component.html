@@ -1,0 +1,31 @@
+<ng-template #tooltipTemplate>
+<h2>How is adaptive need calculated?</h2>
+<p>
+Here explain what "adaptive need" is and how we are calculating this.
+</p>
+<table class="adaptive-need-table">
+    <tbody>
+        <tr *ngFor="let potentialImpactIndex of [2, 1, 0]"
+            [ngClass]="'pi-' + potentialImpactIndex">
+            <td *ngFor="let adaptiveCapacityIndex of [2, 1, 0]"
+                class="adaptive-capacity-box"
+                [ngClass]="{'selected': potentialImpactIndex == potentialImpact && adaptiveCapacityIndex == adaptiveCapacity,
+                            'ac-0': adaptiveCapacityIndex == 0, 'ac-1': adaptiveCapacityIndex == 1,
+                            'ac-2': adaptiveCapacityIndex == 2}">
+                &nbsp;
+            </td>
+            <th>{{ ['Low', 'Mod', 'High'][potentialImpactIndex] }}</th>
+        </tr>
+        <tr>
+            <th>High</th>
+            <th>Mod</th>
+            <th>Low</th>
+        </tr>
+    </tbody>
+</table>
+</ng-template>
+
+<span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpact, 'ac-' + adaptiveCapacity]"
+      [tooltip]="tooltipTemplate" placement="right"
+       *ngIf="potentialImpact !== undefined && adaptiveCapacity !== undefined">&nbsp;</span>
+<span *ngIf="potentialImpact === undefined || adaptiveCapacity === undefined">--</span>
