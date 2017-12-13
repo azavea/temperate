@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.mail import send_mail
+from django.db import transaction
 from django.utils import timezone
 
 from django.conf import settings
@@ -16,6 +17,7 @@ from planit_data.models import GeoRegion, WeatherEventRank
 
 class PlanItLocationManager(models.Manager):
 
+    @transaction.atomic
     def from_api_city(self, api_city_id):
         location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
         if created:

@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
+from django.db import transaction
 
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
@@ -55,6 +56,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Valid location not provided")
         return location_data
 
+    @transaction.atomic
     def create(self, validated_data):
         location_data = validated_data.pop('location')
         instance = PlanItOrganization.objects.create(**validated_data)
