@@ -1,27 +1,72 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { WizardState } from 'ng2-archwizard/dist/navigation/wizard-state.model';
+import { Risk } from '../../shared/';
+import { IdentifyStepFormModel } from './identify-step-form.model';
+import { RiskStepComponent } from './risk-step.component';
+import { RiskStepKey } from '../risk-step-key';
+import { RiskWizardSessionService } from '../risk-wizard-session.service';
 
 @Component({
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
 
-export class IdentifyStepComponent implements AfterViewInit {
+export class IdentifyStepComponent implements OnInit, RiskStepComponent {
 
+  public form: FormGroup;
+  public formValid: boolean;
+  public key: RiskStepKey = RiskStepKey.Identify;
   public navigationSymbol = '1';
   public title = 'Identify risk';
 
-  constructor(private router: Router, private wizardState: WizardState) { }
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private session: RiskWizardSessionService) { }
 
-  ngAfterViewInit() {
-    // Example of how to get current wizard step directive state in step components
-    // Not available until the AfterViewInit hook
-    console.log(this.wizardState.currentStep);
+  ngOnInit() {
+    this.registerRiskHandlers();
+    const risk = this.session.getRisk() || new Risk({});
+    this.setupForm(this.fromRisk(risk));
   }
 
   cancel() {
     this.router.navigate(['assessment']);
+  }
+
+  fromRisk(risk: Risk): IdentifyStepFormModel {
+    return {
+      hazard: risk.hazard,
+      communitySystem: risk.communitySystem
+    };
+  }
+
+  registerRiskHandlers() {
+    this.session.registerHandlerForKey(this.key, {
+      toRisk: this.toRisk,
+      fromRisk: this.fromRisk
+    });
+  }
+
+  save() {
+    const data = {
+      hazard: this.form.controls.hazard.value,
+      communitySystem: this.form.controls.communitySystem.value
+    };
+    this.session.setDataForKey(this.key, data);
+  }
+
+  setupForm(data: IdentifyStepFormModel) {
+    this.form = this.fb.group({
+      'hazard': [data.hazard, Validators.required],
+      'communitySystem': [data.communitySystem, Validators.required]
+    });
+  }
+
+  toRisk(data: IdentifyStepFormModel, risk: Risk) {
+    risk.hazard = data.hazard;
+    risk.communitySystem = data.communitySystem;
+    return risk;
   }
 }
