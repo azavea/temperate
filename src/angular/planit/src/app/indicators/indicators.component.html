@@ -13,13 +13,30 @@
         <app-top-concerns></app-top-concerns>
       </div>
     </section>
+    <section class="indicator-filters" *ngIf="filters?.length">
+      <div class="filter-header">
+        <h2>Filter indicators</h2>
+        <button class="button" (click)="resetAccordion()">reset</button>
+      </div>
+      <div class="card-container">
+        <div class="card-empty"
+             [ngClass]="{'active': activeFilter?.name === filter.name}"
+             *ngFor="let filter of filters"
+             (click)="setActiveFilter(filter)">
+          <span class="icon" [ngClass]="filter.name | weatherEventIcon"></span>
+          <h4>{{ filter.name }}</h4>
+        </div>
+      </div>
+    </section>
     <section class="indicators">
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
       <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
         <app-indicator-chart *ngFor="let indicator of allIndicators"
                              [indicator]="indicator"
-                             [city]="city">
+                             [city]="city"
+                             [isOpen]="accordionState[indicator.name]"
+                             (toggled)="indicatorToggled(indicator.name, $event)">
         </app-indicator-chart>
       </div>
     </section>

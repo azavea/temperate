@@ -1,15 +1,15 @@
-<div [ngClass]="{'card': true, 'card-full': true, 'collapsed': isCollapsed}">
+<div [ngClass]="{'card': true, 'card-full': true, 'collapsed': !isOpen}">
   <div class="card-header" role="tab" id="headingOne">
     <a class="add-top-concern">Add as top concern<i class="icon-question-circle-o"></i></a>
-    <a (click)="isCollapsed = !isCollapsed">
+    <a (click)="chartToggled()">
       <h2 class="heading card-title">
         {{ indicator.label }}
-        <i [ngClass]="{'accordion': true, 'icon-angle-right': isCollapsed, 'icon-angle-down': !isCollapsed}"></i>
+        <i [ngClass]="{'accordion': true, 'icon-angle-right': !isOpen, 'icon-angle-down': isOpen}"></i>
       </h2>
     </a>
   </div>
   <!--We only want to create and show selected indicator chart components to prevent clogging the page with unwanted requests and page updates. Below looks repetitive but [collapse] only provides the accordion UI action which shows/hides the chart guts but doesn't manage requests; *ngIf does that by actually creating/removing DOM components -->
-  <div *ngIf="!isCollapsed" [collapse]="isCollapsed">
+  <div *ngIf="isOpen" [collapse]="!isOpen">
     <div class="chart card-block">
       <div class="chart-controls">
         <div class="chart-toggle">

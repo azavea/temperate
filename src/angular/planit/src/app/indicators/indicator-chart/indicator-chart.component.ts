@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Point } from 'geojson';
 
 import {
@@ -23,22 +23,26 @@ import {
   selector: 'app-indicator-chart',
   templateUrl: './indicator-chart.component.html'
 })
-export class IndicatorChartComponent {
+export class IndicatorChartComponent implements OnInit {
 
   @Input() indicator: Indicator;
+  @Input() isOpen: boolean;
   @Input() city: City;
+  @Output() toggled: EventEmitter<boolean> = new EventEmitter();
 
   public dataset: Dataset = DEFAULT_DATASET;
   public extraParams: IndicatorQueryParams;
-  public isCollapsed = true;
   public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
   public unit: string;
 
-  constructor() {}
-
   ngOnInit() {
     this.unit = this.indicator.default_units;
+  }
+
+  chartToggled() {
+    this.isOpen = !this.isOpen;
+    this.toggled.emit(this.isOpen);
   }
 
   modelsChanged(models: ClimateModel[]) {

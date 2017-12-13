@@ -9,6 +9,7 @@ import { IndicatorsRoutingModule } from './indicators-routing.module';
 
 import { IndicatorsComponent } from './indicators.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+import { WeatherEventIconPipe } from './weather-event-icon.pipe';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { IndicatorChartComponent } from './indicator-chart/indicator-chart.compo
   ],
   declarations: [
     IndicatorsComponent,
-    IndicatorChartComponent
+    IndicatorChartComponent,
+    WeatherEventIconPipe
   ],
   exports: [
     IndicatorsComponent,
