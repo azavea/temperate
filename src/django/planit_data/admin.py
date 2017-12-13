@@ -4,17 +4,17 @@ from .models import (
     CommunitySystem,
     GeoRegion,
     Indicator,
-    RiskTemplate,
     Concern,
     WeatherEvent,
-    WeatherEventRank
+    WeatherEventRank,
+    DefaultRisk,
 )
 
 for Model in (CommunitySystem,
               GeoRegion,
               Indicator,
-              RiskTemplate,
               Concern,
               WeatherEvent,
-              WeatherEventRank,):
+              WeatherEventRank,
+              DefaultRisk,):
     admin.site.register(Model)
