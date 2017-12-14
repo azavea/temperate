@@ -4,18 +4,18 @@ from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Polygon, MultiPolygon
-from django.test import TestCase
+from django.test import override_settings
+from django.urls import reverse
 
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient, APITestCase
+from rest_framework.test import APITestCase
 
-from users.models import PlanItOrganization, PlanItUser
+from users.models import PlanItOrganization, PlanItLocation, PlanItUser
 from planit_data.models import GeoRegion
 
 
-class UserCreationApiTestCase(TestCase):
+class UserCreationApiTestCase(APITestCase):
     def setUp(self):
-        self.client = APIClient()
         self.admin = PlanItUser.objects.create(email='admin@azavea.com', is_superuser=True)
         self.admin.save()
         self.admin.set_password('adminseekrit')
@@ -172,7 +172,8 @@ class OrganizationApiTestCase(APITestCase):
             },
             'units': 'METRIC'
         }
-        response = self.client.post('/api/organizations/', org_data, format='json')
+        url = reverse('planitorganization-list')
+        response = self.client.post(url, org_data, format='json')
 
         # should get created status
         self.assertEqual(response.status_code, 201)
@@ -181,3 +182,59 @@ class OrganizationApiTestCase(APITestCase):
         org = PlanItOrganization.objects.get(name='Test Organization')
         self.assertEqual(org.location.api_city_id, org_data['location']['api_city_id'])
         self.assertEqual(org.units, org_data['units'])
+
+    @mock.patch('users.models.make_token_api_request')
+    @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
+    def test_org_created__api_failure(self, api_wrapper_mock):
+        # Raise an exception when we try to communicate with the Climate Change API
+        api_wrapper_mock.side_effect = Exception()
+
+        # Clear the existing default organization to show nothing has been created
+        PlanItOrganization.objects.all().delete()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-list')
+
+        with self.assertRaises(Exception):
+            self.client.post(url, org_data, format='json')
+
+        # No PlanItLocation objects should have been created
+        self.assertFalse(PlanItLocation.objects.all().exists())
+
+        # No PlanItOrganization objects should have been created
+        self.assertFalse(PlanItOrganization.objects.all().exists())
+
+    @mock.patch('users.models.make_token_api_request')
+    @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
+    def test_org_updated__api_failure(self, api_wrapper_mock):
+        # Raise an exception when we try to communicate with the Climate Change API
+        api_wrapper_mock.side_effect = Exception()
+
+        org = PlanItOrganization.objects.create(
+            name="Starting Name"
+        )
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+
+        with self.assertRaises(Exception):
+            self.client.put(url, org_data, format='json')
+
+        # No PlanItLocation objects should have been created
+        self.assertFalse(PlanItLocation.objects.all().exists())
+
+        # The organization should not have been changed
+        org.refresh_from_db()
+        self.assertEqual(org.name, "Starting Name")
