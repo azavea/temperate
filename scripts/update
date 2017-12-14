@@ -20,8 +20,12 @@ then
     then
         usage
     else
-
-        cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+        # Prevent setup and warn if Django dockerfile doesn't exist
+        if [ ! -f ./src/django/docker-compose.env ]
+        then
+            echo "Missing Django dockerfile. Consult project README."
+            exit 1
+        fi
 
         # Build the angular container image.
         docker-compose \

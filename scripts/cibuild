@@ -22,7 +22,11 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     if [ "${1:-}" = "--help" ]; then
         usage
     else
-        cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+        # Create Django dockerfile only if it doesn't exist
+        if [ ! -f ./src/django/docker-compose.env ]
+        then
+            cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+        fi
 
         # Build angular and django containers
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
@@ -46,7 +50,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
             -f docker-compose.yml \
             -f docker-compose.test.yml run \
             --rm --entrypoint "bash -c" angular "rm -rf dist/*"
-        
+
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
             -f docker-compose.yml \
             -f docker-compose.test.yml run \
