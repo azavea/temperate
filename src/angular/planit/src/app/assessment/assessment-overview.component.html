@@ -30,10 +30,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let risk of risks">
-            <th>{{ risk.adaptiveNeed || '--' }}</th>
+            <th><va-adaptive-need-box
+                    [adaptiveCapacity]="risk.adaptiveCapacity"
+                    [potentialImpact]="risk.potentialImpact"></va-adaptive-need-box></th>
             <th>{{ risk.name }}</th>
-            <th>{{ risk.potentialImpact || '--' }}</th>
-            <th>{{ risk.adaptiveCapacity || '--' }}</th>
+            <th>{{ risk.potentialImpact }}</th>
+            <th>{{ risk.adaptiveCapacity }}</th>
             <th><button class="button">Assess</button></th>
             <th>
                 <div class="btn-group" dropdown>
