@@ -17,7 +17,8 @@ From there, clone the project, `cd` into the directory.
 
 #### Configure django docker container and connect with the Climate API
 
-Run `./scripts/setup` to create the Vagrant VM and build the Docker containers. Temperate will make requests to the Climate API, so add your personal Climate API staging credentials to `docker-compose.env` and rebuild your docker container `docker-compose rebuild --no-cache django`.
+Temperate will make requests to the Climate API. `cp src/django/docker-compose.env.example src/django/docker-compose.env` and add your personal Climate API staging credentials to `docker-compose.env`. Run `./scripts/setup` to create the
+Vagrant VM and build the Docker containers.
 
 To start nginx and django during development (served from port `8000`):
 
