@@ -13,7 +13,7 @@ import { WeatherEventIconPipe } from './weather-event-icon.pipe';
 
 @NgModule({
   imports: [
-    CollapseModule.forRoot(),
+    CollapseModule,
     CommonModule,
     ChartsModule,
     SharedModule,

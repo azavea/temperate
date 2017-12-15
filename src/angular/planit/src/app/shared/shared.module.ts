@@ -19,7 +19,7 @@ import { NouisliderModule } from 'ng2-nouislider';
   imports: [
     CommonModule,
     RouterModule,
-    BsDropdownModule.forRoot(),
+    BsDropdownModule,
     ChartsModule,
     NouisliderModule
   ],
