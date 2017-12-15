@@ -19,7 +19,7 @@ node {
                 step([$class: 'WarningsPublisher',
                     parserConfigurations: [[
                         parserName: 'JSLint',
-                        pattern: 'src/angular/planit/violations.xml'
+                        pattern: 'src/angular/planit/src/violations.xml'
                     ], [
                         parserName: 'Pep8',
                         pattern: 'src/django/violations.txt'

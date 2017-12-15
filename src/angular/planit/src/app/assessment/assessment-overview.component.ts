@@ -16,7 +16,9 @@ export class AssessmentOverviewComponent implements OnInit {
       {name: 'Heat on the elderly', potentialImpact: 0, adaptiveCapacity: 2},
       {name: 'Heat on asphalt', potentialImpact: 1, adaptiveCapacity: 1},
       {name: 'Extreme cold days on agriculture', potentialImpact: 2, adaptiveCapacity: 0},
-      {name: 'Water-bourne disease on ecological function', potentialImpact: 2, adaptiveCapacity: 2},
+      {name: 'Water-bourne disease on ecological function', potentialImpact: 2,
+        adaptiveCapacity: 2
+      },
     ];
   }
 }

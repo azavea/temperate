@@ -16,6 +16,6 @@ export class ModalWizardModule {
       providers: [
         { provide: ANALYZE_FOR_ENTRY_COMPONENTS, useValue: components, multi: true }
       ]
-    }
+    };
   }
 }
