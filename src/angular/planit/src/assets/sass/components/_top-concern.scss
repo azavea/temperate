@@ -113,10 +113,9 @@
     font-size: $text-jumbo;
   }
 
-  _ngcontent-c3 {
-    line-height: 1.4;
-    font-size: $text-medium;
-    font-weight: 700;
+  .unit {
+    line-height: 1.2;
+    font-size: $text-large;
   }
 }
 .concern-name {

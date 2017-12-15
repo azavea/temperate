@@ -11,7 +11,7 @@
       <div class="concern-stats" *ngIf="!!weatherEvent.concern">
         <div class="stat">
           <div class="number">{{ format(weatherEvent.concern) }}</div>
-          <div *ngIf="hasUnits(weatherEvent.concern)">
+          <div class="unit" *ngIf="hasUnits(weatherEvent.concern)">
             {{ weatherEvent.concern.units }}
           </div>
         </div>
