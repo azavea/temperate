@@ -46,7 +46,7 @@ then
 
         docker-compose \
             run --rm --entrypoint python \
-            django manage.py loaddata georegions indicators concerns weatherevents weathereventrank
+            django manage.py loaddata georegions indicators concerns weatherevents weathereventrank communitysystems defaultrisks
 
         docker-compose \
             run --rm --entrypoint python \
