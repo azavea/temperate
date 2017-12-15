@@ -22,8 +22,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     SharedModule,
     RiskWizardModule,
     AssessmentRoutingModule,
-    BsDropdownModule.forRoot(),
-    TooltipModule.forRoot()
+    BsDropdownModule,
+    TooltipModule
   ],
   declarations: [
     AssessmentOverviewComponent,

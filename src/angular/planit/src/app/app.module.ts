@@ -27,7 +27,12 @@ import { CacheService } from './core/services/cache.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
-import { ModalModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule,
+  CollapseModule,
+  TooltipModule,
+  ModalModule
+ } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
 const appRoutes: Routes = [
@@ -48,7 +53,10 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     // 3rd party
+    BsDropdownModule.forRoot(),
+    CollapseModule.forRoot(),
     ModalModule.forRoot(),
+    TooltipModule.forRoot(),
     // Local
     SharedModule,
     ApiModule.forRoot({
