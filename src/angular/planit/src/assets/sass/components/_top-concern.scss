@@ -1,0 +1,124 @@
+#top-concerns {
+  display: flex;
+  justify-content: space-between;
+}
+
+.concern {
+  position: relative;
+  flex: 0 0 32%;
+  margin: 0.5%;
+  position: relative;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.concern-content {
+  width: 100%;
+  position: absolute;
+  top: 0; right: 0; bottom: 0; right: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+
+  &:after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; right: 0;
+    z-index: 1;
+    background: linear-gradient(transparent, rgba($gray-5, 0.65));
+  }
+}
+
+.concern-Precipitation .concern-content {
+  background-image: url(../images/indicator-1.jpg);
+}
+
+.concern-Heat .concern-content {
+  background-image: url(../images/indicator-2.jpg);
+}
+
+.concern-ExtremeEvents .concern-content {
+  background-image: url(../images/indicator-3.jpg);
+}
+
+.concern-options {
+  position: absolute;
+  background-color: white;
+  width: auto;
+  right: 1rem;
+  top: 1rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s;
+  padding: 0.5rem;
+  border-radius: $button-border-radius;
+}
+
+.concern:hover {
+  box-shadow: 0px 0px 20px rgba($gray-4, 0.5);
+  outline-offset: -5px;
+
+  .concern-options {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.concern-stats, 
+.concern-name {
+  color: white;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 2;
+}
+.concern-stats{
+  .stat {
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+
+    .forward-slash {
+      line-height: 2;
+    }
+
+    .button {
+      color: white;
+      padding: 0.5rem;
+
+      &:hover, &.hover,
+      &:active, &.active, {
+        color: $brand-primary;
+      }
+
+      &:focus, &.focus {
+        color: $gray-1;
+        outline: 0;
+      }
+    }
+  }
+  
+  .number {
+    font-size: $text-jumbo;
+  }
+
+  _ngcontent-c3 {
+    line-height: 1.4;
+    font-size: $text-medium;
+    font-weight: 700;
+  }
+}
+.concern-name {
+  font-size: $text-medium;
+}

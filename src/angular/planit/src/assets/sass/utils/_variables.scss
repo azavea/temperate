@@ -25,6 +25,7 @@ $breakpoints: (
  *
  * * * */
 $leaflet-control-attribution-on: false;
+$border-radius: 2px;
 
 
 /* * * *
@@ -53,6 +54,14 @@ $border-color: #D9D9DE;
  * * * */
 
  $padding-unit: 1rem;
+ $space-tiny: 1px;
+ $space-small: 0.35rem;
+ $space-base: 0.65rem;
+ $space-medium: 1rem;
+ $space-large: 1.25rem;
+ $space-xlarge: 2rem;
+ $main-background: $gray-0;
+ $content-max-width: 125rem;
 
 
 /* * * *
@@ -74,19 +83,14 @@ $column-padding: 1rem;
  *
  * * * */
 
-
 $modular-scale: 1.25;
-
 $font-size-base: 16px;
-
 $link-color: $brand-primary;
-
 $font-size-body: $font-size-base;
 $body-line-height: 1.5;
 $body-font-color: #666;
 $body-font-weight: normal;
 $body-font-family: "Work Sans", Arial, sans-serif;
-
 $monospace-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 
 $text-jumbo: $font-size-base * exponential($modular-scale, 5);
@@ -99,7 +103,7 @@ $text-tiny: $font-size-base / $modular-scale;
 
 $heading-line-height: 1.1;
 $heading-font-color: $gray-5;
-$heading-font-weight: bold;
+$heading-font-weight: 400;
 $heading-font-family: "Work Sans", Arial, sans-serif;
 // $heading-margin-top: 3rem;
 $heading-margin-bottom: 1.4rem;
@@ -129,7 +133,7 @@ $loading-dimension-small: 1.7rem;
  *
  * * * */
 $button-font-family: $heading-font-family;
-$button-border-radius: 2rem;
+$button-border-radius: $border-radius;
 // Default button
 $button-padding-vertical: 0.75rem;
 $button-padding-horizontal: 1.25rem;
@@ -229,3 +233,29 @@ $chart-axis: #757575;
 $chart-grid: #e3e3e3;
 $chart-scrubline: $chart-axis;
 $color-header: #32323C;
+
+
+/* * * *
+ * Cards
+ *
+ * * * */
+$card-toggle-background: #fff;
+$card-dropshadow: 0 0 40px rgba($gray-2, 0.2);
+$card-border-radius: $border-radius;
+
+/* * * *
+ * Navigation
+ *
+ * * * */
+$primary-nav-background: #fff;
+
+
+/* * * *
+ * Animations
+ *
+ * * * */
+ $speed-very-fast: 0.1s;
+ $speed-fast: 0.25s;
+ $speed-normal: 0.35s;
+ $speed-slow: 0.5s;
+ $speed-very-slow: 1s;

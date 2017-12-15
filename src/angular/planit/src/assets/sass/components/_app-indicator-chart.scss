@@ -1,17 +1,20 @@
 app-indicator-chart {
   width: 100%;
 
-  .card-block {
-    .chart-controls {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+  .chart-controls {
+    display: flex;
+    align-items: flex-start;
+    padding: $space-xlarge $space-base; 
+  }
+  .chart-controls > .chart-toggle {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-right: $space-xlarge;
 
-      & > .chart-toggle {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
+    span {
+      font-size: $text-tiny;
+      margin-bottom: $space-small;
     }
   }
 }

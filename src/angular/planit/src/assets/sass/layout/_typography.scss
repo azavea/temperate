@@ -21,10 +21,9 @@ body {
   font-size: $text-large;
 }
 
-.text-medium {
+.text-medium, .card-title {
   font-size: $text-medium;
 }
-
 
 .text-base {
   font-size: $text-base;
@@ -37,6 +36,7 @@ body {
 .text-tiny {
   font-size: $text-tiny;
 }
+
 h1, h2, h3, h4, h5, h6 {
   line-height: $heading-line-height;
   color: $heading-font-color;
@@ -50,6 +50,7 @@ p {
   margin-top: 0;
   margin-bottom: $paragraph-margin;
 }
+
 .paragraph-intro {
   font-size: $text-base;
 }
