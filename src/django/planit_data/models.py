@@ -1,9 +1,11 @@
 import logging
 from itertools import groupby, islice
+import uuid
 
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.db.models import CASCADE
+from django.contrib.postgres.fields import ArrayField
 
 from climate_api.utils import roundrobin, IMPERIAL_TO_METRIC
 from climate_api.wrapper import make_indicator_api_request, make_token_api_request
@@ -126,6 +128,64 @@ class DefaultRisk(models.Model):
 
     def __str__(self):
         return "{} on {}".format(self.weather_event.name, self.community_system.name)
+
+
+class OrganizationRisk(models.Model):
+    """An evaluation of the risk a weather event poses on a community system.
+
+    Organizations assess the impact of weather events to community systems and
+    their adaptive capacity
+    """
+
+    class Directional:
+        UNSURE = 'unsure'
+        DECREASING = 'decreasing'
+        NO_CHANGE = 'no change'
+        INCREASING = 'increasing'
+
+        CHOICES = (
+            (UNSURE, 'Unsure'), (DECREASING, 'Decreasing'), (NO_CHANGE, 'No change'),
+            (INCREASING, 'Increasing'),
+        )
+
+    class Relative:
+        UNSURE = 'unsure'
+        LOW = 'low'
+        MODERATELY_LOW = 'mod low'
+        MODERATE = 'moderate'
+        MODERATELY_HIGH = 'mod high'
+        HIGH = 'high'
+
+        CHOICES = (
+            (UNSURE, 'Unsure'), (LOW, 'Low'), (MODERATELY_LOW, 'Moderately low'),
+            (MODERATE, 'Moderate'), (MODERATELY_HIGH, 'Moderately high'), (HIGH, 'High')
+        )
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    weather_event = models.ForeignKey('WeatherEvent', null=False, blank=False,
+                                      on_delete=models.CASCADE)
+    community_system = models.ForeignKey('CommunitySystem', null=False, blank=False,
+                                         on_delete=models.CASCADE)
+    organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
+                                     on_delete=models.CASCADE)
+
+    probability = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    frequency = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+    intensity = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+
+    impact_magnitude = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    impact_description = models.TextField(blank=True)
+
+    adaptive_capacity = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    related_adaptive_values = ArrayField(models.CharField(max_length=150), default=list)
+    adaptive_capacity_description = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ('weather_event', 'community_system', 'organization')
+
+    def __str__(self):
+        return "{}: {} on {}".format(self.organization.name, self.weather_event.name,
+                                     self.community_system.name)
 
 
 class Concern(models.Model):
