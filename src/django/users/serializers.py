@@ -66,6 +66,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
         # Copy the template WeatherEventRank objects for this new Organization
         instance.import_weather_events()
+        instance.import_risks()
 
         return instance
 
