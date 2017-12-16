@@ -1,9 +1,11 @@
 import logging
+from itertools import groupby, islice
 
 from django.contrib.gis.db import models
+from django.conf import settings
 from django.db.models import CASCADE
 
-from climate_api.utils import IMPERIAL_TO_METRIC
+from climate_api.utils import roundrobin, IMPERIAL_TO_METRIC
 from climate_api.wrapper import make_indicator_api_request, make_token_api_request
 
 logger = logging.getLogger(__name__)
@@ -81,6 +83,31 @@ class Indicator(models.Model):
         return self.name
 
 
+class DefaultRiskManager(models.Manager):
+
+    def top_risks(self, weather_event_ids, community_system_ids, max_amount=None):
+        if max_amount is None:
+            max_amount = settings.STARTING_RISK_AMOUNT
+
+        all_risks = self.get_queryset() \
+            .filter(weather_event_id__in=weather_event_ids,
+                    community_system_id__in=community_system_ids) \
+            .order_by('weather_event', 'order')
+
+        # We take 1 matching risk for each weather event in a round-robin style until
+        # we hit the maximum or run out of risks.
+        # This was chosen because we want an equitable distribution of risks between
+        # different weather events, but we're OK with a lopsided distribution
+        # if there wouldn't be enough risks otherwise.
+        risk_groups = []
+        for id, group in groupby(all_risks, key=lambda risk: risk.weather_event_id):
+            risk_groups.append(list(group))
+
+        top_risks = list(islice(roundrobin(*risk_groups), max_amount))
+
+        return sorted(top_risks, key=lambda risk: (risk.weather_event_id, risk.order))
+
+
 class DefaultRisk(models.Model):
     """A through model used to relate WeatherEvent to a list of ordered CommunitySytems.
 
@@ -91,9 +118,14 @@ class DefaultRisk(models.Model):
     community_system = models.ForeignKey('CommunitySystem', null=False, blank=False)
     order = models.IntegerField()
 
+    objects = DefaultRiskManager()
+
     class Meta:
         unique_together = (('weather_event', 'community_system'), ('weather_event', 'order'))
         ordering = ['weather_event', 'order']
+
+    def __str__(self):
+        return "{} on {}".format(self.weather_event.name, self.community_system.name)
 
 
 class Concern(models.Model):
