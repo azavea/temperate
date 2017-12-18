@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 
 import { Risk } from '../../shared/';
 import { IdentifyStepFormModel } from './identify-step-form.model';
-import { RiskStepComponent } from './risk-step.component';
+import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
-import { RiskWizardSessionService } from '../risk-wizard-session.service';
+import { WizardSessionService } from '../wizard-session.service';
 
 @Component({
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
 
-export class IdentifyStepComponent extends RiskStepComponent implements OnInit {
+export class IdentifyStepComponent extends WizardStepComponent<Risk> implements OnInit {
 
   public form: FormGroup;
   public formValid: boolean;
@@ -23,21 +23,21 @@ export class IdentifyStepComponent extends RiskStepComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              protected session: RiskWizardSessionService) {
+              protected session: WizardSessionService<Risk>) {
     super(session);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const risk = this.session.getRisk() || new Risk({});
-    this.setupForm(this.fromRisk(risk));
+    const risk = this.session.getData() || new Risk({});
+    this.setupForm(this.fromData(risk));
   }
 
   cancel() {
     this.router.navigate(['assessment']);
   }
 
-  fromRisk(risk: Risk): IdentifyStepFormModel {
+  fromData(risk: Risk): IdentifyStepFormModel {
     return {
       hazard: risk.hazard,
       communitySystem: risk.communitySystem
@@ -59,7 +59,7 @@ export class IdentifyStepComponent extends RiskStepComponent implements OnInit {
     });
   }
 
-  toRisk(data: IdentifyStepFormModel, risk: Risk) {
+  toData(data: IdentifyStepFormModel, risk: Risk) {
     risk.hazard = data.hazard;
     risk.communitySystem = data.communitySystem;
     return risk;

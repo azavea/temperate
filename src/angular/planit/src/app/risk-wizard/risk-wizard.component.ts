@@ -8,13 +8,13 @@ import { HazardStepComponent } from './steps/hazard-step.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
 import { ImpactStepComponent } from './steps/impact-step.component';
 import { ReviewStepComponent } from './steps/review-step.component';
-import { RiskWizardSessionService } from './risk-wizard-session.service';
+import { WizardSessionService } from './wizard-session.service';
 import { Risk } from '../shared/';
 
 @Component({
   selector: 'app-risk-wizard',
   templateUrl: 'risk-wizard.component.html',
-  providers: [RiskWizardSessionService]
+  providers: [WizardSessionService]
 })
 export class RiskWizardComponent implements AfterViewInit, OnDestroy, OnInit {
 
@@ -25,15 +25,16 @@ export class RiskWizardComponent implements AfterViewInit, OnDestroy, OnInit {
   @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
   @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
 
-  constructor(private session: RiskWizardSessionService) {}
+  constructor(private session: WizardSessionService<Risk>) {}
 
   ngOnInit() {
     // TODO: Set initial risk from API
-    this.session.risk.subscribe(risk => this.riskModelChanged(risk));
+    this.session.setData(new Risk({}));
+    this.session.data.subscribe(risk => this.riskModelChanged(risk));
   }
 
   ngOnDestroy() {
-    this.session.risk.unsubscribe();
+    this.session.data.unsubscribe();
   }
 
   // this.wizard.navigation and this.wizard.model are not available until this hook
