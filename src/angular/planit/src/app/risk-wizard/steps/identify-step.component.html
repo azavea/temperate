@@ -1,4 +1,23 @@
 <h3>Identify risk</h3>
 
+<p>
+Match a hazard to a subset of people, structure, or assets (sometimes
+referred to as a &lsquo;community system&rsquo;) that the selected hazard may
+impact.
+</p>
+
+<div>
+    <label for="hazards">Hazards</label>
+    <input class="form-control" name="hazards"
+           [(ngModel)]="hazard"
+           [typeahead]="hazards">
+</div>
+<div>
+    <label for="communitysystem">Community system</label>
+    <input class="form-control" name="communitysystem"
+           [(ngModel)]="communitySystem"
+           [typeahead]="communitySystems">
+</div>
+
 <button type="button" nextStep>Continue</button>
 <button type="button" (click)="cancel()">Cancel</button>

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
 
 import { ArchwizardModule } from 'ng2-archwizard';
 
@@ -9,9 +10,13 @@ import { ReviewStepComponent } from './steps/review-step.component';
 import { CapacityStepComponent } from './steps/capacity-step.component';
 import { ImpactStepComponent } from './steps/impact-step.component';
 
+import { TypeaheadModule } from 'ngx-bootstrap';
+
 @NgModule({
     imports: [
-        ArchwizardModule
+        FormsModule,
+        ArchwizardModule,
+        TypeaheadModule
     ],
     exports: [RiskWizardComponent],
     declarations: [
