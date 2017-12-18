@@ -77,6 +77,14 @@ app-chart {
     width: 100%;
   }
 
+  .chart-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    padding-top: 10rem;
+  }
+
   .chart-options {
     margin: 0;
     padding: 1rem 1.5rem;
