@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ArchwizardModule } from 'ng2-archwizard';
 
+import { Risk } from '../shared/models/risk.model';
+
 import { RiskWizardComponent } from './risk-wizard.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
 import { HazardStepComponent } from './steps/hazard-step.component';

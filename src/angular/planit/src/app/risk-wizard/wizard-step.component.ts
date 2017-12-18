@@ -6,14 +6,13 @@
  * This class, along with the WizardSessionService, should be moved out of the risk-wizard
  * module when we begin implementing multiple wizards.
  */
-import { Component, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Risk } from './../shared/';
 import { RiskStepKey } from './risk-step-key';
 import { WizardSessionService } from './wizard-session.service';
 
-@Component({})
 export abstract class WizardStepComponent<T> implements OnInit {
   abstract form: FormGroup;
   abstract key: string;
