@@ -116,15 +116,16 @@
   &:last-child {
     margin-right: 0;
   }
-}
-.concern-Precipitation {
-  background-image: url(../images/indicator-1.jpg);
-}
-.concern-Heat {
-  background-image: url(../images/indicator-2.jpg);
-}
-.concern-ExtremeEvents {
-  background-image: url(../images/indicator-3.jpg);
+
+  &.precipitation {
+    background-image: url(../images/indicator-1.jpg);
+  }
+  &.heat {
+    background-image: url(../images/indicator-2.jpg);
+  }
+  &.extreme-events {
+    background-image: url(../images/indicator-3.jpg);
+  }
 }
 .concern-options {
   position: absolute;
