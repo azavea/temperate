@@ -24,6 +24,12 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   public navigationSymbol = '1';
   public title = 'Identify risk';
 
+  public hazards: string[];
+  public hazard: string;
+
+  public communitySystems: string[];
+  public communitySystem: string;
+
   constructor(private fb: FormBuilder,
               private router: Router,
               protected session: WizardSessionService<Risk>) {
@@ -34,6 +40,9 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     super.ngOnInit();
     const risk = this.session.getData();
     this.setupForm(this.fromModel(risk));
+
+    this.hazards = ['one', 'two', 'three'];
+    this.communitySystems = ['four', 'five', 'six'];
   }
 
   cancel() {
