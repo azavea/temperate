@@ -31,7 +31,8 @@ import {
   BsDropdownModule,
   CollapseModule,
   TooltipModule,
-  ModalModule
+  ModalModule,
+  TypeaheadModule
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -57,6 +58,7 @@ const appRoutes: Routes = [
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
+    TypeaheadModule.forRoot(),
     // Local
     SharedModule,
     ApiModule.forRoot({
