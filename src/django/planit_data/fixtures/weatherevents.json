@@ -230,7 +230,7 @@
         "fields": {
             "name": "Extreme precipitation",
             "coastal_only": false,
-            "concern": null,
+            "concern": 22,
             "indicators": [
                 9,
                 22
