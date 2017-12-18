@@ -13,7 +13,7 @@ import { RiskWizardSessionService } from '../risk-wizard-session.service';
   templateUrl: 'identify-step.component.html'
 })
 
-export class IdentifyStepComponent implements OnInit, RiskStepComponent {
+export class IdentifyStepComponent extends RiskStepComponent implements OnInit {
 
   public form: FormGroup;
   public formValid: boolean;
@@ -23,10 +23,12 @@ export class IdentifyStepComponent implements OnInit, RiskStepComponent {
 
   constructor(private fb: FormBuilder,
               private router: Router,
-              private session: RiskWizardSessionService) { }
+              protected session: RiskWizardSessionService) {
+    super(session);
+  }
 
   ngOnInit() {
-    this.registerRiskHandlers();
+    super.ngOnInit();
     const risk = this.session.getRisk() || new Risk({});
     this.setupForm(this.fromRisk(risk));
   }
@@ -40,13 +42,6 @@ export class IdentifyStepComponent implements OnInit, RiskStepComponent {
       hazard: risk.hazard,
       communitySystem: risk.communitySystem
     };
-  }
-
-  registerRiskHandlers() {
-    this.session.registerHandlerForKey(this.key, {
-      toRisk: this.toRisk,
-      fromRisk: this.fromRisk
-    });
   }
 
   save() {

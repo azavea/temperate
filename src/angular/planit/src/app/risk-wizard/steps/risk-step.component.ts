@@ -1,17 +1,35 @@
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Risk } from '../../shared/';
-import { RiskHandler } from '../risk-wizard-session.service';
+import { RiskStepKey } from '../risk-step-key';
+import { RiskHandler, RiskWizardSessionService } from '../risk-wizard-session.service';
 
-// TODO: Make class and have class handle risk handler registration
-export interface RiskStepComponent {
-  form: FormGroup;
-  key: string;
-  navigationSymbol: string;
-  title: string;
+@Component({})
+export abstract class RiskStepComponent implements OnInit {
+  abstract form: FormGroup;
+  abstract key: RiskStepKey;
+  abstract navigationSymbol: string;
+  abstract title: string;
 
-  fromRisk(risk: Risk): any;
-  registerRiskHandlers(): void;
-  setupForm(data: any): void;
-  toRisk(data: any, risk: Risk): Risk;
+  // Subclass constructors must also inject RiskWizardSessionService and call:
+  //  super(session);
+  constructor(protected session: RiskWizardSessionService) {}
+
+  // Subclass ngOnInit methods must implement ngOnInit and call `super.ngOnInit()` first in
+  //  their implementations
+  ngOnInit() {
+    this.registerRiskHandlers();
+  }
+
+  abstract fromRisk(risk: Risk): any;
+  abstract setupForm(data: any): void;
+  abstract toRisk(data: any, risk: Risk): Risk;
+
+  registerRiskHandlers() {
+    this.session.registerHandlerForKey(this.key, {
+      fromRisk: this.fromRisk,
+      toRisk: this.toRisk
+    });
+  }
 }
