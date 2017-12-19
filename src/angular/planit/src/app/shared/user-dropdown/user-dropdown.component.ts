@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../shared/models/user.model';
+import { Organization } from '../../shared/models/organization.model';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -10,14 +11,16 @@ import { User } from '../../shared/models/user.model';
 })
 
 export class UserDropdownComponent implements OnInit {
-  user: User;
+  public user: User;
+  public organization: Organization;
 
   constructor(private userService: UserService) {
   }
 
   ngOnInit() {
     this.userService.current()
-      .subscribe(user => this.user = user);
+      .do(user => this.user = user)
+      .flatMap(user => this.userService.getPrimaryOrganization(user))
+      .subscribe(organization => this.organization = organization);
   }
-
 }

@@ -6,6 +6,7 @@ export class CacheService {
   // Kept as a separate service to avoid circular dependency issues
 
   public static USER = 'user';
+  public static ORGANIZATION = 'organization';
 
   private data: { [index: string]: any } = {};
 
