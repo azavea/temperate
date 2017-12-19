@@ -2,7 +2,7 @@
     <ul class="primary-nav">
         <li class="list-item"
             *ngFor="let tab of tabs">
-            <a class="link" routerLink="/{{tab | lowercase}}" routerLinkActive="current">{{ tab }}</a>
+            <a class="link" routerLink="/{{ tab.link }}" routerLinkActive="current">{{ tab.name }}</a>
         </li>
     </ul>
 </nav>

@@ -15,6 +15,7 @@ import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { CoreModule } from './core/core.module';
+import { ActionStepsModule } from './action-steps/action-steps.module';
 import { AssessmentModule } from './assessment/assessment.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
       apiHttpInjectionToken: apiHttpProvider.provide
     }),
     ChartsModule,
+    ActionStepsModule,
     AssessmentModule,
     DashboardModule,
     IndicatorsModule,
