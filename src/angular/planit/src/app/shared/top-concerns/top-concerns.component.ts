@@ -23,15 +23,32 @@ export class TopConcernsComponent implements OnInit {
   }
 
   format(concern: Concern): string {
-    if (concern.isRelative) {
-      return Number(concern.value * 100).toFixed(0) + '%';
+    if (!concern.isRelative) {
+      // Absolute increase show the value directly
+      return parseFloat(Number(concern.value).toPrecision(2)).toString();
+    } else if (concern.value >= 1) {
+      // If it's greater than 100% growth, use NN× format
+      return Number(concern.value).toFixed(1);
     } else {
-      return Number(concern.value).toPrecision(2);
+      // For smaller relative increases, display the % growth
+      return Number(concern.value * 100).toFixed(0);
     }
   }
 
   hasUnits(concern: Concern): boolean {
-    return !concern.isRelative && concern.units !== 'count';
+    return concern.units !== 'count';
   }
 
+  units(concern: Concern): string {
+    if (!concern.isRelative) {
+      // Absolute increase show the value directly
+      return concern.units;
+    } else if (concern.value >= 1) {
+      // If it's greater than 100% growth, use NN× format
+      return '×';
+    } else {
+      // For smaller relative increases, display the % growth
+      return '%';
+    }
+  }
 }
