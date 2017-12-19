@@ -106,11 +106,7 @@ class UserViewSet(ModelViewSet):
         user = serializer.instance
         # User is inactive until registration completed
         user.is_active = False
-        # Add user to default organization, if not assigned any organization yet
-        if not user.organizations.exists():
-            org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
-            user.organizations.add(org)
-            user.primary_organization = org
+
         user.set_password(password)
         user.save()
         # send the django registration email

@@ -114,7 +114,18 @@ class PlanItUserManager(BaseUserManager):
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
         user.set_password(password)
         user.save()
+
+        # Associate the user with the default organization
+        org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
+        user.organizations.add(org)
+        user.primary_organization = org
+        user.save()
+
         return user
+
+    def create(self, email, first_name, last_name, password=None, **extra):
+        """Alias of create_user for DRF serializer use."""
+        return self.create_user(email, first_name, last_name, password, **extra)
 
     def create_user(self, email, first_name, last_name, password=None, **extra):
         extra.setdefault('is_staff', False)
