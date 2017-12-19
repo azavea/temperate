@@ -2,19 +2,22 @@ from django.contrib import admin
 
 from .models import (
     CommunitySystem,
+    Concern,
+    DefaultRisk,
     GeoRegion,
     Indicator,
-    Concern,
+    OrganizationRisk,
     WeatherEvent,
     WeatherEventRank,
-    DefaultRisk,
 )
 
 for Model in (CommunitySystem,
+              Concern,
+              DefaultRisk,
               GeoRegion,
               Indicator,
-              Concern,
+              OrganizationRisk,
               WeatherEvent,
               WeatherEventRank,
-              DefaultRisk,):
+              ):
     admin.site.register(Model)
