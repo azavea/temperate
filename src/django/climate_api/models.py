@@ -20,14 +20,11 @@ class APITokenManager(models.Manager):
         # Get and set new token
         url = get_api_url('api-token-auth/refresh/')
         request = requests.post(url, data=data, verify=False)
-        if request.status_code == 200:
-            new_token = request.json()['token']
-            APIToken.objects.all().delete()
-            APIToken.objects.create(token=new_token)
-            logger.debug('Token is now {}'.format(self.current()))
-        else:
-            logger.warn('Error refreshing token. {}: {}'.format(request.status_code,
-                                                                request.reason))
+        request.raise_for_status()
+
+        new_token = request.json()['token']
+        APIToken.objects.all().delete()
+        return APIToken.objects.create(token=new_token)
 
     def current(self):
         """Return current token as a string."""

@@ -257,7 +257,12 @@ LOGGING = {
         },
         'planit_data': {
             'handlers': ['console'],
+            'propagate': True
+        },
+        'climate_api': {
+            'handlers': ['console'],
             'propagate': True,
+            'level': LOGLEVEL
         },
         'rest_framework': {
             'handlers': ['console'],
