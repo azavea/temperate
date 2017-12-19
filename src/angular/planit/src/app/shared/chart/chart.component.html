@@ -1,4 +1,7 @@
 <div class="chart-body">
+    <div class="chart-message" *ngIf="!(chartData && chartData.length)">
+      {{noChartMessage}}
+    </div>
     <div class="chart-graphic" *ngIf="chartData && chartData.length">
         <div class="line-graph">
             <ccc-line-graph
