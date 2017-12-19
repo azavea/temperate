@@ -10,14 +10,17 @@ import {
   Indicator,
   IndicatorRequestOpts,
   IndicatorQueryParams,
-  Scenario
+  Scenario,
+  isBasetempIndicator,
+  isHistoricIndicator,
+  isPercentileIndicator,
+  isThresholdIndicator
 } from 'climate-change-components';
 
 import {
   DEFAULT_DATASET,
   DEFAULT_SCENARIO
 } from '../indicator-defaults';
-
 
 @Component({
   selector: 'app-indicator-chart',
@@ -31,7 +34,11 @@ export class IndicatorChartComponent implements OnInit {
   @Output() toggled: EventEmitter<boolean> = new EventEmitter();
 
   public dataset: Dataset = DEFAULT_DATASET;
-  public extraParams: IndicatorQueryParams;
+  public extraParams: IndicatorQueryParams = {};
+  public isThresholdIndicator = isThresholdIndicator;
+  public isBasetempIndicator = isBasetempIndicator;
+  public isHistoricIndicator = isHistoricIndicator;
+  public isPercentileIndicator = isPercentileIndicator;
   public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
   public unit: string;
@@ -59,5 +66,9 @@ export class IndicatorChartComponent implements OnInit {
 
   datasetSelected(dataset: Dataset) {
     this.dataset = dataset;
+  }
+
+  onExtraParamsSelected(params: IndicatorQueryParams) {
+    this.extraParams = Object.assign({}, params);
   }
 }
