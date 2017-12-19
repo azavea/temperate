@@ -43,6 +43,9 @@ class PlanItLocation(models.Model):
 
     objects = PlanItLocationManager()
 
+    def __str__(self):
+        return self.name
+
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
