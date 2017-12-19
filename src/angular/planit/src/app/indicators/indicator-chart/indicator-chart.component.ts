@@ -38,7 +38,6 @@ export class IndicatorChartComponent implements OnInit {
 
   ngOnInit() {
     this.unit = this.indicator.default_units;
-    console.log('init', this.dataset, this.models);
   }
 
   chartToggled() {
@@ -47,7 +46,6 @@ export class IndicatorChartComponent implements OnInit {
   }
 
   modelsChanged(models: ClimateModel[]) {
-    console.log('models changed', models);
     window.setTimeout(() => this.models = models);
   }
 
@@ -60,7 +58,6 @@ export class IndicatorChartComponent implements OnInit {
   }
 
   datasetSelected(dataset: Dataset) {
-    console.log('dataset selected', dataset);
     this.dataset = dataset;
   }
 }
