@@ -1,4 +1,18 @@
 <h3>Identify risk</h3>
 
-<button type="button" nextStep>Continue</button>
-<button type="button" (click)="cancel()">Cancel</button>
+<p>Match a hazard to a subset of people, strucutres or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
+
+<form [formGroup]="form">
+  <div>
+    <label for="">Hazard</label>
+      <input type="text" formControlName="hazard">
+      <span *ngIf="form.controls.hazard.errors">*Required</span>
+  </div>
+  <div>
+    <label for="">Community System</label>
+    <input type="text" formControlName="communitySystem">
+    <span *ngIf="form.controls.communitySystem.errors">*Required</span>
+  </div>
+  <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
+  <button type="button" (click)="cancel()">Cancel</button>
+</form>
