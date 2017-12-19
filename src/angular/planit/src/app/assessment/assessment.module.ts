@@ -12,6 +12,7 @@ import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
 import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
@@ -23,6 +24,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     RiskWizardModule,
     AssessmentRoutingModule,
     BsDropdownModule,
+    PopoverModule,
     TooltipModule
   ],
   declarations: [

@@ -1,3 +1,6 @@
+<ng-template #riskPopoverTemplate>
+  Example popover content
+</ng-template>
 <app-navbar></app-navbar>
 <div class="main-container">
   <app-sidebar></app-sidebar>
@@ -33,7 +36,10 @@
             <th><va-adaptive-need-box
                     [adaptiveCapacity]="risk.adaptiveCapacity"
                     [potentialImpact]="risk.potentialImpact"></va-adaptive-need-box></th>
-            <th>{{ risk.name }}</th>
+            <th>
+              <div class="risk-text" [popover]="riskPopoverTemplate" container="body"
+                placement="right" triggers="mouseenter:mouseleave">{{ risk.name }}</div>
+            </th>
             <th>{{ risk.potentialImpact }}</th>
             <th>{{ risk.adaptiveCapacity }}</th>
             <th><button class="button">Assess</button></th>
