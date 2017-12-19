@@ -1,7 +1,7 @@
 import requests
 import logging
 
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
 
 from climate_api.utils import get_api_url
@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 class APITokenManager(models.Manager):
 
+    @transaction.atomic
     def refresh(self):
         data = [
             ('email', settings.CCAPI_EMAIL),
