@@ -23,7 +23,8 @@ class UserCreationApiTestCase(APITestCase):
             'password2': 'sooperseekrit'
         }
 
-        response = self.client.post('/api/users/', user_data, format='json')
+        url = reverse('planituser-list')
+        response = self.client.post(url, user_data, format='json')
 
         # should get created status
         self.assertEqual(response.status_code, 201)
@@ -51,7 +52,8 @@ class UserCreationApiTestCase(APITestCase):
         }
 
         # Use API to create user account
-        self.client.post('/api/users/', user_data, format='json')
+        url = reverse('planituser-list')
+        self.client.post(url, user_data, format='json')
 
         # make user active so can login
         user = PlanItUser.objects.get(email=user_data['email'])
@@ -71,7 +73,8 @@ class UserCreationApiTestCase(APITestCase):
             'password2': 'sewperseekrit'
         }
 
-        response = self.client.post('/api/users/', user_data, format='json')
+        url = reverse('planituser-list')
+        response = self.client.post(url, user_data, format='json')
         self.assertEqual(response.status_code, 400)
         result = response.json()
         self.assertEqual(result['non_field_errors'][0], 'Passwords do not match.')
@@ -85,7 +88,8 @@ class UserCreationApiTestCase(APITestCase):
             'password2': '2short'
         }
 
-        response = self.client.post('/api/users/', user_data, format='json')
+        url = reverse('planituser-list')
+        response = self.client.post(url, user_data, format='json')
         self.assertEqual(response.status_code, 400)
         result = response.json()
         self.assertEqual(result['non_field_errors'][0],
@@ -100,7 +104,8 @@ class UserCreationApiTestCase(APITestCase):
             'password2': ''
         }
 
-        response = self.client.post('/api/users/', user_data, format='json')
+        url = reverse('planituser-list')
+        response = self.client.post(url, user_data, format='json')
         self.assertEqual(response.status_code, 400)
         result = response.json()
 
@@ -119,7 +124,8 @@ class UserCreationApiTestCase(APITestCase):
         token = Token.objects.get(user=user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-        response = self.client.get('/api/users/', format='json')
+        url = reverse('planituser-list')
+        response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, 200)
         result = response.json()
         # should have response with one user, our test user
