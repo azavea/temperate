@@ -1,0 +1,12 @@
+.actions-empty {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: $gray-1;
+  padding: 10rem 15rem;
+
+  & > h2 {
+    margin-bottom: 3rem;
+  }
+}
