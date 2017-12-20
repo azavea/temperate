@@ -27,6 +27,7 @@ from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationView
 router = routers.DefaultRouter()
 router.register(r'organizations', OrganizationViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'risks', planit_data_views.OrganizationRiskView, base_name='organizationrisk')
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
