@@ -1,4 +1,48 @@
-<h3>Hazard</h3>
-
-<button type="button" nextStep>Continue</button>
-<button type="button" previousStep>Back</button>
+<div class="step-header">
+  <h3>Hazard</h3>
+  <h5>{{ risk.hazard }}</h5>
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <h5>Probability</h5>
+      <div class="btn-group" dropdown>
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+          {{ relativeOptions.get(form.controls['probability'].value)?.label  }}<span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li role="menuitem" *ngFor="let opt of relativeOptionsKeys">
+            <a class="dropdown-item" (click)="form.controls['probability'].setValue(opt)">
+              <span class="label">{{ relativeOptions.get(opt)?.label }}</span>
+              <span class="description" *ngIf="relativeOptions.get(opt)?.description">{{ relativeOptions.get(opt)?.description }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="step-form-control">
+      <h5>Frequency <span class="icon icon-question-circle-o"></span></h5>
+      <div class="btn-group">
+        <label class="btn btn-primary"
+               [ngClass]="{active: form.controls.frequency.value == opt}"
+               *ngFor="let opt of directionalOptionsKeys"
+               btnRadio="{{ opt }}"
+               formControlName="frequency">{{ directionalOptions.get(opt)?.label }}</label>
+      </div>
+    </div>
+    <div class="step-form-control">
+      <h5>Intensity <span class="icon icon-question-circle-o"></span></h5>
+      <div class="btn-group">
+        <label class="btn btn-primary"
+               [ngClass]="{active: form.controls.intensity.value == opt}"
+               *ngFor="let opt of directionalOptionsKeys"
+               btnRadio="{{ opt }}"
+               formControlName="intensity">{{ directionalOptions.get(opt)?.label }}</label>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep (finalize)="save()">Continue</button>
+  <button type="button" nextStep (finalize)="save()">Skip Step</button>
+</div>

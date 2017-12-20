@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { BsDropdownModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'climate-change-components';
+import { NouisliderModule } from 'ng2-nouislider';
 
+import { ChartComponent } from './chart/chart.component';
+import { HelpModalComponent } from './help-modal/help-modal.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
-import { HelpModalComponent } from './help-modal/help-modal.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ChartComponent } from './chart/chart.component';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
-import { NouisliderModule } from 'ng2-nouislider';
 
 @NgModule({
   imports: [
@@ -24,22 +24,22 @@ import { NouisliderModule } from 'ng2-nouislider';
     NouisliderModule
   ],
   declarations: [
+    ChartComponent,
+    HelpModalComponent,
+    NavbarComponent,
+    OptionDropdownComponent,
     SidebarComponent,
     TopConcernsComponent,
-    HelpModalComponent,
-    UserDropdownComponent,
-    NavbarComponent,
-    ChartComponent
+    UserDropdownComponent
   ],
   exports: [
+    ChartComponent,
     HelpModalComponent,
-    UserDropdownComponent,
-    CommonModule,
-    RouterModule,
+    NavbarComponent,
+    OptionDropdownComponent,
     SidebarComponent,
     TopConcernsComponent,
-    NavbarComponent,
-    ChartComponent
+    UserDropdownComponent
   ]
 })
 export class SharedModule { }

@@ -8,3 +8,13 @@ export { Organization } from './models/organization.model';
 export { PrecipitationUnits,
          TemperatureUnits,
          OrgUnitType } from './constants/units-conversion';
+
+export {
+  OrgRiskDirectionalOption,
+  OrgRiskDirectionalOptions
+} from './models/org-risk-directional-option.model';
+
+export {
+  OrgRiskRelativeOption,
+  OrgRiskRelativeOptions
+} from './models/org-risk-relative-option.model';

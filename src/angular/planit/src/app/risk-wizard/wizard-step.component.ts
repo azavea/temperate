@@ -29,14 +29,14 @@ export abstract class WizardStepComponent<T> implements OnInit {
     this.registerRiskHandlers();
   }
 
-  abstract fromData(data: T): any;
+  abstract fromModel(model: T): any;
   abstract setupForm(data: any): void;
-  abstract toData(data: any, risk: T): T;
+  abstract toModel(data: any, model: T): T;
 
   registerRiskHandlers() {
     this.session.registerHandlerForKey(this.key, {
-      fromData: this.fromData,
-      toData: this.toData
+      fromData: this.fromModel,
+      toData: this.toModel
     });
   }
 }
