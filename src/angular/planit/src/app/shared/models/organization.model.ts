@@ -1,4 +1,4 @@
-import { City } from './city.model';
+import { City } from '../../shared';
 
 export class Organization {
   name: string;

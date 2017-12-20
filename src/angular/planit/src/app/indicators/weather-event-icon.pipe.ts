@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { WeatherEvent } from '../shared/models/weather-event.model';
+import { WeatherEvent } from '../shared';
 
 // TODO (#252): Remove this when we come up with a better way to match icons to WeatherEvents
 

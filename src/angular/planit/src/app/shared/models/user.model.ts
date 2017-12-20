@@ -1,4 +1,4 @@
-import { Organization } from './organization.model';
+import { Organization } from '../../shared';
 
 export class User {
   id: number;

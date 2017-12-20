@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Risk } from '../shared/models/risk.model';
+import { Risk } from '../shared';
 
 @Component({
   selector: 'va-overview',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { User } from '../../shared/models/user.model';
+import { User } from '../../shared';
 import { CacheService } from './cache.service';
 import { PlanItApiHttp } from './api-http.service';
 import { environment } from '../../../environments/environment';

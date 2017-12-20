@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { WeatherEventService } from '../../core/services/weather-event.service';
-import { Concern } from '../models/concern.model';
-import { WeatherEvent } from '../models/weather-event.model';
+import { Concern, WeatherEvent } from '../../shared';
 
 
 @Component({

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { User } from '../../shared/models/user.model';
+import { User } from '../../shared';
 
 import { environment } from '../../../environments/environment';
 
