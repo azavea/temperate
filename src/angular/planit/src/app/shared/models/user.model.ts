@@ -1,3 +1,5 @@
+import { Organization } from './organization.model';
+
 export class User {
   id: number;
   firstName: string;
@@ -5,7 +7,7 @@ export class User {
   email: string;
   isActive: boolean;
   organizations?: string[];
-  primaryOrganization: string;
+  primaryOrganization: Organization;
   city?: number;
 
   constructor(object: Object) {

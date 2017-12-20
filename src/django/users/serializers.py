@@ -86,7 +86,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for PlanItUser
+    """Serializer for PlanItUser.
+
     Note:
         Retrieves token if available for a user, or returns ``null``
     """
@@ -130,3 +131,9 @@ class UserSerializer(serializers.ModelSerializer):
         data.pop('password1')
         data.pop('password2')
         return data
+
+
+class UserOrgSerializer(UserSerializer):
+    """Return primaryOrganization as its full object on the user."""
+
+    primaryOrganization = OrganizationSerializer(source='primary_organization')

@@ -57,8 +57,8 @@ export class IndicatorChartComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getPrimaryOrganization().subscribe(org => {
-      this.unit = this.translateOrgUnits(org.units);
+    this.userService.current().subscribe(user => {
+      this.unit = this.translateOrgUnits(user.primaryOrganization.units);
     });
   }
 
