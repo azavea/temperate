@@ -1,0 +1,15 @@
+<ng-template #riskPopoverTemplate>
+  <p>Donec dictum hendrerit dui, nec dictum ante molestie eleifend. Quisque accumsan nisl lectus, in vulputate erat iaculis quis. Aenean at nisl vehicula, fermentum leo vel, ultricies sapien.
+  </p>
+  <h4>Related Indicators</h4>
+  <p *ngFor="let indicator of risk.indicators">
+    <a href="{{ indicator.url }}">{{ indicator.name }}</a>
+  </p>
+</ng-template>
+
+<div class="va-risk" [popover]="riskPopoverTemplate"
+  container="body"
+  outsideClick="true"
+  popoverTitle="{{ risk.name }}"
+  placement="right">{{ risk.name }}
+</div>
