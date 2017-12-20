@@ -271,6 +271,8 @@ LOGGING = {
     }
 }
 
+# APPLICATION SETTINGS
+
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
 CCAPI_PASSWORD = os.getenv('CCAPI_PASSWORD')
@@ -288,3 +290,7 @@ CCAPI_ROUTE_WHITELIST = (
     '^api/indicator/$',
     '^api/scenario/$',
 )
+
+# Vulnerability Assessment Configuration
+# Max # of risks to make when creating an organization
+STARTING_RISK_AMOUNT = 15

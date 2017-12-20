@@ -12,7 +12,13 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
-from planit_data.models import GeoRegion, WeatherEventRank
+from planit_data.models import (
+    CommunitySystem,
+    DefaultRisk,
+    GeoRegion,
+    OrganizationRisk,
+    WeatherEventRank,
+)
 
 
 class PlanItLocationManager(models.Manager):
@@ -36,6 +42,9 @@ class PlanItLocation(models.Model):
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
+
+    def __str__(self):
+        return self.name
 
 
 class PlanItOrganization(models.Model):
@@ -70,6 +79,18 @@ class PlanItOrganization(models.Model):
         ThroughModel.objects.bulk_create(
             ThroughModel(planitorganization_id=self.id, weathereventrank_id=event.id)
             for event in weather_events
+        )
+
+    def import_risks(self):
+        weather_event_ids = self.weather_events.values_list('weather_event_id', flat=True)
+        # TODO: Replace this with only organization's community systems as part of onboarding
+        community_system_ids = CommunitySystem.objects.all().values_list('id', flat=True)
+        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids)
+
+        OrganizationRisk.objects.bulk_create(
+            OrganizationRisk(organization_id=self.id, weather_event_id=risk.weather_event_id,
+                             community_system_id=risk.community_system_id)
+            for risk in top_risks
         )
 
 
