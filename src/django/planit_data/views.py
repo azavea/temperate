@@ -31,6 +31,7 @@ class CommunitySystemViewSet(ReadOnlyModelViewSet):
     queryset = CommunitySystem.objects.all()
     serializer_class = CommunitySystemSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = None
 
 
 class OrganizationRiskView(ModelViewSet):
@@ -48,6 +49,7 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
     queryset = WeatherEvent.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = WeatherEventSerializer
+    pagination_class = None
 
 
 class WeatherEventRankView(APIView):
