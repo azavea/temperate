@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     # local apps
     'climate_api',
     'planit_data',
+    'action_steps',
 ]
 
 MIDDLEWARE = [
