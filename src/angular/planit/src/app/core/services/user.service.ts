@@ -10,8 +10,6 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class UserService {
 
-  public static USER = 'user';
-
   constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
 
   current(): Observable<User | null> {
