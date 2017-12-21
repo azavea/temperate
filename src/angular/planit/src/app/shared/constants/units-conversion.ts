@@ -1,14 +1,14 @@
-export const TEMPERATURE_UNITS = {
+export const TemperatureUnits = {
   'METRIC': 'C',
   'IMPERIAL': 'F'
 };
 
-export const PRECIPITATION_UNITS = {
+export const PrecipitationUnits = {
   'METRIC': 'mm',
   'IMPERIAL': 'inches'
 };
 
-export enum UNIT_TYPES {
-  'IMPERIAL',
-  'METRIC'
+export enum OrgUnitType {
+  Imperial = 'IMPERIAL',
+  Metric = 'METRIC'
 }

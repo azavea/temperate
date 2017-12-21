@@ -22,9 +22,9 @@ import {
   DEFAULT_SCENARIO
 } from '../indicator-defaults';
 
-import { TEMPERATURE_UNITS,
-         PRECIPITATION_UNITS,
-         UNIT_TYPES } from '../../shared';
+import { TemperatureUnits,
+         PrecipitationUnits,
+         OrgUnitType } from '../../shared';
 import { UserService } from '../../core/services/user.service';
 
 @Component({
@@ -48,8 +48,8 @@ export class IndicatorChartComponent implements OnInit {
   public scenario = DEFAULT_SCENARIO;
   public unit: string;
 
-  public temperatureUnits = TEMPERATURE_UNITS;
-  public precipitationUnits = PRECIPITATION_UNITS;
+  public temperatureUnits = TemperatureUnits;
+  public precipitationUnits = PrecipitationUnits;
 
   constructor(private userService: UserService) {}
 
@@ -64,7 +64,7 @@ export class IndicatorChartComponent implements OnInit {
     this.toggled.emit(this.isOpen);
   }
 
-  translateOrgUnits(unit_type: UNIT_TYPES) {
+  translateOrgUnits(unit_type: OrgUnitType) {
     // Translate org unit type to actual indicator unit
     if (this.indicator.variables.indexOf('pr') >= 0) {
       return this.indicator.available_units.find(u => u === this.precipitationUnits[unit_type]) ||

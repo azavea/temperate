@@ -1,8 +1,9 @@
-import { City } from '../../shared';
+import { City,
+         OrgUnitType } from '../../shared';
 
 export class Organization {
   name: string;
-  units: string;
+  units: OrgUnitType;
   location: City;
   weather_events: string[];
 
