@@ -42,17 +42,21 @@ class ConcernSerializer(serializers.ModelSerializer):
         fields = ('id', 'indicator', 'isRelative',)
 
 
+class WeatherEventSerializer(serializers.ModelSerializer):
+
+    concern = ConcernSerializer()
+    coastalOnly = serializers.BooleanField(source='coastal_only')
+    indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    displayClass = serializers.CharField(source='display_class')
+
+    class Meta:
+        model = WeatherEvent
+        fields = ('name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
+
+
 class OrganizationRiskSerializer(serializers.ModelSerializer):
-    weatherEvent = serializers.PrimaryKeyRelatedField(
-        many=False,
-        queryset=WeatherEvent.objects.all(),
-        source='weather_event'
-    )
-    communitySystem = serializers.PrimaryKeyRelatedField(
-        many=False,
-        queryset=CommunitySystem.objects.all(),
-        source='community_system'
-    )
+    weatherEvent = WeatherEventSerializer(source='weather_event')
+    communitySystem = CommunitySystemSerializer(source='community_system')
 
     impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
                                               required=False, allow_blank=True,
@@ -84,18 +88,6 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
                   'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
                   'relatedAdaptiveValues', 'adaptiveCapacityDescription')
-
-
-class WeatherEventSerializer(serializers.ModelSerializer):
-
-    concern = ConcernSerializer()
-    coastalOnly = serializers.BooleanField(source='coastal_only')
-    indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
-    displayClass = serializers.CharField(source='display_class')
-
-    class Meta:
-        model = WeatherEvent
-        fields = ('name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):
