@@ -5,7 +5,7 @@ import { City,
          IndicatorService } from 'climate-change-components';
 
 import { WeatherEventService } from '../core/services/weather-event.service';
-import { WeatherEvent } from '../shared/models/weather-event.model';
+import { WeatherEvent } from '../shared';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 
 interface AccordionState {

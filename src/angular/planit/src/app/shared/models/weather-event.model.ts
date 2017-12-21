@@ -1,4 +1,4 @@
-import { Concern } from './concern.model';
+import { Concern } from '../../shared';
 import { Indicator } from 'climate-change-components';
 
 export class WeatherEvent {

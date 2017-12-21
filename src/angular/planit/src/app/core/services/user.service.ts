@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { User } from '../../shared/models/user.model';
+import { User } from '../../shared';
 import { CacheService } from './cache.service';
 import { PlanItApiHttp } from './api-http.service';
 import { environment } from '../../../environments/environment';
@@ -13,7 +13,7 @@ export class UserService {
   constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
 
   current(): Observable<User | null> {
-    let user = this.cache.get(CacheService.USER);
+    let user = this.cache.get(CacheService.CORE_USERSERVICE_USER);
     if (user) {
       return Observable.of(user);
     }
@@ -23,11 +23,10 @@ export class UserService {
       const json = resp.json();
       if (json) {
         user = new User(json);
-        this.cache.set(CacheService.USER, user);
+        this.cache.set(CacheService.CORE_USERSERVICE_USER, user);
         return user;
       }
       return null;
     });
   }
-
 }

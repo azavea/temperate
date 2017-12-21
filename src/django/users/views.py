@@ -20,7 +20,7 @@ from users.serializers import AuthTokenSerializer
 from users.forms import UserForm, UserProfileForm
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
-from users.serializers import OrganizationSerializer, UserSerializer
+from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -122,7 +122,7 @@ class CurrentUserView(APIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        return Response(UserSerializer(request.user).data)
+        return Response(UserOrgSerializer(request.user).data)
 
 
 class OrganizationViewSet(ModelViewSet):
