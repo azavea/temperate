@@ -4,14 +4,15 @@
   <main class="main-content" role="main">
     <section>
       <h1 class="heading">Vulnerability Assessment
-          <button class="button icon-edit" routerLink="risk/wizard"></button>
+        <button class="button icon-edit" routerLink="risk/wizard"></button>
       </h1>
     </section>
     <section>
       <h2>Your city's risks</h2>
       <p>Based on your chosen scope, we have identified the below hazards as
-      a high priority to assess vulnerability and include in your report.
-      Click on a row to assess each risk.</p>
+        a high priority to assess vulnerability and include in your report.
+        Click on a row to assess each risk.
+      </p>
     </section>
     <section>
       <table class="table">
@@ -31,24 +32,26 @@
         <tbody>
           <tr *ngFor="let risk of risks">
             <th><va-adaptive-need-box
-                    [adaptiveCapacity]="risk.adaptiveCapacity"
-                    [potentialImpact]="risk.potentialImpact"></va-adaptive-need-box></th>
-            <th>{{ risk.name }}</th>
+              [adaptiveCapacity]="risk.adaptiveCapacity"
+              [potentialImpact]="risk.potentialImpact"></va-adaptive-need-box></th>
+            <th>
+              <va-risk-popover [risk]="risk"></va-risk-popover>
+            </th>
             <th>{{ risk.potentialImpact }}</th>
             <th>{{ risk.adaptiveCapacity }}</th>
             <th><button class="button">Assess</button></th>
             <th>
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn button dropdown-toggle">
-                        <span class="icon-ellipsis"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li role="menuitem"><a class="dropdown-item" href="#">View</a></li>
-                        <li role="menuitem"><a class="dropdown-item" href="#">Edit</a></li>
-                        <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>
-                        <li role="menuitem"><a class="dropdown-item" href="#">Remove</a></li>
-                    </ul>
-                </div>
+              <div class="btn-group" dropdown>
+                <button dropdownToggle type="button" class="btn button dropdown-toggle">
+                  <span class="icon-ellipsis"></span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li role="menuitem"><a class="dropdown-item" href="#">View</a></li>
+                  <li role="menuitem"><a class="dropdown-item" href="#">Edit</a></li>
+                  <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>
+                  <li role="menuitem"><a class="dropdown-item" href="#">Remove</a></li>
+                </ul>
+              </div>
             </th>
           </tr>
         </tbody>

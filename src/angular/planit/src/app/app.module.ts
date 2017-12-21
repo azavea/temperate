@@ -31,6 +31,7 @@ import { WeatherEventService } from './core/services/weather-event.service';
 import {
   BsDropdownModule,
   CollapseModule,
+  PopoverModule,
   TooltipModule,
   ModalModule
  } from 'ngx-bootstrap';
@@ -57,6 +58,7 @@ const appRoutes: Routes = [
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
+    PopoverModule.forRoot(),
     TooltipModule.forRoot(),
     // Local
     SharedModule,
