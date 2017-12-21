@@ -4,9 +4,17 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
-from planit_data.models import Concern, OrganizationRisk, WeatherEvent, WeatherEventRank
+from planit_data.models import (
+    CommunitySystem,
+    Concern,
+    OrganizationRisk,
+    WeatherEvent,
+    WeatherEventRank,
+)
+
 from planit_data.serializers import (
     ConcernSerializer,
+    CommunitySystemSerializer,
     OrganizationRiskSerializer,
     WeatherEventRankSerializer,
     WeatherEventSerializer,
@@ -16,6 +24,12 @@ from planit_data.serializers import (
 class ConcernViewSet(ReadOnlyModelViewSet):
     queryset = Concern.objects.all().order_by('id')
     serializer_class = ConcernSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class CommunitySystemViewSet(ReadOnlyModelViewSet):
+    queryset = CommunitySystem.objects.all()
+    serializer_class = CommunitySystemSerializer
     permission_classes = [IsAuthenticated]
 
 

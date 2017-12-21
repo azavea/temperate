@@ -9,6 +9,13 @@ from planit_data.models import (
 )
 
 
+class CommunitySystemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CommunitySystem
+        fields = ('name',)
+
+
 class ConcernSerializer(serializers.ModelSerializer):
 
     indicator = serializers.SlugRelatedField(
