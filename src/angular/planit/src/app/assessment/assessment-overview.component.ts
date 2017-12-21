@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Risk } from '../shared';
+import { RiskService } from '../core/services/risk.service';
 
 @Component({
   selector: 'va-overview',
@@ -9,34 +10,13 @@ import { Risk } from '../shared';
 export class AssessmentOverviewComponent implements OnInit {
   public risks: Risk[];
 
-  constructor () {}
+  constructor (private riskService: RiskService) {}
 
   ngOnInit() {
-    this.risks = [{
-      name: 'Heat on the elderly',
-      impactDescription: 'heat',
-      communitySystem: {'name': 'elderly'},
-      impactMagnitude: "0",
-      adaptiveCapacity: "2"
-    }, {
-      name: 'Heat on asphalt',
-      impactDescription: 'heat',
-      communitySystem: {'name': 'asphalt'},
-      impactMagnitude: "1",
-      adaptiveCapacity: "1"
-    }, {
-      name: 'Extreme cold days on agriculture',
-      impactDescription: 'extreme_cold',
-      communitySystem: {'name': 'agriculture'},
-      impactMagnitude: "2",
-      adaptiveCapacity: "0"
-    },
-    {
-      name: 'Water-bourne disease on ecological function',
-      impactDescription: 'water_bourne_disease',
-      communitySystem: {'name': 'ecological_function'},
-      impactMagnitude: "2",
-      adaptiveCapacity: "2"
-    }];
+
+    this.riskService.risks().subscribe(risks => {
+      this.risks = risks;
+    });
   }
 }
+

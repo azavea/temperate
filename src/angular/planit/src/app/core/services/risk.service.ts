@@ -15,7 +15,7 @@ export class RiskService {
     const url = `${environment.apiUrl}/api/risks/`;
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
-      return vals.map(e => e.risk as Risk);
+      return vals.map(r => r as Risk);
     });
   }
 
