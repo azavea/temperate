@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 
-from planit_data.models import Concern, OrganizationRisk, WeatherEventRank
+from planit_data.models import Concern, OrganizationRisk, WeatherEvent, WeatherEventRank
 from planit_data.serializers import (
     ConcernSerializer,
     OrganizationRiskSerializer,
     WeatherEventRankSerializer,
+    WeatherEventSerializer,
 )
 
 
@@ -27,6 +28,12 @@ class OrganizationRiskView(ModelViewSet):
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(organization_id=org_id)
+
+
+class WeatherEventViewSet(ReadOnlyModelViewSet):
+    queryset = WeatherEvent.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = WeatherEventSerializer
 
 
 class WeatherEventRankView(APIView):
