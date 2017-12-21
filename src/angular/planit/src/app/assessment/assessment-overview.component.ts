@@ -14,49 +14,29 @@ export class AssessmentOverviewComponent implements OnInit {
   ngOnInit() {
     this.risks = [{
       name: 'Heat on the elderly',
-      hazard: 'heat',
-      communitySystem: 'elderly',
-      potentialImpact: 0,
-      adaptiveCapacity: 2,
-      indicators: [
-        {name: 'Extreme Heat Events', url: '#'},
-        {name: 'Heat Wave Incidents', url: '#'},
-        {name: 'Heat Wave Duration Index', url: '#'}
-      ]
+      impactDescription: 'heat',
+      communitySystem: {'name': 'elderly'},
+      impactMagnitude: "0",
+      adaptiveCapacity: "2"
     }, {
       name: 'Heat on asphalt',
-      hazard: 'heat',
-      communitySystem: 'asphalt',
-      potentialImpact: 1,
-      adaptiveCapacity: 1,
-      indicators: [
-        {name: 'Cooling Degree Days', url: '#'},
-        {name: 'Heat Wave Incidents', url: '#'},
-        {name: 'Heat Wave Duration Index', url: '#'}
-      ]
+      impactDescription: 'heat',
+      communitySystem: {'name': 'asphalt'},
+      impactMagnitude: "1",
+      adaptiveCapacity: "1"
     }, {
       name: 'Extreme cold days on agriculture',
-      hazard: 'extreme_cold',
-      communitySystem: 'agriculture',
-      potentialImpact: 2,
-      adaptiveCapacity: 0,
-      indicators: [
-        {name: 'Accumulated Freezing Degree Days', url: '#'},
-        {name: 'Extreme Cold Events', url: '#'},
-        {name: 'Frost Days', url: '#'},
-      ]
+      impactDescription: 'extreme_cold',
+      communitySystem: {'name': 'agriculture'},
+      impactMagnitude: "2",
+      adaptiveCapacity: "0"
     },
     {
       name: 'Water-bourne disease on ecological function',
-      hazard: 'water_bourne_disease',
-      communitySystem: 'ecological_function',
-      potentialImpact: 2,
-      adaptiveCapacity: 2,
-      indicators: [
-        {name: 'Total Precipitation', url: '#'},
-        {name: 'Precipitation Threshold', url: '#'},
-        {name: 'Extreme Precipitation Events', url: '#'},
-      ]
+      impactDescription: 'water_bourne_disease',
+      communitySystem: {'name': 'ecological_function'},
+      impactMagnitude: "2",
+      adaptiveCapacity: "2"
     }];
   }
 }
