@@ -287,6 +287,7 @@ CCAPI_ROUTE_WHITELIST = (
     '^api/climate-data/[0-9]+/.+/indicator/.+/$',
     '^api/climate-model/$',
     '^api/dataset/$',
+    '^api/historic-range/$',
     '^api/indicator/$',
     '^api/scenario/$',
 )

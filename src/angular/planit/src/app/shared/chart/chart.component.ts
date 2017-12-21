@@ -19,11 +19,6 @@ import { Chart, ChartData, City, ClimateModel, Dataset, IndicatorRequestOpts,
 
 import { ChartService, IndicatorService } from 'climate-change-components';
 
-import { isBasetempIndicator,
-  isHistoricIndicator,
-  isPercentileIndicator,
-  isThresholdIndicator } from 'climate-change-components';
-
 import * as cloneDeep from 'lodash.clonedeep';
 
 /*
@@ -58,10 +53,6 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     description: ''
   };
   public dateRange: number[] = [this.firstYear, this.lastYear];
-  public isThresholdIndicator = isThresholdIndicator;
-  public isBasetempIndicator = isBasetempIndicator;
-  public isHistoricIndicator = isHistoricIndicator;
-  public isPercentileIndicator = isPercentileIndicator;
   public noChartMessage = 'Loading...';
 
   public sliderConfig: any = {

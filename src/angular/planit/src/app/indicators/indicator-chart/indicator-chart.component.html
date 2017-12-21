@@ -40,6 +40,42 @@
           </ccc-dataset-toggle>
         </div>
       </div>
+      <div class="chart-controls">
+          <ccc-threshold-parameters
+              *ngIf="isThresholdIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (thresholdParamSelected)="onExtraParamsSelected($event)">
+          </ccc-threshold-parameters>
+          <ccc-basetemp-parameters
+              *ngIf="isBasetempIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (basetempParamSelected)="onExtraParamsSelected($event)">
+          </ccc-basetemp-parameters>
+          <!-- both percentile and historic extra parameters -->
+          <ccc-percentile-historic-parameters
+              *ngIf="isPercentileIndicator(indicator.name) &&
+                     isHistoricIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (percentileHistoricParamSelected)="onExtraParamsSelected($event)">
+          </ccc-percentile-historic-parameters>
+          <ccc-percentile-parameters
+              *ngIf="isPercentileIndicator(indicator.name) &&
+                     !isHistoricIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (percentileParamSelected)="onExtraParamsSelected($event)">
+          </ccc-percentile-parameters>
+          <ccc-historic-parameters
+              *ngIf="isHistoricIndicator(indicator.name) &&
+                     !isPercentileIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (historicParamSelected)="onExtraParamsSelected($event)">
+          </ccc-historic-parameters>
+      </div>
       <app-chart [indicator]="indicator"
              [city]="city"
              [models]="models"
