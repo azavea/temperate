@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Risk } from '../../shared/';
-import { ImpactStepFormModel } from './impact-step-form.model';
+import { OrgRiskRelativeOption,
+         OrgRiskRelativeOptions,
+         Risk } from '../../shared/';
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
 import { WizardSessionService } from '../wizard-session.service';
+
+export interface ImpactStepFormModel {
+  impactMagnitude: OrgRiskRelativeOption;
+  impactDescription?: string;
+}
 
 @Component({
   selector: 'app-risk-step-impact',
@@ -19,35 +24,27 @@ export class ImpactStepComponent extends WizardStepComponent<Risk> implements On
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
   public navigationSymbol = '3';
+  public risk: Risk;
   public title = 'Impact';
 
-  public magnitudes =  ['Serious', 'Vserious'];
+  public relativeOptions = OrgRiskRelativeOptions;
+  // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
+  public relativeOptionsKeys = Array.from(OrgRiskRelativeOptions.keys());
+
 
   constructor(private fb: FormBuilder,
-              private router: Router,
               protected session: WizardSessionService<Risk>) {
       super(session);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const risk = this.session.getData() || new Risk({});
-    this.setupForm(this.fromData(risk));
-  }
-
-  fromData(risk: Risk): ImpactStepFormModel {
-    return {
-      impactMagnitude: risk.impactMagnitude,
-      impactDescription: risk.impactDescription
-    };
-  }
-
-  cancel() {
-    this.router.navigate(['assessment']);
+    this.risk = this.session.getData() || new Risk({});
+    this.setupForm(this.fromModel(this.risk));
   }
 
   save() {
-    const data = {
+    const data: ImpactStepFormModel = {
       impactMagnitude: this.form.controls.impactMagnitude.value,
       impactDescription: this.form.controls.impactDescription.value
     };
@@ -56,14 +53,21 @@ export class ImpactStepComponent extends WizardStepComponent<Risk> implements On
 
   setupForm(data: ImpactStepFormModel) {
     this.form = this.fb.group({
-      'impactMagnitude': [data.impactMagnitude, Validators.required],
-      'impactDescription': [data.impactDescription, Validators.required]
+      'impactMagnitude': [data.impactMagnitude, []],
+      'impactDescription': [data.impactDescription, []]
     });
   }
 
-  toData(data: ImpactStepFormModel, risk: Risk) {
-    risk.impactMagnitude = data.impactMagnitude;
-    risk.impactDescription = data.impactDescription;
-    return risk;
+  fromModel(model: Risk): ImpactStepFormModel {
+    return {
+      impactMagnitude: model.impactMagnitude,
+      impactDescription: model.impactDescription
+    };
+  }
+
+  toModel(data: ImpactStepFormModel, model: Risk) {
+    model.impactMagnitude = data.impactMagnitude;
+    model.impactDescription = data.impactDescription;
+    return model;
   }
 }

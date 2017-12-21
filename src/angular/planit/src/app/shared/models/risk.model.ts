@@ -8,7 +8,7 @@ export class Risk {
   id?: string;
   weatherEvent: WeatherEvent;
   communitySystem: CommunitySystem;
-  impactMagnitude?: string;
+  impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
   impactDescription?: string;
   adaptiveCapacity?: string;
   relatedAdaptiveValues?: string[];

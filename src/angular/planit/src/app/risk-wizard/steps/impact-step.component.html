@@ -1,22 +1,23 @@
-<h3>Impact</h3>
-
-<!--TODO (issue #366): Calculate # years from plan's goal date -->
-<p>How will this hazard affect COMMUNITY_SYSTEM over the next 5 years?</p>
-
-
-<form [formGroup]="form">
-  <div>
-    <label>Impact Magnitude</label>
-    <select formControlName="impactMagnitude">
-      <option *ngFor="let m of magnitudes" value="{{m}}">{{m}}</option>
-    </select>
-  </div>
-  <div>
-    <label>Impact Description</label>
-    <input type="text" formControlName="impactDescription" optional>
-  </div>
-  <div>
-    <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
-    <button type="button" (click)="cancel()">Cancel</button>
-  </div>
-</form>
+<div class="step-header">
+  <h3>Impact</h3>
+  <!--TODO (issue #366): Calculate # years from plan's goal date -->
+  How will this hazard affect <strong>{{ risk.communitySystem?.name }}</strong> over the next 5 years?
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <h5>Impact Magnitude</h5>
+        <app-option-dropdown [control]="form.controls['impactMagnitude']"
+                             [options]="relativeOptions">
+        </app-option-dropdown>
+    </div>
+    <div class="step-form-control">
+      <h5>Impact Description</h5>
+      <input type="text" formControlName="impactDescription" required>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+</div>
