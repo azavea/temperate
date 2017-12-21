@@ -55,6 +55,7 @@ class WeatherEventSerializer(serializers.ModelSerializer):
 
 
 class OrganizationRiskSerializer(serializers.ModelSerializer):
+
     weatherEvent = WeatherEventSerializer(source='weather_event')
     communitySystem = CommunitySystemSerializer(source='community_system')
 
@@ -72,6 +73,26 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
                                                         required=False, allow_blank=True)
 
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
+                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
+                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
+
+
+class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
+
+    weatherEvent = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=WeatherEvent.objects.all(),
+        source='weather_event'
+    )
+    communitySystem = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=CommunitySystem.objects.all(),
+        source='community_system'
+    )
+
     def create(self, validated_data):
         # Pulling the organization from the request instead of as a serialized field
         # ensures that users can't modify a different organization's risks
@@ -82,12 +103,6 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         organization = self.context['request'].user.primary_organization
 
         return OrganizationRisk.objects.create(organization=organization, **validated_data)
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
-                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
-                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):

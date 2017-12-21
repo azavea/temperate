@@ -4,7 +4,12 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 
 from planit_data.models import CommunitySystem, Concern, Indicator, WeatherEvent
-from planit_data.serializers import ConcernSerializer, OrganizationRiskSerializer
+from planit_data.serializers import (
+    ConcernSerializer,
+    OrganizationRiskCreateSerializer,
+    OrganizationRiskSerializer
+)
+
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 
 
@@ -70,7 +75,7 @@ class ConcernSerializerTestCase(TestCase):
         serializer.data
 
 
-class OrganizationRiskSerializerTestCase(TestCase):
+class OrganizationRiskCreateSerializerTestCase(TestCase):
     def setUp(self):
         self.user = PlanItUser.objects.create_user('mike@mike.phl', 'Mike', 'M',
                                                    password='mike12345')
@@ -89,17 +94,19 @@ class OrganizationRiskSerializerTestCase(TestCase):
 
     def test_create_context_requires_request(self):
         """Ensure the Serializer raises an error if the context does not have a request"""
-        serializer = OrganizationRiskSerializer(data={'weatherEvent': self.weather_event.id,
+        serializer = OrganizationRiskCreateSerializer(data={'weatherEvent': self.weather_event.id,
                                                       'communitySystem': self.community_system.id})
-        serializer.is_valid()
+        if not serializer.is_valid():
+            print(serializer.errors)
         with self.assertRaises(ValueError):
             serializer.save()
 
     def test_create_context_works_with_request(self):
         """Ensure the Serializer works if the context does have a request"""
-        serializer = OrganizationRiskSerializer(data={'weatherEvent': self.weather_event.id,
+        serializer = OrganizationRiskCreateSerializer(data={'weatherEvent': self.weather_event.id,
                                                       'communitySystem': self.community_system.id},
-                                                context={'request': self.request})
-        serializer.is_valid()
+                                                      context={'request': self.request})
+        if not serializer.is_valid():
+            print(serializer.errors)
         # No exception
         serializer.save()
