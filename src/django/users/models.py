@@ -123,9 +123,9 @@ class PlanItUserManager(BaseUserManager):
 
         return user
 
-    def create(self, email, first_name, last_name, password=None, **extra):
+    def create(self, *args, **kwargs):
         """Alias of create_user for DRF serializer use."""
-        return self.create_user(email, first_name, last_name, password, **extra)
+        return self.create_user(*args, **kwargs)
 
     def create_user(self, email, first_name, last_name, password=None, **extra):
         extra.setdefault('is_staff', False)

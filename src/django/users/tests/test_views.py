@@ -55,14 +55,15 @@ class UserCreationApiTestCase(APITestCase):
         url = reverse('planituser-list')
         self.client.post(url, user_data, format='json')
 
-        # make user active so can login
+        # make user active so can login.
         user = PlanItUser.objects.get(email=user_data['email'])
         user.is_active = True
         user.save()
 
         # check user can authenticate with password
-        self.assertTrue(self.client.login(username=user_data['email'],
-                                          password=user_data['password1']))
+        authenticated = self.client.login(username=user_data['email'],
+                                          password=user_data['password1'])
+        self.assertTrue(authenticated)
 
     def test_user_passwords_must_match(self):
         user_data = {
