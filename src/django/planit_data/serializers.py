@@ -13,7 +13,7 @@ class CommunitySystemSerializer(serializers.ModelSerializer):
     """Serialize community systems."""
     class Meta:
         model = CommunitySystem
-        fields = ('name',)
+        fields = ('id', 'name',)
 
 
 class ConcernSerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class WeatherEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherEvent
-        fields = ('name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
+        fields = ('id', 'name', 'coastalOnly', 'indicators', 'displayClass')
 
 
 class WeatherEventWithConcernSerializer(WeatherEventSerializer):

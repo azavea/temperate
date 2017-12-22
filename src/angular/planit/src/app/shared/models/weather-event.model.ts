@@ -1,7 +1,7 @@
 import { Concern } from '../../shared';
-import { Indicator } from 'climate-change-components';
 
 export class WeatherEvent {
+  id: number;
   name: string;
   coastalOnly: boolean;
   concern?: Concern;
