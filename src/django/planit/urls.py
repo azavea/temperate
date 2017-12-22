@@ -22,14 +22,14 @@ from rest_framework import routers
 
 from climate_api.views import ClimateAPIProxyView
 import planit_data.views as planit_data_views
-import action_steps.views as action_steps_views
 from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'community-system', planit_data_views.CommunitySystemViewSet)
 router.register(r'organizations', OrganizationViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'risks', planit_data_views.OrganizationRiskView, base_name='organizationrisk')
-router.register(r'collaborators', action_steps_views.CollaboratorViewSet)
+router.register(r'weather-event', planit_data_views.WeatherEventViewSet)
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',

@@ -39,8 +39,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   fromData(risk: Risk): IdentifyStepFormModel {
     return {
-      hazard: risk.hazard,
-      communitySystem: risk.communitySystem
+      hazard: risk.impactDescription,
+      communitySystem: risk.communitySystem.name
     };
   }
 
@@ -60,8 +60,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   }
 
   toData(data: IdentifyStepFormModel, risk: Risk) {
-    risk.hazard = data.hazard;
-    risk.communitySystem = data.communitySystem;
+    risk.impactDescription = data.hazard;
+    risk.communitySystem.name = data.communitySystem;
     return risk;
   }
 }
