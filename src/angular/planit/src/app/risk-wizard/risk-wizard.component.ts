@@ -28,7 +28,7 @@ export class RiskWizardComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(private session: WizardSessionService<Risk>) {}
 
   ngOnInit() {
-    // TODO: Set initial risk from API
+    // TODO (#324): Set initial risk from API
     const risk = new Risk({
       communitySystem: { name: '' },
       weatherEvent: { name: '' }

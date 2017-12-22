@@ -3,16 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Risk } from '../../shared/';
-import { IdentifyStepFormModel } from './identify-step-form.model';
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
 import { WizardSessionService } from '../wizard-session.service';
+
+interface IdentifyStepFormModel {
+  hazard: string;
+  communitySystem: string;
+}
 
 @Component({
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
-
 export class IdentifyStepComponent extends WizardStepComponent<Risk> implements OnInit {
 
   public form: FormGroup;
