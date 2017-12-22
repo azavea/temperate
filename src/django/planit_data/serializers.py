@@ -54,7 +54,7 @@ class WeatherEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeatherEvent
-        fields = ('name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
+        fields = ('name', 'concern', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
 class WeatherEventWithConcernSerializer(WeatherEventSerializer):
