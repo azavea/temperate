@@ -17,7 +17,13 @@ export class Risk {
   intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
   probability: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
 
-  constructor(object: Object) {
+  constructor(object: any) {
     Object.assign(this, object);
+    if (object.communitySystem) {
+      this.communitySystem = Object.assign({}, object.communitySystem);
+    }
+    if (object.weatherEvent) {
+      this.weatherEvent = Object.assign({}, object.weatherEvent);
+    }
   }
 }

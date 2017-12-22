@@ -29,7 +29,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   ngOnInit() {
     super.ngOnInit();
-    const risk = this.session.getData() || new Risk({});
+    const risk = this.session.getData();
     this.setupForm(this.fromModel(risk));
   }
 
@@ -39,7 +39,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
-      hazard: risk.impactDescription,
+      hazard: risk.weatherEvent.name,
       communitySystem: risk.communitySystem.name
     };
   }
@@ -60,7 +60,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   }
 
   toModel(data: IdentifyStepFormModel, risk: Risk) {
-    risk.hazard = data.hazard;
+    risk.weatherEvent.name = data.hazard;
     risk.communitySystem.name = data.communitySystem;
     return risk;
   }

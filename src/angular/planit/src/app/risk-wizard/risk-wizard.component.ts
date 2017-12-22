@@ -29,8 +29,12 @@ export class RiskWizardComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngOnInit() {
     // TODO: Set initial risk from API
-    this.session.setData(new Risk({}));
-    this.session.data.subscribe(risk => this.riskModelChanged(risk));
+    const risk = new Risk({
+      communitySystem: { name: '' },
+      weatherEvent: { name: '' }
+    });
+    this.session.setData(risk);
+    this.session.data.subscribe(r => this.riskModelChanged(r));
   }
 
   ngOnDestroy() {
