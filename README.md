@@ -9,7 +9,7 @@
 ### Quick setup
 
 On your host machine you need to set up a `planit` profile for the Azavea Climate Change AWS account using the following command:
-```
+```bash
 $ aws configure --profile planit
 ```
 
@@ -18,8 +18,8 @@ From there, clone the project, `cd` into the directory.
 #### Configure the Django Docker container
 
 Temperate will make requests to the Climate API, which requires a user account to obtain a token for use. To configure this, from the project root directory copy the example Docker configuration file:
-```
-cp src/django/docker-compose.env.example src/django/docker-compose.env
+```bash
+$ cp src/django/docker-compose.env.example src/django/docker-compose.env
 ```
 
 Open `src/django/docker-compose.env` in a text editor add your personal Climate API staging credentials to the end:
