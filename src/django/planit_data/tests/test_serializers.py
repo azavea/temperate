@@ -7,7 +7,6 @@ from planit_data.models import CommunitySystem, Concern, Indicator, WeatherEvent
 from planit_data.serializers import (
     ConcernSerializer,
     OrganizationRiskCreateSerializer,
-    OrganizationRiskSerializer
 )
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser

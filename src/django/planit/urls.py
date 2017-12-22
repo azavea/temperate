@@ -22,7 +22,6 @@ from rest_framework import routers
 
 from climate_api.views import ClimateAPIProxyView
 import planit_data.views as planit_data_views
-import action_steps.views as action_steps_views
 from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
 
 router = routers.DefaultRouter()
