@@ -2,14 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Risk } from '../../shared/';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+
+import { CommunitySystem, Risk, WeatherEvent } from '../../shared/';
+
+import { CommunitySystemService } from '../../core/services/community-system.service';
+import { WeatherEventService } from '../../core/services/weather-event.service';
+
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
 import { WizardSessionService } from '../wizard-session.service';
 
 interface IdentifyStepFormModel {
-  hazard: string;
-  communitySystem: string;
+  weatherEvent: WeatherEvent;
+  communitySystem: CommunitySystem;
 }
 
 @Component({
@@ -24,14 +30,16 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   public navigationSymbol = '1';
   public title = 'Identify risk';
 
-  public hazards: string[];
-  public hazard: string;
+  public weatherEvents: WeatherEvent[] = [];
+  public communitySystems: CommunitySystem[] = [];
 
-  public communitySystems: string[];
-  public communitySystem: string;
+  private weatherEvent: WeatherEvent;
+  private communitySystem: CommunitySystem;
 
   constructor(private fb: FormBuilder,
               private router: Router,
+              private weatherEventService: WeatherEventService,
+              private communitySystemService: CommunitySystemService,
               protected session: WizardSessionService<Risk>) {
     super(session);
   }
@@ -41,8 +49,13 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     const risk = this.session.getData();
     this.setupForm(this.fromModel(risk));
 
-    this.hazards = ['one', 'two', 'three'];
-    this.communitySystems = ['four', 'five', 'six'];
+    this.weatherEvent = risk.weatherEvent || null;
+    this.communitySystem = risk.communitySystem || null;
+
+    this.weatherEventService.list()
+      .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
+    this.communitySystemService.list()
+      .subscribe(communitySystems => this.communitySystems = communitySystems);
   }
 
   cancel() {
@@ -51,29 +64,61 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
-      hazard: risk.weatherEvent.name,
-      communitySystem: risk.communitySystem.name
+      weatherEvent: risk.weatherEvent,
+      communitySystem: risk.communitySystem
     };
   }
 
   save() {
     const data: IdentifyStepFormModel = {
-      hazard: this.form.controls.hazard.value,
-      communitySystem: this.form.controls.communitySystem.value
+      weatherEvent: this.weatherEvent,
+      communitySystem: this.communitySystem,
     };
     this.session.setDataForKey(this.key, data);
   }
 
   setupForm(data: IdentifyStepFormModel) {
     this.form = this.fb.group({
-      'hazard': [data.hazard, Validators.required],
-      'communitySystem': [data.communitySystem, Validators.required]
+      'weatherEvent': [data.weatherEvent ? data.weatherEvent.name : '',
+                       Validators.required],
+      'communitySystem': [data.communitySystem ? data.communitySystem.name : '',
+                          Validators.required]
     });
   }
 
   toModel(data: IdentifyStepFormModel, risk: Risk) {
-    risk.weatherEvent.name = data.hazard;
-    risk.communitySystem.name = data.communitySystem;
+    risk.weatherEvent = data.weatherEvent;
+    risk.communitySystem = data.communitySystem;
     return risk;
+  }
+
+  weatherEventSelected(event: TypeaheadMatch | null) {
+    this.itemSelected('weatherEvent', event);
+  }
+
+  weatherEventBlurred(event: TypeaheadMatch) {
+    this.itemBlurred('weatherEvent');
+  }
+
+  communitySystemBlurred(event: TypeaheadMatch) {
+    this.itemBlurred('communitySystem');
+  }
+
+  communitySystemSelected(event: TypeaheadMatch | null) {
+    this.itemSelected('communitySystem', event);
+  }
+
+  private itemSelected(key: string, event: TypeaheadMatch | null) {
+    const savedName = this[key] ? this[key].name : null;
+    const formName = this.form.controls[key].value;
+    if (event !== null || savedName !== formName) {
+      this[key] = event && event.item ? event.item : null;
+    }
+  }
+
+  private itemBlurred(key: string) {
+    if (this[key]  === null) {
+      this.form.controls[key].setValue('');
+    }
   }
 }

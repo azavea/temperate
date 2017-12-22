@@ -1,0 +1,15 @@
+// Typeahead
+
+typeahead-container {
+  z-index: 1050;
+
+  .dropdown-menu {
+    min-width: 23rem;
+    overflow-x: hidden;
+
+    li > a {
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+    }
+  }
+}

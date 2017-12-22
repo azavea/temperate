@@ -5,18 +5,32 @@
   <p>Match a hazard to a subset of people, structures or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
   <form [formGroup]="form">
   <div class="step-form-control">
-    <label for="">Hazards
-      <input class="form-control" formControlName="hazard"
-                                  [(ngModel)]="hazard"
-                                  [typeahead]="hazards">
-      <span *ngIf="form.controls.hazard.errors">*Required</span>
+    <label>Hazards
+      <input class="form-control" formControlName="weatherEvent"
+                                  typeaheadOptionField="name"
+                                  (typeaheadOnSelect)="weatherEventSelected($event)"
+                                  (typeaheadNoResults)="weatherEventSelected(null)"
+                                  (blur)="weatherEventBlurred($event)"
+                                  [typeahead]="weatherEvents"
+                                  [typeaheadMinLength]="0"
+                                  [typeaheadScrollable]="true"
+                                  [typeaheadOptionsInScrollableView]="5"
+                                  [container]="'body'">
+      <span *ngIf="form.controls.weatherEvent.errors">*Required</span>
     </label>
   </div>
   <div>
     <label>Community system
-      <input class="form-control" formcontrolName="communitysystem"
-                                  [(ngModel)]="communitySystem"
-                                  [typeahead]="communitySystems">
+      <input class="form-control" formControlName="communitySystem"
+                                  typeaheadOptionField="name"
+                                  (typeaheadOnSelect)="communitySystemSelected($event)"
+                                  (typeaheadNoResults)="communitySystemSelected(null)"
+                                  (blur)="communitySystemBlurred($event)"
+                                  [typeahead]="communitySystems"
+                                  [typeaheadMinLength]="0"
+                                  [typeaheadScrollable]="true"
+                                  [typeaheadOptionsInScrollableView]="5"
+                                  [container]="'body'">
       <span *ngIf="form.controls.communitySystem.errors">*Required</span>
     </label>
   </div>
