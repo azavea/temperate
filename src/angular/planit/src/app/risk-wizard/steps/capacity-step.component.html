@@ -1,4 +1,22 @@
 <h3>Adaptive capacity</h3>
 
-<button type="button" nextStep>Continue</button>
-<button type="button" previousStep>Back</button>
+<p>Determine how capable you think your city is at mitigating the future impact of NOTHING here.</p>
+
+<form [formGroup]="form">
+  <div>
+    <label>Adaptive Capacity</label>
+    <input formControlName="adaptiveCapacity">
+  </div>
+  <div>
+    <label>Related Adaptive Values</label>
+    <!-- TODO (issue #241): Add the autocomplete component -->
+  </div>
+  <div>
+    <label>Description</label>
+    <input type="text" formControlName="adaptiveCapacityDescription" optional>
+  </div>
+  <div>
+    <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
+    <button type="button" (click)="cancel()">Cancel</button>
+  </div>
+</form>
