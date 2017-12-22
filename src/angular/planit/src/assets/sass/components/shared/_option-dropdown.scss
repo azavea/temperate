@@ -1,0 +1,34 @@
+app-option-dropdown {
+
+  .dropdown-toggle .caret {
+    margin-left: 0.8rem;
+  }
+
+  .dropdown-menu {
+    min-width: 32rem;
+  }
+
+  .dropdown-menu > li {
+
+    cursor: pointer;
+
+    &:not(:last-child) {
+      border-bottom: solid 1px $gray-2;
+    }
+
+    & > a.dropdown-item {
+      display: flex;
+      flex-direction: column;
+      white-space: normal;
+
+      & span {
+        white-space: normal;
+      }
+
+      & .dropdown-label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+}

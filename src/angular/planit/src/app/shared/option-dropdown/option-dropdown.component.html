@@ -1,11 +1,14 @@
 <div class="btn-group" dropdown>
   <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-    {{ form.controls.probability.value | uppercase }}<span class="caret"></span>
+    {{ options.get(control.value)?.label }}<span class="caret"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
-    <li role="menuitem" *ngFor="let opt of relativeOptions">
-      <a class="dropdown-item" (click)="form.controls.probability.setValue(opt)">
-        {{ opt | uppercase }}
+    <li role="menuitem"
+        *ngFor="let opt of optionsKeys"
+        [ngClass]="{active: opt === control.value}">
+      <a class="dropdown-item" (click)="control.setValue(opt)">
+        <span class="dropdown-label">{{ options.get(opt)?.label }}</span>
+        <span class="dropdown-description" *ngIf="options.get(opt)?.description">{{ options.get(opt)?.description }}</span>
       </a>
     </li>
   </ul>

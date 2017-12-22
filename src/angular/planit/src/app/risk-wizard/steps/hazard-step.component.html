@@ -6,19 +6,9 @@
   <form [formGroup]="form">
     <div class="step-form-control">
       <h5>Probability</h5>
-      <div class="btn-group" dropdown>
-        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-          {{ relativeOptions.get(form.controls['probability'].value)?.label  }}<span class="caret"></span>
-        </button>
-        <ul *dropdownMenu class="dropdown-menu" role="menu">
-          <li role="menuitem" *ngFor="let opt of relativeOptionsKeys">
-            <a class="dropdown-item" (click)="form.controls['probability'].setValue(opt)">
-              <span class="label">{{ relativeOptions.get(opt)?.label }}</span>
-              <span class="description" *ngIf="relativeOptions.get(opt)?.description">{{ relativeOptions.get(opt)?.description }}</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <app-option-dropdown [control]="form.controls['probability']"
+                           [options]="relativeOptions">
+      </app-option-dropdown>
     </div>
     <div class="step-form-control">
       <h5>Frequency <span class="icon icon-question-circle-o"></span></h5>
