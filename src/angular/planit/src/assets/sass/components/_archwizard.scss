@@ -1,0 +1,19 @@
+wizard {
+  .vertical.large-empty-symbols ul.steps-indicator li {
+
+    &.current:after, &.editing:after {
+      border-color: $brand-primary !important;
+      color: $brand-primary !important;
+    }
+
+    &.done:after {
+      border-color: $brand-positive !important;
+      color: $brand-positive !important;
+    }
+
+    &.default:after, &.optional:after {
+      border-color: $gray-1 !important;
+      color: $gray-1 !important;
+    }
+  }
+}

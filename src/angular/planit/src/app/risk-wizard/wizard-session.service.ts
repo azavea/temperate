@@ -6,9 +6,6 @@ import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs/Rx';
 
-import { RiskStepKey } from './risk-step-key';
-import { Risk } from '../shared/';
-
 interface DataHandler<T> {
   toData: (any, T) => T;
   fromData: (T) => any;

@@ -3,16 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Risk } from '../../shared/';
-import { IdentifyStepFormModel } from './identify-step-form.model';
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
 import { WizardSessionService } from '../wizard-session.service';
+
+interface IdentifyStepFormModel {
+  hazard: string;
+  communitySystem: string;
+}
 
 @Component({
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
-
 export class IdentifyStepComponent extends WizardStepComponent<Risk> implements OnInit {
 
   public form: FormGroup;
@@ -29,23 +32,23 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   ngOnInit() {
     super.ngOnInit();
-    const risk = this.session.getData() || new Risk({});
-    this.setupForm(this.fromData(risk));
+    const risk = this.session.getData();
+    this.setupForm(this.fromModel(risk));
   }
 
   cancel() {
     this.router.navigate(['assessment']);
   }
 
-  fromData(risk: Risk): IdentifyStepFormModel {
+  fromModel(risk: Risk): IdentifyStepFormModel {
     return {
-      hazard: risk.impactDescription,
+      hazard: risk.weatherEvent.name,
       communitySystem: risk.communitySystem.name
     };
   }
 
   save() {
-    const data = {
+    const data: IdentifyStepFormModel = {
       hazard: this.form.controls.hazard.value,
       communitySystem: this.form.controls.communitySystem.value
     };
@@ -59,8 +62,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     });
   }
 
-  toData(data: IdentifyStepFormModel, risk: Risk) {
-    risk.impactDescription = data.hazard;
+  toModel(data: IdentifyStepFormModel, risk: Risk) {
+    risk.weatherEvent.name = data.hazard;
     risk.communitySystem.name = data.communitySystem;
     return risk;
   }

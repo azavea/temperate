@@ -9,8 +9,6 @@
 import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Risk } from './../shared/';
-import { RiskStepKey } from './risk-step-key';
 import { WizardSessionService } from './wizard-session.service';
 
 export abstract class WizardStepComponent<T> implements OnInit {
@@ -19,24 +17,24 @@ export abstract class WizardStepComponent<T> implements OnInit {
   abstract navigationSymbol: string;
   abstract title: string;
 
-  // Subclass constructors must also inject RiskWizardSessionService and call:
+  // Subclass constructors must also inject WizardSessionService and call:
   //  super(session);
   constructor(protected session: WizardSessionService<T>) {}
 
   // Subclass ngOnInit methods must implement ngOnInit and call `super.ngOnInit()` first in
   //  their implementations
   ngOnInit() {
-    this.registerRiskHandlers();
+    this.registerModelHandlers();
   }
 
-  abstract fromData(data: T): any;
+  abstract fromModel(model: T): any;
   abstract setupForm(data: any): void;
-  abstract toData(data: any, risk: T): T;
+  abstract toModel(data: any, model: T): T;
 
-  registerRiskHandlers() {
+  registerModelHandlers() {
     this.session.registerHandlerForKey(this.key, {
-      fromData: this.fromData,
-      toData: this.toData
+      fromData: this.fromModel,
+      toData: this.toModel
     });
   }
 }

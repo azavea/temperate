@@ -1,4 +1,40 @@
-<h3>Hazard</h3>
-
-<button type="button" nextStep>Continue</button>
-<button type="button" previousStep>Back</button>
+<div class="step-header">
+  <h3>Hazard</h3>
+  <h5>{{ risk.weatherEvent?.name }}</h5>
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <h5>Probability</h5>
+      <app-option-dropdown [control]="form.controls['probability']"
+                           [options]="relativeOptions">
+      </app-option-dropdown>
+    </div>
+    <div class="step-form-control">
+      <h5>Frequency <span class="icon icon-question-circle-o" tooltip="{{ tooltipText.frequency }}"></span></h5>
+      <div class="btn-group">
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls.frequency.value === opt}"
+                *ngFor="let opt of directionalOptionsKeys"
+                (click)="updateDirectionalControl(form.controls.frequency, opt)">
+          {{ directionalOptions.get(opt)?.label }}
+        </button>
+      </div>
+    </div>
+    <div class="step-form-control">
+      <h5>Intensity <span class="icon icon-question-circle-o" tooltip="{{ tooltipText.intensity }}"></span></h5>
+      <div class="btn-group">
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls.intensity.value === opt}"
+                *ngFor="let opt of directionalOptionsKeys"
+                (click)="updateDirectionalControl(form.controls.intensity, opt)">
+          {{ directionalOptions.get(opt)?.label }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+</div>

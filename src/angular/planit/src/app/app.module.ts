@@ -31,6 +31,7 @@ import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
   BsDropdownModule,
+  ButtonsModule,
   CollapseModule,
   PopoverModule,
   TooltipModule,
@@ -57,6 +58,7 @@ const appRoutes: Routes = [
     HttpModule,
     // 3rd party
     BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     PopoverModule.forRoot(),

@@ -13,10 +13,8 @@ export class AssessmentOverviewComponent implements OnInit {
   constructor (private riskService: RiskService) {}
 
   ngOnInit() {
-
     this.riskService.list().subscribe(risks => {
       this.risks = risks;
     });
   }
 }
-
