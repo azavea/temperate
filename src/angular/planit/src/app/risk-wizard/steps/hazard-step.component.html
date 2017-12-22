@@ -23,21 +23,23 @@
     <div class="step-form-control">
       <h5>Frequency <span class="icon icon-question-circle-o"></span></h5>
       <div class="btn-group">
-        <label class="btn btn-primary"
-               [ngClass]="{active: form.controls.frequency.value == opt}"
-               *ngFor="let opt of directionalOptionsKeys"
-               btnRadio="{{ opt }}"
-               formControlName="frequency">{{ directionalOptions.get(opt)?.label }}</label>
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls.frequency.value === opt}"
+                *ngFor="let opt of directionalOptionsKeys"
+                (click)="updateDirectionalControl(form.controls.frequency, opt)">
+          {{ directionalOptions.get(opt)?.label }}
+        </button>
       </div>
     </div>
     <div class="step-form-control">
       <h5>Intensity <span class="icon icon-question-circle-o"></span></h5>
       <div class="btn-group">
-        <label class="btn btn-primary"
-               [ngClass]="{active: form.controls.intensity.value == opt}"
-               *ngFor="let opt of directionalOptionsKeys"
-               btnRadio="{{ opt }}"
-               formControlName="intensity">{{ directionalOptions.get(opt)?.label }}</label>
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls.intensity.value === opt}"
+                *ngFor="let opt of directionalOptionsKeys"
+                (click)="updateDirectionalControl(form.controls.intensity, opt)">
+          {{ directionalOptions.get(opt)?.label }}
+        </button>
       </div>
     </div>
   </form>

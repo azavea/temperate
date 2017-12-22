@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   OrgRiskDirectionalOption,
@@ -46,6 +46,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk> implements On
     super.ngOnInit();
     this.risk = this.session.getData() || new Risk({});
     this.setupForm(this.fromModel(this.risk));
+    this.form.get('intensity').valueChanges.subscribe(v => console.log('intensity: ', v));
   }
 
   save() {
@@ -55,6 +56,11 @@ export class HazardStepComponent extends WizardStepComponent<Risk> implements On
       probability: this.form.controls.probability.value
     };
     this.session.setDataForKey(this.key, data);
+  }
+
+  updateDirectionalControl(control: FormControl, value: OrgRiskDirectionalOption) {
+    control.setValue(value);
+    control.markAsDirty();
   }
 
   setupForm(data: HazardStepFormModel) {
