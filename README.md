@@ -15,37 +15,58 @@ $ aws configure --profile planit
 
 From there, clone the project, `cd` into the directory.
 
-#### Configure django docker container and connect with the Climate API
+#### Configure Django docker containers
 
-Temperate will make requests to the Climate API. `cp src/django/docker-compose.env.example src/django/docker-compose.env` and add your personal Climate API staging credentials to `docker-compose.env`. Run `./scripts/setup` to create the
-Vagrant VM and build the Docker containers.
-
-To start nginx and django during development (served from port `8000`):
-
-```bash
-$ vagrant ssh
-$ ./scripts/server --nginx
+Temperate will make requests to the Climate API, which requires a user account to obtain a token for use. To configure this, from the project root directory copy the example Docker configuration file:
+```
+cp src/django/docker-compose.env.example src/django/docker-compose.env
 ```
 
-If you'd like to run the Angular server:
+Open `src/django/docker-compose.env` in a text editor add your personal Climate API staging credentials to the end:
+```
+# Replace your CC API credentials below
+CCAPI_EMAIL=test@test.com
+CCAPI_PASSWORD=testpw
+```
+
+#### Initial set-up of Vagrant environment
+After `docker-compose.env` has been configured, create and provision the Vagrant VM:
 ```bash
-# Starts angular, django
+$ ./scripts/setup
+```
+
+With the Vagrant VM provisioned, start the Docker containers:
+```bash
 $ vagrant ssh
 $ ./scripts/server
 ```
 
-***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server --nginx`.
+Once the server is running, populate the local Climate Change API token:
 
-Once you've started the server you'll need to create a login user. This can be done with:
+***Note*** This will change the active token associated with your Climate Change API account. Other services using the existing token may lose access
+
+```bash
+$ ./scripts/manage refresh_token
+```
+
+#### Creating an admin user
+Once you've started the server you'll need to create a user. This can be done with:
 ```bash
 $ ./scripts/manage createsuperuser
 ```
 
+Once created, the new user account will require configuration to fully enable use of the UI.
+
+First, in a web browser open the navigable API for [/api/organizations](http://localhost:8100/api/organizations/). On that page, create an organization with an API City ID corresponding to a city configured on Climate Change API's staging environment. For example, `1` is New York City and `7` is Philadelphia.
+
+Next, open your [Temperate environment's Admin panel](http://localhost:8100/admin/users/planituser/) to update your user, adding the new organization to your user's list of **Organizations** as well as selecting it for your user's **Primary organization**. Save your user.
+
+Now your user is ready for the user interface.
+
 ### Importing data
 
-Database migrations and initial data loading is handled by `./scripts/update`.
+Database migrations and initial data loading are handled by `./scripts/update`.
 To apply migrations manually, use:
-
 ```bash
 $ ./scripts/manage migrate
 ```
@@ -54,9 +75,19 @@ $ ./scripts/manage migrate
 
 The other project scripts are meant to execute in the VM in the `/vagrant` directory.
 To run the containers during development use the following commands:
+```bash
+$ vagrant ssh
+$ ./scripts/server
+```
 
-    vagrant ssh
-    ./scripts/server
+### Nginx vs Angular
+By default `./scripts/server` will host the user interface using the Angular server on port 4210. This provides features in development like live refresh on code change. If you want to use Nginx to host on post 8000, you can do so with the `--nginx` flag
+```bash
+$ vagrant ssh
+$ ./scripts/server --nginx
+```
+
+***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server --nginx`.
 
 ### Ports
 
