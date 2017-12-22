@@ -1,0 +1,173 @@
+[
+{
+    "model": "action_steps.actioncategory",
+    "pk": "1861f7fb-5477-4455-9358-eaabad01c691",
+    "fields": {
+        "name": "Monitoring",
+        "icon": "icon-chart-bar",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "1f7e97cb-c526-419e-a1bc-0385cb5e23dc",
+    "fields": {
+        "name": "Advocacy",
+        "icon": "icon-megaphone",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "21ba3d74-ac31-4646-9634-aee8ebfe057d",
+    "fields": {
+        "name": "Draft policy",
+        "icon": "icon-doc-text",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "252d504f-2c7e-472b-ad96-da77740c2148",
+    "fields": {
+        "name": "Create (internal) partnership",
+        "icon": "icon-handshake-o",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "2dd75381-e432-426c-b4e8-77fa79f5701a",
+    "fields": {
+        "name": "Planning",
+        "icon": "icon-doc-text",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "2dd84c58-cfc0-450b-80f6-aa65412257a0",
+    "fields": {
+        "name": "Conservation",
+        "icon": "icon-tree",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "325d889f-21d3-4690-8762-0a3048e9424e",
+    "fields": {
+        "name": "Revise standard",
+        "icon": "icon-bookmark",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "484d132f-cde2-4002-8158-09af996deada",
+    "fields": {
+        "name": "Create (external) partnership",
+        "icon": "icon-handshake-o",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "4d774d46-4fea-4c85-8240-292c31f4851d",
+    "fields": {
+        "name": "Technology",
+        "icon": "icon-laptop",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "5777fba4-32af-422c-bfd5-e0ccba82892a",
+    "fields": {
+        "name": "Revise guideline",
+        "icon": "icon-bookmark",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "5e82029c-0ddd-497a-bf86-9a922841bad6",
+    "fields": {
+        "name": "New guideline",
+        "icon": "icon-plus",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "631eec7d-bb68-400c-96af-85f4c2cd44bb",
+    "fields": {
+        "name": "Review policy",
+        "icon": "icon-doc-text",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "67c95da1-4080-4b50-a748-c4aea71b9ba3",
+    "fields": {
+        "name": "Capacity building",
+        "icon": "icon-cog-alt",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "7cf058e1-b8f7-426c-88e5-c3e86d2975b4",
+    "fields": {
+        "name": "Funding",
+        "icon": "icon-dollar",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "a26cf9a1-0129-4094-87b8-e74efd914ffa",
+    "fields": {
+        "name": "Practice & behavior",
+        "icon": "icon-users",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "ab4faaee-4499-4f52-a63b-3e60d79fb99f",
+    "fields": {
+        "name": "Zoning",
+        "icon": "icon-building",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "d080b361-34c9-42c4-b8c2-e3d3fe7b0db3",
+    "fields": {
+        "name": "Research",
+        "icon": "icon-balance-scale",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "e0446bfd-4035-4ad3-9bd3-5d69e039b7f4",
+    "fields": {
+        "name": "Education",
+        "icon": "icon-graduation-cap",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "f0f4c234-9570-48ea-8a21-4c45ef26155d",
+    "fields": {
+        "name": "Create new standard",
+        "icon": "icon-plus",
+        "description": ""
+    }
+}
+]
