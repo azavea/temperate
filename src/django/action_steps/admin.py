@@ -1,8 +1,15 @@
 from django.contrib import admin
 
 from .models import (
+    ActionCategory,
     Collaborator
 )
 
-for Model in (Collaborator,):
-    admin.site.register(Model)
+
+class ActionCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'icon',)
+    list_editable = ('icon',)
+
+
+admin.site.register(ActionCategory, ActionCategoryAdmin)
+admin.site.register(Collaborator)

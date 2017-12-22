@@ -26,6 +26,7 @@ import planit_data.views as planit_data_views
 from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
 
 router = routers.DefaultRouter()
+router.register(r'action-categories', action_steps_views.ActionCategoryViewSet)
 router.register(r'collaborators', action_steps_views.CollaboratorViewSet)
 router.register(r'community-system', planit_data_views.CommunitySystemViewSet)
 router.register(r'organizations', OrganizationViewSet)
