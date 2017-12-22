@@ -11,7 +11,7 @@ export class RiskService {
 
   constructor(private apiHttp: PlanItApiHttp) {}
 
-  risks(): Observable<Risk[]> {
+  list(): Observable<Risk[]> {
     const url = `${environment.apiUrl}/api/risks/`;
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];

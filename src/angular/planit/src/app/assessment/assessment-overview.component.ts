@@ -14,7 +14,7 @@ export class AssessmentOverviewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.riskService.risks().subscribe(risks => {
+    this.riskService.list().subscribe(risks => {
       this.risks = risks;
     });
   }
