@@ -15,7 +15,7 @@ $ aws configure --profile planit
 
 From there, clone the project, `cd` into the directory.
 
-#### Configure Django docker containers
+#### Configure the Django Docker container
 
 Temperate will make requests to the Climate API, which requires a user account to obtain a token for use. To configure this, from the project root directory copy the example Docker configuration file:
 ```
