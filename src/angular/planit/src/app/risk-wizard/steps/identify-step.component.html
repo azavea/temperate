@@ -1,18 +1,22 @@
-<h3>Identify risk</h3>
-
-<p>Match a hazard to a subset of people, strucutres or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
-
-<form [formGroup]="form">
-  <div>
-    <label for="">Hazard</label>
-      <input type="text" formControlName="hazard">
-      <span *ngIf="form.controls.hazard.errors">*Required</span>
-  </div>
-  <div>
-    <label for="">Community System</label>
-    <input type="text" formControlName="communitySystem">
-    <span *ngIf="form.controls.communitySystem.errors">*Required</span>
-  </div>
+<div class="step-header">
+  <h3>Identify risk</h3>
+</div>
+<div class="step-content">
+  <p>Match a hazard to a subset of people, strucutres or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <label for="">Hazard</label>
+        <input type="text" formControlName="hazard">
+        <span *ngIf="form.controls.hazard.errors">*Required</span>
+    </div>
+    <div class="step-form-control">
+      <label for="">Community System</label>
+      <input type="text" formControlName="communitySystem">
+      <span *ngIf="form.controls.communitySystem.errors">*Required</span>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
   <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
   <button type="button" (click)="cancel()">Cancel</button>
-</form>
+</div>
