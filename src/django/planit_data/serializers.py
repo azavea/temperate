@@ -10,14 +10,14 @@ from planit_data.models import (
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
-
+    """Serialize community systems."""
     class Meta:
         model = CommunitySystem
         fields = ('name',)
 
 
 class ConcernSerializer(serializers.ModelSerializer):
-
+    """Serialize concerns."""
     indicator = serializers.SlugRelatedField(
         many=False,
         read_only=True,
@@ -43,8 +43,11 @@ class ConcernSerializer(serializers.ModelSerializer):
 
 
 class WeatherEventSerializer(serializers.ModelSerializer):
-
-    concern = ConcernSerializer()
+    """Serialize weather events with only keys for related fields."""
+    concern = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=Concern.objects.all()
+    )
     coastalOnly = serializers.BooleanField(source='coastal_only')
     indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
     displayClass = serializers.CharField(source='display_class')
@@ -54,8 +57,13 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
-class OrganizationRiskSerializer(serializers.ModelSerializer):
+class WeatherEventWithConcernSerializer(WeatherEventSerializer):
+    """Serialize weather events, with related concerns."""
+    concern = ConcernSerializer()
 
+
+class OrganizationRiskSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models."""
     weatherEvent = WeatherEventSerializer(source='weather_event')
     communitySystem = CommunitySystemSerializer(source='community_system')
 
@@ -81,7 +89,10 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
 
 class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
+    """Serializer for creating and updating risks.
 
+    Takes ID for related weather event and community system.
+    """
     weatherEvent = serializers.PrimaryKeyRelatedField(
         many=False,
         queryset=WeatherEvent.objects.all(),
@@ -106,8 +117,8 @@ class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):
-
-    weatherEvent = WeatherEventSerializer(source='weather_event')
+    """Serialize weather events by rank."""
+    weatherEvent = WeatherEventWithConcernSerializer(source='weather_event')
 
     class Meta:
         model = WeatherEventRank
