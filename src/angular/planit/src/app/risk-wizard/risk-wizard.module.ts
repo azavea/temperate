@@ -24,7 +24,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     BsDropdownModule,
     ButtonsModule,
-    TooltipModule
+    TooltipModule,
     TypeaheadModule
   ],
   exports: [RiskWizardComponent],

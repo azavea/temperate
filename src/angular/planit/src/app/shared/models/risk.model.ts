@@ -1,6 +1,5 @@
 import { CommunitySystem } from './community-system.model';
 import { WeatherEvent } from './weather-event.model';
-import { Indicator } from 'climate-change-components';
 import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
 import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
 
