@@ -16,5 +16,6 @@ export {
 
 export {
   OrgRiskRelativeOption,
-  OrgRiskRelativeOptions
+  OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeImpactOptions
 } from './models/org-risk-relative-option.model';

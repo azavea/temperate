@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { OrgRiskRelativeOption,
-         OrgRiskRelativeOptions,
+         OrgRiskRelativeImpactOptions,
          Risk } from '../../shared/';
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
@@ -27,9 +27,9 @@ export class ImpactStepComponent extends WizardStepComponent<Risk> implements On
   public risk: Risk;
   public title = 'Impact';
 
-  public relativeOptions = OrgRiskRelativeOptions;
+  public relativeOptions = OrgRiskRelativeImpactOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeOptions.keys());
+  public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
 
 
   constructor(private fb: FormBuilder,

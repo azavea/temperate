@@ -5,7 +5,7 @@ import {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions,
   OrgRiskRelativeOption,
-  OrgRiskRelativeOptions,
+  OrgRiskRelativeChanceOptions,
   Risk
 } from '../../shared/';
 import { RiskStepKey } from '../risk-step-key';
@@ -36,10 +36,10 @@ export class HazardStepComponent extends WizardStepComponent<Risk> implements On
   };
 
   public directionalOptions = OrgRiskDirectionalOptions;
-  public relativeOptions = OrgRiskRelativeOptions;
+  public relativeOptions = OrgRiskRelativeChanceOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public directionalOptionsKeys = Array.from(OrgRiskDirectionalOptions.keys());
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeOptions.keys());
+  public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 
   constructor(private fb: FormBuilder,
               protected session: WizardSessionService<Risk>) {
