@@ -14,8 +14,6 @@ export {
   OrgRiskDirectionalOptions
 } from './models/org-risk-directional-option.model';
 
-export {
-  OrgRiskRelativeOption,
-  OrgRiskRelativeChanceOptions,
-  OrgRiskRelativeImpactOptions
-} from './models/org-risk-relative-option.model';
+export { OrgRiskRelativeOption } from './models/org-risk-relative-option.model';
+export { OrgRiskRelativeChanceOptions } from './models/org-risk-relative-chance-options.model';
+export { OrgRiskRelativeImpactOptions } from './models/org-risk-relative-impact-options.model';
