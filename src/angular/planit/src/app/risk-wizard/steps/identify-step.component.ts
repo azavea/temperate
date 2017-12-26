@@ -36,12 +36,6 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   private weatherEvent: WeatherEvent;
   private communitySystem: CommunitySystem;
 
-  // Track whether the last entered text value for the autocomplete fields
-  // existed in the list of available options.
-  private autocompleteValid = {
-    weatherEvent: true,
-    communitySystem: true
-  };
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -99,10 +93,6 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     return risk;
   }
 
-  noResults(key: string, noResults: boolean) {
-    this.autocompleteValid[key] = !noResults;
-  }
-
   itemSelected(key: string, event: TypeaheadMatch | null) {
     const savedName = this[key] ? this[key].name : null;
     const formName = this.form.controls[key].value;
@@ -114,7 +104,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
-    if (!this.autocompleteValid[key]) {
+    const options = key === 'weatherEvents' ? this.weatherEvents : this.communitySystems;
+    if (options.indexOf(this.form.controls[key].value) < 0) {
       this.form.controls[key].setErrors({'autocomplete': true});
     }
   }
