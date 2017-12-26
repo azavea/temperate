@@ -32,6 +32,8 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public relativeOptionsKeys = Array.from(OrgRiskRelativeOptions.keys());
 
+  // TODO (issue #241): Replace related adaptive values select with the fancy select
+  // autocomplete from issue #218
   public examples: string[] = ['1', '2', '3'];
 
   constructor(private fb: FormBuilder,

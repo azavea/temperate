@@ -2,25 +2,28 @@
   <h3>Adaptive Capacity</h3>
   Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weatherEvent?.name }} on {{ risk.communitySystem?.name }}</strong> here.
 </div>
-<form [formGroup]="form">
-  <div>
-    <label>Adaptive Capacity</label>
-      <app-option-dropdown [control]="form.controls['adaptiveCapacity']"
-                           [options]="relativeOptions">
-      </app-option-dropdown>
-  </div>
-  <div>
-    <label>Related Adaptive Values</label>
-    <!-- TODO (issue #241): Add the autocomplete component -->
-    <select>
-      <option *ngFor="let e of examples">{{e}}</option>
-    </select>
-  </div>
-  <div>
-    <label>Description</label>
-    <input type="text" formControlName="adaptiveCapacityDescription" required>
-  </div>
-  <div>
-    <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
-  </div>
-</form>
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <h5>Adaptive Capacity</h5>
+        <app-option-dropdown [control]="form.controls['adaptiveCapacity']"
+                             [options]="relativeOptions">
+        </app-option-dropdown>
+    </div>
+    <div class="step-form-control">
+      <h5>Related Adaptive Values</h5>
+      <!-- TODO (issue #241): Add the autocomplete component -->
+      <select>
+        <option *ngFor="let e of examples">{{e}}</option>
+      </select>
+    </div>
+    <div class="step-form-control">
+      <h5>Description</h5>
+      <input type="text" formControlName="adaptiveCapacityDescription" required>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+</div>
