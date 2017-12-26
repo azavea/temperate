@@ -7,6 +7,7 @@
   <div class="step-form-control">
     <label>Hazards
       <input class="form-control" formControlName="weatherEvent"
+                                  tabindex="1"
                                   typeaheadOptionField="name"
                                   (typeaheadOnSelect)="weatherEventSelected($event)"
                                   (typeaheadNoResults)="weatherEventSelected(null)"
@@ -23,6 +24,7 @@
     <label>Community system
       <input class="form-control" formControlName="communitySystem"
                                   typeaheadOptionField="name"
+                                  tabindex="2"
                                   (typeaheadOnSelect)="communitySystemSelected($event)"
                                   (typeaheadNoResults)="communitySystemSelected(null)"
                                   (blur)="communitySystemBlurred($event)"
@@ -37,6 +39,10 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
-  <button type="button" (click)="cancel()">Cancel</button>
+  <button type="button"
+          tabindex="3"
+          [disabled]="!form.valid"
+          nextStep
+          (finalize)="save()">Continue</button>
+  <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>
