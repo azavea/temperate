@@ -10,7 +10,7 @@ export class Risk {
   communitySystem: CommunitySystem;
   impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
   impactDescription?: string;
-  adaptiveCapacity?: string;
+  adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
   relatedAdaptiveValues?: string[];
   adaptiveCapacityDescription?: string;
   frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
