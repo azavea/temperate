@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
@@ -35,6 +35,13 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
 
   private weatherEvent: WeatherEvent;
   private communitySystem: CommunitySystem;
+
+  // Track whether the last entered text value for the autocomplete fields
+  // existed in the list of available options.
+  private autocompleteValid = {
+    weatherEvent: true,
+    communitySystem: true
+  };
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -80,9 +87,9 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   setupForm(data: IdentifyStepFormModel) {
     this.form = this.fb.group({
       'weatherEvent': [data.weatherEvent ? data.weatherEvent.name : '',
-                       Validators.required],
+                       [Validators.required]],
       'communitySystem': [data.communitySystem ? data.communitySystem.name : '',
-                          Validators.required]
+                          [Validators.required]]
     });
   }
 
@@ -92,23 +99,11 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     return risk;
   }
 
-  weatherEventSelected(event: TypeaheadMatch | null) {
-    this.itemSelected('weatherEvent', event);
+  noResults(key: string, noResults: boolean) {
+    this.autocompleteValid[key] = !noResults;
   }
 
-  weatherEventBlurred(event: TypeaheadMatch) {
-    this.itemBlurred('weatherEvent');
-  }
-
-  communitySystemBlurred(event: TypeaheadMatch) {
-    this.itemBlurred('communitySystem');
-  }
-
-  communitySystemSelected(event: TypeaheadMatch | null) {
-    this.itemSelected('communitySystem', event);
-  }
-
-  private itemSelected(key: string, event: TypeaheadMatch | null) {
+  itemSelected(key: string, event: TypeaheadMatch | null) {
     const savedName = this[key] ? this[key].name : null;
     const formName = this.form.controls[key].value;
     if (event !== null || savedName !== formName) {
@@ -116,9 +111,11 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     }
   }
 
-  private itemBlurred(key: string) {
-    if (this[key]  === null) {
-      this.form.controls[key].setValue('');
+  itemBlurred(key: string) {
+    // Manually set form error if user exits field without selecting
+    // a valid autocomplete option.
+    if (!this.autocompleteValid[key]) {
+      this.form.controls[key].setErrors({'autocomplete': true});
     }
   }
 }

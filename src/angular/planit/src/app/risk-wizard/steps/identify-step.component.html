@@ -9,15 +9,18 @@
       <input class="form-control" formControlName="weatherEvent"
                                   tabindex="1"
                                   typeaheadOptionField="name"
-                                  (typeaheadOnSelect)="weatherEventSelected($event)"
-                                  (typeaheadNoResults)="weatherEventSelected(null)"
-                                  (blur)="weatherEventBlurred($event)"
+                                  (typeaheadOnSelect)="itemSelected('weatherEvent', $event)"
+                                  (typeaheadNoResults)="noResults('weatherEvent', $event)"
+                                  (blur)="itemBlurred('weatherEvent')"
                                   [typeahead]="weatherEvents"
                                   [typeaheadMinLength]="1"
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
-      <span *ngIf="form.controls.weatherEvent.errors">*Required</span>
+      <div *ngIf="form.controls.weatherEvent.errors">
+        <span *ngIf="form.controls.weatherEvent.errors.required">*Required</span>
+        <span *ngIf="form.controls.weatherEvent.errors.autocomplete">*Not found</span>
+      </div>
     </label>
   </div>
   <div>
@@ -25,15 +28,18 @@
       <input class="form-control" formControlName="communitySystem"
                                   typeaheadOptionField="name"
                                   tabindex="2"
-                                  (typeaheadOnSelect)="communitySystemSelected($event)"
-                                  (typeaheadNoResults)="communitySystemSelected(null)"
-                                  (blur)="communitySystemBlurred($event)"
+                                  (typeaheadOnSelect)="itemSelected('communitySystem', $event)"
+                                  (typeaheadNoResults)="noResults('communitySystem', $event)"
+                                  (blur)="itemBlurred('communitySystem')"
                                   [typeahead]="communitySystems"
                                   [typeaheadMinLength]="1"
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
-      <span *ngIf="form.controls.communitySystem.errors">*Required</span>
+      <div *ngIf="form.controls.communitySystem.errors">
+        <span *ngIf="form.controls.communitySystem.errors.required">*Required</span>
+        <span *ngIf="form.controls.communitySystem.errors.autocomplete">*Not found</span>
+      </div>
     </label>
   </div>
   </form>
