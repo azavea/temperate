@@ -72,7 +72,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   save() {
     const data: IdentifyStepFormModel = {
       weatherEvent: this.weatherEvent,
-      communitySystem: this.communitySystem,
+      communitySystem: this.communitySystem
     };
     this.session.setDataForKey(this.key, data);
   }
