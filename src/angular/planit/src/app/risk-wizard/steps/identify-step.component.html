@@ -6,12 +6,12 @@
   <form [formGroup]="form">
     <div class="step-form-control">
       <label for="">Hazard</label>
-        <input type="text" formControlName="hazard">
+        <input type="text" formControlName="hazard" required>
         <span *ngIf="form.controls.hazard.errors">*Required</span>
     </div>
     <div class="step-form-control">
       <label for="">Community System</label>
-      <input type="text" formControlName="communitySystem">
+      <input type="text" formControlName="communitySystem" required>
       <span *ngIf="form.controls.communitySystem.errors">*Required</span>
     </div>
   </form>

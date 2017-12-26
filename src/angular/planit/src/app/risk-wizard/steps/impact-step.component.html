@@ -19,5 +19,5 @@
 </div>
 <div class="step-footer">
   <button type="button" nextStep>Skip Step</button>
-  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+  <button type="button" [disabled]="form.invalid" nextStep (finalize)="save()">Continue</button>
 </div>
