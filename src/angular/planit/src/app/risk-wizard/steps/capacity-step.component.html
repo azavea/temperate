@@ -19,11 +19,11 @@
     </div>
     <div class="step-form-control">
       <h5>Description</h5>
-      <input type="text" formControlName="adaptiveCapacityDescription" required>
+      <input type="text" formControlName="adaptiveCapacityDescription">
     </div>
   </form>
 </div>
 <div class="step-footer">
   <button type="button" nextStep>Skip Step</button>
-  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+  <button type="button" [disabled]="form.pristine || !form.valid" nextStep (finalize)="save()">Continue</button>
 </div>

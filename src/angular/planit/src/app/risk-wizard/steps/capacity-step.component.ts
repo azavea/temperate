@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {  OrgRiskRelativeOption,
-          OrgRiskRelativeOptions,
+          OrgRiskRelativeChanceOptions,
           Risk } from '../../shared/';
 import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
@@ -28,9 +28,9 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
   public title = 'Adaptive capacity';
   public risk: Risk;
 
-  public relativeOptions = OrgRiskRelativeOptions;
+  public relativeOptions = OrgRiskRelativeChanceOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeOptions.keys());
+  public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 
   // TODO (issue #241): Replace related adaptive values select with the fancy select
   // autocomplete from issue #218
