@@ -1,3 +1,4 @@
 export class CommunitySystem {
-    name: string;
+  id: number;
+  name: string;
 }

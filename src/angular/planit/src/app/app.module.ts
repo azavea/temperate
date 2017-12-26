@@ -25,6 +25,7 @@ import { AccountCreateService } from './core/services/account-create.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
+import { CommunitySystemService } from './core/services/community-system.service';
 import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
@@ -35,7 +36,8 @@ import {
   CollapseModule,
   PopoverModule,
   TooltipModule,
-  ModalModule
+  ModalModule,
+  TypeaheadModule
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -63,6 +65,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     PopoverModule.forRoot(),
     TooltipModule.forRoot(),
+    TypeaheadModule.forRoot(),
     // Local
     SharedModule,
     ApiModule.forRoot({
@@ -83,6 +86,7 @@ const appRoutes: Routes = [
     apiHttpProvider,
     AuthService,
     CacheService,
+    CommunitySystemService,
     RiskService,
     UserService,
     WeatherEventService,

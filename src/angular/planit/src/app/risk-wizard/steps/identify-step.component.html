@@ -4,19 +4,49 @@
 <div class="step-content">
   <p>Match a hazard to a subset of people, structures or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <label for="">Hazard</label>
-        <input type="text" formControlName="hazard" required>
-        <span *ngIf="form.controls.hazard.errors">*Required</span>
-    </div>
-    <div class="step-form-control">
-      <label for="">Community System</label>
-      <input type="text" formControlName="communitySystem" required>
-      <span *ngIf="form.controls.communitySystem.errors">*Required</span>
-    </div>
+  <div class="step-form-control">
+    <label>Hazards
+      <input class="form-control" formControlName="weatherEvent"
+                                  tabindex="1"
+                                  typeaheadOptionField="name"
+                                  (typeaheadOnSelect)="itemSelected('weatherEvent', $event)"
+                                  (blur)="itemBlurred('weatherEvent')"
+                                  [typeahead]="weatherEvents"
+                                  [typeaheadMinLength]="1"
+                                  [typeaheadScrollable]="true"
+                                  [typeaheadOptionsInScrollableView]="5"
+                                  [container]="'body'">
+      <div *ngIf="form.controls.weatherEvent.errors">
+        <span *ngIf="form.controls.weatherEvent.errors.required">*Required</span>
+        <span *ngIf="form.controls.weatherEvent.errors.autocomplete">*Not found</span>
+      </div>
+    </label>
+  </div>
+  <div>
+    <label>Community system
+      <input class="form-control" formControlName="communitySystem"
+                                  typeaheadOptionField="name"
+                                  tabindex="2"
+                                  (typeaheadOnSelect)="itemSelected('communitySystem', $event)"
+                                  (blur)="itemBlurred('communitySystem')"
+                                  [typeahead]="communitySystems"
+                                  [typeaheadMinLength]="1"
+                                  [typeaheadScrollable]="true"
+                                  [typeaheadOptionsInScrollableView]="5"
+                                  [container]="'body'">
+      <div *ngIf="form.controls.communitySystem.errors">
+        <span *ngIf="form.controls.communitySystem.errors.required">*Required</span>
+        <span *ngIf="form.controls.communitySystem.errors.autocomplete">*Not found</span>
+      </div>
+    </label>
+  </div>
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" [disabled]="!form.valid" nextStep (finalize)="save()">Continue</button>
-  <button type="button" (click)="cancel()">Cancel</button>
+  <button type="button"
+          tabindex="3"
+          [disabled]="!form.valid"
+          nextStep
+          (finalize)="save()">Continue</button>
+  <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>

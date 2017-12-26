@@ -19,4 +19,10 @@ export class WeatherEventService {
     });
   }
 
+  list(): Observable<WeatherEvent[]> {
+    const url = `${environment.apiUrl}/api/weather-event/`;
+    return this.apiHttp.get(url)
+      .map(resp => resp.json() || [] as WeatherEvent[]);
+  }
+
 }
