@@ -1,4 +1,23 @@
-<h3>Impact</h3>
-
-<button type="button" nextStep>Continue</button>
-<button type="button" previousStep>Back</button>
+<div class="step-header">
+  <h3>Impact</h3>
+  <!--TODO (issue #366): Calculate # years from plan's goal date -->
+  How will this hazard affect <strong>{{ risk.communitySystem?.name }}</strong> over the next 5 years?
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <h5>Impact Magnitude</h5>
+        <app-option-dropdown [control]="form.controls['impactMagnitude']"
+                             [options]="relativeOptions">
+        </app-option-dropdown>
+    </div>
+    <div class="step-form-control">
+      <h5>Impact Description</h5>
+      <input type="text" formControlName="impactDescription" required>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" [disabled]="form.invalid" nextStep (finalize)="save()">Continue</button>
+</div>
