@@ -5,8 +5,8 @@ import { OrgRiskRelativeOption,
          OrgRiskRelativeImpactOptions,
          Risk } from '../../shared/';
 import { RiskStepKey } from '../risk-step-key';
-import { WizardStepComponent,
-         WizardSessionService } from '../../wizard/';
+import { WizardStepComponent } from '../../wizard/';
+import { WizardSessionService } from '../../core/services/wizard-session.service';
 
 export interface ImpactStepFormModel {
   impactMagnitude: OrgRiskRelativeOption;

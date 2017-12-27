@@ -10,8 +10,8 @@ import { CommunitySystemService } from '../../core/services/community-system.ser
 import { WeatherEventService } from '../../core/services/weather-event.service';
 
 import { RiskStepKey } from '../risk-step-key';
-import { WizardStepComponent,
-         WizardSessionService } from '../../wizard/';
+import { WizardStepComponent } from '../../wizard/';
+import { WizardSessionService } from '../../core/services/wizard-session.service';
 
 interface IdentifyStepFormModel {
   weatherEvent: WeatherEvent;
