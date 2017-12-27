@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {AssessmentOverviewComponent } from './assessment-overview.component';
+import { AssessmentOverviewComponent } from './assessment-overview.component';
 import { CreateRiskComponent } from './create-risk.component';
 
 const routes: Routes = [

@@ -1,0 +1,19 @@
+<wizard #wizard
+        navigationMode="free"
+        navBarLocation="left"
+        navBarLayout="large-empty-symbols">
+  <app-action-step-assess class="wizard-step"
+                          #assessStep
+                          wizardStep
+                          stepTitle="{{ assessStep.title }}"
+                          navigationSymbol="{{ assessStep.navigationSymbol }}">
+  </app-action-step-assess>
+
+  <app-action-step-implementation class="wizard-step"
+                          #implementationStep
+                          wizardStep
+                          stepTitle="{{ implementationStep.title }}"
+                          navigationSymbol="{{ implementationStep.navigationSymbol }}">
+  </app-action-step-implementation>
+
+</wizard>

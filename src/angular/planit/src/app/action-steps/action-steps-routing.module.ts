@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
+import { CreateActionComponent } from './create-action.component';
 
 const routes: Routes = [
   { path: 'actions', component: ActionStepsOverviewComponent },
+  { path: 'actions/action/wizard', component: CreateActionComponent },
 ];
 
 @NgModule({
@@ -12,5 +14,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class ActionStepsRoutingModule { }
-
-export const routedComponents = [ActionStepsOverviewComponent];

@@ -5,6 +5,7 @@ export { User } from './models/user.model';
 export { WeatherEvent } from './models/weather-event.model';
 export { City, CityProperties } from './models/city.model';
 export { Organization } from './models/organization.model';
+export { Action } from './models/action.model';
 export { PrecipitationUnits,
          TemperatureUnits,
          OrgUnitType } from './constants/units-conversion';
