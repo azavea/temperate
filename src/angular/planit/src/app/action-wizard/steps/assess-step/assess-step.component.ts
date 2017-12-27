@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-action-assess-step',
@@ -9,8 +10,12 @@ export class AssessStepComponent implements OnInit {
   public navigationSymbol = '1';
   public title = 'Assess';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  cancel () {
+      this.router.navigate(['actions']);
   }
 }
