@@ -29,6 +29,6 @@ Here explain what "adaptive need" is and how we are calculating this.
 
 <span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin,
                  'ac-' + adaptiveCapacityBin]"
-      [popover]="popoverTemplate" placement="right" container="body" outsideClick="true"
+      [popover]="popoverTemplate" placement="right" container="body" triggers="mouseenter:mouseleave"
        *ngIf="(potentialImpactBin !== undefined && adaptiveCapacityBin !== undefined)">&nbsp;</span>
 <span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
