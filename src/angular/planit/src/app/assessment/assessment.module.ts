@@ -10,7 +10,6 @@ import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
 
 import { CreateRiskComponent } from './create-risk.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
-import { WizardModule } from '../wizard/wizard.module';
 import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -23,7 +22,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     CommonModule,
     ModalWizardModule.withComponents([RiskWizardComponent]),
     SharedModule,
-    WizardModule,
     RiskWizardModule,
     AssessmentRoutingModule,
     BsDropdownModule,

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { WizardSessionService } from '../../core/services/wizard-session.service';
 import {  OrgRiskRelativeOption,
           OrgRiskRelativeChanceOptions,
           Risk } from '../../shared/';
 import { RiskStepKey } from '../risk-step-key';
 import { WizardStepComponent } from '../../wizard/';
+import { WizardSessionService } from '../../core/services/wizard-session.service';
 
 export interface CapacityStepFormModel {
   adaptiveCapacity: OrgRiskRelativeOption;

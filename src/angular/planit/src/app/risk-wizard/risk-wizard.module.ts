@@ -6,7 +6,6 @@ import { ArchwizardModule } from 'ng2-archwizard';
 import { BsDropdownModule, ButtonsModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 
 import { Risk } from '../shared/models/risk.model';
-import { WizardModule } from '../wizard/wizard.module';
 
 import { RiskWizardComponent } from './risk-wizard.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
@@ -26,8 +25,7 @@ import { SharedModule } from '../shared/shared.module';
     TypeaheadModule,
     ArchwizardModule,
     FormsModule,
-    ReactiveFormsModule,
-    WizardModule
+    ReactiveFormsModule
   ],
   exports: [RiskWizardComponent],
   declarations: [
