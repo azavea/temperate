@@ -1,9 +1,10 @@
 from unittest import mock
 
+from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point, Polygon, MultiPolygon
 from django.test import TestCase
 
-from users.models import PlanItLocation, PlanItOrganization
+from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 from planit_data.models import GeoRegion, WeatherEvent, WeatherEventRank
 
 
@@ -193,3 +194,44 @@ class LocationManagerTestCase(TestCase):
 
         self.assertEqual(result, location)
         self.assertFalse(api_wrapper_mock.called)
+
+
+class PlanItUserTestCase(TestCase):
+    def test_default_user_model(self):
+        """Ensure PlanItUser is the default user models
+
+        `./manage.py createsuperuser` uses get_user_model to determine what class to invoke
+        create_superuser on, this ensures the command will be directed to the correct class.
+        """
+        UserModel = get_user_model()
+        self.assertTrue(issubclass(UserModel, PlanItUser))
+
+    def test_createuser(self):
+        user_data = {
+            'email': 'test@azavea.com',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'password': 'sooperseekrit'
+        }
+        user = PlanItUser.objects.create_user(**user_data)
+
+        self.assertFalse(user.is_superuser)
+        self.assertFalse(user.is_staff)
+
+    def test_createsuperuser(self):
+        user_data = {
+            'email': 'test@azavea.com',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'password': 'sooperseekrit'
+        }
+        user = PlanItUser.objects.create_superuser(**user_data)
+
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_active)
+
+        # check user belongs to default organization
+        default_org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
+        self.assertIn(default_org, user.organizations.all())
+        self.assertEqual(user.primary_organization, default_org)

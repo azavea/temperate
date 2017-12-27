@@ -34,6 +34,10 @@ class PlanItLocationManager(models.Manager):
             location.save()
         return location
 
+    def get_by_natural_key(self, api_city_id):
+        """Get or create the location based on its API City ID."""
+        return self.from_api_city(api_city_id)
+
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)
@@ -42,6 +46,9 @@ class PlanItLocation(models.Model):
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
+
+    def natural_key(self):
+        return (self.api_city_id,)
 
     def __str__(self):
         return self.name
@@ -114,7 +121,18 @@ class PlanItUserManager(BaseUserManager):
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
         user.set_password(password)
         user.save()
+
+        # Associate the user with the default organization
+        org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
+        user.organizations.add(org)
+        user.primary_organization = org
+        user.save()
+
         return user
+
+    def create(self, *args, **kwargs):
+        """Alias of create_user for DRF serializer use."""
+        return self.create_user(*args, **kwargs)
 
     def create_user(self, email, first_name, last_name, password=None, **extra):
         extra.setdefault('is_staff', False)
