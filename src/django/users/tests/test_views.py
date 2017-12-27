@@ -3,9 +3,10 @@ from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Polygon, MultiPolygon
-from django.test import override_settings
+from django.test import override_settings, TestCase, Client
 from django.urls import reverse
 
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
@@ -136,10 +137,10 @@ class UserCreationApiTestCase(APITestCase):
     def test_get_auth_required(self):
         """Ensure an unauthenticated request cannot GET."""
         response = self.client.get('/api/users/', format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-class UserAuthenticationApiTestCase(APITestCase):
+class UserAuthenticationApiTestCase(TestCase):
     def setUp(self):
         self.credentials = {
             'email': 'user@azavea.com',
@@ -150,15 +151,39 @@ class UserAuthenticationApiTestCase(APITestCase):
             last_name='User',
             **self.credentials
         )
+        self.client = Client(enforce_csrf_checks=True)
 
-    def test_api_token_auth__valid(self):
+    def test_api_token_auth__anonymous__valid(self):
+        """Ensure that users can authenticate for their API token."""
         token = Token.objects.get(user=self.user)
 
         url = reverse('token_auth')
         response = self.client.post(url, self.credentials)
 
         self.assertEqual(response.json(), {'token': token.key})
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_api_token_auth__authenticated_user__valid(self):
+        """Ensure that API users can use token authenticate if they are already logged in.
+
+        This is important if the user is logged into Django directly, and tries to use the Angular
+        front-end which requires the user to authenticate independantly.
+        """
+        token = Token.objects.get(user=self.user)
+        self.client.force_login(self.user)
+
+        url = reverse('token_auth')
+        response = self.client.post(url, self.credentials)
+
+        self.assertEqual(response.json(), {'token': token.key})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_api_token_auth__invalid__failure(self):
+        """Ensure that invalid authentications are rejected."""
+        url = reverse('token_auth')
+        response = self.client.post(url, dict(self.credentials, password='badpass'))
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class OrganizationApiTestCase(APITestCase):
