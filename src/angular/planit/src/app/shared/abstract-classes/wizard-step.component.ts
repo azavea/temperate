@@ -6,7 +6,7 @@
 import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { WizardSessionService } from '../core/services/wizard-session.service';
+import { WizardSessionService } from '../../core/services/wizard-session.service';
 
 export abstract class WizardStepComponent<T> implements OnInit {
   abstract form: FormGroup;

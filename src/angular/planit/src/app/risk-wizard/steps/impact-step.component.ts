@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { OrgRiskRelativeOption,
          OrgRiskRelativeImpactOptions,
-         Risk } from '../../shared/';
+         Risk,
+         WizardStepComponent } from '../../shared/';
 import { RiskStepKey } from '../risk-step-key';
-import { WizardStepComponent } from '../../wizard/';
 import { WizardSessionService } from '../../core/services/wizard-session.service';
 
 export interface ImpactStepFormModel {
