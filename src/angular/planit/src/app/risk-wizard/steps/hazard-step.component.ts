@@ -9,8 +9,8 @@ import {
   Risk
 } from '../../shared/';
 import { RiskStepKey } from '../risk-step-key';
-import { WizardStepComponent } from '../wizard-step.component';
-import { WizardSessionService } from '../wizard-session.service';
+import { WizardStepComponent,
+         WizardSessionService } from '../../wizard/';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;

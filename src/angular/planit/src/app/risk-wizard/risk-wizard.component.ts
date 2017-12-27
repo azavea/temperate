@@ -8,7 +8,7 @@ import { HazardStepComponent } from './steps/hazard-step.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
 import { ImpactStepComponent } from './steps/impact-step.component';
 import { ReviewStepComponent } from './steps/review-step.component';
-import { WizardSessionService } from './wizard-session.service';
+import { WizardSessionService } from '../wizard';
 import { Risk } from '../shared/';
 
 @Component({

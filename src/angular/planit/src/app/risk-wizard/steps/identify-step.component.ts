@@ -9,9 +9,9 @@ import { CommunitySystem, Risk, WeatherEvent } from '../../shared/';
 import { CommunitySystemService } from '../../core/services/community-system.service';
 import { WeatherEventService } from '../../core/services/weather-event.service';
 
-import { WizardStepComponent } from '../wizard-step.component';
 import { RiskStepKey } from '../risk-step-key';
-import { WizardSessionService } from '../wizard-session.service';
+import { WizardStepComponent,
+         WizardSessionService } from '../../wizard/';
 
 interface IdentifyStepFormModel {
   weatherEvent: WeatherEvent;

@@ -2,9 +2,6 @@
  * A generic set of properties/methods that each step in a wizard should implement
  *
  * Depends on the WizardSessionService, concrete subclasses should determine its type.
- *
- * This class, along with the WizardSessionService, should be moved out of the risk-wizard
- * module when we begin implementing multiple wizards.
  */
 import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';

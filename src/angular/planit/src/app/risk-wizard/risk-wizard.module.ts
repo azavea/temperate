@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ArchwizardModule } from 'ng2-archwizard';
 import { BsDropdownModule, ButtonsModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 
 import { Risk } from '../shared/models/risk.model';
+import { WizardModule } from '../wizard/wizard.module';
 
 import { RiskWizardComponent } from './risk-wizard.component';
 import { IdentifyStepComponent } from './steps/identify-step.component';
@@ -17,15 +18,16 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ArchwizardModule,
+    CommonModule,
     SharedModule,
     BsDropdownModule,
     ButtonsModule,
     TooltipModule,
-    TypeaheadModule
+    TypeaheadModule,
+    ArchwizardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    WizardModule
   ],
   exports: [RiskWizardComponent],
   declarations: [
