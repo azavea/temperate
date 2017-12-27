@@ -9,8 +9,10 @@ Here explain what "adaptive need" is and how we are calculating this.
             [ngClass]="'pi-' + potentialImpactIndex">
             <td *ngFor="let adaptiveCapacityIndex of [2, 1, 0]"
                 class="adaptive-capacity-box"
-                [ngClass]="{'selected': potentialImpactIndex == potentialImpact && adaptiveCapacityIndex == adaptiveCapacity,
-                            'ac-0': adaptiveCapacityIndex == 0, 'ac-1': adaptiveCapacityIndex == 1,
+                [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
+                            && adaptiveCapacityIndex == adaptiveCapacityBin,
+                            'ac-0': adaptiveCapacityIndex == 0,
+                            'ac-1': adaptiveCapacityIndex == 1,
                             'ac-2': adaptiveCapacityIndex == 2}">
                 &nbsp;
             </td>
@@ -25,7 +27,8 @@ Here explain what "adaptive need" is and how we are calculating this.
 </table>
 </ng-template>
 
-<span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpact, 'ac-' + adaptiveCapacity]"
+<span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin,
+                 'ac-' + adaptiveCapacityBin]"
       [tooltip]="tooltipTemplate" placement="right"
-       *ngIf="potentialImpact !== undefined && adaptiveCapacity !== undefined">&nbsp;</span>
-<span *ngIf="potentialImpact === undefined || adaptiveCapacity === undefined">--</span>
+       *ngIf="(potentialImpactBin !== undefined && adaptiveCapacityBin !== undefined)">&nbsp;</span>
+<span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>

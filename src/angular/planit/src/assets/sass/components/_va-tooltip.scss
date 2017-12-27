@@ -9,6 +9,10 @@ $adaptive-need-high: #ff565d;
         height:50px;
     }
 
+    th {
+      text-align: center;
+    }
+
     td.selected {
         border: 1px #000 solid;
     }
@@ -42,4 +46,8 @@ $adaptive-need-high: #ff565d;
     &.pi-2.ac-1, &.pi-2.ac-0, &.pi-1.ac-0 {
         background: $adaptive-need-high;
     }
+}
+
+.tooltip-inner {
+  max-width: 300px;
 }

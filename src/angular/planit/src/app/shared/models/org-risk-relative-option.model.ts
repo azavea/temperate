@@ -13,8 +13,8 @@ export namespace OrgRiskRelativeOption {
   // https://stackoverflow.com/a/39813213/8202149
   export function keys(): string[] {
     var k = Object.keys(OrgRiskRelativeOption);
-    console.log(k);
-    return k.slice(0, k.length - 2); // last values are the strings "keys" and "values" for some reason
+    // last two values are the strings "keys" and "values", the function names
+    return k.slice(0, k.length - 2);
   }
 
   export function values(): string[] {
