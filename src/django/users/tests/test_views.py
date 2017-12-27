@@ -139,6 +139,28 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(response.status_code, 403)
 
 
+class UserAuthenticationApiTestCase(APITestCase):
+    def setUp(self):
+        self.credentials = {
+            'email': 'user@azavea.com',
+            'password': 'password'
+        }
+        self.user = PlanItUser.objects.create_user(
+            first_name='Test',
+            last_name='User',
+            **self.credentials
+        )
+
+    def test_api_token_auth__valid(self):
+        token = Token.objects.get(user=self.user)
+
+        url = reverse('token_auth')
+        response = self.client.post(url, self.credentials)
+
+        self.assertEqual(response.json(), {'token': token.key})
+        self.assertEqual(response.status_code, 200)
+
+
 class OrganizationApiTestCase(APITestCase):
 
     def setUp(self):

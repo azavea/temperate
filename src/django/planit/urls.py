@@ -50,7 +50,7 @@ urlpatterns = [
     # user management
     url(r'^accounts/', include('users.urls')),
     url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
-    url(r'^api-token-auth/', PlanitObtainAuthToken.as_view()),
+    url(r'^api-token-auth/', PlanitObtainAuthToken.as_view(), name='token_auth'),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),
