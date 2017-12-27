@@ -1,4 +1,4 @@
-<ng-template #tooltipTemplate>
+<ng-template #popoverTemplate>
 <h2>How is adaptive need calculated?</h2>
 <p>
 Here explain what "adaptive need" is and how we are calculating this.
@@ -29,6 +29,6 @@ Here explain what "adaptive need" is and how we are calculating this.
 
 <span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin,
                  'ac-' + adaptiveCapacityBin]"
-      [tooltip]="tooltipTemplate" placement="right"
+      [popover]="popoverTemplate" placement="right" container="body" outsideClick="true"
        *ngIf="(potentialImpactBin !== undefined && adaptiveCapacityBin !== undefined)">&nbsp;</span>
 <span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
