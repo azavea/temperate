@@ -34,6 +34,10 @@ class PlanItLocationManager(models.Manager):
             location.save()
         return location
 
+    def get_by_natural_key(self, api_city_id):
+        """Get or create the location based on its API City ID."""
+        return self.from_api_city(api_city_id)
+
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)
@@ -42,6 +46,9 @@ class PlanItLocation(models.Model):
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
+
+    def natural_key(self):
+        return (self.api_city_id,)
 
     def __str__(self):
         return self.name

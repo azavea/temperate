@@ -49,6 +49,11 @@ Once the server is running, populate the local Climate Change API token:
 $ ./scripts/manage refresh_token
 ```
 
+Now that your Temperate instance can communicate with the Climate Change API, you can optionally choose to import default organizations that will make configuring users easier:
+```bash
+./scripts/manage loaddata test_organizations
+```
+
 #### Creating an admin user
 Once you've started the server you'll need to create a user. This can be done with:
 ```bash
@@ -57,9 +62,9 @@ $ ./scripts/manage createsuperuser
 
 Once created, the new user account will require configuration to fully enable use of the UI.
 
-First, in a web browser open the navigable API for [/api/organizations](http://localhost:8100/api/organizations/). On that page, create an organization with an API City ID corresponding to a city configured on Climate Change API's staging environment. For example, `1` is New York City and `7` is Philadelphia.
+If you did not import the `test_organizations` fixture during initial set up above you will need to create Organizations manually. To do this, in a web browser open the navigable API for [/api/organizations](http://localhost:8100/api/organizations/) and create an organization with an API City ID corresponding to a city configured on Climate Change API's staging environment. For example, `1` is New York City and `7` is Philadelphia.
 
-Next, open your [Temperate environment's Admin panel](http://localhost:8100/admin/users/planituser/) to update your user, adding the new organization to your user's list of **Organizations** as well as selecting it for your user's **Primary organization**. Save your user.
+To associate your user with an organization (Either imported or created), open your [Temperate environment's Admin panel](http://localhost:8100/admin/users/planituser/) and add one of the non-default organizations to your user's list of **Organizations** as well as selecting it for your user's **Primary organization**. Save your user.
 
 Now your user is ready for the user interface.
 
