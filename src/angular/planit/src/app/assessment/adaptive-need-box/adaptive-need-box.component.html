@@ -4,31 +4,30 @@
 Here explain what "adaptive need" is and how we are calculating this.
 </p>
 <table class="adaptive-need-table">
-    <tbody>
-        <tr *ngFor="let potentialImpactIndex of [2, 1, 0]"
-            [ngClass]="'pi-' + potentialImpactIndex">
-            <td *ngFor="let adaptiveCapacityIndex of [2, 1, 0]"
-                class="adaptive-capacity-box"
-                [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
-                            && adaptiveCapacityIndex == adaptiveCapacityBin,
-                            'ac-0': adaptiveCapacityIndex == 0,
-                            'ac-1': adaptiveCapacityIndex == 1,
-                            'ac-2': adaptiveCapacityIndex == 2}">
-                &nbsp;
-            </td>
-            <th>{{ ['Low', 'Mod', 'High'][potentialImpactIndex] }}</th>
-        </tr>
-        <tr>
-            <th>High</th>
-            <th>Mod</th>
-            <th>Low</th>
-        </tr>
-    </tbody>
+  <tbody>
+    <tr *ngFor="let potentialImpactIndex of [2, 1, 0]"
+      [ngClass]="'pi-' + potentialImpactIndex">
+      <td *ngFor="let adaptiveCapacityIndex of [2, 1, 0]"
+        class="adaptive-capacity-box"
+        [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
+          && adaptiveCapacityIndex == adaptiveCapacityBin,
+          'ac-0': adaptiveCapacityIndex == 0,
+          'ac-1': adaptiveCapacityIndex == 1,
+          'ac-2': adaptiveCapacityIndex == 2}">
+        &nbsp;
+      </td>
+      <th>{{ ['Low', 'Mod', 'High'][potentialImpactIndex] }}</th>
+    </tr>
+    <tr>
+      <th>High</th>
+      <th>Mod</th>
+      <th>Low</th>
+    </tr>
+  </tbody>
 </table>
 </ng-template>
 
-<span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin,
-                 'ac-' + adaptiveCapacityBin]"
+<span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin, 'ac-' + adaptiveCapacityBin]"
       [popover]="popoverTemplate" placement="right" container="body" triggers="mouseenter:mouseleave"
-       *ngIf="(potentialImpactBin !== undefined && adaptiveCapacityBin !== undefined)">&nbsp;</span>
+      *ngIf="(potentialImpactBin !== undefined && adaptiveCapacityBin !== undefined)">&nbsp;</span>
 <span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
