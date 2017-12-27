@@ -1,9 +1,7 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ArchwizardModule } from 'ng2-archwizard';
-import { BsDropdownModule, ButtonsModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 import { ActionWizardComponent } from './action-wizard.component';
@@ -18,13 +16,7 @@ import { ImplementationStepComponent } from './steps/implementation-step/impleme
   imports: [
     CommonModule,
     SharedModule,
-    ArchwizardModule,
-    BsDropdownModule,
-    TooltipModule,
-    ButtonsModule,
-    TypeaheadModule,
-    FormsModule,
-    ReactiveFormsModule
+    ArchwizardModule
   ],
   exports: [ ActionWizardComponent ],
   declarations: [
@@ -35,7 +27,6 @@ import { ImplementationStepComponent } from './steps/implementation-step/impleme
     FundingStepComponent,
     ReviewStepComponent,
     ImplementationStepComponent
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  ]
 })
 export class ActionWizardModule { }

@@ -30,26 +30,26 @@ export class ActionWizardComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(private session: WizardSessionService<Action>) { }
 
   ngOnInit() {
-/*    const risk1 = new Risk({
-      communitySystem: { name: '' },
-      weatherEvent: { name: '' }
-    });
-    const action = new Action({
-        name: '',
-        risk: risk1
-    });
-    this.session.setData(action);
-    this.session.data.subscribe(a => this.actionModelChanged(a));*/
+    // const risk1 = new Risk({
+    //   communitySystem: { name: '' },
+    //   weatherEvent: { name: '' }
+    // });
+    // const action = new Action({
+    //     name: '',
+    //     risk: risk1
+    // });
+    // this.session.setData(action);
+    // this.session.data.subscribe(a => this.actionModelChanged(a));
   }
 
   ngOnDestroy() {
-   // this.session.data.unsubscribe();
+  // this.session.data.unsubscribe();
   }
 
   // this.wizard.navigation and this.wizard.model are not available until this hook
   ngAfterViewInit() {}
 
   actionModelChanged(action: Action) {
-   // console.log(action);
+  // console.log(action);
   }
 }

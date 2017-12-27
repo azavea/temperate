@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImplementationStepComponent implements OnInit {
 
+  public navigationSymbol = '2';
+  public title = 'Implementation';
+
   constructor() { }
 
   ngOnInit() {
