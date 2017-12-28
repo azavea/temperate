@@ -106,8 +106,12 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
-    const options = key === 'weatherEvents' ? this.weatherEvents : this.communitySystems;
-    if (options.indexOf(this.form.controls[key].value) < 0) {
+    const options = key === 'weatherEvent' ? this.weatherEvents : this.communitySystems;
+    const val = this.form.controls[key].value;
+    const found = options.find(function(option) {
+      return option.name === val;
+    });
+    if (!found) {
       this.form.controls[key].setErrors({'autocomplete': true});
     }
   }
