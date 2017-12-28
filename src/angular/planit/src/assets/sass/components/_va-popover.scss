@@ -1,0 +1,92 @@
+$adaptive-need-low: #ffe486;
+$adaptive-need-medium: #fdac7c;
+$adaptive-need-high: #ff565d;
+
+.va-popover {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  width: 100%;
+
+  &.container-fluid {
+    height: fit-content;
+  }
+
+  .adaptive-need-table {
+    order: 2;
+    flex: 1;
+    margin-left: 2rem;
+
+    table {
+      border-spacing: 3px;
+      border-collapse: separate;
+    }
+
+    td {
+      border: white;
+      width: 50px;
+      height: 50px;
+    }
+
+    th {
+    text-align: center;
+    }
+
+    td.selected {
+      border: 1px #000 solid;
+    }
+
+    .pi-1>.ac-2, .pi-0>.ac-1, .pi-0>.ac-2 {
+      background: $adaptive-need-low;
+    }
+
+    .pi-0>.ac-0, .pi-1>.ac-1, .pi-2>.ac-2 {
+      background: $adaptive-need-medium;
+    }
+
+    .pi-2>.ac-1, .pi-2>.ac-0, .pi-1>.ac-0 {
+      background: $adaptive-need-high;
+    }
+  }
+
+  .chart-left {
+    transform: rotate(270deg);
+    transform-origin: left bottom 0;
+    float: left;
+    position: absolute;
+    padding-left: 3rem;
+    font-weight: bold;
+  }
+
+  .row {
+    background: white;
+  }
+
+  .va-popover-description {
+    order: 1;
+    flex: 1;
+    padding-left: 4rem;
+
+    .va-popover-title {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+.adaptive-need-box {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+
+  &.pi-1.ac-2, &.pi-0.ac-1, &.pi-0.ac-2 {
+    background: $adaptive-need-low;
+  }
+
+  &.pi-0.ac-0, &.pi-1.ac-1, &.pi-2.ac-2 {
+    background: $adaptive-need-medium;
+  }
+
+  &.pi-2.ac-1, &.pi-2.ac-0, &.pi-1.ac-0 {
+    background: $adaptive-need-high;
+  }
+}
