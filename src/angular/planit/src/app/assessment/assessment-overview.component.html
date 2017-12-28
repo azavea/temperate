@@ -15,7 +15,7 @@
       </p>
     </section>
     <section>
-      <table class="table">
+      <table class="table va-summary-table">
         <caption>
           Wondering why we selected these risks? <a href="#">Learn more</a>
         </caption>
@@ -39,7 +39,12 @@
             </th>
             <th>{{ risk.impactMagnitude }}</th>
             <th>{{ risk.adaptiveCapacity }}</th>
-            <th><button class="button">Assess</button></th>
+            <th>
+              <button *ngIf="!(risk.potentialImpact || risk.adaptiveCapacity)"
+                class="button va-status-button">Assess</button>
+              <button *ngIf="risk.potentialImpact || risk.adaptiveCapacity"
+                class="button va-status-button in-progress">Take Action</button>
+            </th>
             <th>
               <div class="btn-group" dropdown>
                 <button dropdownToggle type="button" class="btn button dropdown-toggle">
