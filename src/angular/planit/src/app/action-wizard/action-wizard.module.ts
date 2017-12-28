@@ -10,7 +10,9 @@ import { ImprovementsStepComponent } from './steps/improvements-step/improvement
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
-import { ImplementationStepComponent } from './steps/implementation-step/implementation-step.component';
+import {
+         ImplementationStepComponent
+       } from './steps/implementation-step/implementation-step.component';
 
 @NgModule({
   imports: [

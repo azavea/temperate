@@ -4,7 +4,7 @@ import { ActionWizardComponent } from '../action-wizard/';
 
 @Component({
   selector: 'as-create-action',
-  templateUrl: 'create-action.component.html'
+  templateUrl: '../shared/wizard/create-model.component.html'
 })
 export class CreateActionComponent implements OnInit {
 

@@ -19,4 +19,4 @@ export { OrgRiskRelativeOption } from './models/org-risk-relative-option.model';
 export { OrgRiskRelativeChanceOptions } from './models/org-risk-relative-chance-options.model';
 export { OrgRiskRelativeImpactOptions } from './models/org-risk-relative-impact-options.model';
 
-export { WizardStepComponent } from './abstract-classes/wizard-step.component';
+export { WizardStepComponent } from './wizard/wizard-step.component';
