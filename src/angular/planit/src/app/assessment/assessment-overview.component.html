@@ -22,12 +22,15 @@
         <thead>
           <tr>
             <th>Adaptive Need</th>
-            <th>Risk <i class="icon-question-circle-o"
-              tooltip="Risk explanatory text"></i></th>
-            <th>Potential Impact <i class="icon-question-circle-o"
-              tooltip="Potential impact explanatory text"></i></th>
-            <th>Adaptive Capacity <i class="icon-question-circle-o"
-              tooltip="Adaptive Capacity explanatory text"></i></th>
+            <th>Risk
+              <i class="icon-question-circle-o" tooltip="Risk explanatory text"></i>
+            </th>
+            <th>Potential Impact
+              <i class="icon-question-circle-o" tooltip="Potential impact explanatory text"></i>
+            </th>
+            <th>Adaptive Capacity
+              <i class="icon-question-circle-o" tooltip="Adaptive Capacity explanatory text"></i>
+            </th>
             <th></th>
             <th></th>
           </tr>
@@ -54,6 +57,7 @@
                   <span class="icon-ellipsis"></span>
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                  <!-- TODO: #390 replace with read-only view route -->
                   <li role="menuitem"><a class="dropdown-item" routerLink="risk/wizard">View</a></li>
                   <li role="menuitem"><a class="dropdown-item" routerLink="risk/wizard">Edit</a></li>
                   <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>

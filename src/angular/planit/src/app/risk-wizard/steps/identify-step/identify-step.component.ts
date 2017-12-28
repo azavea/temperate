@@ -107,12 +107,15 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
     const options = key === 'weatherEvent' ? this.weatherEvents : this.communitySystems;
-    const val = this.form.controls[key].value;
-    const found = options.find(function(option) {
-      return option.name === val;
-    });
-    if (!found) {
-      this.form.controls[key].setErrors({'autocomplete': true});
-    }
+
+    // The order in which itemSelected and itemBlurred fire is unpredictable,
+    // so wait to give itemSelected a chance to update the form value.
+    setTimeout(() => {
+      const val = this.form.controls[key].value;
+      const found = options.find(option => option.name === val);
+      if (!found) {
+        this.form.controls[key].setErrors({'autocomplete': true});
+      }
+    }, 500);
   }
 }
