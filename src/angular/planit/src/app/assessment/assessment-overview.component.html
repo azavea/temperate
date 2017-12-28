@@ -44,7 +44,7 @@
             <th>{{ risk.adaptiveCapacity }}</th>
             <th>
               <button *ngIf="!(risk.potentialImpact || risk.adaptiveCapacity)"
-                class="button va-status-button">Assess</button>
+                class="button va-status-button" routerLink="risk/wizard">Assess</button>
               <button *ngIf="risk.potentialImpact || risk.adaptiveCapacity"
                 class="button va-status-button in-progress">Take Action</button>
             </th>
@@ -54,8 +54,8 @@
                   <span class="icon-ellipsis"></span>
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                  <li role="menuitem"><a class="dropdown-item" href="#">View</a></li>
-                  <li role="menuitem"><a class="dropdown-item" href="#">Edit</a></li>
+                  <li role="menuitem"><a class="dropdown-item" routerLink="risk/wizard">View</a></li>
+                  <li role="menuitem"><a class="dropdown-item" routerLink="risk/wizard">Edit</a></li>
                   <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>
                   <li role="menuitem"><a class="dropdown-item" href="#">Remove</a></li>
                 </ul>
