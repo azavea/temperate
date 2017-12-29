@@ -370,15 +370,6 @@
 },
 {
     "model": "planit_data.defaultrisk",
-    "pk": 3041,
-    "fields": {
-        "weather_event": 8,
-        "community_system": 20,
-        "order": 16
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
     "pk": 3042,
     "fields": {
         "weather_event": 8,
@@ -640,15 +631,6 @@
 },
 {
     "model": "planit_data.defaultrisk",
-    "pk": 3071,
-    "fields": {
-        "weather_event": 23,
-        "community_system": 20,
-        "order": 10
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
     "pk": 3072,
     "fields": {
         "weather_event": 23,
@@ -816,15 +798,6 @@
         "weather_event": 5,
         "community_system": 9,
         "order": 15
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3091,
-    "fields": {
-        "weather_event": 5,
-        "community_system": 20,
-        "order": 16
     }
 },
 {
@@ -1216,15 +1189,6 @@
 },
 {
     "model": "planit_data.defaultrisk",
-    "pk": 3135,
-    "fields": {
-        "weather_event": 1,
-        "community_system": 20,
-        "order": 9
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
     "pk": 3136,
     "fields": {
         "weather_event": 1,
@@ -1293,15 +1257,6 @@
         "weather_event": 25,
         "community_system": 9,
         "order": 5
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3144,
-    "fields": {
-        "weather_event": 25,
-        "community_system": 20,
-        "order": 6
     }
 },
 {
@@ -1464,15 +1419,6 @@
         "weather_event": 26,
         "community_system": 9,
         "order": 12
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3163,
-    "fields": {
-        "weather_event": 26,
-        "community_system": 20,
-        "order": 13
     }
 },
 {
@@ -1653,15 +1599,6 @@
         "weather_event": 18,
         "community_system": 9,
         "order": 12
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3184,
-    "fields": {
-        "weather_event": 18,
-        "community_system": 20,
-        "order": 13
     }
 },
 {
@@ -1864,15 +1801,6 @@
 },
 {
     "model": "planit_data.defaultrisk",
-    "pk": 3207,
-    "fields": {
-        "weather_event": 7,
-        "community_system": 20,
-        "order": 15
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
     "pk": 3208,
     "fields": {
         "weather_event": 7,
@@ -2031,15 +1959,6 @@
         "weather_event": 19,
         "community_system": 15,
         "order": 12
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3226,
-    "fields": {
-        "weather_event": 19,
-        "community_system": 20,
-        "order": 13
     }
 },
 {
@@ -2355,15 +2274,6 @@
         "weather_event": 16,
         "community_system": 15,
         "order": 15
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3262,
-    "fields": {
-        "weather_event": 16,
-        "community_system": 20,
-        "order": 16
     }
 },
 {
