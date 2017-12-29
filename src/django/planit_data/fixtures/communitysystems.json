@@ -134,13 +134,6 @@
 },
 {
     "model": "planit_data.communitysystem",
-    "pk": 20,
-    "fields": {
-        "name": "Pubilc health"
-    }
-},
-{
-    "model": "planit_data.communitysystem",
     "pk": 21,
     "fields": {
         "name": "Emotional and mental health"
