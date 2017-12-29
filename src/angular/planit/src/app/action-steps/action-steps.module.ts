@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ActionWizardComponent,
+         ActionWizardModule } from '../action-wizard';
+import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
-import { SharedModule } from '../shared/shared.module';
-
 import { CreateActionComponent } from './create-action.component';
 import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
-import { ActionStepsOverviewComponent } from './action-steps-overview.component';
-import { ActionWizardComponent, ActionWizardModule } from '../action-wizard';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [

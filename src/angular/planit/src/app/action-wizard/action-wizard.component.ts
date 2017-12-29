@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
 
+import { Action, Risk } from '../shared';
 import { AssessStepComponent } from './steps/assess-step/assess-step.component';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
@@ -11,7 +12,6 @@ import {
        } from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
-import { Action, Risk } from '../shared';
 import { WizardSessionService } from '../core/services/wizard-session.service';
 
 @Component({
