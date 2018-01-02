@@ -18,38 +18,36 @@
     display: block;
     padding-top: 100%;
   }
-}
 
-.concern-content {
-  width: 100%;
-  position: absolute;
-  top: 0; right: 0; bottom: 0; right: 0;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  -webkit-font-smoothing: antialiased; 
-  -moz-osx-font-smoothing: grayscale;
-
-  &:after {
-    content: "";
+  .concern-content {
     width: 100%;
     position: absolute;
     top: 0; right: 0; bottom: 0; right: 0;
-    z-index: 1;
-    background: linear-gradient(transparent, rgba($gray-5, 0.65));
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+
+    &:after {
+      content: "";
+      width: 100%;
+      position: absolute;
+      top: 0; right: 0; bottom: 0; right: 0;
+      z-index: 1;
+      background: linear-gradient(transparent, rgba($gray-5, 0.65));
+    }
   }
-}
 
-.concern-Precipitation .concern-content {
-  background-image: url(../images/indicator-1.jpg);
-}
-
-.concern-Heat .concern-content {
-  background-image: url(../images/indicator-2.jpg);
-}
-
-.concern-ExtremeEvents .concern-content {
-  background-image: url(../images/indicator-3.jpg);
+  &.precipitation .concern-content {
+    background-image: url(../images/indicator-1.jpg);
+  }
+  &.heat .concern-content {
+    background-image: url(../images/indicator-2.jpg);
+  }
+  &.extreme-events .concern-content {
+    background-image: url(../images/indicator-3.jpg);
+  }
 }
 
 .concern-options {
