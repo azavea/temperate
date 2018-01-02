@@ -34,6 +34,5 @@ class Command(BaseCommand):
                     *model_list,
                     output=output_path,
                     indent=4,
-                    natural_foreign=True,
-                    natural_primary=True
+                    natural_foreign=True
                 )
