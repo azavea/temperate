@@ -68,12 +68,17 @@ To associate your user with an organization (Either imported or created), open y
 
 Now your user is ready for the user interface.
 
-### Importing data
+### Temperate configuration data
+Temperate makes use of pre-defined data for things like weather events, indicators, risks, georegions, etc. These items are common across Temperate environments and for convenience are tracked in a series of fixtures.
 
-Database migrations and initial data loading are handled by `./scripts/update`.
-To apply migrations manually, use:
+To run all migrations and install the latest version of these fixtures, run:
 ```bash
-$ ./scripts/manage migrate
+./scripts/update
+```
+
+To have changes that exist in your Temperate environment's database be written to the fixtures, run:
+```bash
+./scripts/manage update_fixtures
 ```
 
 ### Using Docker in the VM
