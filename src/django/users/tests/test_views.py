@@ -43,7 +43,7 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(user.primary_organization, default_org,
                          'User should have primary organization set to default organization')
 
-    def test_user_created__can_log_in(self):
+    def test_user_created_can_log_in(self):
         user_data = {
             'email': 'test@azavea.com',
             'firstName': 'Test',
@@ -153,7 +153,7 @@ class UserAuthenticationApiTestCase(TestCase):
         )
         self.client = Client(enforce_csrf_checks=True)
 
-    def test_api_token_auth__anonymous__valid(self):
+    def test_api_token_auth_anonymous_valid(self):
         """Ensure that users can authenticate for their API token."""
         token = Token.objects.get(user=self.user)
 
@@ -163,7 +163,7 @@ class UserAuthenticationApiTestCase(TestCase):
         self.assertEqual(response.json(), {'token': token.key})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_api_token_auth__authenticated_user__valid(self):
+    def test_api_token_auth_authenticated_user_valid(self):
         """Ensure that API users can use token authenticate if they are already logged in.
 
         This is important if the user is logged into Django directly, and tries to use the Angular
@@ -178,7 +178,7 @@ class UserAuthenticationApiTestCase(TestCase):
         self.assertEqual(response.json(), {'token': token.key})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_api_token_auth__invalid__failure(self):
+    def test_api_token_auth_invalid_failure(self):
         """Ensure that invalid authentications are rejected."""
         url = reverse('token_auth')
         response = self.client.post(url, dict(self.credentials, password='badpass'))
@@ -248,7 +248,7 @@ class OrganizationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
-    def test_org_created__api_failure(self, api_wrapper_mock):
+    def test_org_created_api_failure(self, api_wrapper_mock):
         # Raise an exception when we try to communicate with the Climate Change API
         api_wrapper_mock.side_effect = Exception()
 
@@ -275,7 +275,7 @@ class OrganizationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
-    def test_org_updated__api_failure(self, api_wrapper_mock):
+    def test_org_updated_api_failure(self, api_wrapper_mock):
         # Raise an exception when we try to communicate with the Climate Change API
         api_wrapper_mock.side_effect = Exception()
 
