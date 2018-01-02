@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     # local apps
     'climate_api',
     'planit_data',
+    'action_steps',
 ]
 
 MIDDLEWARE = [
@@ -257,7 +258,12 @@ LOGGING = {
         },
         'planit_data': {
             'handlers': ['console'],
+            'propagate': True
+        },
+        'climate_api': {
+            'handlers': ['console'],
             'propagate': True,
+            'level': LOGLEVEL
         },
         'rest_framework': {
             'handlers': ['console'],
@@ -265,6 +271,8 @@ LOGGING = {
         }
     }
 }
+
+# APPLICATION SETTINGS
 
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
@@ -280,6 +288,11 @@ CCAPI_ROUTE_WHITELIST = (
     '^api/climate-data/[0-9]+/.+/indicator/.+/$',
     '^api/climate-model/$',
     '^api/dataset/$',
+    '^api/historic-range/$',
     '^api/indicator/$',
     '^api/scenario/$',
 )
+
+# Vulnerability Assessment Configuration
+# Max # of risks to make when creating an organization
+STARTING_RISK_AMOUNT = 15

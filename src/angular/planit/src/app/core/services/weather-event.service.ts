@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { WeatherEvent } from '../../shared/models/weather-event.model';
+import { WeatherEvent } from '../../shared';
 import { PlanItApiHttp } from './api-http.service';
 import { environment } from '../../../environments/environment';
 
@@ -17,6 +17,12 @@ export class WeatherEventService {
       const vals = resp.json() || [];
       return vals.map(e => e.weatherEvent as WeatherEvent);
     });
+  }
+
+  list(): Observable<WeatherEvent[]> {
+    const url = `${environment.apiUrl}/api/weather-event/`;
+    return this.apiHttp.get(url)
+      .map(resp => resp.json() || [] as WeatherEvent[]);
   }
 
 }

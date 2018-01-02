@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Risk } from '../shared/models/risk.model';
+import { Risk } from '../shared';
+import { RiskService } from '../core/services/risk.service';
 
 @Component({
   selector: 'va-overview',
@@ -9,14 +10,11 @@ import { Risk } from '../shared/models/risk.model';
 export class AssessmentOverviewComponent implements OnInit {
   public risks: Risk[];
 
-  constructor () {}
+  constructor (private riskService: RiskService) {}
 
   ngOnInit() {
-    this.risks = [
-      {'name': 'Heat on the elderly'},
-      {'name': 'Heat on asphalt'},
-      {'name': 'Extreme cold days on agriculture'},
-      {'name': 'Water-bourne disease on ecological function'},
-    ];
+    this.riskService.list().subscribe(risks => {
+      this.risks = risks;
+    });
   }
 }

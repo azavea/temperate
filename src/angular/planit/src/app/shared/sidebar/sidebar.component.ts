@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+interface SidebarTab {
+  name: string;
+  link: string;
+}
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -7,8 +12,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  public tabs = ['Dashboard', 'Indicators', 'Charts', 'Maps', 'Assessment',
-                'Action Steps', 'Resources'];
+  public tabs: SidebarTab[] = [{
+    name: 'Dashboard',
+    link: 'dashboard'
+  }, {
+    name: 'Indicators',
+    link: 'indicators'
+  }, {
+    name: 'Assessment',
+    link: 'assessment'
+  }, {
+    name: 'Action Steps',
+    link: 'actions'
+  }];
 
   constructor() { }
 

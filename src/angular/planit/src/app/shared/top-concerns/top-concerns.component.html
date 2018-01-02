@@ -1,5 +1,5 @@
 <div class="card-content" id="top-concerns">
-  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEventClass(weatherEvent) }}">
+  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEvent.displayClass }}">
     <div class="concern-content">
       <div class="concern-options">
         <button class="button button-primary button-small" title="See related indicators"><i class="icon-eye"></i></button>
@@ -12,7 +12,7 @@
         <div class="stat">
           <div class="number">{{ format(weatherEvent.concern) }}</div>
           <div class="unit" *ngIf="hasUnits(weatherEvent.concern)">
-            {{ weatherEvent.concern.units }}
+            {{ units(weatherEvent.concern) }}
           </div>
         </div>
         <div class="stat-description">{{ weatherEvent.concern.tagline }}</div>

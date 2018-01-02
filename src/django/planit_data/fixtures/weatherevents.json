@@ -5,7 +5,15 @@
         "fields": {
             "name": "Drought",
             "coastal_only": false,
-            "concern": 15
+            "concern": 15,
+            "indicators": [
+                6,
+                14,
+                21,
+                22,
+                23
+            ],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -14,7 +22,9 @@
         "fields": {
             "name": "Thunderstorms",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     },
     {
@@ -23,7 +33,16 @@
         "fields": {
             "name": "Heat waves",
             "coastal_only": false,
-            "concern": 13
+            "concern": 13,
+            "indicators": [
+                2,
+                4,
+                8,
+                11,
+                12,
+                15
+            ],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -32,7 +51,12 @@
         "fields": {
             "name": "Surface floods",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                9,
+                22
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -41,7 +65,19 @@
         "fields": {
             "name": "Extreme cold days",
             "coastal_only": false,
-            "concern": 12
+            "concern": 12,
+            "indicators": [
+                1,
+                3,
+                4,
+                10,
+                11,
+                12,
+                17,
+                18,
+                20
+            ],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -50,7 +86,9 @@
         "fields": {
             "name": "Coastal flooding",
             "coastal_only": true,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     },
     {
@@ -59,7 +97,11 @@
         "fields": {
             "name": "Hurricanes",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                9
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -68,7 +110,9 @@
         "fields": {
             "name": "Saltwater intrusion",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     },
     {
@@ -77,7 +121,16 @@
         "fields": {
             "name": "Extreme hot days",
             "coastal_only": false,
-            "concern": 14
+            "concern": 14,
+            "indicators": [
+                2,
+                4,
+                5,
+                8,
+                15,
+                16
+            ],
+            "display_class": "heat"
         }
     },
     {
@@ -86,7 +139,9 @@
         "fields": {
             "name": "Subsidence",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     },
     {
@@ -95,7 +150,18 @@
         "fields": {
             "name": "Wildfires",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                2,
+                6,
+                8,
+                11,
+                12,
+                14,
+                15,
+                23
+            ],
+            "display_class": "heat"
         }
     },
     {
@@ -104,7 +170,17 @@
         "fields": {
             "name": "Reduced snowpack",
             "coastal_only": false,
-            "concern": 18
+            "concern": 18,
+            "indicators": [
+                1,
+                3,
+                10,
+                17,
+                18,
+                21,
+                23
+            ],
+            "display_class": "heat"
         }
     },
     {
@@ -113,7 +189,9 @@
         "fields": {
             "name": "Ocean acidification",
             "coastal_only": true,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -122,7 +200,13 @@
         "fields": {
             "name": "Changed seasonal patterns",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                2,
+                3,
+                23
+            ],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -131,7 +215,13 @@
         "fields": {
             "name": "Landslides",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                6,
+                9,
+                14
+            ],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -140,7 +230,12 @@
         "fields": {
             "name": "Extreme precipitation",
             "coastal_only": false,
-            "concern": null
+            "concern": 22,
+            "indicators": [
+                9,
+                22
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -149,7 +244,12 @@
         "fields": {
             "name": "River flooding",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                9,
+                22
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -158,7 +258,11 @@
         "fields": {
             "name": "Storm surge",
             "coastal_only": true,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                9
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -167,7 +271,13 @@
         "fields": {
             "name": "Rain storms",
             "coastal_only": false,
-            "concern": 21
+            "concern": 21,
+            "indicators": [
+                9,
+                22,
+                23
+            ],
+            "display_class": "precipitation"
         }
     },
     {
@@ -176,7 +286,14 @@
         "fields": {
             "name": "Ice melt",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [
+                1,
+                3,
+                10,
+                17
+            ],
+            "display_class": "heat"
         }
     },
     {
@@ -185,7 +302,9 @@
         "fields": {
             "name": "Heavy snow",
             "coastal_only": false,
-            "concern": null
+            "concern": null,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     },
     {
@@ -194,7 +313,9 @@
         "fields": {
             "name": "Cold wave",
             "coastal_only": false,
-            "concern": 11
+            "concern": 11,
+            "indicators": [],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -203,7 +324,9 @@
         "fields": {
             "name": "Forest fire",
             "coastal_only": false,
-            "concern": 16
+            "concern": 16,
+            "indicators": [],
+            "display_class": "extreme-events"
         }
     },
     {
@@ -212,7 +335,9 @@
         "fields": {
             "name": "Flash / surface flood",
             "coastal_only": false,
-            "concern": 22
+            "concern": 22,
+            "indicators": [],
+            "display_class": "precipitation"
         }
     }
 ]

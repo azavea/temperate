@@ -1,1 +1,33 @@
 // placeholder
+
+section:not(:last-child) {
+    margin-bottom: 4rem;
+}
+
+.indicator-filters {
+
+    .filter-header {
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+    }
+
+    .card-container > .card-empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+
+        .icon {
+            font-size: 60px;
+        }
+
+        &:hover, &.active {
+            cursor: pointer;
+            border: solid 1px $gray-5;
+            background-color: $gray-0;
+        }
+    }
+}

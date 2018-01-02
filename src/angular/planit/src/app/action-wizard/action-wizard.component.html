@@ -1,0 +1,52 @@
+<wizard #wizard
+        navigationMode="free"
+        navBarLocation="left"
+        navBarLayout="large-empty-symbols">
+  <app-action-assess-step class="wizard-step"
+                          #assessStep
+                          wizardStep
+                          stepTitle="{{ assessStep.title }}"
+                          navigationSymbol="{{ assessStep.navigationSymbol }}">
+  </app-action-assess-step>
+
+  <app-action-implementation-step class="wizard-step"
+                          #implementationStep
+                          wizardStep
+                          optionalStep
+                          stepTitle="{{ implementationStep.title }}"
+                          navigationSymbol="{{ implementationStep.navigationSymbol }}">
+  </app-action-implementation-step>
+
+  <app-action-improvements-step class="wizard-step"
+                          #improvementsStep
+                          wizardStep
+                          optionalStep
+                          stepTitle="{{ improvementsStep.title }}"
+                          navigationSymbol="{{ improvementsStep.navigationSymbol }}">
+  </app-action-improvements-step>
+
+  <app-action-category-step class="wizard-step"
+                          #categoryStep
+                          wizardStep
+                          optionalStep
+                          stepTitle="{{ categoryStep.title }}"
+                          navigationSymbol="{{ categoryStep.navigationSymbol }}">
+  </app-action-category-step>
+
+  <app-action-funding-step class="wizard-step"
+                          #fundingStep
+                          wizardStep
+                          optionalStep
+                          stepTitle="{{ fundingStep.title }}"
+                          navigationSymbol="{{ fundingStep.navigationSymbol }}">
+  </app-action-funding-step>
+
+  <app-action-review-step class="wizard-step"
+                          #reviewStep
+                          wizardCompletionStep
+                          enableBackLinks
+                          stepTitle="{{ reviewStep.title }}"
+                          navigationSymbol="{{ reviewStep.navigationSymbol }}">
+  </app-action-review-step>
+
+</wizard>

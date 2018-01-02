@@ -1,6 +1,10 @@
-import { Concern } from './concern.model';
+import { Concern } from '../../shared';
 
 export class WeatherEvent {
+  id: number;
   name: string;
-  concern: Concern | null;
+  coastalOnly: boolean;
+  concern?: Concern;
+  indicators?: string[];
+  displayClass: string;
 }

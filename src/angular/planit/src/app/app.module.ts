@@ -15,6 +15,7 @@ import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { CoreModule } from './core/core.module';
+import { ActionStepsModule } from './action-steps/action-steps.module';
 import { AssessmentModule } from './assessment/assessment.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
@@ -24,10 +25,20 @@ import { AccountCreateService } from './core/services/account-create.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
+import { CommunitySystemService } from './core/services/community-system.service';
+import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
-import { ModalModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule,
+  ButtonsModule,
+  CollapseModule,
+  PopoverModule,
+  TooltipModule,
+  ModalModule,
+  TypeaheadModule
+ } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
 const appRoutes: Routes = [
@@ -48,7 +59,13 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     // 3rd party
+    BsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
+    CollapseModule.forRoot(),
     ModalModule.forRoot(),
+    PopoverModule.forRoot(),
+    TooltipModule.forRoot(),
+    TypeaheadModule.forRoot(),
     // Local
     SharedModule,
     ApiModule.forRoot({
@@ -56,6 +73,7 @@ const appRoutes: Routes = [
       apiHttpInjectionToken: apiHttpProvider.provide
     }),
     ChartsModule,
+    ActionStepsModule,
     AssessmentModule,
     DashboardModule,
     IndicatorsModule,
@@ -68,6 +86,8 @@ const appRoutes: Routes = [
     apiHttpProvider,
     AuthService,
     CacheService,
+    CommunitySystemService,
+    RiskService,
     UserService,
     WeatherEventService,
   ],

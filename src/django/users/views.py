@@ -20,7 +20,7 @@ from users.serializers import AuthTokenSerializer
 from users.forms import UserForm, UserProfileForm
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
-from users.serializers import OrganizationSerializer, UserSerializer
+from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
 
 
 logger = logging.getLogger(__name__)
@@ -98,23 +98,14 @@ class UserViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        password = serializer.validated_data.pop('password')
+
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
 
         # If got this far, user was created successfully. Update and send registration email.
         user = serializer.instance
-        # User is inactive until registration completed
-        user.is_active = False
-        # Add user to default organization, if not assigned any organization yet
-        if not user.organizations.exists():
-            org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
-            user.organizations.add(org)
-            user.primary_organization = org
-        user.set_password(password)
-        user.save()
-        # send the django registration email
         RegistrationView(request=self.request).send_activation_email(user)
+
+        headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
@@ -122,7 +113,7 @@ class CurrentUserView(APIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        return Response(UserSerializer(request.user).data)
+        return Response(UserOrgSerializer(request.user).data)
 
 
 class OrganizationViewSet(ModelViewSet):

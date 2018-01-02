@@ -1,0 +1,50 @@
+[
+{
+    "model": "users.planitorganization",
+    "pk": 1,
+    "fields": {
+        "name": "User Organization",
+        "units": "IMPERIAL",
+        "location": null,
+        "weather_events": []
+    }
+},
+{
+    "model": "users.planitorganization",
+    "pk": 2,
+    "fields": {
+        "name": "Philadelphia",
+        "units": "IMPERIAL",
+        "location": [
+            7
+        ],
+        "weather_events": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33
+        ]
+    }
+},
+{
+    "model": "users.planitorganization",
+    "pk": 3,
+    "fields": {
+        "name": "New York City",
+        "units": "IMPERIAL",
+        "location": [
+            1
+        ],
+        "weather_events": [
+            28,
+            29,
+            30,
+            31,
+            32,
+            33
+        ]
+    }
+}
+]

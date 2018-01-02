@@ -1,0 +1,184 @@
+[
+{
+    "model": "planit_data.communitysystem",
+    "pk": 1,
+    "fields": {
+        "name": "Water supply"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 2,
+    "fields": {
+        "name": "Wastewater/stormwater management"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 3,
+    "fields": {
+        "name": "Transportation"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 4,
+    "fields": {
+        "name": "Agriculture"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 5,
+    "fields": {
+        "name": "Food supply"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 6,
+    "fields": {
+        "name": "Emergency management"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 7,
+    "fields": {
+        "name": "Waste management"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 8,
+    "fields": {
+        "name": "Public health"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 9,
+    "fields": {
+        "name": "Emergency services"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 10,
+    "fields": {
+        "name": "Tourism"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 11,
+    "fields": {
+        "name": "Recreation"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 12,
+    "fields": {
+        "name": "Fisheries"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 13,
+    "fields": {
+        "name": "Forestry"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 14,
+    "fields": {
+        "name": "Public safety"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 15,
+    "fields": {
+        "name": "Energy delivery"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 16,
+    "fields": {
+        "name": "Energy"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 17,
+    "fields": {
+        "name": "Internet and communications"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 18,
+    "fields": {
+        "name": "Community & culture"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 19,
+    "fields": {
+        "name": "Law and order"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 21,
+    "fields": {
+        "name": "Emotional and mental health"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 22,
+    "fields": {
+        "name": "Business continuity"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 23,
+    "fields": {
+        "name": "Housing access"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 24,
+    "fields": {
+        "name": "Employment and job access"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 25,
+    "fields": {
+        "name": "Quality of life"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 26,
+    "fields": {
+        "name": "Ecological function"
+    }
+},
+{
+    "model": "planit_data.communitysystem",
+    "pk": 27,
+    "fields": {
+        "name": "Industrial operations"
+    }
+}
+]

@@ -4,7 +4,7 @@ import { RiskWizardComponent } from '../risk-wizard/';
 
 @Component({
   selector: 'va-create-risk',
-  templateUrl: 'create-risk.component.html'
+  templateUrl: '../shared/wizard/create-model.component.html'
 })
 export class CreateRiskComponent implements OnInit {
 

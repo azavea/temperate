@@ -34,8 +34,8 @@
         "pk": 14,
         "fields": {
             "indicator": 4,
-            "tagline_positive": "more extremely hot days",
-            "tagline_negative": "fewer extremely hot days",
+            "tagline_positive": "more cooling degree days per year",
+            "tagline_negative": "fewer cooling degree days per year",
             "is_relative": false
         }
     },

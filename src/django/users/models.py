@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.mail import send_mail
+from django.db import transaction
 from django.utils import timezone
 
 from django.conf import settings
@@ -11,11 +12,18 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
-from planit_data.models import GeoRegion, WeatherEventRank
+from planit_data.models import (
+    CommunitySystem,
+    DefaultRisk,
+    GeoRegion,
+    OrganizationRisk,
+    WeatherEventRank,
+)
 
 
 class PlanItLocationManager(models.Manager):
 
+    @transaction.atomic
     def from_api_city(self, api_city_id):
         location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
         if created:
@@ -26,6 +34,10 @@ class PlanItLocationManager(models.Manager):
             location.save()
         return location
 
+    def get_by_natural_key(self, api_city_id):
+        """Get or create the location based on its API City ID."""
+        return self.from_api_city(api_city_id)
+
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)
@@ -34,6 +46,12 @@ class PlanItLocation(models.Model):
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
+
+    def natural_key(self):
+        return (self.api_city_id,)
+
+    def __str__(self):
+        return self.name
 
 
 class PlanItOrganization(models.Model):
@@ -70,6 +88,18 @@ class PlanItOrganization(models.Model):
             for event in weather_events
         )
 
+    def import_risks(self):
+        weather_event_ids = self.weather_events.values_list('weather_event_id', flat=True)
+        # TODO: Replace this with only organization's community systems as part of onboarding
+        community_system_ids = CommunitySystem.objects.all().values_list('id', flat=True)
+        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids)
+
+        OrganizationRisk.objects.bulk_create(
+            OrganizationRisk(organization_id=self.id, weather_event_id=risk.weather_event_id,
+                             community_system_id=risk.community_system_id)
+            for risk in top_risks
+        )
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -91,7 +121,18 @@ class PlanItUserManager(BaseUserManager):
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
         user.set_password(password)
         user.save()
+
+        # Associate the user with the default organization
+        org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
+        user.organizations.add(org)
+        user.primary_organization = org
+        user.save()
+
         return user
+
+    def create(self, *args, **kwargs):
+        """Alias of create_user for DRF serializer use."""
+        return self.create_user(*args, **kwargs)
 
     def create_user(self, email, first_name, last_name, password=None, **extra):
         extra.setdefault('is_staff', False)

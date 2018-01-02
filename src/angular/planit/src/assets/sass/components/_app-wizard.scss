@@ -1,0 +1,22 @@
+wizard {
+  .wizard-step {
+    padding: 3rem;
+
+    .step-header {
+      margin: 2rem 0;
+
+    }
+
+    .step-content {
+      margin-bottom: 4rem;
+
+      .step-form-control {
+        margin-bottom: 2rem;
+      }
+    }
+
+    .step-footer {
+      float: right;
+    }
+  }
+}

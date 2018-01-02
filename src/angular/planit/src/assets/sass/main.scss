@@ -42,7 +42,12 @@
  * * * */
 @import
   'components/indicators/model-modal',
+  'components/shared/app-chart',
+  'components/shared/option-dropdown',
+  'components/shared/sidebar',
   'components/alert',
+  'components/archwizard',
+  'components/app-wizard',
   'components/button',
   'components/card',
   'components/dropdown',
@@ -55,16 +60,17 @@
   'components/modal',
   'components/navigation-primary',
   'components/popover',
-  'components/sidebar',
   'components/slider',
   'components/footer',
   'components/table',
   'components/tooltip',
   'components/chart',
   'components/timeslider',
-  'components/app-chart',
-  'components/app-indicator-chart',
   'components/top-concern';
+  'components/typeahead',
+  'components/app-indicator-chart',
+  'components/va-popover',
+  'components/va-risk-popover';
 
 /* * * *
  * Page specific styling
@@ -72,6 +78,8 @@
 @import 'pages/marketing';
 @import 'pages/dashboard';
 @import 'pages/indicators';
+@import 'pages/action-steps';
+@import 'pages/vulnerability-assessment';
 
 /* * * *
  * Demo styling

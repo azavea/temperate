@@ -14,7 +14,9 @@ export class AuthService {
 
     // TODO: Inject a window or localStorage service here to abstract implicit
     //       dependency on window
-    constructor(protected http: Http, protected router: Router, private cache: CacheService) {}
+    constructor(protected http: Http,
+                protected router: Router,
+                private cache: CacheService) {}
 
     getToken(): string {
         return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
@@ -40,7 +42,7 @@ export class AuthService {
 
     logout(redirectTo: string = '/') {
         this.setToken(null);
-        this.cache.delete(CacheService.USER);
+        this.cache.delete(CacheService.CORE_USERSERVICE_USER);
         if (redirectTo) {
             this.router.navigate([redirectTo]);
         }

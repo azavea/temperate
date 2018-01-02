@@ -1,15 +1,16 @@
-<div [ngClass]="{'card': true, 'card-full': true, 'collapsed': isCollapsed}">
-  <header class="card-header" role="tab">
+<div [ngClass]="{'card': true, 'card-full': true, 'collapsed': !isOpen}">
+  <header class="card-header" role="tab" id="headingOne">
     <button class="button button-link card-title-button" title="Add to top concerns"><i class="icon-plus-squared"></i><i class="icon-ok-squared hidden"></i></button>
-    <button class="card-header-container card-toggle" (click)="isCollapsed = !isCollapsed">
+    <button class="card-header-container card-toggle" (click)="chartToggled()">
       <h2 class="card-title">
         {{ indicator.label }}
+        <i [ngClass]="{'accordion': true, 'icon-angle-right': !isOpen, 'icon-angle-down': isOpen}"></i>
       </h2>
       <i [ngClass]="{'icon-accordion': true, 'icon-angle-right': isCollapsed, 'icon-angle-down': !isCollapsed}"></i>
     </button>
   </header>
   <!--We only want to create and show selected indicator chart components to prevent clogging the page with unwanted requests and page updates. Below looks repetitive but [collapse] only provides the accordion UI action which shows/hides the chart guts but doesn't manage requests; *ngIf does that by actually creating/removing DOM components -->
-  <div *ngIf="!isCollapsed" [collapse]="isCollapsed">
+  <div *ngIf="isOpen" [collapse]="!isOpen">
     <div class="chart card-block">
       <div class="chart-controls">
         <div class="chart-toggle">
@@ -39,6 +40,42 @@
                               (onDatasetSelected)="datasetSelected($event)">
           </ccc-dataset-toggle>
         </div>
+      </div>
+      <div class="chart-controls">
+          <ccc-threshold-parameters
+              *ngIf="isThresholdIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (thresholdParamSelected)="onExtraParamsSelected($event)">
+          </ccc-threshold-parameters>
+          <ccc-basetemp-parameters
+              *ngIf="isBasetempIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (basetempParamSelected)="onExtraParamsSelected($event)">
+          </ccc-basetemp-parameters>
+          <!-- both percentile and historic extra parameters -->
+          <ccc-percentile-historic-parameters
+              *ngIf="isPercentileIndicator(indicator.name) &&
+                     isHistoricIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (percentileHistoricParamSelected)="onExtraParamsSelected($event)">
+          </ccc-percentile-historic-parameters>
+          <ccc-percentile-parameters
+              *ngIf="isPercentileIndicator(indicator.name) &&
+                     !isHistoricIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (percentileParamSelected)="onExtraParamsSelected($event)">
+          </ccc-percentile-parameters>
+          <ccc-historic-parameters
+              *ngIf="isHistoricIndicator(indicator.name) &&
+                     !isPercentileIndicator(indicator.name)"
+              [indicator]="indicator"
+              [extraParams]="extraParams"
+              (historicParamSelected)="onExtraParamsSelected($event)">
+          </ccc-historic-parameters>
       </div>
       <app-chart [indicator]="indicator"
              [city]="city"
