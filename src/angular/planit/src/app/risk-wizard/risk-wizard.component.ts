@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -17,7 +17,7 @@ import { RiskService } from '../core/services/risk.service';
   templateUrl: 'risk-wizard.component.html',
   providers: [WizardSessionService]
 })
-export class RiskWizardComponent implements AfterViewChecked, AfterViewInit, OnDestroy, OnInit {
+export class RiskWizardComponent implements AfterViewChecked, OnDestroy, OnInit {
 
   @ViewChild(WizardComponent) public wizard: WizardComponent;
   @ViewChild(IdentifyStepComponent) public identifyStep: IdentifyStepComponent;
@@ -26,7 +26,7 @@ export class RiskWizardComponent implements AfterViewChecked, AfterViewInit, OnD
   @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
   @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
 
-  private currentStepIndex: number = 0;
+  private currentStepIndex = 0;
   private risk: Risk;
 
   constructor(private session: WizardSessionService<Risk>,
@@ -46,14 +46,13 @@ export class RiskWizardComponent implements AfterViewChecked, AfterViewInit, OnD
     this.session.data.unsubscribe();
   }
 
+  // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
+  // AfterViewChecked runs next, after setting component bindings
   ngAfterViewChecked() {
     if (this.wizard.model.currentStepIndex !== this.currentStepIndex) {
       this.currentStepIndex = this.wizard.model.currentStepIndex;
     }
   }
-
-  // this.wizard.navigation and this.wizard.model are not available until this hook
-  ngAfterViewInit() {}
 
   riskModelChanged(risk: Risk) {
     if (!this.risk.id && this.currentStepIndex === 0) {

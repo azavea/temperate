@@ -13,7 +13,7 @@ export class RiskService {
   constructor(private apiHttp: PlanItApiHttp) {}
 
   private formatRisk(risk: Risk) {
-    //Django expects pk's for related objects whereas the front end wants the full objs
+    // Django expects pk's for related objects whereas the front end wants the full objs
     const formattedRisk = cloneDeep(risk);
     return Object.assign(formattedRisk, { weatherEvent: formattedRisk.weatherEvent.id,
                          communitySystem: formattedRisk.communitySystem.id });
