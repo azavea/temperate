@@ -52,20 +52,13 @@ export class HazardStepComponent extends WizardStepComponent<Risk> implements On
     this.form.get('intensity').valueChanges.subscribe(v => console.log('intensity: ', v));
   }
 
-  save() {
+  getFormModel(): any {
     const data: HazardStepFormModel = {
       frequency: this.form.controls.frequency.value,
       intensity: this.form.controls.intensity.value,
       probability: this.form.controls.probability.value
     };
-    this.session.setDataForKey(this.key, data);
-
-    // mark step as complete for style change
-    if (!this.form.pristine && this.form.valid) {
-      document.querySelector('li[step-symbol="' + this.navigationSymbol + '"')
-              .classList
-              .add('complete');
-    }
+    return data;
   }
 
   updateDirectionalControl(control: FormControl, value: OrgRiskDirectionalOption) {

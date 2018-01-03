@@ -43,19 +43,12 @@ export class ImpactStepComponent extends WizardStepComponent<Risk> implements On
     this.setupForm(this.fromModel(this.risk));
   }
 
-  save() {
+  getFormModel(): any {
     const data: ImpactStepFormModel = {
       impactMagnitude: this.form.controls.impactMagnitude.value,
       impactDescription: this.form.controls.impactDescription.value
     };
-    this.session.setDataForKey(this.key, data);
-
-    // mark step as complete for style change
-    if (!this.form.pristine && this.form.valid) {
-      document.querySelector('li[step-symbol="' + this.navigationSymbol + '"')
-              .classList
-              .add('complete');
-    }
+    return data;
   }
 
   setupForm(data: ImpactStepFormModel) {

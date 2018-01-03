@@ -72,19 +72,12 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     };
   }
 
-  save() {
+  getFormModel(): any {
     const data: IdentifyStepFormModel = {
       weatherEvent: this.weatherEvent,
       communitySystem: this.communitySystem
     };
-    this.session.setDataForKey(this.key, data);
-
-    // mark step as complete for style change
-    if (!this.form.pristine && this.form.valid) {
-      document.querySelector('li[step-symbol="' + this.navigationSymbol + '"')
-              .classList
-              .add('complete');
-    }
+    return data;
   }
 
   setupForm(data: IdentifyStepFormModel) {

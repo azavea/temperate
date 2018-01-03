@@ -27,6 +27,7 @@ export abstract class WizardStepComponent<T> implements OnInit {
   abstract fromModel(model: T): any;
   abstract setupForm(data: any): void;
   abstract toModel(data: any, model: T): T;
+  abstract getFormModel(): any;
 
   registerModelHandlers() {
     this.session.registerHandlerForKey(this.key, {
@@ -34,4 +35,15 @@ export abstract class WizardStepComponent<T> implements OnInit {
       toData: this.toModel
     });
   }
+
+  save() {
+    const data = this.getFormModel();
+    this.session.setDataForKey(this.key, data);
+
+    // mark as complete to change wizard nav step icon style
+    document.querySelector('li[step-symbol="' + this.navigationSymbol + '"')
+      .classList
+      .add('complete');
+  }
+
 }
