@@ -97,7 +97,6 @@ class WeatherEventField(serializers.PrimaryKeyRelatedField):
         try:
             item = WeatherEvent.objects.get(pk=pk)
             serializer = WeatherEventSerializer(item)
-            print(serializer.data)
             return serializer.data
         except WeatherEvent.DoesNotExist:
             return None
@@ -106,8 +105,6 @@ class WeatherEventField(serializers.PrimaryKeyRelatedField):
         queryset = self.get_queryset()
         if queryset is None:
             return {}
-
-        print(queryset)
 
         return OrderedDict([(item.id, str(item)) for item in queryset])
 
@@ -120,7 +117,6 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
         try:
             item = CommunitySystem.objects.get(pk=pk)
             serializer = CommunitySystemSerializer(item)
-            print(serializer.data)
             return serializer.data
         except CommunitySystem.DoesNotExist:
             return None
@@ -129,8 +125,6 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
         queryset = self.get_queryset()
         if queryset is None:
             return {}
-
-        print(queryset)
 
         return OrderedDict([(item.id, str(item)) for item in queryset])
 
