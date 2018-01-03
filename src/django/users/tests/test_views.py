@@ -3,9 +3,10 @@ from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Polygon, MultiPolygon
-from django.test import override_settings
+from django.test import override_settings, TestCase, Client
 from django.urls import reverse
 
+from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
@@ -42,7 +43,7 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(user.primary_organization, default_org,
                          'User should have primary organization set to default organization')
 
-    def test_user_created__can_log_in(self):
+    def test_user_created_can_log_in(self):
         user_data = {
             'email': 'test@azavea.com',
             'firstName': 'Test',
@@ -136,7 +137,53 @@ class UserCreationApiTestCase(APITestCase):
     def test_get_auth_required(self):
         """Ensure an unauthenticated request cannot GET."""
         response = self.client.get('/api/users/', format='json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class UserAuthenticationApiTestCase(TestCase):
+    def setUp(self):
+        self.credentials = {
+            'email': 'user@azavea.com',
+            'password': 'password'
+        }
+        self.user = PlanItUser.objects.create_user(
+            first_name='Test',
+            last_name='User',
+            **self.credentials
+        )
+        self.client = Client(enforce_csrf_checks=True)
+
+    def test_api_token_auth_anonymous_valid(self):
+        """Ensure that users can authenticate for their API token."""
+        token = Token.objects.get(user=self.user)
+
+        url = reverse('token_auth')
+        response = self.client.post(url, self.credentials)
+
+        self.assertEqual(response.json(), {'token': token.key})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_api_token_auth_authenticated_user_valid(self):
+        """Ensure that API users can use token authenticate if they are already logged in.
+
+        This is important if the user is logged into Django directly, and tries to use the Angular
+        front-end which requires the user to authenticate independantly.
+        """
+        token = Token.objects.get(user=self.user)
+        self.client.force_login(self.user)
+
+        url = reverse('token_auth')
+        response = self.client.post(url, self.credentials)
+
+        self.assertEqual(response.json(), {'token': token.key})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_api_token_auth_invalid_failure(self):
+        """Ensure that invalid authentications are rejected."""
+        url = reverse('token_auth')
+        response = self.client.post(url, dict(self.credentials, password='badpass'))
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class OrganizationApiTestCase(APITestCase):
@@ -201,7 +248,7 @@ class OrganizationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
-    def test_org_created__api_failure(self, api_wrapper_mock):
+    def test_org_created_api_failure(self, api_wrapper_mock):
         # Raise an exception when we try to communicate with the Climate Change API
         api_wrapper_mock.side_effect = Exception()
 
@@ -228,7 +275,7 @@ class OrganizationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
-    def test_org_updated__api_failure(self, api_wrapper_mock):
+    def test_org_updated_api_failure(self, api_wrapper_mock):
         # Raise an exception when we try to communicate with the Climate Change API
         api_wrapper_mock.side_effect = Exception()
 
@@ -254,3 +301,98 @@ class OrganizationApiTestCase(APITestCase):
         # The organization should not have been changed
         org.refresh_from_db()
         self.assertEqual(org.name, "Starting Name")
+
+    def test_org_delete_success(self):
+        org = PlanItOrganization.objects.create(name='Test Organization')
+
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        result = self.client.delete(url)
+
+        self.assertEqual(result.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(PlanItOrganization.objects.filter(id=org.id).exists())
+
+
+class CsrfTestCase(TestCase):
+    def setUp(self):
+        # Create a client that enforces CSRF checks
+        self.client = Client(enforce_csrf_checks=True)
+
+    def test_csrf_for_token_auth(self):
+        """Ensure that CSRF token is not needed when API token is used.
+
+        The Temperate does not use session authentication, and uses API tokens instead of a CSRF
+        token (Which is needed to prevent a user's session from being hijacked). A user that is
+        session authenticated in the background should be able to use unsafe methods so long as
+        their API token is provided.
+        """
+        user = PlanItUser.objects.create_user(
+            first_name='Test',
+            last_name='User',
+            email='user@azavea.com',
+            password='testpass'
+        )
+        token = Token.objects.get(user=user)
+
+        # Log in with the client using a non-token authentication (e.g. session)
+        self.client.force_login(user=user)
+
+        # Configure test data
+        org = PlanItOrganization.objects.create(name='Test Organization')
+
+        # Make a request that doesn't include CSRF token, but does include API token
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        result = self.client.delete(
+            url,
+            HTTP_AUTHORIZATION='Token {}'.format(token.key)
+        )
+
+        # Ensure the request was accepted
+        self.assertTrue(status.is_success(result.status_code),
+                        "Expected success status, received {} instead".format(result.status_code))
+
+    def test_csrf_hijack_without_token_auth(self):
+        """Ensure that requests without a CSRF or API token are rejected."""
+        user = PlanItUser.objects.create_user(
+            first_name='Test',
+            last_name='User',
+            email='user@azavea.com',
+            password='testpass'
+        )
+
+        # Log in with the client using a non-token authentication (e.g. session)
+        self.client.force_login(user=user)
+
+        # Configure test data
+        org = PlanItOrganization.objects.create(name='Test Organization')
+
+        # Make a request that doesn't include a CSRF or API token, indicating a potential hijack
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        result = self.client.delete(url)
+
+        # Ensure the request was accepted
+        self.assertTrue(status.is_client_error(result.status_code),
+                        "Expected error status, received {} instead".format(result.status_code))
+
+    def test_basic_token_auth(self):
+        """Ensure that API token authentication enables a user to perform actions."""
+        user = PlanItUser.objects.create_user(
+            first_name='Test',
+            last_name='User',
+            email='user@azavea.com',
+            password='testpass'
+        )
+        token = Token.objects.get(user=user)
+
+        # Configure test data
+        org = PlanItOrganization.objects.create(name='Test Organization')
+
+        # Make a request explicitly using token authentication
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        result = self.client.delete(
+            url,
+            HTTP_AUTHORIZATION='Token {}'.format(token.key)
+        )
+
+        # Ensure the request was accepted
+        self.assertTrue(status.is_success(result.status_code),
+                        "Expected success status, received {} instead".format(result.status_code))

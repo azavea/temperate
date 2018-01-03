@@ -55,12 +55,12 @@ class ConcernViewSetTestCase(APITestCase):
                               'isRelative': True, 'value': 5.3, 'units': 'farthing'})
 
     def test_concern_list_nonauth(self):
-        """Ensure that unauthenticated users receive a 403 Forbidden response."""
+        """Ensure that unauthenticated users receive a 401 Unauthorized response."""
         self.client.logout()
         url = reverse('concern-list')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     @mock.patch('planit_data.models.Concern.calculate')
     def test_concern_detail(self, calculate_mock):
@@ -97,7 +97,7 @@ class ConcernViewSetTestCase(APITestCase):
         url = reverse('concern-detail', kwargs={'pk': 1})
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class WeatherEventRankViewTestCase(APITestCase):
