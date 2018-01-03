@@ -55,6 +55,7 @@ then
                     communitysystems \
                     defaultrisks \
                     collaborators \
+                    relatedadaptivevalues \
                     actioncategories
 
         docker-compose \

@@ -7,6 +7,7 @@ from .models import (
     GeoRegion,
     Indicator,
     OrganizationRisk,
+    RelatedAdaptiveValue,
     WeatherEvent,
     WeatherEventRank,
 )
@@ -17,6 +18,7 @@ for Model in (CommunitySystem,
               GeoRegion,
               Indicator,
               OrganizationRisk,
+              RelatedAdaptiveValue,
               WeatherEvent,
               WeatherEventRank,
               ):

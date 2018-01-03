@@ -258,6 +258,23 @@ class Concern(models.Model):
         return IMPERIAL_TO_METRIC[default_units]
 
 
+class RelatedAdaptiveValue(models.Model):
+    """An enhancement or challenge to a city's overall adaptive capacity.
+
+    Used to provide default values for OrganizationRisk.relatedAdaptiveValues
+
+    Examples include:
+    - Access to basic services
+    - Housing
+    - Community engagement
+
+    """
+    name = models.CharField(max_length=256, unique=True, blank=False, null=False)
+
+    def __str__(self):
+        return self.name
+
+
 class WeatherEventRank(models.Model):
     """A ranking of severity of weather events per georegion.
 

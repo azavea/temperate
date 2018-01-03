@@ -12,10 +12,7 @@
     </div>
     <div class="step-form-control">
       <h5>Related Adaptive Values</h5>
-      <!-- TODO (issue #241): Add the autocomplete component -->
-      <select>
-        <option *ngFor="let e of examples">{{e}}</option>
-      </select>
+      <app-freeform-multiselect formControlName="relatedAdaptiveValues" [options]="adaptiveValues"></app-freeform-multiselect>
     </div>
     <div class="step-form-control">
       <h5>Description</h5>
