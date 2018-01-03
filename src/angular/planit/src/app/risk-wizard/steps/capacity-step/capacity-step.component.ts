@@ -13,14 +13,12 @@ export interface CapacityStepFormModel {
   relatedAdaptiveValues: string[];
   adaptiveCapacityDescription: string;
 }
-
 @Component({
   selector: 'app-risk-step-capacity',
   templateUrl: 'capacity-step.component.html'
 })
 
 export class CapacityStepComponent extends WizardStepComponent<Risk> implements OnInit {
-
   public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
@@ -62,6 +60,13 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
       adaptiveCapacityDescription: this.form.controls.adaptiveCapacityDescription.value
     };
     this.session.setDataForKey(this.key, data);
+
+    // mark step as complete for style change
+    if (!this.form.pristine && this.form.valid) {
+      document.querySelector('li[step-symbol="' + this.navigationSymbol + '"')
+              .classList
+              .add('complete');
+    }
   }
 
   setupForm(data: CapacityStepFormModel) {
