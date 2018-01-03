@@ -48,11 +48,6 @@ export class RiskWizardComponent implements AfterViewChecked, AfterViewInit, OnD
 
   ngAfterViewChecked() {
     if (this.wizard.model.currentStepIndex !== this.currentStepIndex) {
-      if (!this.risk.id && this.currentStepIndex === 0) {
-        this.riskService.create(this.risk).subscribe(r => this.risk = r);
-      } else {
-        this.riskService.update(this.risk).subscribe(r => this.risk = r);
-      }
       this.currentStepIndex = this.wizard.model.currentStepIndex;
     }
   }
@@ -61,6 +56,13 @@ export class RiskWizardComponent implements AfterViewChecked, AfterViewInit, OnD
   ngAfterViewInit() {}
 
   riskModelChanged(risk: Risk) {
-    console.log(this.risk);
+    if (!this.risk.id && this.currentStepIndex === 0) {
+      this.riskService.create(this.risk).subscribe(r => {
+        this.risk = r;
+        this.session.setData(r);
+      });
+    } else {
+      this.riskService.update(risk).subscribe(r => this.risk = r);
+    }
   }
 }
