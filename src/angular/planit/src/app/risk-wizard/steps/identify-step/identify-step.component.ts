@@ -24,7 +24,8 @@ interface IdentifyStepFormModel {
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
-export class IdentifyStepComponent extends WizardStepComponent<Risk> implements OnInit {
+export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifyStepFormModel>
+                                   implements OnInit {
 
   public form: FormGroup;
   public formValid: boolean;
@@ -65,6 +66,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     this.router.navigate(['assessment']);
   }
 
+  save() {}
+
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
       weatherEvent: risk.weatherEvent,
@@ -72,7 +75,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     };
   }
 
-  getFormModel(): any {
+  getFormModel(): IdentifyStepFormModel {
     const data: IdentifyStepFormModel = {
       weatherEvent: this.weatherEvent,
       communitySystem: this.communitySystem

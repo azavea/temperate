@@ -18,7 +18,8 @@ export interface CapacityStepFormModel {
   templateUrl: 'capacity-step.component.html'
 })
 
-export class CapacityStepComponent extends WizardStepComponent<Risk> implements OnInit {
+export class CapacityStepComponent extends WizardStepComponent<Risk, CapacityStepFormModel>
+                                   implements OnInit {
   public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
@@ -53,7 +54,9 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
     };
   }
 
-  getFormModel(): any {
+  save() {}
+
+  getFormModel(): CapacityStepFormModel {
     const data: CapacityStepFormModel = {
       adaptiveCapacity: this.form.controls.adaptiveCapacity.value,
       relatedAdaptiveValues: [],
