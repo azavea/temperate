@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
-import { CommunitySystem,
-         Risk,
-         WeatherEvent,
-         WizardStepComponent } from '../../../shared/';
+import {
+  CommunitySystem,
+  Risk,
+  WeatherEvent,
+  WizardStepComponent
+} from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
 import { WeatherEventService } from '../../../core/services/weather-event.service';

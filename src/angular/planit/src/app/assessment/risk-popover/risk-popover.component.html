@@ -2,14 +2,23 @@
   <p>Donec dictum hendrerit dui, nec dictum ante molestie eleifend. Quisque accumsan nisl lectus, in vulputate erat iaculis quis. Aenean at nisl vehicula, fermentum leo vel, ultricies sapien.
   </p>
   <h4>Related Indicators</h4>
-  <p *ngFor="let indicator of risk.weatherEvent.indicators">
-    <a href="#">{{ indicator }}</a>
+  <p *ngFor="let indicator of indicators">
+    <a (click)="openIndicatorModal(indicator)">{{ indicator.label }}</a>
   </p>
 </ng-template>
 
-<div class="va-risk" [popover]="riskPopoverTemplate"
+<div class="va-risk" #popover="bs-popover" [popover]="riskPopoverTemplate"
   container="body"
   outsideClick="true"
   popoverTitle="{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}"
   placement="right">{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}
 </div>
+
+<app-modal-template #indicatorModal
+     title="{{ selectedIndicator?.label }}">
+  <app-indicator-chart
+    *ngIf="selectedIndicator"
+    [indicator]="selectedIndicator"
+    [city]="city">
+  </app-indicator-chart>
+</app-modal-template>

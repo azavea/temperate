@@ -32,12 +32,16 @@
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
       <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
-        <app-indicator-chart *ngFor="let indicator of allIndicators"
-                             [indicator]="indicator"
-                             [city]="city"
-                             [isOpen]="accordionState[indicator.name]"
-                             (toggled)="indicatorToggled(indicator.name, $event)">
-        </app-indicator-chart>
+        <app-collapsible-chart
+            *ngFor="let indicator of allIndicators"
+            [isOpen]="accordionState[indicator.name]"
+            [indicator]="indicator"
+            [city]="city"
+            (toggled)="indicatorToggled(indicator.name, $event)">
+          <div header-action>
+            <a class="add-top-concern">Add as top concern<i class="icon-question-circle-o"></i></a>
+          </div>
+        </app-collapsible-chart>
       </div>
     </section>
   </main>

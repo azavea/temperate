@@ -1,12 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { City,
-         Indicator,
-         IndicatorService } from 'climate-change-components';
+import {
+  City,
+  Indicator,
+  IndicatorService
+} from 'climate-change-components';
 
 import { WeatherEventService } from '../core/services/weather-event.service';
 import { WeatherEvent } from '../shared';
-import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+import { CollapsibleChartComponent } from '../shared/collapsible-chart/collapsible-chart.component';
 
 interface AccordionState {
   [key: string]: boolean;
@@ -30,15 +32,16 @@ export class IndicatorsComponent implements OnInit {
               private weatherEventService: WeatherEventService) {}
 
   ngOnInit() {
+    // TODO (issue #404): Replace with the user's organization location
     this.city = {
       id: '7',
       type: 'feature',
       geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
       properties: {
-          name: 'Philadelphia',
-          admin: 'PA',
-          datasets: ['NEX-GDDP', 'LOCA'],
-          region: 11
+        name: 'Philadelphia',
+        admin: 'PA',
+        datasets: ['NEX-GDDP', 'LOCA'],
+        region: 11
       },
     };
 
