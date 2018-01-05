@@ -36,6 +36,7 @@ import {
   ButtonsModule,
   CollapseModule,
   PopoverModule,
+  ProgressbarModule,
   TooltipModule,
   ModalModule,
   TypeaheadModule
@@ -65,6 +66,7 @@ const appRoutes: Routes = [
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     PopoverModule.forRoot(),
+    ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
     // Local
