@@ -27,8 +27,8 @@ export class RiskService {
     });
   }
 
-  get(id): Observable<Risk> {
-   const url = `${environment.apiUrl}/api/risks/` + id + `/`;
+  get(id: string): Observable<Risk> {
+   const url = `${environment.apiUrl}/api/risks/${id}/`;
    return this.apiHttp.get(url).map(resp => {
      return resp.json() as Risk;
    });
@@ -42,7 +42,7 @@ export class RiskService {
   }
 
   update(risk: Risk): Observable<Risk> {
-    const url = `${environment.apiUrl}/api/risks/` + risk.id + `/`;
+    const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
     return this.apiHttp.put(url, this.formatRisk(risk)).map(resp => {
       return resp.json() as Risk;
     });
