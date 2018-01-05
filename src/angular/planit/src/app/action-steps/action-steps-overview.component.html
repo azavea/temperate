@@ -6,11 +6,20 @@
       <h1 class="heading">Adaptation Actions</h1>
       <button class="button icon-edit" routerLink="action/wizard"></button>
     </section>
-    <section>
-      <div class="actions-empty">
+    <section *ngIf="risks">
+      <div *ngIf="!risks.length" class="actions-empty">
         <h2>You'll need to assess risks before you can take action.</h2>
         <p>Once you have risks assessed in your Vulnerability Assessment, you can plan to mitigate their impact here.</p>
         <a class="button" routerLink="/assessment">Assess Risks</a>
+      </div>
+      <div *ngIf="risks.length" class="actions-available">
+        <h2>Risks acted upon</h2>
+        <!-- TODO: Progress bar here -->
+        <h2>In Progress</h2>
+        <div class="action-card-container">
+          <as-action-card *ngFor="let risk of risks"
+                          [risk]="risk"></as-action-card>
+        </div>
       </div>
     </section>
   </main>
