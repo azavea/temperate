@@ -53,8 +53,6 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
     this.form.get('intensity').valueChanges.subscribe(v => console.log('intensity: ', v));
   }
 
-  save() {}
-
   getFormModel(): HazardStepFormModel {
     const data: HazardStepFormModel = {
       frequency: this.form.controls.frequency.value,

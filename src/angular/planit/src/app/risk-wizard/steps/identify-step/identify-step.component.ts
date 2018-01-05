@@ -66,8 +66,6 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
     this.router.navigate(['assessment']);
   }
 
-  save() {}
-
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
       weatherEvent: risk.weatherEvent,

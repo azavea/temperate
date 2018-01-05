@@ -54,8 +54,6 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
     };
   }
 
-  save() {}
-
   getFormModel(): CapacityStepFormModel {
     const data: CapacityStepFormModel = {
       adaptiveCapacity: this.form.controls.adaptiveCapacity.value,

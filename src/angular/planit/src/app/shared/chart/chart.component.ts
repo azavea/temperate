@@ -31,7 +31,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 })
 export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 
-  @Output() onExtraParamsChanged = new EventEmitter<IndicatorQueryParams>();
+  @Output() extraParamsChanged = new EventEmitter<IndicatorQueryParams>();
 
   @Input() indicator: Indicator;
   @Input() dataset: Dataset;
@@ -158,7 +158,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 
   public onExtraParamsSelected(params: IndicatorQueryParams) {
     this.extraParams = params;
-    this.onExtraParamsChanged.emit(this.extraParams);
+    this.extraParamsChanged.emit(this.extraParams);
     this.updateChart(this.extraParams);
   }
 

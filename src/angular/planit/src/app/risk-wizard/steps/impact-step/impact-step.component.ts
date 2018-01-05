@@ -44,8 +44,6 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
     this.setupForm(this.fromModel(this.risk));
   }
 
-  save() {}
-
   getFormModel(): ImpactStepFormModel {
     const data: ImpactStepFormModel = {
       impactMagnitude: this.form.controls.impactMagnitude.value,
