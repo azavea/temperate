@@ -48,3 +48,14 @@
     background-color: white;
   }
 }
+
+.action-card-financial-block {
+  textarea {
+    width: 100%;
+  }
+
+  background-color: $gray-1;
+  border: 2px $gray-2;
+  border-radius: 4px;
+  padding: 3px;
+}

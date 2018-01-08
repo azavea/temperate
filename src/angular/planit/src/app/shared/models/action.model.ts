@@ -19,7 +19,7 @@ export class Action {
   immprovementsImpacts?: string;
   collaborators?: string[]; // TODO: replace with collaborator model
   categories?: ActionCategory[];
-  funding?: string[];
+  funding?: string;
 
   constructor(object: any) {
     Object.assign(this, object);
