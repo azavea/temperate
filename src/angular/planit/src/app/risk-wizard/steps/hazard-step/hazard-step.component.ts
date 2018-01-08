@@ -22,7 +22,8 @@ interface HazardStepFormModel {
   templateUrl: 'hazard-step.component.html'
 })
 
-export class HazardStepComponent extends WizardStepComponent<Risk> implements OnInit {
+export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFormModel>
+                                 implements OnInit {
 
   public form: FormGroup;
   public key = RiskStepKey.Hazard;
@@ -52,13 +53,13 @@ export class HazardStepComponent extends WizardStepComponent<Risk> implements On
     this.form.get('intensity').valueChanges.subscribe(v => console.log('intensity: ', v));
   }
 
-  save() {
+  getFormModel(): HazardStepFormModel {
     const data: HazardStepFormModel = {
       frequency: this.form.controls.frequency.value,
       intensity: this.form.controls.intensity.value,
       probability: this.form.controls.probability.value
     };
-    this.session.setDataForKey(this.key, data);
+    return data;
   }
 
   updateDirectionalControl(control: FormControl, value: OrgRiskDirectionalOption) {

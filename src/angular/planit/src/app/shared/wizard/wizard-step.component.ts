@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 
 import { WizardSessionService } from '../../core/services/wizard-session.service';
 
-export abstract class WizardStepComponent<T> implements OnInit {
+export abstract class WizardStepComponent<T, FormModel> implements OnInit {
   abstract form: FormGroup;
   abstract key: string;
   abstract navigationSymbol: string;
@@ -24,14 +24,20 @@ export abstract class WizardStepComponent<T> implements OnInit {
     this.registerModelHandlers();
   }
 
-  abstract fromModel(model: T): any;
-  abstract setupForm(data: any): void;
-  abstract toModel(data: any, model: T): T;
+  abstract fromModel(model: T): FormModel;
+  abstract setupForm(data: FormModel): void;
+  abstract toModel(data: FormModel, model: T): T;
+  abstract getFormModel(): FormModel;
 
   registerModelHandlers() {
     this.session.registerHandlerForKey(this.key, {
       fromData: this.fromModel,
       toData: this.toModel
     });
+  }
+
+  save() {
+    const data = this.getFormModel();
+    this.session.setDataForKey(this.key, data);
   }
 }
