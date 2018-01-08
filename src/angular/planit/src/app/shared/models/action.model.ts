@@ -13,7 +13,7 @@ export class Action {
   immprovementsImpacts?: string;
   collaborators?: string[]; // TODO: replace with collaborator model
   categories?: string[]; // TODO: replace with category model
-  funding?: string[];
+  funding?: string;
 
   constructor(object: any) {
     Object.assign(this, object);
