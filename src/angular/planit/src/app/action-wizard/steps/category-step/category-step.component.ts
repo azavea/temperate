@@ -20,6 +20,21 @@ export class CategoryStepComponent implements OnInit {
     this.actionCategoryService.list().subscribe(categories => this.actionCategories = categories);
   }
 
+  // check if any of the action categories have been selected
+  public haveSelectedActionCategory(): boolean {
+    if (!this.actionCategories) {
+      return false; // when not fully initialized, component has no categories yet
+    }
+
+    for (const category of this.actionCategories) {
+      if (category.selected) {
+        return true;
+      }
+    }
+
+    return false; // none selected
+  }
+
   // toggle button selections on click
   public selectActionCategory(actionCategory: ActionCategory) {
     actionCategory.selected = !actionCategory.selected;

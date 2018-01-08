@@ -15,6 +15,7 @@
   </div>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep>Continue</button>
+  <button type="button"
+    [disabled]="!haveSelectedActionCategory()" nextStep>Continue</button>
   <button type="button" previousStep>Back</button>
 </div>
