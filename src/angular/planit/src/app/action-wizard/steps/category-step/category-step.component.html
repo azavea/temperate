@@ -2,6 +2,15 @@
   <h3>Categories</h3>
 </div>
 <div class="step-content">
+  <div class="container action-card-container action-categories">
+    <div class="row card-group">
+      <div class="col-4" *ngFor="let category of actionCategories">
+        <div class="action-category-card">
+          <span><i class="{{ category.icon }}"></i> {{ category.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="step-footer">
   <button type="button" nextStep>Continue</button>
