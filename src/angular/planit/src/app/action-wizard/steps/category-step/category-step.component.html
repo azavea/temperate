@@ -5,7 +5,9 @@
   <div class="container action-card-container action-categories">
     <div class="row card-group">
       <div class="col-4" *ngFor="let category of actionCategories">
-        <div class="action-category-card">
+        <div class="action-category-card"
+          [ngClass]="{'selected': category.selected}"
+          (click)="selectActionCategory(category)">
           <span><i class="{{ category.icon }}"></i> {{ category.name }}</span>
         </div>
       </div>

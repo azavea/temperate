@@ -20,4 +20,9 @@ export class CategoryStepComponent implements OnInit {
     this.actionCategoryService.list().subscribe(categories => this.actionCategories = categories);
   }
 
+  // toggle button selections on click
+  public selectActionCategory(actionCategory: ActionCategory) {
+    actionCategory.selected = !actionCategory.selected;
+  }
+
 }
