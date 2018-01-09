@@ -16,7 +16,7 @@ export class Action {
   visibility: ActionVisibility = ActionVisibility.Private;
   implementationNotes = '';
   improvementsAdaptiveCapacity = '';
-  immprovementsImpacts = '';
+  improvementsImpacts = '';
   collaborators: string[] = [];
   categories: ActionCategory[] = [];
   funding = '';
