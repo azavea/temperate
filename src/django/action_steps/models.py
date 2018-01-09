@@ -26,6 +26,17 @@ class ActionCategory(models.Model):
         return (self.name,)
 
 
+class ActionType(models.Model):
+
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def natural_key(self):
+        return (self.name,)
+
+
 class CollaboratorManager(models.Manager):
     def get_by_natural_key(self, name):
         return self.get(name=name)

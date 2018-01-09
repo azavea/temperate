@@ -138,7 +138,7 @@ REST_FRAMEWORK = {
 }
 
 if ENVIRONMENT == 'Development':
-    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:8000',)
+    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:4211', 'localhost:8000',)
 else:
     CORS_ORIGIN_WHITELIST = tuple()
 
