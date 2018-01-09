@@ -1,9 +1,43 @@
 <div class="step-header">
-  <h3>Action details</h3>
+  <h3>Action Details</h3>
+  <p>Add copy text here that talks about what action details means.</p>
 </div>
 <div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <label>Type of action</label>
+      <input type="text"
+             formControlName="actionType"
+             [typeahead]="actionTypes"
+             [typeaheadMinLength]="0">
+    </div>
+    <div class="step-form-control">
+      <label>Action goal</label>
+      <input type="text" formControlName="actionGoal">
+    </div>
+    <div class="step-form-control">
+      <label>Implementation details</label>
+      <a href="">See examples</a>
+      <textarea formControlName="implementationDetails"></textarea>
+    </div>
+    <div class="step-form-control">
+      <div>Share with other cities
+        <span class="icon icon-question-circle-o"
+              tooltip="{{ tooltipText.shareWithCities }}">
+        </span>
+      </div>
+      <label>
+        <input type="checkbox" formControlName="isPublic">
+        {{ form.controls['isPublic'].value === true ? 'Public' : 'Private' }}
+      </label>
+    </div>
+    <div class="step-form-control">
+      <label>Notes</label>
+      <textarea formControlName="notes"></textarea>
+    </div>
+  </form>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep>Continue</button>
-  <button type="button" previousStep>Back</button>
+  <button type="button" nextStep (finalize)="save()">Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
 </div>
