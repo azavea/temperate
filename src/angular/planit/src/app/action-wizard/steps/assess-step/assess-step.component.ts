@@ -90,11 +90,6 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     return action;
   }
 
-  createRiskName(risk: Risk) {
-    console.log(risk);
-    return '';
-  }
-
   itemSelected(key: string, event: TypeaheadMatch | null) {
     const savedName = this[key] ? this[key].name : null;
     const formName = this.form.controls[key].value;

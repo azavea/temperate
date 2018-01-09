@@ -8,11 +8,13 @@
       <label>Action
         <textarea class="form-control"
                   formControlName="name"
-                  tabindex="1"></textarea>
+                  cols="70"
+                  rows="4"
+                  tabindex="1"
+                  required></textarea>
       </label>
       <div *ngIf="form.controls.name.errors">
         <span *ngIf="form.controls.name.errors.required">*Required</span>
-        <span *ngIf="form.controls.name.errors.autocomplete">*Not found</span>
       </div>
       <label>Risk
         <input class="form-control" formControlName="risk"
@@ -24,7 +26,8 @@
                                     [typeaheadMinLength]="1"
                                     [typeaheadScrollable]="true"
                                     [typeaheadOptionsInScrollableView]="5"
-                                    [container]="'body'">
+                                    [container]="'body'"
+                                    required>
         <div *ngIf="form.controls.risk.errors">
           <span *ngIf="form.controls.risk.errors.required">*Required</span>
           <span *ngIf="form.controls.risk.errors.autocomplete">*Not found</span>
