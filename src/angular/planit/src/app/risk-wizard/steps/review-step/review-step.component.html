@@ -1,3 +1,28 @@
-<h3>Review</h3>
+<h3>{{ risk.weatherEvent.name }} impact on {{ risk.communitySystem.name }}</h3>
+
+<div>
+    Probability: {{ risk.probability }}
+    <button class="button icon-edit" goToStep="1"></button>
+</div>
+
+<div>
+    Frequency: {{ risk.frequency }}
+    <button class="button icon-edit" goToStep="1"></button>
+</div>
+
+<div>
+    Intensity: {{ risk.intensity }}
+    <button class="button icon-edit" goToStep="1"></button>
+</div>
+
+<div>
+    Potential Impact: {{ risk.impactMagnitude }}
+    <button class="button icon-edit" goToStep="2"></button>
+</div>
+
+<div>
+    Adaptive Capacity: {{ risk.adaptiveCapacity }}
+    <button class="button icon-edit" goToStep="3"></button>
+</div>
 
 <button type="button" (click)="finish()">Finish</button>
