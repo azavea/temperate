@@ -25,6 +25,9 @@ class ActionCategory(models.Model):
     def natural_key(self):
         return (self.name,)
 
+    class Meta:
+        ordering = ['name']
+
 
 class ActionType(models.Model):
 
@@ -35,6 +38,9 @@ class ActionType(models.Model):
 
     def natural_key(self):
         return (self.name,)
+
+    class Meta:
+        ordering = ['name']
 
 
 class CollaboratorManager(models.Manager):
@@ -54,3 +60,6 @@ class Collaborator(models.Model):
 
     def natural_key(self):
         return (self.name,)
+
+    class Meta:
+        ordering = ['name']
