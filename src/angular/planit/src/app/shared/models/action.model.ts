@@ -1,3 +1,4 @@
+import { ActionCategory } from './action-category.model';
 import { Risk } from './risk.model';
 
 export class Action {
@@ -12,7 +13,7 @@ export class Action {
   improvementsAdaptiveCapacity?: string;
   immprovementsImpacts?: string;
   collaborators?: string[]; // TODO: replace with collaborator model
-  categories?: string[]; // TODO: replace with category model
+  categories?: ActionCategory[];
   funding?: string[];
 
   constructor(object: any) {
