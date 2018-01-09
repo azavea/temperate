@@ -56,7 +56,8 @@ then
                     defaultrisks \
                     collaborators \
                     relatedadaptivevalues \
-                    actioncategories
+                    actioncategories \
+                    actiontypes
 
         docker-compose \
             run --rm --entrypoint python \

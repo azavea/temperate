@@ -18,6 +18,7 @@ FIXTURES = {
     ],
     'action_steps': [
         ('actioncategories.json', ['action_steps.actioncategory']),
+        ('actiontypes.json', ['action_steps.actiontype']),
         ('collaborators.json', ['action_steps.collaborator']),
     ]
 }
