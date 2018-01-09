@@ -39,6 +39,7 @@
   }
 
   &:focus, &.focus {
+    color: white;
     outline: 0;
     box-shadow: 0px 0px 0px 5px darken($background-color, 10%) inset;
     background-color: $background-color;

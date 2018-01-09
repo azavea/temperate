@@ -55,7 +55,7 @@ app-indicator-chart {
     margin-top: 0.3rem;
     padding-left: 0.75rem;
     box-shadow: none;
-    border-radius: 5px;
+    border-radius: $field-border-radius;
     border: 1px solid #d2dcea;
 
     &:focus {

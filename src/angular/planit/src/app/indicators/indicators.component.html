@@ -15,16 +15,16 @@
     <section class="indicator-filters" *ngIf="filters?.length">
       <div class="filter-header">
         <h2>Filter indicators</h2>
-        <button class="button" (click)="resetAccordion()">reset</button>
+        <button class="button button-link" (click)="resetAccordion()">Reset</button>
       </div>
       <div class="card-container">
-        <div class="card-empty"
+        <button class="button card"
              [ngClass]="{'active': activeFilter?.name === filter.name}"
              *ngFor="let filter of filters"
              (click)="setActiveFilter(filter)">
           <span class="icon" [ngClass]="filter.name | weatherEventIcon"></span>
           <h4>{{ filter.name }}</h4>
-        </div>
+        </button>
       </div>
     </section>
     <section class="page-section indicators">
