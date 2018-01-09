@@ -26,6 +26,7 @@ import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
 import { CommunitySystemService } from './core/services/community-system.service';
+import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
@@ -87,6 +88,7 @@ const appRoutes: Routes = [
     AuthService,
     CacheService,
     CommunitySystemService,
+    RelatedAdaptiveValueService,
     RiskService,
     UserService,
     WeatherEventService,

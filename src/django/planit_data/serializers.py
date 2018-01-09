@@ -5,6 +5,7 @@ from planit_data.models import (
     CommunitySystem,
     Concern,
     OrganizationRisk,
+    RelatedAdaptiveValue,
     WeatherEvent,
     WeatherEventRank,
 )
@@ -127,6 +128,13 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
             return {}
 
         return OrderedDict([(item.id, str(item)) for item in queryset])
+
+
+class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RelatedAdaptiveValue
+        fields = ('name',)
 
 
 class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):

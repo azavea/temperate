@@ -8,6 +8,7 @@ from planit_data.models import (
     CommunitySystem,
     Concern,
     OrganizationRisk,
+    RelatedAdaptiveValue,
     WeatherEvent,
     WeatherEventRank,
 )
@@ -17,6 +18,7 @@ from planit_data.serializers import (
     CommunitySystemSerializer,
     OrganizationRiskCreateSerializer,
     OrganizationRiskSerializer,
+    RelatedAdaptiveValueSerializer,
     WeatherEventRankSerializer,
     WeatherEventSerializer,
 )
@@ -48,6 +50,13 @@ class OrganizationRiskView(ModelViewSet):
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(organization_id=org_id)
+
+
+class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
+    queryset = RelatedAdaptiveValue.objects.all().order_by('name')
+    serializer_class = RelatedAdaptiveValueSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
 
 
 class WeatherEventViewSet(ReadOnlyModelViewSet):

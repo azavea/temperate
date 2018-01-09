@@ -12,6 +12,7 @@ FIXTURES = {
         ('defaultrisks.json', ['planit_data.defaultrisk']),
         ('georegions.json', ['planit_data.georegion']),
         ('indicators.json', ['planit_data.indicator']),
+        ('relatedadaptivevalues.json', ['planit_data.relatedadaptivevalue']),
         ('weathereventrank.json', ['planit_data.weathereventrank']),
         ('weatherevents.json', ['planit_data.weatherevent']),
     ],

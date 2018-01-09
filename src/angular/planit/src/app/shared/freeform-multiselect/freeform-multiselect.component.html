@@ -1,0 +1,23 @@
+<div class="input-group">
+  <input class="form-control"
+         [(ngModel)]="selected"
+         (typeaheadOnSelect)="add()"
+         [typeahead]="availableOptions"
+         [typeaheadMinLength]="0"
+         [typeaheadScrollable]="true"
+         [typeaheadOptionsInScrollableView]="5"
+         [typeaheadOptionsLimit]="100"
+         [container]="'body'">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button" (click)="add()"><i class="icon-plus"></i></button>
+  </span>
+</div>
+<div>
+  <div *ngFor="let option of selectedOptions" class="selected-option">
+    {{ option }}
+    <button type="button" class="close" aria-label="Close"
+            (click)="remove(option)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>

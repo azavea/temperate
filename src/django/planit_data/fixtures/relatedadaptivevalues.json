@@ -1,0 +1,184 @@
+[
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 1,
+    "fields": {
+        "name": "Access to basic services"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 2,
+    "fields": {
+        "name": "Access to data"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 3,
+    "fields": {
+        "name": "Access to education"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 4,
+    "fields": {
+        "name": "Access to healthcare"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 5,
+    "fields": {
+        "name": "Budgetary capacity"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 6,
+    "fields": {
+        "name": "Community engagement"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 7,
+    "fields": {
+        "name": "Cost of living"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 8,
+    "fields": {
+        "name": "Economic diversity"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 9,
+    "fields": {
+        "name": "Economic health"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 10,
+    "fields": {
+        "name": "Environmental conditions"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 11,
+    "fields": {
+        "name": "Government capacity"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 12,
+    "fields": {
+        "name": "Housing"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 13,
+    "fields": {
+        "name": "Inequality"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 14,
+    "fields": {
+        "name": "Infrastructure capacity"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 15,
+    "fields": {
+        "name": "Infrastructure conditions / maintenance"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 16,
+    "fields": {
+        "name": "Land use planning"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 17,
+    "fields": {
+        "name": "Migration"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 18,
+    "fields": {
+        "name": "Political engagement"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 19,
+    "fields": {
+        "name": "Political stability"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 20,
+    "fields": {
+        "name": "Political transparency"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 21,
+    "fields": {
+        "name": "Poverty"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 22,
+    "fields": {
+        "name": "Public health"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 23,
+    "fields": {
+        "name": "Rapid urbanization"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 24,
+    "fields": {
+        "name": "Resource availability"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 25,
+    "fields": {
+        "name": "Safety and security"
+    }
+},
+{
+    "model": "planit_data.relatedadaptivevalue",
+    "pk": 26,
+    "fields": {
+        "name": "Unemployment"
+    }
+}
+]
