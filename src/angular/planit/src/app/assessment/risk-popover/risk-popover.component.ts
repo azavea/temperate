@@ -1,6 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+
+import { PopoverDirective } from 'ngx-bootstrap/popover';
+
+import {
+  City,
+  Indicator,
+  IndicatorService
+} from 'climate-change-components';
 
 import { Risk } from '../../shared/models/risk.model';
+import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-chart.component';
+import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 
 
 @Component({
@@ -10,8 +20,46 @@ import { Risk } from '../../shared/models/risk.model';
 export class RiskPopoverComponent implements OnInit {
   @Input() risk: Risk;
 
-  constructor () {}
+  public indicators: Indicator[];
+  public selectedIndicator: Indicator;
+  public city: City;
+
+  @ViewChild('indicatorModal')
+  private indicatorModal: ModalTemplateComponent;
+
+  @ViewChild('popover')
+  private popoverElement: PopoverDirective;
+
+  constructor (private indicatorService: IndicatorService) {}
 
   ngOnInit() {
+    this.updateRiskIndicators();
+
+    // TODO (issue #404): Replace with the user's organization location
+    this.city = {
+      id: '7',
+      type: 'feature',
+      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
+      properties: {
+        name: 'Philadelphia',
+        admin: 'PA',
+        datasets: ['NEX-GDDP', 'LOCA'],
+        region: 11
+      },
+    };
+  }
+
+  public openIndicatorModal(indicator: Indicator) {
+    this.selectedIndicator = indicator;
+    this.indicatorModal.open();
+    this.popoverElement.hide();
+  }
+
+  updateRiskIndicators() {
+    this.indicatorService.list().subscribe(indicators => {
+      this.indicators = indicators.filter(indicator => {
+        return this.risk.weatherEvent.indicators.includes(indicator.name);
+      });
+    });
   }
 }

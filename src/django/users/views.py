@@ -88,6 +88,7 @@ class PlanitObtainAuthToken(ObtainAuthToken):
 
     permission_classes = (AllowAny, )
     serializer_class = AuthTokenSerializer
+    authentication_classes = []
 
 
 class UserViewSet(ModelViewSet):

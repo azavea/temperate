@@ -1,5 +1,7 @@
-import { City,
-         OrgUnitType } from '../../shared';
+import {
+  City,
+  OrgUnitType
+} from '../../shared';
 
 export class Organization {
   name: string;

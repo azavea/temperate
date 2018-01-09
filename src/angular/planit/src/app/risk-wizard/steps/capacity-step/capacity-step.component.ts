@@ -6,6 +6,7 @@ import {  OrgRiskRelativeOption,
           Risk,
           WizardStepComponent } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
+import { RelatedAdaptiveValueService } from '../../../core/services/related-adaptive-value.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 export interface CapacityStepFormModel {
@@ -13,14 +14,13 @@ export interface CapacityStepFormModel {
   relatedAdaptiveValues: string[];
   adaptiveCapacityDescription: string;
 }
-
 @Component({
   selector: 'app-risk-step-capacity',
   templateUrl: 'capacity-step.component.html'
 })
 
-export class CapacityStepComponent extends WizardStepComponent<Risk> implements OnInit {
-
+export class CapacityStepComponent extends WizardStepComponent<Risk, CapacityStepFormModel>
+                                   implements OnInit {
   public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
@@ -32,11 +32,10 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 
-  // TODO (issue #241): Replace related adaptive values select with the fancy select
-  // autocomplete from issue #218
-  public examples: string[] = ['1', '2', '3'];
+  public adaptiveValues: string[] = [];
 
   constructor(private fb: FormBuilder,
+              private relatedAdaptiveValueService: RelatedAdaptiveValueService,
               protected session: WizardSessionService<Risk>) {
       super(session);
   }
@@ -45,6 +44,10 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
     super.ngOnInit();
     this.risk = this.session.getData() || new Risk({});
     this.setupForm(this.fromModel(this.risk));
+    this.relatedAdaptiveValueService.list()
+      .subscribe(adaptiveValues => {
+        this.adaptiveValues = adaptiveValues.map(av => av.name);
+      });
   }
 
   fromModel(model: Risk): CapacityStepFormModel {
@@ -55,19 +58,19 @@ export class CapacityStepComponent extends WizardStepComponent<Risk> implements 
     };
   }
 
-  save() {
+  getFormModel(): CapacityStepFormModel {
     const data: CapacityStepFormModel = {
       adaptiveCapacity: this.form.controls.adaptiveCapacity.value,
-      relatedAdaptiveValues: [],
+      relatedAdaptiveValues: this.form.controls.relatedAdaptiveValues.value,
       adaptiveCapacityDescription: this.form.controls.adaptiveCapacityDescription.value
     };
-    this.session.setDataForKey(this.key, data);
+    return data;
   }
 
   setupForm(data: CapacityStepFormModel) {
     this.form = this.fb.group({
       'adaptiveCapacity': [data.adaptiveCapacity, []],
-      'relatedAdaptiveValues': [[], []],
+      'relatedAdaptiveValues': [data.relatedAdaptiveValues, []],
       'adaptiveCapacityDescription': [data.adaptiveCapacityDescription, []]
     });
   }

@@ -29,13 +29,18 @@
     </section>
     <section class="page-section indicators">
       <h2>All Indicators</h2>
+      <p>Below are all of the indicators for your city.</p>
       <div class="card-container" role="tablist" aria-multiselectable="true">
-        <app-indicator-chart *ngFor="let indicator of allIndicators"
-                             [indicator]="indicator"
-                             [city]="city"
-                             [isOpen]="accordionState[indicator.name]"
-                             (toggled)="indicatorToggled(indicator.name, $event)">
-        </app-indicator-chart>
+        <app-collapsible-chart
+            *ngFor="let indicator of allIndicators"
+            [isOpen]="accordionState[indicator.name]"
+            [indicator]="indicator"
+            [city]="city"
+            (toggled)="indicatorToggled(indicator.name, $event)">
+          <div header-action>
+            <button class="button button-link card-title-button" title="Add to top concerns"><i class="icon-plus-squared"></i><i class="icon-ok-squared hidden"></i></button>
+          </div>
+        </app-collapsible-chart>
       </div>
     </section>
   </main>

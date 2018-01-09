@@ -1,0 +1,74 @@
+<div class="chart card-block">
+  <div class="chart-controls">
+    <div class="chart-toggle">
+      <span>Scenario</span>
+      <ccc-scenario-toggle [scenario]="scenario"
+                           (onScenarioSelected)="scenarioSelected($event)">
+      </ccc-scenario-toggle>
+    </div>
+    <div class="chart-toggle">
+      <span>Models</span>
+      <ccc-model-modal [dataset]="dataset"
+                       [models]="models"
+                       (onModelsChanged)="modelsChanged($event)">
+      </ccc-model-modal>
+    </div>
+    <div class="chart-toggle" *ngIf="indicator?.available_units">
+      <span>Units</span>
+      <ccc-units-dropdown [unit]="unit"
+                          [units]="indicator.available_units"
+                          (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+    </div>
+    <div class="chart-toggle">
+      <span>Dataset</span>
+      <ccc-dataset-toggle [dataset]="dataset"
+                          [city]="city"
+                          [models]="models"
+                          (onDatasetSelected)="datasetSelected($event)">
+      </ccc-dataset-toggle>
+    </div>
+  </div>
+  <div class="chart-controls">
+    <ccc-threshold-parameters
+        *ngIf="isThresholdIndicator(indicator.name)"
+        [indicator]="indicator"
+        [extraParams]="extraParams"
+        (thresholdParamSelected)="onExtraParamsSelected($event)">
+    </ccc-threshold-parameters>
+    <ccc-basetemp-parameters
+        *ngIf="isBasetempIndicator(indicator.name)"
+        [indicator]="indicator"
+        [extraParams]="extraParams"
+        (basetempParamSelected)="onExtraParamsSelected($event)">
+    </ccc-basetemp-parameters>
+    <!-- both percentile and historic extra parameters -->
+    <ccc-percentile-historic-parameters
+        *ngIf="isPercentileIndicator(indicator.name) &&
+               isHistoricIndicator(indicator.name)"
+        [indicator]="indicator"
+        [extraParams]="extraParams"
+        (percentileHistoricParamSelected)="onExtraParamsSelected($event)">
+    </ccc-percentile-historic-parameters>
+    <ccc-percentile-parameters
+        *ngIf="isPercentileIndicator(indicator.name) &&
+               !isHistoricIndicator(indicator.name)"
+        [indicator]="indicator"
+        [extraParams]="extraParams"
+        (percentileParamSelected)="onExtraParamsSelected($event)">
+    </ccc-percentile-parameters>
+    <ccc-historic-parameters
+        *ngIf="isHistoricIndicator(indicator.name) &&
+               !isPercentileIndicator(indicator.name)"
+        [indicator]="indicator"
+        [extraParams]="extraParams"
+        (historicParamSelected)="onExtraParamsSelected($event)">
+    </ccc-historic-parameters>
+  </div>
+  <app-chart [indicator]="indicator"
+         [city]="city"
+         [models]="models"
+         [dataset]="dataset"
+         [scenario]="scenario"
+         [unit]="unit"
+         [extraParams]="extraParams"></app-chart>
+</div>

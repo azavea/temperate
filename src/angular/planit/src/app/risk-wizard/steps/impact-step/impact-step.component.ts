@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { OrgRiskRelativeOption,
-         OrgRiskRelativeImpactOptions,
-         Risk,
-         WizardStepComponent } from '../../../shared/';
+import {
+  OrgRiskRelativeOption,
+  OrgRiskRelativeImpactOptions,
+  Risk,
+  WizardStepComponent
+} from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
@@ -18,7 +20,8 @@ export interface ImpactStepFormModel {
   templateUrl: 'impact-step.component.html'
 })
 
-export class ImpactStepComponent extends WizardStepComponent<Risk> implements OnInit {
+export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFormModel>
+                                 implements OnInit {
 
   public form: FormGroup;
   public formValid: boolean;
@@ -43,12 +46,12 @@ export class ImpactStepComponent extends WizardStepComponent<Risk> implements On
     this.setupForm(this.fromModel(this.risk));
   }
 
-  save() {
+  getFormModel(): ImpactStepFormModel {
     const data: ImpactStepFormModel = {
       impactMagnitude: this.form.controls.impactMagnitude.value,
       impactDescription: this.form.controls.impactDescription.value
     };
-    this.session.setDataForKey(this.key, data);
+    return data;
   }
 
   setupForm(data: ImpactStepFormModel) {

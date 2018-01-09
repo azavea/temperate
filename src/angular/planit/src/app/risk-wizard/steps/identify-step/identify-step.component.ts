@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
-import { CommunitySystem,
-         Risk,
-         WeatherEvent,
-         WizardStepComponent } from '../../../shared/';
+import {
+  CommunitySystem,
+  Risk,
+  WeatherEvent,
+  WizardStepComponent
+} from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
 import { WeatherEventService } from '../../../core/services/weather-event.service';
@@ -24,7 +26,8 @@ interface IdentifyStepFormModel {
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
-export class IdentifyStepComponent extends WizardStepComponent<Risk> implements OnInit {
+export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifyStepFormModel>
+                                   implements OnInit {
 
   public form: FormGroup;
   public formValid: boolean;
@@ -72,12 +75,12 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk> implements 
     };
   }
 
-  save() {
+  getFormModel(): IdentifyStepFormModel {
     const data: IdentifyStepFormModel = {
       weatherEvent: this.weatherEvent,
       communitySystem: this.communitySystem
     };
-    this.session.setDataForKey(this.key, data);
+    return data;
   }
 
   setupForm(data: IdentifyStepFormModel) {

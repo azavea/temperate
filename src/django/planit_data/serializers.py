@@ -1,9 +1,11 @@
+from collections import OrderedDict
 from rest_framework import serializers
 
 from planit_data.models import (
     CommunitySystem,
     Concern,
     OrganizationRisk,
+    RelatedAdaptiveValue,
     WeatherEvent,
     WeatherEventRank,
 )
@@ -88,17 +90,64 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
                   'relatedAdaptiveValues', 'adaptiveCapacityDescription')
 
 
+class WeatherEventField(serializers.PrimaryKeyRelatedField):
+    """Custom serializer field that accepts the pk and returns the related model."""
+
+    def to_representation(self, value):
+        pk = super(WeatherEventField, self).to_representation(value)
+        try:
+            item = WeatherEvent.objects.get(pk=pk)
+            serializer = WeatherEventSerializer(item)
+            return serializer.data
+        except WeatherEvent.DoesNotExist:
+            return None
+
+    def get_choices(self, cutoff=None):
+        queryset = self.get_queryset()
+        if queryset is None:
+            return {}
+
+        return OrderedDict([(item.id, str(item)) for item in queryset])
+
+
+class CommunitySystemField(serializers.PrimaryKeyRelatedField):
+    """Custom serializer field that accepts the pk and returns the related model."""
+
+    def to_representation(self, value):
+        pk = super(CommunitySystemField, self).to_representation(value)
+        try:
+            item = CommunitySystem.objects.get(pk=pk)
+            serializer = CommunitySystemSerializer(item)
+            return serializer.data
+        except CommunitySystem.DoesNotExist:
+            return None
+
+    def get_choices(self, cutoff=None):
+        queryset = self.get_queryset()
+        if queryset is None:
+            return {}
+
+        return OrderedDict([(item.id, str(item)) for item in queryset])
+
+
+class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RelatedAdaptiveValue
+        fields = ('name',)
+
+
 class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
     """Serializer for creating and updating risks.
 
     Takes ID for related weather event and community system.
     """
-    weatherEvent = serializers.PrimaryKeyRelatedField(
+    weatherEvent = WeatherEventField(
         many=False,
         queryset=WeatherEvent.objects.all(),
         source='weather_event'
     )
-    communitySystem = serializers.PrimaryKeyRelatedField(
+    communitySystem = CommunitySystemField(
         many=False,
         queryset=CommunitySystem.objects.all(),
         source='community_system'
