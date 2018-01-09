@@ -1,33 +1,46 @@
-// placeholder
-
 section:not(:last-child) {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .indicator-filters {
+  .filter-header {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-    .filter-header {
-        display:flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
+  .card-container > .card {
+    display: flex;
+    flex: 1 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin: 0.25rem;
+    box-shadow: none;
+    text-align: center;
+    border: 1px solid $gray-1;
+
+    .icon {
+      font-size: $text-jumbo;
     }
 
-    .card-container > .card-empty {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-
-        .icon {
-            font-size: 60px;
-        }
-
-        &:hover, &.active {
-            cursor: pointer;
-            border: solid 1px $gray-5;
-            background-color: $gray-0;
-        }
+    &:hover, &.active {
+      color: $gray-5;
+      cursor: pointer;
+      background-color: $gray-1;
+      border: 1px solid $gray-2;
     }
+
+    &.active {
+      outline: 4px solid $gray-2;
+      outline-offset: -4px;
+    }
+
+    &:focus {
+      box-shadow: none;
+      background-color: $gray-1;
+      @include button-focus-outline();
+    }
+  }
 }

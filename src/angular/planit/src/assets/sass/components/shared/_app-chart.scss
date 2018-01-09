@@ -1,8 +1,8 @@
 app-chart {
-  width: 100%;
-  display: block;
-  height: 100%;
   display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: $space-medium;
   flex-direction: column;
 
   .line-graph {
@@ -81,8 +81,11 @@ app-chart {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    padding-top: 10rem;
+    padding: 10rem;
+    margin-bottom: $space-xlarge;
+    font-size: $text-base;
+    font-weight: 400;
+    background: $loading-background-color;
   }
 
   .chart-options {

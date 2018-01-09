@@ -2,36 +2,35 @@
 <div class="main-container">
   <app-sidebar></app-sidebar>
   <main class="main-content" role="main">
-    <section class="page-intro">
+    <section class="page-section page-intro">
       <h1 class="heading">Indicators</h1>
-      <p class="paragraph-intro">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+      <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p> 
+      <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
     </section>
-    <section>
+    <section class="page-section">
       <h2>Top Concerns</h2>
-      <p>These are the indicators that we think you should be including in your risk assessment. Feel free to add or remove any—you know your city best!</p>
-      <div id="top-concerns" class="card card-full">
-        <app-top-concerns></app-top-concerns>
-      </div>
+      <p>These are the indicators that we think you should be including in your risk assessment. Feel free to add and remove from below – you know your city best.</p>
+      <app-top-concerns class="card card-full"></app-top-concerns>
     </section>
     <section class="indicator-filters" *ngIf="filters?.length">
       <div class="filter-header">
         <h2>Filter indicators</h2>
-        <button class="button" (click)="resetAccordion()">reset</button>
+        <button class="button button-link" (click)="resetAccordion()">Reset</button>
       </div>
       <div class="card-container">
-        <div class="card-empty"
+        <button class="button card"
              [ngClass]="{'active': activeFilter?.name === filter.name}"
              *ngFor="let filter of filters"
              (click)="setActiveFilter(filter)">
           <span class="icon" [ngClass]="filter.name | weatherEventIcon"></span>
           <h4>{{ filter.name }}</h4>
-        </div>
+        </button>
       </div>
     </section>
-    <section class="indicators">
+    <section class="page-section indicators">
       <h2>All Indicators</h2>
       <p>Below are all of the indicators for your city.</p>
-      <div id="accordion" class="card-container" role="tablist" aria-multiselectable="true">
+      <div class="card-container" role="tablist" aria-multiselectable="true">
         <app-collapsible-chart
             *ngFor="let indicator of allIndicators"
             [isOpen]="accordionState[indicator.name]"
@@ -39,7 +38,7 @@
             [city]="city"
             (toggled)="indicatorToggled(indicator.name, $event)">
           <div header-action>
-            <a class="add-top-concern">Add as top concern<i class="icon-question-circle-o"></i></a>
+            <button class="button button-link card-title-button" title="Add to top concerns"><i class="icon-plus-squared"></i><i class="icon-ok-squared hidden"></i></button>
           </div>
         </app-collapsible-chart>
       </div>

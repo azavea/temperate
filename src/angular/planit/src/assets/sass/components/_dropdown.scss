@@ -3,8 +3,11 @@
 .dropup,
 .dropdown {
   position: relative;
+  border-radius: $border-radius;
+  border: 1px solid $gray-1;
   & > button {
     color: $heading-font-color;
+    font-size: $text-small;
   }
 }
 .dropdown .icon-chevron {

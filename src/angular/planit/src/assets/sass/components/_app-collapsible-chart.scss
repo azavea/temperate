@@ -1,17 +1,75 @@
 app-collapsible-chart {
   width: 100%;
 
-  .card-block {
-    .chart-controls {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+  .chart-controls {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: $space-small 0; 
+  }
+  .chart-controls > .chart-toggle {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: $space-small $space-xlarge $space-small 0;
 
-      & > .chart-toggle {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+    span {
+      font-size: $text-tiny;
+      margin-bottom: $space-small;
+    }
+
+    button {
+      &:focus {
+        outline: none;
+        box-shadow: none;
+        @include button-focus-outline();
       }
     }
+  }
+}
+
+// Extra parameters
+app-indicator-chart {
+  display: flex;
+
+  .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 0;
+
+    .form-control {
+      margin-bottom: 0;
+    }
+
+    > * {
+      flex: 0 1 auto;
+      width: auto;
+      margin: $space-small $space-base $space-small 0;
+    }
+  }
+
+  input[type="number"] {
+    width: 5rem;
+    height: 3.4rem;
+    margin-top: 0.3rem;
+    padding-left: 0.75rem;
+    box-shadow: none;
+    border-radius: $field-border-radius;
+    border: 1px solid #d2dcea;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+      @include button-focus-outline();
+    }
+  }
+
+  .optional-parameters-label {
+    color: $gray-5;
+  }
+
+  .chart {
+    width: 100%;
   }
 }
