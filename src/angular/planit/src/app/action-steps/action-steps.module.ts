@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ActionWizardComponent,
-         ActionWizardModule } from '../action-wizard';
+import {
+  ActionWizardComponent,
+  ActionWizardModule
+} from '../action-wizard';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
 import { CreateActionComponent } from './create-action.component';

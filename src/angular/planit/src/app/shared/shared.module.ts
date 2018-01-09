@@ -5,10 +5,14 @@ import { RouterModule } from '@angular/router';
 
 import { BsDropdownModule, TypeaheadModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'climate-change-components';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { NouisliderModule } from 'ng2-nouislider';
 
 import { ChartComponent } from './chart/chart.component';
+import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+import { ModalTemplateComponent } from './modal-template/modal-template.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {
   FreeformMultiselectComponent
@@ -21,6 +25,9 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
 @NgModule({
   imports: [
+    CollapseModule,
+    CommonModule,
+    RouterModule,
     BsDropdownModule,
     CommonModule,
     ChartsModule,
@@ -31,7 +38,10 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   ],
   declarations: [
     ChartComponent,
+    CollapsibleChartComponent,
     HelpModalComponent,
+    IndicatorChartComponent,
+    ModalTemplateComponent,
     NavbarComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,
@@ -41,7 +51,10 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   ],
   exports: [
     ChartComponent,
+    CollapsibleChartComponent,
     HelpModalComponent,
+    IndicatorChartComponent,
+    ModalTemplateComponent,
     NavbarComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,

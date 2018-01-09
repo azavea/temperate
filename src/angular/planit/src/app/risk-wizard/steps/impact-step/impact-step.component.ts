@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { OrgRiskRelativeOption,
-         OrgRiskRelativeImpactOptions,
-         Risk,
-         WizardStepComponent } from '../../../shared/';
+import {
+  OrgRiskRelativeOption,
+  OrgRiskRelativeImpactOptions,
+  Risk,
+  WizardStepComponent
+} from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
