@@ -3,23 +3,27 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 .label {
   font-size: $text-tiny;
   margin-bottom: 0.25rem;
 }
+
 .form-control {
   margin-bottom: 1.5rem;
   position: relative;
   padding: 0.35rem 0.65rem;
   font-size: $text-small;
-  border:1px solid $gray-1;
+  border: 1px solid $gray-1;
   border-radius: $field-border-radius;
+  box-shadow: none;
 
   &:focus {
     box-shadow: none;
-    outline: 2px solid $brand-primary;
+    @include button-focus-outline();
   }
 }
+
 .required {
   display: flex;
   flex-direction: column;
@@ -39,4 +43,9 @@ input.ng-invalid {
   &:not(.ng-pristine) {
     outline: 2px solid $brand-danger;
   }
+}
+
+select {
+  box-shadow: none;
+  position: relative;
 }
