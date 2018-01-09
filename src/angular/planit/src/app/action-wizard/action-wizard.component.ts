@@ -31,7 +31,11 @@ export class ActionWizardComponent implements AfterViewInit, OnDestroy, OnInit {
 
   constructor(private session: WizardSessionService<Action>) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // TODO (#393): Save/populate Action via the API
+    const action = new Action({});
+    this.session.setData(action);
+  }
 
   ngOnDestroy() {}
 
