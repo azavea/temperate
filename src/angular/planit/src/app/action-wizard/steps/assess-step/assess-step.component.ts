@@ -89,15 +89,13 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     return model;
   }
 
-  itemSelected(key: string, event: TypeaheadMatch | null) {
-    const savedID = this[key] ? this[key].id : null;
-    const formRisk = this.form.controls[key].value;
-    console.log(savedID, formRisk);
-    if (event !== null || savedID !== formRisk.id) {
-      this[key] = event && event.item ? event.item : null;
-      console.log(this[key]);
-    }
-  }
+  // itemSelected(key: string, event: TypeaheadMatch | null) {
+  //   const savedID = this[key] ? this[key].id : null;
+  //   const formRisk = this.form.controls[key].value;
+  //   if (event !== null || savedID !== formRisk.id) {
+  //     this[key] = event && event.item ? event.item : null;
+  //   }
+  // }
 
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
