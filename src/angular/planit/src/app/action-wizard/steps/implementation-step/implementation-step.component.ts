@@ -85,4 +85,9 @@ export class ImplementationStepComponent
     model.visibility = data.isPublic ? ActionVisibility.Public : ActionVisibility.Private;
     return model;
   }
+
+  public updateIsPublic(value: boolean) {
+    this.form.controls.isPublic.setValue(value);
+    this.form.controls.isPublic.markAsDirty();
+  }
 }

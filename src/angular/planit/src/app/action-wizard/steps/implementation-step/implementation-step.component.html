@@ -26,10 +26,18 @@
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
       </div>
-      <label>
-        <input type="checkbox" formControlName="isPublic">
-        {{ form.controls['isPublic'].value === true ? 'Public' : 'Private' }}
-      </label>
+      <div class="btn-group">
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls['isPublic'].value}"
+                (click)="updateIsPublic(true)">
+          Public
+        </button>
+        <button class="btn btn-primary"
+                [ngClass]="{active: !form.controls['isPublic'].value}"
+                (click)="updateIsPublic(false)">
+          Private
+        </button>
+      </div>
     </div>
     <div class="step-form-control">
       <label>Notes</label>
