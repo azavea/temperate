@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -27,18 +27,20 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
   @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
   @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
 
-  private risk: Risk;
+  @Input() risk: Risk;
+
   private alreadyCreatedRisk = false;
 
   constructor(private session: WizardSessionService<Risk>,
               private riskService: RiskService) {}
 
   ngOnInit() {
-    // TODO (#324): Set initial risk from API
-    this.risk = new Risk({
-      communitySystem: { name: '' },
-      weatherEvent: { name: '' }
-    });
+    if (!this.risk) {
+      this.risk = new Risk({
+        communitySystem: { name: '' },
+        weatherEvent: { name: '' }
+      });
+    }
     this.session.setData(this.risk);
     this.session.data.subscribe(r => this.riskModelChanged(r));
   }

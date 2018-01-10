@@ -1,33 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+
 import {
   ActionWizardComponent,
   ActionWizardModule
 } from '../action-wizard';
+import { SharedModule } from '../shared/shared.module';
+
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
-import { CreateActionComponent } from './create-action.component';
-import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
-import { SharedModule } from '../shared/shared.module';
 import { ActionCardComponent } from './action-card/action-card.component';
+import { EditActionComponent } from './edit-action/edit-action.component';
 
-import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 @NgModule({
   imports: [
     CommonModule,
+    ProgressbarModule,
     SharedModule,
     ActionStepsRoutingModule,
-    ActionWizardModule,
-    ModalWizardModule.withComponents([ActionWizardComponent]),
-    ProgressbarModule
+    ActionWizardModule
   ],
   exports: [],
   declarations: [
     ActionStepsOverviewComponent,
-    CreateActionComponent,
-    ActionCardComponent
+    ActionCardComponent,
+    EditActionComponent
   ],
   providers: [],
 })
