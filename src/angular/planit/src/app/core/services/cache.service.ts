@@ -5,8 +5,8 @@ export class CacheService {
   // A simple in-memory cache for frequently accessed data
   // Kept as a separate service to avoid circular dependency issues
 
-  // Naming convention: MODULE_SERVICE_VAR for clarity and uniqueness
-  public static CORE_USERSERVICE_USER = 'user';
+  // Naming convention: MODULE_SERVICE_METHOD for clarity and uniqueness
+  public static CORE_USERSERVICE_CURRENT = 'core.userservice.current';
   public static CORE_ACTIONTYPESERVICE_LIST = 'core.actiontypeservice.list';
 
   private data: { [index: string]: any } = {};
