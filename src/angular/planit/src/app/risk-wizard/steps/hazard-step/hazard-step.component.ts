@@ -120,7 +120,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
     };
   }
 
-  toModel(data: HazardStepFormModel, model: Risk) {
+  toModel(data: HazardStepFormModel, model: Risk): Risk {
     model.frequency = data.frequency;
     model.intensity = data.intensity;
     model.probability = data.probability;
