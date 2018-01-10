@@ -7,6 +7,7 @@ export class CacheService {
 
   // Naming convention: MODULE_SERVICE_VAR for clarity and uniqueness
   public static CORE_USERSERVICE_USER = 'user';
+  public static CORE_ACTIONTYPESERVICE_LIST = 'core.actiontypeservice.list';
 
   private data: { [index: string]: any } = {};
 
