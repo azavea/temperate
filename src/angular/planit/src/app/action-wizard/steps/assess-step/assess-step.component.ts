@@ -33,8 +33,6 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
 
   public risks: any[];
   private riskList: Risk[];
-  private risk: Risk;
-  private name: string;
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -47,9 +45,10 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     super.ngOnInit();
     const action = this.session.getData();
     this.setupForm(this.fromModel(action));
+
     this.riskService.list().subscribe(risks => {
       this.risks = risks.map(r => {
-        return {'id': r.id,
+        return {'risk': r,
                 'name': `${r.weatherEvent.name} on ${r.communitySystem.name}`};
       });
       this.riskList = risks;
@@ -69,8 +68,8 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
 
   getFormModel(): AssessStepFormModel {
     const data: AssessStepFormModel = {
-      name: this.name,
-      risk: this.risk
+      name: this.form.controls.name.value,
+      risk: this.matchRisk(this.form.controls.risk.value)
     };
     return data;
   }
@@ -84,34 +83,41 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     });
   }
 
-  toModel(data: AssessStepFormModel, action: Action) {
-    action.name = data.name;
-    action.risk = data.risk;
-    return action;
+  toModel(data: AssessStepFormModel, model: Action) {
+    model.name = data.name;
+    model.risk = data.risk;
+    return model;
   }
 
   itemSelected(key: string, event: TypeaheadMatch | null) {
-    const savedName = this[key] ? this[key].name : null;
-    const formName = this.form.controls[key].value;
-    if (event !== null || savedName !== formName) {
+    const savedID = this[key] ? this[key].id : null;
+    const formRisk = this.form.controls[key].value;
+    console.log(savedID, formRisk);
+    if (event !== null || savedID !== formRisk.id) {
       this[key] = event && event.item ? event.item : null;
+      console.log(this[key]);
     }
   }
 
   itemBlurred(key: string) {
-  //   // Manually set form error if user exits field without selecting
-  //   // a valid autocomplete option.
-  //   const options = key === 'risk' ? this.risk: this.risks;
+    // Manually set form error if user exits field without selecting
+    // a valid autocomplete option.
+    const options = this.risks;
 
-  //   // The order in which itemSelected and itemBlurred fire is unpredictable,
-  //   // so wait to give itemSelected a chance to update the form value.
-  //   setTimeout(() => {
-  //     const val = this.form.controls[key].value;
-  //     // const found = options.find(option => option.name === val);
-  //     // if (!found) {
-  //     //   this.form.controls[key].setErrors({'autocomplete': true});
-  //     // }
-  //   }, 500);
+    // The order in which itemSelected and itemBlurred fire is unpredictable,
+    // so wait to give itemSelected a chance to update the form value.
+    setTimeout(() => {
+      const val = this.form.controls[key].value;
+      const found = this.matchRisk(val) || null;
+      if (!found) {
+        this.form.controls[key].setErrors({'autocomplete': true});
+      }
+    }, 500);
+  }
+
+  matchRisk(riskName: string): Risk {
+    const risk = this.risks.find(r =>  riskName === r.name);
+    return risk.risk;
   }
 }
 
