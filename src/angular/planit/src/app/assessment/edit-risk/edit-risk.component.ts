@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Risk } from '../../shared/';
 
 @Component({
   selector: 'va-edit-risk',
@@ -6,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class EditRiskComponent implements OnInit {
-  constructor() { }
 
-  ngOnInit() { }
+  public risk: Risk;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    if (this.route.snapshot.data['risk']) {
+      this.risk = this.route.snapshot.data['risk'] as Risk;
+    }
+  }
 }
