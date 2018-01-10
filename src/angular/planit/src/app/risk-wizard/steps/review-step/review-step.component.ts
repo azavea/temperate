@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Risk, OrgRiskRelativeOption, OrgRiskRelativeChanceOptions,
-    WizardStepComponent } from '../../../shared/';
+import { Risk,
+         OrgRiskDirectionalOptions,
+         OrgRiskRelativeChanceOptions,
+         OrgRiskRelativeImpactOptions,
+         WizardStepComponent } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
@@ -24,6 +27,10 @@ export class ReviewStepComponent extends WizardStepComponent<Risk, ReviewStepFor
   public form: FormGroup;
   public risk: Risk;
   public key: RiskStepKey = RiskStepKey.Review;
+
+  public directionalOptions = OrgRiskDirectionalOptions;
+  public chanceOptions = OrgRiskRelativeChanceOptions;
+  public impactOptions = OrgRiskRelativeImpactOptions;
 
   constructor(private router: Router,
               protected session: WizardSessionService<Risk>) {

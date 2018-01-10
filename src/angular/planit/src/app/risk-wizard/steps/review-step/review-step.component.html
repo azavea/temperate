@@ -1,28 +1,39 @@
 <h3>{{ risk.weatherEvent.name }} impact on {{ risk.communitySystem.name }}</h3>
 
 <div>
-    Probability: {{ risk.probability }}
+    Probability: {{ chanceOptions.get(risk.probability)?.label }}
     <button class="button icon-edit" goToStep="1"></button>
 </div>
 
 <div>
-    Frequency: {{ risk.frequency }}
+    Frequency: {{ directionalOptions.get(risk.frequency)?.label }}
     <button class="button icon-edit" goToStep="1"></button>
 </div>
 
 <div>
-    Intensity: {{ risk.intensity }}
+    Intensity: {{ directionalOptions.get(risk.intensity)?.label }}
     <button class="button icon-edit" goToStep="1"></button>
 </div>
 
 <div>
-    Potential Impact: {{ risk.impactMagnitude }}
+    Potential Impact: {{ impactOptions.get(risk.impactMagnitude)?.label }}
     <button class="button icon-edit" goToStep="2"></button>
+    <div>
+        {{ risk.impactDescription }}
+    </div>
 </div>
 
 <div>
-    Adaptive Capacity: {{ risk.adaptiveCapacity }}
+    Adaptive Capacity: {{ chanceOptions.get(risk.adaptiveCapacity)?.label }}
     <button class="button icon-edit" goToStep="3"></button>
+    <div>
+        {{ risk.adaptiveCapacityDescription }}
+    </div>
+    <div class="freeform-multiselect">
+        <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.relatedAdaptiveValues">
+            {{ relatedAdaptiveValue }}
+        </div>
+    </div>
 </div>
 
 <button type="button" (click)="finish()">Finish</button>
