@@ -36,6 +36,7 @@ export class ActionStepsOverviewComponent implements OnInit {
   }
 
   // Count how many risks have associated actions, for the progress bar
+  // TODO: #428 modify to count associated actions, once relationship to risks exists
   getRisksWithActionsCount() {
     this.risksWithActionsCount = this.risks.reduce((ct: number, risk: Risk) =>
       ct += risk.relatedAdaptiveValues.length ? 1 : 0, 0);
