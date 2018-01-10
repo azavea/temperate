@@ -12,13 +12,16 @@ import { ModalWizardModule } from '../modal-wizard/modal-wizard.module';
 import { SharedModule } from '../shared/shared.module';
 import { ActionCardComponent } from './action-card/action-card.component';
 
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     ActionStepsRoutingModule,
     ActionWizardModule,
-    ModalWizardModule.withComponents([ActionWizardComponent])
+    ModalWizardModule.withComponents([ActionWizardComponent]),
+    ProgressbarModule
   ],
   exports: [],
   declarations: [
