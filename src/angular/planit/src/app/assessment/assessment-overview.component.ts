@@ -17,4 +17,10 @@ export class AssessmentOverviewComponent implements OnInit {
       this.risks = risks;
     });
   }
+
+  deleteRisk(risk: Risk) {
+    this.riskService.delete(risk).subscribe(() => {
+      this.risks = this.risks.filter(r => r.id !== risk.id);
+    });
+  }
 }

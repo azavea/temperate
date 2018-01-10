@@ -47,4 +47,9 @@ export class RiskService {
       return resp.json() as Risk;
     });
   }
+
+  delete(risk: Risk) {
+    const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
+    return this.apiHttp.delete(url);
+  }
 }
