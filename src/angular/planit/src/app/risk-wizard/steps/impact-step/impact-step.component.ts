@@ -37,7 +37,7 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
 
   constructor(private fb: FormBuilder,
               protected session: WizardSessionService<Risk>) {
-      super(session);
+    super(session);
   }
 
   ngOnInit() {

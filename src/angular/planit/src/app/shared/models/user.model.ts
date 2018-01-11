@@ -15,6 +15,6 @@ export class User {
   }
 
   public name(): string {
-      return this.firstName + ' ' + this.lastName;
+    return this.firstName + ' ' + this.lastName;
   }
 }
