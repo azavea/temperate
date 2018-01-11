@@ -6,7 +6,7 @@
     <li role="menuitem"
         *ngFor="let opt of optionsKeys"
         [ngClass]="{active: opt === control.value}">
-      <a class="dropdown-item" (click)="control.setValue(opt)">
+      <a class="dropdown-item" (click)="setOption(opt)">
         <span class="dropdown-label">{{ options.get(opt)?.label }}</span>
         <span class="dropdown-description" *ngIf="options.get(opt)?.description">{{ options.get(opt)?.description }}</span>
       </a>
