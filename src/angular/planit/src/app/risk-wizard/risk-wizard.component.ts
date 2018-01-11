@@ -29,8 +29,6 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
 
   @Input() risk: Risk;
 
-  private alreadyCreatedRisk = false;
-
   constructor(private session: WizardSessionService<Risk>,
               private riskService: RiskService) {}
 
@@ -53,10 +51,9 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
     if (!this.risk.id) {
       this.riskService.create(this.risk).subscribe(r => {
         this.risk = r;
-        this.alreadyCreatedRisk = true;
         this.session.setData(r);
       });
-    } else if (this.alreadyCreatedRisk) {
+    } else {
       this.riskService.update(risk).subscribe(r => {
         this.risk = r;
       });

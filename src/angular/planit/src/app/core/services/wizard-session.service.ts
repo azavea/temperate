@@ -5,6 +5,8 @@
 import { Injectable } from '@angular/core';
 
 import { Subject } from 'rxjs/Rx';
+import * as cloneDeep from 'lodash.clonedeep';
+import * as isEqual from 'lodash.isequal';
 
 interface DataHandler<T> {
   toData: (any, T) => T;
@@ -26,10 +28,12 @@ export class WizardSessionService<T> {
     this.handlers.set(key, handlers);
   }
 
+  // if notify true, will only notify if data changed. if notify false will never notify
   setDataForKey(key: string, data: any, notify: boolean = true) {
+    const oldData = cloneDeep(this._data);
     const handler = this.handlers.get(key);
     this._data = handler.toData(data, this._data);
-    if (notify) {
+    if (!isEqual(oldData, this._data) && notify) {
         this.data.next(this._data);
     }
   }
