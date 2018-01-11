@@ -26,7 +26,7 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['options']) {
-      this.options = changes['options'].currentValue;
+      this.options = changes['options'].currentValue.sort();
       this.availableOptions = this.getAvailableOptions();
     }
   }
