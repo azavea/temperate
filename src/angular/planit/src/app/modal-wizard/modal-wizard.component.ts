@@ -8,8 +8,8 @@ import { ModalWizardOptions } from './modal-wizard-options';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
 
 @Component({
-    selector: 'app-modal-wizard',
-    template: ''
+  selector: 'app-modal-wizard',
+  template: ''
 })
 
 export class ModalWizardComponent implements OnInit, OnDestroy {

@@ -13,15 +13,15 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class AccountCreateService {
 
-    constructor(private http: Http) {}
+  constructor(private http: Http) {}
 
-    public create(user: User): Observable<User> {
+  public create(user: User): Observable<User> {
 
-      const url = `${environment.apiUrl}/api/users/`;
-      return this.http.post(url, user)
-        .map(resp => resp.json() || {} as User)
-        .catch((error: Response) => {
-            return Observable.throw(error);
-        });
-    }
+    const url = `${environment.apiUrl}/api/users/`;
+    return this.http.post(url, user)
+    .map(resp => resp.json() || {} as User)
+    .catch((error: Response) => {
+      return Observable.throw(error);
+    });
+  }
 }

@@ -8,8 +8,8 @@ import { AssessStepComponent } from './steps/assess-step/assess-step.component';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
 import {
-         ImplementationStepComponent
-       } from './steps/implementation-step/implementation-step.component';
+  ImplementationStepComponent
+} from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
 import { WizardSessionService } from '../core/services/wizard-session.service';

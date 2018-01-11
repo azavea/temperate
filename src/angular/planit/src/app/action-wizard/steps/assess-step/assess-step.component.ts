@@ -16,6 +16,6 @@ export class AssessStepComponent implements OnInit {
   }
 
   cancel () {
-      this.router.navigate(['actions']);
+    this.router.navigate(['actions']);
   }
 }

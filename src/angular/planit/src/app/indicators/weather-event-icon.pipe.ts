@@ -10,19 +10,19 @@ export class WeatherEventIconPipe implements PipeTransform {
   transform(value: string): string {
     const v = value.toLocaleLowerCase();
     if (v.match(/hot|heat|cooling|high/)) {
-        return 'icon-sun';
+      return 'icon-sun';
     } else if (v.match(/frost|low|freezing/)) {
-        return 'icon-snowflake-o';
+      return 'icon-snowflake-o';
     } else if (v.match(/temp/)) {
-        return 'icon-thermometer';
+      return 'icon-thermometer';
     } else if (v.match(/precip/)) {
-        return 'icon-tint';
+      return 'icon-tint';
     } else if (v.match(/dry/)) {
-        return 'icon-cloud';
+      return 'icon-cloud';
     } else if (v.match(/hurricane/)) {
-        return 'icon-superpowers';
+      return 'icon-superpowers';
     } else {
-        return 'icon-help';
+      return 'icon-help';
     }
   }
 }

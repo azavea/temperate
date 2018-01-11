@@ -37,7 +37,7 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
   constructor(private fb: FormBuilder,
               private relatedAdaptiveValueService: RelatedAdaptiveValueService,
               protected session: WizardSessionService<Risk>) {
-      super(session);
+    super(session);
   }
 
   ngOnInit() {
