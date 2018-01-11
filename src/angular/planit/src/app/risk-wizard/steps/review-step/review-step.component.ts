@@ -11,15 +11,12 @@ import { RiskStepKey } from '../../risk-step-key';
 
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
-export interface ReviewStepFormModel {
-}
-
 @Component({
   selector: 'app-risk-step-review',
   templateUrl: 'review-step.component.html'
 })
 
-export class ReviewStepComponent extends WizardStepComponent<Risk, ReviewStepFormModel> implements OnInit {
+export class ReviewStepComponent extends WizardStepComponent<Risk, any> implements OnInit {
 
   public navigationSymbol = '5';
   public title = 'Review';
@@ -42,21 +39,21 @@ export class ReviewStepComponent extends WizardStepComponent<Risk, ReviewStepFor
     this.risk = this.session.getData();
   }
 
-  getFormModel(): ReviewStepFormModel {
-    const data: ReviewStepFormModel = {};
+  getFormModel() {
+    const data = {};
     return data;
   }
 
-  fromModel(model: Risk): ReviewStepFormModel {
+  fromModel(model: Risk) {
     return {
     };
   }
 
-  toModel(data: ReviewStepFormModel, model: Risk) {
+  toModel(data: any, model: Risk) {
     return model;
   }
 
-  setupForm(data: ReviewStepFormModel) {
+  setupForm(data: any) {
   }
 
   finish() {
