@@ -9,6 +9,8 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
 interface DataHandler<T> {
+  // This handler has official support for editing the passed T object in place, rather than
+  //  returning a new copy.
   toData: (any, T) => T;
   fromData: (T) => any;
 }
