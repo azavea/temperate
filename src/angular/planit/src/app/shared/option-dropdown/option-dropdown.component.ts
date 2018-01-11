@@ -22,4 +22,9 @@ export class OptionDropdownComponent implements OnInit {
   ngOnInit() {
     this.optionsKeys = Array.from(this.options.keys());
   }
+
+  setOption(opt: any) {
+    this.control.setValue(opt);
+    this.control.markAsDirty();
+  }
 }

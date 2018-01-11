@@ -65,7 +65,6 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
     super.ngOnInit();
     this.risk = this.session.getData() || new Risk({});
     this.setupForm(this.fromModel(this.risk));
-    this.form.get('intensity').valueChanges.subscribe(v => console.log('intensity: ', v));
 
     // TODO (issue #404): Replace with the user's organization location
     this.city = {

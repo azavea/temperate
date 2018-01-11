@@ -45,7 +45,13 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   }
 
   public writeValue(selectedOptions: any) {
-    this.selectedOptions = selectedOptions || new Set();
+    if (!selectedOptions) {
+      this.selectedOptions = new Set();
+    } else if (Array.isArray(selectedOptions)) {
+      this.selectedOptions = new Set(selectedOptions);
+    } else if (selectedOptions instanceof Set) {
+      this.selectedOptions = selectedOptions;
+    }
   }
 
   public registerOnChange(fn: any) {

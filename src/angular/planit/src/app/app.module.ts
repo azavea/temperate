@@ -30,6 +30,7 @@ import { RelatedAdaptiveValueService } from './core/services/related-adaptive-va
 import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
+import { RiskResolve } from './assessment/resolvers/risk-resolve';
 
 import {
   BsDropdownModule,
@@ -91,6 +92,7 @@ const appRoutes: Routes = [
     CacheService,
     CommunitySystemService,
     RelatedAdaptiveValueService,
+    RiskResolve,
     RiskService,
     UserService,
     WeatherEventService,
