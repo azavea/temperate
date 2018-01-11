@@ -9,12 +9,19 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class CommunitySystemService {
 
+  private values: CommunitySystem[];
+
   constructor(private apiHttp: PlanItApiHttp) {}
 
   list(): Observable<CommunitySystem[]> {
-    const url = `${environment.apiUrl}/api/community-system/`;
+    if (this.values !== undefined) {
+      return Observable.of(this.values);
+    }    const url = `${environment.apiUrl}/api/community-system/`;
     return this.apiHttp.get(url)
-      .map(resp => resp.json() || [] as CommunitySystem[]);
+      .map(resp => {
+        this.values = resp.json() || [] as CommunitySystem[];
+        return this.values;
+      });
   }
 
 }

@@ -9,12 +9,20 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class CollaboratorService {
 
+  private values: Collaborator[];
+
   constructor(private apiHttp: PlanItApiHttp) {}
 
   list(): Observable<Collaborator[]> {
+    if (this.values !== undefined) {
+      return Observable.of(this.values);
+    }
     const url = `${environment.apiUrl}/api/collaborators/`;
     return this.apiHttp.get(url)
-      .map(resp => resp.json() || [] as Collaborator[]);
+      .map(resp => {
+        this.values = resp.json() || [] as Collaborator[];
+        return this.values;
+      });
   }
 
 }
