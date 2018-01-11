@@ -29,7 +29,6 @@ export class FundingStepComponent extends WizardStepComponent<Action, FundingSte
     super.ngOnInit();
     const action = this.session.getData();
     this.setupForm(this.fromModel(action));
-    this.form.get('funding').valueChanges.subscribe(v => console.log('funding: ', v));
   }
 
   getFormModel(): FundingStepFormModel {
