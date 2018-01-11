@@ -7,13 +7,17 @@
   </p>
   <h4>Financial details</h4>
   <div class="action-card-financial-block">
-    <textarea id="comment" name="finance"></textarea>
+    <textarea name="finance"></textarea>
     <p>
       These details are not shared in any way with other cities, nor used by the application. They are solely a part of the Compact of Mayors
     </p>
   </div>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep>Continue</button>
+  <button type="button"
+          tabindex="3"
+          [disabled]="!form.valid"
+          nextStep
+          (finalize)="save()">Continue</button>
   <button type="button" previousStep>Back</button>
 </div>
