@@ -31,8 +31,8 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   public navigationSymbol = '1';
   public title = 'General Information';
 
-  public risks: any[];
-  private riskList: Risk[];
+  public namedRisks: any[];
+  private risks: Risk[];
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -47,11 +47,12 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     this.setupForm(this.fromModel(action));
 
     this.riskService.list().subscribe(risks => {
-      this.risks = risks.map(r => {
+      // the typeahead needs to be fed a pre-formatted name
+      this.namedRisks = risks.map(r => {
         return {'risk': r,
                 'name': `${r.weatherEvent.name} on ${r.communitySystem.name}`};
       });
-      this.riskList = risks;
+      this.risks = risks;
     });
 }
 
@@ -89,18 +90,10 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
     return model;
   }
 
-  // itemSelected(key: string, event: TypeaheadMatch | null) {
-  //   const savedID = this[key] ? this[key].id : null;
-  //   const formRisk = this.form.controls[key].value;
-  //   if (event !== null || savedID !== formRisk.id) {
-  //     this[key] = event && event.item ? event.item : null;
-  //   }
-  // }
-
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
-    const options = this.risks;
+    const options = this.namedRisks;
 
     // The order in which itemSelected and itemBlurred fire is unpredictable,
     // so wait to give itemSelected a chance to update the form value.
@@ -114,7 +107,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   }
 
   matchRisk(riskName: string): Risk {
-    const risk = this.risks.find(r =>  riskName === r.name);
+    const risk = this.namedRisks.find(r =>  riskName === r.name);
     return risk.risk;
   }
 }
