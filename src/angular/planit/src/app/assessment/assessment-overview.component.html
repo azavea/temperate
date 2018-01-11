@@ -59,6 +59,9 @@
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
                   <li role="menuitem">
+                    <a class="dropdown-item" [routerLink]="['risk', risk.id]">View</a>
+                  </li>
+                  <li role="menuitem">
                     <a class="dropdown-item" [routerLink]="['risk', risk.id]">Edit</a>
                   </li>
                   <li role="menuitem"><a class="dropdown-item" href="#">Clone</a></li>
