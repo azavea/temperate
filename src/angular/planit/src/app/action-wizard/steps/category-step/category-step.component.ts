@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Action, ActionCategory, WizardStepComponent } from '../../../shared/';
 import { ActionCategoryService } from '../../../core/services/action-category.service';
@@ -14,13 +15,14 @@ export class CategoryStepComponent extends WizardStepComponent<Action, ActionCat
 
   public navigationSymbol = '4';
   public title = 'Categories';
-  public form = null; // no form, just buttons
+  public form: FormGroup;
   public key = ActionStepKey.Category;
 
   public action: Action;
   public actionCategories: ActionCategory[];
 
-  constructor(private actionCategoryService: ActionCategoryService,
+  constructor(private fb: FormBuilder,
+              private actionCategoryService: ActionCategoryService,
               protected session: WizardSessionService<Action>) {
     super(session);
   }
@@ -58,6 +60,9 @@ export class CategoryStepComponent extends WizardStepComponent<Action, ActionCat
   }
 
   setupForm(data: ActionCategory[]) {
+    // action categories are managed outside the form
+    this.form = this.fb.group({});
+
     if (!this.actionCategories) {
       console.warn('Cannot set up category step form until action categories loaded');
       return;
