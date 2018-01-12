@@ -32,7 +32,11 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   }
 
   public add() {
-    this.selectedOptions.add(this.selected);
+    const selected = this.selected.trim();
+    if (!selected) {
+      return;
+    }
+    this.selectedOptions.add(selected);
     this.availableOptions.delete(this.selected);
     this.onChange(Array.from(this.selectedOptions));
     this.selected = '';
