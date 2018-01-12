@@ -18,7 +18,6 @@ export class CategoryStepComponent extends WizardStepComponent<Action, ActionCat
   public form: FormGroup;
   public key = ActionStepKey.Category;
 
-  public action: Action;
   public actionCategories: ActionCategory[];
 
   constructor(private fb: FormBuilder,
@@ -29,11 +28,10 @@ export class CategoryStepComponent extends WizardStepComponent<Action, ActionCat
 
   ngOnInit() {
     super.ngOnInit();
-    this.action = this.session.getData() || new Action({});
 
     this.actionCategoryService.list().subscribe(categories => {
       this.actionCategories = categories;
-      this.setupForm(this.fromModel(this.action));
+      this.setupForm(this.fromModel(this.session.getData() || new Action({})));
     });
   }
 
@@ -74,7 +72,7 @@ export class CategoryStepComponent extends WizardStepComponent<Action, ActionCat
 
     // mark action categories from the Action model as `selected` for UI presentation
     for (const category of data) {
-      const match: ActionCategory = this.actionCategories.find(function(cat: ActionCategory) {
+      const match: ActionCategory = this.actionCategories.find(function(cat) {
         return cat.id === category.id;
       });
 
