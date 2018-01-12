@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OrgRiskRelativeOption, Risk } from '../shared';
+import { OrgRiskRelativeOption, Risk, isRiskAssessed } from '../shared';
 import { RiskService } from '../core/services/risk.service';
 
 @Component({
@@ -27,12 +27,8 @@ export class ActionStepsOverviewComponent implements OnInit {
   }
 
   // Check if any of the risks have been assessed yet
-  // TODO: #405 implement another method/property for checking if assessed or not
   checkAssessedRisks(): boolean {
-    return !!this.risks.find((risk: Risk) => {
-      return risk.impactMagnitude !== OrgRiskRelativeOption.Unsure ||
-        risk.adaptiveCapacity !== OrgRiskRelativeOption.Unsure;
-    });
+    return !!this.risks.find((risk: Risk) => isRiskAssessed(risk));
   }
 
   // Count how many risks have associated actions, for the progress bar

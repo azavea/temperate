@@ -15,6 +15,9 @@ export {
   PrecipitationUnits,
   TemperatureUnits
 } from './constants/units-conversion';
+
+export { isRiskAssessed } from './constants/risk.constants';
+
 export {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions
