@@ -7,31 +7,29 @@
       </p>
     </div>
     <div class="adaptive-need-table col-6">
+      <span class="chart-left">Potential Impact</span>
       <table cellpadding="2">
         <thead>
           <tr>
-            <th colspan="3">Adaptive Capacity</th>
+            <th colspan="5">Adaptive Capacity</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let potentialImpactIndex of [2, 1, 0]"
-            [ngClass]="'pi-' + potentialImpactIndex">
-            <td *ngFor="let adaptiveCapacityIndex of [2, 1, 0]"
-              class="adaptive-capacity-box"
+          <tr *ngFor="let potentialImpactIndex of [4, 3, 2, 1, 0]">
+            <td *ngFor="let adaptiveCapacityIndex of [4, 3, 2, 1, 0]"
+                class="adaptive-capacity-box ac-{{ adaptiveCapacityIndex }} pi-{{ potentialImpactIndex }}"
               [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
-                && adaptiveCapacityIndex == adaptiveCapacityBin,
-                'ac-0': adaptiveCapacityIndex == 0,
-                'ac-1': adaptiveCapacityIndex == 1,
-                'ac-2': adaptiveCapacityIndex == 2}">
+                && adaptiveCapacityIndex == adaptiveCapacityBin}">
               &nbsp;
             </td>
-            <th>{{ ['Low', 'Mod', 'High'][potentialImpactIndex] }}</th>
+            <td *ngIf="potentialImpactIndex == 4">High</td>
+            <td *ngIf="potentialImpactIndex == 3" rowspan="3" class="arrow-down"><div></div></td>
+            <td *ngIf="potentialImpactIndex == 0">Low</td>
           </tr>
-          <span class="chart-left">Potential Impact</span>
           <tr>
-            <th>High</th>
-            <th>Mod</th>
-            <th>Low</th>
+            <td>High</td>
+            <td colspan="3" class="arrow-over"><div></div></td>
+            <td>Low</td>
           </tr>
         </tbody>
       </table>
