@@ -1,5 +1,5 @@
 // Autocomplete/freeform text used in vulnerability assessment and action steps
-app-freeform-multiselect {
+app-freeform-multiselect, .freeform-multiselect {
   .selected-option {
     display: inline-block;
     background-color: $brand-primary;
