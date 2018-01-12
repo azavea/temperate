@@ -170,16 +170,18 @@ class OrganizationRisk(models.Model):
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
                                      on_delete=models.CASCADE)
 
-    probability = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
-    frequency = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
-    intensity = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+    probability = models.CharField(max_length=16, blank=True, null=True, choices=Relative.CHOICES)
+    frequency = models.CharField(max_length=16, blank=True, null=True, choices=Directional.CHOICES)
+    intensity = models.CharField(max_length=16, blank=True, null=True, choices=Directional.CHOICES)
 
-    impact_magnitude = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
-    impact_description = models.TextField(blank=True)
+    impact_magnitude = models.CharField(max_length=16, blank=True, null=True,
+                                        choices=Relative.CHOICES)
+    impact_description = models.TextField(blank=True, null=True)
 
-    adaptive_capacity = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
-    related_adaptive_values = ArrayField(models.CharField(max_length=150), default=list)
-    adaptive_capacity_description = models.TextField(blank=True)
+    adaptive_capacity = models.CharField(max_length=16, blank=True, null=True,
+                                         choices=Relative.CHOICES)
+    related_adaptive_values = ArrayField(models.CharField(max_length=150), default=list, null=True)
+    adaptive_capacity_description = models.TextField(blank=True, null=True)
 
     class Meta:
         unique_together = ('weather_event', 'community_system', 'organization')
