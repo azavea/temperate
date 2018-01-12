@@ -77,7 +77,7 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
 
   toModel(data: CapacityStepFormModel, model: Risk) {
     model.adaptiveCapacity = data.adaptiveCapacity;
-    model.relatedAdaptiveValues = data.relatedAdaptiveValues;
+    model.relatedAdaptiveValues = data.relatedAdaptiveValues || [];
     model.adaptiveCapacityDescription = data.adaptiveCapacityDescription;
     return model;
   }

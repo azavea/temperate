@@ -10,7 +10,7 @@ export class Risk {
   impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
   impactDescription?: string;
   adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
-  relatedAdaptiveValues?: string[];
+  relatedAdaptiveValues: string[] = [];
   adaptiveCapacityDescription?: string;
   frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
   intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
