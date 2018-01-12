@@ -131,4 +131,12 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   public openModal() {
     this.indicatorsModal.open();
   }
+
+  isStepComplete(): boolean {
+    if (this.form.controls.frequency.value && this.form.controls.intensity.value
+        && this.form.controls.probability.value) {
+      return true;
+    }
+    return false;
+  }
 }

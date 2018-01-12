@@ -73,4 +73,8 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
     model.impactDescription = data.impactDescription;
     return model;
   }
+
+  isStepComplete(): boolean {
+    return this.form.controls.impactMagnitude.value ? true : false;
+  }
 }
