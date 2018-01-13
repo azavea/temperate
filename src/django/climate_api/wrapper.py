@@ -1,5 +1,7 @@
 import requests
 
+from django.conf import settings
+
 from climate_api.models import APIToken
 from climate_api.utils import get_api_url, serialize_years
 
@@ -10,7 +12,11 @@ def make_token_api_request(route, params=None):
     token = APIToken.objects.current()
     headers = {'Authorization': 'Token {}'.format(token)}
 
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(
+        url,
+        headers=headers,
+        params=params,
+        timeout=settings.CCAPI_REQUEST_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
