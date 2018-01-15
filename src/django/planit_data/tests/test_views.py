@@ -12,7 +12,7 @@ from planit_data.tests.factories import (
     OrganizationRiskFactory,
     WeatherEventRankFactory
 )
-from users.tests.factories import UserFactory, LocationFactory
+from users.tests.factories import UserFactory
 
 
 class ConcernViewSetTestCase(APITestCase):
@@ -106,7 +106,7 @@ class WeatherEventRankViewTestCase(APITestCase):
 
     def test_weather_event_rank_list(self):
         organization = self.user.primary_organization
-        organization.location = LocationFactory(coords=(2, 2))
+        organization.location.point = Point(2, 2)
 
         # Create a georegion centered around our location's coordinates
         georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
