@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AdaptiveNeedBoxComponent, Risk } from '../shared';
+import { Risk } from '../shared';
 import { RiskService } from '../core/services/risk.service';
 
 @Component({

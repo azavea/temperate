@@ -1,7 +1,11 @@
 <div class="action-card">
   <div class="action-card-content">
     <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
-    <button class="take-action btn"
-            [routerLink]="['/actions/action/start', risk.id]">Take action</button>
+    <button class="take-action btn" (click)="openModal(actionPicker)">Take action</button>
   </div>
 </div>
+
+<!-- action prompt template -->
+<ng-template #actionPicker>
+  <app-action-picker [risk]="risk" (closed)="modalRef.hide()"></app-action-picker>
+</ng-template>

@@ -1,31 +1,31 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AdaptiveNeedBoxComponent, Risk } from '../../shared';
-import { RiskService } from '../../core/services/risk.service';
 
 
 @Component({
   selector: 'app-action-picker',
   templateUrl: './action-picker.component.html'
 })
-export class ActionPickerComponent {
+export class ActionPickerComponent implements OnInit {
 
-  public risk: Risk;
+  @Input() risk: Risk;
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
-  constructor(private riskService: RiskService,
-              private route: ActivatedRoute,
-              private router: Router) {}
+  public showPrompt = true;
 
-  ngOnInit() {
-    const riskId: string = this.route.snapshot.paramMap.get('riskid');
-    this.riskService.get(riskId).subscribe(risk => this.risk = risk);
-  }
+  constructor(private router: Router) {}
+
+  ngOnInit() {}
 
   closeModal() {
     this.closed.emit('closed');
-    this.router.navigateByUrl('/actions');
+  }
+
+  goToWizard() {
+    this.router.navigateByUrl('/actions/action/wizard');
+    this.closeModal();
   }
 }

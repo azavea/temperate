@@ -1,6 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Component, OnInit } from '@angular/core';
 
 import { OrgRiskRelativeOption, Risk } from '../shared';
 import { RiskService } from '../core/services/risk.service';
@@ -13,11 +11,10 @@ import { RiskService } from '../core/services/risk.service';
 export class ActionStepsOverviewComponent implements OnInit {
 
   public haveAssessedRisks = false;
-  public modalRef: BsModalRef;
   public risks: Risk[];
   public risksWithActionsCount: number;
 
-  constructor (private modalService: BsModalService, private riskService: RiskService) {}
+  constructor (private riskService: RiskService) {}
 
   ngOnInit() {
     this.riskService.list().subscribe(risks => {
@@ -43,9 +40,5 @@ export class ActionStepsOverviewComponent implements OnInit {
   getRisksWithActionsCount() {
     this.risksWithActionsCount = this.risks.reduce((ct: number, risk: Risk) =>
       ct += risk.relatedAdaptiveValues.length ? 1 : 0, 0);
-  }
-
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {animated: false});
   }
 }

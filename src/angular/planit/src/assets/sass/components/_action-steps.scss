@@ -19,66 +19,6 @@
   margin-top: 20%;
 }
 
-.action-picker {
-  .modal-header {
-    background-color: $gray-1;
-    .row {
-      background-color: unset;
-    }
-  }
-  .modal-footer {
-    button {
-      background-color: $body-font-color;
-      color: white;
-      margin-right: -3rem;
-    }
-  }
-}
-
-.action-picker, .action-picker-prompt {
-  .action-picker-content {
-    text-align: center;
-  }
-
-  h2 {
-    width: 100%;
-  }
-
-  .modal-footer {
-    a {
-      text-decoration: none;
-      color: $brand-primary;
-    }
-
-    border: 0;
-  }
-}
-
-.action-picker-prompt {
-
-  button {
-    text-align: left;
-    width: max-content;
-    margin-left: -2.5rem;
-    margin-bottom: -3rem;
-  }
-
-  .modal-body {
-
-    :hover {
-      cursor: pointer;
-    }
-
-    h2, i {
-      color: $brand-primary;
-    }
-
-    i {
-      font-size: 5rem;
-    }
-  }
-}
-
 .take-action {
   background-color: $brand-positive;
   color: white;

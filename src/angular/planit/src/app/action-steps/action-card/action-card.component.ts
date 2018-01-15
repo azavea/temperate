@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import { Risk } from '../../shared';
 
@@ -10,9 +12,14 @@ export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
 
-  constructor() { }
+  public modalRef: BsModalRef;
 
-  ngOnInit() {
+  constructor(private modalService: BsModalService) { }
+
+  ngOnInit() { }
+
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {animated: false, class: 'modal-lg'});
   }
 
 }

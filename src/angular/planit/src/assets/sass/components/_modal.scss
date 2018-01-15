@@ -13,15 +13,15 @@
 }
 
 .modal-dialog {
-  width: inherit;
   position: relative;
   max-width: $modal-width;
+  width: inherit;
   margin: auto;
-  &.modal-large {
+  &.modal-lg {
     max-width: $modal-width-large;
     width: $modal-width-large;
   }
-  &.modal-small {
+  &.modal-sm {
     max-width: $modal-width-small;
     width: $modal-width-small;
   }
