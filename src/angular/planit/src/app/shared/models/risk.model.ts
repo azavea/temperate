@@ -26,4 +26,12 @@ export class Risk {
       this.weatherEvent = Object.assign({}, object.weatherEvent);
     }
   }
+
+  isAssessed(): boolean {
+    if(this.probability && this.frequency && this.intensity && this.impactMagnitude
+       && this.adaptiveCapacity) {
+      return true;
+    }
+    return false;
+  }
 }

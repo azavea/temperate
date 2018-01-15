@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Risk, isRiskAssessed } from '../shared';
+import { Risk } from '../shared';
 import { RiskService } from '../core/services/risk.service';
 
 @Component({
@@ -9,7 +9,6 @@ import { RiskService } from '../core/services/risk.service';
 })
 export class AssessmentOverviewComponent implements OnInit {
   public risks: Risk[];
-  public isRiskAssessed = isRiskAssessed;
 
   constructor (private riskService: RiskService) {}
 
