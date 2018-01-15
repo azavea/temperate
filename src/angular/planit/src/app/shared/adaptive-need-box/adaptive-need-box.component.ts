@@ -10,6 +10,7 @@ import { OrgRiskRelativeOption } from '../models/org-risk-relative-option.model'
 export class AdaptiveNeedBoxComponent implements OnInit {
   @Input() potentialImpact: OrgRiskRelativeOption;
   @Input() adaptiveCapacity: OrgRiskRelativeOption;
+  @Input() popoverPlacement: string;
 
   public potentialImpactBin: number;
   public adaptiveCapacityBin: number;

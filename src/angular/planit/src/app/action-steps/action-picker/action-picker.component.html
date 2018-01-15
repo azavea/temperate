@@ -5,6 +5,7 @@
       <h2 class="row" *ngIf="risk">
         <va-adaptive-need-box
           [adaptiveCapacity]="risk.adaptiveCapacity"
+          [popoverPlacement]="'bottom'"
           [potentialImpact]="risk.impactMagnitude">
         </va-adaptive-need-box>
         {{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h2>

@@ -38,8 +38,11 @@
 </ng-template>
 
 <span [ngClass]="['adaptive-need-box', 'pi-' + potentialImpactBin, 'ac-' + adaptiveCapacityBin]"
-      [popover]="popoverTemplate" placement="right" container="body"
-                containerClass="va-popover container-fluid" triggers="mouseenter:mouseleave"
+      [popover]="popoverTemplate"
+                placement="{{ popoverPlacement || 'right'}}"
+                container="body"
+                containerClass="va-popover container-fluid"
+                triggers="mouseenter:mouseleave"
       *ngIf="(potentialImpactBin !== undefined &&
              adaptiveCapacityBin !== undefined)">&nbsp;</span>
 <span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
