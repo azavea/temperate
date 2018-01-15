@@ -2,16 +2,18 @@
   <h3>Funding</h3>
 </div>
 <div class="step-content">
-  <p>
-    How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.
-  </p>
-  <h4>Financial details</h4>
-  <div class="action-card-financial-block">
-    <textarea name="finance"></textarea>
+  <form [formGroup]="form">
     <p>
-      These details are not shared in any way with other cities, nor used by the application. They are solely a part of the Compact of Mayors
+      How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.
     </p>
-  </div>
+    <h4>Financial details</h4>
+    <div class="action-card-financial-block">
+      <textarea formControlName="funding"></textarea>
+      <p>
+        These details are not shared in any way with other cities, nor used by the application. They are solely a part of the Compact of Mayors
+      </p>
+    </div>
+  </form>
 </div>
 <div class="step-footer">
   <button type="button"

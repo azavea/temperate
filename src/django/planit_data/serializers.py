@@ -119,6 +119,11 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         queryset=CommunitySystem.objects.all(),
         source='community_system'
     )
+    action = serializers.PrimaryKeyRelatedField(
+        many=False,
+        source='organizationaction',
+        read_only=True
+    )
 
     impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
                                               required=False, allow_blank=True,
@@ -144,7 +149,7 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationRisk
-        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
+        fields = ('id', 'action', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
                   'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
                   'relatedAdaptiveValues', 'adaptiveCapacityDescription')
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { ActionStepKey } from '../../action-step-key';
 import { Action, WizardStepComponent } from '../../../shared/';
