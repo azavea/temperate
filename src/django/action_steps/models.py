@@ -25,6 +25,23 @@ class ActionCategory(models.Model):
     def natural_key(self):
         return (self.name,)
 
+    class Meta:
+        ordering = ['name']
+
+
+class ActionType(models.Model):
+
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def natural_key(self):
+        return (self.name,)
+
+    class Meta:
+        ordering = ['name']
+
 
 class CollaboratorManager(models.Manager):
     def get_by_natural_key(self, name):
@@ -43,3 +60,6 @@ class Collaborator(models.Model):
 
     def natural_key(self):
         return (self.name,)
+
+    class Meta:
+        ordering = ['name']

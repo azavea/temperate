@@ -1,0 +1,100 @@
+[
+{
+    "model": "action_steps.actiontype",
+    "pk": 1,
+    "fields": {
+        "name": "Further Study"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 2,
+    "fields": {
+        "name": "Project"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 3,
+    "fields": {
+        "name": "Outreach"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 4,
+    "fields": {
+        "name": "Monitor"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 5,
+    "fields": {
+        "name": "Draft policy"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 6,
+    "fields": {
+        "name": "Review policy"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 7,
+    "fields": {
+        "name": "Create (internal) partnership"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 8,
+    "fields": {
+        "name": "Create (external) partnership"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 9,
+    "fields": {
+        "name": "Create new standard"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 10,
+    "fields": {
+        "name": "Revise standard"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 11,
+    "fields": {
+        "name": "Create new guideline"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 12,
+    "fields": {
+        "name": "Revise guideline"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 13,
+    "fields": {
+        "name": "Create new program"
+    }
+},
+{
+    "model": "action_steps.actiontype",
+    "pk": 14,
+    "fields": {
+        "name": "Revise program"
+    }
+}
+]

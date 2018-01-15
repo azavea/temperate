@@ -1,9 +1,76 @@
 <div class="step-header">
-  <h3>Action details</h3>
+  <h3>Action Details</h3>
+  <p>Add copy text here that talks about what action details means.</p>
 </div>
 <div class="step-content">
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <label for="step-implementation-action-type">Type of action</label>
+      <input id="step-implementation-action-type"
+             type="text"
+             formControlName="actionType"
+             [typeahead]="actionTypes"
+             [typeaheadMinLength]="1">
+    </div>
+    <div class="step-form-control">
+      <label for="step-implementation-action-goal">Action goal</label>
+      <input id="step-implementation-action-goal" type="text" formControlName="actionGoal">
+    </div>
+    <div class="step-form-control">
+      <div>
+        <label for="step-implementation-details">Implementation details</label>
+        <button class="button button-link pull-right"
+                [popover]="detailExamplesPopover"
+                [outsideClick]="true"
+                container="body"
+                placement="left">
+          See examples
+        </button>
+      </div>
+      <textarea id="step-implementation-details" formControlName="implementationDetails"></textarea>
+    </div>
+    <div class="step-form-control">
+      <div>Share with other cities
+        <span class="icon icon-question-circle-o"
+              tooltip="{{ tooltipText.shareWithCities }}">
+        </span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary"
+                [ngClass]="{active: form.controls['isPublic'].value}"
+                (click)="updateIsPublic(true)">
+          Public
+        </button>
+        <button class="btn btn-primary"
+                [ngClass]="{active: !form.controls['isPublic'].value}"
+                (click)="updateIsPublic(false)">
+          Private
+        </button>
+      </div>
+    </div>
+    <div class="step-form-control">
+      <label for="step-implementation-notes">Notes</label>
+      <textarea id="step-implementation-notes" formControlName="notes"></textarea>
+    </div>
+  </form>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep>Continue</button>
-  <button type="button" previousStep>Back</button>
+  <button type="button" nextStep (finalize)="save()">Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
 </div>
+
+<ng-template #detailExamplesPopover>
+  <h3>Strategy examples</h3>
+  <div>
+    <h5>Fairbanks, AK</h5>
+    <p>Support revision of the Environmental Atlas of Alaska used as design standards for engineers working in the Borough. New construction should use these revised standards to account for changing temperature and precipitation.</p>
+  </div>
+  <div>
+    <h5>New York, NY</h5>
+    <p>Call for the MTA to explore Red Hook - Lower Manhattan bus connections.</p>
+  </div>
+  <div>
+    <h5>Tampa, FL</h5>
+    <p>Within the predicited 2050 inundation area, require proposed central package treatment systems to be designed and installed to recognize anticipated flooding and groundwater conditions.</p>
+  </div>
+</ng-template>

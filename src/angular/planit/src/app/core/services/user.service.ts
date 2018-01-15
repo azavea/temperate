@@ -13,7 +13,7 @@ export class UserService {
   constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
 
   current(): Observable<User | null> {
-    let user = this.cache.get(CacheService.CORE_USERSERVICE_USER);
+    let user = this.cache.get(CacheService.CORE_USERSERVICE_CURRENT);
     if (user) {
       return Observable.of(user);
     }
@@ -23,7 +23,7 @@ export class UserService {
       const json = resp.json();
       if (json) {
         user = new User(json);
-        this.cache.set(CacheService.CORE_USERSERVICE_USER, user);
+        this.cache.set(CacheService.CORE_USERSERVICE_CURRENT, user);
         return user;
       }
       return null;

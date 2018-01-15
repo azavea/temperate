@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import (
     ActionCategory,
+    ActionType,
     Collaborator
 )
 
@@ -12,4 +13,5 @@ class ActionCategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ActionCategory, ActionCategoryAdmin)
+admin.site.register(ActionType)
 admin.site.register(Collaborator)
