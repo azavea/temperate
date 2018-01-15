@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Risk } from '../../shared';
+import { RiskService } from '../../core/services/risk.service';
 
 
 @Component({
@@ -8,9 +11,18 @@ import { Router } from '@angular/router';
 })
 export class ActionPickerComponent {
 
+  public risk: Risk;
+
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
-  constructor(private router: Router) {}
+  constructor(private riskService: RiskService,
+              private route: ActivatedRoute,
+              private router: Router) {}
+
+  ngOnInit() {
+    const riskId: string = this.route.snapshot.paramMap.get('riskid');
+    this.riskService.get(riskId).subscribe(risk => this.risk = risk);
+  }
 
   closeModal() {
     this.closed.emit('closed');

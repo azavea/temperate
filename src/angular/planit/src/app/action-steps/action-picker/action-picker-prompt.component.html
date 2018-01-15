@@ -6,7 +6,8 @@
   </div>
   <div class="container">
     <div class="row justify-content-md-center">
-      <div class="modal-body col-5" routerLink="/actions/action/suggested">
+      <div class="modal-body col-5"
+           [routerLink]="['/actions/action/suggested/', riskId]">
         <div class="action-picker-prompt-title action-picker-content">
           <i class="icon-lightbulb"></i>
           <h2>Begin from suggested actions</h2>

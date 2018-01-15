@@ -9,8 +9,8 @@ import { EditActionComponent } from './edit-action/edit-action.component';
 
 const routes: Routes = [
   { path: 'actions', component: ActionStepsOverviewComponent },
-  { path: 'actions/action/start', component: ActionPickerPromptComponent },
-  { path: 'actions/action/suggested', component: ActionPickerComponent },
+  { path: 'actions/action/start/:riskid', component: ActionPickerPromptComponent },
+  { path: 'actions/action/suggested/:riskid', component: ActionPickerComponent },
   { path: 'actions/action/wizard', component: EditActionComponent },
 ];
 

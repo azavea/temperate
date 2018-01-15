@@ -2,6 +2,6 @@
   <div class="action-card-content">
     <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
     <button class="take-action btn"
-            routerLink="action/start">Take action</button>
+            [routerLink]="['/actions/action/start', risk.id]">Take action</button>
   </div>
 </div>

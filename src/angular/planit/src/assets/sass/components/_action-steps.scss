@@ -20,6 +20,12 @@
 }
 
 .action-picker {
+  .modal-header {
+    background-color: $gray-1;
+    .row {
+      background-color: unset;
+    }
+  }
   .modal-footer {
     button {
       background-color: $body-font-color;

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -10,7 +10,13 @@ export class ActionPickerPromptComponent {
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
-  constructor(private router: Router) {}
+  public riskId: string;
+
+  constructor(private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit() {
+    this.riskId = this.route.snapshot.paramMap.get('riskid');
+  }
 
   closeModal() {
     this.closed.emit('closed');
