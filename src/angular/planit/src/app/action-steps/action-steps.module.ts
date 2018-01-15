@@ -9,6 +9,7 @@ import {
 } from '../action-wizard';
 import { SharedModule } from '../shared/shared.module';
 
+import { ActionPickerComponent } from './action-picker/action-picker.component';
 import { ActionPickerPromptComponent } from './action-picker/action-picker-prompt.component';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
@@ -26,6 +27,7 @@ import { EditActionComponent } from './edit-action/edit-action.component';
   ],
   exports: [],
   declarations: [
+    ActionPickerComponent,
     ActionPickerPromptComponent,
     ActionStepsOverviewComponent,
     ActionCardComponent,
