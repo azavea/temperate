@@ -2,8 +2,12 @@
   <div class="modal-header">
     <div class="container">
       <p class="row">Suggestions for</p>
-      <h2 class="row"
-          *ngIf="risk">{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h2>
+      <h2 class="row" *ngIf="risk">
+        <va-adaptive-need-box
+          [adaptiveCapacity]="risk.adaptiveCapacity"
+          [potentialImpact]="risk.impactMagnitude">
+        </va-adaptive-need-box>
+        {{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h2>
     </div>
     <button type="button" class="button button-modal-close"
         (click)="closeModal()" aria-label="Close"><i class="icon-cancel"></i></button>

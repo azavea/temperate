@@ -30,6 +30,9 @@ import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
     AdaptiveNeedBoxComponent,
     EditRiskComponent,
     RiskPopoverComponent
+  ],
+  exports: [
+    AdaptiveNeedBoxComponent
   ]
 })
 export class AssessmentModule { }

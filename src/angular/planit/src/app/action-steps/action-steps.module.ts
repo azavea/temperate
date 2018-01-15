@@ -7,6 +7,7 @@ import {
   ActionWizardComponent,
   ActionWizardModule
 } from '../action-wizard';
+import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { ActionPickerComponent } from './action-picker/action-picker.component';
@@ -23,7 +24,8 @@ import { EditActionComponent } from './edit-action/edit-action.component';
     ProgressbarModule,
     SharedModule,
     ActionStepsRoutingModule,
-    ActionWizardModule
+    ActionWizardModule,
+    AssessmentModule
   ],
   exports: [],
   declarations: [
