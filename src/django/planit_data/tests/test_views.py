@@ -7,12 +7,15 @@ from rest_framework import status
 
 from planit_data.views import WeatherEventRankView
 from planit_data.tests.factories import (
+    CommunitySystemFactory,
     ConcernFactory,
     GeoRegionFactory,
     OrganizationRiskFactory,
+    WeatherEventFactory,
     WeatherEventRankFactory
 )
-from users.tests.factories import UserFactory
+from planit_data.models import OrganizationRisk
+from users.tests.factories import UserFactory, OrganizationFactory
 
 
 class ConcernViewSetTestCase(APITestCase):
@@ -159,3 +162,32 @@ class OrganizationRiskTestCase(APITestCase):
                 'name': org_risk.weather_event.name
             }}])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_organization_risk(self):
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptiveCapacity': '',
+            'adaptiveCapacityDescription': '',
+            'communitySystem': community_system.id,
+            'frequency': '',
+            'impactDescription': '',
+            'impactMagnitude': '',
+            'intensity': '',
+            'probability': '',
+            'relatedAdaptiveValues': [],
+            'weatherEvent': weather_event.id
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+        risk_id = response.json()['id']
+
+        organization_risk = OrganizationRisk.objects.get(id=risk_id)
+        # Should automatically use the logged in user's primary_organization
+        self.assertEqual(organization_risk.organization, self.user.primary_organization)
+        self.assertEqual(organization_risk.community_system, community_system)
+        self.assertEqual(organization_risk.weather_event, weather_event)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

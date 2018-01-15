@@ -16,7 +16,6 @@ from planit_data.models import (
 from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
-    OrganizationRiskCreateSerializer,
     OrganizationRiskSerializer,
     RelatedAdaptiveValueSerializer,
     WeatherEventRankSerializer,
@@ -41,11 +40,14 @@ class OrganizationRiskView(ModelViewSet):
     model_class = OrganizationRisk
     permission_classes = [IsAuthenticated]
     pagination_class = None
+    serializer_class = OrganizationRiskSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'update' or self.action == 'create' or self.action == 'partial_update':
-            return OrganizationRiskCreateSerializer
-        return OrganizationRiskSerializer
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id

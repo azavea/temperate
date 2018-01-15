@@ -59,37 +59,6 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
-class WeatherEventWithConcernSerializer(WeatherEventSerializer):
-    """Serialize weather events, with related concerns."""
-    concern = ConcernSerializer()
-
-
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models."""
-    weatherEvent = WeatherEventSerializer(source='weather_event')
-    communitySystem = CommunitySystemSerializer(source='community_system')
-
-    impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
-                                              required=False, allow_blank=True,
-                                              choices=OrganizationRisk.Relative.CHOICES)
-    impactDescription = serializers.CharField(source='impact_description',
-                                              required=False, allow_blank=True)
-    adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
-                                               required=False, allow_blank=True,
-                                               choices=OrganizationRisk.Relative.CHOICES)
-    relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
-                                                  source='related_adaptive_values',
-                                                  default=list, required=False)
-    adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
-                                                        required=False, allow_blank=True)
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
-                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
-                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
-
-
 class WeatherEventField(serializers.PrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
 
@@ -130,18 +99,13 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
         return OrderedDict([(item.id, str(item)) for item in queryset])
 
 
-class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = RelatedAdaptiveValue
-        fields = ('name',)
+class WeatherEventWithConcernSerializer(WeatherEventSerializer):
+    """Serialize weather events, with related concerns."""
+    concern = ConcernSerializer()
 
 
-class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
-    """Serializer for creating and updating risks.
-
-    Takes ID for related weather event and community system.
-    """
+class OrganizationRiskSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models."""
     weatherEvent = WeatherEventField(
         many=False,
         queryset=WeatherEvent.objects.all(),
@@ -153,16 +117,40 @@ class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
         source='community_system'
     )
 
-    def create(self, validated_data):
-        # Pulling the organization from the request instead of as a serialized field
-        # ensures that users can't modify a different organization's risks
-        if 'request' not in self.context:
-            raise ValueError("Missing required 'request' context variable")
-        if not self.context['request'].user.is_authenticated:
-            raise ValueError("Requires authenticated user")
-        organization = self.context['request'].user.primary_organization
+    impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
+                                              required=False, allow_blank=True,
+                                              choices=OrganizationRisk.Relative.CHOICES)
+    impactDescription = serializers.CharField(source='impact_description',
+                                              required=False, allow_blank=True)
+    adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
+                                               required=False, allow_blank=True,
+                                               choices=OrganizationRisk.Relative.CHOICES)
+    relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
+                                                  source='related_adaptive_values',
+                                                  default=list, required=False)
+    adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
+                                                        required=False, allow_blank=True)
 
-        return OrganizationRisk.objects.create(organization=organization, **validated_data)
+    def create(self, validated_data):
+        # Organization is implied from the request's user, not the data, so we use the
+        # serializer's context to pass it through.
+        if 'organization' not in self.context:
+            raise ValueError("Missing required 'organization' context variable")
+        organization = self.context['organization']
+        return OrganizationRisk.objects.create(organization_id=organization, **validated_data)
+
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
+                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
+                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
+
+
+class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RelatedAdaptiveValue
+        fields = ('name',)
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):
