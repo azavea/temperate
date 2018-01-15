@@ -99,6 +99,14 @@ $ ./scripts/server --nginx
 
 ***Note*** If you've run the Angular server, you'll need to rebuild the Angular bundle before starting Nginx again. Run `scripts/update` before `scripts/server --nginx`.
 
+#### Angular server on host
+
+If you need to run the angular server outside the docker container, it can be done via:
+```
+cd src/angular/planit
+yarn start --port 4211
+```
+
 ### Ports
 
 | Port | Service |
@@ -107,6 +115,7 @@ $ ./scripts/server --nginx
 | [8100](http://localhost:8100) | Gunicorn |
 | [8101](http://localhost:8101) | Django debug server |
 | [4210](http://localhost:4210) | ng serve |
+| [4210](http://localhost:4211) | ng serve (run from host manually using --port option) |
 
 ### Scripts
 
