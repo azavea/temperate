@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AdaptiveNeedBoxComponent } from '../../assessment/adaptive-need-box/adaptive-need-box.component';
-import { Risk } from '../../shared';
+import { AdaptiveNeedBoxComponent, Risk } from '../../shared';
 import { RiskService } from '../../core/services/risk.service';
 
 

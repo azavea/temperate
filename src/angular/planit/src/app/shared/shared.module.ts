@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { BsDropdownModule, TypeaheadModule } from 'ngx-bootstrap';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ChartsModule } from 'climate-change-components';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { NouisliderModule } from 'ng2-nouislider';
 
+import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
@@ -33,10 +35,12 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     ChartsModule,
     FormsModule,
     NouisliderModule,
+    PopoverModule,
     RouterModule,
     TypeaheadModule,
   ],
   declarations: [
+    AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
     HelpModalComponent,
@@ -50,6 +54,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     UserDropdownComponent
   ],
   exports: [
+    AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
     HelpModalComponent,

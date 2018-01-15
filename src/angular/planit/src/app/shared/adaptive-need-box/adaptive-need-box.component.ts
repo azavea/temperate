@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { OrgRiskRelativeOption } from '../../shared';
+import { OrgRiskRelativeOption } from '../models/org-risk-relative-option.model';
 
 
 @Component({
