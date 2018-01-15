@@ -136,12 +136,35 @@ class OrganizationRiskTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_list_organization_risks(self):
-        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+        """Ensure that users see risks for their organization."""
+        OrganizationRiskFactory(organization=self.user.primary_organization)
 
         url = reverse('organizationrisk-list')
         response = self.client.get(url)
 
-        self.assertEqual(response.json(), [{
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_other_organizations_organization_risks_invisible(self):
+        """Ensure that users do not see risks for other organizations."""
+        # Create an organization risk for a organization the user does not belong to
+        OrganizationRiskFactory()
+
+        url = reverse('organizationrisk-list')
+        response = self.client.get(url)
+
+        # User should not be able to see it
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_organization_detail(self):
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.get(url)
+
+        self.assertDictEqual(response.json(), {
+            'action': None,
             'adaptiveCapacity': '',
             'adaptiveCapacityDescription': '',
             'communitySystem': {
@@ -162,18 +185,7 @@ class OrganizationRiskTestCase(APITestCase):
                 'id': org_risk.weather_event.id,
                 'indicators': [],
                 'name': org_risk.weather_event.name
-            }}])
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_other_organizations_organization_risks_invisible(self):
-        # Create an organization risk for a organization the user does not belong to
-        OrganizationRiskFactory()
-
-        url = reverse('organizationrisk-list')
-        response = self.client.get(url)
-
-        # User should not be able to see it
-        self.assertEqual(response.json(), [])
+            }})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_organization_risk(self):
@@ -248,13 +260,32 @@ class OrganizationActionTestCase(APITestCase):
         self.client.force_authenticate(user=self.user)
 
     def test_list_organization_actions(self):
-        action = OrganizationActionFactory(
+        OrganizationActionFactory(
             organization_risk__organization=self.user.primary_organization)
 
         url = reverse('organizationaction-list')
         response = self.client.get(url)
 
-        self.assertEqual(response.json(), [{
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_other_organizations_organization_actions_invisible(self):
+        OrganizationActionFactory()
+
+        url = reverse('organizationaction-list')
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_organization_action_detail(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization=self.user.primary_organization)
+
+        url = reverse('organizationaction-detail', kwargs={'pk': action.id})
+        response = self.client.get(url)
+
+        self.assertDictEqual(response.json(), {
             'action': '',
             'actionGoal': '',
             'actionType': '',
@@ -268,16 +299,7 @@ class OrganizationActionTestCase(APITestCase):
             'improvementsAdaptiveCapacity': '',
             'visibility': 'private',
             'risk': str(action.organization_risk.id)
-        }])
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_other_organizations_organization_actions_invisible(self):
-        OrganizationActionFactory()
-
-        url = reverse('organizationaction-list')
-        response = self.client.get(url)
-
-        self.assertEqual(response.json(), [])
+        })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_organization_action_categories_detail(self):
