@@ -28,7 +28,7 @@ export class ImplementationStepComponent
   public navigationSymbol = '2';
   public title = 'Action details';
   public tooltipText = {
-    shareWithCities: 'If public is selected, other organizations in Temperate will be able ' +
+    shareWithCities: 'If \'public\' is selected, other organizations in Temperate will be able ' +
                      'to view this action and use it as a template for their own vulnerability ' +
                      'assessments'
   };
