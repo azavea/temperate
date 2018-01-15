@@ -40,7 +40,7 @@ class PlanItLocationManager(models.Manager):
 
 
 class PlanItLocation(models.Model):
-    name = models.CharField(max_length=256, null=True, blank=True)
+    name = models.CharField(max_length=256, null=False, blank=True)
     api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
