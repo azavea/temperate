@@ -1,3 +1,4 @@
+export { ActionCategory } from './models/action-category.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
 export { Risk } from './models/risk.model';

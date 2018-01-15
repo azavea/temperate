@@ -23,3 +23,28 @@
   background-color: $brand-positive;
   color: white;
 }
+
+.action-category-card {
+  height: 40px;
+  width: 180px;
+  margin: 3px;
+  background-color: $gray-1;
+  border: #bdc0ea 1px solid;
+  border-radius: 4px;
+  text-align: left;
+  padding-top: 5px;
+
+  font-weight: bold;
+  line-height: 1.1rem;
+
+  &.selected {
+    background-color: $gray-4;
+    color: white;
+  }
+}
+
+.action-categories {
+  .row {
+    background-color: white;
+  }
+}
