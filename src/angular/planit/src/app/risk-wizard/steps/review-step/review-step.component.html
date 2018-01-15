@@ -18,17 +18,13 @@
 <div>
     Potential Impact: {{ impactOptions.get(risk.impactMagnitude)?.label }}
     <button class="button icon-edit" goToStep="2"></button>
-    <div *ngIf="risk.impactDescription">
-        {{ risk.impactDescription }}
-    </div>
+    <div *ngIf="risk.impactDescription" class="review-description">{{ risk.impactDescription }}</div>
 </div>
 
 <div>
     Adaptive Capacity: {{ chanceOptions.get(risk.adaptiveCapacity)?.label }}
     <button class="button icon-edit" goToStep="3"></button>
-    <div *ngIf="risk.adaptiveCapacityDescription">
-        {{ risk.adaptiveCapacityDescription }}
-    </div>
+    <div *ngIf="risk.adaptiveCapacityDescription" class="review-description">{{ risk.adaptiveCapacityDescription }}</div>
     <div class="freeform-multiselect" *ngIf="risk.relatedAdaptiveValues?.length > 0">
         <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.relatedAdaptiveValues">
             {{ relatedAdaptiveValue }}
