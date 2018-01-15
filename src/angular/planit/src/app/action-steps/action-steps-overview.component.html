@@ -25,3 +25,9 @@
     </section>
   </main>
 </div>
+
+<!-- action picker prompt template -->
+<ng-template #actionPickerPrompt>
+  <app-action-picker-prompt (closed)="modalRef.hide()"></app-action-picker-prompt>
+</ng-template>
+
