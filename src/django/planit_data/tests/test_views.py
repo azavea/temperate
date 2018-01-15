@@ -2,20 +2,22 @@ from unittest import mock
 
 from django.contrib.gis.geos import Point
 from django.urls import reverse
-from rest_framework.test import APITestCase
 from rest_framework import status
+from rest_framework.test import APITestCase
 
+from action_steps.models import ActionCategory
 from planit_data.views import WeatherEventRankView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
     GeoRegionFactory,
+    OrganizationActionFactory,
     OrganizationRiskFactory,
     WeatherEventFactory,
     WeatherEventRankFactory
 )
-from planit_data.models import OrganizationRisk
-from users.tests.factories import UserFactory, OrganizationFactory
+from planit_data.models import OrganizationAction, OrganizationRisk
+from users.tests.factories import UserFactory
 
 
 class ConcernViewSetTestCase(APITestCase):
@@ -163,6 +165,17 @@ class OrganizationRiskTestCase(APITestCase):
             }}])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_other_organizations_organization_risks_invisible(self):
+        # Create an organization risk for a organization the user does not belong to
+        OrganizationRiskFactory()
+
+        url = reverse('organizationrisk-list')
+        response = self.client.get(url)
+
+        # User should not be able to see it
+        self.assertEqual(response.json(), [])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_create_organization_risk(self):
         community_system = CommunitySystemFactory()
         weather_event = WeatherEventFactory()
@@ -191,3 +204,207 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(organization_risk.weather_event, weather_event)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_edit_organization_risk(self):
+        # Create an organization risk for the user's primary_organization
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+        new_community_system = CommunitySystemFactory()
+
+        # Update the organization risk to use the new community system
+        payload = {
+            'communitySystem': new_community_system.id,
+            'weatherEvent': org_risk.weather_event.id
+        }
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.put(url, data=payload)
+        risk_id = response.json()['id']
+
+        organization_risk = OrganizationRisk.objects.get(id=risk_id)
+        # Should automatically use the logged in user's primary_organization
+        self.assertEqual(organization_risk.community_system.id, new_community_system.id)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_cannot_edit_other_organizations_risk(self):
+        # Create an organization risk with a new organization the user does not belong to
+        org_risk = OrganizationRiskFactory()
+        new_community_system = CommunitySystemFactory()
+
+        # Update the organization risk to use the new community system
+        payload = {
+            'communitySystem': new_community_system.id,
+            'weatherEvent': org_risk.weather_event.id
+        }
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.put(url, data=payload)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class OrganizationActionTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+    def test_list_organization_actions(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization=self.user.primary_organization)
+
+        url = reverse('organizationaction-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.json(), [{
+            'action': '',
+            'actionGoal': '',
+            'actionType': '',
+            'categories': [],
+            'collaborators': [],
+            'funding': '',
+            'id': str(action.id),
+            'immprovementsImpacts': '',
+            'implementationDetails': '',
+            'implementationNotes': '',
+            'improvementsAdaptiveCapacity': '',
+            'visibility': 'private',
+            'risk': str(action.organization_risk.id)
+        }])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_other_organizations_organization_actions_invisible(self):
+        OrganizationActionFactory()
+
+        url = reverse('organizationaction-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.json(), [])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_organization_action_categories_detail(self):
+        """Ensure that categories are serialized as objects."""
+        category = ActionCategory.objects.create()
+        action = OrganizationActionFactory(
+            organization_risk__organization=self.user.primary_organization,
+            categories=[category])
+
+        url = reverse('organizationaction-detail', kwargs={'pk': action.id})
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.json()['categories']), 1)
+        self.assertDictEqual(response.json()['categories'][0], {
+            'description': '',
+            'icon': category.icon,
+            'id': str(category.id),
+            'name': ''
+        })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_organization_action(self):
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+
+        payload = {
+            'action': '',
+            'actionGoal': '',
+            'actionType': '',
+            'categories': [],
+            'collaborators': [],
+            'funding': '',
+            'immprovementsImpacts': '',
+            'implementationDetails': '',
+            'implementationNotes': '',
+            'improvementsAdaptiveCapacity': '',
+            'visibility': 'private',
+            'risk': str(org_risk.id)
+        }
+
+        url = reverse('organizationaction-list')
+        response = self.client.post(url, data=payload)
+        action_id = response.json()['id']
+
+        org_action = OrganizationAction.objects.get(id=action_id)
+        # Should automatically use the logged in user's primary_organization
+        self.assertEqual(org_action.organization_risk.id, org_risk.id)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_edit_organization_action(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization=self.user.primary_organization)
+        new_action_description = 'Sample action description'
+
+        payload = {
+            'action': new_action_description,
+            'actionGoal': '',
+            'actionType': '',
+            'categories': [],
+            'collaborators': [],
+            'funding': '',
+            'immprovementsImpacts': '',
+            'implementationDetails': '',
+            'implementationNotes': '',
+            'improvementsAdaptiveCapacity': '',
+            'visibility': 'private',
+            'risk': str(action.organization_risk.id)
+        }
+
+        url = reverse('organizationaction-detail', kwargs={'pk': action.id})
+        response = self.client.put(url, data=payload)
+        action_id = response.json()['id']
+
+        org_action = OrganizationAction.objects.get(id=action_id)
+        self.assertEqual(org_action.action, new_action_description)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_organization_action_category(self):
+        """Ensure that categories can be set by ID."""
+        action = OrganizationActionFactory(
+            organization_risk__organization=self.user.primary_organization)
+        category = ActionCategory.objects.create()
+
+        payload = {
+            'action': '',
+            'actionGoal': '',
+            'actionType': '',
+            'categories': [str(category.id)],
+            'collaborators': [],
+            'funding': '',
+            'immprovementsImpacts': '',
+            'implementationDetails': '',
+            'implementationNotes': '',
+            'improvementsAdaptiveCapacity': '',
+            'visibility': 'private',
+            'risk': str(action.organization_risk.id)
+        }
+
+        url = reverse('organizationaction-detail', kwargs={'pk': action.id})
+        response = self.client.put(url, data=payload)
+        action_id = response.json()['id']
+
+        org_action = OrganizationAction.objects.get(id=action_id)
+        self.assertIn(category, org_action.categories.all())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_cannot_use_other_organization_risk(self):
+        # Use a risk for an organization the user does not belong to
+        org_risk = OrganizationRiskFactory()
+
+        payload = {
+            'action': '',
+            'actionGoal': '',
+            'actionType': '',
+            'categories': [],
+            'collaborators': [],
+            'funding': '',
+            'immprovementsImpacts': '',
+            'implementationDetails': '',
+            'implementationNotes': '',
+            'improvementsAdaptiveCapacity': '',
+            'visibility': 'private',
+            'risk': str(org_risk.id)
+        }
+
+        url = reverse('organizationaction-list')
+        response = self.client.post(url, data=payload)
+
+        # Should fail and send back a 4xx error
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

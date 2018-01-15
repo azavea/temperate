@@ -8,6 +8,7 @@ from planit_data.models import (
     Concern,
     GeoRegion,
     Indicator,
+    OrganizationAction,
     OrganizationRisk,
     WeatherEvent,
     WeatherEventRank
@@ -18,7 +19,7 @@ class CommunitySystemFactory(factory.DjangoModelFactory):
     class Meta:
         model = CommunitySystem
 
-    name = 'Test Community System'
+    name = factory.Sequence(lambda n: 'Test CommunitySystem {}'.format(n))
 
 
 class IndicatorFactory(factory.DjangoModelFactory):
@@ -76,3 +77,21 @@ class OrganizationRiskFactory(factory.DjangoModelFactory):
     organization = factory.SubFactory(OrganizationFactory)
     weather_event = factory.SubFactory(WeatherEventFactory)
     community_system = factory.SubFactory(CommunitySystemFactory)
+
+
+class OrganizationActionFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = OrganizationAction
+
+    organization_risk = factory.SubFactory(OrganizationRiskFactory)
+
+    @factory.post_generation
+    def categories(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of categories were passed in, use them
+            for category in extracted:
+                self.categories.add(category)

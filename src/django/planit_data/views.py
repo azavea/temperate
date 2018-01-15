@@ -7,6 +7,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    OrganizationAction,
     OrganizationRisk,
     RelatedAdaptiveValue,
     WeatherEvent,
@@ -17,6 +18,7 @@ from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
     OrganizationRiskSerializer,
+    OrganizationActionSerializer,
     RelatedAdaptiveValueSerializer,
     WeatherEventRankSerializer,
     WeatherEventSerializer,
@@ -43,6 +45,7 @@ class OrganizationRiskView(ModelViewSet):
     serializer_class = OrganizationRiskSerializer
 
     def get_serializer_context(self):
+        # Pass the user's organization to the serializer so it can be saved correclty
         context = super().get_serializer_context()
         context.update({
             "organization": self.request.user.primary_organization_id
@@ -52,6 +55,25 @@ class OrganizationRiskView(ModelViewSet):
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(organization_id=org_id)
+
+
+class OrganizationActionViewSet(ModelViewSet):
+    model_class = OrganizationAction
+    serializer_class = OrganizationActionSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+    def get_serializer_context(self):
+        # Pass the user's organization to the serializer so it can be saved correclty
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
+
+    def get_queryset(self):
+        org_id = self.request.user.primary_organization_id
+        return OrganizationAction.objects.filter(organization_risk__organization_id=org_id)
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):

@@ -9,6 +9,7 @@ from django.contrib.postgres.fields import ArrayField
 
 from climate_api.utils import roundrobin, IMPERIAL_TO_METRIC
 from climate_api.wrapper import make_indicator_api_request, make_token_api_request
+from action_steps.models import ActionCategory
 
 logger = logging.getLogger(__name__)
 
@@ -184,8 +185,46 @@ class OrganizationRisk(models.Model):
         unique_together = ('weather_event', 'community_system', 'organization')
 
     def __str__(self):
-        return "{}: {} on {}".format(self.organization.name, self.weather_event.name,
+        return "{}: {} on {}".format(self.organization.name,
+                                     self.weather_event.name,
                                      self.community_system.name)
+
+
+class OrganizationAction(models.Model):
+    """A record of planned or potential adaptation actions an organization may take."""
+    SINGLELINE_MAX_LENGTH = 1024
+
+    class Visibility:
+        PUBLIC = 'public'
+        PRIVATE = 'private'
+
+        CHOICES = (
+            (PUBLIC, 'Public'),
+            (PRIVATE, 'Private'),
+        )
+
+    id = models.UUIDField(primary_key=True,
+                          default=uuid.uuid4,
+                          editable=False)
+    organization_risk = models.OneToOneField(OrganizationRisk, unique=True, null=False)
+    action = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    implementation_details = models.TextField(blank=True)
+    visibility = models.CharField(max_length=16, blank=True,
+                                  choices=Visibility.CHOICES, default=Visibility.PRIVATE)
+    implementation_notes = models.TextField(blank=True)
+    improvements_adaptive_capacity = models.TextField(blank=True)
+    immprovements_impacts = models.TextField(blank=True)
+    collaborators = ArrayField(base_field=models.CharField(max_length=SINGLELINE_MAX_LENGTH,
+                                                           blank=True), default=list)
+    categories = models.ManyToManyField(ActionCategory,
+                                        related_name='organization_actions',
+                                        blank=True)
+    funding = models.TextField(blank=True)
+
+    def __str__(self):
+        return str(self.organization_risk)
 
 
 class Concern(models.Model):
