@@ -10,3 +10,21 @@
     margin-bottom: 3rem;
   }
 }
+
+app-action-review-step {
+  .review-icon-box {
+    display: flex;
+    align-items: center;
+
+    & > span {
+      font-size: 30px;
+    }
+
+    & > div {
+      padding: 1rem;
+      h4 {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

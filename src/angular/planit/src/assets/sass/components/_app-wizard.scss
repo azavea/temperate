@@ -23,6 +23,28 @@ wizard {
       textarea {
         width: 100%;
       }
+
+      .review-step {
+        margin-bottom: 4rem;
+
+        .review-item {
+          background-color: $gray-1;
+          padding: 2rem;
+          margin-bottom: 0.5rem;
+
+          &.warning {
+            background-color: $brand-warning;
+          }
+
+          &.success {
+            background-color: $brand-success;
+          }
+
+          h4 > .button {
+            float: right;
+          }
+        }
+      }
     }
 
     .step-footer {

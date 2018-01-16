@@ -1,21 +1,92 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Rx';
+
+import { ActionService } from '../../../core/services/action.service';
+import { RiskService } from '../../../core/services/risk.service';
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
+import {
+  Action,
+  OrgRiskDirectionalOptions,
+  OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeImpactOptions,
+  Risk
+} from '../../../shared';
+import { ActionVisibility } from '../../../shared/models/action.model';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
+
+import { ActionStepKey } from '../../action-step-key';
 
 @Component({
   selector: 'app-action-review-step',
   templateUrl: './review-step.component.html'
 })
-export class ReviewStepComponent implements OnInit {
+export class ReviewStepComponent extends ActionWizardStepComponent<any>
+                                 implements OnInit, OnDestroy {
 
+  public form: FormGroup;
+  public key: ActionStepKey = ActionStepKey.Review;
   public navigationSymbol = '6';
   public title = 'Review';
 
-  constructor(private router: Router) { }
+  public action: Action;
+  public risk: Risk;
+
+  public directionalOptions = OrgRiskDirectionalOptions;
+  public chanceOptions = OrgRiskRelativeChanceOptions;
+  public impactOptions = OrgRiskRelativeImpactOptions;
+  public visibilityOptions = ActionVisibility;
+
+  private sessionSubscription: Subscription;
+
+  constructor(protected actionService: ActionService,
+              private riskService: RiskService,
+              private router: Router,
+              protected session: WizardSessionService<Action>,
+              protected toastr: ToastrService) {
+    super(session, actionService, toastr);
+  }
 
   ngOnInit() {
+    super.ngOnInit();
+    this.action = this.session.getData();
+    this.updateRisk();
+
+    this.sessionSubscription = this.session.data.subscribe(a => {
+      this.action = a;
+      this.updateRisk();
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   finish() {
     this.router.navigate(['actions']);
+  }
+
+  getFormModel() {
+    return {};
+  }
+
+  fromModel(model: Action) {
+    return {};
+  }
+
+  toModel(data: any, model: Action) {
+    return model;
+  }
+
+  setupForm(data: any) {}
+
+  private updateRisk() {
+    // Call anytime this.action is updated to update the associated risk
+    if (this.action.risk && (!this.risk || this.action.risk !== this.risk.id)) {
+      this.riskService.get(this.action.risk).subscribe(r => this.risk = r);
+    }
   }
 }
