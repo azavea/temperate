@@ -15,7 +15,7 @@ import { ActionStepKey } from '../../action-step-key';
 
 interface AssessStepFormModel {
   name: string;
-  risk: Risk;
+  risk: string;
 }
 
 interface NamedRisk {
@@ -75,7 +75,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   getFormModel(): AssessStepFormModel {
     const data: AssessStepFormModel = {
       name: this.form.controls.name.value,
-      risk: this.matchRisk(this.form.controls.risk.value)
+      risk: this.matchRisk(this.form.controls.risk.value).id
     };
     return data;
   }
