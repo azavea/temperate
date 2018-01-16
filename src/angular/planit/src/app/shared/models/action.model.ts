@@ -8,18 +8,18 @@ export enum ActionVisibility {
 
 export class Action {
   id?: string;
-  action: string;
-  risk: string;
-  actionType: string;
-  actionGoal: string;
+  action = '';
+  risk?: string;
+  actionType = '';
+  actionGoal = '';
   implementationDetails = '';
   visibility: ActionVisibility = ActionVisibility.Private;
   implementationNotes = '';
-  improvementsAdaptiveCapacity: string;
-  immprovementsImpacts: string;
-  collaborators: string[];
-  categories: ActionCategory[];
-  funding: string;
+  improvementsAdaptiveCapacity = '';
+  immprovementsImpacts = '';
+  collaborators: string[] = [];
+  categories: ActionCategory[] = [];
+  funding = '';
 
   constructor(object: any) {
     Object.assign(this, object);
