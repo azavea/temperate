@@ -40,7 +40,7 @@ class PlanItLocationManager(models.Manager):
 
 
 class PlanItLocation(models.Model):
-    name = models.CharField(max_length=256, null=True, blank=True)
+    name = models.CharField(max_length=256, null=False, blank=True)
     api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
@@ -114,19 +114,28 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 class PlanItUserManager(BaseUserManager):
     """Custom user manager, based on Django's UserManager."""
 
+    @transaction.atomic
     def _create_user(self, email, first_name, last_name, password, **extra):
         if not email:
             raise ValueError('Email must be set')
+
+        try:
+            # Check if a primary organization was explicitly provided
+            primary_org = extra['primary_organization']
+        except KeyError:
+            # Otherwise use the default organization
+            primary_org = PlanItOrganization.objects.get(
+                name=PlanItOrganization.DEFAULT_ORGANIZATION)
+            extra['primary_organization'] = primary_org
+
         email = self.normalize_email(email)
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
         user.set_password(password)
         user.save()
 
-        # Associate the user with the default organization
-        org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
-        user.organizations.add(org)
-        user.primary_organization = org
-        user.save()
+        # Add the user's primary organization to their organizations list
+        # Need to do this after user.save() since many-to-many fields need a database object
+        user.organizations.add(primary_org)
 
         return user
 

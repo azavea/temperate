@@ -1,9 +1,12 @@
 from collections import OrderedDict
 from rest_framework import serializers
 
+from action_steps.models import ActionCategory
+from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    OrganizationAction,
     OrganizationRisk,
     RelatedAdaptiveValue,
     WeatherEvent,
@@ -59,42 +62,11 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
-class WeatherEventWithConcernSerializer(WeatherEventSerializer):
-    """Serialize weather events, with related concerns."""
-    concern = ConcernSerializer()
-
-
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models."""
-    weatherEvent = WeatherEventSerializer(source='weather_event')
-    communitySystem = CommunitySystemSerializer(source='community_system')
-
-    impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
-                                              required=False, allow_blank=True,
-                                              choices=OrganizationRisk.Relative.CHOICES)
-    impactDescription = serializers.CharField(source='impact_description',
-                                              required=False, allow_blank=True)
-    adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
-                                               required=False, allow_blank=True,
-                                               choices=OrganizationRisk.Relative.CHOICES)
-    relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
-                                                  source='related_adaptive_values',
-                                                  default=list, required=False)
-    adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
-                                                        required=False, allow_blank=True)
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
-                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
-                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
-
-
 class WeatherEventField(serializers.PrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
 
     def to_representation(self, value):
-        pk = super(WeatherEventField, self).to_representation(value)
+        pk = super().to_representation(value)
         try:
             item = WeatherEvent.objects.get(pk=pk)
             serializer = WeatherEventSerializer(item)
@@ -114,7 +86,7 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
 
     def to_representation(self, value):
-        pk = super(CommunitySystemField, self).to_representation(value)
+        pk = super().to_representation(value)
         try:
             item = CommunitySystem.objects.get(pk=pk)
             serializer = CommunitySystemSerializer(item)
@@ -130,18 +102,13 @@ class CommunitySystemField(serializers.PrimaryKeyRelatedField):
         return OrderedDict([(item.id, str(item)) for item in queryset])
 
 
-class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = RelatedAdaptiveValue
-        fields = ('name',)
+class WeatherEventWithConcernSerializer(WeatherEventSerializer):
+    """Serialize weather events, with related concerns."""
+    concern = ConcernSerializer()
 
 
-class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
-    """Serializer for creating and updating risks.
-
-    Takes ID for related weather event and community system.
-    """
+class OrganizationRiskSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models."""
     weatherEvent = WeatherEventField(
         many=False,
         queryset=WeatherEvent.objects.all(),
@@ -152,17 +119,80 @@ class OrganizationRiskCreateSerializer(OrganizationRiskSerializer):
         queryset=CommunitySystem.objects.all(),
         source='community_system'
     )
+    action = serializers.PrimaryKeyRelatedField(
+        many=False,
+        source='organizationaction',
+        read_only=True
+    )
+
+    impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
+                                              required=False, allow_blank=True,
+                                              choices=OrganizationRisk.Relative.CHOICES)
+    impactDescription = serializers.CharField(source='impact_description',
+                                              required=False, allow_blank=True)
+    adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
+                                               required=False, allow_blank=True,
+                                               choices=OrganizationRisk.Relative.CHOICES)
+    relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
+                                                  source='related_adaptive_values',
+                                                  default=list, required=False)
+    adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
+                                                        required=False, allow_blank=True)
 
     def create(self, validated_data):
-        # Pulling the organization from the request instead of as a serialized field
-        # ensures that users can't modify a different organization's risks
-        if 'request' not in self.context:
-            raise ValueError("Missing required 'request' context variable")
-        if not self.context['request'].user.is_authenticated:
-            raise ValueError("Requires authenticated user")
-        organization = self.context['request'].user.primary_organization
+        # Organization is implied from the request's user, not the data, so we use the
+        # serializer's context to pass it through.
+        if 'organization' not in self.context:
+            raise ValueError("Missing required 'organization' context variable")
+        organization = self.context['organization']
+        return OrganizationRisk.objects.create(organization_id=organization, **validated_data)
 
-        return OrganizationRisk.objects.create(organization=organization, **validated_data)
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'action', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
+                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
+                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
+
+
+class OrganizationActionSerializer(serializers.ModelSerializer):
+    risk = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=OrganizationRisk.objects.all(),
+        source='organization_risk'
+    )
+    categories = ActionCategoryField(
+        many=True,
+        queryset=ActionCategory.objects.all()
+    )
+    actionType = serializers.CharField(source='action_type', required=False, allow_blank=True)
+    actionGoal = serializers.CharField(source='action_goal', required=False, allow_blank=True)
+    implementationDetails = serializers.CharField(
+        source='implementation_details', required=False, allow_blank=True)
+    implementationNotes = serializers.CharField(
+        source='implementation_notes', required=False, allow_blank=True)
+    improvementsAdaptiveCapacity = serializers.CharField(
+        source='improvements_adaptive_capacity', required=False, allow_blank=True)
+    immprovementsImpacts = serializers.CharField(
+        source='immprovements_impacts', required=False, allow_blank=True)
+
+    def validate_risk(self, value):
+        if value.organization.id != self.context['organization']:
+            raise serializers.ValidationError("Risk does not belong to user's organization")
+        return value
+
+    class Meta:
+        model = OrganizationAction
+        fields = ('id', 'risk', 'action', 'actionType', 'actionGoal',
+                  'implementationDetails', 'visibility', 'implementationNotes',
+                  'improvementsAdaptiveCapacity', 'immprovementsImpacts', 'collaborators',
+                  'categories', 'funding')
+
+
+class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RelatedAdaptiveValue
+        fields = ('name',)
 
 
 class WeatherEventRankSerializer(serializers.ModelSerializer):

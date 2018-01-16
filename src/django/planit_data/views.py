@@ -7,6 +7,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    OrganizationAction,
     OrganizationRisk,
     RelatedAdaptiveValue,
     WeatherEvent,
@@ -16,8 +17,8 @@ from planit_data.models import (
 from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
-    OrganizationRiskCreateSerializer,
     OrganizationRiskSerializer,
+    OrganizationActionSerializer,
     RelatedAdaptiveValueSerializer,
     WeatherEventRankSerializer,
     WeatherEventSerializer,
@@ -41,15 +42,38 @@ class OrganizationRiskView(ModelViewSet):
     model_class = OrganizationRisk
     permission_classes = [IsAuthenticated]
     pagination_class = None
+    serializer_class = OrganizationRiskSerializer
 
-    def get_serializer_class(self):
-        if self.action == 'update' or self.action == 'create' or self.action == 'partial_update':
-            return OrganizationRiskCreateSerializer
-        return OrganizationRiskSerializer
+    def get_serializer_context(self):
+        # Pass the user's organization to the serializer so it can be saved correclty
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(organization_id=org_id)
+
+
+class OrganizationActionViewSet(ModelViewSet):
+    model_class = OrganizationAction
+    serializer_class = OrganizationActionSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+    def get_serializer_context(self):
+        # Pass the user's organization to the serializer so it can be saved correclty
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
+
+    def get_queryset(self):
+        org_id = self.request.user.primary_organization_id
+        return OrganizationAction.objects.filter(organization_risk__organization_id=org_id)
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):

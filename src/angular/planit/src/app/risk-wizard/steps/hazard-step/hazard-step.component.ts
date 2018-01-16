@@ -13,7 +13,8 @@ import {
   OrgRiskRelativeOption,
   OrgRiskRelativeChanceOptions,
   Risk,
-  WizardStepComponent } from '../../../shared/';
+  WizardStepComponent
+} from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 // tslint:disable-next-line:max-line-length

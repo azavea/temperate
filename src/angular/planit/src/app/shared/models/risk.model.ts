@@ -5,6 +5,7 @@ import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
 
 export class Risk {
   id?: string;
+  action?: string;
   weatherEvent: WeatherEvent;
   communitySystem: CommunitySystem;
   impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
