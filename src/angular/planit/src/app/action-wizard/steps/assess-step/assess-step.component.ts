@@ -18,6 +18,11 @@ interface AssessStepFormModel {
   risk: Risk;
 }
 
+interface NamedRisk {
+  name: string;
+  risk: Risk;
+}
+
 @Component({
   selector: 'app-action-assess-step',
   templateUrl: 'assess-step.component.html'
@@ -31,7 +36,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   public navigationSymbol = '1';
   public title = 'General Information';
 
-  public namedRisks: AssessStepFormModel[];
+  public namedRisks: NamedRisk[];
   private risks: Risk[];
 
   constructor(private fb: FormBuilder,
