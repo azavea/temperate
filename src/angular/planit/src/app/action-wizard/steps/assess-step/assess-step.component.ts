@@ -31,7 +31,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   public navigationSymbol = '1';
   public title = 'General Information';
 
-  public namedRisks: any[];
+  public namedRisks: AssessStepFormModel[];
   private risks: Risk[];
 
   constructor(private fb: FormBuilder,
@@ -93,22 +93,16 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
-    const options = this.namedRisks;
-
-    // The order in which itemSelected and itemBlurred fire is unpredictable,
-    // so wait to give itemSelected a chance to update the form value.
-    setTimeout(() => {
-      const val = this.form.controls[key].value;
-      const found = this.matchRisk(val) || null;
-      if (!found) {
-        this.form.controls[key].setErrors({'autocomplete': true});
-      }
-    }, 500);
+    const val = this.form.controls[key].value;
+    const found = this.matchRisk(val);
+    if (found === null) {
+      this.form.controls[key].setErrors({'autocomplete': true});
+    }
   }
 
   matchRisk(riskName: string): Risk {
     const risk = this.namedRisks.find(r =>  riskName === r.name);
-    return risk.risk;
+    return risk ? risk.risk : null;
   }
 }
 

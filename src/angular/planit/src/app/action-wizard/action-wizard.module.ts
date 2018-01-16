@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ArchwizardModule } from 'ng2-archwizard';
-import { BsDropdownModule,
-         ButtonsModule,
-         TooltipModule,
+import { TooltipModule,
          TypeaheadModule,
          PopoverModule } from 'ngx-bootstrap';
 
@@ -25,12 +22,9 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     SharedModule,
-    BsDropdownModule,
-    ButtonsModule,
     TooltipModule,
     TypeaheadModule,
     ArchwizardModule,
-    FormsModule,
     PopoverModule,
     ReactiveFormsModule
   ],

@@ -12,10 +12,10 @@
                   rows="4"
                   tabindex="1"
                   required></textarea>
+        <div *ngIf="form.controls.name.errors">
+          <span *ngIf="form.controls.name.errors.required">*Required</span>
+        </div>
       </label>
-      <div *ngIf="form.controls.name.errors">
-        <span *ngIf="form.controls.name.errors.required">*Required</span>
-      </div>
       <label>Risk
         <input class="form-control" formControlName="risk"
                                     tabindex="2"
