@@ -37,22 +37,22 @@
         </thead>
         <tbody>
           <tr *ngFor="let risk of risks">
-            <th><va-adaptive-need-box
+            <td><va-adaptive-need-box
               [adaptiveCapacity]="risk.adaptiveCapacity"
-              [potentialImpact]="risk.impactMagnitude"></va-adaptive-need-box></th>
-            <th>
+              [potentialImpact]="risk.impactMagnitude"></va-adaptive-need-box></td>
+            <td>
               <va-risk-popover [risk]="risk"></va-risk-popover>
-            </th>
-            <th>{{ risk.impactMagnitude }}</th>
-            <th>{{ risk.adaptiveCapacity }}</th>
-            <th>
+            </td>
+            <td>{{ risk.impactMagnitude }}</td>
+            <td>{{ risk.adaptiveCapacity }}</td>
+            <td>
               <button class="button va-status-button"
                       *ngIf="!(risk.impactMagnitude || risk.adaptiveCapacity)"
                       [routerLink]="['risk', risk.id]">Assess</button>
               <button *ngIf="risk.impactMagnitude || risk.adaptiveCapacity"
                 class="button va-status-button in-progress">Take Action</button>
-            </th>
-            <th>
+            </td>
+            <td>
               <div class="btn-group" dropdown>
                 <button dropdownToggle type="button" class="btn button dropdown-toggle">
                   <span class="icon-ellipsis"></span>
@@ -69,7 +69,7 @@
                   </li>
                 </ul>
               </div>
-            </th>
+            </td>
           </tr>
         </tbody>
       </table>
