@@ -8,14 +8,14 @@ export class Risk {
   action?: string;
   weatherEvent: WeatherEvent;
   communitySystem: CommunitySystem;
-  impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
+  impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
   impactDescription = '';
-  adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
-  relatedAdaptiveValues: string[] = [];
+  adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
+  relatedAdaptiveValues?: string[] = [];
   adaptiveCapacityDescription = '';
-  frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
-  intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
-  probability: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
+  frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Null;
+  intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Null;
+  probability: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
 
   constructor(object: any) {
     Object.assign(this, object);

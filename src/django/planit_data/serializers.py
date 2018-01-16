@@ -73,19 +73,18 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     communitySystem = CommunitySystemSerializer(source='community_system')
 
     impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
-                                              required=False, allow_blank=True, allow_null=True,
+                                              required=False, allow_blank=True,
                                               choices=OrganizationRisk.Relative.CHOICES)
     impactDescription = serializers.CharField(source='impact_description',
-                                              required=False, allow_blank=True, allow_null=True)
+                                              required=False, allow_blank=True)
     adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
-                                               required=False, allow_blank=True, allow_null=True,
+                                               required=False, allow_blank=True,
                                                choices=OrganizationRisk.Relative.CHOICES)
     relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
                                                   source='related_adaptive_values',
-                                                  default=list, allow_null=True, required=False)
+                                                  default=list, required=False)
     adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
-                                                        required=False, allow_blank=True,
-                                                        allow_null=True)
+                                                        required=False, allow_blank=True)
 
     class Meta:
         model = OrganizationRisk

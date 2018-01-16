@@ -4,6 +4,10 @@ import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
 export const OrgRiskRelativeChanceOptions =
     new Map<OrgRiskRelativeOption, OrgRiskOptionDescription>([
   [OrgRiskRelativeOption.Unsure, {
+    label: 'Null',
+    description: ''
+  }],
+  [OrgRiskRelativeOption.Unsure, {
     label: 'Unsure',
     description: ''
   }],
