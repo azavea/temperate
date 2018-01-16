@@ -114,6 +114,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 class PlanItUserManager(BaseUserManager):
     """Custom user manager, based on Django's UserManager."""
 
+    @transaction.atomic
     def _create_user(self, email, first_name, last_name, password, **extra):
         if not email:
             raise ValueError('Email must be set')
