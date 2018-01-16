@@ -8,10 +8,10 @@ export class Risk {
   weatherEvent: WeatherEvent;
   communitySystem: CommunitySystem;
   impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
-  impactDescription?: string;
+  impactDescription = '';
   adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
-  relatedAdaptiveValues?: string[];
-  adaptiveCapacityDescription?: string;
+  relatedAdaptiveValues: string[] = [];
+  adaptiveCapacityDescription = '';
   frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
   intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Unsure;
   probability: OrgRiskRelativeOption = OrgRiskRelativeOption.Unsure;
