@@ -62,37 +62,6 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'coastalOnly', 'concern', 'indicators', 'displayClass')
 
 
-class WeatherEventWithConcernSerializer(WeatherEventSerializer):
-    """Serialize weather events, with related concerns."""
-    concern = ConcernSerializer()
-
-
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models."""
-    weatherEvent = WeatherEventSerializer(source='weather_event')
-    communitySystem = CommunitySystemSerializer(source='community_system')
-
-    impactMagnitude = serializers.ChoiceField(source='impact_magnitude',
-                                              required=False, allow_blank=True,
-                                              choices=OrganizationRisk.Relative.CHOICES)
-    impactDescription = serializers.CharField(source='impact_description',
-                                              required=False, allow_blank=True)
-    adaptiveCapacity = serializers.ChoiceField(source='adaptive_capacity',
-                                               required=False, allow_blank=True,
-                                               choices=OrganizationRisk.Relative.CHOICES)
-    relatedAdaptiveValues = serializers.ListField(child=serializers.CharField(),
-                                                  source='related_adaptive_values',
-                                                  default=list, required=False)
-    adaptiveCapacityDescription = serializers.CharField(source='adaptive_capacity_description',
-                                                        required=False, allow_blank=True)
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'weatherEvent', 'communitySystem', 'probability', 'frequency',
-                  'intensity', 'impactMagnitude', 'impactDescription', 'adaptiveCapacity',
-                  'relatedAdaptiveValues', 'adaptiveCapacityDescription')
-
-
 class WeatherEventField(serializers.PrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
 
@@ -213,7 +182,7 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationAction
-        fields = ('id', 'risk', 'action', 'actionType', 'actionGoal',
+        fields = ('id', 'risk', 'name', 'actionType', 'actionGoal',
                   'implementationDetails', 'visibility', 'implementationNotes',
                   'improvementsAdaptiveCapacity', 'immprovementsImpacts', 'collaborators',
                   'categories', 'funding')

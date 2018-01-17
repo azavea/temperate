@@ -8,14 +8,14 @@ export class Risk {
   action?: string;
   weatherEvent: WeatherEvent;
   communitySystem: CommunitySystem;
-  impactMagnitude?: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
+  impactMagnitude?: OrgRiskRelativeOption;
   impactDescription = '';
-  adaptiveCapacity?: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
+  adaptiveCapacity?: OrgRiskRelativeOption;
   relatedAdaptiveValues?: string[] = [];
   adaptiveCapacityDescription = '';
-  frequency: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Null;
-  intensity: OrgRiskDirectionalOption = OrgRiskDirectionalOption.Null;
-  probability: OrgRiskRelativeOption = OrgRiskRelativeOption.Null;
+  frequency?: OrgRiskDirectionalOption;
+  intensity?: OrgRiskDirectionalOption;
+  probability?: OrgRiskRelativeOption;
 
   constructor(object: any) {
     Object.assign(this, object);
@@ -28,10 +28,7 @@ export class Risk {
   }
 
   isAssessed(): boolean {
-    if(this.probability && this.frequency && this.intensity && this.impactMagnitude
-       && this.adaptiveCapacity) {
-      return true;
-    }
-    return false;
+    return !!this.probability && !!this.frequency && !!this.intensity && !!this.impactMagnitude
+      && !!this.adaptiveCapacity;
   }
 }

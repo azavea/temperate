@@ -1,7 +1,6 @@
 import { OrgRiskOptionDescription } from './org-risk-option-description.model';
 
 export enum OrgRiskDirectionalOption {
-  Null = '',
   Unsure = 'unsure',
   NoChange = 'no change',
   Increasing = 'increasing',
@@ -10,10 +9,6 @@ export enum OrgRiskDirectionalOption {
 
 export const OrgRiskDirectionalOptions =
     new Map<OrgRiskDirectionalOption, OrgRiskOptionDescription>([
-  [OrgRiskDirectionalOption.Unsure, {
-    label: 'Null',
-    description: ''
-  }],
   [OrgRiskDirectionalOption.Unsure, {
     label: 'Unsure',
     description: ''

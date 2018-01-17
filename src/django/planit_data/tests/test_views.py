@@ -286,7 +286,7 @@ class OrganizationActionTestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertDictEqual(response.json(), {
-            'action': '',
+            'name': '',
             'actionGoal': '',
             'actionType': '',
             'categories': [],
@@ -325,7 +325,7 @@ class OrganizationActionTestCase(APITestCase):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
 
         payload = {
-            'action': '',
+            'name': '',
             'actionGoal': '',
             'actionType': '',
             'categories': [],
@@ -355,7 +355,7 @@ class OrganizationActionTestCase(APITestCase):
         new_action_description = 'Sample action description'
 
         payload = {
-            'action': new_action_description,
+            'name': new_action_description,
             'actionGoal': '',
             'actionType': '',
             'categories': [],
@@ -374,7 +374,7 @@ class OrganizationActionTestCase(APITestCase):
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
-        self.assertEqual(org_action.action, new_action_description)
+        self.assertEqual(org_action.name, new_action_description)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_edit_organization_action_category(self):
@@ -384,7 +384,7 @@ class OrganizationActionTestCase(APITestCase):
         category = ActionCategory.objects.create()
 
         payload = {
-            'action': '',
+            'name': '',
             'actionGoal': '',
             'actionType': '',
             'categories': [str(category.id)],
@@ -411,7 +411,7 @@ class OrganizationActionTestCase(APITestCase):
         org_risk = OrganizationRiskFactory()
 
         payload = {
-            'action': '',
+            'name': '',
             'actionGoal': '',
             'actionType': '',
             'categories': [],

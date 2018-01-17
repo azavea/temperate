@@ -139,19 +139,17 @@ class OrganizationRisk(models.Model):
     """
 
     class Directional:
-        NULL = ''
         UNSURE = 'unsure'
         DECREASING = 'decreasing'
         NO_CHANGE = 'no change'
         INCREASING = 'increasing'
 
         CHOICES = (
-            (NULL, ''), (UNSURE, 'Unsure'), (DECREASING, 'Decreasing'), (NO_CHANGE, 'No change'),
+            (UNSURE, 'Unsure'), (DECREASING, 'Decreasing'), (NO_CHANGE, 'No change'),
             (INCREASING, 'Increasing'),
         )
 
     class Relative:
-        NULL = ''
         UNSURE = 'unsure'
         LOW = 'low'
         MODERATELY_LOW = 'mod low'
@@ -160,7 +158,7 @@ class OrganizationRisk(models.Model):
         HIGH = 'high'
 
         CHOICES = (
-            (NULL, ''), (UNSURE, 'Unsure'), (LOW, 'Low'), (MODERATELY_LOW, 'Moderately low'),
+            (UNSURE, 'Unsure'), (LOW, 'Low'), (MODERATELY_LOW, 'Moderately low'),
             (MODERATE, 'Moderate'), (MODERATELY_HIGH, 'Moderately high'), (HIGH, 'High')
         )
 
@@ -172,21 +170,16 @@ class OrganizationRisk(models.Model):
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
                                      on_delete=models.CASCADE)
 
-    probability = models.CharField(max_length=16, blank=True, default=Relative.NULL,
-                                   choices=Relative.CHOICES)
-    frequency = models.CharField(max_length=16, blank=True, default=Directional.NULL,
-                                 choices=Directional.CHOICES)
-    intensity = models.CharField(max_length=16, blank=True, default=Directional.NULL,
-                                 choices=Directional.CHOICES)
+    probability = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    frequency = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+    intensity = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
 
-    impact_magnitude = models.CharField(max_length=16, blank=True, default=Relative.NULL,
-                                        choices=Relative.CHOICES)
-    impact_description = models.TextField(blank=True, default='')
+    impact_magnitude = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    impact_description = models.TextField(blank=True)
 
-    adaptive_capacity = models.CharField(max_length=16, blank=True, default=Relative.NULL,
-                                         choices=Relative.CHOICES)
+    adaptive_capacity = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
     related_adaptive_values = ArrayField(models.CharField(max_length=150), default=list)
-    adaptive_capacity_description = models.TextField(blank=True, default='')
+    adaptive_capacity_description = models.TextField(blank=True)
 
     class Meta:
         unique_together = ('weather_event', 'community_system', 'organization')
@@ -214,7 +207,7 @@ class OrganizationAction(models.Model):
                           default=uuid.uuid4,
                           editable=False)
     organization_risk = models.OneToOneField(OrganizationRisk, unique=True, null=False)
-    action = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    name = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     implementation_details = models.TextField(blank=True)

@@ -83,6 +83,6 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
   }
 
   isStepComplete(): boolean {
-    return this.form.controls.adaptiveCapacity.value ? true : false;
+    return !!this.form.controls.adaptiveCapacity.value;
   }
 }

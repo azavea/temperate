@@ -15,7 +15,6 @@ export {
   PrecipitationUnits,
   TemperatureUnits
 } from './constants/units-conversion';
-
 export {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions

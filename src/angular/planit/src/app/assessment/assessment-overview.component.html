@@ -50,7 +50,7 @@
               <button class="button va-status-button"
                       *ngIf="!risk.isAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
-              <button *ngIf="risk.isAssessed()"
+              <button *ngIf="!!risk.isAssessed()"
                 class="button va-status-button in-progress">Take Action</button>
             </td>
             <td>

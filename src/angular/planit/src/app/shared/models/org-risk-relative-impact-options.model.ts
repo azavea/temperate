@@ -7,10 +7,6 @@ export const OrgRiskRelativeImpactOptions =
     label: 'Unsure',
     description: ''
   }],
-  [OrgRiskRelativeOption.Unsure, {
-    label: 'Unsure',
-    description: ''
-  }],
   [OrgRiskRelativeOption.Low, {
     label: 'Low',
     description: 'you expect that the hazard will not affect the operation of critical assets' +

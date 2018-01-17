@@ -133,10 +133,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   }
 
   isStepComplete(): boolean {
-    if (this.form.controls.frequency.value && this.form.controls.intensity.value
-        && this.form.controls.probability.value) {
-      return true;
-    }
-    return false;
+    return !!this.form.controls.frequency.value && !!this.form.controls.intensity.value
+      && !!this.form.controls.probability.value;
   }
 }
