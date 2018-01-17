@@ -48,9 +48,9 @@
             <td>{{ risk.adaptiveCapacity }}</td>
             <td>
               <button class="button va-status-button"
-                      *ngIf="!(risk.impactMagnitude || risk.adaptiveCapacity)"
+                      *ngIf="!risk.isAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
-              <button *ngIf="risk.impactMagnitude || risk.adaptiveCapacity"
+              <button *ngIf="!!risk.isAssessed()"
                 class="button va-status-button in-progress">Take Action</button>
             </td>
             <td>

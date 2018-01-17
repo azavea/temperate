@@ -20,19 +20,15 @@ export class ActionStepsOverviewComponent implements OnInit {
     this.riskService.list().subscribe(risks => {
       this.risks = risks;
       // now that risks have been fetched, check if any have been assessed
-      this.haveAssessedRisks = this.checkAssessedRisks();
+      this.haveAssessedRisks = this.isARiskAssessed();
       // get count of risks with actions
       this.getRisksWithActionsCount();
     });
   }
 
   // Check if any of the risks have been assessed yet
-  // TODO: #405 implement another method/property for checking if assessed or not
-  checkAssessedRisks(): boolean {
-    return !!this.risks.find((risk: Risk) => {
-      return risk.impactMagnitude !== OrgRiskRelativeOption.Unsure ||
-        risk.adaptiveCapacity !== OrgRiskRelativeOption.Unsure;
-    });
+  isARiskAssessed(): boolean {
+    return !!this.risks.find((risk: Risk) => risk.isAssessed());
   }
 
   // Count how many risks have associated actions, for the progress bar

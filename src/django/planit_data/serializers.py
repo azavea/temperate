@@ -182,7 +182,7 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationAction
-        fields = ('id', 'risk', 'action', 'actionType', 'actionGoal',
+        fields = ('id', 'risk', 'name', 'actionType', 'actionGoal',
                   'implementationDetails', 'visibility', 'implementationNotes',
                   'improvementsAdaptiveCapacity', 'immprovementsImpacts', 'collaborators',
                   'categories', 'funding')

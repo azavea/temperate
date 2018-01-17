@@ -81,4 +81,8 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
     model.adaptiveCapacityDescription = data.adaptiveCapacityDescription;
     return model;
   }
+
+  isStepComplete(): boolean {
+    return !!this.form.controls.adaptiveCapacity.value;
+  }
 }

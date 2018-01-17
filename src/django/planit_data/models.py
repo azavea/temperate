@@ -207,7 +207,7 @@ class OrganizationAction(models.Model):
                           default=uuid.uuid4,
                           editable=False)
     organization_risk = models.OneToOneField(OrganizationRisk, unique=True, null=False)
-    action = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    name = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     implementation_details = models.TextField(blank=True)
