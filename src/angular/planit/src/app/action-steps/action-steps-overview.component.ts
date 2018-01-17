@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OrgRiskRelativeOption, Risk } from '../shared';
+import { OrgRiskRelativeOption, Risk, Action } from '../shared';
 import { RiskService } from '../core/services/risk.service';
+import { ActionService } from '../core/services/action.service';
 
 @Component({
   selector: 'as-overview',
@@ -13,8 +14,11 @@ export class ActionStepsOverviewComponent implements OnInit {
   public haveAssessedRisks = false;
   public risks: Risk[];
   public risksWithActionsCount: number;
+  public risksWithoutActions: Risk[];
+  public actions: Action[];
 
-  constructor (private riskService: RiskService) {}
+  constructor (private riskService: RiskService,
+               private actionService: ActionService) {}
 
   ngOnInit() {
     this.riskService.list().subscribe(risks => {
@@ -23,7 +27,9 @@ export class ActionStepsOverviewComponent implements OnInit {
       this.haveAssessedRisks = this.isARiskAssessed();
       // get count of risks with actions
       this.getRisksWithActionsCount();
+      this.getRisksWithoutActions();
     });
+    this.actionService.list().subscribe(actions => this.actions = actions);
   }
 
   // Check if any of the risks have been assessed yet
@@ -35,6 +41,20 @@ export class ActionStepsOverviewComponent implements OnInit {
   // TODO: #428 modify to count associated actions, once relationship to risks exists
   getRisksWithActionsCount() {
     this.risksWithActionsCount = this.risks.reduce((ct: number, risk: Risk) =>
-      ct += risk.relatedAdaptiveValues.length ? 1 : 0, 0);
+      ct += risk.action ? 1 : 0, 0);
+  }
+
+  getMatchingRisk(action: Action) {
+    return this.risks.find(risk => risk.id === action.risk);
+  }
+
+  getRisksWithoutActions() {
+    this.risksWithoutActions = this.risks.filter(risk => !risk.action);
+  }
+
+  onDeleted(action){
+    this.actionService.delete(action).subscribe(a => {
+      this.actionService.list().subscribe(actions => this.actions = actions);
+    });
   }
 }

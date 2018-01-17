@@ -1,8 +1,13 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component,
+        OnInit,
+        Input,
+        Output,
+        EventEmitter,
+        TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
-import { Risk } from '../../shared';
+import { Risk, Action } from '../../shared';
 
 @Component({
   selector: 'as-action-card',
@@ -11,6 +16,8 @@ import { Risk } from '../../shared';
 export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
+  @Input() action?: Action = null;
+  @Output() onDeleted = new EventEmitter<Action>();
 
   public modalRef: BsModalRef;
 
@@ -20,6 +27,10 @@ export class ActionCardComponent implements OnInit {
 
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {animated: false, class: 'modal-lg'});
+  }
+
+  public deleteAction(action: Action) {
+    this.onDeleted.emit(action);
   }
 
 }

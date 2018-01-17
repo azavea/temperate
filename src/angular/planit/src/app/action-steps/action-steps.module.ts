@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { ProgressbarModule,
+         TooltipModule,
+         BsDropdownModule } from 'ngx-bootstrap';
 
 import {
   ActionWizardComponent,
@@ -21,6 +23,8 @@ import { EditActionComponent } from './edit-action/edit-action.component';
   imports: [
     CommonModule,
     ProgressbarModule,
+    BsDropdownModule,
+    TooltipModule,
     SharedModule,
     ActionStepsRoutingModule,
     ActionWizardModule,

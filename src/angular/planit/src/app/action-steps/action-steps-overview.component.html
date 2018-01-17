@@ -16,7 +16,11 @@
         </progressbar>
         <h2>In Progress</h2>
         <div class="action-card-container">
-          <as-action-card *ngFor="let risk of risks"
+          <as-action-card *ngFor="let action of actions"
+                          [action]="action"
+                          [risk]="getMatchingRisk(action)"
+                          (onDeleted)="onDeleted($event)"></as-action-card>
+          <as-action-card *ngFor="let risk of risksWithoutActions"
                           [risk]="risk"></as-action-card>
         </div>
       </div>

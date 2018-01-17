@@ -1,5 +1,37 @@
-<div class="action-card">
+<div *ngIf="action && risk" class="action-card action">
+  <div class="action-card-header btn-group" dropdown>
+    <button dropdownToggle type="button" class="btn button dropdown-toggle">
+      <span class="icon-ellipsis"></span>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li role="menuitem">
+                    <a class="dropdown-item">View</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item">Edit</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="deleteAction(action)">Remove</a>
+                  </li>
+    </ul>
+  </div>
   <div class="action-card-content">
+    <h4>Action</h4>
+    <h3>{{ action.action }}</h3>
+    <h4>Risk</h4>
+    <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
+    <div *ngIf="action.categories.length" class="categories">
+      <h5>Categories</h5>
+      <div *ngFor="let category of action.categories">
+        <i class="{{ category.icon }}"
+           tooltip="{{ category.description }}"
+           placement="bottom"></i>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!action && risk" class="action-card">
+  <div class="risk-card-content">
     <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
     <button class="take-action button" (click)="openModal(actionPicker)">Take action</button>
   </div>
