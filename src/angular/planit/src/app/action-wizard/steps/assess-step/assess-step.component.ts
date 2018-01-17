@@ -14,7 +14,7 @@ import { RiskService } from '../../../core/services/risk.service';
 import { ActionStepKey } from '../../action-step-key';
 
 interface AssessStepFormModel {
-  name: string;
+  action: string;
   risk: string;
 }
 
@@ -67,22 +67,23 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
 
   fromModel(action: Action): AssessStepFormModel {
     return {
-       name: action.name,
+       action: action.action,
        risk: action.risk
     };
   }
 
   getFormModel(): AssessStepFormModel {
+    const riskFromId = this.matchRisk(this.form.controls.risk.value);
     const data: AssessStepFormModel = {
-      name: this.form.controls.name.value,
-      risk: this.matchRisk(this.form.controls.risk.value).id
+      action: this.form.controls.action.value,
+      risk: riskFromId !== null ? riskFromId.id : null
     };
     return data;
   }
 
   setupForm(data: AssessStepFormModel) {
     this.form = this.fb.group({
-      'name': [data.name ? data.name : '',
+      'action': [data.action ? data.action : '',
                 [Validators.required]],
       'risk': [data.risk ? data.risk : '',
                 [Validators.required]]
@@ -90,7 +91,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   }
 
   toModel(data: AssessStepFormModel, model: Action) {
-    model.name = data.name;
+    model.action = data.action;
     model.risk = data.risk;
     return model;
   }
