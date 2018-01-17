@@ -1,0 +1,114 @@
+.action-picker {
+  .action-picker-risk-name {
+    width: 80%;
+    margin-bottom: 0;
+  }
+
+  .adaptive-need-box {
+    margin-right: 1rem;
+    padding-left: 0;
+  }
+
+  .modal-header {
+    background-color: $gray-0;
+
+    .container {
+      margin: 0;
+      width: 100%;
+    }
+
+    .row {
+      background-color: unset;
+    }
+  }
+  .modal-footer {
+    button {
+      background-color: $body-font-color;
+      color: white;
+    }
+  }
+}
+
+.action-picker, .action-picker-prompt {
+  .action-picker-content {
+    text-align: center;
+  }
+
+  .action-picker-header {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  .container {
+    margin: 0 2rem 0 2rem;
+    width: unset;
+  }
+
+  h2 {
+    width: 100%;
+  }
+
+  .icon-cancel-circled2 {
+    font-size: 2rem;
+  }
+
+  .modal-header {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  .modal-footer {
+    a {
+      text-decoration: none;
+      color: $brand-primary;
+    }
+
+    border: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+
+  }
+
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.action-picker-prompt {
+  .action-picker-body {
+    :hover {
+      background-color: $gray-1;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    text-align: left;
+    width: max-content;
+    margin-left: -2.5rem;
+    margin-bottom: -3rem;
+  }
+
+  .modal-body {
+    h2, i {
+      color: $brand-primary;
+    }
+
+    i {
+      font-size: 5rem;
+    }
+  }
+}
+
+.action-picker-content.button-modal-close {
+  background-color: transparent;
+  border-radius: 50%;
+  float: right;
+  font-size: 2rem;
+  margin-bottom: -5rem;
+  margin-left: -5rem;
+  padding: 0px;
+}

@@ -10,8 +10,8 @@ import { RiskService } from '../core/services/risk.service';
 
 export class ActionStepsOverviewComponent implements OnInit {
 
-  public risks: Risk[];
   public haveAssessedRisks = false;
+  public risks: Risk[];
   public risksWithActionsCount: number;
 
   constructor (private riskService: RiskService) {}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { OrgRiskRelativeOption } from '../../shared';
+import { OrgRiskRelativeOption } from '../models/org-risk-relative-option.model';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { OrgRiskRelativeOption } from '../../shared';
 export class AdaptiveNeedBoxComponent implements OnInit {
   @Input() potentialImpact: OrgRiskRelativeOption;
   @Input() adaptiveCapacity: OrgRiskRelativeOption;
+  @Input() popoverPlacement: string;
 
   public potentialImpactBin: number;
   public adaptiveCapacityBin: number;

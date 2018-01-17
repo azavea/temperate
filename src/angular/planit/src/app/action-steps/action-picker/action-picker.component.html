@@ -1,0 +1,58 @@
+
+<button type="button" class="button button-modal-close action-picker-content"
+        (click)="closeModal()" aria-label="Close">
+        <i class="icon-cancel-circled2"></i>
+</button>
+<div class="action-picker-prompt" *ngIf="showPrompt">
+  <div class="modal-header action-picker-content">
+    <h2 class="action-picker-header">How do you want to start?</h2>
+  </div>
+  <div class="container">
+    <div class="row justify-content-md-center action-picker-body">
+      <div class="modal-body col-5" (click)="showPrompt = false">
+        <div class="action-picker-prompt-title action-picker-content">
+          <i class="icon-lightbulb"></i>
+          <h2>Begin from suggested actions</h2>
+        </div>
+        <p class="action-picker-content">We've gathered actions that some cities have undertaken over the years and will recommend some for you to start from!</p>
+        <button class="btn btn-primary">Recommended!</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a (click)="goToWizard()">Or, start from scratch</a>
+    </div>
+  </div>
+</div>
+<!-- action picker (second dialog) -->
+<div class="action-picker action-picker-content" *ngIf="!showPrompt">
+  <div class="modal-header">
+    <div class="container">
+      <p class="row action-picker-header">Suggestions for</p>
+      <div class="row" *ngIf="risk">
+        <div class="adaptive-need-box col col-md-3">
+          <va-adaptive-need-box
+            [adaptiveCapacity]="risk.adaptiveCapacity"
+            [popoverPlacement]="'bottom'"
+            [potentialImpact]="risk.impactMagnitude">
+          </va-adaptive-need-box>
+        </div>
+        <h2 class="col col-md-9 action-picker-risk-name">
+          {{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}
+        </h2>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Suggested actions</h2>
+    <p>Actions below were chosen for you based on your region.</p>
+    <div class="row justify-content-md-center">
+      <div class="modal-body col-5">
+        <p>TODO: action cards go here</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary"
+              (click)="goToWizard()">Nevermind, I'll start from scratch</button>
+    </div>
+  </div>
+</div>

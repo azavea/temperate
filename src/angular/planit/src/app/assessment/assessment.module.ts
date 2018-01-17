@@ -8,7 +8,6 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 import { SharedModule } from '../shared/shared.module';
 
-import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import { AssessmentOverviewComponent } from './assessment-overview.component';
 import { AssessmentRoutingModule } from './assessment-routing.module';
 import { EditRiskComponent } from './edit-risk/edit-risk.component';
@@ -27,7 +26,6 @@ import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
   ],
   declarations: [
     AssessmentOverviewComponent,
-    AdaptiveNeedBoxComponent,
     EditRiskComponent,
     RiskPopoverComponent
   ]
