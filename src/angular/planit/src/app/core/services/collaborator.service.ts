@@ -2,24 +2,25 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CommunitySystem } from '../../shared/models/community-system.model';
+import { Collaborator } from '../../shared/models/collaborator.model';
 import { PlanItApiHttp } from './api-http.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class CommunitySystemService {
+export class CollaboratorService {
 
-  private values: CommunitySystem[];
+  private values: Collaborator[];
 
   constructor(private apiHttp: PlanItApiHttp) {}
 
-  list(): Observable<CommunitySystem[]> {
+  list(): Observable<Collaborator[]> {
     if (this.values !== undefined) {
       return Observable.of(this.values);
-    }    const url = `${environment.apiUrl}/api/community-system/`;
+    }
+    const url = `${environment.apiUrl}/api/collaborators/`;
     return this.apiHttp.get(url)
       .map(resp => {
-        this.values = resp.json() || [] as CommunitySystem[];
+        this.values = resp.json() || [] as Collaborator[];
         return this.values;
       });
   }

@@ -12,10 +12,10 @@ from action_steps.serializers import (
 class ActionCategoryViewSet(ReadOnlyModelViewSet):
     """ViewSet for ActionCategory.
 
-    No pagination -- this is a short list, the client can handle filtering/sorting/etc
+    No pagination -- this is a short list, the client can handle filtering
 
     """
-    queryset = ActionCategory.objects.all()
+    queryset = ActionCategory.objects.all().order_by('name')
     serializer_class = ActionCategorySerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
@@ -36,10 +36,10 @@ class ActionTypeViewSet(ReadOnlyModelViewSet):
 class CollaboratorViewSet(ReadOnlyModelViewSet):
     """ViewSet for Collaborator.
 
-    No pagination -- this is a short list, the client can handle filtering/sorting/etc
+    No pagination -- this is a short list, the client can handle filtering
 
     """
-    queryset = Collaborator.objects.all()
+    queryset = Collaborator.objects.all().order_by('name')
     serializer_class = CollaboratorSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
