@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../core/services/auth.service';
-import { User } from '../shared';
+import { AuthService } from '../../core/services/auth.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-login-form',

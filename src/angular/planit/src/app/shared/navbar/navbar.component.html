@@ -1,9 +1,28 @@
 <header class="header-primary" role="banner">
   <div class="button-group">
-    <a href="index.html" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
+    <a routerLink="/" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
   </div>
-  <div class="button-group">
+  <div class="button-group" *ngIf="authService.isAuthenticated()">
+    <a class="btn btn-primary"
+       *ngIf="router.url !== '/dashboard'"
+       routerLink="/dashboard">Go to Dashboard</a>
     <app-help-modal></app-help-modal>
     <app-user-dropdown></app-user-dropdown>
   </div>
+  <div class="button-group" *ngIf="!authService.isAuthenticated()">
+    <button class="contact-iclei button button-primary button-small"
+            (click)="openModal(newUserForm)">Create an Account</button>
+    <button class="button button-secondary button-small"
+            (click)="openModal(loginForm)">Log In</button>
+  </div>
 </header>
+
+<!-- Create Account Modal template -->
+<ng-template #newUserForm>
+  <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>
+</ng-template>
+
+<!-- Login Modal template -->
+<ng-template #loginForm>
+  <app-login-form (closed)="modalRef.hide()"></app-login-form>
+</ng-template>
