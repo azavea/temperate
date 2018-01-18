@@ -17,6 +17,7 @@ import { ActionStepsOverviewComponent } from './action-steps-overview.component'
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
 import { ActionCardComponent } from './action-card/action-card.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
+import { RiskCardComponent } from './risk-card/risk-card.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { EditActionComponent } from './edit-action/edit-action.component';
     ActionPickerComponent,
     ActionStepsOverviewComponent,
     ActionCardComponent,
-    EditActionComponent
+    EditActionComponent,
+    RiskCardComponent
   ],
   providers: [],
 })

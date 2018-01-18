@@ -1,6 +1,6 @@
-<div *ngIf="action" class="action-card action">
+<div class="action-card">
   <div class="action-card-header btn-group" dropdown>
-    <button dropdownToggle type="button" class="btn button dropdown-toggle">
+    <button dropdownToggle type="button" class="button button dropdown-toggle">
       <span class="icon-ellipsis"></span>
     </button>
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
@@ -30,14 +30,3 @@
     </div>
   </div>
 </div>
-<div *ngIf="!action" class="action-card">
-  <div class="risk-card-content">
-    <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
-    <button class="take-action button" (click)="openModal(actionPicker)">Take action</button>
-  </div>
-</div>
-
-<!-- action prompt template -->
-<ng-template #actionPicker>
-  <app-action-picker [risk]="risk" (closed)="modalRef.hide()"></app-action-picker>
-</ng-template>

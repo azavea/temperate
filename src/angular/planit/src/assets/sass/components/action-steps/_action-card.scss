@@ -1,4 +1,4 @@
-.action-card {
+.risk-card, .action-card {
   height: 275px;
   width: 310px;
   margin: 5px;
@@ -6,15 +6,15 @@
   border: #bdc0ea 1px solid;
   border-radius: 4px;
   text-align: center;
+}
 
-  &.action {
-    background-color: white;
+.action-card {
+  background-color: white;
 
-    .action-card-header {
-      text-align: right;
-      display: inline;
-      float: right;
-    }
+  .action-card-header {
+    text-align: right;
+    display: inline;
+    float: right;
   }
 }
 

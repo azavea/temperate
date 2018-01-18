@@ -41,12 +41,11 @@ export class ActionStepsOverviewComponent implements OnInit {
     return !!this.risks.find((risk: Risk) => risk.isAssessed());
   }
 
-  getMatchingRisk(action: Action) {
+  getMatchingRiskFromId(action: Action) {
     return this.risks.find(risk => risk.id === action.risk);
   }
 
   // Count how many risks have associated actions, for the progress bar
-  // TODO: #428 modify to count associated actions, once relationship to risks exists
   getRisksWithActionsCount() {
     this.risksWithActionsCount = this.risks.reduce((ct: number, risk: Risk) =>
       ct += risk.action ? 1 : 0, 0);
@@ -56,7 +55,8 @@ export class ActionStepsOverviewComponent implements OnInit {
     this.risksWithoutActions = this.risks.filter(risk => !risk.action);
   }
 
-  onDeleted(action) {
+  // Refresh actions, risks and their counts when an action is deleted
+  onActionDeleted(action) {
     this.actionService.delete(action).subscribe(a => {
       this.actionService.list().subscribe(actions => this.actions = actions);
       this.getAndSetRisks();

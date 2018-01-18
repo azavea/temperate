@@ -2,10 +2,7 @@ import { Component,
         OnInit,
         Input,
         Output,
-        EventEmitter,
-        TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+        EventEmitter } from '@angular/core';
 
 import { Risk, Action } from '../../shared';
 
@@ -16,21 +13,14 @@ import { Risk, Action } from '../../shared';
 export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
-  @Input() action?: Action = null;
-  @Output() onDeleted = new EventEmitter<Action>();
+  @Input() action: Action;
+  @Output() actionDeleted = new EventEmitter<Action>();
 
-  public modalRef: BsModalRef;
-
-  constructor(private modalService: BsModalService) { }
+  constructor() { }
 
   ngOnInit() { }
 
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {animated: false, class: 'modal-lg'});
-  }
-
   public deleteAction(action: Action) {
-    this.onDeleted.emit(action);
+    this.actionDeleted.emit(action);
   }
-
 }
