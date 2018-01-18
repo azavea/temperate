@@ -22,11 +22,10 @@
     <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
     <div *ngIf="action.categories.length" class="categories">
       <h5>Categories</h5>
-      <div *ngFor="let category of action.categories">
-        <i class="{{ category.icon }}"
-           tooltip="{{ category.description }}"
-           placement="bottom"></i>
-      </div>
+      <i *ngFor="let category of action.categories"
+         class="{{ category.icon }}"
+         tooltip="{{ category.description }}"
+         placement="bottom"></i>
     </div>
   </div>
 </div>
