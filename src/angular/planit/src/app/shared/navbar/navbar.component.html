@@ -6,6 +6,9 @@
     <a class="btn btn-primary"
        *ngIf="router.url !== '/dashboard'"
        routerLink="/dashboard">Go to Dashboard</a>
+    <a class="btn btn-primary"
+       *ngIf="router.url !== '/indicators'"
+       routerLink="/indicators">Indicators</a>
     <app-help-modal></app-help-modal>
     <app-user-dropdown></app-user-dropdown>
   </div>

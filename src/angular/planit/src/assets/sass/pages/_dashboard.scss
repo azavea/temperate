@@ -1,1 +1,21 @@
 // placeholder
+app-dashboard {
+  main section {
+    display: flex;
+
+    .dashboard-main {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .dashboard-sidebar {
+      flex: 0 0 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      padding: 2rem;
+      background-color: white;
+    }
+  }
+}
