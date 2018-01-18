@@ -80,6 +80,8 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
       },
     };
 
+    // Load initial risk indicators and subscribe to watch for weather event changes after
+    this.updateRiskIndicators();
     this.session.data.subscribe(() => this.updateRiskIndicators());
   }
 
