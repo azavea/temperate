@@ -2,8 +2,44 @@
   <h3>General Information</h3>
 </div>
 <div class="step-content">
+  <p>Each action you create should have an effect on at least one assessed risk in your Assessments section.</p>
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <label>Action
+        <textarea class="form-control"
+                  formControlName="name"
+                  cols="70"
+                  rows="4"
+                  tabindex="1"
+                  required></textarea>
+        <div *ngIf="form.controls.name.errors">
+          <span *ngIf="form.controls.name.errors.required">*Required</span>
+        </div>
+      </label>
+      <label>Risk
+        <input class="form-control" formControlName="risk"
+                                    tabindex="2"
+                                    typeaheadOptionField="name"
+                                    (blur)="itemBlurred('risk')"
+                                    [typeahead]="namedRisks"
+                                    [typeaheadMinLength]="1"
+                                    [typeaheadScrollable]="true"
+                                    [typeaheadOptionsInScrollableView]="5"
+                                    [container]="'body'"
+                                    required>
+        <div *ngIf="form.controls.risk.errors">
+          <span *ngIf="form.controls.risk.errors.required">*Required</span>
+          <span *ngIf="form.controls.risk.errors.autocomplete">*Not found</span>
+        </div>
+      </label>
+    </div>
+  </form>
 </div>
 <div class="step-footer">
-  <button type="button" (click)="cancel()">Cancel</button>
-  <button type="button" nextStep>Continue</button>
+  <button type="button"
+          tabindex="3"
+          [disabled]="!form.valid"
+          nextStep
+          (finalize)="save()">Continue</button>
+  <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>

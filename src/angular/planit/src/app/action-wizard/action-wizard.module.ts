@@ -3,7 +3,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { ArchwizardModule } from 'ng2-archwizard';
-import { PopoverModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
+import { TooltipModule,
+         TypeaheadModule,
+         PopoverModule } from 'ngx-bootstrap';
 
 import { ActionWizardComponent } from './action-wizard.component';
 import { AssessStepComponent } from './steps/assess-step/assess-step.component';
@@ -19,12 +21,12 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    PopoverModule,
+    SharedModule,
     TooltipModule,
     TypeaheadModule,
     ArchwizardModule,
-    SharedModule
+    PopoverModule,
+    ReactiveFormsModule
   ],
   exports: [ ActionWizardComponent ],
   declarations: [

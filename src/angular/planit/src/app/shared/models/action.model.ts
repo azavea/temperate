@@ -9,7 +9,7 @@ export enum ActionVisibility {
 export class Action {
   id?: string;
   name = '';
-  risk?: string;
+  risk = '';
   actionType = '';
   actionGoal = '';
   implementationDetails = '';
