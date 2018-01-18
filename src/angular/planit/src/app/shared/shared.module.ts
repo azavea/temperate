@@ -20,7 +20,6 @@ import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
@@ -49,7 +48,6 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NavbarComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,
-    SidebarComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ],
@@ -63,7 +61,6 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NavbarComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,
-    SidebarComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ]
