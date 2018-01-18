@@ -3,10 +3,10 @@
     <a routerLink="/" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
   </div>
   <div class="button-group" *ngIf="authService.isAuthenticated()">
-    <a class="btn btn-primary"
+    <a class="button button-primary"
        *ngIf="router.url !== '/dashboard'"
        routerLink="/dashboard">Go to Dashboard</a>
-    <a class="btn btn-primary"
+    <a class="button button-primary"
        *ngIf="router.url !== '/indicators'"
        routerLink="/indicators">Indicators</a>
     <app-help-modal></app-help-modal>
