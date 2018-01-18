@@ -1,0 +1,32 @@
+.action-card {
+  height: 275px;
+  width: 310px;
+  margin: 5px;
+  background-color: $gray-1;
+  border: #bdc0ea 1px solid;
+  border-radius: 4px;
+  text-align: center;
+
+  &.action {
+    background-color: white;
+
+    .action-card-header {
+      text-align: right;
+      display: inline;
+      float: right;
+    }
+  }
+}
+
+.risk-card-content {
+  margin: 30% 5% 5% 5%;
+}
+
+.action-card-content {
+  text-align: left;
+  margin: 5%;
+
+  .categories {
+    text-align: center;
+  }
+}
