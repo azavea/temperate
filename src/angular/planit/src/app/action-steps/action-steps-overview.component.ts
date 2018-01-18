@@ -21,6 +21,11 @@ export class ActionStepsOverviewComponent implements OnInit {
                private actionService: ActionService) {}
 
   ngOnInit() {
+    this.getAndSetRisks();
+    this.actionService.list().subscribe(actions => this.actions = actions);
+  }
+
+  getAndSetRisks() {
     this.riskService.list().subscribe(risks => {
       this.risks = risks;
       // now that risks have been fetched, check if any have been assessed
@@ -29,12 +34,15 @@ export class ActionStepsOverviewComponent implements OnInit {
       this.getRisksWithActionsCount();
       this.getRisksWithoutActions();
     });
-    this.actionService.list().subscribe(actions => this.actions = actions);
   }
 
   // Check if any of the risks have been assessed yet
   isARiskAssessed(): boolean {
     return !!this.risks.find((risk: Risk) => risk.isAssessed());
+  }
+
+  getMatchingRisk(action: Action) {
+    return this.risks.find(risk => risk.id === action.risk);
   }
 
   // Count how many risks have associated actions, for the progress bar
@@ -44,17 +52,14 @@ export class ActionStepsOverviewComponent implements OnInit {
       ct += risk.action ? 1 : 0, 0);
   }
 
-  getMatchingRisk(action: Action) {
-    return this.risks.find(risk => risk.id === action.risk);
-  }
-
   getRisksWithoutActions() {
     this.risksWithoutActions = this.risks.filter(risk => !risk.action);
   }
 
-  onDeleted(action){
+  onDeleted(action) {
     this.actionService.delete(action).subscribe(a => {
       this.actionService.list().subscribe(actions => this.actions = actions);
+      this.getAndSetRisks();
     });
   }
 }
