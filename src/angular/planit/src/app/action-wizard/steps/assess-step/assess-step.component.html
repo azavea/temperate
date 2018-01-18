@@ -7,13 +7,13 @@
     <div class="step-form-control">
       <label>Action
         <textarea class="form-control"
-                  formControlName="action"
+                  formControlName="name"
                   cols="70"
                   rows="4"
                   tabindex="1"
                   required></textarea>
-        <div *ngIf="form.controls.action.errors">
-          <span *ngIf="form.controls.action.errors.required">*Required</span>
+        <div *ngIf="form.controls.name.errors">
+          <span *ngIf="form.controls.name.errors.required">*Required</span>
         </div>
       </label>
       <label>Risk
