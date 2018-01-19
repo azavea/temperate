@@ -1,10 +1,12 @@
 <ng-template #riskPopoverTemplate>
   <p>Donec dictum hendrerit dui, nec dictum ante molestie eleifend. Quisque accumsan nisl lectus, in vulputate erat iaculis quis. Aenean at nisl vehicula, fermentum leo vel, ultricies sapien.
   </p>
-  <h4>Related Indicators</h4>
-  <p *ngFor="let indicator of indicators">
-    <a (click)="openIndicatorModal(indicator)">{{ indicator.label }}</a>
-  </p>
+  <div *ngIf="indicators?.length">
+    <h4>Related Indicators</h4>
+    <p *ngFor="let indicator of indicators">
+      <a (click)="openIndicatorModal(indicator)">{{ indicator.label }}</a>
+    </p>
+  </div>
 </ng-template>
 
 <div class="va-risk" #popover="bs-popover" [popover]="riskPopoverTemplate"
