@@ -26,4 +26,17 @@ describe('AuthService', () => {
   it('should be unauthenticated by default', inject([AuthService], (service: AuthService) => {
     expect(service.isAuthenticated()).toBeFalsy();
   }));
+
+  it('should have not token set by default', inject([AuthService], (service: AuthService) => {
+    expect(service.getToken()).toBeFalsy();
+  }));
+
+  it('logout should clear the token', inject([AuthService], (service: AuthService) => {
+    const token = 'SOMEAPIKEY';
+    // `setToken` is a private method and cannot be accessed under test, so set directly
+    window.localStorage.setItem('auth.token', token);
+    expect(service.getToken()).toEqual(token);
+    service.logout();
+    expect(service.getToken()).toBeFalsy();
+  }));
 });
