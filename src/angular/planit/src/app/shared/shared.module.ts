@@ -24,6 +24,7 @@ import {
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     OptionDropdownComponent,
     FreeformMultiselectComponent,
     TopConcernsComponent,
-    UserDropdownComponent
+    UserDropdownComponent,
+    FooterComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
