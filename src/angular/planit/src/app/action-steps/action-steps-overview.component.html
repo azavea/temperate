@@ -2,7 +2,7 @@
   <main class="main-content" role="main">
     <section>
       <h1 class="heading">Adaptation Actions</h1>
-      <button class="button icon-edit" routerLink="action/wizard"></button>
+      <button class="button icon-edit" [routerLink]="['/actions/action/wizard/', '']"></button>
     </section>
     <section *ngIf="risks">
       <div *ngIf="!haveAssessedRisks" class="actions-empty">

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AdaptiveNeedBoxComponent, Risk } from '../../shared';
 
@@ -16,7 +16,7 @@ export class ActionPickerComponent implements OnInit {
 
   public showPrompt = true;
 
-  constructor(private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {}
 
@@ -25,7 +25,7 @@ export class ActionPickerComponent implements OnInit {
   }
 
   goToWizard() {
-    this.router.navigateByUrl('/actions/action/wizard');
+    this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route});
     this.closeModal();
   }
 }

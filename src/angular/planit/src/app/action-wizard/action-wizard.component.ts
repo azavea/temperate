@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Import from root doesn't seem to pickup types, so import directly from file
@@ -40,24 +41,15 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
               private actionService: ActionService,
               private riskService: RiskService,
               private communitySystemService: CommunitySystemService,
-              private weatherEventService: WeatherEventService) { }
+              private weatherEventService: WeatherEventService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (!this.action) {
       this.action = new Action({});
 
-      // Actions require Risks, so pick one arbitrarily
-      // TODO (#426) - Get rid of this and use the existing Risk the user clicked on instead
-      this.riskService.list().subscribe(risks => {
-        const risk = risks[0];
-
-        this.action.risk = risk.id;
-
-        if (risk.action) {
-          // Re-use the action's ID if the Risk already had one
-          this.action.id = risk.action.id;
-        }
-      });
+      const riskId: string = this.route.snapshot.paramMap.get('riskid');
+      this.action.risk = riskId;
     }
 
     this.session.setData(this.action);
