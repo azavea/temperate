@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -17,7 +17,7 @@ import { ReviewStepComponent } from './steps/review-step/review-step.component';
   templateUrl: 'risk-wizard.component.html',
   providers: [WizardSessionService]
 })
-export class RiskWizardComponent implements OnDestroy, OnInit {
+export class RiskWizardComponent implements OnInit {
   // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
 
   @ViewChild(WizardComponent) public wizard: WizardComponent;
@@ -29,8 +29,7 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
 
   @Input() risk: Risk;
 
-  constructor(private session: WizardSessionService<Risk>,
-              private riskService: RiskService) {}
+  constructor(private session: WizardSessionService<Risk>) {}
 
   ngOnInit() {
     if (!this.risk) {
@@ -40,23 +39,5 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
       });
     }
     this.session.setData(this.risk);
-    this.session.data.subscribe(r => this.riskModelChanged(r));
-  }
-
-  ngOnDestroy() {
-    this.session.data.unsubscribe();
-  }
-
-  riskModelChanged(risk: Risk) {
-    if (!this.risk.id) {
-      this.riskService.create(this.risk).subscribe(r => {
-        this.risk = r;
-        this.session.setData(r);
-      });
-    } else {
-      this.riskService.update(risk).subscribe(r => {
-        this.risk = r;
-      });
-    }
   }
 }

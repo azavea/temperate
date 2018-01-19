@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { ToastrService } from 'ngx-toastr';
 
 import {
   CommunitySystem,
@@ -12,10 +13,12 @@ import {
 } from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WeatherEventService } from '../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 interface IdentifyStepFormModel {
   weather_event: WeatherEvent;
@@ -26,10 +29,9 @@ interface IdentifyStepFormModel {
   selector: 'app-risk-step-identify',
   templateUrl: 'identify-step.component.html'
 })
-export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifyStepFormModel>
+export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepFormModel>
                                    implements OnInit {
 
-  public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Identify;
   public navigationSymbol = '1';
@@ -42,12 +44,14 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
   private community_system: CommunitySystem;
 
 
-  constructor(private fb: FormBuilder,
+  constructor(protected fb: FormBuilder,
+              protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
               private router: Router,
               private weatherEventService: WeatherEventService,
-              private communitySystemService: CommunitySystemService,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+              private communitySystemService: CommunitySystemService) {
+    super(fb, session, riskService, toastr);
   }
 
   ngOnInit() {

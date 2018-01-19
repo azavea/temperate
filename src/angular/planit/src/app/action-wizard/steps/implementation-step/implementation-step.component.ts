@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { ActionTypeService } from '../../../core/services/action-type.service';
+import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, ActionVisibility } from '../../../shared/';
-import { WizardStepComponent } from '../../../shared/wizard/wizard-step.component';
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 interface ActionDetailsFormModel {
   action_goal: string;
@@ -20,10 +23,9 @@ interface ActionDetailsFormModel {
   templateUrl: './implementation-step.component.html'
 })
 export class ImplementationStepComponent
-  extends WizardStepComponent<Action, ActionDetailsFormModel> implements OnInit {
+  extends ActionWizardStepComponent<ActionDetailsFormModel> implements OnInit {
 
   public actionTypes: string[] = [];
-  public form: FormGroup;
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
   public title = 'Action details';
@@ -33,10 +35,12 @@ export class ImplementationStepComponent
                      'assessments'
   };
 
-  constructor(private actionTypeService: ActionTypeService,
-              private fb: FormBuilder,
-              protected session: WizardSessionService<Action>) {
-    super(session);
+  constructor(protected fb: FormBuilder,
+              protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
+              private actionTypeService: ActionTypeService) {
+    super(fb, session, actionService, toastr);
   }
 
   ngOnInit() {

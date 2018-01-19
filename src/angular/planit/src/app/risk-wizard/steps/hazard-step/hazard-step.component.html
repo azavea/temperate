@@ -43,13 +43,8 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button"
-          nextStep
-          (finalize)="save()">Skip Step</button>
-  <button type="button"
-          nextStep
-          [disabled]="form.invalid || !isStepComplete()"
-          (finalize)="save()">Continue</button>
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
 </div>
 
 

@@ -13,6 +13,11 @@
     <div class="step-form-control">
       <h5>Related Adaptive Values</h5>
       <app-freeform-multiselect formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
+      <div *ngIf="form.controls.related_adaptive_values.errors">
+        <span *ngIf="form.controls.related_adaptive_values.errors.server">
+          *{{ form.controls.related_adaptive_values.errors.server }}
+        </span>
+      </div>
     </div>
     <div class="step-form-control">
       <h5>Description</h5>
@@ -21,9 +26,6 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep (finalize)="save()">Skip Step</button>
-  <button type="button"
-          nextStep
-          [disabled]="form.invalid || !isStepComplete()"
-          (finalize)="save()">Continue</button>
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
 </div>

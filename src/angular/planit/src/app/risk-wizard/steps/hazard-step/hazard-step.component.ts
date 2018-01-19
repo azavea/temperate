@@ -6,20 +6,23 @@ import {
   Indicator,
   IndicatorService
 } from 'climate-change-components';
+import { ToastrService } from 'ngx-toastr';
 
-import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeOption,
   Risk,
-  WizardStepComponent
 } from '../../../shared/';
+
+import { RiskService } from '../../../core/services/risk.service';
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
 // tslint:disable-next-line:max-line-length
 import { CollapsibleChartComponent } from '../../../shared/collapsible-chart/collapsible-chart.component';
 import { ModalTemplateComponent } from '../../../shared/modal-template/modal-template.component';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -32,10 +35,9 @@ interface HazardStepFormModel {
   templateUrl: 'hazard-step.component.html'
 })
 
-export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFormModel>
+export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormModel>
                                  implements OnInit {
 
-  public form: FormGroup;
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
   public risk: Risk;
@@ -56,10 +58,12 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   @ViewChild('indicatorChartModal')
   private indicatorsModal: ModalTemplateComponent;
 
-  constructor(private fb: FormBuilder,
-              private indicatorService: IndicatorService,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected fb: FormBuilder,
+              protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              private indicatorService: IndicatorService) {
+    super(fb, session, riskService, toastr);
   }
 
   ngOnInit() {

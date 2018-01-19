@@ -55,8 +55,8 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep (finalize)="save()">Skip Step</button>
-  <button type="button" [disabled]="form.pristine" nextStep (finalize)="save()">Continue</button>
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" [disabled]="form.pristine" nextStep>Continue</button>
 </div>
 
 <ng-template #detailExamplesPopover>

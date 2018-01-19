@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { RelatedAdaptiveValueService } from '../../../core/services/related-adaptive-value.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import {  OrgRiskRelativeChanceOptions,
-          OrgRiskRelativeOption,
-          Risk,
-          WizardStepComponent } from '../../../shared/';
+import {
+  OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeOption,
+  Risk
+} from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 export interface CapacityStepFormModel {
   adaptive_capacity: OrgRiskRelativeOption;
   related_adaptive_values: string[];
   adaptive_capacity_description: string;
 }
+
 @Component({
   selector: 'app-risk-step-capacity',
   templateUrl: 'capacity-step.component.html'
 })
-
-export class CapacityStepComponent extends WizardStepComponent<Risk, CapacityStepFormModel>
+export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepFormModel>
                                    implements OnInit {
-  public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
   public navigationSymbol = '4';
@@ -34,10 +38,12 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
 
   public adaptiveValues: string[] = [];
 
-  constructor(private fb: FormBuilder,
-              private relatedAdaptiveValueService: RelatedAdaptiveValueService,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected fb: FormBuilder,
+              protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              private relatedAdaptiveValueService: RelatedAdaptiveValueService) {
+    super(fb, session, riskService, toastr);
   }
 
   ngOnInit() {

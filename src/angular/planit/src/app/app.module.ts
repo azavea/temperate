@@ -2,9 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ApiModule, ChartsModule } from 'climate-change-components';
+
+import { ToastrModule } from 'ngx-toastr';
 
 import { environment } from '../environments/environment';
 
@@ -58,6 +61,7 @@ const appRoutes: Routes = [
   imports: [
     // Angular
     BrowserModule,
+    BrowserAnimationsModule,
     CoreModule,
     FormsModule,
     HttpModule,
@@ -68,6 +72,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
+    ToastrModule.forRoot(),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
     // Local

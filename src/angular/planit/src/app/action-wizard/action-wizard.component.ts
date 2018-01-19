@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 // Import from root doesn't seem to pickup types, so import directly from file
@@ -24,7 +24,7 @@ import { ReviewStepComponent } from './steps/review-step/review-step.component';
   templateUrl: './action-wizard.component.html',
   providers: [WizardSessionService]
 })
-export class ActionWizardComponent implements AfterViewInit, OnDestroy, OnInit {
+export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @ViewChild(WizardComponent) public wizard: WizardComponent;
   @ViewChild(AssessStepComponent) public assessStep: AssessStepComponent;
@@ -61,25 +61,9 @@ export class ActionWizardComponent implements AfterViewInit, OnDestroy, OnInit {
     }
 
     this.session.setData(this.action);
-    this.session.data.subscribe(a => this.actionModelChanged(a));
-  }
-
-  ngOnDestroy() {
-    this.session.data.unsubscribe();
   }
 
   // this.wizard.navigation and this.wizard.model are not available until this hook
   ngAfterViewInit() {}
-
-  actionModelChanged(action: Action) {
-    if (!this.action.id) {
-      this.actionService.create(this.action).subscribe(a => {
-        this.action = a;
-        this.session.setData(a);
-      });
-    } else {
-      this.actionService.update(action).subscribe(a => this.action = a);
-    }
-  }
 
 }

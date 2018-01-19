@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
+import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, WizardStepComponent } from '../../../shared/';
+import { Action } from '../../../shared/';
 import { Collaborator } from '../../../shared/models/collaborator.model';
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 import { CollaboratorService } from '../../../core/services/collaborator.service';
 
@@ -19,18 +23,19 @@ interface ImprovementsStepFormModel {
   templateUrl: './improvements-step.component.html'
 })
 export class ImprovementsStepComponent
-          extends WizardStepComponent<Action, ImprovementsStepFormModel>
+          extends ActionWizardStepComponent<ImprovementsStepFormModel>
           implements OnInit {
-  public form: FormGroup;
   public key = ActionStepKey.Improvements;
   public navigationSymbol = '3';
   public title = 'Improvements';
   public collaboratorValues: string[];
 
-  constructor(private fb: FormBuilder,
+  constructor(protected fb: FormBuilder,
               protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
               protected collaboratorService: CollaboratorService) {
-    super(session);
+    super(fb, session, actionService, toastr);
   }
 
   ngOnInit() {

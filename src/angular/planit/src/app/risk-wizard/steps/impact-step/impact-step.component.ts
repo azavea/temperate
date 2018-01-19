@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   OrgRiskRelativeImpactOptions,
@@ -9,6 +12,7 @@ import {
   WizardStepComponent
 } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 export interface ImpactStepFormModel {
   impact_magnitude: OrgRiskRelativeOption;
@@ -20,10 +24,9 @@ export interface ImpactStepFormModel {
   templateUrl: 'impact-step.component.html'
 })
 
-export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFormModel>
+export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormModel>
                                  implements OnInit {
 
-  public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
   public navigationSymbol = '3';
@@ -35,9 +38,11 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
   public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
 
 
-  constructor(private fb: FormBuilder,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected fb: FormBuilder,
+              protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService) {
+    super(fb, session, riskService, toastr);
   }
 
   ngOnInit() {
