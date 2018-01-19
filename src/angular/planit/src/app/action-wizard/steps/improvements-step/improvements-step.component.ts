@@ -10,8 +10,8 @@ import { CollaboratorService } from '../../../core/services/collaborator.service
 
 interface ImprovementsStepFormModel {
   collaborators: string[];
-  improvementsAdaptiveCapacity: string;
-  improvementsImpacts: string;
+  improvements_adaptive_capacity: string;
+  improvements_impacts: string;
 }
 
 @Component({
@@ -48,8 +48,8 @@ export class ImprovementsStepComponent
   getFormModel(): ImprovementsStepFormModel {
     const data: ImprovementsStepFormModel = {
       collaborators: this.form.controls.collaborators.value,
-      improvementsAdaptiveCapacity: this.form.controls.improvementsAdaptiveCapacity.value,
-      improvementsImpacts: this.form.controls.improvementsImpacts.value
+      improvements_adaptive_capacity: this.form.controls.improvements_adaptive_capacity.value,
+      improvements_impacts: this.form.controls.improvements_impacts.value
     };
     return data;
   }
@@ -57,23 +57,23 @@ export class ImprovementsStepComponent
   setupForm(data: ImprovementsStepFormModel) {
     this.form = this.fb.group({
       'collaborators': [data.collaborators, []],
-      'improvementsAdaptiveCapacity': [data.improvementsAdaptiveCapacity, []],
-      'improvementsImpacts': [data.improvementsImpacts, []]
+      'improvements_adaptive_capacity': [data.improvements_adaptive_capacity, []],
+      'improvements_impacts': [data.improvements_impacts, []]
     });
   }
 
   fromModel(model: Action): ImprovementsStepFormModel {
     return {
       collaborators: model.collaborators,
-      improvementsAdaptiveCapacity: model.improvementsAdaptiveCapacity,
-      improvementsImpacts: model.improvementsImpacts
+      improvements_adaptive_capacity: model.improvements_adaptive_capacity,
+      improvements_impacts: model.improvements_impacts
     };
   }
 
   toModel(data: ImprovementsStepFormModel, model: Action) {
     model.collaborators = data.collaborators;
-    model.improvementsAdaptiveCapacity = data.improvementsAdaptiveCapacity;
-    model.improvementsImpacts = data.improvementsImpacts;
+    model.improvements_adaptive_capacity = data.improvements_adaptive_capacity;
+    model.improvements_impacts = data.improvements_impacts;
     return model;
   }
 }

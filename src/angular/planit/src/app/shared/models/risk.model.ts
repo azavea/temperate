@@ -6,29 +6,29 @@ import { WeatherEvent } from './weather-event.model';
 export class Risk {
   id?: string;
   action?: string;
-  weatherEvent: WeatherEvent;
-  communitySystem: CommunitySystem;
-  impactMagnitude?: OrgRiskRelativeOption;
-  impactDescription = '';
-  adaptiveCapacity?: OrgRiskRelativeOption;
-  relatedAdaptiveValues?: string[] = [];
-  adaptiveCapacityDescription = '';
+  weather_event: WeatherEvent;
+  community_system: CommunitySystem;
+  impact_magnitude?: OrgRiskRelativeOption;
+  impact_description = '';
+  adaptive_capacity?: OrgRiskRelativeOption;
+  related_adaptive_values: string[] = [];
+  adaptive_capacity_description = '';
   frequency?: OrgRiskDirectionalOption;
   intensity?: OrgRiskDirectionalOption;
   probability?: OrgRiskRelativeOption;
 
   constructor(object: any) {
     Object.assign(this, object);
-    if (object.communitySystem) {
-      this.communitySystem = Object.assign({}, object.communitySystem);
+    if (object.community_system) {
+      this.community_system = Object.assign({}, object.community_system);
     }
-    if (object.weatherEvent) {
-      this.weatherEvent = Object.assign({}, object.weatherEvent);
+    if (object.weather_event) {
+      this.weather_event = Object.assign({}, object.weather_event);
     }
   }
 
   isAssessed(): boolean {
-    return !!this.probability && !!this.frequency && !!this.intensity && !!this.impactMagnitude
-      && !!this.adaptiveCapacity;
+    return !!this.probability && !!this.frequency && !!this.intensity && !!this.impact_magnitude
+      && !!this.adaptive_capacity;
   }
 }

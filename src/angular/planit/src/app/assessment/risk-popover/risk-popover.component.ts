@@ -58,7 +58,7 @@ export class RiskPopoverComponent implements OnInit {
   updateRiskIndicators() {
     this.indicatorService.list().subscribe(indicators => {
       this.indicators = indicators.filter(indicator => {
-        return this.risk.weatherEvent.indicators.includes(indicator.name);
+        return this.risk.weather_event.indicators.includes(indicator.name);
       });
     });
   }

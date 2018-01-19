@@ -11,8 +11,8 @@ import {
 import { RiskStepKey } from '../../risk-step-key';
 
 export interface ImpactStepFormModel {
-  impactMagnitude: OrgRiskRelativeOption;
-  impactDescription?: string;
+  impact_magnitude: OrgRiskRelativeOption;
+  impact_description?: string;
 }
 
 @Component({
@@ -48,33 +48,33 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
 
   getFormModel(): ImpactStepFormModel {
     const data: ImpactStepFormModel = {
-      impactMagnitude: this.form.controls.impactMagnitude.value,
-      impactDescription: this.form.controls.impactDescription.value
+      impact_magnitude: this.form.controls.impact_magnitude.value,
+      impact_description: this.form.controls.impact_description.value
     };
     return data;
   }
 
   setupForm(data: ImpactStepFormModel) {
     this.form = this.fb.group({
-      'impactMagnitude': [data.impactMagnitude, []],
-      'impactDescription': [data.impactDescription, []]
+      'impact_magnitude': [data.impact_magnitude, []],
+      'impact_description': [data.impact_description, []]
     });
   }
 
   fromModel(model: Risk): ImpactStepFormModel {
     return {
-      impactMagnitude: model.impactMagnitude,
-      impactDescription: model.impactDescription
+      impact_magnitude: model.impact_magnitude,
+      impact_description: model.impact_description
     };
   }
 
   toModel(data: ImpactStepFormModel, model: Risk) {
-    model.impactMagnitude = data.impactMagnitude;
-    model.impactDescription = data.impactDescription;
+    model.impact_magnitude = data.impact_magnitude;
+    model.impact_description = data.impact_description;
     return model;
   }
 
   isStepComplete(): boolean {
-    return !!this.form.controls.impactMagnitude.value;
+    return !!this.form.controls.impact_magnitude.value;
   }
 }

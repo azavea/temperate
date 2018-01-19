@@ -36,14 +36,14 @@
         <tbody>
           <tr *ngFor="let risk of risks">
             <td><va-adaptive-need-box
-              [adaptiveCapacity]="risk.adaptiveCapacity"
+              [adaptive_capacity]="risk.adaptive_capacity"
               [popoverPlacement]="'right'"
-              [potentialImpact]="risk.impactMagnitude"></va-adaptive-need-box></td>
+              [potentialImpact]="risk.impact_magnitude"></va-adaptive-need-box></td>
             <td>
               <va-risk-popover [risk]="risk"></va-risk-popover>
             </td>
-            <td>{{ risk.impactMagnitude }}</td>
-            <td>{{ risk.adaptiveCapacity }}</td>
+            <td>{{ risk.impact_magnitude }}</td>
+            <td>{{ risk.adaptive_capacity }}</td>
             <td>
               <button class="button va-status-button"
                       *ngIf="!risk.isAssessed()"

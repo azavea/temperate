@@ -14,11 +14,11 @@
   <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">
     <!-- First name -->
     <div class="required form-group">
-      <label for="firstName">First Name</label>
+      <label for="first_name">First Name</label>
       <input class="form-control" type="text" required autocomplete="given-name"
-        [(ngModel)]="model.firstName" #firstName="ngModel" name="firstName">
-      <div *ngIf="errors.firstName" class="alert alert-danger">
-        <div *ngFor="let error of errors.firstName">
+        [(ngModel)]="model.first_name" #first_name="ngModel" name="first_name">
+      <div *ngIf="errors.first_name" class="alert alert-danger">
+        <div *ngFor="let error of errors.first_name">
           <p>{{ error }}</p>
         </div>
       </div>
@@ -26,11 +26,11 @@
 
     <!-- Last Name -->
     <div class="required form-group">
-      <label for="lastName">Last Name</label>
+      <label for="last_name">Last Name</label>
       <input class="form-control" type="text" required autocomplete="family-name"
-        [(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
-        <div *ngIf="errors.lastName" class="alert alert-danger">
-        <div *ngFor="let error of errors.lastName">
+        [(ngModel)]="model.last_name" #last_name="ngModel" name="last_name">
+        <div *ngIf="errors.last_name" class="alert alert-danger">
+        <div *ngFor="let error of errors.last_name">
           <p>{{ error }}</p>
         </div>
       </div>

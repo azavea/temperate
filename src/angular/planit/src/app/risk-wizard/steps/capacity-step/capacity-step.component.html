@@ -1,22 +1,22 @@
 <div class="step-header">
   <h3>Adaptive Capacity</h3>
-  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weatherEvent?.name }} on {{ risk.communitySystem?.name }}</strong> here.
+  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name }} on {{ risk.community_system?.name }}</strong> here.
 </div>
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
       <h5>Adaptive Capacity</h5>
-        <app-option-dropdown [control]="form.controls['adaptiveCapacity']"
+        <app-option-dropdown [control]="form.controls['adaptive_capacity']"
                              [options]="relativeOptions">
         </app-option-dropdown>
     </div>
     <div class="step-form-control">
       <h5>Related Adaptive Values</h5>
-      <app-freeform-multiselect formControlName="relatedAdaptiveValues" [options]="adaptiveValues"></app-freeform-multiselect>
+      <app-freeform-multiselect formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
     </div>
     <div class="step-form-control">
       <h5>Description</h5>
-      <textarea formControlName="adaptiveCapacityDescription"></textarea>
+      <textarea formControlName="adaptive_capacity_description"></textarea>
     </div>
   </form>
 </div>

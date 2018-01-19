@@ -15,7 +15,7 @@ export class WeatherEventService {
     const url = `${environment.apiUrl}/api/weather-event-rank/`;
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
-      return vals.map(e => e.weatherEvent as WeatherEvent);
+      return vals.map(e => e.weather_event as WeatherEvent);
     });
   }
 

@@ -19,7 +19,7 @@
     <h4>Action</h4>
     <h3>{{ action.name }}</h3>
     <h4>Risk</h4>
-    <h3>{{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}</h3>
+    <h3>{{ risk.weather_event.name }} on {{ risk.community_system.name }}</h3>
     <div *ngIf="action.categories.length" class="categories">
       <h5>Categories</h5>
       <i *ngFor="let category of action.categories"

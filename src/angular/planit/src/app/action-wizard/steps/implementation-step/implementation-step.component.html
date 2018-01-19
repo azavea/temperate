@@ -8,13 +8,13 @@
       <label for="step-implementation-action-type">Type of action</label>
       <input id="step-implementation-action-type"
              type="text"
-             formControlName="actionType"
+             formControlName="action_type"
              [typeahead]="actionTypes"
              [typeaheadMinLength]="1">
     </div>
     <div class="step-form-control">
       <label for="step-implementation-action-goal">Action goal</label>
-      <input id="step-implementation-action-goal" type="text" formControlName="actionGoal">
+      <input id="step-implementation-action-goal" type="text" formControlName="action_goal">
     </div>
     <div class="step-form-control">
       <div>
@@ -27,7 +27,7 @@
           See examples
         </button>
       </div>
-      <textarea id="step-implementation-details" formControlName="implementationDetails"></textarea>
+      <textarea id="step-implementation-details" formControlName="implementation_details"></textarea>
     </div>
     <div class="step-form-control">
       <div>Share with other cities

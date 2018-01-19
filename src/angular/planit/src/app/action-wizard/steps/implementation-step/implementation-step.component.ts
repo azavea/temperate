@@ -8,9 +8,9 @@ import { WizardStepComponent } from '../../../shared/wizard/wizard-step.componen
 import { ActionStepKey } from '../../action-step-key';
 
 interface ActionDetailsFormModel {
-  actionGoal: string;
-  actionType: string;
-  implementationDetails: string;
+  action_goal: string;
+  action_type: string;
+  implementation_details: string;
   notes: string;
   isPublic: boolean;
 }
@@ -49,19 +49,19 @@ export class ImplementationStepComponent
 
   public fromModel(model: Action) {
     return {
-      actionGoal: model.actionGoal,
-      actionType: model.actionType,
-      implementationDetails: model.implementationDetails,
-      notes: model.implementationNotes,
+      action_goal: model.action_goal,
+      action_type: model.action_type,
+      implementation_details: model.implementation_details,
+      notes: model.implementation_notes,
       isPublic: model.visibility === ActionVisibility.Public
     };
   }
 
   public getFormModel() {
     return {
-      actionGoal: this.form.controls.actionGoal.value,
-      actionType: this.form.controls.actionType.value,
-      implementationDetails: this.form.controls.implementationDetails.value,
+      action_goal: this.form.controls.action_goal.value,
+      action_type: this.form.controls.action_type.value,
+      implementation_details: this.form.controls.implementation_details.value,
       notes: this.form.controls.notes.value,
       isPublic: this.form.controls.isPublic.value
     };
@@ -69,19 +69,19 @@ export class ImplementationStepComponent
 
   public setupForm(data: ActionDetailsFormModel) {
     this.form = this.fb.group({
-      'actionGoal': [data.actionGoal, []],
-      'actionType': [data.actionType, []],
-      'implementationDetails': [data.implementationDetails, []],
+      'action_goal': [data.action_goal, []],
+      'action_type': [data.action_type, []],
+      'implementation_details': [data.implementation_details, []],
       'notes': [data.notes, []],
       'isPublic': [data.isPublic, []]
     });
   }
 
   public toModel(data: ActionDetailsFormModel, model: Action) {
-    model.actionGoal = data.actionGoal;
-    model.actionType = data.actionType;
-    model.implementationDetails = data.implementationDetails;
-    model.implementationNotes = data.notes;
+    model.action_goal = data.action_goal;
+    model.action_type = data.action_type;
+    model.implementation_details = data.implementation_details;
+    model.implementation_notes = data.notes;
     model.visibility = data.isPublic ? ActionVisibility.Public : ActionVisibility.Private;
     return model;
   }

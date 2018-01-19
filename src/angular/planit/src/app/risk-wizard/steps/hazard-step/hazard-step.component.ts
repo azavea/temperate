@@ -97,7 +97,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   updateRiskIndicators() {
     this.indicatorService.list().subscribe(indicators => {
       this.indicators = indicators.filter(indicator => {
-        return this.risk.weatherEvent.indicators.includes(indicator.name);
+        return this.risk.weather_event.indicators.includes(indicator.name);
       });
     });
   }
@@ -141,7 +141,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
 
   relatedIndicatorsTooltip(): string {
     if (this.indicators.length === 0) {
-      return `No related indicators for ${this.risk.weatherEvent.name}`;
+      return `No related indicators for ${this.risk.weather_event.name}`;
     }
   }
 }

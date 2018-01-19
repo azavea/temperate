@@ -1,19 +1,19 @@
 <div class="step-header">
   <h3>Impact</h3>
   <!--TODO (issue #366): Calculate # years from plan's goal date -->
-  How will this hazard affect <strong>{{ risk.communitySystem?.name }}</strong> over the next 5 years?
+  How will this hazard affect <strong>{{ risk.community_system?.name }}</strong> over the next 5 years?
 </div>
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
       <h5>Impact Magnitude</h5>
-        <app-option-dropdown [control]="form.controls['impactMagnitude']"
+        <app-option-dropdown [control]="form.controls['impact_magnitude']"
                              [options]="relativeOptions">
         </app-option-dropdown>
     </div>
     <div class="step-form-control">
       <h5>Impact Description</h5>
-      <textarea formControlName="impactDescription" required></textarea>
+      <textarea formControlName="impact_description" required></textarea>
     </div>
   </form>
 </div>

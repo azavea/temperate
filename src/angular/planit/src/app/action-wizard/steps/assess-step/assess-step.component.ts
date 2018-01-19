@@ -55,7 +55,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
       // the typeahead needs to be fed a pre-formatted name
       this.namedRisks = risks.map(r => {
         return {'risk': r,
-                'name': `${r.weatherEvent.name} on ${r.communitySystem.name}`};
+                'name': `${r.weather_event.name} on ${r.community_system.name}`};
       });
       this.risks = risks;
     });

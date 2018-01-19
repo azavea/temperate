@@ -15,8 +15,8 @@ export class RiskService {
   private formatRisk(risk: Risk) {
     // Django expects pk's for related objects whereas the front end wants the full objs
     const formattedRisk = cloneDeep(risk);
-    return Object.assign(formattedRisk, { weatherEvent: formattedRisk.weatherEvent.id,
-                         communitySystem: formattedRisk.communitySystem.id });
+    return Object.assign(formattedRisk, { weather_event: formattedRisk.weather_event.id,
+                         community_system: formattedRisk.community_system.id });
   }
 
   list(): Observable<Risk[]> {

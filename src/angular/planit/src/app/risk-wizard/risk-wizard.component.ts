@@ -35,8 +35,8 @@ export class RiskWizardComponent implements OnDestroy, OnInit {
   ngOnInit() {
     if (!this.risk) {
       this.risk = new Risk({
-        communitySystem: { name: '' },
-        weatherEvent: { name: '' }
+        community_system: { name: '' },
+        weather_event: { name: '' }
       });
     }
     this.session.setData(this.risk);

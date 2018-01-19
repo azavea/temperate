@@ -75,8 +75,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
         community_system = CommunitySystemFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'weatherEvent': weather_event.id,
-                  'communitySystem': community_system.id})
+            data={'weather_event': weather_event.id,
+                  'community_system': community_system.id})
 
         self.assertTrue(serializer.is_valid())
         with self.assertRaises(ValueError):
@@ -89,8 +89,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
         org = OrganizationFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'weatherEvent': weather_event.id,
-                  'communitySystem': community_system.id},
+            data={'weather_event': weather_event.id,
+                  'community_system': community_system.id},
             context={'organization': org.id})
 
         self.assertTrue(serializer.is_valid())

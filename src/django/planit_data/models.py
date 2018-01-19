@@ -215,7 +215,7 @@ class OrganizationAction(models.Model):
                                   choices=Visibility.CHOICES, default=Visibility.PRIVATE)
     implementation_notes = models.TextField(blank=True)
     improvements_adaptive_capacity = models.TextField(blank=True)
-    immprovements_impacts = models.TextField(blank=True)
+    improvements_impacts = models.TextField(blank=True)
     collaborators = ArrayField(base_field=models.CharField(max_length=SINGLELINE_MAX_LENGTH,
                                                            blank=True), default=list)
     categories = models.ManyToManyField(ActionCategory,
@@ -300,7 +300,7 @@ class Concern(models.Model):
 class RelatedAdaptiveValue(models.Model):
     """An enhancement or challenge to a city's overall adaptive capacity.
 
-    Used to provide default values for OrganizationRisk.relatedAdaptiveValues
+    Used to provide default values for OrganizationRisk.related_adaptive_values
 
     Examples include:
     - Access to basic services

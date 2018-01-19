@@ -1,4 +1,4 @@
-<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weatherEvent.indicators"
+<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event.indicators"
      tooltip="{{ relatedIndicatorsTooltip() }}">
   <button class="button button-primary button-small"
           [disabled]="!indicators?.length"
@@ -6,8 +6,8 @@
 </div>
 <div class="step-header">
   <h3>Hazard</h3>
-  <div *ngIf="risk.weatherEvent?.name">
-    How will <em>{{ risk.weatherEvent.name }}</em> change over time?
+  <div *ngIf="risk.weather_event?.name">
+    How will <em>{{ risk.weather_event.name }}</em> change over time?
   </div>
 </div>
 <div class="step-content">
@@ -54,7 +54,7 @@
 
 
 <app-modal-template #indicatorChartModal
-    title="Viewing indicators related to {{ risk.weatherEvent.name }}">
+    title="Viewing indicators related to {{ risk.weather_event.name }}">
   <app-collapsible-chart
       *ngFor="let indicator of indicators"
       [indicator]="indicator"

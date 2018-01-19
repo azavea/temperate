@@ -2,12 +2,12 @@ import { Organization } from '../../shared';
 
 export class User {
   id: number;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  isActive: boolean;
+  is_active: boolean;
   organizations?: string[];
-  primaryOrganization: Organization;
+  primary_organization: Organization;
   city?: number;
 
   constructor(object: Object) {
@@ -15,6 +15,6 @@ export class User {
   }
 
   public name(): string {
-    return this.firstName + ' ' + this.lastName;
+    return this.first_name + ' ' + this.last_name;
   }
 }

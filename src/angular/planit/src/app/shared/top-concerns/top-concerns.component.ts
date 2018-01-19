@@ -22,7 +22,7 @@ export class TopConcernsComponent implements OnInit {
   }
 
   format(concern: Concern): string {
-    if (!concern.isRelative) {
+    if (!concern.is_relative) {
       // Absolute increase show the value directly
       return parseFloat(Number(concern.value).toPrecision(2)).toString();
     } else if (concern.value >= 1) {
@@ -39,7 +39,7 @@ export class TopConcernsComponent implements OnInit {
   }
 
   units(concern: Concern): string {
-    if (!concern.isRelative) {
+    if (!concern.is_relative) {
       // Absolute increase show the value directly
       return concern.units;
     } else if (concern.value >= 1) {

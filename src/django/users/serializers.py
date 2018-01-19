@@ -92,18 +92,14 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    isActive = serializers.BooleanField(source='is_active', default=False, read_only=True)
-    firstName = serializers.CharField(source='first_name', allow_blank=False, required=True)
-    lastName = serializers.CharField(source='last_name', allow_blank=False, required=True)
     # will assign default organization if none given here
     organizations = serializers.SlugRelatedField(many=True,
                                                  queryset=PlanItOrganization.objects.all(),
                                                  required=False,
                                                  slug_field='name')
-    primaryOrganization = serializers.SlugRelatedField(source='primary_organization',
-                                                       queryset=PlanItOrganization.objects.all(),
-                                                       required=False,
-                                                       slug_field='name')
+    primary_organization = serializers.SlugRelatedField(queryset=PlanItOrganization.objects.all(),
+                                                        required=False,
+                                                        slug_field='name')
 
     password1 = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                       style={'input_type': 'password'})
@@ -112,15 +108,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'isActive', 'firstName', 'lastName', 'organizations',
-                  'primaryOrganization', 'password1', 'password2',)
+        fields = ('id', 'email', 'is_active', 'first_name', 'last_name', 'organizations',
+                  'primary_organization', 'password1', 'password2',)
 
     def validate(self, data):
         # check passwords match
         if data['password1'] != data['password2']:
             raise serializers.ValidationError('Passwords do not match.')
-        if (('primaryOrganization' in data and
-             data['primaryOrganization'] not in data['organizations'])):
+        if (('primary_organization' in data and
+             data['primary_organization'] not in data['organizations'])):
             raise serializers.ValidationError(
                 "Primary Organization must be one of the user's Organizations"
             )
@@ -134,6 +130,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserOrgSerializer(UserSerializer):
-    """Return primaryOrganization as its full object on the user."""
+    """Return primary_organization as its full object on the user."""
 
-    primaryOrganization = OrganizationSerializer(source='primary_organization')
+    primary_organization = OrganizationSerializer()

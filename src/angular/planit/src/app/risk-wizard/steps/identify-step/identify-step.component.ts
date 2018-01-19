@@ -18,8 +18,8 @@ import { WizardSessionService } from '../../../core/services/wizard-session.serv
 import { RiskStepKey } from '../../risk-step-key';
 
 interface IdentifyStepFormModel {
-  weatherEvent: WeatherEvent;
-  communitySystem: CommunitySystem;
+  weather_event: WeatherEvent;
+  community_system: CommunitySystem;
 }
 
 @Component({
@@ -38,8 +38,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
   public weatherEvents: WeatherEvent[] = [];
   public communitySystems: CommunitySystem[] = [];
 
-  private weatherEvent: WeatherEvent;
-  private communitySystem: CommunitySystem;
+  private weather_event: WeatherEvent;
+  private community_system: CommunitySystem;
 
 
   constructor(private fb: FormBuilder,
@@ -55,8 +55,8 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
     const risk = this.session.getData();
     this.setupForm(this.fromModel(risk));
 
-    this.weatherEvent = risk.weatherEvent || null;
-    this.communitySystem = risk.communitySystem || null;
+    this.weather_event = risk.weather_event || null;
+    this.community_system = risk.community_system || null;
 
     this.weatherEventService.list()
       .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
@@ -70,31 +70,31 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
 
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
-      weatherEvent: risk.weatherEvent,
-      communitySystem: risk.communitySystem
+      weather_event: risk.weather_event,
+      community_system: risk.community_system
     };
   }
 
   getFormModel(): IdentifyStepFormModel {
     const data: IdentifyStepFormModel = {
-      weatherEvent: this.weatherEvent,
-      communitySystem: this.communitySystem
+      weather_event: this.weather_event,
+      community_system: this.community_system
     };
     return data;
   }
 
   setupForm(data: IdentifyStepFormModel) {
     this.form = this.fb.group({
-      'weatherEvent': [data.weatherEvent ? data.weatherEvent.name : '',
+      'weather_event': [data.weather_event ? data.weather_event.name : '',
                        [Validators.required]],
-      'communitySystem': [data.communitySystem ? data.communitySystem.name : '',
+      'community_system': [data.community_system ? data.community_system.name : '',
                           [Validators.required]]
     });
   }
 
   toModel(data: IdentifyStepFormModel, risk: Risk) {
-    risk.weatherEvent = data.weatherEvent;
-    risk.communitySystem = data.communitySystem;
+    risk.weather_event = data.weather_event;
+    risk.community_system = data.community_system;
     return risk;
   }
 
@@ -109,7 +109,7 @@ export class IdentifyStepComponent extends WizardStepComponent<Risk, IdentifySte
   itemBlurred(key: string) {
     // Manually set form error if user exits field without selecting
     // a valid autocomplete option.
-    const options = key === 'weatherEvent' ? this.weatherEvents : this.communitySystems;
+    const options = key === 'weather_event' ? this.weatherEvents : this.communitySystems;
 
     // The order in which itemSelected and itemBlurred fire is unpredictable,
     // so wait to give itemSelected a chance to update the form value.
