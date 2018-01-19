@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
+import { environment } from '../../../environments/environment';
 import { WeatherEvent } from '../../shared';
 import { PlanItApiHttp } from './api-http.service';
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class WeatherEventService {

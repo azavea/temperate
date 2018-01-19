@@ -2,15 +2,15 @@ import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Risk,
-         OrgRiskDirectionalOptions,
+import { OrgRiskDirectionalOptions,
          OrgRiskRelativeChanceOptions,
          OrgRiskRelativeImpactOptions,
+         Risk,
          WizardStepComponent } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 
-import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Subscription } from 'rxjs/Subscription';
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 @Component({
   selector: 'app-risk-step-review',

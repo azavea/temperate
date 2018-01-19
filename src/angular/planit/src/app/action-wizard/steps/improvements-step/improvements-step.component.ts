@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { ActionStepKey } from '../../action-step-key';
-import { Collaborator } from '../../../shared/models/collaborator.model';
-import { Action, WizardStepComponent } from '../../../shared/';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
+import { Action, WizardStepComponent } from '../../../shared/';
+import { Collaborator } from '../../../shared/models/collaborator.model';
+import { ActionStepKey } from '../../action-step-key';
 
 import { CollaboratorService } from '../../../core/services/collaborator.service';
 

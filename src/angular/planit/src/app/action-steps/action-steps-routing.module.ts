@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { EditActionComponent } from './edit-action/edit-action.component';

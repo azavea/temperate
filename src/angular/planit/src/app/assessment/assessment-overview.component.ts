@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Risk } from '../shared';
 import { RiskService } from '../core/services/risk.service';
+import { Risk } from '../shared';
 
 @Component({
   selector: 'va-overview',

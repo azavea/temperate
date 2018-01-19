@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { ModalModule } from 'ngx-bootstrap';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalModule } from 'ngx-bootstrap';
 
-import { NavbarComponent } from './navbar.component';
 import { AuthService } from '../../core/services/auth.service';
+import { NavbarComponent } from './navbar.component';
 
 class RouterStub {
   url: string;

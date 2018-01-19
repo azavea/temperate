@@ -1,9 +1,11 @@
-import { Component,
-        OnInit,
-        Input,
-        TemplateRef } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef
+} from '@angular/core';
+
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 import { Risk } from '../../shared';
 

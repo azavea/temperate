@@ -7,19 +7,19 @@ import {
   IndicatorService
 } from 'climate-change-components';
 
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions,
-  OrgRiskRelativeOption,
   OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeOption,
   Risk,
   WizardStepComponent
 } from '../../../shared/';
-import { RiskStepKey } from '../../risk-step-key';
-import { WizardSessionService } from '../../../core/services/wizard-session.service';
 // tslint:disable-next-line:max-line-length
 import { CollapsibleChartComponent } from '../../../shared/collapsible-chart/collapsible-chart.component';
 import { ModalTemplateComponent } from '../../../shared/modal-template/modal-template.component';
+import { RiskStepKey } from '../../risk-step-key';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;

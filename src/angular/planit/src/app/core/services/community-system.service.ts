@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
+import { environment } from '../../../environments/environment';
 import { CommunitySystem } from '../../shared/models/community-system.model';
 import { PlanItApiHttp } from './api-http.service';
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class CommunitySystemService {

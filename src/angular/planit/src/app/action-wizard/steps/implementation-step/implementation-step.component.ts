@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Action, ActionVisibility } from '../../../shared/';
-import { ActionStepKey } from '../../action-step-key';
 import { ActionTypeService } from '../../../core/services/action-type.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
+import { Action, ActionVisibility } from '../../../shared/';
 import { WizardStepComponent } from '../../../shared/wizard/wizard-step.component';
+import { ActionStepKey } from '../../action-step-key';
 
 interface ActionDetailsFormModel {
   actionGoal: string;

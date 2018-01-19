@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ApiModule, ChartsModule } from 'climate-change-components';
@@ -12,13 +12,14 @@ import { AppComponent } from './app.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { PageNotFoundComponent } from './not-found.component';
 
-import { CoreModule } from './core/core.module';
 import { ActionStepsModule } from './action-steps/action-steps.module';
 import { AssessmentModule } from './assessment/assessment.module';
+import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
 
+import { RiskResolve } from './assessment/resolvers/risk-resolve';
 import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
@@ -32,16 +33,15 @@ import { RelatedAdaptiveValueService } from './core/services/related-adaptive-va
 import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
-import { RiskResolve } from './assessment/resolvers/risk-resolve';
 
 import {
   BsDropdownModule,
   ButtonsModule,
   CollapseModule,
+  ModalModule,
   PopoverModule,
   ProgressbarModule,
   TooltipModule,
-  ModalModule,
   TypeaheadModule
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';

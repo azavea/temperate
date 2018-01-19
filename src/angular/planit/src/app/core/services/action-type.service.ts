@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { ActionType } from '../../shared/';
-import { CacheService } from './cache.service';
-import { PlanItApiHttp } from './api-http.service';
 import { environment } from '../../../environments/environment';
+import { ActionType } from '../../shared/';
+import { PlanItApiHttp } from './api-http.service';
+import { CacheService } from './cache.service';
 
 @Injectable()
 export class ActionTypeService {
