@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
 import { Risk } from '../../shared/models/risk.model';
+import { WeatherEvent } from '../../shared/models/weather-event.model';
 import { PlanItApiHttp } from './api-http.service';
 
 @Injectable()
@@ -24,6 +25,19 @@ export class RiskService {
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
       return vals.map(r => new Risk(r));
+    });
+  }
+
+  groupByWeatherEvent(): Observable<Map<string, Risk[]>> {
+    return this.list().map(risks => {
+      return risks.reduce((acc, r) => {
+        const key = r.weatherEvent.name;
+        if (!acc.has(key)) {
+          acc.set(key, []);
+        }
+        acc.get(key).push(r);
+        return acc;
+      }, new Map<string, Risk[]>());
     });
   }
 

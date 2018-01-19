@@ -9,16 +9,21 @@
     </header>
     <section>
       <div class="dashboard-main">
-        <!-- TODO: #457: Remove these temporary links -->
-        <div>
-          <a class="button button-primary" routerLink="/assessment">Assessment</a>
-          <a class="button button-primary" routerLink="/actions">Actions</a>
+        <h3>Adaptation planning</h3>
+        <div class="loading-wrapper" *ngIf="this.groupedRisks === undefined">
+          <div class="loading loading-spinner loading-large loading-primary"></div>
         </div>
-        <h4>Adaptation planning</h4>
-        <!-- TODO: #457: Replace with actual implementation -->
-        <div class="card card-full">Heatwaves</div>
-        <div class="card card-full">Forest fires</div>
-        <div class="card card-full">Sea level rise</div>
+        <div class="card card-full dashboard-no-risks" *ngIf="this.groupedRisks?.length === 0">
+          <h3>You haven't started your assessment</h3>
+          <div>
+            <a class="button button-primary" routerLink="/assessment/risk/new">Get Started</a>
+          </div>
+        </div>
+        <app-grouped-risk
+            *ngFor="let risks of groupedRisks"
+            [risks]="risks"
+            [weatherEvent]="risks[0].weatherEvent">
+        </app-grouped-risk>
       </div>
       <div class="dashboard-sidebar">
         <div class="city-profile-summary">City Profile</div>
