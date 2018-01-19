@@ -14,13 +14,14 @@ import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+import { LoginFormComponent } from './login-form/login-form.component';
 import { ModalTemplateComponent } from './modal-template/modal-template.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
@@ -45,11 +46,12 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     CollapsibleChartComponent,
     HelpModalComponent,
     IndicatorChartComponent,
+    LoginFormComponent,
     ModalTemplateComponent,
     NavbarComponent,
+    NewUserFormComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,
-    SidebarComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ],
@@ -59,11 +61,12 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     CollapsibleChartComponent,
     HelpModalComponent,
     IndicatorChartComponent,
+    LoginFormComponent,
     ModalTemplateComponent,
     NavbarComponent,
+    NewUserFormComponent,
     OptionDropdownComponent,
     FreeformMultiselectComponent,
-    SidebarComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ]

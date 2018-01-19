@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { AccountCreateService } from '../core/services/account-create.service';
-import { User } from '../shared';
+import { AccountCreateService } from '../../core/services/account-create.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-new-user-form',

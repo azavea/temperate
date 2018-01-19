@@ -1,59 +1,29 @@
-<app-navbar></app-navbar>
 <div class="main-container">
-  <app-sidebar></app-sidebar>
   <main class="main-content" role="main">
-    <!-- Intro -->
-    <section class="page-intro">
+    <header>
       <h1 class="heading">Dashboard</h1>
-      <p class="paragraph-intro">Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+      <h2 class="heading">
+        Your Adaptive Plan
+        <a routerLink="/dashboard"><span class="icon icon-cog"></span></a>
+      </h2>
+    </header>
+    <section>
+      <div class="dashboard-main">
+        <!-- TODO: #457: Remove these temporary links -->
+        <div>
+          <a class="button button-primary" routerLink="/assessment">Assessment</a>
+          <a class="button button-primary" routerLink="/actions">Actions</a>
+        </div>
+        <h4>Adaptation planning</h4>
+        <!-- TODO: #457: Replace with actual implementation -->
+        <div class="card card-full">Heatwaves</div>
+        <div class="card card-full">Forest fires</div>
+        <div class="card card-full">Sea level rise</div>
+      </div>
+      <div class="dashboard-sidebar">
+        <div class="city-profile-summary">City Profile</div>
+        <div class="plan-review">Review</div>
+      </div>
     </section>
-    <div class="card-container">
-
-      <!-- Top Concerns card -->
-      <section class="card card-full">
-        <header class="card-header"><a href="#"><h2 class="heading">Top Concerns</h2></a><button class="button button-secondary button-small button-icon-left"><i class="icon-eye"></i>View all Indicators</button></header>
-        <app-top-concerns></app-top-concerns>
-      </section>
-
-      <!-- Maps card -->
-      <section class="card card-half">
-        <header class="card-header"><a href="#"><h2 class="heading">Maps</h2></a><button class="button button-secondary button-small button-icon-left"><i class="icon-map"></i>Create a map</button></header>
-        <div class="card-content">
-          <div id="slider-map" class="slider-container">
-            <ul class="slider">
-              <li id="slide-1" class="slide"><a href="#"><img src="/assets/images/map-1.jpg" alt="Custom Map Description 1" /></a></li>
-              <li id="slide-2" class="slide"><a href="#"><img src="/assets/images/map-2.jpg" alt="Custom Map Description 2" /></a></li>
-              <li id="slide-3" class="slide"><a href="#"><img src="/assets/images/map-3.jpg" alt="Custom Map Description 3" /></a></li>
-            </ul>
-            <div class="slider-arrows">
-              <button class="button slider-arrow slider-arrow-prev"><i class="icon-chevron-circle-left"></i></button>
-              <button class="button slider-arrow slider-arrow-next"><i class="icon-chevron-circle-right"></i></button>
-            </div>
-          </div>
-        </div>
-        <footer class="card-footer"><span id="" class="number">1</span> of <span id="" class="number">5</span>
-        </footer>
-      </section>
-
-      <!-- Charts card -->
-      <section class="card card-half">
-        <header class="card-header"><a href="#"><h2 class="heading">Charts</h2></a></header>
-        <div class="card-content card-empty">
-          <p class="paragraph-intro"><strong>Create a chart</strong></p>
-          <p>Climate supplies you infrastructure data from OSM, dependable weather data over the next century from Global Daily Downscaled Projections (NEX-GDDP) and the Coupled Model Intercomparison Project Phase 5 (CMIP5). Creating a new chart for reports or presentations is easy.</p>
-          <button class="button button-secondary button-small">Get started</button>
-        </div>
-      </section>
-
-      <!-- Action Steps card -->
-      <section class="card card-full">
-        <header class="card-header"><a href="#"><h2 class="heading">Action Steps</h2></a></header>
-        <div class="card-content card-empty">
-          <p class="paragraph-intro"><strong>Start building action steps</strong></p>
-          <p>As you fill out <a href="#">risk assessments</a>we will build suggestive actions for you to take. Ask ICLEI for help along the way.</p>
-          <button class="button button-secondary button-small">Get started</button>
-        </div>
-      </section>
-    </div>
   </main>
 </div>

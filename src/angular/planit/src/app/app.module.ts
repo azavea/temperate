@@ -9,9 +9,7 @@ import { ApiModule, ChartsModule } from 'climate-change-components';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
-import { LoginFormComponent } from './marketing/login-form.component';
 import { MarketingComponent } from './marketing/marketing.component';
-import { NewUserFormComponent } from './marketing/new-user-form.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { CoreModule } from './core/core.module';
@@ -54,9 +52,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginFormComponent,
     MarketingComponent,
-    NewUserFormComponent,
     PageNotFoundComponent
   ],
   imports: [
