@@ -12,6 +12,7 @@ from planit_data.models import (
     WeatherEvent,
     WeatherEventRank,
 )
+from users.models import PlanItOrganization
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
@@ -119,20 +120,24 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         source='organizationaction',
         read_only=True
     )
-
-    def create(self, validated_data):
-        # Organization is implied from the request's user, not the data, so we use the
-        # serializer's context to pass it through.
-        if 'organization' not in self.context:
-            raise ValueError("Missing required 'organization' context variable")
-        organization = self.context['organization']
-        return OrganizationRisk.objects.create(organization_id=organization, **validated_data)
+    organization = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=PlanItOrganization.objects.all(),
+        write_only=True
+    )
 
     class Meta:
         model = OrganizationRisk
         fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
                   'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
-                  'related_adaptive_values', 'adaptive_capacity_description')
+                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=OrganizationRisk.objects.all(),
+                fields=('organization', 'weather_event', 'community_system'),
+                message='There is already a Risk for this Hazard and Community System'
+            )
+        ]
 
 
 class OrganizationActionSerializer(serializers.ModelSerializer):

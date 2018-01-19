@@ -108,7 +108,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'is_active', 'first_name', 'last_name', 'organizations',
+        fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
                   'primary_organization', 'password1', 'password2',)
 
     def validate(self, data):

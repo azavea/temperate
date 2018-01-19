@@ -100,7 +100,8 @@ class UserViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        self.perform_create(serializer)
+        # We set is_active to False because we want to require email verification
+        serializer.save(is_active=False)
 
         # If got this far, user was created successfully. Update and send registration email.
         user = serializer.instance

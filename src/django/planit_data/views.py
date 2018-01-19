@@ -44,13 +44,14 @@ class OrganizationRiskView(ModelViewSet):
     pagination_class = None
     serializer_class = OrganizationRiskSerializer
 
-    def get_serializer_context(self):
-        # Pass the user's organization to the serializer so it can be saved correclty
-        context = super().get_serializer_context()
-        context.update({
-            "organization": self.request.user.primary_organization_id
-        })
-        return context
+    def get_serializer(self, *args, data=None, **kwargs):
+        if data is not None:
+            # 'data' is a QueryDict and must be copied before being modified
+            data = data.dict()
+            data['organization'] = self.request.user.primary_organization_id
+            return self.serializer_class(*args, data=data, **kwargs)
+
+        return self.serializer_class(*args, **kwargs)
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
