@@ -1,5 +1,7 @@
-<div class="icon-related-indicators" *ngIf="risk.weatherEvent.indicators">
+<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weatherEvent.indicators"
+     tooltip="{{ relatedIndicatorsTooltip() }}">
   <button class="button button-primary button-small"
+          [disabled]="!indicators?.length"
           (click)="indicatorsModal.open()">View related indicators</button>
 </div>
 <div class="step-header">

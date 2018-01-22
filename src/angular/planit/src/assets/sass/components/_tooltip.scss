@@ -92,3 +92,10 @@
   border-color: transparent;
   border-style: solid;
 }
+
+.tooltip-wrapper {
+  button[disabled] {
+    /* let button mouse events reach the wrapper */
+    pointer-events: none;
+  }
+}

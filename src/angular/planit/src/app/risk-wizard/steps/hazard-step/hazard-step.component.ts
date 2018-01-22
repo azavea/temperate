@@ -51,7 +51,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   public directionalOptionsKeys = Array.from(OrgRiskDirectionalOptions.keys());
   public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
   public city: City;
-  public indicators: Indicator[];
+  public indicators: Indicator[] = [];
 
   @ViewChild('indicatorChartModal')
   private indicatorsModal: ModalTemplateComponent;
@@ -64,7 +64,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
 
   ngOnInit() {
     super.ngOnInit();
-    this.risk = this.session.getData() || new Risk({});
+    this.risk = this.session.getData();
     this.setupForm(this.fromModel(this.risk));
 
     // TODO (issue #404): Replace with the user's organization location
@@ -80,6 +80,8 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
       },
     };
 
+    // Load initial risk indicators and subscribe to watch for weather event changes after
+    this.updateRiskIndicators();
     this.session.data.subscribe(() => this.updateRiskIndicators());
   }
 
@@ -135,5 +137,11 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   isStepComplete(): boolean {
     return !!this.form.controls.frequency.value && !!this.form.controls.intensity.value
       && !!this.form.controls.probability.value;
+  }
+
+  relatedIndicatorsTooltip(): string {
+    if (this.indicators.length === 0) {
+      return `No related indicators for ${this.risk.weatherEvent.name}`;
+    }
   }
 }
