@@ -24,6 +24,7 @@ import {
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -44,6 +45,8 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    FooterComponent,
+    FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LoginFormComponent,
@@ -51,7 +54,6 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
-    FreeformMultiselectComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ],
@@ -59,6 +61,8 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    FooterComponent,
+    FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LoginFormComponent,
@@ -66,7 +70,6 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
-    FreeformMultiselectComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ]
