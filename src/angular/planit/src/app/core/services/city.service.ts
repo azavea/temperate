@@ -22,13 +22,11 @@ export class CityService {
       return Observable.of(city);
     }
 
-    const url = `${environment.apiUrl}/api/climate-api/api/city/`;
-
     return Observable.create((observer) => {
       this.userService.current().subscribe(user => {
-        console.log('user', user);
-          this.apiHttp.get(`${url}${user.primary_organization.location.properties.api_city_id}`)
-            .subscribe(resp => {
+        const api_city_id = user.primary_organization.location.properties.api_city_id;
+        const url = `${environment.apiUrl}/api/climate-api/api/city/${api_city_id}`;
+        this.apiHttp.get(url).subscribe(resp => {
           const json = resp.json();
           if (json) {
             city = json;
