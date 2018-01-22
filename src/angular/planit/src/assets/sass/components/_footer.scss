@@ -7,6 +7,11 @@
   flex-wrap: wrap;
   align-items: baseline;
   text-align: left;
+
+  a, a:visited{
+    text-decoration: none;
+    color: $gray-2;
+  }
 }
 .site-footer > .logo {
   padding: 2rem;
