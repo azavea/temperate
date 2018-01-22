@@ -2,11 +2,11 @@
   background-color: $gray-5;
   color: $gray-2;
   border-top: 1px solid $gray-4;
-  padding: 2rem 10rem;
+  padding: 2rem 2rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   align-items: baseline;
+  text-align: left;
 }
 .site-footer > .logo {
   padding: 2rem;
@@ -29,9 +29,9 @@
   }
 }
 .footer-nav {
-  display: flex; 
+  display: flex;
   justify-content: space-between;
-  align-content: stretch; 
+  align-content: stretch;
   align-items: center;
   margin: 0;
   padding: 0;
@@ -73,7 +73,7 @@
 .site-information {
   font-size: $text-tiny;
   padding-left: 2rem;
-  
+
   p {
     margin-bottom: 0;
   }

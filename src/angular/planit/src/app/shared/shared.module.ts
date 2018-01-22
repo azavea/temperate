@@ -45,6 +45,8 @@ import { FooterComponent } from './footer/footer.component';
     AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    FooterComponent,
+    FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LoginFormComponent,
@@ -52,15 +54,15 @@ import { FooterComponent } from './footer/footer.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
-    FreeformMultiselectComponent,
     TopConcernsComponent,
-    UserDropdownComponent,
-    FooterComponent
+    UserDropdownComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    FooterComponent,
+    FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LoginFormComponent,
@@ -68,7 +70,6 @@ import { FooterComponent } from './footer/footer.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
-    FreeformMultiselectComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ]
