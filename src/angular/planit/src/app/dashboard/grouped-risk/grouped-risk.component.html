@@ -1,24 +1,45 @@
 <div class="header">
-  <h4>{{ weatherEvent.name }} &middot; <span>{{ risks.length }} risks</span></h4>
-  <button class="button button-link">See Related Indicators</button>
+  <h4>{{ weatherEvent.name }} &bull; <span>{{ risks.length }} risks</span></h4>
+  <div [tooltip]="noRelatedIndicatorsTooltip"
+       [isDisabled]="canShowIndicators">
+    <button class="button button-link"
+            [ngClass]="{disabled: !canShowIndicators}"
+            (click)="openModal()">See Related Indicators</button>
+  </div>
 </div>
 <div class="block-assessment">
   <div class="summary">
     <div class="summary-title">
       <h4>Assessment</h4>
-      <span>{{ percentAssessed() }} %</span>
+      <span>{{ percentRisksAssessed() }} %</span>
     </div>
-    <progressbar [max]="risks.length" [value]="numberAssessed()"></progressbar>
+    <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
   </div>
   <a routerLink="/assessment" class="button button-primary">Assess</a>
 </div>
-<div class="block-assessment" *ngIf="numberAssessed() > 0">
+<div class="block-assessment" *ngIf="numberOfRisksAssessed() > 0">
   <div class="summary">
     <div class="summary-title">
       <h4>Action steps</h4>
-      <span>0%</span>
+      <span>{{ percentActionsAssessed() }} %</span>
     </div>
-    <progressbar [max]="risks.length" [value]="0"></progressbar>
+    <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
   </div>
   <a routerLink="/actions" class="button button-positive">Take action</a>
 </div>
+
+<app-modal-template #indicatorChartModal
+    title="Viewing indicators related to {{ modalRisk?.weather_event.name }}">
+  <div>
+    <app-collapsible-chart
+        *ngFor="let indicator of indicators"
+        [indicator]="indicator"
+        [city]="city">
+    </app-collapsible-chart>
+    <a class="button button-link" (click)="goToIndicators()">See all indicators</a>
+  </div>
+</app-modal-template>
+
+<ng-template #noRelatedIndicatorsTooltip>
+  No related indicators for {{ modalRisk?.weather_event.name }}
+</ng-template>

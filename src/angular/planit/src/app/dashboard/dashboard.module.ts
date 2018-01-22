@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
-import { ProgressbarModule } from 'ngx-bootstrap';
+import { ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -13,6 +13,7 @@ import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
   imports: [
     CommonModule,
     ProgressbarModule,
+    TooltipModule,
     SharedModule,
     DashboardRoutingModule
   ],

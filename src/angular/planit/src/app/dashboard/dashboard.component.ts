@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { RiskService } from '../core/services/risk.service';
 import { Risk, WeatherEvent } from '../shared/';
@@ -16,7 +16,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.riskService.groupByWeatherEvent().subscribe(r => {
-      console.log(r.size, r);
       this.groupedRisks = Array.from(r.values());
     });
   }

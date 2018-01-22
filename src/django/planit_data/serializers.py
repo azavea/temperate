@@ -164,6 +164,18 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
                   'categories', 'funding')
 
 
+class OrganizationRiskActionSerializer(OrganizationRiskSerializer):
+    """A serializer that returns the nested action for a given risk
+
+    This serializer is for convenience only and should remain read-only
+
+    """
+    action = OrganizationActionSerializer(source='organizationaction', read_only=True)
+
+    class Meta(OrganizationRiskSerializer.Meta):
+        pass
+
+
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
 
     class Meta:

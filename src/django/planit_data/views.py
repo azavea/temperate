@@ -20,6 +20,7 @@ from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
     OrganizationRiskSerializer,
+    OrganizationRiskActionSerializer,
     OrganizationActionSerializer,
     RelatedAdaptiveValueSerializer,
     WeatherEventRankSerializer,
@@ -67,7 +68,7 @@ class OrganizationActionViewSet(ModelViewSet):
     pagination_class = None
 
     def get_serializer_context(self):
-        # Pass the user's organization to the serializer so it can be saved correclty
+        # Pass the user's organization to the serializer so it can be saved correctly
         context = super().get_serializer_context()
         context.update({
             "organization": self.request.user.primary_organization_id
@@ -76,7 +77,28 @@ class OrganizationActionViewSet(ModelViewSet):
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
-        return OrganizationAction.objects.filter(organization_risk__organization_id=org_id)
+        return self.model_class.objects.filter(organization_risk__organization_id=org_id)
+
+
+class OrganizationRiskActionViewSet(ReadOnlyModelViewSet):
+    model_class = OrganizationRisk
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+    serializer_class = OrganizationRiskActionSerializer
+    filter_path = 'organization_id'
+
+    def get_serializer(self, *args, data=None, **kwargs):
+        if data is not None:
+            # if 'data' is a QueryDict it must be copied before being modified
+            data = data.copy() if isinstance(data, QueryDict) else data
+            data['organization'] = self.request.user.primary_organization_id
+            return self.serializer_class(*args, data=data, **kwargs)
+
+        return self.serializer_class(*args, **kwargs)
+
+    def get_queryset(self):
+        org_id = self.request.user.primary_organization_id
+        return OrganizationRisk.objects.filter(organization_id=org_id)
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
