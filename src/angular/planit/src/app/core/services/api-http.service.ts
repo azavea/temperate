@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConnectionBackend, Http, Headers, Request, RequestOptions, RequestOptionsArgs,
+import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs,
          Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 

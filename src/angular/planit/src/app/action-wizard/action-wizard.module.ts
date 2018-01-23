@@ -1,12 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 import { ArchwizardModule } from 'ng2-archwizard';
-import { TooltipModule,
-         TypeaheadModule,
-         PopoverModule } from 'ngx-bootstrap';
+import {
+  PopoverModule,
+  TooltipModule,
+  TypeaheadModule
+} from 'ngx-bootstrap';
 
+import { SharedModule } from '../shared/shared.module';
 import { ActionWizardComponent } from './action-wizard.component';
 import { AssessStepComponent } from './steps/assess-step/assess-step.component';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
@@ -16,7 +19,6 @@ import {
 } from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [

@@ -4,20 +4,29 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  OnInit,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output
 } from '@angular/core';
-
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Chart, ChartData, City, ClimateModel, Dataset, IndicatorRequestOpts,
-  IndicatorQueryParams, Scenario, TimeAggParam, Indicator } from 'climate-change-components';
-
-import { ChartService, IndicatorService } from 'climate-change-components';
+import {
+  Chart,
+  ChartData,
+  ChartService,
+  City,
+  ClimateModel,
+  Dataset,
+  Indicator,
+  IndicatorQueryParams,
+  IndicatorRequestOpts,
+  IndicatorService,
+  Scenario,
+  TimeAggParam
+} from 'climate-change-components';
 
 import * as cloneDeep from 'lodash.clonedeep';
 

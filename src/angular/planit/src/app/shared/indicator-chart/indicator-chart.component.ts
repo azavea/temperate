@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import {
   Chart,
@@ -7,8 +7,8 @@ import {
   ClimateModel,
   Dataset,
   Indicator,
-  IndicatorRequestOpts,
   IndicatorQueryParams,
+  IndicatorRequestOpts,
   Scenario,
   isBasetempIndicator,
   isHistoricIndicator,
@@ -16,12 +16,12 @@ import {
   isThresholdIndicator
 } from 'climate-change-components';
 
-import {
-  TemperatureUnits,
-  PrecipitationUnits,
-  OrgUnitType
-} from '../../shared';
 import { UserService } from '../../core/services/user.service';
+import {
+  OrgUnitType,
+  PrecipitationUnits,
+  TemperatureUnits
+} from '../../shared';
 
 import {
   DEFAULT_DATASET,

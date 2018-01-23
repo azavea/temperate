@@ -1,7 +1,7 @@
 import { CommunitySystem } from './community-system.model';
-import { WeatherEvent } from './weather-event.model';
 import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
 import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
+import { WeatherEvent } from './weather-event.model';
 
 export class Risk {
   id?: string;

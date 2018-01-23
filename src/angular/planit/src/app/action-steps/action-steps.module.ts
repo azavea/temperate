@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { ProgressbarModule,
-         TooltipModule,
-         BsDropdownModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule,
+  ProgressbarModule,
+  TooltipModule
+} from 'ngx-bootstrap';
 
 import {
   ActionWizardComponent,
@@ -12,10 +14,10 @@ import {
 import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
+import { ActionCardComponent } from './action-card/action-card.component';
 import { ActionPickerComponent } from './action-picker/action-picker.component';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { ActionStepsRoutingModule } from './action-steps-routing.module';
-import { ActionCardComponent } from './action-card/action-card.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
 import { RiskCardComponent } from './risk-card/risk-card.component';
 

@@ -1,30 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { BsDropdownModule, TypeaheadModule } from 'ngx-bootstrap';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ChartsModule } from 'climate-change-components';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { NouisliderModule } from 'ng2-nouislider';
+import { BsDropdownModule, TypeaheadModule } from 'ngx-bootstrap';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
+import { FooterComponent } from './footer/footer.component';
+import {
+  FreeformMultiselectComponent
+} from './freeform-multiselect/freeform-multiselect.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ModalTemplateComponent } from './modal-template/modal-template.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
-import {
-  FreeformMultiselectComponent
-} from './freeform-multiselect/freeform-multiselect.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
-import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({

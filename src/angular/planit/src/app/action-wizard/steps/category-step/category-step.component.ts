@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { Action, ActionCategory, WizardStepComponent } from '../../../shared/';
 import { ActionCategoryService } from '../../../core/services/action-category.service';
-import { ActionStepKey } from '../../action-step-key';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
+import { Action, ActionCategory, WizardStepComponent } from '../../../shared/';
+import { ActionStepKey } from '../../action-step-key';
 
 @Component({
   selector: 'app-action-category-step',

@@ -1,10 +1,12 @@
-import { Component,
-        OnInit,
-        Input,
-        Output,
-        EventEmitter } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 
-import { Risk, Action } from '../../shared';
+import { Action, Risk } from '../../shared';
 
 @Component({
   selector: 'as-action-card',

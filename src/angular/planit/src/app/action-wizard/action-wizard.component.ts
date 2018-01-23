@@ -4,20 +4,20 @@ import { Observable } from 'rxjs/Rx';
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
 
+import { ActionService } from '../core/services/action.service';
+import { CommunitySystemService } from '../core/services/community-system.service';
+import { RiskService } from '../core/services/risk.service';
+import { WeatherEventService } from '../core/services/weather-event.service';
+import { WizardSessionService } from '../core/services/wizard-session.service';
 import { Action, Risk } from '../shared';
 import { AssessStepComponent } from './steps/assess-step/assess-step.component';
-import { ActionService } from '../core/services/action.service';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
-import { CommunitySystemService } from '../core/services/community-system.service';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
 import {
   ImplementationStepComponent
 } from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
-import { RiskService } from '../core/services/risk.service';
-import { WeatherEventService } from '../core/services/weather-event.service';
-import { WizardSessionService } from '../core/services/wizard-session.service';
 
 @Component({
   selector: 'app-action-wizard',

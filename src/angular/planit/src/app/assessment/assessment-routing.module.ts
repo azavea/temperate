@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
+import { RiskWizardComponent } from '../risk-wizard/risk-wizard.component';
 import { AssessmentOverviewComponent } from './assessment-overview.component';
 import { EditRiskComponent } from './edit-risk/edit-risk.component';
-import { RiskWizardComponent } from '../risk-wizard/risk-wizard.component';
 import { RiskResolve } from './resolvers/risk-resolve';
 
 const routes: Routes = [

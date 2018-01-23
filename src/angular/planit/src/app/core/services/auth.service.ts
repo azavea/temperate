@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CacheService } from './cache.service';
 import { environment } from '../../../environments/environment';
+import { CacheService } from './cache.service';
 
 @Injectable()
 export class AuthService {

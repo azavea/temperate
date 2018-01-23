@@ -8,8 +8,8 @@ import { Action,
          Risk,
          WizardStepComponent } from '../../../shared/';
 
-import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { RiskService } from '../../../core/services/risk.service';
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 import { ActionStepKey } from '../../action-step-key';
 

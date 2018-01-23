@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
+import { environment } from '../../../environments/environment';
 import { Collaborator } from '../../shared/models/collaborator.model';
 import { PlanItApiHttp } from './api-http.service';
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class CollaboratorService {

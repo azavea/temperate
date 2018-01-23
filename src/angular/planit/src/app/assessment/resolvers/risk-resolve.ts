@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 
-import { Risk } from '../../shared/';
 import { RiskService } from '../../core/services/risk.service';
+import { Risk } from '../../shared/';
 
 @Injectable()
 export class RiskResolve implements Resolve<Risk> {

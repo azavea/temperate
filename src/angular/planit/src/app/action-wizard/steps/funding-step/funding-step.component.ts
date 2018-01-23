@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { ActionStepKey } from '../../action-step-key';
-import { Action, WizardStepComponent } from '../../../shared/';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
+import { Action, WizardStepComponent } from '../../../shared/';
+import { ActionStepKey } from '../../action-step-key';
 
 interface FundingStepFormModel {
   funding: string;

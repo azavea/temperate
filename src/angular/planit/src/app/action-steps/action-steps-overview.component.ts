@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OrgRiskRelativeOption, Risk, Action } from '../shared';
-import { RiskService } from '../core/services/risk.service';
 import { ActionService } from '../core/services/action.service';
+import { RiskService } from '../core/services/risk.service';
+import { Action, Risk } from '../shared';
 
 @Component({
   selector: 'as-overview',
