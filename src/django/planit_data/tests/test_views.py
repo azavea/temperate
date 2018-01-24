@@ -489,15 +489,15 @@ class OrganizationActionTestCase(APITestCase):
 
 class SuggestedActionTestCase(APITestCase):
     def setUp(self):
-        self.user = UserFactory()
+        self.georegion = GeoRegionFactory()
+
+        self.user = UserFactory(
+            primary_organization__location__coords=self.georegion.geom.point_on_surface)
         self.client.force_authenticate(user=self.user)
 
     def test_see_public_actions(self):
-        # Ensure the user and a remote organization are in the same georegion
-        georegion = GeoRegionFactory()
-        self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
-            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
 
@@ -517,11 +517,8 @@ class SuggestedActionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_ignore_private_actions(self):
-        # Ensure the user and a remote organization are in the same georegion
-        georegion = GeoRegionFactory()
-        self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
-            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PRIVATE
         )
 
@@ -531,19 +528,16 @@ class SuggestedActionTestCase(APITestCase):
         })
         response = self.client.get(url)
 
-        # We should get back the action as a suggestion
+        # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_ignore_mismatch_weather_event_actions(self):
-        # Ensure the user and a remote organization are in the same georegion
-        georegion = GeoRegionFactory()
-        self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
-            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
-        weather_event = WeatherEventRankFactory(georegion=georegion)
+        weather_event = WeatherEventRankFactory(georegion=self.georegion)
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'we': weather_event.id,
@@ -551,16 +545,13 @@ class SuggestedActionTestCase(APITestCase):
         })
         response = self.client.get(url)
 
-        # We should get back the action as a suggestion
+        # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_ignore_mismatch_community_system_actions(self):
-        # Ensure the user and a remote organization are in the same georegion
-        georegion = GeoRegionFactory()
-        self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
-            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
         community_system = CommunitySystemFactory()
@@ -571,6 +562,22 @@ class SuggestedActionTestCase(APITestCase):
         })
         response = self.client.get(url)
 
-        # We should get back the action as a suggestion
+        # We should not get back any actions
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_ignore_other_georegion_actions(self):
+        action = OrganizationActionFactory(
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__coords=(0, 0),
+        )
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'we': action.organization_risk.weather_event_id,
+            'cs': action.organization_risk.community_system_id
+        })
+        response = self.client.get(url)
+
+        # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
