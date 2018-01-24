@@ -541,7 +541,7 @@ class SuggestedActionTestCase(APITestCase):
         self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
             organization_risk__organization__location__coords=georegion.geom.point_on_surface,
-            visibility=OrganizationAction.Visibility.PRIVATE
+            visibility=OrganizationAction.Visibility.PUBLIC
         )
         weather_event = WeatherEventRankFactory(georegion=georegion)
 
@@ -561,7 +561,7 @@ class SuggestedActionTestCase(APITestCase):
         self.user.primary_organization.location.point = georegion.geom.point_on_surface
         action = OrganizationActionFactory(
             organization_risk__organization__location__coords=georegion.geom.point_on_surface,
-            visibility=OrganizationAction.Visibility.PRIVATE
+            visibility=OrganizationAction.Visibility.PUBLIC
         )
         community_system = CommunitySystemFactory()
 
