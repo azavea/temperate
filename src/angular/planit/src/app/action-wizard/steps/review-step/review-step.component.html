@@ -1,7 +1,158 @@
 <div class="step-header">
-  <h3>Confirm</h3>
+  <h2>Confirm</h2>
 </div>
 <div class="step-content">
+  <div class="review-step">
+    <h3>General Information</h3>
+    <div class="review-item"
+         [ngClass]="{warning: !action.name}">
+      <h4>
+        Action
+        <button class="button icon-edit" goToStep="0"></button>
+      </h4>
+      <p>{{ action.name || '--' }}</p>
+    </div>
+    <div class="review-item">
+      <h4>
+        Risk
+        <button class="button icon-edit" goToStep="0"></button>
+      </h4>
+      <p>{{ risk?.weather_event?.name || '--' }} on {{ risk?.community_system?.name || '--' }}</p>
+    </div>
+  </div>
+
+  <div class="review-step">
+    <h3>Action Details</h3>
+    <div class="review-item"
+         [ngClass]="{warning: !action.action_type}">
+      <h4>
+        Type of action: {{ action.action_type || '--' }}
+        <button class="button icon-edit" goToStep="1"></button>
+      </h4>
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.action_goal}">
+      <h4>
+        Action goal: {{ action.action_goal || '--' }}
+        <button class="button icon-edit" goToStep="1"></button>
+      </h4>
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.implementation_details}">
+      <h4>
+        Implementation details
+        <button class="button icon-edit" goToStep="1"></button>
+      </h4>
+      <p>{{ action.implementation_details || '--' }}</p>
+    </div>
+    <div class="review-item">
+      <h4>
+        Public/Private: {{ action.visibility | titlecase }}
+        <button class="button icon-edit" goToStep="1"></button>
+      </h4>
+    </div>
+  </div>
+
+  <div class="review-step">
+    <h3>Anticipated Improvements</h3>
+    <div class="review-item"
+         [ngClass]="{warning: !action.improvements_adaptive_capacity}">
+      <h4>
+        Effect on adaptive capacity
+        <button class="button icon-edit" goToStep="2"></button>
+      </h4>
+      <p>{{ action.improvements_adaptive_capacity || '--' }}</p>
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.improvements_impacts }">
+      <h4>
+        Reduction in potential impact
+        <button class="button icon-edit" goToStep="2"></button>
+      </h4>
+      <p>{{ action.improvements_impacts || '--' }}</p>
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.collaborators }">
+      <h4>
+        Collaborators
+        <button class="button icon-edit" goToStep="2"></button>
+      </h4>
+      <p *ngIf="!action.collaborators?.length">--</p>
+      <div class="freeform-multiselect" *ngIf="action.collaborators?.length">
+        <div class="selected-option" *ngFor="let collaborator of action.collaborators">
+            {{ collaborator }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-step">
+    <h3>Categories</h3>
+    <div class="review-item"
+         [ngClass]="{warning: !action.categories}">
+      <h4>
+        Categories
+        <button class="button icon-edit" goToStep="3"></button>
+      </h4>
+      <p *ngIf="!action.categories?.length">--</p>
+      <div class="freeform-multiselect" *ngIf="action.categories?.length">
+        <div class="selected-option" *ngFor="let category of action.categories">
+            {{ category.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-step">
+    <h3>Funding</h3>
+    <div class="review-item"
+         [ngClass]="{warning: !action.funding}">
+      <h4>
+        Funding
+        <button class="button icon-edit" goToStep="4"></button>
+      </h4>
+      <p>{{ action.funding || '--' }}</p>
+    </div>
+  </div>
+
+  <div class="review-step" *ngIf="!action.isComplete()">
+    <div class="review-item warning">
+      <h2>This is a great start</h2>
+
+      <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are highlighted in yellow.</p>
+
+      <div class="review-icon-box">
+        <span class="icon icon-dollar"></span>
+        <div>
+          <h4>Get funding for this action</h4>
+          <p>When you fill out more information, you can apply for funding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-step" *ngIf="action.isComplete()">
+    <div class="review-item success">
+      <h2>This looks good!</h2>
+
+      <p>You've developed a well thought-out action to undertake in order to address your adaptation needs. You now have the following options:</p>
+
+      <div class="review-icon-box">
+        <span class="icon icon-edit"></span>
+        <div>
+          <h4>Create another action</h4>
+          <p>You still have more assessed risks to develop actions to counteract.</p>
+        </div>
+      </div>
+      <div class="review-icon-box">
+        <span class="icon icon-dollar"></span>
+        <div>
+          <h4>Get funding for this action</h4>
+          <p>This action will appear on your Adaptation Actions page. Click on the $ icon to find funding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="step-footer">
   <button type="button" previousStep>Back</button>

@@ -70,7 +70,7 @@ class ConcernSerializerTestCase(TestCase):
 
 class OrganizationRiskSerializerTestCase(TestCase):
     def test_create_requires_organization(self):
-        """Ensure the Serializer raises a validation error if the data does not have an organization."""
+        """Ensure the Serializer raises a validation error if organization missing from data."""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
 
