@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
@@ -21,10 +21,7 @@ import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
     DashboardComponent,
     GroupedRiskComponent
   ],
-  exports: [
-    DashboardComponent,
-    GroupedRiskComponent
-  ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  exports: [ ],
+  schemas: [ ]
 })
 export class DashboardModule { }
