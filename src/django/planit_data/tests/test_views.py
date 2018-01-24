@@ -253,6 +253,35 @@ class OrganizationRiskTestCase(APITestCase):
         response = self.client.put(url, data=payload)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_unique_together_validation(self):
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
+        }
+
+        # First call should successfully create the Risk
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+        self.assertIn('id', response.json())
+        self.assertEqual(response.status_code, 201)
+
+        # Second call should should raise a validation error with 400 status code
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+        self.assertNotIn('id', response.json())
+        self.assertEqual(response.status_code, 400)
+
 
 class OrganizationActionTestCase(APITestCase):
     def setUp(self):
