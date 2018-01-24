@@ -131,6 +131,7 @@ class WeatherEventRankViewTestCase(APITestCase):
 
 
 class OrganizationRiskTestCase(APITestCase):
+
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
@@ -157,7 +158,7 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_organization_detail(self):
+    def test_organization_risk_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
@@ -186,6 +187,30 @@ class OrganizationRiskTestCase(APITestCase):
                 'indicators': [],
                 'name': org_risk.weather_event.name
             }})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_organization_risk_detail_with_action(self):
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+        org_action = OrganizationActionFactory(organization_risk=org_risk)
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.get(url)
+
+        self.assertDictEqual(response.json()['action'], {
+            'name': '',
+            'action_goal': '',
+            'action_type': '',
+            'categories': [],
+            'collaborators': [],
+            'funding': '',
+            'id': str(org_action.id),
+            'risk': str(org_risk.id),
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
+            'visibility': 'private',
+        })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_organization_risk(self):
