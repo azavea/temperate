@@ -11,11 +11,14 @@ export class MarketingAuthGuard implements CanActivate {
   // Selective routing to marketing page, designed after printful.com
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const loggedIn = this.authService.isAuthenticated();
-    if (!loggedIn ||
-        !!loggedIn && route.queryParams.ref && route.queryParams.ref === 'dashboard') {
+    // allow authenticated user to view marketing page with referral
+    if (!!loggedIn && !route.url[0] && route.queryParams.ref === 'dashboard') {
       return true;
+    // otherwise user will be redirected to the dashboard
+    } else if (!!loggedIn) {
+      this.router.navigate(['/dashboard']);
+      return false;
     }
-    this.router.navigate(['/dashboard']);
-    return false;
+    return true;
   }
 }

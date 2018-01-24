@@ -29,9 +29,11 @@ import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
+import { AuthGuard } from './core/services/auth-guard.service';
 import { CacheService } from './core/services/cache.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
+import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
 import { UserService } from './core/services/user.service';
@@ -97,9 +99,11 @@ const appRoutes: Routes = [
     ActionService,
     apiHttpProvider,
     AuthService,
+    AuthGuard,
     CacheService,
     CollaboratorService,
     CommunitySystemService,
+    MarketingAuthGuard,
     RelatedAdaptiveValueService,
     RiskResolve,
     RiskService,
