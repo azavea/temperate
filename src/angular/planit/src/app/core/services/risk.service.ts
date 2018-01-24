@@ -20,33 +20,26 @@ export class RiskService {
   private formatRisk(risk: Risk) {
     // Django expects pk's for related objects whereas the front end wants the full objs
     const formattedRisk = cloneDeep(risk);
-    return Object.assign(formattedRisk, { weather_event: formattedRisk.weather_event.id,
-                         community_system: formattedRisk.community_system.id });
+    return Object.assign(formattedRisk, {
+      action: formattedRisk.action ? formattedRisk.action.id : null,
+      weather_event: formattedRisk.weather_event.id,
+      community_system: formattedRisk.community_system.id
+    });
   }
 
   list(): Observable<Risk[]> {
     const url = `${environment.apiUrl}/api/risks/`;
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
-      return vals.map(r => new Risk(r));
-    });
-  }
-
-  listWithAction(): Observable<Risk[]> {
-    const url = `${environment.apiUrl}/api/risks-with-actions/`;
-    return this.apiHttp.get(url).map(resp => {
-      const vals = resp.json() || [];
       return vals.map(r => {
-        const action = r.action ? new Action(r.action) : null;
-        const risk = new Risk(r);
-        risk.actionObject = action;
-        return risk;
+        r.action = r.action ? new Action(r.action) : null;
+        return new Risk(r);
       });
     });
   }
 
   groupByWeatherEvent(): Observable<Map<string, Risk[]>> {
-    return this.listWithAction().map(risks => {
+    return this.list().map(risks => {
       return risks.reduce((acc, r) => {
         const key = r.weather_event.name;
         if (!acc.has(key)) {

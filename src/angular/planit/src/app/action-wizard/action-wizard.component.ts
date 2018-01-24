@@ -55,7 +55,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
         if (risk.action) {
           // Re-use the action's ID if the Risk already had one
-          this.action.id = risk.action;
+          this.action.id = risk.action.id;
         }
       });
     }
