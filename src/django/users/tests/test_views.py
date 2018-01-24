@@ -18,8 +18,8 @@ class UserCreationApiTestCase(APITestCase):
     def test_user_created(self):
         user_data = {
             'email': 'test@azavea.com',
-            'firstName': 'Test',
-            'lastName': 'User',
+            'first_name': 'Test',
+            'last_name': 'User',
             'password1': 'sooperseekrit',
             'password2': 'sooperseekrit'
         }
@@ -32,7 +32,7 @@ class UserCreationApiTestCase(APITestCase):
 
         # check user exists
         user = PlanItUser.objects.get(email=user_data['email'])
-        self.assertEqual(user.first_name, user_data['firstName'])
+        self.assertEqual(user.first_name, user_data['first_name'])
 
         self.assertFalse(user.is_active, 'User should not be active until email verified')
 
@@ -46,8 +46,8 @@ class UserCreationApiTestCase(APITestCase):
     def test_user_created_can_log_in(self):
         user_data = {
             'email': 'test@azavea.com',
-            'firstName': 'Test',
-            'lastName': 'User',
+            'first_name': 'Test',
+            'last_name': 'User',
             'password1': 'sooperseekrit',
             'password2': 'sooperseekrit'
         }
@@ -69,8 +69,8 @@ class UserCreationApiTestCase(APITestCase):
     def test_user_passwords_must_match(self):
         user_data = {
             'email': 'test@azavea.com',
-            'firstName': 'Test',
-            'lastName': 'User',
+            'first_name': 'Test',
+            'last_name': 'User',
             'password1': 'sooperseekrit',
             'password2': 'sewperseekrit'
         }
@@ -84,8 +84,8 @@ class UserCreationApiTestCase(APITestCase):
     def test_password_validators_run(self):
         user_data = {
             'email': 'test@azavea.com',
-            'firstName': 'Test',
-            'lastName': 'User',
+            'first_name': 'Test',
+            'last_name': 'User',
             'password1': '2short',
             'password2': '2short'
         }
@@ -100,8 +100,8 @@ class UserCreationApiTestCase(APITestCase):
     def test_user_required_fields(self):
         user_data = {
             'email': 'test@azavea.com',
-            'firstName': '',
-            'lastName': None,
+            'first_name': '',
+            'last_name': None,
             'password1': '',
             'password2': ''
         }
@@ -111,8 +111,8 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(response.status_code, 400)
         result = response.json()
 
-        self.assertEqual(result['firstName'][0], 'This field may not be blank.')
-        self.assertEqual(result['lastName'][0], 'This field may not be null.')
+        self.assertEqual(result['first_name'][0], 'This field may not be blank.')
+        self.assertEqual(result['last_name'][0], 'This field may not be null.')
         self.assertEqual(result['password1'][0], 'This field may not be blank.')
         self.assertEqual(result['password2'][0], 'This field may not be blank.')
 

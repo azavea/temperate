@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
+import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, WizardStepComponent } from '../../../shared/';
+import { Action } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 interface FundingStepFormModel {
   funding: string;
@@ -13,16 +17,18 @@ interface FundingStepFormModel {
   selector: 'app-action-funding-step',
   templateUrl: './funding-step.component.html'
 })
-export class FundingStepComponent extends WizardStepComponent<Action, FundingStepFormModel>
+export class FundingStepComponent extends ActionWizardStepComponent<FundingStepFormModel>
                                   implements OnInit {
   public form: FormGroup;
   public key = ActionStepKey.Funding;
   public navigationSymbol = '5';
   public title = 'Funding';
 
-  constructor(private fb: FormBuilder,
-              protected session: WizardSessionService<Action>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
+              protected fb: FormBuilder) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   OrgRiskRelativeImpactOptions,
@@ -9,10 +12,11 @@ import {
   WizardStepComponent
 } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 export interface ImpactStepFormModel {
-  impactMagnitude: OrgRiskRelativeOption;
-  impactDescription?: string;
+  impact_magnitude: OrgRiskRelativeOption;
+  impact_description?: string;
 }
 
 @Component({
@@ -20,10 +24,9 @@ export interface ImpactStepFormModel {
   templateUrl: 'impact-step.component.html'
 })
 
-export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFormModel>
+export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormModel>
                                  implements OnInit {
 
-  public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
   public navigationSymbol = '3';
@@ -35,9 +38,11 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
   public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
 
 
-  constructor(private fb: FormBuilder,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder) {
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {
@@ -48,33 +53,33 @@ export class ImpactStepComponent extends WizardStepComponent<Risk, ImpactStepFor
 
   getFormModel(): ImpactStepFormModel {
     const data: ImpactStepFormModel = {
-      impactMagnitude: this.form.controls.impactMagnitude.value,
-      impactDescription: this.form.controls.impactDescription.value
+      impact_magnitude: this.form.controls.impact_magnitude.value,
+      impact_description: this.form.controls.impact_description.value
     };
     return data;
   }
 
   setupForm(data: ImpactStepFormModel) {
     this.form = this.fb.group({
-      'impactMagnitude': [data.impactMagnitude, []],
-      'impactDescription': [data.impactDescription, []]
+      'impact_magnitude': [data.impact_magnitude, []],
+      'impact_description': [data.impact_description, []]
     });
   }
 
   fromModel(model: Risk): ImpactStepFormModel {
     return {
-      impactMagnitude: model.impactMagnitude,
-      impactDescription: model.impactDescription
+      impact_magnitude: model.impact_magnitude,
+      impact_description: model.impact_description
     };
   }
 
   toModel(data: ImpactStepFormModel, model: Risk) {
-    model.impactMagnitude = data.impactMagnitude;
-    model.impactDescription = data.impactDescription;
+    model.impact_magnitude = data.impact_magnitude;
+    model.impact_description = data.impact_description;
     return model;
   }
 
   isStepComplete(): boolean {
-    return !!this.form.controls.impactMagnitude.value;
+    return !!this.form.controls.impact_magnitude.value;
   }
 }

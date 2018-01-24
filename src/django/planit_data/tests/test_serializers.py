@@ -69,29 +69,27 @@ class ConcernSerializerTestCase(TestCase):
 
 
 class OrganizationRiskSerializerTestCase(TestCase):
-    def test_create_context_requires_organization(self):
-        """Ensure the Serializer raises an error if the context does not have an organization."""
+    def test_create_requires_organization(self):
+        """Ensure the Serializer raises a validation error if the data does not have an organization."""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'weatherEvent': weather_event.id,
-                  'communitySystem': community_system.id})
+            data={'weather_event': weather_event.id,
+                  'community_system': community_system.id})
 
-        self.assertTrue(serializer.is_valid())
-        with self.assertRaises(ValueError):
-            serializer.save()
+        self.assertFalse(serializer.is_valid())
 
-    def test_create_context_works_with_organization(self):
-        """Ensure the Serializer works when the context does have a organization"""
+    def test_create_works_with_organization(self):
+        """Ensure the Serializer works when the data provided does have a organization"""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
         org = OrganizationFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'weatherEvent': weather_event.id,
-                  'communitySystem': community_system.id},
-            context={'organization': org.id})
+            data={'weather_event': weather_event.id,
+                  'community_system': community_system.id,
+                  'organization': org.id})
 
         self.assertTrue(serializer.is_valid())
 

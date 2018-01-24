@@ -1,29 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { ActionCategoryService } from '../../../core/services/action-category.service';
+import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, ActionCategory, WizardStepComponent } from '../../../shared/';
+import { Action, ActionCategory } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 @Component({
   selector: 'app-action-category-step',
   templateUrl: './category-step.component.html'
 })
-export class CategoryStepComponent extends WizardStepComponent<Action, ActionCategory[]>
+export class CategoryStepComponent extends ActionWizardStepComponent<ActionCategory[]>
                                    implements OnInit {
 
   public navigationSymbol = '4';
   public title = 'Categories';
-  public form: FormGroup;
   public key = ActionStepKey.Category;
 
   public actionCategories: ActionCategory[];
 
-  constructor(private fb: FormBuilder,
-              private actionCategoryService: ActionCategoryService,
-              protected session: WizardSessionService<Action>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder,
+              private actionCategoryService: ActionCategoryService) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

@@ -31,13 +31,13 @@
       <div class="row" *ngIf="risk">
         <div class="adaptive-need-box col col-md-3">
           <va-adaptive-need-box
-            [adaptiveCapacity]="risk.adaptiveCapacity"
+            [adaptive_capacity]="risk.adaptive_capacity"
             [popoverPlacement]="'bottom'"
-            [potentialImpact]="risk.impactMagnitude">
+            [potentialImpact]="risk.impact_magnitude">
           </va-adaptive-need-box>
         </div>
         <h2 class="col col-md-9 action-picker-risk-name">
-          {{ risk.weatherEvent.name }} on {{ risk.communitySystem.name }}
+          {{ risk.weather_event.name }} on {{ risk.community_system.name }}
         </h2>
       </div>
     </div>

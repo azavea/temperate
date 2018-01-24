@@ -27,15 +27,16 @@
     "bootstrap-sass": "^3.3.7",
     "climate-change-components": "0.2.10",
     "core-js": "^2.4.1",
-    "ng2-archwizard": "^2.1.0",
-    "ngx-bootstrap": "^2.0.0-rc.0",
-    "rxjs": "5.5.1",
-    "webpack-sources": "^1.0.2",
-    "zone.js": "^0.8.14",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0",
+    "ng2-archwizard": "^2.1.0",
     "ng2-nouislider": "~1.6.2",
-    "nouislider": "^10.1.0"
+    "ngx-bootstrap": "^2.0.0-rc.0",
+    "ngx-toastr": "6.5.0",
+    "nouislider": "^10.1.0",
+    "rxjs": "5.5.1",
+    "webpack-sources": "^1.0.2",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "~1.4.2",

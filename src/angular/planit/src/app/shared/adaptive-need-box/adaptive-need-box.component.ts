@@ -9,7 +9,7 @@ import { OrgRiskRelativeOption } from '../models/org-risk-relative-option.model'
 })
 export class AdaptiveNeedBoxComponent implements OnInit {
   @Input() potentialImpact: OrgRiskRelativeOption;
-  @Input() adaptiveCapacity: OrgRiskRelativeOption;
+  @Input() adaptive_capacity: OrgRiskRelativeOption;
   @Input() popoverPlacement: string;
 
   public potentialImpactBin: number;
@@ -20,7 +20,7 @@ export class AdaptiveNeedBoxComponent implements OnInit {
 
   ngOnInit() {
     this.potentialImpactBin = this.binRelativeOption(this.potentialImpact);
-    this.adaptiveCapacityBin = this.binRelativeOption(this.adaptiveCapacity);
+    this.adaptiveCapacityBin = this.binRelativeOption(this.adaptive_capacity);
   }
 
   // takes a risk enum value and returns an integer between 0 and 4, or undefined if 'Unsure'

@@ -1,17 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
+import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, WizardStepComponent } from '../../../shared/';
+import { Action } from '../../../shared/';
 import { Collaborator } from '../../../shared/models/collaborator.model';
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 import { CollaboratorService } from '../../../core/services/collaborator.service';
 
 interface ImprovementsStepFormModel {
   collaborators: string[];
-  improvementsAdaptiveCapacity: string;
-  improvementsImpacts: string;
+  improvements_adaptive_capacity: string;
+  improvements_impacts: string;
 }
 
 @Component({
@@ -19,18 +23,19 @@ interface ImprovementsStepFormModel {
   templateUrl: './improvements-step.component.html'
 })
 export class ImprovementsStepComponent
-          extends WizardStepComponent<Action, ImprovementsStepFormModel>
+          extends ActionWizardStepComponent<ImprovementsStepFormModel>
           implements OnInit {
-  public form: FormGroup;
   public key = ActionStepKey.Improvements;
   public navigationSymbol = '3';
   public title = 'Improvements';
   public collaboratorValues: string[];
 
-  constructor(private fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
-              protected collaboratorService: CollaboratorService) {
-    super(session);
+  constructor(protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder,
+              private collaboratorService: CollaboratorService) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {
@@ -48,8 +53,8 @@ export class ImprovementsStepComponent
   getFormModel(): ImprovementsStepFormModel {
     const data: ImprovementsStepFormModel = {
       collaborators: this.form.controls.collaborators.value,
-      improvementsAdaptiveCapacity: this.form.controls.improvementsAdaptiveCapacity.value,
-      improvementsImpacts: this.form.controls.improvementsImpacts.value
+      improvements_adaptive_capacity: this.form.controls.improvements_adaptive_capacity.value,
+      improvements_impacts: this.form.controls.improvements_impacts.value
     };
     return data;
   }
@@ -57,23 +62,23 @@ export class ImprovementsStepComponent
   setupForm(data: ImprovementsStepFormModel) {
     this.form = this.fb.group({
       'collaborators': [data.collaborators, []],
-      'improvementsAdaptiveCapacity': [data.improvementsAdaptiveCapacity, []],
-      'improvementsImpacts': [data.improvementsImpacts, []]
+      'improvements_adaptive_capacity': [data.improvements_adaptive_capacity, []],
+      'improvements_impacts': [data.improvements_impacts, []]
     });
   }
 
   fromModel(model: Action): ImprovementsStepFormModel {
     return {
       collaborators: model.collaborators,
-      improvementsAdaptiveCapacity: model.improvementsAdaptiveCapacity,
-      improvementsImpacts: model.improvementsImpacts
+      improvements_adaptive_capacity: model.improvements_adaptive_capacity,
+      improvements_impacts: model.improvements_impacts
     };
   }
 
   toModel(data: ImprovementsStepFormModel, model: Action) {
     model.collaborators = data.collaborators;
-    model.improvementsAdaptiveCapacity = data.improvementsAdaptiveCapacity;
-    model.improvementsImpacts = data.improvementsImpacts;
+    model.improvements_adaptive_capacity = data.improvements_adaptive_capacity;
+    model.improvements_impacts = data.improvements_impacts;
     return model;
   }
 }

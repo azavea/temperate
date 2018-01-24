@@ -54,7 +54,7 @@ class ConcernViewSetTestCase(APITestCase):
             {'id': concern.id,
              'indicator': concern.indicator.name,
              'tagline': 'more',
-             'isRelative': True,
+             'is_relative': True,
              'value': 5.3,
              'units': 'farthing'})
 
@@ -85,7 +85,7 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertDictEqual(response.data,
                              {'id': concern.id, 'indicator': concern.indicator.name,
-                              'tagline': 'more', 'isRelative': True, 'value': 5.3,
+                              'tagline': 'more', 'is_relative': True, 'value': 5.3,
                               'units': 'miles'})
         calculate_mock.assert_called_with(self.user.primary_organization)
 
@@ -165,23 +165,23 @@ class OrganizationRiskTestCase(APITestCase):
 
         self.assertDictEqual(response.json(), {
             'action': None,
-            'adaptiveCapacity': '',
-            'adaptiveCapacityDescription': '',
-            'communitySystem': {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': {
                 'id': org_risk.community_system.id,
                 'name': org_risk.community_system.name
             },
             'frequency': '',
             'id': str(org_risk.id),
-            'impactDescription': '',
-            'impactMagnitude': '',
+            'impact_description': '',
+            'impact_magnitude': '',
             'intensity': '',
             'probability': '',
-            'relatedAdaptiveValues': [],
-            'weatherEvent': {
-                'coastalOnly': False,
+            'related_adaptive_values': [],
+            'weather_event': {
+                'coastal_only': False,
                 'concern': None,
-                'displayClass': '',
+                'display_class': '',
                 'id': org_risk.weather_event.id,
                 'indicators': [],
                 'name': org_risk.weather_event.name
@@ -193,16 +193,16 @@ class OrganizationRiskTestCase(APITestCase):
         weather_event = WeatherEventFactory()
 
         payload = {
-            'adaptiveCapacity': '',
-            'adaptiveCapacityDescription': '',
-            'communitySystem': community_system.id,
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
             'frequency': '',
-            'impactDescription': '',
-            'impactMagnitude': '',
+            'impact_description': '',
+            'impact_magnitude': '',
             'intensity': '',
             'probability': '',
-            'relatedAdaptiveValues': [],
-            'weatherEvent': weather_event.id
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
         }
 
         url = reverse('organizationrisk-list')
@@ -224,8 +224,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         # Update the organization risk to use the new community system
         payload = {
-            'communitySystem': new_community_system.id,
-            'weatherEvent': org_risk.weather_event.id
+            'community_system': new_community_system.id,
+            'weather_event': org_risk.weather_event.id
         }
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
@@ -245,13 +245,42 @@ class OrganizationRiskTestCase(APITestCase):
 
         # Update the organization risk to use the new community system
         payload = {
-            'communitySystem': new_community_system.id,
-            'weatherEvent': org_risk.weather_event.id
+            'community_system': new_community_system.id,
+            'weather_event': org_risk.weather_event.id
         }
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.put(url, data=payload)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_unique_together_validation(self):
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
+        }
+
+        # First call should successfully create the Risk
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+        self.assertIn('id', response.json())
+        self.assertEqual(response.status_code, 201)
+
+        # Second call should should raise a validation error with 400 status code
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+        self.assertNotIn('id', response.json())
+        self.assertEqual(response.status_code, 400)
 
 
 class OrganizationActionTestCase(APITestCase):
@@ -287,16 +316,16 @@ class OrganizationActionTestCase(APITestCase):
 
         self.assertDictEqual(response.json(), {
             'name': '',
-            'actionGoal': '',
-            'actionType': '',
+            'action_goal': '',
+            'action_type': '',
             'categories': [],
             'collaborators': [],
             'funding': '',
             'id': str(action.id),
-            'immprovementsImpacts': '',
-            'implementationDetails': '',
-            'implementationNotes': '',
-            'improvementsAdaptiveCapacity': '',
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
             'visibility': 'private',
             'risk': str(action.organization_risk.id)
         })
@@ -326,15 +355,15 @@ class OrganizationActionTestCase(APITestCase):
 
         payload = {
             'name': '',
-            'actionGoal': '',
-            'actionType': '',
+            'action_goal': '',
+            'action_type': '',
             'categories': [],
             'collaborators': [],
             'funding': '',
-            'immprovementsImpacts': '',
-            'implementationDetails': '',
-            'implementationNotes': '',
-            'improvementsAdaptiveCapacity': '',
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
             'visibility': 'private',
             'risk': str(org_risk.id)
         }
@@ -356,15 +385,15 @@ class OrganizationActionTestCase(APITestCase):
 
         payload = {
             'name': new_action_description,
-            'actionGoal': '',
-            'actionType': '',
+            'action_goal': '',
+            'action_type': '',
             'categories': [],
             'collaborators': [],
             'funding': '',
-            'immprovementsImpacts': '',
-            'implementationDetails': '',
-            'implementationNotes': '',
-            'improvementsAdaptiveCapacity': '',
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
             'visibility': 'private',
             'risk': str(action.organization_risk.id)
         }
@@ -385,15 +414,15 @@ class OrganizationActionTestCase(APITestCase):
 
         payload = {
             'name': '',
-            'actionGoal': '',
-            'actionType': '',
+            'action_goal': '',
+            'action_type': '',
             'categories': [str(category.id)],
             'collaborators': [],
             'funding': '',
-            'immprovementsImpacts': '',
-            'implementationDetails': '',
-            'implementationNotes': '',
-            'improvementsAdaptiveCapacity': '',
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
             'visibility': 'private',
             'risk': str(action.organization_risk.id)
         }
@@ -412,15 +441,15 @@ class OrganizationActionTestCase(APITestCase):
 
         payload = {
             'name': '',
-            'actionGoal': '',
-            'actionType': '',
+            'action_goal': '',
+            'action_type': '',
             'categories': [],
             'collaborators': [],
             'funding': '',
-            'immprovementsImpacts': '',
-            'implementationDetails': '',
-            'implementationNotes': '',
-            'improvementsAdaptiveCapacity': '',
+            'improvements_impacts': '',
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
             'visibility': 'private',
             'risk': str(org_risk.id)
         }

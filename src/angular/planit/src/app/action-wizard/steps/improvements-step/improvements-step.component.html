@@ -15,10 +15,10 @@
             placement="left">
        See examples
     </button>
-    <label for="improvementsAdaptiveCapacity">
+    <label for="improvements_adaptive_capacity">
       Effect on adaptive capacity
     </label>
-    <textarea formControlName="improvementsAdaptiveCapacity"></textarea>
+    <textarea formControlName="improvements_adaptive_capacity"></textarea>
 
     <button class="button button-link pull-right"
             [popover]="potentialImpactPopover"
@@ -27,10 +27,10 @@
             placement="left">
        See examples
     </button>
-    <label for="improvementsImpacts">
+    <label for="improvements_impacts">
       Reduction in potential impacts
     </label>
-    <textarea formControlName="improvementsImpacts"></textarea>
+    <textarea formControlName="improvements_impacts"></textarea>
 
     <label for="collaborators">
       Collaborator(s)
@@ -45,8 +45,7 @@
   <button type="button"
           tabindex="3"
           [disabled]="!form.valid"
-          nextStep
-          (finalize)="save()">Continue</button>
+          nextStep>Continue</button>
   <button type="button" previousStep>Back</button>
 </div>
 

@@ -5,6 +5,7 @@
   <app-action-assess-step class="wizard-step"
                           #assessStep
                           wizardStep
+                          [canExit]="assessStep.save"
                           stepTitle="{{ assessStep.title }}"
                           navigationSymbol="{{ assessStep.navigationSymbol }}">
   </app-action-assess-step>
@@ -13,6 +14,7 @@
                           #implementationStep
                           wizardStep
                           optionalStep
+                          [canExit]="implementationStep.save"
                           stepTitle="{{ implementationStep.title }}"
                           navigationSymbol="{{ implementationStep.navigationSymbol }}">
   </app-action-implementation-step>
@@ -21,6 +23,7 @@
                           #improvementsStep
                           wizardStep
                           optionalStep
+                          [canExit]="improvementsStep.save"
                           stepTitle="{{ improvementsStep.title }}"
                           navigationSymbol="{{ improvementsStep.navigationSymbol }}">
   </app-action-improvements-step>
@@ -29,6 +32,7 @@
                           #categoryStep
                           wizardStep
                           optionalStep
+                          [canExit]="categoryStep.save"
                           stepTitle="{{ categoryStep.title }}"
                           navigationSymbol="{{ categoryStep.navigationSymbol }}">
   </app-action-category-step>
@@ -37,6 +41,7 @@
                           #fundingStep
                           wizardStep
                           optionalStep
+                          [canExit]="fundingStep.save"
                           stepTitle="{{ fundingStep.title }}"
                           navigationSymbol="{{ fundingStep.navigationSymbol }}">
   </app-action-funding-step>

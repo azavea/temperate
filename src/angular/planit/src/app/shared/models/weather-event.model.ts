@@ -3,8 +3,8 @@ import { Concern } from '../../shared';
 export class WeatherEvent {
   id: number;
   name: string;
-  coastalOnly: boolean;
+  coastal_only: boolean;
   concern?: Concern;
   indicators?: string[];
-  displayClass: string;
+  display_class: string;
 }

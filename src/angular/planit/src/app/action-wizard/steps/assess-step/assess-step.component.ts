@@ -3,15 +3,16 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { ToastrService } from 'ngx-toastr';
 
-import { Action,
-         Risk,
-         WizardStepComponent } from '../../../shared/';
+import { Action, Risk } from '../../../shared/';
 
+import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 import { ActionStepKey } from '../../action-step-key';
+import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 interface AssessStepFormModel {
   name: string;
@@ -27,10 +28,9 @@ interface NamedRisk {
   selector: 'app-action-assess-step',
   templateUrl: 'assess-step.component.html'
 })
-export class AssessStepComponent extends WizardStepComponent<Action, AssessStepFormModel>
+export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFormModel>
                                  implements OnInit {
 
-  public form: FormGroup;
   public formValid: boolean;
   public key: ActionStepKey = ActionStepKey.Assess;
   public navigationSymbol = '1';
@@ -39,11 +39,13 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
   public namedRisks: NamedRisk[];
   private risks: Risk[];
 
-  constructor(private fb: FormBuilder,
+  constructor(protected session: WizardSessionService<Action>,
+              protected actionService: ActionService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder,
               private router: Router,
-              private riskService: RiskService,
-              protected session: WizardSessionService<Action>) {
-    super(session);
+              private riskService: RiskService) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {
@@ -55,7 +57,7 @@ export class AssessStepComponent extends WizardStepComponent<Action, AssessStepF
       // the typeahead needs to be fed a pre-formatted name
       this.namedRisks = risks.map(r => {
         return {'risk': r,
-                'name': `${r.weatherEvent.name} on ${r.communitySystem.name}`};
+                'name': `${r.weather_event.name} on ${r.community_system.name}`};
       });
       this.risks = risks;
     });

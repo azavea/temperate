@@ -6,20 +6,23 @@ import {
   Indicator,
   IndicatorService
 } from 'climate-change-components';
+import { ToastrService } from 'ngx-toastr';
 
-import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   OrgRiskDirectionalOption,
   OrgRiskDirectionalOptions,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeOption,
   Risk,
-  WizardStepComponent
 } from '../../../shared/';
+
+import { RiskService } from '../../../core/services/risk.service';
+import { WizardSessionService } from '../../../core/services/wizard-session.service';
 // tslint:disable-next-line:max-line-length
 import { CollapsibleChartComponent } from '../../../shared/collapsible-chart/collapsible-chart.component';
 import { ModalTemplateComponent } from '../../../shared/modal-template/modal-template.component';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -32,10 +35,9 @@ interface HazardStepFormModel {
   templateUrl: 'hazard-step.component.html'
 })
 
-export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFormModel>
+export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormModel>
                                  implements OnInit {
 
-  public form: FormGroup;
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
   public risk: Risk;
@@ -56,10 +58,12 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   @ViewChild('indicatorChartModal')
   private indicatorsModal: ModalTemplateComponent;
 
-  constructor(private fb: FormBuilder,
-              private indicatorService: IndicatorService,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder,
+              private indicatorService: IndicatorService) {
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {
@@ -97,7 +101,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
   updateRiskIndicators() {
     this.indicatorService.list().subscribe(indicators => {
       this.indicators = indicators.filter(indicator => {
-        return this.risk.weatherEvent.indicators.includes(indicator.name);
+        return this.risk.weather_event.indicators.includes(indicator.name);
       });
     });
   }
@@ -141,7 +145,7 @@ export class HazardStepComponent extends WizardStepComponent<Risk, HazardStepFor
 
   relatedIndicatorsTooltip(): string {
     if (this.indicators.length === 0) {
-      return `No related indicators for ${this.risk.weatherEvent.name}`;
+      return `No related indicators for ${this.risk.weather_event.name}`;
     }
   }
 }

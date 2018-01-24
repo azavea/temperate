@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { RelatedAdaptiveValueService } from '../../../core/services/related-adaptive-value.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import {  OrgRiskRelativeChanceOptions,
-          OrgRiskRelativeOption,
-          Risk,
-          WizardStepComponent } from '../../../shared/';
+import {
+  OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeOption,
+  Risk
+} from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 export interface CapacityStepFormModel {
-  adaptiveCapacity: OrgRiskRelativeOption;
-  relatedAdaptiveValues: string[];
-  adaptiveCapacityDescription: string;
+  adaptive_capacity: OrgRiskRelativeOption;
+  related_adaptive_values: string[];
+  adaptive_capacity_description: string;
 }
+
 @Component({
   selector: 'app-risk-step-capacity',
   templateUrl: 'capacity-step.component.html'
 })
-
-export class CapacityStepComponent extends WizardStepComponent<Risk, CapacityStepFormModel>
+export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepFormModel>
                                    implements OnInit {
-  public form: FormGroup;
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
   public navigationSymbol = '4';
@@ -34,10 +38,12 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
 
   public adaptiveValues: string[] = [];
 
-  constructor(private fb: FormBuilder,
-              private relatedAdaptiveValueService: RelatedAdaptiveValueService,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              private fb: FormBuilder,
+              private relatedAdaptiveValueService: RelatedAdaptiveValueService) {
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {
@@ -52,37 +58,37 @@ export class CapacityStepComponent extends WizardStepComponent<Risk, CapacitySte
 
   fromModel(model: Risk): CapacityStepFormModel {
     return {
-      adaptiveCapacity: model.adaptiveCapacity,
-      relatedAdaptiveValues: model.relatedAdaptiveValues,
-      adaptiveCapacityDescription: model.adaptiveCapacityDescription
+      adaptive_capacity: model.adaptive_capacity,
+      related_adaptive_values: model.related_adaptive_values,
+      adaptive_capacity_description: model.adaptive_capacity_description
     };
   }
 
   getFormModel(): CapacityStepFormModel {
     const data: CapacityStepFormModel = {
-      adaptiveCapacity: this.form.controls.adaptiveCapacity.value,
-      relatedAdaptiveValues: this.form.controls.relatedAdaptiveValues.value,
-      adaptiveCapacityDescription: this.form.controls.adaptiveCapacityDescription.value
+      adaptive_capacity: this.form.controls.adaptive_capacity.value,
+      related_adaptive_values: this.form.controls.related_adaptive_values.value,
+      adaptive_capacity_description: this.form.controls.adaptive_capacity_description.value
     };
     return data;
   }
 
   setupForm(data: CapacityStepFormModel) {
     this.form = this.fb.group({
-      'adaptiveCapacity': [data.adaptiveCapacity, []],
-      'relatedAdaptiveValues': [data.relatedAdaptiveValues, []],
-      'adaptiveCapacityDescription': [data.adaptiveCapacityDescription, []]
+      'adaptive_capacity': [data.adaptive_capacity, []],
+      'related_adaptive_values': [data.related_adaptive_values, []],
+      'adaptive_capacity_description': [data.adaptive_capacity_description, []]
     });
   }
 
   toModel(data: CapacityStepFormModel, model: Risk) {
-    model.adaptiveCapacity = data.adaptiveCapacity;
-    model.relatedAdaptiveValues = data.relatedAdaptiveValues || [];
-    model.adaptiveCapacityDescription = data.adaptiveCapacityDescription;
+    model.adaptive_capacity = data.adaptive_capacity;
+    model.related_adaptive_values = data.related_adaptive_values || [];
+    model.adaptive_capacity_description = data.adaptive_capacity_description;
     return model;
   }
 
   isStepComplete(): boolean {
-    return !!this.form.controls.adaptiveCapacity.value;
+    return !!this.form.controls.adaptive_capacity.value;
   }
 }

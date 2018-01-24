@@ -2,14 +2,19 @@ import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { OrgRiskDirectionalOptions,
-         OrgRiskRelativeChanceOptions,
-         OrgRiskRelativeImpactOptions,
-         Risk,
-         WizardStepComponent } from '../../../shared/';
-import { RiskStepKey } from '../../risk-step-key';
-
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
+
+import {
+  OrgRiskDirectionalOptions,
+  OrgRiskRelativeChanceOptions,
+  OrgRiskRelativeImpactOptions,
+  Risk
+} from '../../../shared/';
+import { RiskStepKey } from '../../risk-step-key';
+import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
+
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
 @Component({
@@ -17,13 +22,12 @@ import { WizardSessionService } from '../../../core/services/wizard-session.serv
   templateUrl: 'review-step.component.html'
 })
 
-export class ReviewStepComponent extends WizardStepComponent<Risk, any>
+export class ReviewStepComponent extends RiskWizardStepComponent<any>
                                  implements OnDestroy, OnInit {
 
   public navigationSymbol = '5';
   public title = 'Review';
 
-  public form: FormGroup;
   public risk: Risk;
   public key: RiskStepKey = RiskStepKey.Review;
 
@@ -33,9 +37,12 @@ export class ReviewStepComponent extends WizardStepComponent<Risk, any>
 
   private sessionSubscription: Subscription;
 
-  constructor(private router: Router,
-              protected session: WizardSessionService<Risk>) {
-    super(session);
+  constructor(protected session: WizardSessionService<Risk>,
+              protected riskService: RiskService,
+              protected toastr: ToastrService,
+              protected fb: FormBuilder,
+              private router: Router) {
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {

@@ -5,6 +5,7 @@
   <app-risk-step-identify class="wizard-step"
                           #identifyStep
                           wizardStep
+                          [canExit]="identifyStep.save"
                           stepTitle="{{ identifyStep.title }}"
                           navigationSymbol="{{ identifyStep.navigationSymbol }}">
   </app-risk-step-identify>
@@ -13,6 +14,7 @@
                         #hazardStep
                         wizardStep
                         optionalStep
+                        [canExit]="hazardStep.save"
                         stepTitle="{{ hazardStep.title }}"
                         navigationSymbol="{{ hazardStep.navigationSymbol }}">
   </app-risk-step-hazard>
@@ -21,6 +23,7 @@
                         #impactStep
                         wizardStep
                         optionalStep
+                        [canExit]="impactStep.save"
                         stepTitle="{{ impactStep.title }}"
                         navigationSymbol="{{ impactStep.navigationSymbol }}">
   </app-risk-step-impact>
@@ -29,6 +32,7 @@
                           #capacityStep
                           wizardStep
                           optionalStep
+                          [canExit]="capacityStep.save"
                           stepTitle="{{ capacityStep.title }}"
                           navigationSymbol="{{ capacityStep.navigationSymbol }}">
   </app-risk-step-capacity>
