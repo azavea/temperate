@@ -15,16 +15,17 @@ from planit_data.models import (
     WeatherEvent,
     WeatherEventRank,
 )
-
 from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     RelatedAdaptiveValueSerializer,
+    SuggestedActionSerializer,
     WeatherEventRankSerializer,
     WeatherEventSerializer,
 )
+from users.models import GeoRegion, PlanItLocation
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):
@@ -77,6 +78,34 @@ class OrganizationActionViewSet(ModelViewSet):
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(organization_risk__organization_id=org_id)
+
+
+class SuggestedActionViewSet(ReadOnlyModelViewSet):
+    model_class = OrganizationAction
+    serializer_class = SuggestedActionSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+    def get_queryset(self):
+        """Limit Suggested Actions."""
+        weather_event_id = self.request.query_params['we']
+        community_system_id = self.request.query_params['cs']
+
+        queryset = OrganizationAction.objects.all().filter(
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__weather_event_id=weather_event_id,
+            organization_risk__community_system_id=community_system_id
+        )
+
+        # Filter OrganizationActions to organizations that are within the same georegion as the user
+        # This may be possible to do entirely in the database
+        org_id = self.request.user.primary_organization_id
+        location = PlanItLocation.objects.get(planitorganization__id=org_id)
+        georegion = GeoRegion.objects.get_for_point(location.point)
+        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
+        queryset = queryset.filter(organization_risk__organization__location__in=locations)
+
+        return queryset
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):

@@ -1,3 +1,4 @@
+from urllib.parse import urlencode
 from unittest import mock
 
 from django.contrib.gis.geos import Point
@@ -484,3 +485,92 @@ class OrganizationActionTestCase(APITestCase):
 
         # Should fail and send back a 4xx error
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class SuggestedActionTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+    def test_see_public_actions(self):
+        # Ensure the user and a remote organization are in the same georegion
+        georegion = GeoRegionFactory()
+        self.user.primary_organization.location.point = georegion.geom.point_on_surface
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC
+        )
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'we': action.organization_risk.weather_event_id,
+            'cs': action.organization_risk.community_system_id
+        })
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertEqual(len(response.json()), 1)
+        self.assertDictEqual(response.json()[0], {
+            'id': str(action.id),
+            'name': action.name,
+            'categories': []
+        })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_ignore_private_actions(self):
+        # Ensure the user and a remote organization are in the same georegion
+        georegion = GeoRegionFactory()
+        self.user.primary_organization.location.point = georegion.geom.point_on_surface
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PRIVATE
+        )
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'we': action.organization_risk.weather_event_id,
+            'cs': action.organization_risk.community_system_id
+        })
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_ignore_mismatch_weather_event_actions(self):
+        # Ensure the user and a remote organization are in the same georegion
+        georegion = GeoRegionFactory()
+        self.user.primary_organization.location.point = georegion.geom.point_on_surface
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PRIVATE
+        )
+        weather_event = WeatherEventRankFactory(georegion=georegion)
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'we': weather_event.id,
+            'cs': action.organization_risk.community_system_id
+        })
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_ignore_mismatch_community_system_actions(self):
+        # Ensure the user and a remote organization are in the same georegion
+        georegion = GeoRegionFactory()
+        self.user.primary_organization.location.point = georegion.geom.point_on_surface
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PRIVATE
+        )
+        community_system = CommunitySystemFactory()
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'we': action.organization_risk.weather_event_id,
+            'cs': community_system.id
+        })
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

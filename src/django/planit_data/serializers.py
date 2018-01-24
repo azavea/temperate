@@ -164,6 +164,17 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         ]
 
 
+class SuggestedActionSerializer(serializers.ModelSerializer):
+    categories = ActionCategoryField(
+        many=True,
+        queryset=ActionCategory.objects.all()
+    )
+
+    class Meta:
+        model = OrganizationAction
+        fields = ('id', 'name', 'categories')
+
+
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
 
     class Meta:
