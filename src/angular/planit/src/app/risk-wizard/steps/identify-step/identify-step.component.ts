@@ -44,14 +44,14 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   private community_system: CommunitySystem;
 
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Risk>,
+  constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              protected fb: FormBuilder,
               private router: Router,
               private weatherEventService: WeatherEventService,
               private communitySystemService: CommunitySystemService) {
-    super(fb, session, riskService, toastr);
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {

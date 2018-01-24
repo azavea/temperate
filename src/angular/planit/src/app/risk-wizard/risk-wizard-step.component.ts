@@ -1,5 +1,4 @@
 import { OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
@@ -11,8 +10,7 @@ import { Risk, WizardStepComponent } from '../shared/';
 export abstract class RiskWizardStepComponent<FormModel>
   extends WizardStepComponent<Risk, FormModel> implements OnInit {
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Risk>,
+  constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService) {
     super(session, toastr);

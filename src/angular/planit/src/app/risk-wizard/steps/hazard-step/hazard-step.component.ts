@@ -58,12 +58,12 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   @ViewChild('indicatorChartModal')
   private indicatorsModal: ModalTemplateComponent;
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Risk>,
+  constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              private fb: FormBuilder,
               private indicatorService: IndicatorService) {
-    super(fb, session, riskService, toastr);
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {

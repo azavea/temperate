@@ -39,13 +39,13 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public namedRisks: NamedRisk[];
   private risks: Risk[];
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
+  constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
+              private fb: FormBuilder,
               private router: Router,
               private riskService: RiskService) {
-    super(fb, session, actionService, toastr);
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

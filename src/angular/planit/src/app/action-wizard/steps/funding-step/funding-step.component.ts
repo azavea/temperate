@@ -24,11 +24,11 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
   public navigationSymbol = '5';
   public title = 'Funding';
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
+  constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
-              protected toastr: ToastrService) {
-    super(fb, session, actionService, toastr);
+              protected toastr: ToastrService,
+              protected fb: FormBuilder) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

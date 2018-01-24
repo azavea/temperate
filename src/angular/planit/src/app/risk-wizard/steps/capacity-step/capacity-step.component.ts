@@ -38,12 +38,12 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
 
   public adaptiveValues: string[] = [];
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Risk>,
+  constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              private fb: FormBuilder,
               private relatedAdaptiveValueService: RelatedAdaptiveValueService) {
-    super(fb, session, riskService, toastr);
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {

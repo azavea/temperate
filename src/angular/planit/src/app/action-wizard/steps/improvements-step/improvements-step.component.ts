@@ -30,12 +30,12 @@ export class ImprovementsStepComponent
   public title = 'Improvements';
   public collaboratorValues: string[];
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
+  constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
-              protected collaboratorService: CollaboratorService) {
-    super(fb, session, actionService, toastr);
+              private fb: FormBuilder,
+              private collaboratorService: CollaboratorService) {
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

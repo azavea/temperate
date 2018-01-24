@@ -38,11 +38,11 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
 
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Risk>,
+  constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
-              protected toastr: ToastrService) {
-    super(fb, session, riskService, toastr);
+              protected toastr: ToastrService,
+              private fb: FormBuilder) {
+    super(session, riskService, toastr);
   }
 
   ngOnInit() {

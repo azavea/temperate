@@ -23,12 +23,12 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
 
   public actionCategories: ActionCategory[];
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
+  constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
+              private fb: FormBuilder,
               private actionCategoryService: ActionCategoryService) {
-    super(fb, session, actionService, toastr);
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {

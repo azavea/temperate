@@ -35,12 +35,12 @@ export class ImplementationStepComponent
                      'assessments'
   };
 
-  constructor(protected fb: FormBuilder,
-              protected session: WizardSessionService<Action>,
+  constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
+              private fb: FormBuilder,
               private actionTypeService: ActionTypeService) {
-    super(fb, session, actionService, toastr);
+    super(session, actionService, toastr);
   }
 
   ngOnInit() {
