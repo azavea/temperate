@@ -25,7 +25,8 @@ export class ActionPickerComponent implements OnInit {
   }
 
   goToWizard() {
-    this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route});
+    this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route,
+                                                           skipLocationChange: true});
     this.closeModal();
   }
 }
