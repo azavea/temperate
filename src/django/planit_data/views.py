@@ -1,3 +1,5 @@
+from django.http.request import QueryDict
+
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -46,8 +48,8 @@ class OrganizationRiskView(ModelViewSet):
 
     def get_serializer(self, *args, data=None, **kwargs):
         if data is not None:
-            # 'data' is a QueryDict and must be copied before being modified
-            data = data.dict()
+            # if 'data' is a QueryDict it must be copied before being modified
+            data = data.copy() if isinstance(data, QueryDict) else data
             data['organization'] = self.request.user.primary_organization_id
             return self.serializer_class(*args, data=data, **kwargs)
 
