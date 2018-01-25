@@ -67,7 +67,7 @@ class OrganizationActionViewSet(ModelViewSet):
     pagination_class = None
 
     def get_serializer_context(self):
-        # Pass the user's organization to the serializer so it can be saved correclty
+        # Pass the user's organization to the serializer so it can be saved correctly
         context = super().get_serializer_context()
         context.update({
             "organization": self.request.user.primary_organization_id
@@ -76,7 +76,7 @@ class OrganizationActionViewSet(ModelViewSet):
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
-        return OrganizationAction.objects.filter(organization_risk__organization_id=org_id)
+        return self.model_class.objects.filter(organization_risk__organization_id=org_id)
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):

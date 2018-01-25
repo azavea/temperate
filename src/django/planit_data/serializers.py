@@ -105,41 +105,6 @@ class WeatherEventWithConcernSerializer(WeatherEventSerializer):
     concern = ConcernSerializer()
 
 
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models."""
-    weather_event = WeatherEventField(
-        many=False,
-        queryset=WeatherEvent.objects.all(),
-    )
-    community_system = CommunitySystemField(
-        many=False,
-        queryset=CommunitySystem.objects.all(),
-    )
-    action = serializers.PrimaryKeyRelatedField(
-        many=False,
-        source='organizationaction',
-        read_only=True
-    )
-    organization = serializers.PrimaryKeyRelatedField(
-        many=False,
-        queryset=PlanItOrganization.objects.all(),
-        write_only=True
-    )
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
-                  'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
-                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=OrganizationRisk.objects.all(),
-                fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and Community System'
-            )
-        ]
-
-
 class OrganizationActionSerializer(serializers.ModelSerializer):
     risk = serializers.PrimaryKeyRelatedField(
         many=False,
@@ -162,6 +127,41 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
                   'implementation_details', 'visibility', 'implementation_notes',
                   'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
                   'categories', 'funding')
+
+
+class OrganizationRiskSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models."""
+    weather_event = WeatherEventField(
+        many=False,
+        queryset=WeatherEvent.objects.all(),
+    )
+    community_system = CommunitySystemField(
+        many=False,
+        queryset=CommunitySystem.objects.all(),
+    )
+    action = OrganizationActionSerializer(
+        many=False,
+        source='organizationaction',
+        read_only=True
+    )
+    organization = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=PlanItOrganization.objects.all(),
+        write_only=True
+    )
+
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
+                  'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
+                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=OrganizationRisk.objects.all(),
+                fields=('organization', 'weather_event', 'community_system'),
+                message='There is already a Risk for this Hazard and Community System'
+            )
+        ]
 
 
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
