@@ -56,3 +56,9 @@ wizard {
     float: right;
   }
 }
+
+typeahead-container {
+  ul.dropdown-menu {
+    width: fit-content;
+  }
+}
