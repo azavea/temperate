@@ -2,7 +2,8 @@ import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AdaptiveNeedBoxComponent, Risk } from '../../shared';
+import { AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
+import { SuggestedActionService } from '../../core/services/suggested-action.service';
 
 
 @Component({
@@ -17,9 +18,16 @@ export class ActionPickerComponent implements OnInit {
 
   public showPrompt = true;
 
-  constructor(private location: Location, private route: ActivatedRoute, private router: Router) {}
+  constructor(private location: Location,
+              private suggestedActionService: SuggestedActionService,
+              private route: ActivatedRoute,
+              private router: Router) {}
 
-  ngOnInit() {}
+  suggestedActions: SuggestedAction[] = [];
+
+  ngOnInit() {
+    this.suggestedActionService.list(null, null).subscribe(s => this.suggestedActions = s)
+  }
 
   closeModal() {
     this.closed.emit('closed');

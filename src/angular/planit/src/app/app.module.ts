@@ -37,6 +37,7 @@ import { CommunitySystemService } from './core/services/community-system.service
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
+import { SuggestedActionService } from './core/services/suggested-action.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
@@ -109,6 +110,7 @@ const appRoutes: Routes = [
     RelatedAdaptiveValueService,
     RiskResolve,
     RiskService,
+    SuggestedActionService,
     UserService,
     WeatherEventService,
   ],
