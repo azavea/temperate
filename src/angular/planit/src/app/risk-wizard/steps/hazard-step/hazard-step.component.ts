@@ -101,7 +101,11 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   updateRiskIndicators() {
     this.indicatorService.list().subscribe(indicators => {
       this.indicators = indicators.filter(indicator => {
-        return this.risk.weather_event.indicators.includes(indicator.name);
+        if (this.risk.weather_event.indicators) {
+          return this.risk.weather_event.indicators.includes(indicator.name);
+        } else {
+          return false;
+        }
       });
     });
   }
