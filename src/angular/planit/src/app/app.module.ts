@@ -30,6 +30,7 @@ import { ActionService } from './core/services/action.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
+import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
     apiHttpProvider,
     AuthService,
     CacheService,
+    CityService,
     CollaboratorService,
     CommunitySystemService,
     RelatedAdaptiveValueService,

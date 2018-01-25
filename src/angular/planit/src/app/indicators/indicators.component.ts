@@ -6,8 +6,11 @@ import {
   IndicatorService
 } from 'climate-change-components';
 
+import { CityService } from '../core/services/city.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
+
 import { WeatherEvent } from '../shared';
+
 import { CollapsibleChartComponent } from '../shared/collapsible-chart/collapsible-chart.component';
 
 interface AccordionState {
@@ -29,21 +32,11 @@ export class IndicatorsComponent implements OnInit {
   private MAX_FILTERS = 4;
 
   constructor(private indicatorService: IndicatorService,
-              private weatherEventService: WeatherEventService) {}
+              private weatherEventService: WeatherEventService,
+              private cityService: CityService) {}
 
   ngOnInit() {
-    // TODO (issue #404): Replace with the user's organization location
-    this.city = {
-      id: '7',
-      type: 'feature',
-      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
-      properties: {
-        name: 'Philadelphia',
-        admin: 'PA',
-        datasets: ['NEX-GDDP', 'LOCA'],
-        region: 11
-      },
-    };
+    this.cityService.current().subscribe(city => { this.city = city; });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
     this.weatherEventService.rankedEvents().subscribe(events => this.setupFilters(events));

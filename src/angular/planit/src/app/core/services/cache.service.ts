@@ -7,6 +7,7 @@ export class CacheService {
 
   // Naming convention: MODULE_SERVICE_METHOD for clarity and uniqueness
   public static CORE_USERSERVICE_CURRENT = 'core.userservice.current';
+  public static CORE_CITYSERVICE_CURRENT = 'core.cityservice.current';
   public static CORE_ACTIONTYPESERVICE_LIST = 'core.actiontypeservice.list';
 
   private data: { [index: string]: any } = {};

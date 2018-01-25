@@ -43,6 +43,7 @@ export class AuthService {
   logout(redirectTo: string = '/') {
     this.setToken(null);
     this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+    this.cache.delete(CacheService.CORE_CITYSERVICE_CURRENT);
     if (redirectTo) {
       this.router.navigate([redirectTo]);
     }
