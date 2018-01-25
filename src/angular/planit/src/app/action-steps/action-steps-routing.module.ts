@@ -7,7 +7,10 @@ import { EditActionComponent } from './edit-action/edit-action.component';
 
 const routes: Routes = [
   { path: 'actions', component: ActionStepsOverviewComponent, canActivate: [AuthGuard] },
-  { path: 'actions/action/wizard/:riskid', component: EditActionComponent, canActivate: [AuthGuard] }
+  { path: 'actions/action/wizard', component: EditActionComponent, canActivate: [AuthGuard] },
+  { path: 'actions/action/wizard/:riskid',
+    component: EditActionComponent,
+    canActivate: [AuthGuard] }
 ];
 
 @NgModule({

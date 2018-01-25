@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -16,7 +17,7 @@ export class ActionPickerComponent implements OnInit {
 
   public showPrompt = true;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private location: Location, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {}
 
@@ -25,8 +26,11 @@ export class ActionPickerComponent implements OnInit {
   }
 
   goToWizard() {
+    // route to wizard, passing risk ID in URL, without changing URL
     this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route,
                                                            skipLocationChange: true});
+    // change URL to wizard path without risk ID and push to browser history
+    this.location.go('/actions/action/wizard/');
     this.closeModal();
   }
 }
