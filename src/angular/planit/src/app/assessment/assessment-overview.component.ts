@@ -16,18 +16,8 @@ export class AssessmentOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.switchMap((params: ParamMap) => {
-      return this.getRisks(+params.get('hazard') || null);
+      return this.riskService.filterByWeatherEvent(+params.get('hazard') || null);
     }).subscribe(risks => this.risks = risks);
-  }
-
-  getRisks(weatherEvent?: number) {
-    return this.riskService.list().map(risks => {
-      if (typeof weatherEvent === 'number') {
-        return risks.filter(r => r.weather_event.id === weatherEvent);
-      } else {
-        return risks;
-      }
-    });
   }
 
   deleteRisk(risk: Risk) {

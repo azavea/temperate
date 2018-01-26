@@ -27,7 +27,9 @@
     </div>
     <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
   </div>
-  <a routerLink="/actions" class="button button-positive">Take action</a>
+  <a class="button button-positive"
+     routerLink="/actions"
+     [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
 </div>
 
 <app-modal-template #indicatorChartModal
