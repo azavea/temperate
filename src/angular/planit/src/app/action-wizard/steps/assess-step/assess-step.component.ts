@@ -51,6 +51,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   ngOnInit() {
     super.ngOnInit();
     const action = this.session.getData();
+    // setup form with action, but no risk, so template will have form controls immediately
     this.setupForm(this.fromModel(action));
 
     this.riskService.list().subscribe(risks => {
@@ -60,6 +61,10 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
                 'name': `${r.weather_event.name} on ${r.community_system.name}`};
       });
       this.risks = risks;
+
+      // set risk dropdown value, now that namedRisks populated
+      const namedRisk: NamedRisk = this.namedRiskFromId(action.risk);
+      this.form.controls['risk'].setValue(namedRisk ? namedRisk.name : '');
     });
 }
 
@@ -75,26 +80,26 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   }
 
   getFormModel(): AssessStepFormModel {
-    const riskFromId = this.matchRisk(this.form.controls.risk.value);
+    const risk = this.matchRisk(this.form.controls.risk.value);
     const data: AssessStepFormModel = {
       name: this.form.controls.name.value,
-      risk: riskFromId !== null ? riskFromId.id : null
+      risk: risk !== null ? risk.id : null
     };
     return data;
   }
 
   setupForm(data: AssessStepFormModel) {
+    // set risk blank initially, then set to a value after the options have been loaded
     this.form = this.fb.group({
-      'name': [data.name ? data.name : '',
-                [Validators.required]],
-      'risk': [data.risk ? data.risk : '',
-                [Validators.required]]
+      'name': [data.name ? data.name : '', [Validators.required]],
+      'risk': ['', [Validators.required]]
     });
   }
 
   toModel(data: AssessStepFormModel, model: Action) {
     model.name = data.name;
     model.risk = data.risk;
+
     return model;
   }
 
@@ -111,6 +116,10 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   matchRisk(riskName: string): Risk {
     const risk = this.namedRisks.find(r =>  riskName === r.name);
     return risk ? risk.risk : null;
+  }
+
+  namedRiskFromId(riskId: string): NamedRisk {
+    return this.namedRisks.find(r =>  riskId === r.risk.id);
   }
 }
 
