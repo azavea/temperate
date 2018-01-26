@@ -46,5 +46,67 @@
             33
         ]
     }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "22cd115d-8832-4db4-b000-7046b6c7c40b",
+    "fields": {
+        "weather_event": 1,
+        "community_system": 12,
+        "organization": 3,
+        "probability": "moderate",
+        "frequency": "unsure",
+        "intensity": "increasing",
+        "impact_magnitude": "mod high",
+        "impact_description": "Decreased production, elevating food instability",
+        "adaptive_capacity": "mod low",
+        "related_adaptive_values": "[\"Environmental conditions\"]",
+        "adaptive_capacity_description": "Mitigating the effects of drought are impeded by lack of routable water sources."
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "394f6be9-3f0c-44a9-8554-8b1eba2175eb",
+    "fields": {
+        "weather_event": 1,
+        "community_system": 12,
+        "organization": 2,
+        "probability": "high",
+        "frequency": "increasing",
+        "intensity": "increasing",
+        "impact_magnitude": "high",
+        "impact_description": "Less water negatively impacts fish capacity.",
+        "adaptive_capacity": "low",
+        "related_adaptive_values": "[\"Economic diversity\"]",
+        "adaptive_capacity_description": "Philadelphia's economy is disproportionately dependent on our abundant fisheries."
+    }
+},
+{
+    "model": "planit_data.organizationaction",
+    "pk": "5a3b9c67-229b-4c35-97c0-0459623748a9",
+    "fields": {
+        "organization_risk": "22cd115d-8832-4db4-b000-7046b6c7c40b",
+        "name": "Thermally absorbant floaters",
+        "action_type": "Project",
+        "action_goal": "Slow water evaporation",
+        "implementation_details": "Purchase a thermally absorbent floating ball product to help slow the water evaporation when drought prevents it from being replaced.",
+        "visibility": "public",
+        "implementation_notes": "Thermally absorbent balls may impede boat activity.",
+        "improvements_adaptive_capacity": "Unlikely to increase adaptive capacity",
+        "improvements_impacts": "Mitigates the negative effects of drought by",
+        "collaborators": "[\"Department of Parks & Recreation\", \"Water Department\"]",
+        "funding": "Don't tell anyone but we know a guy who can get us the floaters for cheap!",
+        "categories": [
+            [
+                "Conservation"
+            ],
+            [
+                "Funding"
+            ],
+            [
+                "Technology"
+            ]
+        ]
+    }
 }
 ]
