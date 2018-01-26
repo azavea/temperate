@@ -30,11 +30,6 @@ export class ActionStepsOverviewComponent implements OnInit {
     return !!this.risks.find((risk: Risk) => risk.isAssessed());
   }
 
-  // Count how many risks have associated actions, for the progress bar
-  get risksWithActionsCount() {
-    return this.risks.reduce((ct: number, risk: Risk) => ct += risk.action ? 1 : 0, 0);
-  }
-
   // Refresh actions, risks and their counts when an action is deleted
   onActionDeleted(action) {
     this.actionService.delete(action).subscribe(a => {

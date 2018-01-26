@@ -11,10 +11,6 @@
         <a class="button" routerLink="/assessment">Assess Risks</a>
       </div>
       <div *ngIf="isARiskAssessed" class="actions-available">
-        <h2>Risks acted upon</h2>
-        <progressbar class="progress" [max]=risks.length [value]="risksWithActionsCount">
-        </progressbar>
-        <h2>In Progress</h2>
         <div class="action-card-container">
           <!-- Show risks in the order they return, so that a risk always shows at the same
                position. This helps consistency for users. -->
