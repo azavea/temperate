@@ -1,8 +1,9 @@
 import { ActionCategory } from './action-category.model';
 
 export class SuggestedAction {
-  id: string;
-  name = '';
+  plan_city: string;
+  plan_year: number;
+  name: string;
   action_type = '';
   action_goal = '';
   implementation_details = '';

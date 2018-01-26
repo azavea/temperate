@@ -169,10 +169,14 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
         many=True,
         queryset=ActionCategory.objects.all()
     )
+    plan_city = serializers.SerializerMethodField()
+
+    def get_plan_city(self, obj):
+        return str(obj.organization_risk.organization.location)
 
     class Meta:
         model = OrganizationAction
-        fields = ('id', 'name', 'categories')
+        fields = ('name', 'categories', 'plan_city')
 
 
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):

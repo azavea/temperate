@@ -510,9 +510,9 @@ class SuggestedActionTestCase(APITestCase):
         # We should get back the action as a suggestion
         self.assertEqual(len(response.json()), 1)
         self.assertDictEqual(response.json()[0], {
-            'id': str(action.id),
             'name': action.name,
-            'categories': []
+            'categories': [],
+            'plan_city': str(action.organization_risk.organization.location)
         })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
