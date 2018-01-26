@@ -4,6 +4,10 @@ app-city-profile-summary {
   width: 100%;
   padding: 2rem;
 
+  .icon-positive {
+    color: $brand-positive;
+  }
+
   .cps-progressbar-wrapper {
     display: flex;
     margin-bottom: 2rem;
@@ -21,6 +25,20 @@ app-city-profile-summary {
 
       &:last-child {
         margin-right: 0;
+      }
+    }
+  }
+
+  & .required-done {
+    width: 100%;
+    padding: 1rem;
+    background-color: lighten($brand-positive, 40%);
+
+    &.overall {
+      background-color: $gray-0;
+
+      & > span {
+        font-size: 24px;
       }
     }
   }

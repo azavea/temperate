@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Rx';
+
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { CityProfileSummary } from '../../shared/';
 
@@ -10,7 +12,7 @@ import { CityProfileSummary } from '../../shared/';
 
 export class CityProfileSummaryComponent implements OnInit {
 
-  public com: CityProfileSummary;
+  public required: CityProfileSummary;
   public overall: CityProfileSummary;
 
   constructor(private cityProfileService: CityProfileService) { }
@@ -19,17 +21,16 @@ export class CityProfileSummaryComponent implements OnInit {
     this.updateSummaries();
   }
 
+  isDone(summary: CityProfileSummary) {
+    return summary && summary.complete === summary.total;
+  }
+
+  percentage(summary: CityProfileSummary) {
+    return summary ? Math.floor(summary.complete / summary.total * 100) : 0;
+  }
+
   updateSummaries() {
-    this.cityProfileService.comSummary().subscribe(s => this.com = s);
+    this.cityProfileService.requiredSummary().subscribe(s => this.required = s);
     this.cityProfileService.overallSummary().subscribe(s => this.overall = s);
-  }
-
-  get comPercentage() {
-    return this.com ? Math.floor(this.com.complete / this.com.total * 100) : 0;
-  }
-
-  get overallPercentage() {
-    return this.overall ?
-      Math.floor(this.overall.complete / this.overall.total * 100) : 0;
   }
 }

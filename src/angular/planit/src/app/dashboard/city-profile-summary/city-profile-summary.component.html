@@ -1,13 +1,25 @@
-<h2 (click)="updateSummaries()">City profile</h2>
+<h2 (click)="updateSummaries()">
+  City profile
+  <span class="icon icon-ok-circled icon-positive pull-right"
+        *ngIf="isDone(required) && isDone(overall)"></span>
+</h2>
 <p>Enter information about your city, including any long-term goals you hope to achieve</p>
-<div class="cps-progressbar-wrapper">
+<div class="cps-progressbar-wrapper" *ngIf="!isDone(required) && !isDone(overall)">
   <div class="cps-progressbar">
-    <h1>{{ com.complete }} / {{ com.total }}</h1>
+    <h1>{{ required?.complete }} / {{ required?.total }}</h1>
     <h4>Required</h4>
   </div>
   <div class="cps-progressbar">
-    <h1>{{ overallPercentage }}%</h1>
+    <h1>{{ percentage(overall) }}%</h1>
     <h4>Overall</h4>
   </div>
 </div>
+<ng-container *ngIf="isDone(required) && !isDone(overall)">
+  <p class="required-done">
+    <span class="icon icon-ok-circled icon-positive"></span> Required
+  </p>
+  <p class="required-done overall">
+    <span>{{ percentage(overall) }}%</span> Overall
+  </p>
+</ng-container>
 <a routerLink="/city-profile" class="button button-secondary">Manage</a>

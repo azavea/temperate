@@ -11,16 +11,16 @@ function getRandomInt(max) {
 @Injectable()
 export class CityProfileService {
 
-  constructor() { }
+  constructor() {}
 
-  comSummary(): Observable<CityProfileSummary> {
-    const total = 6;
+  requiredSummary(): Observable<CityProfileSummary> {
+    const total = 3;
     const complete = getRandomInt(total + 1);
     return Observable.of({complete: complete, total: total});
   }
 
   overallSummary(): Observable<CityProfileSummary> {
-    const total = 14;
+    const total = 5;
     const complete = getRandomInt(total + 1);
     return Observable.of({complete: complete, total: total});
   }
