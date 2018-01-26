@@ -5,6 +5,10 @@ import { ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
+import {
+  CityProfileSummaryComponent
+} from './city-profile-summary/city-profile-summary.component';
+import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
@@ -18,6 +22,8 @@ import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
     DashboardRoutingModule
   ],
   declarations: [
+    CityProfileComponent,
+    CityProfileSummaryComponent,
     DashboardComponent,
     GroupedRiskComponent
   ],
