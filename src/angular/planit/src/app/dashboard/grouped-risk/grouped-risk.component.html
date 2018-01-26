@@ -16,7 +16,7 @@
     <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
   </div>
   <a class="button button-primary"
-     [routerLink]="['/assessment']"
+     routerLink="/assessment"
      [queryParams]="{hazard: weatherEvent?.id}" >Assess</a>
 </div>
 <div class="block-assessment" *ngIf="numberOfRisksAssessed() > 0">
