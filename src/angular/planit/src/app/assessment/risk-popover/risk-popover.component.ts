@@ -12,6 +12,7 @@ import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 import { Risk } from '../../shared/models/risk.model';
 
+import { CityService } from '../../core/services/city.service';
 
 @Component({
   selector: 'va-risk-popover',
@@ -30,23 +31,12 @@ export class RiskPopoverComponent implements OnInit {
   @ViewChild('popover')
   private popoverElement: PopoverDirective;
 
-  constructor (private indicatorService: IndicatorService) {}
+  constructor (private indicatorService: IndicatorService,
+               private cityService: CityService) {}
 
   ngOnInit() {
     this.updateRiskIndicators();
-
-    // TODO (issue #404): Replace with the user's organization location
-    this.city = {
-      id: '7',
-      type: 'feature',
-      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
-      properties: {
-        name: 'Philadelphia',
-        admin: 'PA',
-        datasets: ['NEX-GDDP', 'LOCA'],
-        region: 11
-      },
-    };
+    this.cityService.current().subscribe(city => { this.city = city; });
   }
 
   public openIndicatorModal(indicator: Indicator) {

@@ -24,6 +24,8 @@ import { ModalTemplateComponent } from '../../../shared/modal-template/modal-tem
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
+import { CityService } from '../../../core/services/city.service';
+
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
   intensity: OrgRiskDirectionalOption;
@@ -61,6 +63,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              private cityService: CityService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
     super(session, riskService, toastr);
@@ -70,22 +73,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     super.ngOnInit();
     this.risk = this.session.getData();
     this.setupForm(this.fromModel(this.risk));
-
-    // TODO (issue #404): Replace with the user's organization location
-    this.city = {
-      id: '7',
-      type: 'feature',
-      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
-      properties: {
-        name: 'Philadelphia',
-        admin: 'PA',
-        datasets: ['NEX-GDDP', 'LOCA'],
-        region: 11
-      },
-    };
-
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
+    this.cityService.current().subscribe(city => { this.city = city; });
     this.session.data.subscribe(() => this.updateRiskIndicators());
   }
 

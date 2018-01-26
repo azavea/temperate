@@ -31,6 +31,7 @@ import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
+import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
@@ -101,6 +102,7 @@ const appRoutes: Routes = [
     AuthService,
     AuthGuard,
     CacheService,
+    CityService,
     CollaboratorService,
     CommunitySystemService,
     MarketingAuthGuard,

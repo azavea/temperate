@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { City, Indicator } from 'climate-change-components';
 
+import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
 import { Risk, WeatherEvent } from '../../shared/';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
@@ -25,22 +26,12 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
 
-  constructor(private riskService: RiskService,
+  constructor(private cityService: CityService,
+              private riskService: RiskService,
               private router: Router) { }
 
   ngOnInit() {
-    // TODO (issue #404): Replace with the user's organization location
-    this.city = {
-      id: '7',
-      type: 'feature',
-      geometry: { type: 'Point', coordinates: [-75.16379, 39.95233] },
-      properties: {
-        name: 'Philadelphia',
-        admin: 'PA',
-        datasets: ['NEX-GDDP', 'LOCA'],
-        region: 11
-      },
-    };
+    this.cityService.current().subscribe(city => { this.city = city; });
   }
 
   ngOnChanges() {
