@@ -13,7 +13,10 @@
       </p>
     </section>
     <section>
-      <table class="table va-summary-table">
+      <div *ngIf="!risks?.length">
+        <h2>No risks available</h2>
+      </div>
+      <table class="table va-summary-table" *ngIf="risks?.length">
         <caption>
           Wondering why we selected these risks? <a href="#">Learn more</a>
         </caption>

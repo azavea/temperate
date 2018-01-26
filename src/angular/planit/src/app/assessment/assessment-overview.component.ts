@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { RiskService } from '../core/services/risk.service';
 import { Risk } from '../shared';
@@ -10,11 +11,22 @@ import { Risk } from '../shared';
 export class AssessmentOverviewComponent implements OnInit {
   public risks: Risk[];
 
-  constructor (private riskService: RiskService) {}
+  constructor (private riskService: RiskService,
+               private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.riskService.list().subscribe(risks => {
-      this.risks = risks;
+    this.route.queryParamMap.switchMap((params: ParamMap) => {
+      return this.getRisks(+params.get('hazard') || null);
+    }).subscribe(risks => this.risks = risks);
+  }
+
+  getRisks(weatherEvent?: number) {
+    return this.riskService.list().map(risks => {
+      if (typeof weatherEvent === 'number') {
+        return risks.filter(r => r.weather_event.id === weatherEvent);
+      } else {
+        return risks;
+      }
     });
   }
 
