@@ -88,17 +88,16 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         """Limit Suggested Actions."""
-        weather_event_id = self.request.query_params.get('we', None)
-        community_system_id = self.request.query_params.get('cs', None)
 
         queryset = OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
         )
-        if weather_event_id:
-            queryset = queryset.filter(organization_risk__weather_event_id=weather_event_id)
 
-        if community_system_id:
-            queryset = queryset.filter(organization_risk__community_system_id=community_system_id)
+        risk = self.request.query_params.get('risk', None)
+        if risk:
+            queryset = queryset.filter(
+                organization_risk__weather_event__organizationrisk=risk,
+                organization_risk__community_system__organizationrisk=risk)
 
         # Filter OrganizationActions to organizations that are within the same georegion as the user
         # This may be possible to do entirely in the database

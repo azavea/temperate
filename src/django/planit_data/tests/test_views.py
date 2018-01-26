@@ -500,10 +500,14 @@ class SuggestedActionTestCase(APITestCase):
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            community_system=action.organization_risk.community_system
+        )
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
-            'we': action.organization_risk.weather_event_id,
-            'cs': action.organization_risk.community_system_id
+            'risk': user_risk.id
         })
         response = self.client.get(url)
 
@@ -521,10 +525,14 @@ class SuggestedActionTestCase(APITestCase):
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PRIVATE
         )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            community_system=action.organization_risk.community_system
+        )
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
-            'we': action.organization_risk.weather_event_id,
-            'cs': action.organization_risk.community_system_id
+            'risk': user_risk.id
         })
         response = self.client.get(url)
 
@@ -537,11 +545,14 @@ class SuggestedActionTestCase(APITestCase):
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
-        weather_event = WeatherEventRankFactory(georegion=self.georegion)
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            # Don't set WeatherEvent so we use a new one
+            community_system=action.organization_risk.community_system
+        )
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
-            'we': weather_event.id,
-            'cs': action.organization_risk.community_system_id
+            'risk': user_risk.id
         })
         response = self.client.get(url)
 
@@ -554,11 +565,14 @@ class SuggestedActionTestCase(APITestCase):
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
-        community_system = CommunitySystemFactory()
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            # Don't set CommunitySystem so we use a new one
+        )
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
-            'we': action.organization_risk.weather_event_id,
-            'cs': community_system.id
+            'risk': user_risk.id
         })
         response = self.client.get(url)
 
@@ -571,10 +585,14 @@ class SuggestedActionTestCase(APITestCase):
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__organization__location__coords=(0, 0),
         )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            community_system=action.organization_risk.community_system
+        )
 
         url = reverse('suggestedaction-list') + '?' + urlencode({
-            'we': action.organization_risk.weather_event_id,
-            'cs': action.organization_risk.community_system_id
+            'risk': user_risk.id
         })
         response = self.client.get(url)
 

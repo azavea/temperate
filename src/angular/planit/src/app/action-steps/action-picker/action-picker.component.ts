@@ -26,7 +26,7 @@ export class ActionPickerComponent implements OnInit {
   suggestedActions: SuggestedAction[] = [];
 
   ngOnInit() {
-    this.suggestedActionService.list(null, null).subscribe(s => this.suggestedActions = s)
+    this.suggestedActionService.list(this.risk).subscribe(s => this.suggestedActions = s)
   }
 
   closeModal() {
