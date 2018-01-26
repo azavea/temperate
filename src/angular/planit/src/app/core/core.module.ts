@@ -11,6 +11,6 @@ import { HttpModule } from '@angular/http';
   declarations: [
   ],
   exports: [
-  ],
+  ]
 })
 export class CoreModule { }

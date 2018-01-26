@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from '../core/services/auth-guard.service';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
 
 const routes: Routes = [
-  { path: 'actions', component: ActionStepsOverviewComponent },
-  { path: 'actions/action/wizard', component: EditActionComponent }
+  { path: 'actions', component: ActionStepsOverviewComponent, canActivate: [AuthGuard] },
+  { path: 'actions/action/wizard', component: EditActionComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
