@@ -29,6 +29,7 @@ class PlanItLocationManager(models.Manager):
         if created:
             city = make_token_api_request('/api/city/{}/'.format(api_city_id))
             location.name = city['properties']['name']
+            location.admin = city['properties']['admin']
             location.point = GEOSGeometry(str(city['geometry']))
             location.is_coastal = city['properties']['proximity']['ocean']
             location.save()
@@ -41,6 +42,7 @@ class PlanItLocationManager(models.Manager):
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=False, blank=True)
+    admin = models.CharField(max_length=16, null=False, blank=True)
     api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
@@ -51,7 +53,10 @@ class PlanItLocation(models.Model):
         return (self.api_city_id,)
 
     def __str__(self):
-        return self.name
+        if self.admin:
+            return "{}, {}".format(self.name, self.admin)
+        else:
+            return self.name
 
 
 class PlanItOrganization(models.Model):
