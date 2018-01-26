@@ -2,7 +2,8 @@ import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
+import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
+import { ActionService } from '../../core/services/action.service';
 import { SuggestedActionService } from '../../core/services/suggested-action.service';
 
 
@@ -19,6 +20,7 @@ export class ActionPickerComponent implements OnInit {
   public showPrompt = true;
 
   constructor(private location: Location,
+              private actionService: ActionService,
               private suggestedActionService: SuggestedActionService,
               private route: ActivatedRoute,
               private router: Router) {}
@@ -33,12 +35,25 @@ export class ActionPickerComponent implements OnInit {
     this.closed.emit('closed');
   }
 
+  applySuggestion(suggestion: SuggestedAction) {
+    let action = new Action({
+      name: suggestion.name,
+      risk: this.risk.id
+    });
+    this.actionService.create(action).subscribe(action => {
+      this.risk.action = action;
+      console.log(this.risk);
+      this.router.navigate(['action/', this.risk.id], {relativeTo: this.route});
+      this.closeModal();
+    });
+  }
+
   goToWizard() {
     // route to wizard, passing risk ID in URL, without changing URL
-    this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route,
-                                                           skipLocationChange: true});
+    this.router.navigate(['action/', this.risk.id], {relativeTo: this.route,
+                                                        skipLocationChange: true});
     // change URL to wizard path without risk ID and push to browser history
-    this.location.go('/actions/action/wizard/');
+    this.location.go('/actions/action/new');
     this.closeModal();
   }
 }

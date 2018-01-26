@@ -22,6 +22,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
 
+import { ActionResolve } from './action-steps/resolvers/action-resolve';
 import { RiskResolve } from './assessment/resolvers/risk-resolve';
 import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
     AccountCreateService,
     ActionCategoryService,
     ActionTypeService,
+    ActionResolve,
     ActionService,
     apiHttpProvider,
     AuthService,
