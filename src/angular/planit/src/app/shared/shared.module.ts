@@ -11,6 +11,9 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import { ChartComponent } from './chart/chart.component';
+import {
+  ForceCollapseChartContainerComponent,
+} from './force-collapse-chart-container/force-collapse-chart-container.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { FooterComponent } from './footer/footer.component';
 import {
@@ -46,6 +49,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     ChartComponent,
     CollapsibleChartComponent,
     FooterComponent,
+    ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
@@ -62,6 +66,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     ChartComponent,
     CollapsibleChartComponent,
     FooterComponent,
+    ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
