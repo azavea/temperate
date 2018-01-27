@@ -50,9 +50,9 @@
 
 <app-modal-template #indicatorChartModal
     title="Viewing indicators related to {{ risk.weather_event.name }}">
-  <app-collapsible-chart
-      *ngFor="let indicator of indicators"
-      [indicator]="indicator"
+
+  <app-force-collapse-chart-container
+      [indicators]="indicators"
       [city]="city">
-  </app-collapsible-chart>
+  </app-force-collapse-chart-container>
 </app-modal-template>

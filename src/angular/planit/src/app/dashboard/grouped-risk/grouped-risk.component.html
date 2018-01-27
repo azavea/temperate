@@ -31,11 +31,10 @@
 <app-modal-template #indicatorChartModal
     title="Viewing indicators related to {{ modalRisk?.weather_event.name }}">
   <div>
-    <app-collapsible-chart
-        *ngFor="let indicator of indicators"
-        [indicator]="indicator"
+    <app-force-collapse-chart-container
+        [indicators]="indicators"
         [city]="city">
-    </app-collapsible-chart>
+    </app-force-collapse-chart-container>
     <a class="button button-link" (click)="goToIndicators()">See all indicators</a>
   </div>
 </app-modal-template>
