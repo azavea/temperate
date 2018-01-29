@@ -26,6 +26,10 @@ app-city-profile-summary {
       &:last-child {
         margin-right: 0;
       }
+
+      .button-link {
+        cursor: pointer;
+      }
     }
   }
 
@@ -45,5 +49,27 @@ app-city-profile-summary {
 
   & > a {
     width: 100%;
+  }
+
+}
+
+// outside component selector because the popover is attached to body
+.required-popover-body {
+  width: 300px;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    margin: 2rem 0;
+
+    img {
+      height: 50px;
+      margin-right: 1rem;
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
   }
 }
