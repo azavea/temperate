@@ -19,9 +19,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/sass/main.scss"
+        "assets/sass/main.scss",
+        "vendor/loading-bar/loading-bar.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "vendor/loading-bar/loading-bar.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

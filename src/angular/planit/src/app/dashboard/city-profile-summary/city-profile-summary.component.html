@@ -6,7 +6,7 @@
 <p>Enter information about your city, including any long-term goals you hope to achieve</p>
 <div class="cps-progressbar-wrapper" *ngIf="!isDone(required) && !isDone(overall)">
   <div class="cps-progressbar">
-    <h1>{{ required?.complete }} / {{ required?.total }}</h1>
+    <div [appCircularProgressbar]="percentage(required)"></div>
     <h4 class="button-link"
         [popover]="requiredMayorsPopover"
         [outsideClick]="true"

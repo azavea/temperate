@@ -12,10 +12,13 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import { ChartComponent } from './chart/chart.component';
 import {
-  ForceCollapseChartContainerComponent,
-} from './force-collapse-chart-container/force-collapse-chart-container.component';
+  CircularProgressbarDirective
+} from './circular-progressbar/circular-progressbar.directive';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { FooterComponent } from './footer/footer.component';
+import {
+  ForceCollapseChartContainerComponent,
+} from './force-collapse-chart-container/force-collapse-chart-container.component';
 import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
@@ -47,6 +50,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   declarations: [
     AdaptiveNeedBoxComponent,
     ChartComponent,
+    CircularProgressbarDirective,
     CollapsibleChartComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
@@ -64,6 +68,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   exports: [
     AdaptiveNeedBoxComponent,
     ChartComponent,
+    CircularProgressbarDirective,
     CollapsibleChartComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
