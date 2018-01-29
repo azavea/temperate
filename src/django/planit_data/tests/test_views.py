@@ -516,7 +516,14 @@ class SuggestedActionTestCase(APITestCase):
         self.assertDictEqual(response.json()[0], {
             'name': action.name,
             'categories': [],
-            'plan_city': str(action.organization_risk.organization.location)
+            'plan_city': str(action.organization_risk.organization.location),
+            'action_goal': '',
+            'action_type': '',
+            'collaborators': [],
+            'implementation_details': '',
+            'implementation_notes': '',
+            'improvements_adaptive_capacity': '',
+            'improvements_impacts': '',
         })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
