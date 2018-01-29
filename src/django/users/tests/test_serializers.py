@@ -99,6 +99,8 @@ class OrganizationSerializerTestCase(TestCase):
 
         # Serializer should not allow an Organization to be created without a valid location value
         self.assertFalse(serializer.is_valid())
+        self.assertEqual(len(serializer.errors['location']), 1)
+        self.assertEqual(serializer.errors['location'][0], "Location ID is required.")
 
     def test_org_plan_year_set(self):
         """Accept a valid year"""

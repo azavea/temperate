@@ -56,11 +56,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
     location = LocationSerializer()
 
     def validate_location(self, location_data):
-        allowed_keys = set(['api_city_id'])
-        provided_keys = set(location_data.keys())
-        # If the provided keys and the allowed keys do not share any items, raise a ValidationError
-        if allowed_keys.isdisjoint(provided_keys):
-            raise serializers.ValidationError("Valid location not provided")
+        if 'api_city_id' not in location_data.keys():
+            raise serializers.ValidationError("Location ID is required.")
         return location_data
 
     def validate_plan_year(self, year):
