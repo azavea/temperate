@@ -2,9 +2,9 @@ import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
 import { ActionService } from '../../core/services/action.service';
 import { SuggestedActionService } from '../../core/services/suggested-action.service';
+import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class ActionPickerComponent implements OnInit {
   suggestedActions: SuggestedAction[] = [];
 
   ngOnInit() {
-    this.suggestedActionService.list(this.risk).subscribe(s => this.suggestedActions = s)
+    this.suggestedActionService.list(this.risk).subscribe(s => this.suggestedActions = s);
   }
 
   closeModal() {
@@ -36,10 +36,10 @@ export class ActionPickerComponent implements OnInit {
   }
 
   goToWizard(suggestion?: SuggestedAction) {
-    let action = new Action({
+    const action = new Action({
       risk: this.risk.id
     });
-    if(suggestion) {
+    if (suggestion) {
       Object.assign(action,
         {
           name: suggestion.name,
@@ -51,10 +51,10 @@ export class ActionPickerComponent implements OnInit {
           improvements_impacts: suggestion.improvements_impacts,
           collaborators: suggestion.collaborators,
           categories: suggestion.categories
-        })
+        });
     }
-    this.actionService.create(action).subscribe(action => {
-      this.router.navigate(['action/', action.id], {relativeTo: this.route});
+    this.actionService.create(action).subscribe(a => {
+      this.router.navigate(['action/', a.id], {relativeTo: this.route});
       this.closeModal();
     });
   }
