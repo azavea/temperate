@@ -48,8 +48,9 @@
               <button class="button va-status-button"
                       *ngIf="!risk.isAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
-              <button *ngIf="!!risk.isAssessed()"
-                class="button va-status-button in-progress">Take Action</button>
+              <button class="button va-status-button in-progress"
+                      *ngIf="!!risk.isAssessed()"
+                      [routerLink]="['/actions/action/wizard', risk.id]">Take Action</button>
             </td>
             <td>
               <div class="btn-group" dropdown>
