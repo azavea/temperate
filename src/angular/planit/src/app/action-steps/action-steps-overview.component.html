@@ -4,7 +4,12 @@
       <h1 class="heading">Adaptation Actions</h1>
       <button class="button icon-edit" routerLink="action/wizard"></button>
     </section>
-    <section *ngIf="risks">
+    <section class="display-flex flex-vertical" *ngIf="risks === undefined">
+      <div class="loading-wrapper">
+        <div class="loading loading-spinner loading-large loading-primary"></div>
+      </div>
+    </section>
+    <section *ngIf="risks?.length">
       <div *ngIf="!isARiskAssessed" class="actions-empty">
         <h2>You'll need to assess risks before you can take action.</h2>
         <p>Once you have risks assessed in your Vulnerability Assessment, you can plan to mitigate their impact here.</p>
