@@ -45,7 +45,6 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.action);
     if (!this.action) {
       this.action = new Action({});
 
