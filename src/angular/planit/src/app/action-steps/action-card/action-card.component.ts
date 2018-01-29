@@ -16,13 +16,13 @@ export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
   @Input() action: Action;
-  @Output() actionDeleted = new EventEmitter<Action>();
+  @Output() delete = new EventEmitter<Action>();
 
   constructor() { }
 
   ngOnInit() { }
 
-  public deleteAction(action: Action) {
-    this.actionDeleted.emit(action);
+  public deleteAction() {
+    this.delete.emit(this.action);
   }
 }
