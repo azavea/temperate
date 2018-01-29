@@ -12,8 +12,14 @@
         Click on a row to assess each risk.
       </p>
     </section>
-    <section>
-      <table class="table va-summary-table">
+    <section class="display-flex flex-vertical">
+      <div class="loading-wrapper" *ngIf="risks === undefined">
+        <div class="loading loading-spinner loading-large loading-primary"></div>
+      </div>
+      <div *ngIf="risks?.length === 0">
+        <h2>No risks available</h2>
+      </div>
+      <table class="table va-summary-table" *ngIf="risks?.length">
         <caption>
           Wondering why we selected these risks? <a href="#">Learn more</a>
         </caption>

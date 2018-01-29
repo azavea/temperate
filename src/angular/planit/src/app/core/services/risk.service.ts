@@ -38,6 +38,16 @@ export class RiskService {
     });
   }
 
+  filterByWeatherEvent(weatherEventId?: number) {
+    return this.list().map(risks => {
+      if (typeof weatherEventId === 'number') {
+        return risks.filter(r => r.weather_event.id === weatherEventId);
+      } else {
+        return risks;
+      }
+    });
+  }
+
   groupByWeatherEvent(): Observable<Map<string, Risk[]>> {
     return this.list().map(risks => {
       return risks.reduce((acc, r) => {

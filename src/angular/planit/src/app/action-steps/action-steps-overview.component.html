@@ -4,24 +4,28 @@
       <h1 class="heading">Adaptation Actions</h1>
       <button class="button icon-edit" routerLink="action/wizard"></button>
     </section>
-    <section *ngIf="risks">
-      <div *ngIf="!haveAssessedRisks" class="actions-empty">
+    <section class="display-flex flex-vertical" *ngIf="risks === undefined">
+      <div class="loading-wrapper">
+        <div class="loading loading-spinner loading-large loading-primary"></div>
+      </div>
+    </section>
+    <section *ngIf="risks !== undefined">
+      <div *ngIf="!isARiskAssessed" class="actions-empty">
         <h2>You'll need to assess risks before you can take action.</h2>
         <p>Once you have risks assessed in your Vulnerability Assessment, you can plan to mitigate their impact here.</p>
         <a class="button" routerLink="/assessment">Assess Risks</a>
       </div>
-      <div *ngIf="haveAssessedRisks" class="actions-available">
-        <h2>Risks acted upon</h2>
-        <progressbar class="progress" [max]=risks.length [value]="risksWithActionsCount">
-        </progressbar>
-        <h2>In Progress</h2>
+      <div *ngIf="isARiskAssessed" class="actions-available">
         <div class="action-card-container">
-          <as-action-card *ngFor="let action of actions"
-                          [action]="action"
-                          [risk]="getMatchingRiskFromId(action)"
-                          (actionDeleted)="onActionDeleted($event)"></as-action-card>
-          <as-risk-card *ngFor="let risk of risksWithoutActions"
-                        [risk]="risk"></as-risk-card>
+          <!-- Show risks in the order they return, so that a risk always shows at the same
+               position. This helps consistency for users. -->
+          <ng-container *ngFor="let risk of risks">
+            <as-action-card *ngIf="risk.action"
+                            [action]="risk.action"
+                            [risk]="risk"
+                            (actionDeleted)="onActionDeleted($event)"></as-action-card>
+            <as-risk-card *ngIf="!risk.action" [risk]="risk"></as-risk-card>
+          </ng-container>
         </div>
       </div>
     </section>

@@ -101,6 +101,14 @@
   float: right;
 }
 
+.display-flex {
+  display: flex;
+}
+
+.flex-vertical {
+  flex-direction: column;
+}
+
 .hidden {
   display: none;
 }
