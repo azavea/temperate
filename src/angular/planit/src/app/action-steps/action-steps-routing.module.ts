@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'actions', component: ActionStepsOverviewComponent, canActivate: [AuthGuard] },
   { path: 'actions/action/new', component: EditActionComponent, canActivate: [AuthGuard] },
   {
-    path: 'actions/action/:riskid',
+    path: 'actions/action/:id',
     component: EditActionComponent,
     resolve: {
       action: ActionResolve

@@ -35,25 +35,19 @@ export class ActionPickerComponent implements OnInit {
     this.closed.emit('closed');
   }
 
-  applySuggestion(suggestion: SuggestedAction) {
+  goToWizard(suggestion?: SuggestedAction) {
     let action = new Action({
-      name: suggestion.name,
       risk: this.risk.id
     });
+    if(suggestion) {
+      Object.assign(action,
+        {
+          name: suggestion.name,
+        })
+    }
     this.actionService.create(action).subscribe(action => {
-      this.risk.action = action;
-      console.log(this.risk);
-      this.router.navigate(['action/', this.risk.id], {relativeTo: this.route});
+      this.router.navigate(['action/', action.id], {relativeTo: this.route});
       this.closeModal();
     });
-  }
-
-  goToWizard() {
-    // route to wizard, passing risk ID in URL, without changing URL
-    this.router.navigate(['action/', this.risk.id], {relativeTo: this.route,
-                                                        skipLocationChange: true});
-    // change URL to wizard path without risk ID and push to browser history
-    this.location.go('/actions/action/new');
-    this.closeModal();
   }
 }
