@@ -164,9 +164,9 @@ class OrganizationRisk(models.Model):
         )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    weather_event = models.ForeignKey('WeatherEvent', null=False, blank=False,
-                                      on_delete=models.CASCADE)
-    community_system = models.ForeignKey('CommunitySystem', null=False, blank=False,
+    weather_event = models.ForeignKey('WeatherEvent', null=True, blank=True,
+                                      on_delete=models.CASCADE, default=None)
+    community_system = models.ForeignKey('CommunitySystem', null=True, blank=True, default=None,
                                          on_delete=models.CASCADE)
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
                                      on_delete=models.CASCADE)
