@@ -9,7 +9,7 @@
         <div class="loading loading-spinner loading-large loading-primary"></div>
       </div>
     </section>
-    <section *ngIf="risks?.length">
+    <section *ngIf="risks !== undefined">
       <div *ngIf="!isARiskAssessed" class="actions-empty">
         <h2>You'll need to assess risks before you can take action.</h2>
         <p>Once you have risks assessed in your Vulnerability Assessment, you can plan to mitigate their impact here.</p>
