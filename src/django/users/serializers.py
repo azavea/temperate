@@ -1,3 +1,6 @@
+from datetime import datetime
+import re
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
@@ -6,6 +9,10 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
+
+
+# Matches any 4-digit number:
+YEAR_REGEX = re.compile('^\d{4}$')
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -55,6 +62,17 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if allowed_keys.isdisjoint(provided_keys):
             raise serializers.ValidationError("Valid location not provided")
         return location_data
+
+    def validate_plan_year(self, year):
+        """Expect plan year to look like a year, and be either the current year or in the future"""
+        if not year:
+            # year is not required
+            return None
+        if not YEAR_REGEX.match(str(year)):
+            raise serializers.ValidationError("Year should be four digits.")
+        if not year >= datetime.today().year:
+            raise serializers.ValidationError("Year cannot be in the past.")
+        return year
 
     @transaction.atomic
     def create(self, validated_data):
