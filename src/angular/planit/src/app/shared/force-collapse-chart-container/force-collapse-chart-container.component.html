@@ -1,0 +1,6 @@
+<app-collapsible-chart
+    *ngFor="let indicator of indicators"
+    [indicator]="indicator"
+    [city]="city"
+    (toggled)="chartToggled(indicator.name, $event)">
+</app-collapsible-chart>
