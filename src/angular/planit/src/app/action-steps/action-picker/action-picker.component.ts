@@ -43,6 +43,14 @@ export class ActionPickerComponent implements OnInit {
       Object.assign(action,
         {
           name: suggestion.name,
+          action_type: suggestion.action_type,
+          action_goal: suggestion.action_goal,
+          implementation_details: suggestion.implementation_details,
+          implementation_notes: suggestion.implementation_notes,
+          improvements_adaptive_capacity: suggestion.improvements_adaptive_capacity,
+          improvements_impacts: suggestion.improvements_impacts,
+          collaborators: suggestion.collaborators,
+          categories: suggestion.categories
         })
     }
     this.actionService.create(action).subscribe(action => {

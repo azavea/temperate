@@ -176,7 +176,10 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationAction
-        fields = ('name', 'categories', 'plan_city')
+        fields = ('name', 'categories', 'plan_city', 'action_type', 'action_goal',
+                  'implementation_details', 'implementation_notes',
+                  'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
+                  'categories')
 
 
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
