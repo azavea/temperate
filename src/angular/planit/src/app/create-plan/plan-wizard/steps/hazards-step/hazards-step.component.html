@@ -1,0 +1,11 @@
+<div class="step-header">
+  <h3>Hazards</h3>
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+</div>

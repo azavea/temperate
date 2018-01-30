@@ -32,6 +32,10 @@ export class PlanItApiHttp extends Http {
     return super.get(url, this.appendAPIHeaders(options));
   }
 
+  patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+    return super.patch(url, body, this.appendAPIHeaders(options));
+  }
+
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     return super.post(url, body, this.appendAPIHeaders(options));
   }

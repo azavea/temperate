@@ -1,0 +1,30 @@
+<wizard #wizard
+        navigationMode="strict"
+        navBarLocation="left"
+        navBarLayout="large-filled-symbols">
+  <app-plan-step-due-date class="wizard-step"
+                          #dueDateStep
+                          wizardStep
+                          [canExit]="dueDateStep.save"
+                          stepTitle="{{ dueDateStep.title }}"
+                          navigationSymbol="{{ dueDateStep.navigationSymbol }}">
+  </app-plan-step-due-date>
+
+  <app-plan-step-hazards class="wizard-step"
+                         #hazardsStep
+                         wizardStep
+                         optionalStep
+                         [canExit]="hazardsStep.save"
+                         stepTitle="{{ hazardsStep.title }}"
+                         navigationSymbol="{{ hazardsStep.navigationSymbol }}">
+  </app-plan-step-hazards>
+
+  <app-plan-step-community-systems class="wizard-step"
+                                   #communitySystemsStep
+                                   wizardCompletionStep
+                                   enableBackLinks
+                                   [canExit]="communitySystemsStep.save"
+                                   stepTitle="{{ communitySystemsStep.title }}"
+                                   navigationSymbol="{{ communitySystemsStep.navigationSymbol }}">
+  </app-plan-step-community-systems>
+</wizard>
