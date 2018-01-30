@@ -19,9 +19,14 @@ app-city-profile-summary {
       margin-right: 10px;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
 
       background-color: $gray-0;
       padding: 3rem 0;
+
+      .ldBar {
+        margin-bottom: 1rem;
+      }
 
       &:last-child {
         margin-right: 0;
