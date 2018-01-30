@@ -99,3 +99,73 @@ class OrganizationSerializerTestCase(TestCase):
 
         # Serializer should not allow an Organization to be created without a valid location value
         self.assertFalse(serializer.is_valid())
+        self.assertEqual(len(serializer.errors['location']), 1)
+        self.assertEqual(serializer.errors['location'][0], "Location ID is required.")
+
+    def test_org_plan_due_date_set(self):
+        """Accept a valid year"""
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'plan_due_date': '2500-01-30',
+            'units': 'METRIC'
+        }
+
+        serializer = OrganizationSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_org_plan_due_date_not_required(self):
+        """Allow plan due date to be unset"""
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'plan_due_date': None,
+            'units': 'METRIC'
+        }
+
+        # should be valid when set to nothing
+        serializer = OrganizationSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+        # should also validate with field not set at all
+        data.pop('plan_due_date')
+        serializer = OrganizationSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_org_plan_due_date_must_be_date(self):
+        """Should reject non-parseable date values via in-built field validation"""
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'plan_due_date': 'garbage string',
+            'units': 'METRIC'
+        }
+
+        serializer = OrganizationSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue(serializer.errors and 'plan_due_date' in serializer.errors)
+        self.assertEqual(len(serializer.errors['plan_due_date']), 1)
+        self.assertTrue(serializer.errors['plan_due_date'][0].startswith("Date has wrong format"))
+
+    def test_org_plan_due_date_in_future(self):
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'api_city_id': 7
+            },
+            'plan_due_date': '2018-01-20',
+            'units': 'METRIC'
+        }
+
+        serializer = OrganizationSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue(serializer.errors and 'plan_due_date' in serializer.errors)
+        self.assertEqual(len(serializer.errors['plan_due_date']), 1)
+        self.assertEqual(serializer.errors['plan_due_date'][0],
+                         "Plan due date cannot be in the past.")

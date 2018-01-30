@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
@@ -49,12 +51,18 @@ class OrganizationSerializer(serializers.ModelSerializer):
     location = LocationSerializer()
 
     def validate_location(self, location_data):
-        allowed_keys = set(['api_city_id'])
-        provided_keys = set(location_data.keys())
-        # If the provided keys and the allowed keys do not share any items, raise a ValidationError
-        if allowed_keys.isdisjoint(provided_keys):
-            raise serializers.ValidationError("Valid location not provided")
+        if 'api_city_id' not in location_data.keys():
+            raise serializers.ValidationError("Location ID is required.")
         return location_data
+
+    def validate_plan_due_date(self, dt):
+        """Expect plan due date to be in the future"""
+        if not dt:
+            # year is not required
+            return None
+        if dt < datetime.date.today():
+            raise serializers.ValidationError("Plan due date cannot be in the past.")
+        return dt
 
     @transaction.atomic
     def create(self, validated_data):
@@ -82,7 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'name', 'location', 'units')
+        fields = ('id', 'name', 'plan_due_date', 'location', 'units')
 
 
 class UserSerializer(serializers.ModelSerializer):
