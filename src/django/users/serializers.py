@@ -1,5 +1,4 @@
-from datetime import datetime
-import re
+import datetime
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -9,10 +8,6 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
-
-
-# Matches any 4-digit number:
-YEAR_REGEX = re.compile('^\d{4}$')
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -60,16 +55,14 @@ class OrganizationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Location ID is required.")
         return location_data
 
-    def validate_plan_year(self, year):
-        """Expect plan year to look like a year, and be either the current year or in the future"""
-        if not year:
+    def validate_plan_due_date(self, dt):
+        """Expect plan due date to be in the future"""
+        if not dt:
             # year is not required
             return None
-        if not YEAR_REGEX.match(str(year)):
-            raise serializers.ValidationError("Year should be four digits.")
-        if not year >= datetime.today().year:
-            raise serializers.ValidationError("Year cannot be in the past.")
-        return year
+        if dt < datetime.date.today():
+            raise serializers.ValidationError("Plan due date cannot be in the past.")
+        return dt
 
     @transaction.atomic
     def create(self, validated_data):
@@ -97,7 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'name', 'plan_year', 'location', 'units')
+        fields = ('id', 'name', 'plan_due_date', 'location', 'units')
 
 
 class UserSerializer(serializers.ModelSerializer):

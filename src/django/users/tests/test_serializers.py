@@ -102,28 +102,28 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertEqual(len(serializer.errors['location']), 1)
         self.assertEqual(serializer.errors['location'][0], "Location ID is required.")
 
-    def test_org_plan_year_set(self):
+    def test_org_plan_due_date_set(self):
         """Accept a valid year"""
         data = {
             'name': 'Test Org',
             'location': {
                 'api_city_id': 7
             },
-            'plan_year': 2500,
+            'plan_due_date': '2500-01-30',
             'units': 'METRIC'
         }
 
         serializer = OrganizationSerializer(data=data)
         self.assertTrue(serializer.is_valid())
 
-    def test_org_plan_year_not_required(self):
-        """Allow year to be unset"""
+    def test_org_plan_due_date_not_required(self):
+        """Allow plan due date to be unset"""
         data = {
             'name': 'Test Org',
             'location': {
                 'api_city_id': 7
             },
-            'plan_year': None,
+            'plan_due_date': None,
             'units': 'METRIC'
         }
 
@@ -132,55 +132,40 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertTrue(serializer.is_valid())
 
         # should also validate with field not set at all
-        data.pop('plan_year')
+        data.pop('plan_due_date')
         serializer = OrganizationSerializer(data=data)
         self.assertTrue(serializer.is_valid())
 
-    def test_org_plan_year_must_be_int(self):
-        """Should reject non-integer values via in-built field validation"""
+    def test_org_plan_due_date_must_be_date(self):
+        """Should reject non-parseable date values via in-built field validation"""
         data = {
             'name': 'Test Org',
             'location': {
                 'api_city_id': 7
             },
-            'plan_year': '',
+            'plan_due_date': 'garbage string',
             'units': 'METRIC'
         }
 
         serializer = OrganizationSerializer(data=data)
         self.assertFalse(serializer.is_valid())
-        self.assertTrue(serializer.errors and 'plan_year' in serializer.errors)
-        self.assertEqual(len(serializer.errors['plan_year']), 1)
-        self.assertEqual(serializer.errors['plan_year'][0], "A valid integer is required.")
+        self.assertTrue(serializer.errors and 'plan_due_date' in serializer.errors)
+        self.assertEqual(len(serializer.errors['plan_due_date']), 1)
+        self.assertTrue(serializer.errors['plan_due_date'][0].startswith("Date has wrong format"))
 
-    def test_org_plan_year_in_future(self):
+    def test_org_plan_due_date_in_future(self):
         data = {
             'name': 'Test Org',
             'location': {
                 'api_city_id': 7
             },
-            'plan_year': 1984,
+            'plan_due_date': '2018-01-20',
             'units': 'METRIC'
         }
 
         serializer = OrganizationSerializer(data=data)
         self.assertFalse(serializer.is_valid())
-        self.assertTrue(serializer.errors and 'plan_year' in serializer.errors)
-        self.assertEqual(len(serializer.errors['plan_year']), 1)
-        self.assertEqual(serializer.errors['plan_year'][0], "Year cannot be in the past.")
-
-    def test_org_plan_year_four_digits(self):
-        data = {
-            'name': 'Test Org',
-            'location': {
-                'api_city_id': 7
-            },
-            'plan_year': 25000,
-            'units': 'METRIC'
-        }
-
-        serializer = OrganizationSerializer(data=data)
-        self.assertFalse(serializer.is_valid())
-        self.assertTrue(serializer.errors and 'plan_year' in serializer.errors)
-        self.assertEqual(len(serializer.errors['plan_year']), 1)
-        self.assertEqual(serializer.errors['plan_year'][0], "Year should be four digits.")
+        self.assertTrue(serializer.errors and 'plan_due_date' in serializer.errors)
+        self.assertEqual(len(serializer.errors['plan_due_date']), 1)
+        self.assertEqual(serializer.errors['plan_due_date'][0],
+                         "Plan due date cannot be in the past.")
