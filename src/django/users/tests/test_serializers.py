@@ -63,6 +63,7 @@ class OrganizationSerializerTestCase(TestCase):
         PlanItLocation.objects.create(name='Test Location',
                                       api_city_id=7,
                                       point=Point(0, 0, srid=4326))
+        request_mock = mock.Mock()
         data = {
             'name': 'Test Org',
             'location': {
@@ -70,12 +71,10 @@ class OrganizationSerializerTestCase(TestCase):
             },
             'units': 'METRIC'
         }
-        serializer = OrganizationSerializer(data=data)
+        serializer = OrganizationSerializer(data=data, context={"request": request_mock})
 
         # Serializer should not throw an error for the existing api_city_id
         self.assertTrue(serializer.is_valid())
-        # Should validate the data as is
-        self.assertEqual(serializer.validated_data, data)
 
     def test_create_no_location_specified(self):
         """Ensure the Serializer raises an error if no location value is set."""

@@ -69,6 +69,8 @@ class PlanItOrganization(models.Model):
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
     weather_events = models.ManyToManyField('planit_data.WeatherEventRank')
+    created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
+                                   on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
