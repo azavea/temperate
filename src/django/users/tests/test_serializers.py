@@ -103,6 +103,7 @@ class OrganizationSerializerTestCase(TestCase):
 
     def test_org_plan_due_date_set(self):
         """Accept a valid year"""
+        request_mock = mock.Mock()
         data = {
             'name': 'Test Org',
             'location': {
@@ -112,11 +113,12 @@ class OrganizationSerializerTestCase(TestCase):
             'units': 'METRIC'
         }
 
-        serializer = OrganizationSerializer(data=data)
+        serializer = OrganizationSerializer(data=data, context={"request": request_mock})
         self.assertTrue(serializer.is_valid())
 
     def test_org_plan_due_date_not_required(self):
         """Allow plan due date to be unset"""
+        request_mock = mock.Mock()
         data = {
             'name': 'Test Org',
             'location': {
@@ -127,12 +129,12 @@ class OrganizationSerializerTestCase(TestCase):
         }
 
         # should be valid when set to nothing
-        serializer = OrganizationSerializer(data=data)
+        serializer = OrganizationSerializer(data=data, context={"request": request_mock})
         self.assertTrue(serializer.is_valid())
 
         # should also validate with field not set at all
         data.pop('plan_due_date')
-        serializer = OrganizationSerializer(data=data)
+        serializer = OrganizationSerializer(data=data, context={"request": request_mock})
         self.assertTrue(serializer.is_valid())
 
     def test_org_plan_due_date_must_be_date(self):
