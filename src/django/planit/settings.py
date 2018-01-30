@@ -155,6 +155,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'planit.context_processors.app_settings',
             ],
         },
     },
@@ -273,6 +274,8 @@ LOGGING = {
 }
 
 # APPLICATION SETTINGS
+
+CCAPP_HOME = 'http://localhost:4210' if ENVIRONMENT == 'Development' else '/'
 
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
