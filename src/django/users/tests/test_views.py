@@ -11,6 +11,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from users.models import PlanItOrganization, PlanItLocation, PlanItUser
+from users.tests.factories import LocationFactory, OrganizationFactory, UserFactory
 from planit_data.models import GeoRegion
 
 
@@ -310,6 +311,44 @@ class OrganizationApiTestCase(APITestCase):
 
         self.assertEqual(result.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(PlanItOrganization.objects.filter(id=org.id).exists())
+
+    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
+    def test_organization_saves_user_in_created_by(self, import_mock, from_api_city_mock):
+        from_api_city_mock.return_value = LocationFactory()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-list')
+        response = self.client.post(url, org_data, format='json')
+
+        org = PlanItOrganization.objects.get(id=response.json()['id'])
+        self.assertEqual(org.created_by, self.user)
+
+    def test_organization_update_does_not_change_created_by(self):
+        org = OrganizationFactory(
+            name="Starting Name",
+            created_by=UserFactory(),
+            location__api_city_id=7
+        )
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        org = PlanItOrganization.objects.get(id=response.json()['id'])
+        self.assertNotEqual(org.created_by, self.user)
 
 
 class CsrfTestCase(TestCase):

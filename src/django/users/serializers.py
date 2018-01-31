@@ -88,6 +88,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def validate(self, data):
+        # Only set created_by if we are creating a new object instance
+        if not self.instance:
+            data['created_by'] = self.context['request'].user
+        return data
+
     class Meta:
         model = PlanItOrganization
         fields = ('id', 'name', 'plan_due_date', 'location', 'units')
