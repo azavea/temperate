@@ -21,6 +21,7 @@ import {
 } from './freeform-multiselect/freeform-multiselect.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
+import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { ModalTemplateComponent } from './modal-template/modal-template.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -53,6 +54,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
+    LDProgressbarDirective,
     LoginFormComponent,
     ModalTemplateComponent,
     NavbarComponent,
@@ -70,6 +72,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     FreeformMultiselectComponent,
     HelpModalComponent,
     IndicatorChartComponent,
+    LDProgressbarDirective,
     LoginFormComponent,
     ModalTemplateComponent,
     NavbarComponent,

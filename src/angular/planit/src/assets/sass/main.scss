@@ -43,8 +43,11 @@
  * Components styling
  * * * */
 @import
+  'components/dashboard/city-profile-summary',
+  'components/dashboard/grouped-risk',
   'components/indicators/model-modal',
   'components/shared/app-chart',
+  'components/shared/ld-progressbar',
   'components/shared/option-dropdown',
   'components/alert',
   'components/action-steps/action-picker',
@@ -58,7 +61,6 @@
   'components/form',
   'components/freeform_multiselect',
   'components/grid',
-  'components/grouped-risk',
   'components/header-primary',
   'components/link',
   'components/loading',

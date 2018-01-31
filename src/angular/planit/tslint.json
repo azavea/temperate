@@ -124,7 +124,7 @@
     "directive-selector": [
       true,
       "attribute",
-      ["app", "va", "as"],
+      ["app", "va", "as", "ld"],
       "camelCase"
     ],
     "component-selector": [
