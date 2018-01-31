@@ -1,1 +1,21 @@
-<app-plan-wizard [organization]="organization"></app-plan-wizard>
+<div class="create-plan">
+  <div *ngIf="showSplash" class="splash">
+    <div class="container-fluid">
+      <div class="left-panel col-md-6">
+        <h2>Thanks for letting us help you protect our cities against the effects of climate change</h2>
+      </div>
+      <div class="right-panel col-md-6">
+        <p>At any point, if you have questions or need assistance, you can click the "help" button to get help from climate experts.</p>
+        <button class="start-plan-button" (click)="showSplash = false">
+          Set up plan<i class="icon-right-big"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!showSplash" class="plan-wizard container-fluid">
+    <div class="plan-wizard-header">
+      <h2>Set up your city's plan</h2>
+    </div>
+    <app-plan-wizard [organization]="organization"></app-plan-wizard>
+  </div>
+</div>

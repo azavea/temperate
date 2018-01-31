@@ -14,6 +14,8 @@ export class CreatePlanComponent implements OnInit {
 
   @Output() organization: Organization;
 
+  public showSplash = true;
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
