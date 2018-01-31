@@ -12,7 +12,7 @@
                                   (typeaheadOnSelect)="itemSelected('weather_event', $event)"
                                   (blur)="itemBlurred('weather_event')"
                                   [typeahead]="weatherEvents"
-                                  [typeaheadMinLength]="0"
+                                  [typeaheadMinLength]="1"
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
@@ -30,7 +30,7 @@
                                   (typeaheadOnSelect)="itemSelected('community_system', $event)"
                                   (blur)="itemBlurred('community_system')"
                                   [typeahead]="communitySystems"
-                                  [typeaheadMinLength]="0"
+                                  [typeaheadMinLength]="1"
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
