@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { ActionService } from '../../core/services/action.service';
 import { SuggestedActionService } from '../../core/services/suggested-action.service';
@@ -22,7 +22,6 @@ export class ActionPickerComponent implements OnInit {
   constructor(private location: Location,
               private actionService: ActionService,
               private suggestedActionService: SuggestedActionService,
-              private route: ActivatedRoute,
               private router: Router) {}
 
   suggestedActions: SuggestedAction[] = [];
@@ -54,7 +53,7 @@ export class ActionPickerComponent implements OnInit {
         });
     }
     this.actionService.create(action).subscribe(a => {
-      this.router.navigate(['action/', a.id], {relativeTo: this.route});
+      this.router.navigate(['actions/action/', a.id]);
       this.closeModal();
     });
   }
