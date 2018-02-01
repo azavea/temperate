@@ -115,14 +115,12 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     // a valid autocomplete option.
     const options = key === 'weather_event' ? this.weatherEvents : this.communitySystems;
 
-    // The order in which itemSelected and itemBlurred fire is unpredictable,
-    // so wait to give itemSelected a chance to update the form value.
-    setTimeout(() => {
-      const val = this.form.controls[key].value;
-      const found = options.find(option => option.name === val);
-      if (!found) {
-        this.form.controls[key].setErrors({'autocomplete': true});
-      }
-    }, 500);
+    const val = this.form.controls[key].value;
+    const found = options.find(option => option.name === val);
+    if (!found) {
+      this.form.controls[key].setErrors({'autocomplete': true});
+    } else {
+      this[key] = found;
+    }
   }
 }

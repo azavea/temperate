@@ -110,6 +110,8 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
     const found = this.matchRisk(val);
     if (found === null) {
       this.form.controls[key].setErrors({'autocomplete': true});
+    } else {
+      this[key] = found;
     }
   }
 
