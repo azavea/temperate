@@ -2,7 +2,7 @@ import { ActionCategory } from './action-category.model';
 
 export class SuggestedAction {
   plan_city: string;
-  plan_year: number;
+  plan_due_date: number;
   name: string;
   action_type = '';
   action_goal = '';

@@ -54,7 +54,7 @@
       </div>
       <div class="modal-body col-5" class="pull-right">
         <p>City: {{suggestion.plan_city}}</p>
-        <p>Year planned: {{suggestion.plan_year}}</p>
+        <p>Date planned: {{suggestion.plan_due_date}}</p>
         <p>Categories: <i *ngFor="let category of suggestion.categories"
            class="{{ category.icon }}"
            tooltip="{{ category.name }}"
