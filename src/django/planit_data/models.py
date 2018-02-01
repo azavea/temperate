@@ -332,3 +332,19 @@ class WeatherEventRank(models.Model):
 
     def __str__(self):
         return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
+
+
+class OrganizationWeatherEvent(models.Model):
+    """Organization specific ranked weather events."""
+
+    organization = models.ForeignKey('users.PlanItOrganization', related_name='org_wx_events')
+    weather_event = models.ForeignKey(WeatherEvent)
+    order = models.IntegerField()
+
+    class Meta:
+        unique_together = (('organization', 'order'),
+                           ('organization', 'weather_event'))
+        ordering = ['order']
+
+    def __str__(self):
+        return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)

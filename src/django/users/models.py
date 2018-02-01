@@ -17,6 +17,7 @@ from planit_data.models import (
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
+    # OrganizationWeatherEvent,
     WeatherEventRank,
 )
 
@@ -87,6 +88,13 @@ class PlanItOrganization(models.Model):
         if not self.location.is_coastal:
             # For cities not on the coast, exclude Weather Events that only apply to coastal areas
             weather_events = weather_events.filter(weather_event__coastal_only=False)
+
+        # OrganizationWeatherEvent.objects.bulk_create(
+        #     OrganizationWeatherEvent(organization_id=self.id,
+        #                              weather_event_id=weather_event.id,
+        #                              order=weather_event.order)
+        #     for weather_event in weather_events
+        # )
 
         # Use the many-to-many field's through model to bulk create the weather events this
         # organization should have by default
