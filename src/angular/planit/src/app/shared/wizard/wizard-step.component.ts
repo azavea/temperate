@@ -6,6 +6,7 @@
 import { OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { MovingDirection } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
 
@@ -70,7 +71,9 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
           // Put field-specific errors into the form controls so they can be
           // shown in the template for the individual step
           for (const [field, fieldErrors] of Object.entries(otherErrors)) {
-            this.form.controls[field].setErrors({server: fieldErrors});
+            if (field in this.form.controls) {
+              this.form.controls[field].setErrors({server: fieldErrors});
+            }
           }
 
           // If there are non-field errors show them in toast, otherwise we

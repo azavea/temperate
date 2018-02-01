@@ -26,6 +26,7 @@
       "@angular/platform-browser-dynamic": ["../node_modules/@angular/platform-browser-dynamic"],
       "@angular/router": ["../node_modules/@angular/router"],
       "typescript": ["../node_modules/typescript"]
-    }
+    },
+    "baseUrl": "."
   }
 }
