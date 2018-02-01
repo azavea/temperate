@@ -164,8 +164,8 @@ class OrganizationRisk(models.Model):
         )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    weather_event = models.ForeignKey('WeatherEvent', null=True, blank=True,
-                                      on_delete=models.CASCADE, default=None)
+    weather_event = models.ForeignKey('WeatherEvent', null=True, blank=True, default=None,
+                                      on_delete=models.CASCADE)
     community_system = models.ForeignKey('CommunitySystem', null=True, blank=True, default=None,
                                          on_delete=models.CASCADE)
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
@@ -207,7 +207,7 @@ class OrganizationAction(models.Model):
     id = models.UUIDField(primary_key=True,
                           default=uuid.uuid4,
                           editable=False)
-    organization_risk = models.OneToOneField(OrganizationRisk, unique=True, null=False)
+    organization_risk = models.ForeignKey(OrganizationRisk, null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)

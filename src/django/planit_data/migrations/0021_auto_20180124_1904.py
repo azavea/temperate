@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('planit_data', '0020_auto_rename_action_field'),
+        ('planit_data', '0020_rename_action_field'),
     ]
 
     operations = [
