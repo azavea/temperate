@@ -38,6 +38,7 @@ import { CityProfileService } from './core/services/city-profile.service';
 import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
+import { DownloadService } from './core/services/download.service';
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
@@ -119,6 +120,7 @@ const appRoutes: Routes = [
     CityService,
     CollaboratorService,
     CommunitySystemService,
+    DownloadService,
     MarketingAuthGuard,
     OrganizationService,
     PlanAuthGuard,
