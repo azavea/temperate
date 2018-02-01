@@ -170,14 +170,21 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
         queryset=ActionCategory.objects.all()
     )
     plan_city = serializers.SerializerMethodField()
+    plan_year = serializers.SerializerMethodField()
 
     def get_plan_city(self, obj):
         return str(obj.organization_risk.organization.location)
 
+    def get_plan_year(self, obj):
+        try:
+            return obj.organization_risk.organization.plan_due_date.year
+        except AttributeError:
+            return None
+
     class Meta:
         model = OrganizationAction
-        fields = ('name', 'categories', 'plan_city', 'action_type', 'action_goal',
-                  'implementation_details', 'implementation_notes',
+        fields = ('name', 'categories', 'plan_city', 'plan_year', 'action_type',
+                  'action_goal', 'implementation_details', 'implementation_notes',
                   'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
                   'categories')
 

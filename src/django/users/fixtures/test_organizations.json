@@ -4,8 +4,10 @@
     "pk": 1,
     "fields": {
         "name": "User Organization",
+        "plan_due_date": null,
         "units": "IMPERIAL",
         "location": null,
+        "created_by": null,
         "weather_events": []
     }
 },
@@ -14,10 +16,12 @@
     "pk": 2,
     "fields": {
         "name": "Philadelphia",
+        "plan_due_date": "2023-02-01",
         "units": "IMPERIAL",
         "location": [
             7
         ],
+        "created_by": null,
         "weather_events": [
             28,
             29,
@@ -33,10 +37,12 @@
     "pk": 3,
     "fields": {
         "name": "New York City",
+        "plan_due_date": "2022-02-01",
         "units": "IMPERIAL",
         "location": [
             1
         ],
+        "created_by": null,
         "weather_events": [
             28,
             29,
