@@ -1,4 +1,4 @@
-import { Organization } from '../../shared';
+import { Organization } from './organization.model';
 
 export class User {
   id: number;
@@ -12,6 +12,10 @@ export class User {
 
   constructor(object: Object) {
     Object.assign(this, object);
+    // call new on organization object to initialize it; otherwise it is just JSON
+    if (this.primary_organization) {
+      this.primary_organization = new Organization(this.primary_organization);
+    }
   }
 
   public name(): string {

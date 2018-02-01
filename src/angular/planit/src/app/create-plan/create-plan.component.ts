@@ -21,6 +21,6 @@ export class CreatePlanComponent implements OnInit {
   ngOnInit() {
     // get organization to edit from current user resolver
     const user: User = this.route.snapshot.data['user'];
-    this.organization = user.primary_organization;
+    this.organization = new Organization(user.primary_organization);
   }
 }

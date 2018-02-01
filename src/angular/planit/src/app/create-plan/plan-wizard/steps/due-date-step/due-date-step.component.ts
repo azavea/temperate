@@ -29,9 +29,11 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
   public formValid: boolean;
   public key: PlanStepKey = PlanStepKey.DueDate;
   public navigationSymbol = '1';
-  public title = 'Identify risk';
+  public title = 'Expected finish date';
 
-  private planDueDate: Date;
+  public minDate: Date = new Date();
+  public suggestedDate: Date;
+  public planDueDate: Date;
 
 
   constructor(protected session: WizardSessionService<Organization>,
@@ -46,6 +48,7 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
     super.ngOnInit();
     const org = this.session.getData();
     this.planDueDate = org.plan_due_date;
+    console.log(this.planDueDate);
     this.setupForm(this.fromModel(org));
   }
 
@@ -64,7 +67,6 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   setupForm(data: DueDateStepFormModel) {
     this.form = this.fb.group({
-      // TODO: validate in future?
       'plan_due_date': [data.plan_due_date ? data.plan_due_date : '',
                        [Validators.required]]
     });

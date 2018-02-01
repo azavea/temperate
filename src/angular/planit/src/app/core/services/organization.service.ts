@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
@@ -18,10 +17,8 @@ export class OrganizationService {
   private formatOrganization(organization: Organization): any {
     const formattedOrganization = cloneDeep(organization);
     if (organization.plan_due_date) {
-      // API expects date in ISO format
-      const datePipe = new DatePipe('en-US');
-      formattedOrganization.plan_due_date = datePipe.transform(organization.plan_due_date,
-                                                               'yyyy-M-d');
+      // API expects date with no time portion, in ISO format
+      formattedOrganization.plan_due_date = organization.plan_due_date.toISOString().substr(0, 10);
     }
     return Object.assign(formattedOrganization, {});
   }

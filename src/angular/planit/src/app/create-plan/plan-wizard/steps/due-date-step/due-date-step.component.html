@@ -12,6 +12,7 @@
              placeholder="mm/dd/yyyy"
              #dp="bsDatepicker"
              bsDatepicker [(ngModel)]="planDueDate"
+             [minDate]="minDate"
              [bsConfig]="{ containerClass: 'theme-default' }"
              tabindex="1">
       <div *ngIf="form.controls.plan_due_date.errors">
