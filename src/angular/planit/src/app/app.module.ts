@@ -48,6 +48,7 @@ import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
+  BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
   CollapseModule,
@@ -76,6 +77,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     // 3rd party
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),

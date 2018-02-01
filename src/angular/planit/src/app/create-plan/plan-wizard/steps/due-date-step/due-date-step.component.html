@@ -6,9 +6,14 @@
   <form [formGroup]="form">
   <div class="step-form-control">
     <label>Plan Due Date
-      <input class="form-control" formControlName="plan_due_date"
-                                  tabindex="1"
-                                  typeaheadOptionField="name">
+      <input class="form-control"
+             formControlName="plan_due_date"
+             type="text"
+             placeholder="mm/dd/yyyy"
+             #dp="bsDatepicker"
+             bsDatepicker [(ngModel)]="planDueDate"
+             [bsConfig]="{ containerClass: 'theme-default' }"
+             tabindex="1">
       <div *ngIf="form.controls.plan_due_date.errors">
         <span *ngIf="form.controls.plan_due_date.errors.required">*Required</span>
       </div>
@@ -21,5 +26,4 @@
           tabindex="3"
           [disabled]="!form.valid"
           nextStep>Continue</button>
-  <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
@@ -14,8 +15,14 @@ export class OrganizationService {
 
   constructor(private apiHttp: PlanItApiHttp) {}
 
-  private formatOrganization(organization: Organization) {
+  private formatOrganization(organization: Organization): any {
     const formattedOrganization = cloneDeep(organization);
+    if (organization.plan_due_date) {
+      // API expects date in ISO format
+      const datePipe = new DatePipe('en-US');
+      formattedOrganization.plan_due_date = datePipe.transform(organization.plan_due_date,
+                                                               'yyyy-M-d');
+    }
     return Object.assign(formattedOrganization, {});
   }
 

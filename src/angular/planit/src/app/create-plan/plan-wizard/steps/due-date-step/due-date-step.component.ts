@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../../../../core/services/organization.service';
@@ -30,7 +31,7 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
   public navigationSymbol = '1';
   public title = 'Identify risk';
 
-  private plan_due_date: Date;
+  private planDueDate: Date;
 
 
   constructor(protected session: WizardSessionService<Organization>,
@@ -44,14 +45,8 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
   ngOnInit() {
     super.ngOnInit();
     const org = this.session.getData();
+    this.planDueDate = org.plan_due_date;
     this.setupForm(this.fromModel(org));
-    this.plan_due_date = org.plan_due_date || null;
-  }
-
-  cancel() {
-    // TODO:
-    console.error('TODO: implement cancel');
-    //this.router.navigate(['assessment']);
   }
 
   fromModel(org: Organization): DueDateStepFormModel {
@@ -62,7 +57,7 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   getFormModel(): DueDateStepFormModel {
     const data: DueDateStepFormModel = {
-      plan_due_date: this.plan_due_date
+      plan_due_date: this.planDueDate
     };
     return data;
   }
