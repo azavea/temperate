@@ -517,6 +517,7 @@ class SuggestedActionTestCase(APITestCase):
             'name': action.name,
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
+            'plan_due_date': None,
             'action_goal': '',
             'action_type': '',
             'collaborators': [],
