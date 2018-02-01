@@ -51,6 +51,7 @@ urlpatterns = [
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
     url(r'^api/weather-event-rank/$',
         planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
+    url(r'^api/export-plan/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
 
     url(r'^admin/', admin.site.urls),
 
