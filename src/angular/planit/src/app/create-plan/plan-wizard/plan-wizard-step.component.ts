@@ -20,8 +20,6 @@ export abstract class PlanWizardStepComponent<FormModel>
     console.log('persistChanges:');
     console.log(model);
 
-    return !model.id ?
-      this.orgService.create(model) :
-      this.orgService.update(model);
+    return this.orgService.update(model);
   }
 }
