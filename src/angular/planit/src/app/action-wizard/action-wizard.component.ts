@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Import from root doesn't seem to pickup types, so import directly from file
@@ -37,7 +37,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @Input() action: Action;
 
-  startingStep: number = 0;
+  startingStep = 0;
 
   constructor(private session: WizardSessionService<Action>,
               private actionService: ActionService,
