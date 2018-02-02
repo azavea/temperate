@@ -20,8 +20,7 @@ interface CityStepFormModel {
 
 @Component({
   selector: 'app-organization-city-step',
-  templateUrl: './city-step.component.html',
-  styleUrls: ['./city-step.component.scss']
+  templateUrl: './city-step.component.html'
 })
 export class CityStepComponent extends OrganizationWizardStepComponent<CityStepFormModel>
                                implements OnInit {

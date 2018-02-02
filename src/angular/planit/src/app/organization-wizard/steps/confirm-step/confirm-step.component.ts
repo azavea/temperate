@@ -13,8 +13,7 @@ import { OrganizationWizardStepComponent } from '../../organization-wizard-step.
 
 @Component({
   selector: 'app-organization-confirm-step',
-  templateUrl: './confirm-step.component.html',
-  styleUrls: ['./confirm-step.component.scss']
+  templateUrl: './confirm-step.component.html'
 })
 export class ConfirmStepComponent extends OrganizationWizardStepComponent<any>
                                   implements OnInit {
