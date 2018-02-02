@@ -37,6 +37,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public title = 'General Information';
 
   public namedRisks: NamedRisk[];
+  public namedRisk: NamedRisk;
   private risks: Risk[];
 
   constructor(protected session: WizardSessionService<Action>,
@@ -62,9 +63,9 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
       });
       this.risks = risks;
 
-      // set risk dropdown value, now that namedRisks populated
-      const namedRisk: NamedRisk = this.namedRiskFromId(action.risk);
-      this.form.controls['risk'].setValue(namedRisk ? namedRisk.name : '');
+      // set risk and dropdown value, now that namedRisks populated
+      this.namedRisk = this.namedRiskFromId(action.risk);
+      this.form.controls['risk'].setValue(this.namedRisk ? this.namedRisk.name : '');
     });
 }
 
@@ -113,6 +114,11 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
     } else {
       this[key] = found;
     }
+  }
+
+  riskSelected(event: TypeaheadMatch | null) {
+    // Update the risk object used by the header
+    this.namedRisk = event.item;
   }
 
   matchRisk(riskName: string): Risk {

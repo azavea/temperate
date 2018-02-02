@@ -20,6 +20,7 @@
         <input class="form-control" formControlName="risk"
                                     tabindex="2"
                                     typeaheadOptionField="name"
+                                    (typeaheadOnSelect)="riskSelected($event)"
                                     (typeaheadOnBlur)="itemBlurred('risk')"
                                     (blur)="itemBlurred('risk')"
                                     [typeahead]="namedRisks"

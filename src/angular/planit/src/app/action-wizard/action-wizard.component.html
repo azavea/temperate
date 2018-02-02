@@ -1,7 +1,21 @@
+<div class="container wizard-header">
+  <p class="row">Take action on</p>
+  <div class="row" *ngIf="assessStep.namedRisk">
+      <va-adaptive-need-box
+        [adaptive_capacity]="assessStep.namedRisk.risk.adaptive_capacity"
+        [popoverPlacement]="'right'"
+        [potentialImpact]="assessStep.namedRisk.risk.impact_magnitude">
+      </va-adaptive-need-box>
+    <h2>
+      {{ assessStep.namedRisk.name }}
+    </h2>
+  </div>
+</div>
 <wizard #wizard
         navigationMode="strict"
         navBarLocation="left"
         navBarLayout="large-empty-symbols">
+
   <app-action-assess-step class="wizard-step"
                           #assessStep
                           wizardStep

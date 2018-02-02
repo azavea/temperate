@@ -1,3 +1,14 @@
+.wizard-header {
+  p {
+    font-size: $text-medium;
+  }
+
+  h2 {
+    margin-left: 1rem;
+    font-size: $text-large;
+  }
+}
+
 wizard {
   .wizard-step {
     padding: 3rem;
