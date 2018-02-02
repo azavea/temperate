@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -27,10 +28,22 @@ export class PlanWizardComponent implements OnInit {
 
   @Input() organization: Organization;
 
-  constructor(private session: WizardSessionService<Organization>) {}
+  public wizardComplete = false;
+
+  constructor(private session: WizardSessionService<Organization>,
+              private router: Router) {}
 
   ngOnInit() {
     // will edit primary organization for current user
     this.session.setData(this.organization);
+  }
+
+  // when done, show spinner for a few seconds before redirecting to home page
+  onWizardCompleted() {
+    this.wizardComplete = true;
+    const self = this;
+    setTimeout(function () {
+      self.router.navigate(['dashboard']);
+    }, 5000);
   }
 }

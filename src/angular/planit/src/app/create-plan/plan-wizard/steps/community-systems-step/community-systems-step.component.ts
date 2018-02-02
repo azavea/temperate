@@ -1,6 +1,13 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
+
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
@@ -23,14 +30,15 @@ export class CommunitySystemsStepComponent extends PlanWizardStepComponent<Organ
   public navigationSymbol = '3';
   public title = 'Community Systems';
 
+  @Output() wizardCompleted = new EventEmitter();
+
   public organization: Organization;
   public key: PlanStepKey = PlanStepKey.CommunitySystems;
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
               protected toastr: ToastrService,
-              protected fb: FormBuilder,
-              private router: Router) {
+              protected fb: FormBuilder) {
     super(session, orgService, toastr);
   }
 
@@ -58,7 +66,7 @@ export class CommunitySystemsStepComponent extends PlanWizardStepComponent<Organ
   }
 
   finish() {
-    console.error('TODO: finish wizard and show spinner');
-    this.router.navigate(['dashboard']);
+    // TODO: save model
+    this.wizardCompleted.emit({});
   }
 }
