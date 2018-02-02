@@ -24,14 +24,18 @@ export class PlanAuthGuard implements CanActivate {
           const org = new Organization(user.primary_organization);
           if (org.hasPlan()) {
             return true;
-          } else {
+          } else if (route.url[0].path !== 'plan') {
             // direct user to create organization plan, if one not set up yet
             this.router.navigate(['/plan']);
             return false;
+          } else {
+            return true;
           }
-        } else {
+        } else if (route.url[0].path !== 'create-organization') {
           this.router.navigate(['/create-organization']);
           return false;
+        } else {
+          return true;
         }
       }).first();
     } else {

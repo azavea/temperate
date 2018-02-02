@@ -32,7 +32,6 @@ import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
-import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
 import { CityProfileService } from './core/services/city-profile.service';
