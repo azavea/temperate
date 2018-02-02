@@ -5,7 +5,7 @@
 </button>
 <div class="action-picker-prompt" *ngIf="showPrompt">
   <div class="modal-header action-picker-content">
-    <h2 class="action-picker-header">How do you want to start?</h2>
+    <h1 class="action-picker-header">How do you want to start?</h1>
   </div>
   <div class="container">
     <div class="row justify-content-md-center action-picker-body">
@@ -24,31 +24,16 @@
   </div>
 </div>
 <!-- action picker (second dialog) -->
-<div class="action-picker action-picker-content" *ngIf="!showPrompt">
-  <div class="modal-header">
-    <div class="container">
-      <p class="row action-picker-header">Suggestions for</p>
-      <div class="row" *ngIf="risk">
-        <div class="adaptive-need-box col col-md-3">
-          <va-adaptive-need-box
-            [adaptiveCapacity]="risk.adaptive_capacity"
-            [popoverPlacement]="'bottom'"
-            [potentialImpact]="risk.impact_magnitude">
-          </va-adaptive-need-box>
-        </div>
-        <h2 class="col col-md-9 action-picker-risk-name">
-          {{ risk.weather_event.name }} on {{ risk.community_system.name }}
-        </h2>
-      </div>
-    </div>
+<div class="action-picker" *ngIf="!showPrompt">
+  <div class="action-picker-header">
+    <h1>Suggested actions</h1>
+    <p>Actions below were chosen for you based on your region and the selected hazard and/or community system.</p>
   </div>
   <div class="container">
-    <h2>Suggested actions</h2>
-    <p>Actions below were chosen for you based on your region.</p>
-    <div class="row justify-content-md-center" *ngFor="let suggestion of suggestedActions">
+    <div class="row justify-content-md-center suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="modal-body col-5">
         Action
-        <h1>{{suggestion.name}}</h1>
+        <h2>{{suggestion.name}}</h2>
         <button class="button button-primary"
                 (click)="goToWizard(suggestion)">Choose and customize</button>
       </div>
