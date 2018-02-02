@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('users', '0019_planitorganization_created_by'),
+        ('planit_data', '0023_migrate_wxeventrank_to_orgs'),
     ]
 
     operations = [
