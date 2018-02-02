@@ -5,7 +5,7 @@
     </button>
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
                   <li role="menuitem">
-                    <a class="dropdown-item" [routerLink]="['action', action.id]">View</a>
+                    <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: '5'}">View</a>
                   </li>
                   <li role="menuitem">
                     <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
