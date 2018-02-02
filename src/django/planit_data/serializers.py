@@ -139,9 +139,9 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         many=False,
         queryset=CommunitySystem.objects.all(),
     )
-    action = OrganizationActionSerializer(
-        many=False,
-        source='organizationaction',
+    actions = OrganizationActionSerializer(
+        many=True,
+        source='organizationaction_set',
         read_only=True
     )
     organization = serializers.PrimaryKeyRelatedField(
@@ -152,14 +152,14 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationRisk
-        fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
+        fields = ('id', 'actions', 'weather_event', 'community_system', 'probability', 'frequency',
                   'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
                   'related_adaptive_values', 'adaptive_capacity_description', 'organization')
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationRisk.objects.all(),
                 fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and Community System'
+                message='There is already a Risk for this Hazard and/or Community System'
             )
         ]
 
