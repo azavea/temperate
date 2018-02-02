@@ -12,7 +12,7 @@ export class User {
 
   constructor(object: Object) {
     Object.assign(this, object);
-    // call new on organization object to initialize it; otherwise it is just JSON
+    // create new organization object; otherwise it is just JSON
     if (this.primary_organization) {
       this.primary_organization = new Organization(this.primary_organization);
     }

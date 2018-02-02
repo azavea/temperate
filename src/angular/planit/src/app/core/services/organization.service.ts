@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs/Rx';
 
-import { Indicator, IndicatorService } from 'climate-change-components';
-
 import { environment } from '../../../environments/environment';
 import { Organization } from '../../shared/models/organization.model';
 import { PlanItApiHttp } from './api-http.service';
@@ -17,7 +15,7 @@ export class OrganizationService {
   private formatOrganization(organization: Organization): any {
     const formattedOrganization = cloneDeep(organization);
     if (organization.plan_due_date) {
-      // API expects date with no time portion, in ISO format
+      // API expects date with no time portion, in ISO format (yyyy-mm-dd)
       formattedOrganization.plan_due_date = organization.plan_due_date.toISOString().substr(0, 10);
     }
     return Object.assign(formattedOrganization, {});

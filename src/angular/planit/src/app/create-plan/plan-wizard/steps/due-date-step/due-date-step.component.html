@@ -1,11 +1,18 @@
 <div class="step-header">
-  <h3>Plan Due Date</h3>
+  <h3>Expected finish date</h3>
 </div>
 <div class="step-content">
-  <p>Placeholder text here</p>
+  <p>Members of the Global Covenant of Mayors are required to submit their plan once every five years. We recommend keeping plans up to date throughout the year.</p>
   <form [formGroup]="form">
+    <div class="step-form-control">
+    <label>City
+      <input class="form-control"
+             formControlName="city_name"
+             type="text">
+    </label>
+  </div>
   <div class="step-form-control">
-    <label>Plan Due Date
+    <label>Date *
       <input class="form-control"
              formControlName="plan_due_date"
              type="text"
