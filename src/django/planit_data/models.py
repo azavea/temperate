@@ -344,7 +344,7 @@ class OrganizationWeatherEvent(models.Model):
     class Meta:
         unique_together = (('organization', 'order'),
                            ('organization', 'weather_event'))
-        ordering = ['order']
+        ordering = ['organization', 'order']
 
     def __str__(self):
-        return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
+        return '{}: {}: {}'.format(self.organization.name, self.order, self.weather_event)
