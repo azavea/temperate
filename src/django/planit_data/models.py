@@ -199,8 +199,10 @@ class OrganizationRisk(models.Model):
         else:
             return self.organization.name
 
+
 class OrganizationAction(models.Model):
     """A record of planned or potential adaptation actions an organization may take."""
+
     SINGLELINE_MAX_LENGTH = 1024
 
     class Visibility:
