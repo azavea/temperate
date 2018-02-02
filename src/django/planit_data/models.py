@@ -341,6 +341,23 @@ class OrganizationWeatherEvent(models.Model):
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()
 
+    def save(self, *args, **kwargs):
+        if self.order is None:
+            self._assign_default_order()
+        super().save(*args, **kwargs)
+
+    def _assign_default_order(self):
+        """Assign a simple default order such that new objects are inserted at end of list.
+
+        When no order is provided. We'll need to address this differently if we ever want the user
+        to be able to re-order their top concerns in the app UI.
+
+        """
+        last = (OrganizationWeatherEvent.objects.filter(organization=self.organization)
+                                                .order_by('order')
+                                                .last())
+        self.order = last.order + 1 if last is not None else 1
+
     class Meta:
         unique_together = (('organization', 'order'),
                            ('organization', 'weather_event'))

@@ -174,10 +174,11 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
         many=False,
         queryset=WeatherEvent.objects.all(),
     )
+    order = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = OrganizationWeatherEvent
-        fields = ('organization', 'weather_event', 'order',)
+        fields = ('id', 'organization', 'weather_event', 'order',)
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationWeatherEvent.objects.all(),
