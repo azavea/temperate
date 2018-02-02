@@ -337,7 +337,7 @@ class WeatherEventRank(models.Model):
 class OrganizationWeatherEvent(models.Model):
     """Organization specific ranked weather events."""
 
-    organization = models.ForeignKey('users.PlanItOrganization', related_name='org_wx_events')
+    organization = models.ForeignKey('users.PlanItOrganization', related_name='weather_events')
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()
 
