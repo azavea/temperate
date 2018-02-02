@@ -164,6 +164,28 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         ]
 
 
+class SuggestedActionSerializer(serializers.ModelSerializer):
+    categories = ActionCategoryField(
+        many=True,
+        queryset=ActionCategory.objects.all()
+    )
+    plan_city = serializers.SerializerMethodField()
+    plan_due_date = serializers.SerializerMethodField()
+
+    def get_plan_city(self, obj):
+        return str(obj.organization_risk.organization.location)
+
+    def get_plan_due_date(self, obj):
+        return obj.organization_risk.organization.plan_due_date
+
+    class Meta:
+        model = OrganizationAction
+        fields = ('name', 'categories', 'plan_city', 'plan_due_date', 'action_type',
+                  'action_goal', 'implementation_details', 'implementation_notes',
+                  'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
+                  'categories')
+
+
 class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
 
     class Meta:

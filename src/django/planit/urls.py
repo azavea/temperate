@@ -36,6 +36,8 @@ router.register(r'users', UserViewSet)
 router.register(r'risks', planit_data_views.OrganizationRiskView, base_name='organizationrisk')
 router.register(r'actions', planit_data_views.OrganizationActionViewSet,
                 base_name='organizationaction')
+router.register(r'suggestions', planit_data_views.SuggestedActionViewSet,
+                base_name='suggestedaction')
 router.register(r'weather-event', planit_data_views.WeatherEventViewSet)
 
 urlpatterns = [

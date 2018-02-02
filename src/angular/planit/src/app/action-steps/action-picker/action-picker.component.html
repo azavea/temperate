@@ -45,9 +45,20 @@
   <div class="container">
     <h2>Suggested actions</h2>
     <p>Actions below were chosen for you based on your region.</p>
-    <div class="row justify-content-md-center">
+    <div class="row justify-content-md-center" *ngFor="let suggestion of suggestedActions">
       <div class="modal-body col-5">
-        <p>TODO: action cards go here</p>
+        Action
+        <h1>{{suggestion.name}}</h1>
+        <button class="button button-primary"
+                (click)="goToWizard(suggestion)">Choose and customize</button>
+      </div>
+      <div class="modal-body col-5" class="pull-right">
+        <p>City: {{suggestion.plan_city}}</p>
+        <p>Date planned: {{suggestion.plan_due_date}}</p>
+        <p>Categories: <i *ngFor="let category of suggestion.categories"
+           class="{{ category.icon }}"
+           tooltip="{{ category.name }}"
+           placement="bottom"></i></p>
       </div>
     </div>
     <div class="modal-footer">

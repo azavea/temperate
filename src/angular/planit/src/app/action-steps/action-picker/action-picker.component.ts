@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { AdaptiveNeedBoxComponent, Risk } from '../../shared';
+import { ActionService } from '../../core/services/action.service';
+import { SuggestedActionService } from '../../core/services/suggested-action.service';
+import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../shared';
 
 
 @Component({
@@ -17,20 +19,42 @@ export class ActionPickerComponent implements OnInit {
 
   public showPrompt = true;
 
-  constructor(private location: Location, private route: ActivatedRoute, private router: Router) {}
+  constructor(private location: Location,
+              private actionService: ActionService,
+              private suggestedActionService: SuggestedActionService,
+              private router: Router) {}
 
-  ngOnInit() {}
+  suggestedActions: SuggestedAction[] = [];
+
+  ngOnInit() {
+    this.suggestedActionService.list(this.risk).subscribe(s => this.suggestedActions = s);
+  }
 
   closeModal() {
     this.closed.emit('closed');
   }
 
-  goToWizard() {
-    // route to wizard, passing risk ID in URL, without changing URL
-    this.router.navigate(['action/wizard', this.risk.id], {relativeTo: this.route,
-                                                           skipLocationChange: true});
-    // change URL to wizard path without risk ID and push to browser history
-    this.location.go('/actions/action/wizard/');
-    this.closeModal();
+  goToWizard(suggestion?: SuggestedAction) {
+    const action = new Action({
+      risk: this.risk.id
+    });
+    if (suggestion) {
+      Object.assign(action,
+        {
+          name: suggestion.name,
+          action_type: suggestion.action_type,
+          action_goal: suggestion.action_goal,
+          implementation_details: suggestion.implementation_details,
+          implementation_notes: suggestion.implementation_notes,
+          improvements_adaptive_capacity: suggestion.improvements_adaptive_capacity,
+          improvements_impacts: suggestion.improvements_impacts,
+          collaborators: suggestion.collaborators,
+          categories: suggestion.categories
+        });
+    }
+    this.actionService.create(action).subscribe(a => {
+      this.router.navigate(['actions/action/', a.id]);
+      this.closeModal();
+    });
   }
 }

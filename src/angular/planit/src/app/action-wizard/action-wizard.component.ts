@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -35,7 +35,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
   @ViewChild(FundingStepComponent) public fundingStep: FundingStepComponent;
   @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
 
-  private action: Action;
+  @Input() action: Action;
 
   constructor(private session: WizardSessionService<Action>,
               private actionService: ActionService,

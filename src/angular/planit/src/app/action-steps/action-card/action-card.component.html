@@ -5,10 +5,10 @@
     </button>
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
                   <li role="menuitem">
-                    <a class="dropdown-item">View</a>
+                    <a class="dropdown-item" [routerLink]="['action', action.id]">View</a>
                   </li>
                   <li role="menuitem">
-                    <a class="dropdown-item">Edit</a>
+                    <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
                   </li>
                   <li role="menuitem">
                     <a class="dropdown-item" (click)="deleteAction(action)">Remove</a>

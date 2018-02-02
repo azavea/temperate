@@ -1,5 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Action } from '../../shared/';
 
 @Component({
   selector: 'as-edit-action',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class EditActionComponent implements OnInit {
-  constructor() { }
 
-  ngOnInit() { }
+  public action: Action;
+
+  constructor(private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    if (this.route.snapshot.data['action']) {
+      this.action = this.route.snapshot.data['action'] as Action;
+    }
+  }
+
 }
