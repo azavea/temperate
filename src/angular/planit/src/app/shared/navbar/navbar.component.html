@@ -4,7 +4,7 @@
   </div>
   <div class="button-group" *ngIf="authService.isAuthenticated()">
     <a class="button button-primary"
-       *ngIf="router.url !== '/dashboard'"
+       *ngIf="router.url !== '/dashboard' && router.url !== '/plan'"
        routerLink="/dashboard">Go to Dashboard</a>
     <a class="button button-primary"
        *ngIf="router.url !== '/indicators'"
