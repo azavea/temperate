@@ -14,6 +14,7 @@ from planit_data.tests.factories import (
     GeoRegionFactory,
     OrganizationActionFactory,
     OrganizationRiskFactory,
+    OrganizationWeatherEventFactory,
     WeatherEventFactory,
     WeatherEventRankFactory
 )
@@ -104,7 +105,11 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class WeatherEventRankViewTestCase(APITestCase):
+class OrganizationWeatherEventTestCase(APITestCase):
+    pass
+
+
+class OrganizationWeatherEventRankViewTestCase(APITestCase):
 
     def setUp(self):
         self.user = UserFactory()
@@ -117,9 +122,8 @@ class WeatherEventRankViewTestCase(APITestCase):
         # Create a georegion centered around our location's coordinates
         georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
 
-        # Create a WeatherEventRank that will be associated with our organization
-        weathereventank = WeatherEventRankFactory(georegion=georegion)
-        organization.weather_events.add(weathereventank)
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+        organization.weather_events.add(org_we)
 
         # Create additional WeatherEventRanks for the same georegion that are not associated
         WeatherEventRankFactory.create_batch(2, georegion=georegion)
@@ -127,7 +131,7 @@ class WeatherEventRankViewTestCase(APITestCase):
         url = reverse('weather-event-rank-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = WeatherEventRankView.serializer_class([weathereventank], many=True)
+        serializer = WeatherEventRankView.serializer_class([org_we], many=True)
         self.assertEqual(response.json(), serializer.data)
 
 

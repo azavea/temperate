@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point, Polygon, MultiPolygon
 from django.test import TestCase
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
-from planit_data.models import GeoRegion, WeatherEvent, WeatherEventRank
+from planit_data.models import GeoRegion, OrganizationWeatherEvent, WeatherEvent, WeatherEventRank
 
 
 class OrganizationTestCase(TestCase):
@@ -31,7 +31,13 @@ class OrganizationTestCase(TestCase):
         )
 
         org.import_weather_events()
-        self.assertSequenceEqual(org.weather_events.all(), [event_rank])
+
+        org_weather_event = OrganizationWeatherEvent.objects.get(
+            organization=org,
+            weather_event=event_rank.weather_event,
+            order=event_rank.order
+        )
+        self.assertSequenceEqual(org.weather_events.all(), [org_weather_event])
 
     def test_import_weather_events_point_outside_geom_excluded(self):
         """Ensure that import_weather_events excludes objects for outside regions."""
@@ -111,7 +117,13 @@ class OrganizationTestCase(TestCase):
         )
 
         org.import_weather_events()
-        self.assertSequenceEqual(org.weather_events.all(), [event_rank])
+
+        org_weather_event = OrganizationWeatherEvent.objects.get(
+            organization=org,
+            weather_event=event_rank.weather_event,
+            order=event_rank.order
+        )
+        self.assertSequenceEqual(org.weather_events.all(), [org_weather_event])
 
 
 class LocationManagerTestCase(TestCase):

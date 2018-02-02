@@ -8,9 +8,9 @@ from planit_data.models import (
     Concern,
     OrganizationAction,
     OrganizationRisk,
+    OrganizationWeatherEvent,
     RelatedAdaptiveValue,
     WeatherEvent,
-    WeatherEventRank,
 )
 from users.models import PlanItOrganization
 
@@ -164,6 +164,30 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         ]
 
 
+class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
+    organization = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=PlanItOrganization.objects.all(),
+        write_only=True
+    )
+    weather_event = WeatherEventField(
+        many=False,
+        queryset=WeatherEvent.objects.all(),
+    )
+
+    class Meta:
+        model = OrganizationWeatherEvent
+        fields = ('organization', 'weather_event', 'order',)
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=OrganizationWeatherEvent.objects.all(),
+                fields=('organization', 'weather_event',),
+                message='There is already a OrganizationWeatherEvent for this Organization ' +
+                        'and WeatherEvent'
+            )
+        ]
+
+
 class SuggestedActionSerializer(serializers.ModelSerializer):
     categories = ActionCategoryField(
         many=True,
@@ -193,10 +217,10 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
-class WeatherEventRankSerializer(serializers.ModelSerializer):
+class OrganizationWeatherEventRankSerializer(serializers.ModelSerializer):
     """Serialize weather events by rank."""
     weather_event = WeatherEventWithConcernSerializer()
 
     class Meta:
-        model = WeatherEventRank
+        model = OrganizationWeatherEvent
         fields = ('weather_event', 'order',)
