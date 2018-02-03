@@ -7,9 +7,9 @@ import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { UserResolve } from './core/services/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
-import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { PageNotFoundComponent } from './not-found.component';
+import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 
 const routes: Routes = [
   {

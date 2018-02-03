@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -11,8 +11,8 @@ import { UserResolve } from '../core/services/user.resolve';
 import { SharedModule } from '../shared/shared.module';
 import { OrganizationWizardComponent } from './organization-wizard.component';
 import { CityStepComponent } from './steps/city-step/city-step.component';
-import { InviteStepComponent } from './steps/invite-step/invite-step.component';
 import { ConfirmStepComponent } from './steps/confirm-step/confirm-step.component';
+import { InviteStepComponent } from './steps/invite-step/invite-step.component';
 
 const routes: Routes = [
   { path: 'create-organization',
