@@ -140,7 +140,6 @@ class OrganizationWeatherEventTestCase(APITestCase):
         weather_event = WeatherEventFactory()
 
         payload = {
-            'organization': organization.id,
             'weather_event': weather_event.id,
         }
 
