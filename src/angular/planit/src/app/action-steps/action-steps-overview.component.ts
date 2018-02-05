@@ -33,7 +33,7 @@ export class ActionStepsOverviewComponent implements OnInit {
   // Refresh actions, risks and their counts when an action is deleted
   deleteAction(action) {
     this.actionService.delete(action).subscribe(a => {
-      const risk = this.risks.find(r => r.actions && r.actions[0].id === action.id);
+      const risk = this.risks.find(r => r.actions.length > 0 && r.actions[0].id === action.id);
       risk.actions.shift();
     });
   }

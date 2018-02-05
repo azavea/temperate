@@ -37,7 +37,7 @@ export class RiskService {
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
       return vals.map(r => {
-        r.actions = r.actions.map(action => new Action(action))
+        r.actions = r.actions.map(action => new Action(action));
         return new Risk(r);
       });
     });
