@@ -20,11 +20,11 @@
           <!-- Show risks in the order they return, so that a risk always shows at the same
                position. This helps consistency for users. -->
           <ng-container *ngFor="let risk of risks">
-            <as-action-card *ngIf="risk.action"
-                            [action]="risk.action"
+            <as-action-card *ngIf="risk.actions?.length > 0"
+                            [actions]="risk.actions"
                             [risk]="risk"
                             (delete)="deleteAction()"></as-action-card>
-            <as-risk-card *ngIf="!risk.action" [risk]="risk"></as-risk-card>
+            <as-risk-card *ngIf="!risk.actions || risk.actions?.length === 0" [risk]="risk"></as-risk-card>
           </ng-container>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { WeatherEvent } from './weather-event.model';
 
 export class Risk {
   id?: string;
-  action?: Action;
+  actions?: Action[];
   weather_event: WeatherEvent;
   community_system: CommunitySystem;
   impact_magnitude?: OrgRiskRelativeOption;
