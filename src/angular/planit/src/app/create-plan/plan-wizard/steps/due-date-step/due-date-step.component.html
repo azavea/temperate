@@ -24,6 +24,11 @@
              tabindex="1">
       <div *ngIf="form.controls.plan_due_date.errors">
         <span *ngIf="form.controls.plan_due_date.errors.required">*Required</span>
+        <div *ngIf="form.controls.plan_due_date.errors.bsDate">
+          <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
+                     !form.controls.plan_due_date.errors.required">*Invalid date.</span>
+          <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">*Date must be in the future.</span>
+        </div>
       </div>
     </label>
   </div>
