@@ -80,8 +80,51 @@ class OrganizationRiskSerializerTestCase(TestCase):
 
         self.assertFalse(serializer.is_valid())
 
-    def test_create_works_with_organization(self):
-        """Ensure the Serializer works when the data provided does have a organization"""
+    def test_create_requires_weather_event_and_community_system(self):
+        """Ensure the Serializer raises a validation error if weather event and community system
+        are missing from data.
+
+        This is crucial safety wall for the front end/users since allowing weather event
+        and community system to be nullable for the suggested actions feature."""
+        org = OrganizationFactory()
+
+        serializer = OrganizationRiskSerializer(
+            data={'organization': org.id})
+
+        self.assertFalse(serializer.is_valid())
+
+    def test_create_requires_community_system(self):
+        """Ensure the Serializer raises a validation error if community system is missing
+        from data.
+
+        This is crucial safety wall for the front end/users since allowing the field to be
+        nullable for the suggested actions feature."""
+        weather_event = WeatherEventFactory()
+        org = OrganizationFactory()
+
+        serializer = OrganizationRiskSerializer(
+            data={'weather_event': weather_event.id,
+                  'organization': org.id})
+
+        self.assertFalse(serializer.is_valid())
+
+    def test_create_requires_weather_event(self):
+        """Ensure the Serializer raises a validation error if weather event is missing from data.
+
+        This is crucial safety wall for the front end/users since allowing the field to be
+        nullable for the suggested actions feature."""
+        community_system = CommunitySystemFactory()
+        org = OrganizationFactory()
+
+        serializer = OrganizationRiskSerializer(
+            data={'community_system': community_system.id,
+                  'organization': org.id})
+
+        self.assertFalse(serializer.is_valid())
+
+    def test_create_works_with_organization_weather_event_and_community_system(self):
+        """Ensure the Serializer works when the data provided does have a organization, weather
+        event and community system"""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
         org = OrganizationFactory()

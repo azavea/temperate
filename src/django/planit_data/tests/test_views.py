@@ -332,6 +332,52 @@ class OrganizationRiskTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
+    def test_create_organization_risk_requires_weather_event(self):
+        """Ensure front-end users must provide a weatherevent even though we allowed the field to
+        be nullable for the suggested actions feature."""
+        community_system = CommunitySystemFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': ''
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_organization_risk_requires_community_system(self):
+        """Ensure front-end users must provide a community system even though we allowed the field
+        to be nullable for the suggested actions feature."""
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': '',
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_edit_organization_risk(self):
         # Create an organization risk for the user's primary_organization
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
