@@ -1,4 +1,4 @@
-<h3>{{ risk.weather_event.name }} impact on {{ risk.community_system.name }}</h3>
+<h3>{{ risk.weather_event.name }} impact on {{ risk.community_system.name | lowercase }}</h3>
 
 <div>
     Probability: {{ chanceOptions.get(risk.probability)?.label }}
