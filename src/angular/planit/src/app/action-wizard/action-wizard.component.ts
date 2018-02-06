@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -55,8 +55,11 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
     }
 
     this.route.queryParams.take(1).subscribe((params: Params) => {
-      // Jump to the requested step, but default to the front
-      this.startingStep = params['step'] || 0;
+      const indexes = {
+        'review': 5
+      };
+      // Default to the first step if the param doesn't match a valid step
+      this.startingStep = indexes[params['step']] || 0;
     });
 
     this.session.setData(this.action);
