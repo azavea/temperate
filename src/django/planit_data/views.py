@@ -11,18 +11,19 @@ from planit_data.models import (
     Concern,
     OrganizationAction,
     OrganizationRisk,
+    OrganizationWeatherEvent,
     RelatedAdaptiveValue,
     WeatherEvent,
-    WeatherEventRank,
 )
 from planit_data.serializers import (
     ConcernSerializer,
     CommunitySystemSerializer,
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
+    OrganizationWeatherEventSerializer,
+    OrganizationWeatherEventRankSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
-    WeatherEventRankSerializer,
     WeatherEventSerializer,
 )
 from users.models import GeoRegion, PlanItLocation
@@ -80,6 +81,34 @@ class OrganizationActionViewSet(ModelViewSet):
         return self.model_class.objects.filter(organization_risk__organization_id=org_id)
 
 
+class OrganizationWeatherEventViewSet(ModelViewSet):
+
+    model_class = OrganizationWeatherEvent
+    serializer_class = OrganizationWeatherEventSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+    def get_serializer(self, *args, data=None, **kwargs):
+        if data is not None:
+            # if 'data' is a QueryDict it must be copied before being modified
+            data = data.copy() if isinstance(data, QueryDict) else data
+            data['organization'] = self.request.user.primary_organization_id
+            return self.serializer_class(*args, data=data, **kwargs)
+
+        return self.serializer_class(*args, **kwargs)
+
+    def get_queryset(self):
+        org_id = self.request.user.primary_organization_id
+        return self.model_class.objects.filter(organization_id=org_id)
+
+
+class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
+    queryset = RelatedAdaptiveValue.objects.all().order_by('name')
+    serializer_class = RelatedAdaptiveValueSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+
 class SuggestedActionViewSet(ReadOnlyModelViewSet):
     model_class = OrganizationAction
     serializer_class = SuggestedActionSerializer
@@ -110,13 +139,6 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         return queryset
 
 
-class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
-    queryset = RelatedAdaptiveValue.objects.all().order_by('name')
-    serializer_class = RelatedAdaptiveValueSerializer
-    permission_classes = [IsAuthenticated]
-    pagination_class = None
-
-
 class WeatherEventViewSet(ReadOnlyModelViewSet):
     queryset = WeatherEvent.objects.all().order_by('name')
     permission_classes = [IsAuthenticated]
@@ -126,10 +148,10 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
 
 class WeatherEventRankView(APIView):
 
-    model_class = WeatherEventRank
-    # Explicit permission classes because we use request.user in the view
     permission_classes = [IsAuthenticated]
-    serializer_class = WeatherEventRankSerializer
+    serializer_class = OrganizationWeatherEventRankSerializer
+    pagination_class = None
+    # Explicit permission classes because we use request.user in the view
 
     def get(self, request, *args, **kwargs):
         """Return ranked risks based on authenticated user's primary org location."""

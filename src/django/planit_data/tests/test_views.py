@@ -12,12 +12,14 @@ from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
     GeoRegionFactory,
+    OrganizationFactory,
     OrganizationActionFactory,
     OrganizationRiskFactory,
+    OrganizationWeatherEventFactory,
     WeatherEventFactory,
     WeatherEventRankFactory
 )
-from planit_data.models import OrganizationAction, OrganizationRisk
+from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from users.tests.factories import UserFactory
 
 
@@ -104,7 +106,56 @@ class ConcernViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class WeatherEventRankViewTestCase(APITestCase):
+class OrganizationWeatherEventTestCase(APITestCase):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+    def test_list_empty(self):
+        url = reverse('organizationweatherevent-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, [])
+
+    def test_list_filters_by_organization(self):
+        organization = self.user.primary_organization
+        other_organization = OrganizationFactory(name='Other')
+        weather_event = WeatherEventFactory()
+        org_we = OrganizationWeatherEventFactory(organization=organization,
+                                                 weather_event=weather_event)
+        OrganizationWeatherEventFactory(organization=other_organization,
+                                        weather_event=weather_event)
+
+        url = reverse('organizationweatherevent-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['id'], org_we.id)
+
+    def test_post_organization_weather_event(self):
+        organization = self.user.primary_organization
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'weather_event': weather_event.id,
+        }
+
+        url = reverse('organizationweatherevent-list')
+        response = self.client.post(url, data=payload)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        org_we_id = response.json()['id']
+        order = response.json()['order']
+
+        org_we = OrganizationWeatherEvent.objects.get(id=org_we_id)
+        self.assertEqual(org_we.organization, organization)
+        self.assertEqual(org_we.weather_event, weather_event)
+        self.assertEqual(org_we.order, order)
+
+
+class OrganizationWeatherEventRankViewTestCase(APITestCase):
 
     def setUp(self):
         self.user = UserFactory()
@@ -117,9 +168,8 @@ class WeatherEventRankViewTestCase(APITestCase):
         # Create a georegion centered around our location's coordinates
         georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
 
-        # Create a WeatherEventRank that will be associated with our organization
-        weathereventank = WeatherEventRankFactory(georegion=georegion)
-        organization.weather_events.add(weathereventank)
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+        organization.weather_events.add(org_we)
 
         # Create additional WeatherEventRanks for the same georegion that are not associated
         WeatherEventRankFactory.create_batch(2, georegion=georegion)
@@ -127,7 +177,7 @@ class WeatherEventRankViewTestCase(APITestCase):
         url = reverse('weather-event-rank-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = WeatherEventRankView.serializer_class([weathereventank], many=True)
+        serializer = WeatherEventRankView.serializer_class([org_we], many=True)
         self.assertEqual(response.json(), serializer.data)
 
 

@@ -17,6 +17,7 @@ from planit_data.models import (
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
+    OrganizationWeatherEvent,
     WeatherEventRank,
 )
 
@@ -73,7 +74,6 @@ class PlanItOrganization(models.Model):
     plan_due_date = models.DateField(null=True, blank=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
-    weather_events = models.ManyToManyField('planit_data.WeatherEventRank')
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
 
@@ -82,18 +82,17 @@ class PlanItOrganization(models.Model):
 
     def import_weather_events(self):
         georegion = GeoRegion.objects.get_for_point(self.location.point)
-        weather_events = WeatherEventRank.objects.filter(georegion=georegion)
+        weather_event_ranks = WeatherEventRank.objects.filter(georegion=georegion)
 
         if not self.location.is_coastal:
             # For cities not on the coast, exclude Weather Events that only apply to coastal areas
-            weather_events = weather_events.filter(weather_event__coastal_only=False)
+            weather_event_ranks = weather_event_ranks.filter(weather_event__coastal_only=False)
 
-        # Use the many-to-many field's through model to bulk create the weather events this
-        # organization should have by default
-        ThroughModel = self.weather_events.through
-        ThroughModel.objects.bulk_create(
-            ThroughModel(planitorganization_id=self.id, weathereventrank_id=event.id)
-            for event in weather_events
+        OrganizationWeatherEvent.objects.bulk_create(
+            OrganizationWeatherEvent(organization=self,
+                                     weather_event=weather_event_rank.weather_event,
+                                     order=weather_event_rank.order)
+            for weather_event_rank in weather_event_ranks
         )
 
     def import_risks(self):

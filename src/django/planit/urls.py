@@ -39,6 +39,8 @@ router.register(r'actions', planit_data_views.OrganizationActionViewSet,
 router.register(r'suggestions', planit_data_views.SuggestedActionViewSet,
                 base_name='suggestedaction')
 router.register(r'weather-event', planit_data_views.WeatherEventViewSet)
+router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
+                base_name='organizationweatherevent')
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
@@ -49,7 +51,6 @@ urlpatterns = [
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
     url(r'^api/weather-event-rank/$',
         planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
-
 
     url(r'^admin/', admin.site.urls),
 

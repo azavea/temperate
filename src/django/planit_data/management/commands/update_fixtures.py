@@ -24,7 +24,9 @@ FIXTURES = {
     'users': [
         ('test_organizations.json', ['users.planitorganization',
                                      'planit_data.organizationrisk',
-                                     'planit_data.organizationaction'])
+                                     'planit_data.organizationaction',
+                                     'planit_data.weatherevent',
+                                     'planit_data.organizationweatherevent'])
     ]
 }
 

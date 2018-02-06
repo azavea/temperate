@@ -10,6 +10,7 @@ from planit_data.models import (
     Indicator,
     OrganizationAction,
     OrganizationRisk,
+    OrganizationWeatherEvent,
     WeatherEvent,
     WeatherEventRank
 )
@@ -66,6 +67,15 @@ class WeatherEventRankFactory(factory.DjangoModelFactory):
         model = WeatherEventRank
 
     georegion = factory.SubFactory(GeoRegionFactory)
+    weather_event = factory.SubFactory(WeatherEventFactory)
+    order = factory.Sequence(int)
+
+
+class OrganizationWeatherEventFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = OrganizationWeatherEvent
+
+    organization = factory.SubFactory(OrganizationFactory)
     weather_event = factory.SubFactory(WeatherEventFactory)
     order = factory.Sequence(int)
 
