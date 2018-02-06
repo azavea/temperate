@@ -7,8 +7,7 @@
         "plan_due_date": null,
         "units": "IMPERIAL",
         "location": null,
-        "created_by": null,
-        "weather_events": []
+        "created_by": null
     }
 },
 {
@@ -21,15 +20,7 @@
         "location": [
             7
         ],
-        "created_by": null,
-        "weather_events": [
-            28,
-            29,
-            30,
-            31,
-            32,
-            33
-        ]
+        "created_by": null
     }
 },
 {
@@ -42,15 +33,7 @@
         "location": [
             1
         ],
-        "created_by": null,
-        "weather_events": [
-            28,
-            29,
-            30,
-            31,
-            32,
-            33
-        ]
+        "created_by": null
     }
 },
 {
@@ -113,6 +96,114 @@
                 "Technology"
             ]
         ]
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 1,
+    "fields": {
+        "organization": 2,
+        "weather_event": 3,
+        "order": 1
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 2,
+    "fields": {
+        "organization": 2,
+        "weather_event": 17,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 3,
+    "fields": {
+        "organization": 2,
+        "weather_event": 8,
+        "order": 3
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 4,
+    "fields": {
+        "organization": 2,
+        "weather_event": 10,
+        "order": 4
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 5,
+    "fields": {
+        "organization": 2,
+        "weather_event": 18,
+        "order": 5
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 6,
+    "fields": {
+        "organization": 2,
+        "weather_event": 12,
+        "order": 6
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 7,
+    "fields": {
+        "organization": 3,
+        "weather_event": 3,
+        "order": 1
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 8,
+    "fields": {
+        "organization": 3,
+        "weather_event": 17,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 9,
+    "fields": {
+        "organization": 3,
+        "weather_event": 8,
+        "order": 3
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 10,
+    "fields": {
+        "organization": 3,
+        "weather_event": 10,
+        "order": 4
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 11,
+    "fields": {
+        "organization": 3,
+        "weather_event": 18,
+        "order": 5
+    }
+},
+{
+    "model": "planit_data.organizationweatherevent",
+    "pk": 12,
+    "fields": {
+        "organization": 3,
+        "weather_event": 12,
+        "order": 6
     }
 }
 ]
