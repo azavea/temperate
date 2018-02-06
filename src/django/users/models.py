@@ -67,9 +67,6 @@ class PlanItOrganization(models.Model):
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
                      (METRIC, 'metric'),)
 
-    # created by data migration and assigned to users by default
-    DEFAULT_ORGANIZATION = 'User Organization'
-
     name = models.CharField(max_length=256, blank=False, null=False, unique=True)
     plan_due_date = models.DateField(null=True, blank=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
@@ -126,15 +123,6 @@ class PlanItUserManager(BaseUserManager):
         if not email:
             raise ValueError('Email must be set')
 
-        try:
-            # Check if a primary organization was explicitly provided
-            primary_org = extra['primary_organization']
-        except KeyError:
-            # Otherwise use the default organization
-            primary_org = PlanItOrganization.objects.get(
-                name=PlanItOrganization.DEFAULT_ORGANIZATION)
-            extra['primary_organization'] = primary_org
-
         email = self.normalize_email(email)
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
         user.set_password(password)
@@ -142,7 +130,10 @@ class PlanItUserManager(BaseUserManager):
 
         # Add the user's primary organization to their organizations list
         # Need to do this after user.save() since many-to-many fields need a database object
-        user.organizations.add(primary_org)
+        if 'primary_organization' in extra:
+            # Check if a primary organization was explicitly provided
+            primary_org = extra['primary_organization']
+            user.organizations.add(primary_org)
 
         return user
 

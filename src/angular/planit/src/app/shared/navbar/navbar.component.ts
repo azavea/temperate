@@ -16,9 +16,14 @@ export class NavbarComponent {
 
   constructor(public authService: AuthService,
               private modalService: BsModalService,
-              public router: Router) {}
+              private router: Router) {}
 
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {animated: false});
+  }
+
+  private showLink(link: string): boolean {
+    const url = this.router.url;
+    return link !== url && '/create-organization' !== url && '/plan' !== url;
   }
 }

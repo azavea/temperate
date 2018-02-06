@@ -7,7 +7,7 @@ export class User {
   email: string;
   is_active: boolean;
   organizations?: string[];
-  primary_organization: Organization;
+  primary_organization?: Organization;
   city?: number;
 
   constructor(object: Object) {

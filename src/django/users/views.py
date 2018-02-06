@@ -1,7 +1,9 @@
 import logging
+
+from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -119,6 +121,23 @@ class CurrentUserView(APIView):
 
 
 class OrganizationViewSet(ModelViewSet):
-    queryset = PlanItOrganization.objects.all()
+    model_class = PlanItOrganization
     serializer_class = OrganizationSerializer
     permission_classes = (IsAuthenticated,)
+
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        organization = serializer.instance
+        self.request.user.organizations.add(organization)
+        self.request.user.primary_organization = organization
+        self.request.user.save()
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_queryset(self):
+        return self.request.user.organizations.all()

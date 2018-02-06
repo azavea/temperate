@@ -4,10 +4,10 @@
   </div>
   <div class="button-group" *ngIf="authService.isAuthenticated()">
     <a class="button button-primary"
-       *ngIf="router.url !== '/dashboard' && router.url !== '/plan'"
+       *ngIf="showLink('/dashboard')"
        routerLink="/dashboard">Go to Dashboard</a>
     <a class="button button-primary"
-       *ngIf="router.url !== '/indicators' && router.url !== '/plan'"
+       *ngIf="showLink('/indicators')"
        routerLink="/indicators">Indicators</a>
     <app-help-modal></app-help-modal>
     <app-user-dropdown></app-user-dropdown>

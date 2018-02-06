@@ -1,0 +1,28 @@
+<div class="container">
+  <h1 class="text-center">Welcome, {{ user.first_name }}!</h1>
+  <form [formGroup]="form">
+    <wizard #wizard
+            navigationMode="free"
+            navBarLocation="">
+
+      <app-organization-city-step class="wizard-step"
+                                  #cityStep
+                                  wizardStep
+                                  [form]="form"
+                                  navigationSymbol="{{ cityStep.navigationSymbol }}">
+      </app-organization-city-step>
+
+      <app-organization-invite-step class="wizard-step"
+                                    #inviteStep
+                                    wizardStep>
+      </app-organization-invite-step>
+
+      <app-organization-confirm-step class="wizard-step"
+                                     #confirmStep
+                                     [wizard]="wizard"
+                                     [form]="form"
+                                     wizardStep>
+      </app-organization-confirm-step>
+    </wizard>
+  </form>
+</div>

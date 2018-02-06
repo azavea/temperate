@@ -37,12 +37,10 @@ class UserCreationApiTestCase(APITestCase):
 
         self.assertFalse(user.is_active, 'User should not be active until email verified')
 
-        # check user belongs to default organization
-        default_org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
-        self.assertIn(default_org, user.organizations.all(),
-                      'User should belong to default organization')
-        self.assertEqual(user.primary_organization, default_org,
-                         'User should have primary organization set to default organization')
+        # check user has no organizations
+        self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
+        self.assertEqual(user.primary_organization, None,
+                         'User should have no primary organization')
 
     def test_user_created_can_log_in(self):
         user_data = {
@@ -283,6 +281,7 @@ class OrganizationApiTestCase(APITestCase):
         org = PlanItOrganization.objects.create(
             name="Starting Name"
         )
+        self.user.organizations.add(org)
 
         org_data = {
             'name': 'Test Organization',
@@ -305,6 +304,7 @@ class OrganizationApiTestCase(APITestCase):
 
     def test_org_delete_success(self):
         org = PlanItOrganization.objects.create(name='Test Organization')
+        self.user.organizations.add(org)
 
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})
         result = self.client.delete(url)
@@ -336,6 +336,7 @@ class OrganizationApiTestCase(APITestCase):
             created_by=UserFactory(),
             location__api_city_id=7
         )
+        self.user.organizations.add(org)
 
         org_data = {
             'name': 'Test Organization',
@@ -377,6 +378,7 @@ class CsrfTestCase(TestCase):
 
         # Configure test data
         org = PlanItOrganization.objects.create(name='Test Organization')
+        user.organizations.add(org)
 
         # Make a request that doesn't include CSRF token, but does include API token
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})
@@ -424,6 +426,7 @@ class CsrfTestCase(TestCase):
 
         # Configure test data
         org = PlanItOrganization.objects.create(name='Test Organization')
+        user.organizations.add(org)
 
         # Make a request explicitly using token authentication
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})

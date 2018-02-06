@@ -243,7 +243,7 @@ class PlanItUserTestCase(TestCase):
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_active)
 
-        # check user belongs to default organization
-        default_org = PlanItOrganization.objects.get(name=PlanItOrganization.DEFAULT_ORGANIZATION)
-        self.assertIn(default_org, user.organizations.all())
-        self.assertEqual(user.primary_organization, default_org)
+        # check user has no organizations
+        self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
+        self.assertEqual(user.primary_organization, None,
+                         'User should have no primary organization')

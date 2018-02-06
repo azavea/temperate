@@ -21,6 +21,7 @@ import { CoreModule } from './core/core.module';
 import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
+import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
 import { SharedModule } from './shared/shared.module';
 
 import { ActionResolve } from './action-steps/resolvers/action-resolve';
@@ -82,6 +83,7 @@ const appRoutes: Routes = [
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
+    OrganizationWizardModule,
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
     ToastrModule.forRoot(),

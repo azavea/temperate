@@ -43,4 +43,12 @@ export class CityService {
       });
     });
   }
+
+  search(query: string): Observable<City[]> {
+    const url = `${environment.apiUrl}/api/climate-api/api/city/?search=${query}`;
+    return this.apiHttp.get(url).map(resp => {
+      const vals = resp.json().features || [];
+      return vals;
+    });
+  }
 }
