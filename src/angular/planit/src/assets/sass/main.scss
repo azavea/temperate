@@ -4,6 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700');
 
+@import 'ngx-bootstrap';
 @import '~ngx-toastr/toastr';
 
 /* * * *
@@ -74,6 +75,7 @@
   'components/table',
   'components/tooltip',
   'components/chart',
+  'components/create-plan',
   'components/timeslider',
   'components/top-concern',
   'components/typeahead',

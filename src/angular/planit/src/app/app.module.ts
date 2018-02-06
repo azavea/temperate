@@ -18,6 +18,7 @@ import { PageNotFoundComponent } from './not-found.component';
 import { ActionStepsModule } from './action-steps/action-steps.module';
 import { AssessmentModule } from './assessment/assessment.module';
 import { CoreModule } from './core/core.module';
+import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { SharedModule } from './shared/shared.module';
@@ -37,13 +38,17 @@ import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
+import { OrganizationService } from './core/services/organization.service';
+import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
+import { UserResolve } from './core/services/user.resolve';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
+  BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
   CollapseModule,
@@ -72,6 +77,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpModule,
     // 3rd party
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
     CollapseModule.forRoot(),
@@ -90,6 +96,7 @@ const appRoutes: Routes = [
     ChartsModule,
     ActionStepsModule,
     AssessmentModule,
+    CreatePlanModule,
     DashboardModule,
     IndicatorsModule,
     AppRoutingModule
@@ -111,10 +118,13 @@ const appRoutes: Routes = [
     CollaboratorService,
     CommunitySystemService,
     MarketingAuthGuard,
+    OrganizationService,
+    PlanAuthGuard,
     RelatedAdaptiveValueService,
     RiskResolve,
     RiskService,
     SuggestedActionService,
+    UserResolve,
     UserService,
     WeatherEventService,
   ],

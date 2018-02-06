@@ -1,0 +1,42 @@
+<div class="step-header">
+  <h3>Expected finish date</h3>
+</div>
+<div class="step-content">
+  <p>Members of the Global Covenant of Mayors are required to submit their plan once every five years. We recommend keeping plans up to date throughout the year.</p>
+  <form [formGroup]="form">
+    <div class="step-form-control">
+      <label>City
+        <input class="form-control"
+               formControlName="city_name"
+               type="text">
+      </label>
+    </div>
+    <div class="step-form-control">
+      <label>Date *
+        <input class="form-control"
+               formControlName="plan_due_date"
+               type="text"
+               placeholder="mm/dd/yyyy"
+               #dp="bsDatepicker"
+               bsDatepicker [(ngModel)]="planDueDate"
+               [minDate]="minDate"
+               [bsConfig]="{ containerClass: 'theme-default' }"
+               tabindex="1">
+        <div *ngIf="form.controls.plan_due_date.errors">
+          <span *ngIf="form.controls.plan_due_date.errors.required">*Required</span>
+          <div *ngIf="form.controls.plan_due_date.errors.bsDate">
+            <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
+                       !form.controls.plan_due_date.errors.required">*Invalid date.</span>
+            <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">*Date must be in the future.</span>
+          </div>
+        </div>
+      </label>
+    </div>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button"
+          tabindex="3"
+          [disabled]="!form.valid"
+          nextStep>Continue</button>
+</div>
