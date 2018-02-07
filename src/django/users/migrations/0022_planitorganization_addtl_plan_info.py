@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0020_planitlocation_admin'),
+        ('users', '0021_merge_20180202_1956'),
     ]
 
     operations = [

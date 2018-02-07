@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('planit_data', '0021_auto_20180124_1904'),
+        ('planit_data', '0025_rename_org_weather_event_related_field'),
     ]
 
     operations = [

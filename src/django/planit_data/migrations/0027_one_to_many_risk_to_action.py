@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('planit_data', '0022_relax_risk_fields'),
+        ('planit_data', '0026_relax_risk_fields'),
     ]
 
     operations = [
