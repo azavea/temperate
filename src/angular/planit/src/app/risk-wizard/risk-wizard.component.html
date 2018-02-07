@@ -1,10 +1,11 @@
 <wizard #wizard
-        navigationMode="strict"
+        navigationMode="free"
         navBarLocation="left"
         navBarLayout="large-filled-symbols">
   <app-risk-step-identify class="wizard-step"
                           #identifyStep
                           wizardStep
+                          optionalStep
                           [canExit]="identifyStep.save"
                           stepTitle="{{ identifyStep.title }}"
                           navigationSymbol="{{ identifyStep.navigationSymbol }}">
