@@ -66,6 +66,42 @@ wizard {
   .icon-related-indicators {
     float: right;
   }
+
+  &.custom-steps > wizard-navigation-bar {
+    .step-number {
+      position: absolute;
+      top: 0;
+      left: -50px;
+      width: 50px;
+      height: 50px;
+      content: '';
+      text-align: center;
+      vertical-align: middle;
+      line-height: 50px;
+      transition: 0.25s;
+      border-radius: 100%;
+      background-color: #E6E6E6;
+      color: black;
+
+      &.complete {
+        border-color: #49A078;
+        color: white;
+        background-color: #49A078;
+      }
+    }
+
+    li.current, li.editing, li.done:last-child {
+      .step-number {
+        border-color: #6184D8;
+        color: white;
+        background-color: #6184D8;
+      }
+    }
+
+    ul.steps-indicator li:after {
+      display: none;
+    }
+  }
 }
 
 typeahead-container {
