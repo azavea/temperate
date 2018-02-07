@@ -108,13 +108,13 @@ def create_risks_and_actions(actions_file):
 class Command(BaseCommand):
     """Used to import data from Missy's dataset.
 
-    city csv:
-    docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit#gid=489883855
-    actions csv:
-    docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit#gid=1370719142
+    See main project README on where to get the appropriate version of the dataset.
+
+    Usage similar to:
+        ./scripts/manage ingest_missy_dataset <cities_csv> <strategies_csv>
     """
 
-    help = 'imports default from a CSV'
+    help = 'imports suggested actions data from CSVs'
 
     def add_arguments(self, parser):
         parser.add_argument('cities_csv')
