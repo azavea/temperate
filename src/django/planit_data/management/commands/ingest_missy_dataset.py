@@ -4,10 +4,9 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import GEOSGeometry
-from django.db import IntegrityError
 
 
-from geopy.geocoders import Nominatim
+from geopy.geocoders import GoogleV3
 
 from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
 from action_steps.models import ActionCategory
@@ -18,7 +17,8 @@ logger = logging.getLogger('planit_data')
 
 def create_organizations(cities_file):
     """All cities are represented as bare bones organizations."""
-    geo = Nominatim()
+    next(cities_file)  # skip headers
+    geo = GoogleV3()
     city_reader = csv.reader(cities_file)
 
     for row in city_reader:
@@ -34,7 +34,7 @@ def create_organizations(cities_file):
             temperate_location, c = PlanItLocation.objects.get_or_create(point=formatted_point,
                                                                          name=row[0],
                                                                          is_coastal=row[2])
-        except:
+        except Exception:
             continue
 
         org, c = PlanItOrganization.objects.update_or_create(name=row[0],
@@ -71,32 +71,9 @@ def create_risks(org, events, systems):
     return risks
 
 
-def collect_row_risk_data(row):
-    """Collect data used to assemble risks."""
-    events = []
-    systems = []
-
-    hazards = WeatherEvent.objects.all()
-    community_systems = CommunitySystem.objects.all()
-
-    for event in row[2].split(';'):
-        if event:
-            try:
-                events.append(hazards.get(name=event))
-            except ObjectDoesNotExist:
-                continue
-    for system in row[3].split(';'):
-        if system:
-            try:
-                systems.append(community_systems.get(name=system))
-            except ObjectDoesNotExist:
-                continue
-
-    return events, systems
-
-
 def create_risks_and_actions(actions_file):
     """Create an action for each associated risk combination."""
+    next(actions_file)  # skip headers
     actions_reader = csv.reader(actions_file)
 
     for row in actions_reader:
@@ -105,28 +82,27 @@ def create_risks_and_actions(actions_file):
             try:
                 org = PlanItOrganization.objects.get(name=row[0])
             except ObjectDoesNotExist:
+                logger.info('No organization for {}, skipping'.format(row[0]))
                 continue
 
             logger.info('Creating risks for {}'.format(org))
-            events, systems = collect_row_risk_data(row)
+            events = WeatherEvent.objects.filter(name__in=row[2].split(';'))
+            systems = CommunitySystem.objects.filter(name__in=row[3].split(';'))
             row_risks = create_risks(org, events, systems)
 
             logger.info('Creating actions for {}'.format(org))
             for risk in row_risks:
-                action, c = OrganizationAction.objects.get_or_create(organization_risk=risk,
-                                                                     name=row[1],
-                                                                     visibility='public')
+                action, c = OrganizationAction.objects.get_or_create(
+                    organization_risk=risk,
+                    name=row[1],
+                    visibility=OrganizationAction.Visibility.PUBLIC)
 
                 # Unable to bulk add categories and ".add" doesn't prevent duplicates
-                if c is True:
-                    for cat in row[4].split(';'):
-                        try:
-                            cat_uuid = ActionCategory.objects.get(name=cat.title()).id.hex
-                            action.categories.add(cat_uuid)
-                        except (ObjectDoesNotExist, IntegrityError):
-                            continue
-        else:
-            continue
+                if c:
+                    category_names = [cat.title() for cat in row[4].split(';')]
+                    categories = ActionCategory.objects.filter(name__in=category_names)
+                    for cat in categories:
+                        action.categories.add(cat.id.hex)
 
 
 class Command(BaseCommand):
@@ -146,9 +122,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with open(options['cities_csv']) as cities_file:
-            next(cities_file)  # skip headers
             create_organizations(cities_file)
 
         with open(options['actions_csv']) as actions_file:
-            next(actions_file)  # skip headers
             create_risks_and_actions(actions_file)
