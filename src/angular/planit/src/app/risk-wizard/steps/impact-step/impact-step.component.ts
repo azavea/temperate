@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
@@ -25,7 +26,7 @@ export interface ImpactStepFormModel {
 })
 
 export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormModel>
-                                 implements OnInit {
+                                 implements OnDestroy, OnInit {
 
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
@@ -36,6 +37,8 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public relativeOptions = OrgRiskRelativeImpactOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
+
+  private sessionSubscription: Subscription;
 
 
   constructor(protected session: WizardSessionService<Risk>,
@@ -49,6 +52,14 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
     super.ngOnInit();
     this.risk = this.session.getData() || new Risk({});
     this.setupForm(this.fromModel(this.risk));
+    this.setDisabled(this.risk);
+    this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.setDisabled(risk);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   getFormModel(): ImpactStepFormModel {

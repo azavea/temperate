@@ -48,7 +48,11 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
   ngOnInit() {
     super.ngOnInit();
     this.risk = this.session.getData();
-    this.sessionSubscription = this.session.data.subscribe(r => this.risk = r);
+    this.setDisabled(this.risk);
+    this.sessionSubscription = this.session.data.subscribe(r => {
+      this.risk = r;
+      this.setDisabled(this.risk);
+    });
   }
 
   ngOnDestroy() {

@@ -106,11 +106,16 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     return risk;
   }
 
+  shouldSave() {
+    return this.isStepComplete();
+  }
+
   itemSelected(key: string, event: TypeaheadMatch | null) {
     const savedName = this[key] ? this[key].name : null;
     const formName = this.form.controls[key].value;
     if (event !== null || savedName !== formName) {
       this[key] = event && event.item ? event.item : null;
+      this.session.setDataForKey(this.key, this.getFormModel());
     }
   }
 
@@ -122,10 +127,12 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     const val = this.form.controls[key].value;
     const found = options.find(option => option.name === val);
     if (!found) {
+      this[key] = null;
       this.form.controls[key].setErrors({'autocomplete': true});
     } else {
       this[key] = found;
     }
+    this.session.setDataForKey(this.key, this.getFormModel());
   }
 
   isStepComplete() {

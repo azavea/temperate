@@ -1,12 +1,15 @@
-<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event.indicators"
+<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
      tooltip="{{ relatedIndicatorsTooltip() }}">
   <button class="button button-primary button-small"
           [disabled]="!indicators?.length"
           (click)="indicatorsModal.open()">View related indicators</button>
 </div>
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must match a hazard to a community system to complete this step.
+  </p>
   <h3>Hazard</h3>
-  <div *ngIf="risk.weather_event?.name">
+  <div *ngIf="!isDisabled">
     How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
   </div>
 </div>
@@ -15,13 +18,15 @@
     <div class="step-form-control">
       <h5>Probability</h5>
       <app-option-dropdown [control]="form.controls['probability']"
-                           [options]="relativeOptions">
+                           [options]="relativeOptions"
+                           [disabled]="isDisabled">
       </app-option-dropdown>
     </div>
     <div class="step-form-control">
       <h5>Frequency <span class="icon icon-question-circle-o" tooltip="{{ tooltipText.frequency }}"></span></h5>
       <div class="btn-group">
         <button class="btn btn-primary"
+                [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
                 (click)="updateDirectionalControl(form.controls.frequency, opt)">
@@ -33,6 +38,7 @@
       <h5>Intensity <span class="icon icon-question-circle-o" tooltip="{{ tooltipText.intensity }}"></span></h5>
       <div class="btn-group">
         <button class="btn btn-primary"
+                [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
                 (click)="updateDirectionalControl(form.controls.intensity, opt)">
@@ -49,7 +55,7 @@
 
 
 <app-modal-template #indicatorChartModal
-    title="Viewing indicators related to {{ risk.weather_event.name | lowercase }}">
+    title="Viewing indicators related to {{ risk.weather_event?.name | lowercase }}">
 
   <app-force-collapse-chart-container
       [indicators]="indicators"

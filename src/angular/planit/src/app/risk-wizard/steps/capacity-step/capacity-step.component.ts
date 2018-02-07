@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { RelatedAdaptiveValueService } from '../../../core/services/related-adaptive-value.service';
 import { RiskService } from '../../../core/services/risk.service';
@@ -25,7 +26,7 @@ export interface CapacityStepFormModel {
   templateUrl: 'capacity-step.component.html'
 })
 export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepFormModel>
-                                   implements OnInit {
+                                   implements OnDestroy, OnInit {
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Capacity;
   public navigationSymbol = '4';
@@ -37,6 +38,8 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
   public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 
   public adaptiveValues: string[] = [];
+
+  private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
@@ -54,6 +57,14 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
       .subscribe(adaptiveValues => {
         this.adaptiveValues = adaptiveValues.map(av => av.name);
       });
+    this.setDisabled(this.risk);
+    this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.setDisabled(risk);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   fromModel(model: Risk): CapacityStepFormModel {

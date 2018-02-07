@@ -13,6 +13,7 @@ export interface OptionDropdownOption {
 export class OptionDropdownComponent implements OnInit {
 
   @Input() control: FormControl;
+  @Input() disabled = false;
   @Input() options: Map<string, OptionDropdownOption>;
 
   public optionsKeys: string[];

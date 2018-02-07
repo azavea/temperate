@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
+import { Subscription } from 'rxjs/Subscription';
 
 import {
   City,
@@ -38,7 +40,7 @@ interface HazardStepFormModel {
 })
 
 export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormModel>
-                                 implements OnInit {
+                                 implements OnDestroy, OnInit {
 
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
@@ -60,6 +62,8 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   @ViewChild('indicatorChartModal')
   private indicatorsModal: ModalTemplateComponent;
 
+  private sessionSubscription: Subscription;
+
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
@@ -76,7 +80,16 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
     this.cityService.current().subscribe(city => { this.city = city; });
-    this.session.data.subscribe(() => this.updateRiskIndicators());
+    this.setDisabled(this.risk);
+
+    this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.updateRiskIndicators();
+      this.setDisabled(risk);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   getFormModel(): HazardStepFormModel {
@@ -91,7 +104,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   updateRiskIndicators() {
     this.indicatorService.list().subscribe(indicators => {
       this.indicators = indicators.filter(indicator => {
-        if (this.risk.weather_event.indicators) {
+        if (this.risk.weather_event && this.risk.weather_event.indicators) {
           return this.risk.weather_event.indicators.includes(indicator.name);
         } else {
           return false;

@@ -21,6 +21,7 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   public selected = '';
   public availableOptions: Set<string> = new Set();
   public selectedOptions: Set<string> = new Set();
+  public isDisabled = false;
 
   private onChange = (_: any) => { };
 
@@ -63,6 +64,10 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   }
 
   public registerOnTouched(fn: any) {}
+
+  public setDisabledState(isDisabled: boolean) {
+    this.isDisabled = isDisabled;
+  }
 
   private getAvailableOptions() {
     return new Set(this.options.filter(option => !this.selectedOptions.has(option)));
