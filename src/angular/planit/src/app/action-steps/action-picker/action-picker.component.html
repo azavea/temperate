@@ -37,13 +37,20 @@
         <button class="button button-primary"
                 (click)="goToWizard(suggestion)">Choose and customize</button>
       </div>
-      <div class="modal-body col-5" class="pull-right">
-        <p>City: {{suggestion.plan_city}}</p>
-        <p>Date planned: {{suggestion.plan_due_date | date: 'longDate'}}</p>
-        <p>Categories: <i *ngFor="let category of suggestion.categories"
+      <div class="modal-body col-5" class="pull-right action-metadata">
+        <p>City: {{ suggestion.plan_city }}</p>
+        <p *ngIf="suggestion.plan_due_date">
+          Date planned: {{ suggestion.plan_due_date | date: 'longDate' }}
+        </p>
+        <p *ngIf="suggestion.plan_name">Full plan:
+          <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+        </p>
+        <p *ngIf="suggestion.categories?.length">
+          Categories: <i *ngFor="let category of suggestion.categories"
            class="{{ category.icon }}"
            tooltip="{{ category.name }}"
-           placement="bottom"></i></p>
+           placement="bottom"></i>
+        </p>
       </div>
     </div>
     <div class="modal-footer">

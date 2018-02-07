@@ -3,6 +3,8 @@ import { ActionCategory } from './action-category.model';
 export class SuggestedAction {
   plan_city: string;
   plan_due_date: number;
+  plan_hyperlink: string;
+  plan_name: string;
   name: string;
   action_type = '';
   action_goal = '';

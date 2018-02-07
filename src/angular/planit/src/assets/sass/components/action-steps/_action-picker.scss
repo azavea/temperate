@@ -40,6 +40,10 @@
     .suggested-action {
       border: .1px solid $gray-2;
       padding: 15px;
+
+      .action-metadata {
+        max-width: 240px;
+      }
     }
   }
 
