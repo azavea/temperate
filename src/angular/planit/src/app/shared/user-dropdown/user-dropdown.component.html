@@ -4,20 +4,20 @@
   </button>
   <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
     <li role="menuitem">
-      <a class="dropdown-item" href="javascript:">
+      <a class="dropdown-item">
         {{ user.name() }}
         <p class="email">{{ user.email }}</p>
       </a>
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="javascript:">
-        My Profile
+      <a class="dropdown-item" href="javascript:" routerLink="/settings">
+        <i class="icon-cog"></i> Settings
       </a>
     </li>
     <li role="menuitem">
       <a class="dropdown-item" href="javascript:" (click)="logout()">
-        <i class="icon-user-circle-o"></i>
-        Sign out
+        <i class="icon-logout"></i>
+        Log out
       </a>
     </li>
   </ul>
