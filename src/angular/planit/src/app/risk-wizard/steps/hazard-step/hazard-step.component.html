@@ -7,7 +7,7 @@
 <div class="step-header">
   <h3>Hazard</h3>
   <div *ngIf="risk.weather_event?.name">
-    How will <em>{{ risk.weather_event.name }}</em> change over time?
+    How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
   </div>
 </div>
 <div class="step-content">
@@ -49,7 +49,7 @@
 
 
 <app-modal-template #indicatorChartModal
-    title="Viewing indicators related to {{ risk.weather_event.name }}">
+    title="Viewing indicators related to {{ risk.weather_event.name | lowercase }}">
 
   <app-force-collapse-chart-container
       [indicators]="indicators"

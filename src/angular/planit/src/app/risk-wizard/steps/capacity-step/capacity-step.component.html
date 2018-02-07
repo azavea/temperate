@@ -1,6 +1,6 @@
 <div class="step-header">
   <h3>Adaptive Capacity</h3>
-  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name }} on {{ risk.community_system?.name }}</strong> here.
+  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
 </div>
 <div class="step-content">
   <form [formGroup]="form">

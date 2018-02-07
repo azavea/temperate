@@ -13,7 +13,7 @@
   container="body"
   outsideClick="true"
   popoverTitle="{{ risk.weather_event.name }} on {{ risk.community_system.name }}"
-  placement="right">{{ risk.weather_event.name }} on {{ risk.community_system.name }}
+  placement="right">{{ risk.weather_event.name }} on {{ risk.community_system.name | lowercase }}
 </div>
 
 <app-modal-template #indicatorModal
