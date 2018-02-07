@@ -266,41 +266,13 @@ class OrganizationRiskTestCase(APITestCase):
 
     def test_organization_risk_detail_with_actions(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
-        org_action = OrganizationActionFactory(organization_risk=org_risk)
-        org_action2 = OrganizationActionFactory(organization_risk=org_risk)
+        OrganizationActionFactory(organization_risk=org_risk)
+        OrganizationActionFactory(organization_risk=org_risk)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
 
-        self.assertEqual(response.json()['actions'], [{
-            'name': '',
-            'action_goal': '',
-            'action_type': '',
-            'categories': [],
-            'collaborators': [],
-            'funding': '',
-            'id': str(org_action2.id),
-            'risk': str(org_risk.id),
-            'improvements_impacts': '',
-            'implementation_details': '',
-            'implementation_notes': '',
-            'improvements_adaptive_capacity': '',
-            'visibility': 'private',
-        }, {
-            'name': '',
-            'action_goal': '',
-            'action_type': '',
-            'categories': [],
-            'collaborators': [],
-            'funding': '',
-            'id': str(org_action.id),
-            'risk': str(org_risk.id),
-            'improvements_impacts': '',
-            'implementation_details': '',
-            'implementation_notes': '',
-            'improvements_adaptive_capacity': '',
-            'visibility': 'private',
-        }])
+        self.assertEqual(len(response.json()['actions']), 2)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_organization_risk(self):
@@ -653,6 +625,8 @@ class SuggestedActionTestCase(APITestCase):
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
             'plan_due_date': None,
+            'plan_name': '',
+            'plan_hyperlink': '',
             'action_goal': '',
             'action_type': '',
             'collaborators': [],

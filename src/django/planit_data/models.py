@@ -186,18 +186,10 @@ class OrganizationRisk(models.Model):
         unique_together = ('weather_event', 'community_system', 'organization')
 
     def __str__(self):
-        if self.weather_event and self.community_system:
-            return "{}: {} on {}".format(self.organization.name,
-                                         self.weather_event.name,
-                                         self.community_system.name)
-        elif self.weather_event:
-            return "{}: {}".format(self.organization.name,
-                                   self.weather_event.name)
-        elif self.community_system:
-            return "{}: {}".format(self.organization.name,
-                                   self.community_system.name)
-        else:
-            return self.organization.name
+        return "{}: {} on {}".format(
+            self.organization.name,
+            str(self.weather_event or "Any"),
+            str(self.community_system or "Any"))
 
 
 class OrganizationAction(models.Model):
