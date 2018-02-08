@@ -1,13 +1,20 @@
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must match a hazard to a community system to complete this step.
+  </p>
+
   <h3>Adaptive Capacity</h3>
-  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
+  <p *ngIf="!isDisabled">
+    Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
+  </p>
 </div>
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
       <h5>Adaptive Capacity</h5>
         <app-option-dropdown [control]="form.controls['adaptive_capacity']"
-                             [options]="relativeOptions">
+                             [options]="relativeOptions"
+                             [disabled]="isDisabled">
         </app-option-dropdown>
     </div>
     <div class="step-form-control">

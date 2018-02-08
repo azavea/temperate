@@ -1,13 +1,18 @@
 <wizard #wizard
-        navigationMode="strict"
+        navigationMode="free"
         navBarLocation="left"
-        navBarLayout="large-filled-symbols">
+        navBarLayout="large-filled-symbols"
+        class="custom-steps">
   <app-risk-step-identify class="wizard-step"
                           #identifyStep
                           wizardStep
+                          optionalStep
                           [canExit]="identifyStep.save"
-                          stepTitle="{{ identifyStep.title }}"
                           navigationSymbol="{{ identifyStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': identifyStep.isStepComplete()}">1</span>
+      {{ identifyStep.title }}
+    </ng-template>
   </app-risk-step-identify>
 
   <app-risk-step-hazard class="wizard-step"
@@ -15,8 +20,11 @@
                         wizardStep
                         optionalStep
                         [canExit]="hazardStep.save"
-                        stepTitle="{{ hazardStep.title }}"
                         navigationSymbol="{{ hazardStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': hazardStep.isStepComplete()}">2</span>
+      {{ hazardStep.title }}
+    </ng-template>
   </app-risk-step-hazard>
 
   <app-risk-step-impact class="wizard-step"
@@ -24,8 +32,11 @@
                         wizardStep
                         optionalStep
                         [canExit]="impactStep.save"
-                        stepTitle="{{ impactStep.title }}"
                         navigationSymbol="{{ impactStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': impactStep.isStepComplete()}">3</span>
+      {{ impactStep.title }}
+    </ng-template>
   </app-risk-step-impact>
 
   <app-risk-step-capacity class="wizard-step"
@@ -33,15 +44,24 @@
                           wizardStep
                           optionalStep
                           [canExit]="capacityStep.save"
-                          stepTitle="{{ capacityStep.title }}"
                           navigationSymbol="{{ capacityStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': capacityStep.isStepComplete()}">4</span>
+      {{ capacityStep.title }}
+    </ng-template>
   </app-risk-step-capacity>
 
   <app-risk-step-review class="wizard-step"
                         #reviewStep
                         wizardCompletionStep
                         enableBackLinks
-                        stepTitle="{{ reviewStep.title }}"
                         navigationSymbol="{{ reviewStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{
+          'complete': identifyStep.isStepComplete() && hazardStep.isStepComplete()
+                      && impactStep.isStepComplete() && capacityStep.isStepComplete()
+        }">5</span>
+      {{ reviewStep.title }}
+    </ng-template>
   </app-risk-step-review>
 </wizard>

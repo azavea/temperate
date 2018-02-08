@@ -40,8 +40,8 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   public weatherEvents: WeatherEvent[] = [];
   public communitySystems: CommunitySystem[] = [];
 
-  private weather_event: WeatherEvent;
-  private community_system: CommunitySystem;
+  private weather_event: WeatherEvent = null;
+  private community_system: CommunitySystem = null;
 
 
   constructor(protected session: WizardSessionService<Risk>,
@@ -59,8 +59,12 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     const risk = this.session.getData();
     this.setupForm(this.fromModel(risk));
 
-    this.weather_event = risk.weather_event || null;
-    this.community_system = risk.community_system || null;
+    if (risk.weather_event && risk.weather_event.id) {
+      this.weather_event = risk.weather_event;
+    }
+    if (risk.community_system && risk.community_system.id) {
+      this.community_system = risk.community_system;
+    }
 
     this.weatherEventService.list()
       .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
@@ -102,11 +106,16 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     return risk;
   }
 
+  shouldSave() {
+    return this.isStepComplete();
+  }
+
   itemSelected(key: string, event: TypeaheadMatch | null) {
     const savedName = this[key] ? this[key].name : null;
     const formName = this.form.controls[key].value;
     if (event !== null || savedName !== formName) {
       this[key] = event && event.item ? event.item : null;
+      this.session.setDataForKey(this.key, this.getFormModel());
     }
   }
 
@@ -118,9 +127,15 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     const val = this.form.controls[key].value;
     const found = options.find(option => option.name === val);
     if (!found) {
+      this[key] = null;
       this.form.controls[key].setErrors({'autocomplete': true});
     } else {
       this[key] = found;
     }
+    this.session.setDataForKey(this.key, this.getFormModel());
+  }
+
+  isStepComplete() {
+    return !!this.weather_event && !!this.community_system;
   }
 }
