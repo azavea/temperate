@@ -295,6 +295,7 @@ CCAPI_ROUTE_WHITELIST = (
     '^api/indicator/$',
     '^api/scenario/$',
     '^api/city/$',
+    '^api/city/[0-9]+/$',
 )
 
 # Vulnerability Assessment Configuration
