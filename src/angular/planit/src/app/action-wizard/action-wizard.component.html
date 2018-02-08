@@ -12,16 +12,21 @@
   </div>
 </div>
 <wizard #wizard
-        navigationMode="strict"
+        class="custom-steps"
+        navigationMode="free"
         navBarLocation="left"
         navBarLayout="large-empty-symbols">
 
   <app-action-assess-step class="wizard-step"
                           #assessStep
                           wizardStep
+                          optionalStep
                           [canExit]="assessStep.save"
-                          stepTitle="{{ assessStep.title }}"
                           navigationSymbol="{{ assessStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': assessStep.isStepComplete()}">1</span>
+      {{ assessStep.title }}
+    </ng-template>
   </app-action-assess-step>
 
   <app-action-implementation-step class="wizard-step"
@@ -31,6 +36,10 @@
                           [canExit]="implementationStep.save"
                           stepTitle="{{ implementationStep.title }}"
                           navigationSymbol="{{ implementationStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': implementationStep.isStepComplete()}">2</span>
+      {{ implementationStep.title }}
+    </ng-template>
   </app-action-implementation-step>
 
   <app-action-improvements-step class="wizard-step"
@@ -40,6 +49,10 @@
                           [canExit]="improvementsStep.save"
                           stepTitle="{{ improvementsStep.title }}"
                           navigationSymbol="{{ improvementsStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': improvementsStep.isStepComplete()}">3</span>
+      {{ improvementsStep.title }}
+    </ng-template>
   </app-action-improvements-step>
 
   <app-action-category-step class="wizard-step"
@@ -49,6 +62,10 @@
                           [canExit]="categoryStep.save"
                           stepTitle="{{ categoryStep.title }}"
                           navigationSymbol="{{ categoryStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': categoryStep.isStepComplete()}">4</span>
+      {{ categoryStep.title }}
+    </ng-template>
   </app-action-category-step>
 
   <app-action-funding-step class="wizard-step"
@@ -58,6 +75,10 @@
                           [canExit]="fundingStep.save"
                           stepTitle="{{ fundingStep.title }}"
                           navigationSymbol="{{ fundingStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': fundingStep.isStepComplete()}">5</span>
+      {{ fundingStep.title }}
+    </ng-template>
   </app-action-funding-step>
 
   <app-action-review-step class="wizard-step"
@@ -66,6 +87,10 @@
                           enableBackLinks
                           stepTitle="{{ reviewStep.title }}"
                           navigationSymbol="{{ reviewStep.navigationSymbol }}">
+    <ng-template wizardStepTitle>
+      <span class="step-number" [ngClass]="{'complete': allStepsCompleted()}">6</span>
+      {{ reviewStep.title }}
+    </ng-template>
   </app-action-review-step>
 
 </wizard>

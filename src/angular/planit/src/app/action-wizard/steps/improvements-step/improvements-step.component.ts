@@ -81,4 +81,9 @@ export class ImprovementsStepComponent
     model.improvements_impacts = data.improvements_impacts;
     return model;
   }
+
+  isStepComplete() {
+    return !!this.form.controls.improvements_adaptive_capacity.value &&
+      !!this.form.controls.improvements_impacts.value;
+  }
 }

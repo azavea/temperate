@@ -85,5 +85,9 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
     return model;
   }
+
+  isStepComplete(): boolean {
+    return this.form.controls.name.valid;
+  }
 }
 

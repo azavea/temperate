@@ -58,4 +58,10 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
   // this.wizard.navigation and this.wizard.model are not available until this hook
   ngAfterViewInit() {}
 
+  allStepsCompleted(): boolean {
+    return this.assessStep.isStepComplete() && this.implementationStep.isStepComplete() &&
+      this.improvementsStep.isStepComplete() && this.categoryStep.isStepComplete() &&
+      this.fundingStep.isStepComplete();
+  }
+
 }
