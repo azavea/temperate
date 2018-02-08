@@ -10,7 +10,7 @@
         Action
         <button class="button icon-edit" goToStep="0"></button>
       </h4>
-      <p>{{ action.name || '--' }}</p>
+      <p class="review-description">{{ action.name || '--' }}</p>
     </div>
     <div class="review-item">
       <h4>
@@ -43,7 +43,7 @@
         Implementation details
         <button class="button icon-edit" goToStep="1"></button>
       </h4>
-      <p>{{ action.implementation_details || '--' }}</p>
+      <p class="review-description">{{ action.implementation_details || '--' }}</p>
     </div>
     <div class="review-item">
       <h4>
@@ -61,7 +61,7 @@
         Effect on adaptive capacity
         <button class="button icon-edit" goToStep="2"></button>
       </h4>
-      <p>{{ action.improvements_adaptive_capacity || '--' }}</p>
+      <p class="review-description">{{ action.improvements_adaptive_capacity || '--' }}</p>
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.improvements_impacts }">
@@ -69,7 +69,7 @@
         Reduction in potential impact
         <button class="button icon-edit" goToStep="2"></button>
       </h4>
-      <p>{{ action.improvements_impacts || '--' }}</p>
+      <p class="review-description">{{ action.improvements_impacts || '--' }}</p>
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.collaborators }">
@@ -111,7 +111,7 @@
         Funding
         <button class="button icon-edit" goToStep="4"></button>
       </h4>
-      <p>{{ action.funding || '--' }}</p>
+      <p class="review-description">{{ action.funding || '--' }}</p>
     </div>
   </div>
 
