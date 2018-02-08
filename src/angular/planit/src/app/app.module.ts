@@ -22,6 +22,7 @@ import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
+import { SettingsModule } from './settings/settings.module';
 import { SharedModule } from './shared/shared.module';
 
 import { ActionResolve } from './action-steps/resolvers/action-resolve';
@@ -61,9 +62,6 @@ import {
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
-const appRoutes: Routes = [
-];
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -101,6 +99,7 @@ const appRoutes: Routes = [
     CreatePlanModule,
     DashboardModule,
     IndicatorsModule,
+    SettingsModule,
     AppRoutingModule
   ],
   exports: [],
