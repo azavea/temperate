@@ -18,12 +18,18 @@ export class RiskService {
               private indicatorService: IndicatorService) {}
 
   private formatRisk(risk: Risk) {
-    // Django expects pk's for related objects whereas the front end wants the full objs
     const formattedRisk = cloneDeep(risk);
     return Object.assign(formattedRisk, {
+      // Django expects pk's for related objects whereas the front end wants the full objs
       action: formattedRisk.action ? formattedRisk.action.id : null,
       weather_event: formattedRisk.weather_event.id,
-      community_system: formattedRisk.community_system.id
+      community_system: formattedRisk.community_system.id,
+      // Django expects empty strings, not null for choice fields
+      impact_magnitude: formattedRisk.impact_magnitude ? formattedRisk.impact_magnitude : '',
+      adaptive_capacity: formattedRisk.adaptive_capacity ? formattedRisk.adaptive_capacity : '',
+      frequency: formattedRisk.frequency ? formattedRisk.frequency : '',
+      intensity: formattedRisk.intensity ? formattedRisk.intensity : '',
+      probability: formattedRisk.probability ? formattedRisk.probability : '',
     });
   }
 
