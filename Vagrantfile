@@ -6,9 +6,9 @@ Vagrant.require_version ">= 1.8"
 TEMPERATE_SHARED_FOLDER_TYPE = ENV.fetch("TEMPERATE_SHARED_FOLDER_TYPE", "nfs")
 if TEMPERATE_SHARED_FOLDER_TYPE == "nfs"
   if Vagrant::Util::Platform.linux? then
-    TEMPERATE_MOUNT_OPTIONS = ['rw', 'vers=3', 'tcp', 'nolock']
+    TEMPERATE_MOUNT_OPTIONS = ['rw', 'vers=3', 'tcp', 'nolock', 'actimeo=1']
   else
-    TEMPERATE_MOUNT_OPTIONS = ['vers=3', 'udp']
+    TEMPERATE_MOUNT_OPTIONS = ['vers=3', 'udp', 'actimeo=1']
   end
 else
   if ENV.has_key?("TEMPERATE_MOUNT_OPTIONS")
