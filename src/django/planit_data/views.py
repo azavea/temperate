@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
+from djqscsv import render_to_csv_response
 
 from planit_data.models import (
     CommunitySystem,
@@ -27,6 +28,56 @@ from planit_data.serializers import (
     WeatherEventSerializer,
 )
 from users.models import GeoRegion, PlanItLocation
+
+
+class PlanExportView(APIView):
+    """Exports a user's risks and actions for their primary organization
+    in the form of a CSV.
+    """
+    permission_classes = [IsAuthenticated]
+
+    # Mapping of field names to column headers. The keys are also used
+    # to restrict which fields are returned in the query.
+    FIELD_MAPPING = {
+        'organization_risk__weather_event__name': 'Hazard',
+        'organization_risk__community_system__name': 'Community System',
+        'organization_risk__probability': 'Risk Probability',
+        'organization_risk__frequency': 'Risk Frequency',
+        'organization_risk__intensity': 'Risk Intensity',
+        'organization_risk__impact_magnitude': 'Risk Impact Magnitude',
+        'organization_risk__impact_description': 'Risk Impact Description',
+        'organization_risk__adaptive_capacity': 'Risk Adaptive Capacity',
+        'organization_risk__related_adaptive_values': 'Risk Related Adaptive Values',
+        'organization_risk__adaptive_capacity_description': 'Risk Adaptive Capacity Description',
+        'name': 'Action Name',
+        'action_type': 'Action Type',
+        'action_goal': 'Action Goal',
+        'implementation_details': 'Action Implementation Details',
+        'implementation_notes': 'Action Implementation Notes',
+        'improvements_adaptive_capacity': 'Action Adaptive Capacity',
+        'improvements_impacts': 'Action Improvements Impacts',
+        'collaborators': 'Action Collaborators',
+        'funding': 'Action Funding',
+    }
+
+    def get(self, request):
+        user_org = request.user.primary_organization
+        data = OrganizationAction.objects.filter(
+            organization_risk__organization=user_org
+        ).prefetch_related(
+            'organization_risk',
+            'organization_risk__weather_event',
+            'organization_risk__community_system',
+        ).values(
+            *self.FIELD_MAPPING.keys()
+        )
+
+        return render_to_csv_response(
+            data,
+            filename='adaptation_plan',
+            append_datestamp=True,
+            field_header_map=self.FIELD_MAPPING,
+        )
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):

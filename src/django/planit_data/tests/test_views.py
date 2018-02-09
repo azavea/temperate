@@ -3,11 +3,12 @@ from unittest import mock
 
 from django.contrib.gis.geos import Point
 from django.urls import reverse
+from django.test import TestCase, RequestFactory
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from action_steps.models import ActionCategory
-from planit_data.views import WeatherEventRankView
+from planit_data.views import WeatherEventRankView, PlanExportView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
@@ -21,6 +22,29 @@ from planit_data.tests.factories import (
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from users.tests.factories import UserFactory
+
+
+class PlanExportViewTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.factory = RequestFactory()
+
+    def test_csv_contains_correct_columns(self):
+        # Users need to belong to an organization to export a plan
+        OrganizationRiskFactory(organization=self.user.primary_organization)
+
+        request = self.factory.get('/export-plan/')
+        request.user = self.user
+
+        response = PlanExportView.as_view()(request)
+
+        # Convert bytestream to list of strings
+        headers = list(response.streaming_content)[1].decode('utf-8').split(',')
+
+        # Remove newline characters
+        cleaned_headers = [h.strip() for h in headers]
+
+        self.assertEqual(cleaned_headers, list(PlanExportView.FIELD_MAPPING.values()))
 
 
 class ConcernViewSetTestCase(APITestCase):
