@@ -25,7 +25,7 @@ export class CityService {
     return Observable.create((observer) => {
       this.userService.current().subscribe(user => {
         const api_city_id = user.primary_organization.location.properties.api_city_id;
-        const url = `${environment.apiUrl}/api/climate-api/api/city/${api_city_id}`;
+        const url = `${environment.apiUrl}/api/climate-api/api/city/${api_city_id}/`;
         this.apiHttp.get(url).subscribe(resp => {
           const json = resp.json();
           if (json) {
