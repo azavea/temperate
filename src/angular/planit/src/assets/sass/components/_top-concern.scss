@@ -1,12 +1,12 @@
 .top-concerns {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .concern {
   position: relative;
-  flex: 0 0 32%;
-  margin: 0.5%;
+  flex: 0 0 32.66%;
+  margin: 0.33%;
   position: relative;
 
   &:last-child {
