@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 
 
 /**
- * Wrapper for Http that appends authorization headers for requests to the PlanIt backend,
+ * Wrapper for Http that appends authorization headers for requests to the Temperate backend,
  * and redirects unauthorized responses to the homepage.
  */
 @Injectable()
