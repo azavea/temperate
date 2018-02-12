@@ -77,6 +77,7 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
   }
 
   finish() {
-    this.router.navigate(['assessment']);
+    this.router.navigate(['assessment'],
+      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 }

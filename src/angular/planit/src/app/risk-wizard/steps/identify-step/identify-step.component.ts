@@ -73,7 +73,15 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   }
 
   cancel() {
-    this.router.navigate(['assessment']);
+    let params = {};
+    const risk = this.session.getData();
+    // Only direct the user to a filered assessment page if this risk exists -
+    // Otherwise, we may send the user to an empty page
+    if (risk && risk.id) {
+      params['hazard'] = risk.weather_event.id;
+    }
+    this.router.navigate(['assessment'],
+      {'queryParams': params});
   }
 
   fromModel(risk: Risk): IdentifyStepFormModel {
