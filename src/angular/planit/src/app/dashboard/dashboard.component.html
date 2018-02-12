@@ -24,6 +24,8 @@
             [risks]="risks"
             [weatherEvent]="risks[0].weather_event">
         </app-grouped-risk>
+        <button class="button button-primary"
+                (click)="openModal(weatherEventsModal)">Add Hazard</button>
       </div>
       <div class="dashboard-sidebar">
         <app-city-profile-summary></app-city-profile-summary>
@@ -33,3 +35,18 @@
     </section>
   </main>
 </div>
+
+<app-modal-template #weatherEventsModal
+                    [modalOptions]="{ignoreBackdropClick: true, keyboard: false}"
+                    title="Add Hazard">
+  <div class="dashboard-modal-add-hazards">
+    <app-add-weather-events [formControl]="selectedEventsControl"
+                            [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
+    <div class="footer">
+      <button class="button button-secondary"
+              (click)="cancelModal(weatherEventsModal)">Cancel</button>
+      <button class="button button-primary"
+              (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>
+    </div>
+  </div>
+</app-modal-template>

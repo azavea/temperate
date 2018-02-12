@@ -1,0 +1,20 @@
+<div class="list">
+  <h2>Top Concerns</h2>
+  <app-top-concerns [weatherEvents]="selectedEvents" (removed)="remove($event)"></app-top-concerns>
+</div>
+<div class="list">
+  <h2>All hazards</h2>
+  <div class="item"
+      [ngClass]="{selected: isSelected(option)}"
+      *ngFor="let option of weatherEvents"
+      (click)="add(option)">
+    <span *ngIf="isSelected(option)"
+          class="icon icon-ok-circled"></span>
+    <span *ngIf="!isSelected(option)"
+          class="icon icon-plus-circled"
+          tooltip="Add to top concerns"
+          tooltipPlacement="right"></span>
+    <span class="icon icon-help"></span>
+    {{ option.name }}
+  </div>
+</div>
