@@ -3,182 +3,208 @@
     "model": "planit_data.communitysystem",
     "pk": 1,
     "fields": {
-        "name": "Water supply"
+        "name": "Water supply",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 2,
     "fields": {
-        "name": "Wastewater/stormwater management"
+        "name": "Wastewater/stormwater management",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 3,
     "fields": {
-        "name": "Transportation"
+        "name": "Transportation",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 4,
     "fields": {
-        "name": "Agriculture"
+        "name": "Agriculture",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 5,
     "fields": {
-        "name": "Food supply"
+        "name": "Food supply",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 6,
     "fields": {
-        "name": "Emergency management"
+        "name": "Emergency management",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 7,
     "fields": {
-        "name": "Waste management"
+        "name": "Waste management",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 8,
     "fields": {
-        "name": "Public health"
+        "name": "Public health",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 9,
     "fields": {
-        "name": "Emergency services"
+        "name": "Emergency services",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 10,
     "fields": {
-        "name": "Tourism"
+        "name": "Tourism",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 11,
     "fields": {
-        "name": "Recreation"
+        "name": "Recreation",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 12,
     "fields": {
-        "name": "Fisheries"
+        "name": "Fisheries",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 13,
     "fields": {
-        "name": "Forestry"
+        "name": "Forestry",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 14,
     "fields": {
-        "name": "Public safety"
+        "name": "Public safety",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 15,
     "fields": {
-        "name": "Energy delivery"
+        "name": "Energy delivery",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 16,
     "fields": {
-        "name": "Energy"
+        "name": "Energy",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 17,
     "fields": {
-        "name": "Internet and communications"
+        "name": "Internet and communications",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 18,
     "fields": {
-        "name": "Community & culture"
+        "name": "Community & culture",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 19,
     "fields": {
-        "name": "Law and order"
+        "name": "Law and order",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 21,
     "fields": {
-        "name": "Emotional and mental health"
+        "name": "Emotional and mental health",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 22,
     "fields": {
-        "name": "Business continuity"
+        "name": "Business continuity",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 23,
     "fields": {
-        "name": "Housing access"
+        "name": "Housing access",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 24,
     "fields": {
-        "name": "Employment and job access"
+        "name": "Employment and job access",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 25,
     "fields": {
-        "name": "Quality of life"
+        "name": "Quality of life",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 26,
     "fields": {
-        "name": "Ecological function"
+        "name": "Ecological function",
+        "display_class": ""
     }
 },
 {
     "model": "planit_data.communitysystem",
     "pk": 27,
     "fields": {
-        "name": "Industrial operations"
+        "name": "Industrial operations",
+        "display_class": ""
     }
 }
 ]

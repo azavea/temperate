@@ -42,6 +42,7 @@ class CommunitySystem(models.Model):
 
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
+    display_class = models.CharField(max_length=128, blank=True, default='')
 
     def __str__(self):
         return self.name

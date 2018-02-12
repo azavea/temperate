@@ -19,7 +19,7 @@ class CommunitySystemSerializer(serializers.ModelSerializer):
     """Serialize community systems."""
     class Meta:
         model = CommunitySystem
-        fields = ('id', 'name',)
+        fields = ('id', 'name', 'display_class',)
 
 
 class ConcernSerializer(serializers.ModelSerializer):
