@@ -15,16 +15,12 @@ import { Action, Risk } from '../../shared';
 export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
-  @Input() actions: Action[];
+  @Input() action: Action;
   @Output() delete = new EventEmitter<Action>();
-
-  public action: Action;
 
   constructor() { }
 
-  ngOnInit() {
-    this.action = this.actions[0];
-  }
+  ngOnInit() { }
 
   public deleteAction() {
     this.delete.emit(this.action);

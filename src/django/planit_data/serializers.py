@@ -129,8 +129,10 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
                   'categories', 'funding')
 
 
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models."""
+class OrganizationRiskActionsSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models.
+
+    Shows ALL actions."""
     weather_event = WeatherEventField(
         many=False,
         queryset=WeatherEvent.objects.all(),
@@ -142,8 +144,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     actions = OrganizationActionSerializer(
         many=True,
         source='organizationaction_set',
-        read_only=True
-    )
+        read_only=True)
+
     organization = serializers.PrimaryKeyRelatedField(
         many=False,
         queryset=PlanItOrganization.objects.all(),
@@ -159,7 +161,41 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationRisk.objects.all(),
                 fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and Community System'
+                message='There is already a Risk for this Hazard and/or Community System'
+            )
+        ]
+
+
+class OrganizationRiskSerializer(OrganizationRiskActionsSerializer):
+    """Serialize organization risks for viewing, with related models.
+
+    Only show 1 action."""
+
+    action = OrganizationActionSerializer(
+        many=True,
+        source='organizationaction_set',
+        read_only=True)
+
+    def to_representation(self, data):
+        """We only want to handle a 1:1 risk:action for the MVP."""
+        data = super().to_representation(data)
+        actions = data['action']
+        if len(actions):
+            data['action'] = next(iter(actions))
+        else:
+            data['action'] = None
+        return data
+
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
+                  'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
+                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=OrganizationRisk.objects.all(),
+                fields=('organization', 'weather_event', 'community_system'),
+                message='There is already a Risk for this Hazard and/or Community System'
             )
         ]
 
@@ -196,8 +232,6 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
     )
     plan_city = serializers.SerializerMethodField()
     plan_due_date = serializers.SerializerMethodField()
-    plan_name = serializers.SerializerMethodField()
-    plan_hyperlink = serializers.SerializerMethodField()
 
     def get_plan_city(self, obj):
         return str(obj.organization_risk.organization.location)
@@ -205,16 +239,10 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
     def get_plan_due_date(self, obj):
         return obj.organization_risk.organization.plan_due_date
 
-    def get_plan_name(self, obj):
-        return obj.organization_risk.organization.plan_name
-
-    def get_plan_hyperlink(self, obj):
-        return obj.organization_risk.organization.plan_hyperlink
-
     class Meta:
         model = OrganizationAction
-        fields = ('name', 'categories', 'plan_city', 'plan_due_date', 'plan_name', 'plan_hyperlink',
-                  'action_type', 'action_goal', 'implementation_details', 'implementation_notes',
+        fields = ('name', 'categories', 'plan_city', 'plan_due_date', 'action_type',
+                  'action_goal', 'implementation_details', 'implementation_notes',
                   'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
                   'categories')
 

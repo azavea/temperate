@@ -64,13 +64,8 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   numberOfActionsAssessed() {
     return this.risks.reduce((acc, risk) => {
-      if (risk.actions) {
-        return acc + risk.actions.reduce((actions_acc, action) => {
-          const assessed = action.isAssessed() ? 1 : 0;
-          return actions_acc + assessed;
-        }, 0);
-      }
-      return acc;
+      const assessed = risk.action && risk.action.isAssessed() ? 1 : 0;
+      return acc + assessed;
     }, 0);
   }
 

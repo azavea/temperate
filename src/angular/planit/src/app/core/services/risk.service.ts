@@ -20,7 +20,7 @@ export class RiskService {
   private formatRisk(risk: Risk) {
     const formattedRisk = cloneDeep(risk);
     return Object.assign(formattedRisk, {
-      actions: formattedRisk.actions ? formattedRisk.actions : [],
+      action: formattedRisk.action ? formattedRisk.action : null,
       weather_event: formattedRisk.weather_event.id,
       community_system: formattedRisk.community_system.id,
       // Django expects empty strings, not null for choice fields
@@ -37,7 +37,7 @@ export class RiskService {
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
       return vals.map(r => {
-        r.actions = r.actions.map(action => new Action(action));
+        r.action = r.action ? new Action(r.action) : null;
         return new Risk(r);
       });
     });
