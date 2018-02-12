@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 // Import from root doesn't seem to pickup types, so import directly from file
@@ -37,6 +37,8 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @Input() action: Action;
 
+  startingStep = 0;
+
   constructor(private session: WizardSessionService<Action>,
               private actionService: ActionService,
               private riskService: RiskService,
@@ -51,6 +53,14 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
       const riskId: string = this.route.snapshot.paramMap.get('riskid');
       this.action.risk = riskId;
     }
+
+    this.route.queryParams.take(1).subscribe((params: Params) => {
+      const indexes = {
+        'review': 5
+      };
+      // Default to the first step if the param doesn't match a valid step
+      this.startingStep = indexes[params['step']] || 0;
+    });
 
     this.session.setData(this.action);
   }
