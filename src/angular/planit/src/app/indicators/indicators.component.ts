@@ -28,6 +28,7 @@ export class IndicatorsComponent implements OnInit {
   public allIndicators: Indicator[];
   public city: City;
   public filters: WeatherEvent[] = [];
+  public topConcerns: WeatherEvent[];
 
   private MAX_FILTERS = 4;
 
@@ -39,7 +40,10 @@ export class IndicatorsComponent implements OnInit {
     this.cityService.current().subscribe(city => { this.city = city; });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
-    this.weatherEventService.rankedEvents().subscribe(events => this.setupFilters(events));
+    this.weatherEventService.rankedEvents().subscribe(events => {
+      this.topConcerns = events;
+      this.setupFilters(events);
+    });
   }
 
   public indicatorToggled(indicator: string, isOpen: boolean) {

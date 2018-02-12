@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { WeatherEventService } from '../../core/services/weather-event.service';
 import { Concern, WeatherEvent } from '../../shared';
@@ -11,14 +11,14 @@ import { Concern, WeatherEvent } from '../../shared';
 })
 export class TopConcernsComponent implements OnInit {
 
-  weatherEvents: WeatherEvent[];
+  @Input() weatherEvents: WeatherEvent[];
 
-  constructor(private weatherEventService: WeatherEventService) {
-  }
+  @Output() removed = new EventEmitter<WeatherEvent>();
+
+  public showRemove: boolean;
 
   ngOnInit() {
-    this.weatherEventService.rankedEvents()
-      .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
+    this.showRemove = this.removed.observers.length > 0;
   }
 
   format(concern: Concern): string {
@@ -36,6 +36,10 @@ export class TopConcernsComponent implements OnInit {
 
   hasUnits(concern: Concern): boolean {
     return concern.units !== 'count';
+  }
+
+  remove(weatherEvent: WeatherEvent) {
+    this.removed.emit(weatherEvent);
   }
 
   units(concern: Concern): string {
