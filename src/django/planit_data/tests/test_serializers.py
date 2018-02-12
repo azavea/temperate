@@ -80,19 +80,6 @@ class OrganizationRiskSerializerTestCase(TestCase):
 
         self.assertFalse(serializer.is_valid())
 
-    def test_create_requires_weather_event_and_community_system(self):
-        """Ensure the Serializer raises a validation error if weather event and community system
-        are missing from data.
-
-        This is crucial safety wall for the front end/users since allowing weather event
-        and community system to be nullable for the suggested actions feature."""
-        org = OrganizationFactory()
-
-        serializer = OrganizationRiskSerializer(
-            data={'organization': org.id})
-
-        self.assertFalse(serializer.is_valid())
-
     def test_create_requires_community_system(self):
         """Ensure the Serializer raises a validation error if community system is missing
         from data.

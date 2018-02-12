@@ -5,7 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import GEOSGeometry
 
-
 from geopy.geocoders import GoogleV3
 
 from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
@@ -20,6 +19,9 @@ def create_organizations(cities_file):
     next(cities_file)  # skip headers
     geo = GoogleV3()
     city_reader = csv.reader(cities_file)
+    org_count = 0
+
+    logger.info('Creating organizations')
 
     for row in city_reader:
         date = row[3] or None
@@ -35,6 +37,7 @@ def create_organizations(cities_file):
                                                                          name=row[0],
                                                                          is_coastal=row[2])
         except Exception:
+            logger.info('Organization not created for {}'.format(row[0]))
             continue
 
         org, c = PlanItOrganization.objects.update_or_create(name=row[0],
@@ -44,6 +47,10 @@ def create_organizations(cities_file):
                                                              'plan_hyperlink': row[5],
                                                              'location': temperate_location
                                                              })
+        if c:
+            org_count += 1
+
+    return org_count
 
 
 def create_risks(org, events, systems):
@@ -76,33 +83,38 @@ def create_risks_and_actions(actions_file):
     next(actions_file)  # skip headers
     actions_reader = csv.reader(actions_file)
 
+    action_count = 0
+
     for row in actions_reader:
         # We only care about a row if a weather event and/or community system are listed
         if row[2] or row[3]:
             try:
                 org = PlanItOrganization.objects.get(name=row[0])
             except ObjectDoesNotExist:
-                logger.info('No organization for {}, skipping'.format(row[0]))
+                logger.warn('No organization for {}, skipping'.format(row[0]))
                 continue
 
-            logger.info('Creating risks for {}'.format(org))
+            logger.info('Processing risks for {}'.format(org))
             events = WeatherEvent.objects.filter(name__in=row[2].split(';'))
             systems = CommunitySystem.objects.filter(name__in=row[3].split(';'))
             row_risks = create_risks(org, events, systems)
 
-            logger.info('Creating actions for {}'.format(org))
+            logger.info('Processing actions for {}'.format(org))
             for risk in row_risks:
                 action, c = OrganizationAction.objects.get_or_create(
                     organization_risk=risk,
                     name=row[1],
                     visibility=OrganizationAction.Visibility.PUBLIC)
 
-                # Unable to bulk add categories and ".add" doesn't prevent duplicates
+                # Unable to bulk add categories as a list and ".add" doesn't prevent duplicates
                 if c:
+                    action_count += 1
                     category_names = [cat.title() for cat in row[4].split(';')]
                     categories = ActionCategory.objects.filter(name__in=category_names)
                     for cat in categories:
                         action.categories.add(cat.id.hex)
+
+    return action_count
 
 
 class Command(BaseCommand):
@@ -122,7 +134,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with open(options['cities_csv']) as cities_file:
-            create_organizations(cities_file)
+            org_count = create_organizations(cities_file)
 
         with open(options['actions_csv']) as actions_file:
-            create_risks_and_actions(actions_file)
+            action_count = create_risks_and_actions(actions_file)
+
+        logger.info('Ingest complete. Imported {} organizations and {} actions'.format(
+            org_count, action_count))
