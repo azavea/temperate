@@ -42,11 +42,13 @@
         <p *ngIf="suggestion.plan_due_date">
           Date planned: {{ suggestion.plan_due_date | date: 'longDate' }}
         </p>
-        <p *ngIf="suggestion.plan_name && !suggestion.plan_hyperlink">Source:
-          {{ suggestion.plan_name }}
-        </p>
-        <p *ngIf="suggestion.plan_name && suggestion.plan_hyperlink">Source:
-          <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+        <p *ngIf="suggestion.plan_name">
+          <span *ngIf="!suggestion.plan_hyperlink">
+            Source: {{ suggestion.plan_name }}
+          </span>
+          <span *ngIf="suggestion.plan_hyperlink">
+            Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+          </span>
         </p>
         <p *ngIf="suggestion.categories?.length">
           Categories: <i *ngFor="let category of suggestion.categories"

@@ -232,6 +232,8 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
     )
     plan_city = serializers.SerializerMethodField()
     plan_due_date = serializers.SerializerMethodField()
+    plan_name = serializers.SerializerMethodField()
+    plan_hyperlink = serializers.SerializerMethodField()
 
     def get_plan_city(self, obj):
         return str(obj.organization_risk.organization.location)
@@ -239,10 +241,16 @@ class SuggestedActionSerializer(serializers.ModelSerializer):
     def get_plan_due_date(self, obj):
         return obj.organization_risk.organization.plan_due_date
 
+    def get_plan_name(self, obj):
+        return obj.organization_risk.organization.plan_name
+
+    def get_plan_hyperlink(self, obj):
+        return obj.organization_risk.organization.plan_hyperlink
+
     class Meta:
         model = OrganizationAction
-        fields = ('name', 'categories', 'plan_city', 'plan_due_date', 'action_type',
-                  'action_goal', 'implementation_details', 'implementation_notes',
+        fields = ('name', 'categories', 'plan_city', 'plan_due_date', 'plan_name', 'plan_hyperlink',
+                  'action_type', 'action_goal', 'implementation_details', 'implementation_notes',
                   'improvements_adaptive_capacity', 'improvements_impacts', 'collaborators',
                   'categories')
 
