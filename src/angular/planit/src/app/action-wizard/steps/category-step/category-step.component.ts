@@ -21,7 +21,7 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
   public title = 'Categories';
   public key = ActionStepKey.Category;
 
-  public actionCategories: ActionCategory[];
+  public actionCategories: ActionCategory[] = [];
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
@@ -92,6 +92,10 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
   toModel(data: ActionCategory[], model: Action): Action {
     model.categories = data;
     return model;
+  }
+
+  isStepComplete() {
+    return this.getFormModel().length > 0;
   }
 
 }

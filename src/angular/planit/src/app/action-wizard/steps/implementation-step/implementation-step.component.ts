@@ -94,4 +94,8 @@ export class ImplementationStepComponent
     this.form.controls.isPublic.setValue(value);
     this.form.controls.isPublic.markAsDirty();
   }
+
+  isStepComplete() {
+    return !!this.form.controls.action_goal.value && !!this.form.controls.action_type.value;
+  }
 }

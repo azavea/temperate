@@ -60,4 +60,8 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
     model.funding = data.funding;
     return model;
   }
+
+  isStepComplete() {
+    return !!this.form.controls.funding.value;
+  }
 }
