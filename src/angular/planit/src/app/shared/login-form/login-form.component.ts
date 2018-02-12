@@ -16,6 +16,8 @@ export class LoginFormComponent {
 
   public errors: any = {};
 
+  public emailSent: boolean = false;
+
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
   constructor(private authService: AuthService, private router: Router) {
@@ -29,6 +31,18 @@ export class LoginFormComponent {
       },
       error => {
         this.errors = error.json();
+      }
+    );
+  }
+
+  forgotPassword() {
+    this.authService.resetPasswordSendEmail(this.username).subscribe(
+      response => {
+        this.emailSent = true;
+        this.errors = {};
+      },
+      error => {
+        this.errors = error.json().errors;
       }
     );
   }

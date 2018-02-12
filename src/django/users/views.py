@@ -1,11 +1,13 @@
 import logging
 
 from django.db import transaction
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from registration.backends.hmac.views import RegistrationView as BaseRegistrationView
 
@@ -19,7 +21,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from users.serializers import AuthTokenSerializer
 
-from users.forms import UserForm, UserProfileForm
+from users.forms import UserForm, UserProfileForm, PasswordResetInitForm, PasswordResetForm
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
@@ -32,6 +34,46 @@ class RegistrationView(BaseRegistrationView):
     """Extends default Django-registration HMAC view."""
 
     form_class = UserForm
+
+
+class JsonFormView(APIView):
+    def form_valid(self, form):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.data)
+        if form.is_valid():
+            self.form_valid(form)
+            return Response({'status': 'ok'}, content_type='application/json')
+        return Response({'errors': form.errors}, content_type='application/json',
+                        status=400)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PasswordResetInitView(JsonFormView):
+    permission_classes = (AllowAny, )
+    form_class = PasswordResetInitForm
+
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def form_valid(self, form):
+        form.send_email()
+        return Response({'status': 'ok'})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PasswordResetView(JsonFormView):
+    permission_classes = (AllowAny, )
+    form_class = PasswordResetForm
+
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def form_valid(self, form):
+        form.cleaned_data['user'].set_password(form.cleaned_data['password1'])
+        form.cleaned_data['user'].save()
+        return Response({'status': 'ok'})
 
 
 class PlanitHomeView(LoginRequiredMixin, View):

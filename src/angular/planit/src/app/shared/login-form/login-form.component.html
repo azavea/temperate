@@ -36,6 +36,11 @@
           <p>{{ error }}</p>
       </div>
   </div>
+  <div *ngIf="emailSent" class="alert">
+    <p>An email has been sent to the holder of the specified account with password
+    reset instructions, if it exists.
+    </p>
+  </div>
 </div>
 <div class="modal-footer">
   <div class="button-group">
@@ -43,5 +48,7 @@
         (click)="closeModal()" aria-label="Close">Cancel</button>
     <input type="submit" class="button button-primary button-small"
         (click)="submit()" value="Log In" form="form-login">
+    <input type="submit" class="button button-primary button-small"
+        (click)="forgotPassword()" value="Forgot password" form="form-login">
   </div>
 </div>

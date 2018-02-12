@@ -1,4 +1,5 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, OnInit, ViewChild  } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -8,13 +9,23 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   templateUrl: './marketing.component.html',
   styleUrls: []
 })
-export class MarketingComponent {
+export class MarketingComponent implements OnInit {
+  public token: string;
 
+  @ViewChild("passwordResetForm", {read: TemplateRef}) passwordResetForm: TemplateRef<any>;
   public modalRef: BsModalRef;
-  constructor(private modalService: BsModalService) {}
+    constructor(private modalService: BsModalService,
+                private route: ActivatedRoute,
+                private router: Router) {}
 
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {animated: false});
   }
 
+  public ngOnInit() {
+    this.token = this.route.snapshot.paramMap.get('token');
+    if(this.token) {
+      this.openModal(this.passwordResetForm);
+    }
+  }
 }

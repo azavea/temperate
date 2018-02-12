@@ -22,6 +22,7 @@ const routes: Routes = [
     canActivate: [PlanAuthGuard]
   },
   { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
+  { path: 'reset-password/:token', component: MarketingComponent},
   { path: 'methodology', component: MethodologyComponent, canActivate: [PreviousRouteGuard] },
   {
     path: 'subscription',
