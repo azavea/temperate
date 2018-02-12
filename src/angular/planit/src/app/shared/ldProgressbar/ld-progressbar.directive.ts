@@ -66,7 +66,8 @@ export class LDProgressbarDirective implements AfterViewInit, OnChanges {
       const originalLabel = this.element.nativeElement.getElementsByClassName('ldBar-label')[0];
       originalLabel.style.display = 'none';
       const numberLabel = document.createElement('div');
-      numberLabel.classList.add('ldBar-label', 'ldBar-label-number');
+      numberLabel.classList.add('ldBar-label');
+      numberLabel.classList.add('ldBar-label-number');
       this.element.nativeElement.appendChild(numberLabel);
     }
 
