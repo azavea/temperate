@@ -55,10 +55,11 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
         'risk': risk,
         'name': `${risk.weather_event.name} on ${risk.community_system.name}`};
     });
-}
+  }
 
   cancel () {
-    this.router.navigate(['actions']);
+    this.router.navigate(['actions'],
+      {'queryParams': {'hazard': this.namedRisk.risk.weather_event.id}});
   }
 
   fromModel(action: Action): AssessStepFormModel {
@@ -90,4 +91,3 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
     return this.form.controls.name.valid;
   }
 }
-
