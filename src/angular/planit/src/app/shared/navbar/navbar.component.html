@@ -9,7 +9,6 @@
     <a class="button button-primary"
        *ngIf="showLink('/indicators')"
        routerLink="/indicators">Indicators</a>
-    <app-help-modal></app-help-modal>
     <app-user-dropdown></app-user-dropdown>
   </div>
   <div class="button-group" *ngIf="!authService.isAuthenticated()">

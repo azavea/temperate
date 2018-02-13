@@ -1,6 +1,4 @@
-<button type="button"
-        class="button button-primary contact-iclei"
-        (click)="openModal(template)">Contact ICLEI</button>
+<div (click)="openModal(template)"><i class="contact-iclei icon-help-circled"></i></div>
 
 <ng-template #template>
   <div class="modal-header">
@@ -8,32 +6,83 @@
   </div>
   <div class="modal-body">
     <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
-    <form id="form-contact">
-      <fieldset id="reason">
-        <legend>Select your reason for contacting ICLEI:</legend>
 
-        <!-- Help -->
-        <input id="help" type="radio" name="reason" value="help">
-        <label for="help">I need help</label><br>
-
-        <!-- Help -->
-        <input id="feedback" type="radio" name="reason" value="feedback">
-        <label for="feedback">I have feedback</label><br>
-
-        <input id="other" type="radio" name="reason" value="other">
-        <label for="other">Other</label>
-      </fieldset>
-
-      <!-- Comment -->
-      <label for="comment">Enter your concerns here:</label><br>
-      <textarea id="comment" name="addresstext"></textarea>
+    <form id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+      <input type=hidden name="orgid" value="00D700000008ZTW">
+      <input type=hidden name="retURL" value="http://icleiusa.org">
+      <!--  ----------------------------------------------------------------------  -->
+      <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+      <!--  these lines if you wish to test in debug mode.                          -->
+      <!--      <input type="hidden" name="debug" value=1>
+                <input type="hidden" name="debugEmail"
+                value="michael.steinhoff@iclei.org">                                -->
+      <!--  ----------------------------------------------------------------------  -->
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="name">Name</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="name" maxlength="80" name="name" type="text"
+              value="{{ user.first_name }} {{ user.last_name }}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="email">Email</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="email" maxlength="80" name="email" size="20" type="text"
+              value="{{ user.email }}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="city">City</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="city" maxlength="80" name="city" size="20" type="text"
+              value="{{ user.primary_organization.location.properties.name }}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="org">Organization</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="city" maxlength="80" name="city" size="20" type="text"
+              value="{{ user.primary_organization.name }}">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="city">Subject</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="subject" maxlength="200" name="subject" size="20" type="text"
+              value="I need some help with Temperate">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="city">Description</label>
+          </div>
+          <div class="col-sm-5">
+            <textarea name="description"></textarea>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="route" name="route" value="{{ router.routerState.snapshot.url }}">
+      <input type="hidden" id="recordType" name="recordType" value="0120g000000cfLg">
+      <input type="hidden" id="external" name="external" value="1">
     </form>
+    <footer class="modal-footer">
+      <div class="button-group">
+        <button type="button" class="button button-secondary button-small"
+          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
+        <input form="help" type="submit" class="button button-primary button-small" name="Submit"
+          (click)="modalRef.hide()">
+      </div>
+    </footer>
   </div>
-  <footer class="modal-footer">
-    <div class="button-group">
-      <button type="button" class="button button-secondary button-small"
-              data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
-      <input type="submit" class="button button-primary button-small" value="Send" form="form-contact">
-    </div>
-  </footer>
 </ng-template>
