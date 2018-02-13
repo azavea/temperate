@@ -335,8 +335,12 @@ class WeatherEventRank(models.Model):
 
 
 class OrganizationWeatherEvent(models.Model):
-    """Organization specific ranked weather events."""
+    """Organization specific ranked weather events.
 
+    To preserve user data, deleting an instance of this model will not delete any related
+    OrganizationRisk objects.
+
+    """
     organization = models.ForeignKey('users.PlanItOrganization', related_name='weather_events')
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()
