@@ -1,4 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked,
+         ChangeDetectorRef,
+         Component,
+         Input,
+         OnInit,
+         ViewChild } from '@angular/core';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -17,7 +22,7 @@ import { ReviewStepComponent } from './steps/review-step/review-step.component';
   templateUrl: 'risk-wizard.component.html',
   providers: [WizardSessionService]
 })
-export class RiskWizardComponent implements OnInit {
+export class RiskWizardComponent implements OnInit, AfterViewChecked {
   // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
 
   @ViewChild(WizardComponent) public wizard: WizardComponent;
@@ -29,7 +34,12 @@ export class RiskWizardComponent implements OnInit {
 
   @Input() risk: Risk;
 
-  constructor(private session: WizardSessionService<Risk>) {}
+  constructor(private session: WizardSessionService<Risk>,
+              private changeDetector: ChangeDetectorRef) {}
+
+  ngAfterViewChecked() {
+    this.changeDetector.detectChanges();
+  }
 
   ngOnInit() {
     if (!this.risk) {

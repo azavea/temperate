@@ -1,3 +1,12 @@
+<div class="container wizard-header"
+      *ngIf="identifyStep.weather_event?.name && identifyStep.community_system?.name">
+  <p class="row">Assess the effect of</p>
+  <div class="row">
+    <h2>
+      {{ identifyStep.weather_event.name }} on {{ identifyStep.community_system.name }}
+    </h2>
+  </div>
+</div>
 <wizard #wizard
         navigationMode="free"
         navBarLocation="left"
