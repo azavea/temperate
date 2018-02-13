@@ -65,7 +65,7 @@
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
                   <li role="menuitem">
-                    <a class="dropdown-item" [routerLink]="['risk', risk.id]">View</a>
+                    <a class="dropdown-item" [routerLink]="['risk', risk.id]" [queryParams]="{goToStep:4}">View</a>
                   </li>
                   <li role="menuitem">
                     <a class="dropdown-item" [routerLink]="['risk', risk.id]">Edit</a>
