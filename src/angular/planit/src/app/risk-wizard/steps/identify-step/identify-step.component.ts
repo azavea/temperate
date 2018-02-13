@@ -13,6 +13,7 @@ import {
 } from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WeatherEventService } from '../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
@@ -50,7 +51,8 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
               protected fb: FormBuilder,
               private router: Router,
               private weatherEventService: WeatherEventService,
-              private communitySystemService: CommunitySystemService) {
+              private communitySystemService: CommunitySystemService,
+              private previousRouteGuard: PreviousRouteGuard) {
     super(session, riskService, toastr);
   }
 
@@ -73,15 +75,8 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   }
 
   cancel() {
-    let params = {};
-    const risk = this.session.getData();
-    // Only direct the user to a filered assessment page if this risk exists -
-    // Otherwise, we may send the user to an empty page
-    if (risk && risk.id) {
-      params['hazard'] = risk.weather_event.id;
-    }
-    this.router.navigate(['assessment'],
-      {'queryParams': params});
+    this.router.navigate([ this.previousRouteGuard.previousUrl ],
+    {'queryParams': this.previousRouteGuard.previousQueryParams});
   }
 
   fromModel(risk: Risk): IdentifyStepFormModel {
