@@ -23,4 +23,9 @@ export class ModalTemplateComponent {
   public close() {
     this.modalRef.hide();
   }
+
+  public get isCloseVisible() {
+    const options = Object.assign({}, this.defaults, this.modalOptions);
+    return !options.ignoreBackdropClick || options.keyboard !== false;
+  }
 }
