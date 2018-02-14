@@ -1,4 +1,6 @@
-<div (click)="openModal(template)"><i class="contact-iclei icon-help-circled"></i></div>
+<a (click)="openModal(template)">
+  <i class="contact-iclei icon-help-circled"></i>
+</a>
 
 <ng-template #template>
   <div class="modal-header">
@@ -6,17 +8,11 @@
   </div>
   <div class="modal-body">
     <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
-
-    <form id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+    <iframe name="help-iframe" id="help-iframe" src="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
+    </iframe>
+    <form ngNoForm id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST" target="help-iframe">
       <input type=hidden name="orgid" value="00D700000008ZTW">
-      <input type=hidden name="retURL" value="http://icleiusa.org">
-      <!--  ----------------------------------------------------------------------  -->
-      <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
-      <!--  these lines if you wish to test in debug mode.                          -->
-      <!--      <input type="hidden" name="debug" value=1>
-                <input type="hidden" name="debugEmail"
-                value="michael.steinhoff@iclei.org">                                -->
-      <!--  ----------------------------------------------------------------------  -->
+      <input type=hidden name="retURL" value="{{ url }}">
       <div class="container">
         <div class="row">
           <div class="col-sm-2">
@@ -72,7 +68,6 @@
           </div>
         </div>
       </div>
-      <input type="hidden" id="route" name="route" value="{{ router.routerState.snapshot.url }}">
       <input type="hidden" id="recordType" name="recordType" value="0120g000000cfLg">
       <input type="hidden" id="external" name="external" value="1">
     </form>
