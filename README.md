@@ -1,4 +1,4 @@
-# ICLEI PlanIt
+# ICLEI Temperate
 
 ### Requirements
 
