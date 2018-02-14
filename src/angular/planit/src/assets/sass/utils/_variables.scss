@@ -32,18 +32,29 @@ $border-radius: 2px;
  * Colors
  *
  * * * */
-$neutral-0: lighten(#D9D9DE, 10%);
-$neutral-1: #d2dcea;
-$neutral-2: #688ab7;
-$neutral-3: #3D5A80;
-$neutral-4: #2a3e58;
-$neutral-5: #172230;
+$brand-evergreen: #15514b;
+$brand-teal: #46b6ae;
+$brand-black: #032a1d;
+$brand-leaf: #85c005;
+$brand-persimmon: #ed5c14;
+$brand-saffron: #f2c706;
 
-$brand-primary: #6184D8;
-$brand-secondary: $neutral-3;
-$brand-positive: #49A078;
-$brand-danger: #FF3E41;
-$brand-warning: #F7B32B;
+$brand-primary: $brand-evergreen;
+$brand-secondary: $brand-teal;
+$brand-positive: $brand-leaf;
+$brand-warning: $brand-saffron;
+$brand-danger: $brand-persimmon;
+
+$white: #fff;
+$gray: #f2f2f2;
+$black: $brand-black;
+
+$neutral-0: #fafaf9;
+$neutral-1: #ededeb;
+$neutral-2: #c9c9c3;
+$neutral-3: #a4a49a;
+$neutral-4: #7e7e71;
+$neutral-5: #363630;
 
 $border-color: #D9D9DE;
 
