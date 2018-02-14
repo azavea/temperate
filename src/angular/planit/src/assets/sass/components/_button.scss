@@ -70,7 +70,7 @@
   line-height: 1.5;
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
-  background-color: #fff;
+  background-color: $white;
   color: $neutral-4;
   box-shadow: none;
   border: none;
@@ -127,7 +127,7 @@
 }
 
 .button-danger {
-  color: #fff;
+  color: $white;
   background-color: $brand-danger;
   border: 3px solid darken($brand-danger, 5%);
 
@@ -135,7 +135,7 @@
 }
 
 .button-warning {
-  color: #fff;
+  color: $white;
   background-color: $brand-warning;
   border: 3px solid darken($brand-warning, 5%);
 

@@ -85,21 +85,21 @@ wizard {
       line-height: 50px;
       transition: 0.25s;
       border-radius: 100%;
-      background-color: #E6E6E6;
+      background-color: $neutral-1;
       color: black;
 
       &.complete {
-        border-color: #49A078;
+        border-color: $brand-positive;
         color: $white;
-        background-color: #49A078;
+        background-color: $brand-positive;
       }
     }
 
     li.current, li.editing, li.done:last-child {
       .step-number {
-        border-color: #6184D8;
+        border-color: $brand-secondary;
         color: $white;
-        background-color: #6184D8;
+        background-color: $brand-secondary;
       }
     }
 

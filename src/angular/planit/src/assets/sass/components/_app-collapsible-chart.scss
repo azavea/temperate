@@ -5,7 +5,7 @@ app-collapsible-chart {
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
-    padding: $space-small 0; 
+    padding: $space-small 0;
   }
   .chart-controls > .chart-toggle {
     display: flex;
@@ -56,7 +56,7 @@ app-indicator-chart {
     padding-left: 0.75rem;
     box-shadow: none;
     border-radius: $field-border-radius;
-    border: 1px solid #d2dcea;
+    border: 1px solid $neutral-2;
 
     &:focus {
       outline: none;

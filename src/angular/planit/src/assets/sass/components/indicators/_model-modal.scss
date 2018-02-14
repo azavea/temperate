@@ -3,11 +3,11 @@
 
   button {
     padding: 0;
-    color: #777;
+    color: $neutral-4;
     border-width: 0;
     box-shadow: none !important;
     &:not(:last-child) {
-      border-right: 1px solid #ddd;
+      border-right: 1px solid $neutral-2;
       border-radius: 0;
       padding-right: 10px;
       margin-right: 5px;

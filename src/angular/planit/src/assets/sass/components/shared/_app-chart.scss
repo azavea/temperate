@@ -45,7 +45,7 @@ app-chart {
   .chart-legend {
     padding: 2rem;
     padding-top: 0;
-    color: #757575;
+    color: $neutral-4;
     font-size: 12px;
 
     .chart-legend-line {
@@ -138,8 +138,8 @@ app-chart {
           height: 35px;
           width: 35px;
           float: left;
-          background-color: #e0e0e0;
-          border: 1px solid #c1c1c1;
+          background-color: $neutral-1;
+          border: 1px solid $neutral-2;
         }
 
         .curl-label {
@@ -148,9 +148,9 @@ app-chart {
       }
 
       .dropdown-toggle {
-        background-color: #e0e0e0;
+        background-color: $neutral-1;
         padding: 0.4rem 0.7rem 0.4rem 0.5rem;
-        border-color: #c1c1c1;
+        border-color: $neutral-2;
       }
 
       .optional-parameters-label {
@@ -185,8 +185,8 @@ app-chart {
 
         font-size: 14px;
         text-align: left;
-        background-color: #ffffff;
-        border: 1px solid #cccccc;
+        background-color: $white;
+        border: 1px solid $neutral-2;
         border: 1px solid rgba(0, 0, 0, 0.15);
 
         box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.05);
@@ -293,17 +293,17 @@ app-chart {
   g {
     circle {
       fill: $brand-primary;
-      stroke: #fff;
+      stroke: $white;
       stroke-width: 2px;
     }
 
     .scrubber-box {
-      fill: #000;
+      fill: $black;
     }
 
     .scrubber-text {
-      fill: #fff;
-      stroke: #fff;
+      fill: $white;
+      stroke: $white;
       font-weight: $font-weight-light;
     }
   }
@@ -313,7 +313,7 @@ app-chart {
   }
 
   .chart-controls {
-    color: #000;
+    color: $black;
 
     .controls-header {
       .controls-label {

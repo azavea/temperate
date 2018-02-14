@@ -56,7 +56,14 @@ $neutral-3: #a4a49a;
 $neutral-4: #7e7e71;
 $neutral-5: #363630;
 
-$border-color: #D9D9DE;
+$border-color: $neutral-1;
+
+// TODO Revisit these
+$adaptive-need-high: $brand-danger;
+$adaptive-need-mod-high: #f75824;
+$adaptive-need-mod: #fa8530;
+$adaptive-need-mod-low: #f7a526;
+$adaptive-need-low: $brand-warning;
 
 
 /* * * *
@@ -102,7 +109,7 @@ $font-size-base: 16px;
 $link-color: $brand-primary;
 $font-size-body: $font-size-base;
 $body-line-height: 1.5;
-$body-font-color: #666;
+$body-font-color: $neutral-5;
 $body-font-weight: $font-weight-regular;
 $body-font-family: National, Arial, sans-serif;
 $monospace-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -212,7 +219,7 @@ $alert-ghost-style: true;
 $alert-font-size: $font-size-body;
 $alert-heading-font-size: $font-size-body;
 $alert-heading-font-weight: $heading-font-weight;
-$alert-font-color: #fff;
+$alert-font-color: $white;
 
 
 /* * * *
@@ -225,7 +232,7 @@ $popover-border-radius: 3px;
 $popover-font-size: $font-size-body;
 $popover-heading-font-size: $font-size-body;
 $popover-font-color: $heading-font-color;
-$popover-background-color: #fff;
+$popover-background-color: $white;
 $popover-margin: 7px;
 $popover-max-width: 28rem;
 $popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
@@ -238,22 +245,22 @@ $popover-arrow: 8px;
  *
  * * * */
 
-$chart-line: #3D57FF;
+$chart-line: $brand-teal;
 $chart-minmax: $chart-line;
-$chart-trendline: #d44a34;
-$chart-min-bar: #41424d;
-$chart-max-bar: #f3b32f;
-$chart-axis: #757575;
-$chart-grid: #e3e3e3;
+$chart-trendline: $brand-persimmon;
+$chart-min-bar: $neutral-5;
+$chart-max-bar: $brand-saffron;
+$chart-axis: $neutral-4;
+$chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
-$color-header: #32323C;
+$color-header: $neutral-5;
 
 
 /* * * *
  * Cards
  *
  * * * */
-$card-toggle-background: #fff;
+$card-toggle-background: $white;
 $card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
 
