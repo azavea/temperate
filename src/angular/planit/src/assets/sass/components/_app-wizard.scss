@@ -90,7 +90,7 @@ wizard {
 
       &.complete {
         border-color: #49A078;
-        color: white;
+        color: $white;
         background-color: #49A078;
       }
     }
@@ -98,7 +98,7 @@ wizard {
     li.current, li.editing, li.done:last-child {
       .step-number {
         border-color: #6184D8;
-        color: white;
+        color: $white;
         background-color: #6184D8;
       }
     }

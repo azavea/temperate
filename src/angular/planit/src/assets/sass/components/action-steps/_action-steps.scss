@@ -7,7 +7,7 @@
 
 .take-action {
   background-color: $brand-positive;
-  color: white;
+  color: $white;
 }
 
 .action-category-card {
@@ -25,13 +25,13 @@
 
   &.selected {
     background-color: $neutral-4;
-    color: white;
+    color: $white;
   }
 }
 
 .action-categories {
   .row {
-    background-color: white;
+    background-color: $white;
   }
 }
 

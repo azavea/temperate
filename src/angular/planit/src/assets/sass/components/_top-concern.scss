@@ -52,7 +52,7 @@
 
 .concern-options {
   position: absolute;
-  background-color: white;
+  background-color: $white;
   width: auto;
   right: 1rem;
   top: 1rem;
@@ -76,12 +76,13 @@
 }
 
 .concern-data {
-  color: white;
+  color: $white;
   position: absolute;
   bottom: 1rem;
   left: 1rem;
   z-index: 2;
 }
+
 .concern-stats{
   .stat {
     display: flex;
@@ -93,7 +94,7 @@
     }
 
     .button {
-      color: white;
+      color: $white;
       padding: 0.5rem;
 
       &:hover, &.hover,
@@ -117,6 +118,7 @@
     font-size: $text-large;
   }
 }
+
 .concern-name {
   font-size: $text-medium;
 }

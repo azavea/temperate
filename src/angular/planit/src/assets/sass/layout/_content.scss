@@ -70,7 +70,7 @@
     background-color: $neutral-4;
 
     .heading {
-      color: white;
+      color: $white;
     }
     p {
       color: $neutral-1;
@@ -88,7 +88,7 @@
 }
 .light-content {
   > * {
-    color: white;
+    color: $white;
   }
 }
 .hero-content {
