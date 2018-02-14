@@ -8,7 +8,7 @@ import { RelatedAdaptiveValueService } from '../../../core/services/related-adap
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
-  OrgRiskRelativeChanceOptions,
+  OrgRiskAdaptiveCapacityOptions,
   OrgRiskRelativeOption,
   Risk
 } from '../../../shared/';
@@ -33,7 +33,7 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
   public title = 'Adaptive capacity';
   public risk: Risk;
 
-  public relativeOptions = OrgRiskRelativeChanceOptions;
+  public capacityOptions = OrgRiskAdaptiveCapacityOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 

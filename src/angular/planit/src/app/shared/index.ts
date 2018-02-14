@@ -25,5 +25,6 @@ export {
 export { OrgRiskRelativeOption } from './models/org-risk-relative-option.model';
 export { OrgRiskRelativeChanceOptions } from './models/org-risk-relative-chance-options.model';
 export { OrgRiskRelativeImpactOptions } from './models/org-risk-relative-impact-options.model';
+export { OrgRiskAdaptiveCapacityOptions } from './models/org-risk-adaptive-capacity-options.model';
 
 export { WizardStepComponent } from './wizard/wizard-step.component';
