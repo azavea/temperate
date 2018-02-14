@@ -43,6 +43,7 @@ import { DownloadService } from './core/services/download.service';
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
@@ -123,6 +124,7 @@ import { AppRoutingModule } from './app-routing.module';
     MarketingAuthGuard,
     OrganizationService,
     PlanAuthGuard,
+    PreviousRouteGuard,
     RelatedAdaptiveValueService,
     RiskResolve,
     RiskService,
