@@ -34,8 +34,6 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
   public risk: Risk;
 
   public capacityOptions = OrgRiskAdaptiveCapacityOptions;
-  // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
 
   public adaptiveValues: string[] = [];
 
