@@ -1,7 +1,7 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <header>
-      <a href="javascript:">Back</a>
+      <a [routerLink]="[previousUrl]" [queryParams]="previousParams" *ngIf="previousPage">Back to {{ previousPage }}</a>
       <h1 class="heading">Settings</h1>
     </header>
     <section>
