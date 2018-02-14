@@ -29,6 +29,10 @@ export class TopConcernsComponent {
     }
   }
 
+  hasConcern(weatherEvent: WeatherEvent) {
+    return weatherEvent.concern && typeof weatherEvent.concern === 'object';
+  }
+
   hasUnits(concern: Concern): boolean {
     return concern.units !== 'count';
   }

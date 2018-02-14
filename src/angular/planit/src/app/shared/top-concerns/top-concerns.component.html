@@ -9,17 +9,19 @@
                 title="Remove from top concerns"
                 (click)="remove(weatherEvent)"><i class="icon-trash"></i></button>
       </div>
-      <div class="concern-name" *ngIf="!weatherEvent.concern">
-        {{ weatherEvent.name }}
-      </div>
-      <div class="concern-stats" *ngIf="!!weatherEvent.concern">
-        <div class="stat">
-          <div class="number">{{ format(weatherEvent.concern) }}</div>
-          <div class="unit" *ngIf="hasUnits(weatherEvent.concern)">
-            {{ units(weatherEvent.concern) }}
-          </div>
+      <div class="concern-data">
+        <div class="concern-name">
+          {{ weatherEvent.name }}
         </div>
-        <div class="stat-description">{{ weatherEvent.concern.tagline }}</div>
+        <div class="concern-stats" *ngIf="hasConcern(weatherEvent)">
+          <div class="stat">
+            <div class="number">{{ format(weatherEvent.concern) }}</div>
+            <div class="unit" *ngIf="hasUnits(weatherEvent.concern)">
+              {{ units(weatherEvent.concern) }}
+            </div>
+          </div>
+          <div class="stat-description">{{ weatherEvent.concern.tagline }}</div>
+        </div>
       </div>
     </div>
   </div>
