@@ -8,7 +8,7 @@
     text-align: left;
 
     th, td {
-      font-weight: 600;
+      font-weight: $font-weight-bold;
     }
   }
 
@@ -34,7 +34,7 @@
 
 .table-mobile-stacked {
   @include respond-to(xs) {
-    
+
     thead {
       display: none;
     }
@@ -51,7 +51,7 @@
 
       &:before {
         content: attr(data-th);
-        font-weight: 600;
+        font-weight: $font-weight-bold;
         display: inline-block;
         margin-right: 1rem;
         float: left;

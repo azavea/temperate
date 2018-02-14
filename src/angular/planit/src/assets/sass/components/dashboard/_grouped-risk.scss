@@ -12,12 +12,12 @@ app-grouped-risk {
     padding: 1rem;
 
     h4 {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
       margin: 0 1rem;
       padding: 0;
 
       & > span {
-        font-weight: normal;
+        font-weight: $font-weight-regular;
       }
     }
 

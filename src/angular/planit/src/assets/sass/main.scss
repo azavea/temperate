@@ -2,8 +2,6 @@
 
 @import 'bootstrap';
 
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700');
-
 @import 'ngx-bootstrap';
 @import '~ngx-toastr/toastr';
 
@@ -30,7 +28,8 @@
  * * * */
 @import
   'base/normalize',
-  'base/base';
+  'base/base',
+  'base/fonts';
 
 /* * * *
  * Layout and overall structure

@@ -10,11 +10,11 @@
  * * * */
 
 .font-normal {
-  font-weight: normal;
+  font-weight: $font-weight-regular;
 }
 
 .font-bold {
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 .font-italic {

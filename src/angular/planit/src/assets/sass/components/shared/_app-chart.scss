@@ -38,7 +38,7 @@ app-chart {
   .chart-label {
     font-size: $font-size-h3;
     margin: 0;
-    font-weight: 800;
+    font-weight: $font-weight-bold;
     padding: 2rem 1.5rem;
   }
 
@@ -84,7 +84,7 @@ app-chart {
     padding: 10rem;
     margin-bottom: $space-xlarge;
     font-size: $text-base;
-    font-weight: 400;
+    font-weight: $font-weight-regular;
     background: $loading-background-color;
   }
 
@@ -143,7 +143,7 @@ app-chart {
         }
 
         .curl-label {
-          font-weight: 700;
+          font-weight: $font-weight-bold;
         }
       }
 
@@ -304,7 +304,7 @@ app-chart {
     .scrubber-text {
       fill: #fff;
       stroke: #fff;
-      font-weight: 300;
+      font-weight: $font-weight-light;
     }
   }
 

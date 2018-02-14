@@ -58,7 +58,7 @@
 
 .button {
   font-family: $button-font-family;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
   display: inline-block;
   -webkit-appearance: none;
   cursor: pointer;
@@ -70,7 +70,7 @@
   line-height: 1.5;
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
-  background-color: #fff;  
+  background-color: #fff;
   color: $gray-4;
   box-shadow: none;
   border: none;
