@@ -1,6 +1,8 @@
 <div class="list">
   <h2>Top Concerns</h2>
-  <app-top-concerns [weatherEvents]="selectedEvents" (removed)="remove($event)"></app-top-concerns>
+  <app-top-concerns [weatherEvents]="selectedEvents"
+                    [readOnlyEvents]="readOnlyEvents"
+                    (removed)="remove($event)"></app-top-concerns>
 </div>
 <div class="list">
   <h2>All hazards</h2>

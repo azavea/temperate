@@ -4,7 +4,7 @@
 <div class="card-content top-concerns" *ngIf="weatherEvents !== undefined">
   <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEvent.display_class }}">
     <div class="concern-content">
-      <div class="concern-options" *ngIf="showRemove">
+      <div class="concern-options" *ngIf="!isReadOnly(weatherEvent)">
         <button class="button button-danger button-small"
                 title="Remove from top concerns"
                 (click)="remove(weatherEvent)"><i class="icon-trash"></i></button>
