@@ -1,5 +1,5 @@
 .primary-nav-container {
-  border-right: 2px solid $gray-0;
+  border-right: 2px solid $neutral-0;
   padding: 1rem 0.25rem;
 }
 .primary-nav {
@@ -12,7 +12,7 @@
 
   .link {
     font-size: $text-base;
-    color: $gray-5;
+    color: $neutral-5;
     margin: 0;
     padding: 0.5rem 2rem;
     text-decoration: none;
@@ -35,7 +35,7 @@
 
     &:hover, &.hover,
     &:active, &.active, {
-      background-color: $gray-0;
+      background-color: $neutral-0;
     }
 
     &:active, &.active {
@@ -45,13 +45,13 @@
     &:focus, &.focus {
     outline: 0;
     border-radius: $button-border-radius;
-    background-color: $gray-0;
+    background-color: $neutral-0;
     }
 
     // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
     &:focus:active {
       color: darken( $brand-primary, 2% );
-      background-color: $gray-0;
+      background-color: $neutral-0;
     }
   }
 }

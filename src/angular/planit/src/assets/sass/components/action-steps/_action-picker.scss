@@ -1,6 +1,6 @@
 .action-picker {
   .modal-header {
-    background-color: $gray-0;
+    background-color: $neutral-0;
 
     .container {
       margin: 0;
@@ -38,7 +38,7 @@
     width: unset;
 
     .suggested-action {
-      border: .1px solid $gray-2;
+      border: .1px solid $neutral-2;
       padding: 15px;
 
       .action-metadata {
@@ -83,7 +83,7 @@
 .action-picker-prompt {
   .action-picker-body {
     :hover {
-      background-color: $gray-1;
+      background-color: $neutral-1;
       cursor: pointer;
     }
   }

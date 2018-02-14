@@ -98,7 +98,7 @@ app-chart {
     }
 
     &.buttons {
-      border-top: 1px solid $gray-2;
+      border-top: 1px solid $neutral-2;
     }
 
     &.slider {
@@ -209,7 +209,7 @@ app-chart {
       padding-bottom: .5rem;
       &:after {
         content: "";
-        border-right: 1px solid $gray-2;
+        border-right: 1px solid $neutral-2;
         top: 2px;
         right: -4px;
         bottom: 2px;

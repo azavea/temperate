@@ -1,6 +1,6 @@
 .header-primary {
   background-color: white;
-  border-bottom: 2px solid $gray-0;
+  border-bottom: 2px solid $neutral-0;
   display: block;
   padding: 0.35rem 2rem;
   display: flex;
@@ -24,7 +24,7 @@
     &:focus, &.focus {
       outline: 0;
       border-radius: $button-border-radius;
-      background-color: $gray-0;
+      background-color: $neutral-0;
     }
   }
 
@@ -55,5 +55,5 @@
   font-size: $text-base;
 }
 .user-account {
-  color: $gray-2;
+  color: $neutral-2;
 }

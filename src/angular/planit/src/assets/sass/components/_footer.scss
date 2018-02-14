@@ -1,7 +1,7 @@
 .site-footer {
-  background-color: $gray-5;
-  color: $gray-2;
-  border-top: 1px solid $gray-4;
+  background-color: $neutral-5;
+  color: $neutral-2;
+  border-top: 1px solid $neutral-4;
   padding: 2rem 2rem;
   display: flex;
   flex-wrap: wrap;
@@ -10,7 +10,7 @@
 
   a, a:visited{
     text-decoration: none;
-    color: $gray-2;
+    color: $neutral-2;
   }
 }
 .site-footer > .logo {
@@ -30,7 +30,7 @@
   &:focus, &.focus {
     outline: 0;
     border-radius: $button-border-radius;
-    background-color: lighten($gray-5, 10%);
+    background-color: lighten($neutral-5, 10%);
   }
 }
 .footer-nav {
@@ -45,7 +45,7 @@
   list-style-type: none;
 
   .link {
-    color: $gray-1;
+    color: $neutral-1;
     margin: 0;
     padding: 1rem 2rem;
     text-decoration: none;
@@ -54,23 +54,23 @@
     &:hover, &.hover,
     &:active, &.active, {
       color: $brand-primary;
-      background-color: lighten($gray-5, 5%);
+      background-color: lighten($neutral-5, 5%);
     }
 
     &:active, &.active {
       color: darken( $brand-primary, 2% );
-      background-color: lighten( $gray-5, 1% );
+      background-color: lighten( $neutral-5, 1% );
     }
 
     &:focus, &.focus {
       outline: 0;
-      background-color: lighten( $gray-5, 10% );
+      background-color: lighten( $neutral-5, 10% );
     }
 
     // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
     &:focus:active {
       color: darken( $brand-primary, 2% );
-      background-color: lighten( $gray-5, 3% );
+      background-color: lighten( $neutral-5, 3% );
     }
   }
 }

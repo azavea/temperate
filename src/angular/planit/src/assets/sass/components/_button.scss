@@ -71,14 +71,14 @@
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
   background-color: #fff;
-  color: $gray-4;
+  color: $neutral-4;
   box-shadow: none;
   border: none;
 
   &:hover, &.hover,
   &:active, &.active, {
-    color: $gray-4;
-    background-color: lighten( $gray-1, 10% );
+    color: $neutral-4;
+    background-color: lighten( $neutral-1, 10% );
   }
 
   &:active, &.active {
@@ -86,8 +86,8 @@
   }
 
   &:focus, &.focus {
-    color: $gray-5;
-    background-color: lighten( $gray-1, 10% );
+    color: $neutral-5;
+    background-color: lighten( $neutral-1, 10% );
     outline: 0;
   }
 
@@ -144,18 +144,18 @@
 
 .button-inverted {
   color: $brand-primary;
-  background-color: $gray-0;
+  background-color: $neutral-0;
   border: 3px solid darken($brand-primary, 5%);
 
-  @include button-fill-states($gray-0, $brand-primary);
+  @include button-fill-states($neutral-0, $brand-primary);
 }
 
 .button-secondary-inverted {
-  color: $gray-0;
+  color: $neutral-0;
   background-color: transparent;
-  border: 3px solid $gray-0;
+  border: 3px solid $neutral-0;
 
-  @include button-outline-states($gray-0);
+  @include button-outline-states($neutral-0);
 }
 
 .button-link {

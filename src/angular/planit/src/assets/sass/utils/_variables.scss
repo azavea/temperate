@@ -32,15 +32,15 @@ $border-radius: 2px;
  * Colors
  *
  * * * */
-$gray-0: lighten(#D9D9DE, 10%);
-$gray-1: #d2dcea;
-$gray-2: #688ab7;
-$gray-3: #3D5A80;
-$gray-4: #2a3e58;
-$gray-5: #172230;
+$neutral-0: lighten(#D9D9DE, 10%);
+$neutral-1: #d2dcea;
+$neutral-2: #688ab7;
+$neutral-3: #3D5A80;
+$neutral-4: #2a3e58;
+$neutral-5: #172230;
 
 $brand-primary: #6184D8;
-$brand-secondary: $gray-3;
+$brand-secondary: $neutral-3;
 $brand-positive: #49A078;
 $brand-danger: #FF3E41;
 $brand-warning: #F7B32B;
@@ -60,7 +60,7 @@ $border-color: #D9D9DE;
  $space-medium: 1rem;
  $space-large: 1.25rem;
  $space-xlarge: 2rem;
- $main-background: $gray-0;
+ $main-background: $neutral-0;
  $content-max-width: 125rem;
 
 
@@ -105,7 +105,7 @@ $text-small: $font-size-base;
 $text-tiny: $font-size-base / $modular-scale;
 
 $heading-line-height: 1.1;
-$heading-font-color: $gray-5;
+$heading-font-color: $neutral-5;
 $heading-font-weight: $font-weight-bold;
 $heading-font-family: National, Arial, sans-serif;
 // $heading-margin-top: 3rem;
@@ -171,7 +171,7 @@ $tooltip-font-family: $body-font-family;
 $tooltip-font-size: $text-tiny;
 $tooltip-padding-vertical: 0.4rem;
 $tooltip-padding-horizontal: 0.8rem;
-$tooltip-color: $gray-5;
+$tooltip-color: $neutral-5;
 $tooltip-arrow-width: 0.4rem;
 $tooltip-arrow-height: 0.5rem;
 
@@ -243,7 +243,7 @@ $color-header: #32323C;
  *
  * * * */
 $card-toggle-background: #fff;
-$card-dropshadow: 0 0 40px rgba($gray-2, 0.2);
+$card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
 
 /* * * *
@@ -268,4 +268,4 @@ $primary-nav-background: #fff;
  * Loading Screen
  *
  * * * */
- $loading-background-color: $gray-0;
+ $loading-background-color: $neutral-0;

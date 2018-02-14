@@ -3,20 +3,20 @@ app-add-weather-events {
     padding: 1rem;
     font-size: 24px;
 
-    background-color: $gray-0;
+    background-color: $neutral-0;
     cursor: pointer;
 
     &:hover {
-      background-color: $gray-1;
+      background-color: $neutral-1;
     }
 
     &.selected {
-      background-color: $gray-1;
+      background-color: $neutral-1;
       cursor: auto;
     }
 
     .icon {
-      color: $gray-3;
+      color: $neutral-3;
     }
   }
 }

@@ -14,8 +14,8 @@ wizard {
     }
 
     &.default:after, &.optional:after {
-      border-color: $gray-0 !important;
-      background-color: $gray-0 !important;
+      border-color: $neutral-0 !important;
+      background-color: $neutral-0 !important;
     }
   }
 }

@@ -1,14 +1,14 @@
 // Modal, Bootstrap
 .button-modal-close {
-  color: $gray-4;
+  color: $neutral-4;
   border: 0;
   font-size: $modal-font-size;
   padding: 0.25em 0.75rem;
   &:hover,
   &:active,
   &:focus {
-    background-color: $gray-1;
-    color: $gray-5;
+    background-color: $neutral-1;
+    color: $neutral-5;
   }
 }
 
@@ -57,7 +57,7 @@
   position: relative;
   background-color: #ffffff;
   border-radius: $modal-border-radius;
-  border: 1px solid $gray-1;
+  border: 1px solid $neutral-1;
   background-clip: padding-box;
   outline: 0;
 }
@@ -69,7 +69,7 @@
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: $gray-5;
+  background-color: $neutral-5;
 }
 
 .modal-backdrop.in {
@@ -103,7 +103,7 @@
 .modal-footer {
   padding: $modal-footer-padding;
   text-align: right;
-  border-top: 1px solid $gray-1;
+  border-top: 1px solid $neutral-1;
   @include clearfix;
 }
 

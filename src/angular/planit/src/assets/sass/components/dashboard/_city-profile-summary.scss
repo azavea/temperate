@@ -21,7 +21,7 @@ app-city-profile-summary {
       align-items: center;
       justify-content: center;
 
-      background-color: $gray-0;
+      background-color: $neutral-0;
       padding: 3rem 0;
 
       .ldBar {
@@ -44,7 +44,7 @@ app-city-profile-summary {
     background-color: lighten($brand-positive, 40%);
 
     &.overall {
-      background-color: $gray-0;
+      background-color: $neutral-0;
 
       & > span {
         font-size: 24px;
