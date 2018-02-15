@@ -1,6 +1,6 @@
 <!--App footer-->
 <footer *ngIf="router.url !== '/'" class="site-footer">
-  Methodology &bull; Partnerships &bull;&nbsp;
+  <a routerLink="/methodology">Methodology</a>&nbsp;&bull; Partnerships &bull;&nbsp;
   <a href="http://climate.azavea.com">Climate API</a>
   <a [routerLink]="['']"
      [queryParams]="{ ref: 'footer' }">&nbsp;&bull; Website</a>

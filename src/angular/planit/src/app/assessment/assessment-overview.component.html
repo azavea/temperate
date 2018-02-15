@@ -21,19 +21,24 @@
       </div>
       <table class="table va-summary-table" *ngIf="risks?.length">
         <caption>
-          Wondering why we selected these risks? <a href="#">Learn more</a>
+          Wondering why we selected these risks?
+          <button class="button button-link"
+                  [popover]="learnMoreRiskPopover"
+                  [outsideClick]="true"
+                  container="body"
+                  placement="bottom">Learn more</button>
         </caption>
         <thead>
           <tr>
             <th>Adaptive Need</th>
             <th>Risk
-              <i class="icon-question-circle-o" tooltip="Risk explanatory text"></i>
+              <i class="icon-question-circle-o" [tooltip]="tooltipText.risk"></i>
             </th>
             <th>Potential Impact
-              <i class="icon-question-circle-o" tooltip="Potential impact explanatory text"></i>
+              <i class="icon-question-circle-o" [tooltip]="tooltipText.potentialImpact"></i>
             </th>
             <th>Adaptive Capacity
-              <i class="icon-question-circle-o" tooltip="Adaptive Capacity explanatory text"></i>
+              <i class="icon-question-circle-o" [tooltip]="tooltipText.adaptiveCapacity"></i>
             </th>
             <th></th>
             <th></th>
@@ -82,3 +87,12 @@
     </section>
   </main>
 </div>
+
+<ng-template #learnMoreRiskPopover>
+  <div>
+    These potential Top Concerns were selected based on the geographic regions used by the
+    <a href="https://data.globalchange.gov/file/ca9c6f09-9890-41db-ace4-827f9cbeb93a" target="_blank">National Climate Assessment</a>
+    and the potential future climate hazards that are most likely to exist.
+    For more on this, visit our <a routerLink="/methodology">Methodology</a> page.
+  </div>
+</ng-template>

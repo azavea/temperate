@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { MarketingComponent } from './marketing/marketing.component';
+import { MethodologyComponent } from './marketing/methodology.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { ActionStepsModule } from './action-steps/action-steps.module';
@@ -68,6 +69,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
     MarketingComponent,
+    MethodologyComponent,
     PageNotFoundComponent
   ],
   imports: [
