@@ -2,6 +2,7 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ModalOptions } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-modal-template',
@@ -9,18 +10,28 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 })
 export class ModalTemplateComponent {
   @Input() title: String;
+  @Input() modalOptions: ModalOptions;
+
   public modalRef: BsModalRef;
 
   @ViewChild(TemplateRef)
   private modal: TemplateRef<any>;
 
+  private defaults: ModalOptions = {animated: false, class: 'modal-lg'};
+
   constructor (private modalService: BsModalService) {}
 
   public open() {
-    this.modalRef = this.modalService.show(this.modal, {animated: false});
+    const options = Object.assign({}, this.defaults, this.modalOptions);
+    this.modalRef = this.modalService.show(this.modal, options);
   }
 
   public close() {
     this.modalRef.hide();
+  }
+
+  public get isCloseVisible() {
+    const options = Object.assign({}, this.defaults, this.modalOptions);
+    return !options.ignoreBackdropClick || options.keyboard !== false;
   }
 }

@@ -8,7 +8,7 @@
     <section class="page-section">
       <h2>Top Concerns</h2>
       <p>These are the indicators that we think you should be including in your risk assessment. Feel free to add and remove from below – you know your city best.</p>
-      <app-top-concerns class="card card-full"></app-top-concerns>
+      <app-top-concerns class="card card-full" [weatherEvents]="topConcerns"></app-top-concerns>
     </section>
     <section class="indicator-filters" *ngIf="filters?.length">
       <div class="filter-header">

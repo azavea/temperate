@@ -1,6 +1,6 @@
 <ng-template>
   <div>
-    <div class="icon-modal-close">
+    <div *ngIf="isCloseVisible" class="icon-modal-close">
       <a (click)="close()">x</a>
     </div>
     <div class="modal-header">

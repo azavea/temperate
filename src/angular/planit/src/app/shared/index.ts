@@ -7,6 +7,7 @@ export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
 export { Organization } from './models/organization.model';
+export { OrgWeatherEvent } from './models/org-weather-event.model';
 export { Risk } from './models/risk.model';
 export { SuggestedAction } from './models/suggested-action.model';
 export { User } from './models/user.model';

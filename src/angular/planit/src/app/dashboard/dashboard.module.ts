@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
@@ -16,6 +17,7 @@ import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     PopoverModule,
     ProgressbarModule,
     TooltipModule,

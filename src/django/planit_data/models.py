@@ -4,6 +4,7 @@ import uuid
 
 from django.contrib.gis.db import models
 from django.conf import settings
+from django.db import connection, transaction
 from django.db.models import CASCADE
 from django.contrib.postgres.fields import ArrayField
 
@@ -335,16 +336,26 @@ class WeatherEventRank(models.Model):
 
 
 class OrganizationWeatherEvent(models.Model):
-    """Organization specific ranked weather events."""
+    """Organization specific ranked weather events.
 
+    To preserve user data, deleting an instance of this model will not delete any related
+    OrganizationRisk objects.
+
+    """
     organization = models.ForeignKey('users.PlanItOrganization', related_name='weather_events')
     weather_event = models.ForeignKey(WeatherEvent)
     order = models.IntegerField()
 
     def save(self, *args, **kwargs):
-        if self.order is None:
-            self._assign_default_order()
-        super().save(*args, **kwargs)
+        with connection.cursor() as cursor:
+            with transaction.atomic():
+                # Lock table to avoid race condition where two instances saved at about
+                # the same time can end up attempting to save with the same order value
+                lock_query = 'LOCK TABLE {} IN ACCESS EXCLUSIVE MODE'.format(self._meta.db_table)
+                cursor.execute(lock_query)
+                if self.order is None:
+                    self._assign_default_order()
+                super().save(*args, **kwargs)
 
     def _assign_default_order(self):
         """Assign a simple default order such that new objects are inserted at end of list.

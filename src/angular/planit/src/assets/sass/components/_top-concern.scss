@@ -26,7 +26,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    -webkit-font-smoothing: antialiased; 
+    -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     &:after {
@@ -69,12 +69,13 @@
 
   .concern-options {
     opacity: 1;
+    z-index: 9999;
     pointer-events: all;
+    cursor: pointer;
   }
 }
 
-.concern-stats, 
-.concern-name {
+.concern-data {
   color: white;
   position: absolute;
   bottom: 1rem;
@@ -106,7 +107,7 @@
       }
     }
   }
-  
+
   .number {
     font-size: $text-jumbo;
   }

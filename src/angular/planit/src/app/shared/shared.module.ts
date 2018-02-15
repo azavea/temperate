@@ -10,6 +10,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
+import { AddWeatherEventsComponent } from './add-weather-events/add-weather-events.component';
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { FooterComponent } from './footer/footer.component';
@@ -47,6 +48,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   ],
   declarations: [
     AdaptiveNeedBoxComponent,
+    AddWeatherEventsComponent,
     ChartComponent,
     CollapsibleChartComponent,
     FooterComponent,
@@ -65,6 +67,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   ],
   exports: [
     AdaptiveNeedBoxComponent,
+    AddWeatherEventsComponent,
     ChartComponent,
     CollapsibleChartComponent,
     FooterComponent,

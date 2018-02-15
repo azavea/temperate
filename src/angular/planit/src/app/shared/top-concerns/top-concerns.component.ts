@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { WeatherEventService } from '../../core/services/weather-event.service';
 import { Concern, WeatherEvent } from '../../shared';
@@ -9,17 +9,12 @@ import { Concern, WeatherEvent } from '../../shared';
   templateUrl: './top-concerns.component.html',
   styleUrls: ['./top-concerns.component.scss']
 })
-export class TopConcernsComponent implements OnInit {
+export class TopConcernsComponent {
 
-  weatherEvents: WeatherEvent[];
+  @Input() weatherEvents: WeatherEvent[];
+  @Input() readOnlyEvents: WeatherEvent[];
 
-  constructor(private weatherEventService: WeatherEventService) {
-  }
-
-  ngOnInit() {
-    this.weatherEventService.rankedEvents()
-      .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
-  }
+  @Output() removed = new EventEmitter<WeatherEvent>();
 
   format(concern: Concern): string {
     if (!concern.is_relative) {
@@ -34,8 +29,24 @@ export class TopConcernsComponent implements OnInit {
     }
   }
 
+  hasConcern(weatherEvent: WeatherEvent) {
+    return weatherEvent.concern && typeof weatherEvent.concern === 'object';
+  }
+
   hasUnits(concern: Concern): boolean {
     return concern.units !== 'count';
+  }
+
+  isReadOnly(weatherEvent: WeatherEvent) {
+    return this.readOnlyEvents &&
+      this.readOnlyEvents.findIndex(e => e.id === weatherEvent.id) !== -1;
+  }
+
+  remove(weatherEvent: WeatherEvent) {
+    // Only remove if readOnlyEvents unset or we don't find the event in readOnlyEvents
+    if (!this.isReadOnly(weatherEvent)) {
+      this.removed.emit(weatherEvent);
+    }
   }
 
   units(concern: Concern): string {
