@@ -43,6 +43,11 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
     this.router.navigate(['/indicators']);
   }
 
+  isAdaptiveNeedBoxVisible() {
+    return this.risks && this.risks.length &&
+        !!this.risks[0].adaptive_capacity && !!this.risks[0].impact_magnitude;
+  }
+
   numberOfActionsAssessed() {
     return this.risks.reduce((acc, risk) => {
       const assessed = risk.action && risk.action.isAssessed() ? 1 : 0;
