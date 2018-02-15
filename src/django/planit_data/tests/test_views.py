@@ -233,7 +233,7 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_organization_risk_detail(self):
+    def test_organization_risk_no_action_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
@@ -264,9 +264,18 @@ class OrganizationRiskTestCase(APITestCase):
             }})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_organization_risk_with_multi_actions_details_one_action(self):
+    def test_organization_risk_with_multi_actions(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
-        OrganizationActionFactory(organization_risk=org_risk)
+        actions = OrganizationActionFactory.create_batch(3, organization_risk=org_risk)
+
+        action_ids = [a.id.hex for a in actions]
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.get(url)
+        self.assertIn(response.json()['action']['id'].replace('-', ''), action_ids)
+
+    def test_organization_risk_action_detail(self):
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
         org_action = OrganizationActionFactory(organization_risk=org_risk)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})

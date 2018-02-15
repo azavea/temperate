@@ -129,10 +129,10 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
                   'categories', 'funding')
 
 
-class OrganizationRiskActionsSerializer(serializers.ModelSerializer):
+class OrganizationRiskSerializer(serializers.ModelSerializer):
     """Serialize organization risks for viewing, with related models.
 
-    Shows ALL actions."""
+    Only show 1 action for MVP even though Risk:Action is 1:M."""
     weather_event = WeatherEventField(
         many=False,
         queryset=WeatherEvent.objects.all(),
@@ -141,61 +141,34 @@ class OrganizationRiskActionsSerializer(serializers.ModelSerializer):
         many=False,
         queryset=CommunitySystem.objects.all(),
     )
-    actions = OrganizationActionSerializer(
-        many=True,
-        source='organizationaction_set',
-        read_only=True)
+
+    action = serializers.SerializerMethodField()
 
     organization = serializers.PrimaryKeyRelatedField(
         many=False,
         queryset=PlanItOrganization.objects.all(),
-        write_only=True
-    )
+        write_only=True)
+
+    def get_action(self, obj):
+        try:
+            action = obj.organizationaction_set.first()
+            if action:
+                return OrganizationActionSerializer(action).data
+            return None
+        except OrganizationAction.DoesNotExist:
+            return None
 
     class Meta:
         model = OrganizationRisk
-        fields = ('id', 'actions', 'weather_event', 'community_system', 'probability', 'frequency',
-                  'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
-                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
+        fields = ('id', 'action', 'weather_event', 'community_system', 'probability',
+                  'frequency', 'intensity', 'impact_magnitude', 'impact_description',
+                  'adaptive_capacity', 'related_adaptive_values', 'adaptive_capacity_description',
+                  'organization')
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationRisk.objects.all(),
                 fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and/or Community System'
-            )
-        ]
-
-
-class OrganizationRiskSerializer(OrganizationRiskActionsSerializer):
-    """Serialize organization risks for viewing, with related models.
-
-    Only show 1 action."""
-
-    action = OrganizationActionSerializer(
-        many=True,
-        source='organizationaction_set',
-        read_only=True)
-
-    def to_representation(self, data):
-        """We only want to handle a 1:1 risk:action for the MVP."""
-        data = super().to_representation(data)
-        actions = data['action']
-        if len(actions):
-            data['action'] = next(iter(actions))
-        else:
-            data['action'] = None
-        return data
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'action', 'weather_event', 'community_system', 'probability', 'frequency',
-                  'intensity', 'impact_magnitude', 'impact_description', 'adaptive_capacity',
-                  'related_adaptive_values', 'adaptive_capacity_description', 'organization')
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=OrganizationRisk.objects.all(),
-                fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and/or Community System'
+                message='There is already a Risk for this Hazard and Community System'
             )
         ]
 
