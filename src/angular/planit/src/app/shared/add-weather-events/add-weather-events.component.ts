@@ -38,6 +38,11 @@ export class AddWeatherEventsComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  public isReadOnly(weatherEvent: WeatherEvent) {
+    return this.readOnlyEvents &&
+           this.readOnlyEvents.findIndex(e => e.id === weatherEvent.id) !== -1;
+  }
+
   public isSelected(weatherEvent: WeatherEvent) {
     return this.selectedEvents.findIndex(e => e.id === weatherEvent.id) !== -1;
   }

@@ -7,7 +7,7 @@
 <div class="list">
   <h2>All hazards</h2>
   <div class="item"
-      [ngClass]="{selected: isSelected(option)}"
+      [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
       *ngFor="let option of weatherEvents"
       (click)="add(option)">
     <span *ngIf="isSelected(option)"
