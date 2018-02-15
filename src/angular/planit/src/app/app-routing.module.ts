@@ -8,6 +8,7 @@ import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { UserResolve } from './core/services/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
 import { MarketingComponent } from './marketing/marketing.component';
+import { MethodologyComponent } from './marketing/methodology.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 
@@ -19,6 +20,7 @@ const routes: Routes = [
     canActivate: [PlanAuthGuard]
   },
   { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
+  { path: 'methodology', component: MethodologyComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
