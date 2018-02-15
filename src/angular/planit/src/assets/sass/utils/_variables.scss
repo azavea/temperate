@@ -24,7 +24,6 @@ $breakpoints: (
  * Settings
  *
  * * * */
-$leaflet-control-attribution-on: false;
 $border-radius: 2px;
 
 
@@ -87,7 +86,6 @@ $adaptive-need-low: $brand-warning;
  *
  * * * */
 $zindex-popover: 1060;
-$zindex-map-attribution: 2040;
 
 /* * * *
  * Columns
@@ -126,18 +124,9 @@ $heading-line-height: 1.1;
 $heading-font-color: $neutral-5;
 $heading-font-weight: $font-weight-bold;
 $heading-font-family: National, Arial, sans-serif;
-// $heading-margin-top: 3rem;
 $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
-
-
-/* * * *
- * Map Components
- *
- * * * */
-$map-attribution-font-size: 12px;
-$map-attribution-font-color: $body-font-color;
 
 
 /* * * *
@@ -263,12 +252,6 @@ $color-header: $neutral-5;
 $card-toggle-background: $white;
 $card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
-
-/* * * *
- * Navigation
- *
- * * * */
-$primary-nav-background: #fff;
 
 
 /* * * *
