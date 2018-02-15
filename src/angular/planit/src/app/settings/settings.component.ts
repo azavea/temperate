@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
-import { PreviousRouteGuard } from './../core/services/previous-route-guard.service';
+import { ToastrService } from 'ngx-toastr';
+
+import { OrganizationService } from '../core/services/organization.service';
+import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
+import { UserService } from '../core/services/user.service';
+import { User } from '../shared';
+
+import { EditableInputComponent } from './editable-input/editable-input.component';
 
 @Component({
   selector: 'app-settings',
@@ -9,16 +16,54 @@ import { PreviousRouteGuard } from './../core/services/previous-route-guard.serv
 })
 export class SettingsComponent implements OnInit {
 
+  @ViewChildren(EditableInputComponent) inputs: QueryList<EditableInputComponent>;
+
   public previousPage = 'Home';
   public previousUrl = '/';
   public previousParams = {};
 
-  constructor(private previousRouteGuard: PreviousRouteGuard) { }
+  public user: User;
+
+  constructor(private previousRouteGuard: PreviousRouteGuard,
+              private organizationService: OrganizationService,
+              private toastr: ToastrService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.previousUrl = this.previousRouteGuard.previousUrl;
     this.previousPage = this.previousRouteGuard.previousPage;
     this.previousParams = this.previousRouteGuard.previousQueryParams;
+
+    this.userService.current().subscribe(user => this.user = user);
   }
 
+  userSave() {
+    this.save(this.userService.update(this.user), 'Your user profile has been updated.');
+  }
+
+  organizationSave() {
+    this.save(
+      this.organizationService.update(this.user.primary_organization),
+      `Your organization name has been updated.
+       Your colleagues will see this change the next time they log in.`
+    );
+  }
+
+  edit(edittedInput: EditableInputComponent) {
+    this.inputs
+      .filter(input => input !== edittedInput)
+      .forEach(input => input.cancel());
+  }
+
+  private save(observable, success) {
+    observable.subscribe(() => {
+      this.toastr.success(success);
+      this.inputs.forEach(input => {
+        input.isEditing = false;
+        input.lastSavedValue = input.value;
+      });
+    }, () => {
+      this.toastr.error('Something went wrong, please try again.');
+    });
+  }
 }
