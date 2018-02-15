@@ -55,7 +55,6 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public relativeOptions = OrgRiskRelativeChanceOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public directionalOptionsKeys = Array.from(OrgRiskDirectionalOptions.keys());
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeChanceOptions.keys());
   public city: City;
   public indicators: Indicator[] = [];
 

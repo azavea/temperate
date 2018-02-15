@@ -35,8 +35,6 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public title = 'Impact';
 
   public relativeOptions = OrgRiskRelativeImpactOptions;
-  // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
-  public relativeOptionsKeys = Array.from(OrgRiskRelativeImpactOptions.keys());
 
   private sessionSubscription: Subscription;
 
