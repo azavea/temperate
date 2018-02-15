@@ -5,17 +5,26 @@
   <p>Each action you create should have an effect on at least one assessed risk in your Assessments section.</p>
   <form [formGroup]="form">
     <div class="step-form-control">
-      <label>Action
-        <textarea class="form-control"
-                  formControlName="name"
-                  cols="70"
-                  rows="4"
-                  tabindex="1"
-                  required></textarea>
-        <div *ngIf="form.controls.name.errors">
-          <span *ngIf="form.controls.name.errors.required">*Required</span>
-        </div>
-      </label>
+      <div>
+        <label for="step-assess-action">Action</label>
+        <button class="button button-link pull-right"
+                [popover]="actionExamplesPopover"
+                [outsideClick]="true"
+                container="body"
+                placement="left">
+          See examples
+        </button>
+      </div>
+      <textarea id="step-assess-action"
+                class="form-control"
+                formControlName="name"
+                cols="70"
+                rows="4"
+                tabindex="1"
+                required></textarea>
+      <div *ngIf="form.controls.name.errors">
+        <span *ngIf="form.controls.name.errors.required">*Required</span>
+      </div>
     </div>
   </form>
 </div>
@@ -26,3 +35,23 @@
           nextStep>Continue</button>
   <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>
+
+<ng-template #actionExamplesPopover>
+  <h3>Strategy examples</h3>
+  <div>
+    <h5>Keene, NH</h5>
+    <p>Increase local food production by 20% within five years of establishing baseline of community food production.</p>
+  </div>
+  <div>
+    <h5>Albany, NY</h5>
+    <p>Identify locations of vulnerable populations (those who live alone, seniors, low income areas, others at-risk, etc.) and provide each home with a window card to indicate if help is needed.</p>
+  </div>
+  <div>
+    <h5>Baltimore, MD</h5>
+    <p>Encourage use of permeable pavement in non-critical areas – low-use roadways, sidewalks, parking lots and alleys where soils permit proper drainage.</p>
+  </div>
+  <div>
+    <h5>Denver, CO</h5>
+    <p>Identify opportunities for the city to become a subscriber in community solar gardens.</p>
+  </div>
+</ng-template>
