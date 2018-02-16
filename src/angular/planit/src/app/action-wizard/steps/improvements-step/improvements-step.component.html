@@ -8,25 +8,11 @@
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.
     </p>
 
-    <button class="button button-link pull-right"
-            [popover]="adaptiveCapacityPopover"
-            [outsideClick]="true"
-            container="body"
-            placement="left">
-       See examples
-    </button>
     <label for="improvements_adaptive_capacity">
       Effect on adaptive capacity
     </label>
     <textarea formControlName="improvements_adaptive_capacity"></textarea>
 
-    <button class="button button-link pull-right"
-            [popover]="potentialImpactPopover"
-            [outsideClick]="true"
-            container="body"
-            placement="left">
-       See examples
-    </button>
     <label for="improvements_impacts">
       Reduction in potential impacts
     </label>
@@ -34,6 +20,9 @@
 
     <label for="collaborators">
       Collaborator(s)
+      <span class="icon icon-question-circle-o"
+            tooltip="Select or enter other departments you will need to collaborate with to develop and implement this strategy. Keep in mind that additional stakeholder engagement is a key component of adaptation planning."
+            placement="right"></span>
     </label>
     <app-freeform-multiselect
       formControlName="collaborators"
@@ -48,35 +37,3 @@
           nextStep>Continue</button>
   <button type="button" previousStep>Back</button>
 </div>
-
-<ng-template #adaptiveCapacityPopover>
-  <h3>Strategy examples</h3>
-  <div>
-    <h5>Fairbanks, AK</h5>
-    <p>Support revision of the Environmental Atlas of Alaska used as design standards for engineers working in the Borough. New construction should use these revised standards to account for changing temperature and precipitation.</p>
-  </div>
-  <div>
-    <h5>New York, NY</h5>
-    <p>Call for the MTA to explore Red Hook - Lower Manhattan bus connections.</p>
-  </div>
-  <div>
-    <h5>Tampa, FL</h5>
-    <p>Within the predicited 2050 inundation area, require proposed central package treatment systems to be designed and installed to recognize anticipated flooding and groundwater conditions.</p>
-  </div>
-</ng-template>
-
-<ng-template #potentialImpactPopover>
-  <h3>Strategy examples</h3>
-  <div>
-    <h5>Fairbanks, AK</h5>
-    <p>Support revision of the Environmental Atlas of Alaska used as design standards for engineers working in the Borough. New construction should use these revised standards to account for changing temperature and precipitation.</p>
-  </div>
-  <div>
-    <h5>New York, NY</h5>
-    <p>Call for the MTA to explore Red Hook - Lower Manhattan bus connections.</p>
-  </div>
-  <div>
-    <h5>Tampa, FL</h5>
-    <p>Within the predicited 2050 inundation area, require proposed central package treatment systems to be designed and installed to recognize anticipated flooding and groundwater conditions.</p>
-  </div>
-</ng-template>
