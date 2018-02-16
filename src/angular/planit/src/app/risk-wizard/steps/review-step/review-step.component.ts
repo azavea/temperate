@@ -41,8 +41,8 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
-              private router: Router) {
-    super(session, riskService, toastr);
+              protected router: Router) {
+    super(session, riskService, toastr, router);
   }
 
   ngOnInit() {
@@ -74,10 +74,5 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
   }
 
   setupForm(data: any) {
-  }
-
-  finish() {
-    this.router.navigate(['assessment'],
-      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 }

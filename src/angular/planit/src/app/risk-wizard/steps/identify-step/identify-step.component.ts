@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Subscription } from 'rxjs/Subscription';
+
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { ToastrService } from 'ngx-toastr';
 
@@ -37,6 +39,9 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   public key: RiskStepKey = RiskStepKey.Identify;
   public navigationSymbol = '1';
   public title = 'Identify risk';
+  private sessionSubscription: Subscription;
+
+  public risk: Risk;
 
   public weatherEvents: WeatherEvent[] = [];
   public communitySystems: CommunitySystem[] = [];
@@ -49,29 +54,33 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
-              private router: Router,
+              protected router: Router,
               private weatherEventService: WeatherEventService,
               private communitySystemService: CommunitySystemService,
               private previousRouteGuard: PreviousRouteGuard) {
-    super(session, riskService, toastr);
+    super(session, riskService, toastr, router);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const risk = this.session.getData();
-    this.setupForm(this.fromModel(risk));
+    this.risk = this.session.getData();
+    this.setupForm(this.fromModel(this.risk));
 
-    if (risk.weather_event && risk.weather_event.id) {
-      this.weather_event = risk.weather_event;
+    if (this.risk.weather_event && this.risk.weather_event.id) {
+      this.weather_event = this.risk.weather_event;
     }
-    if (risk.community_system && risk.community_system.id) {
-      this.community_system = risk.community_system;
+    if (this.risk.community_system && this.risk.community_system.id) {
+      this.community_system = this.risk.community_system;
     }
 
     this.weatherEventService.list()
       .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
     this.communitySystemService.list()
       .subscribe(communitySystems => this.communitySystems = communitySystems);
+
+    this.sessionSubscription = this.session.data.subscribe(risk => {
+        this.risk = risk;
+      });
   }
 
   cancel() {

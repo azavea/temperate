@@ -25,6 +25,12 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" nextStep>Skip Step</button>
-  <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+  <div class="step-footer-exit">
+    <button type="button" tabindex="4" (click)="finish()">Finish later</button>
+  </div>
+
+  <div class="step-footer-navigation">
+    <button type="button" nextStep>Skip Step</button>
+    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+  </div>
 </div>

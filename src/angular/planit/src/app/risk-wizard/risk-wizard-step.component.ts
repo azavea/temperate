@@ -1,4 +1,5 @@
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
@@ -14,7 +15,8 @@ export abstract class RiskWizardStepComponent<FormModel>
 
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
-              protected toastr: ToastrService) {
+              protected toastr: ToastrService,
+              protected router: Router) {
     super(session, toastr);
   }
 
@@ -33,6 +35,17 @@ export abstract class RiskWizardStepComponent<FormModel>
         this.form.enable();
       }
     }
+  }
+
+
+  finish() {
+    // ng2-archwizard save() takes a direction, like forward or back,
+    // but we're not going in any direction when exiting
+    this.save(undefined).then(() => {
+      const risk = this.session.getData();
+      this.router.navigate(['assessment'],
+        {'queryParams': {'hazard': risk.weather_event.id}});
+    });
   }
 
   persistChanges(model: Risk): Observable<Risk> {

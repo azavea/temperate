@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -66,10 +67,11 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              protected router: Router,
               private cityService: CityService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
-    super(session, riskService, toastr);
+    super(session, riskService, toastr, router);
   }
 
   ngOnInit() {

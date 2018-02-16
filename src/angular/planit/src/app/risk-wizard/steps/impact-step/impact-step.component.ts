@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
@@ -42,8 +43,9 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              protected router: Router,
               private fb: FormBuilder) {
-    super(session, riskService, toastr);
+    super(session, riskService, toastr, router);
   }
 
   ngOnInit() {
