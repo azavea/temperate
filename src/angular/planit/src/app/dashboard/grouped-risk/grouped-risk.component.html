@@ -1,5 +1,11 @@
 <div class="header">
-  <h4>{{ weatherEvent.name }} &bull; <span>{{ risks.length }} risks</span></h4>
+  <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
+                        [potentialImpact]="aggregateNeed.impact"
+                        [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
+  <h4>
+    {{ weatherEvent.name }} &bull;
+    <span>{{ risks.length }} risks</span>
+  </h4>
   <div [tooltip]="noRelatedIndicatorsTooltip"
        [isDisabled]="canShowIndicators">
     <button class="button button-link"

@@ -6,7 +6,6 @@ app-grouped-risk {
 
   .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     background-color: $gray-2;
@@ -14,12 +13,16 @@ app-grouped-risk {
 
     h4 {
       font-weight: bold;
-      margin: 0;
+      margin: 0 1rem;
       padding: 0;
 
       & > span {
         font-weight: normal;
       }
+    }
+
+    & :last-child {
+      margin-left: auto;
     }
   }
 
