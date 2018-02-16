@@ -50,7 +50,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
 
   ngOnInit() {
     super.ngOnInit();
-    this.risk = this.session.getData() || new Risk({});
+    this.risk = this.session.getData();
     this.setupForm(this.fromModel(this.risk));
     this.setDisabled(this.risk);
     this.sessionSubscription = this.session.data.subscribe(risk => {

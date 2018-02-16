@@ -51,7 +51,7 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
 
   ngOnInit() {
     super.ngOnInit();
-    this.risk = this.session.getData() || new Risk({});
+    this.risk = this.session.getData();
     this.setupForm(this.fromModel(this.risk));
     this.relatedAdaptiveValueService.list()
       .subscribe(adaptiveValues => {
