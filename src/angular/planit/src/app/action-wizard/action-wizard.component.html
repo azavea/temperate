@@ -2,7 +2,7 @@
   <p class="row">Take action on</p>
   <div class="row" *ngIf="assessStep.namedRisk">
       <va-adaptive-need-box
-        [adaptive_capacity]="assessStep.namedRisk.risk.adaptive_capacity"
+        [adaptiveCapacity]="assessStep.namedRisk.risk.adaptive_capacity"
         [popoverPlacement]="'right'"
         [potentialImpact]="assessStep.namedRisk.risk.impact_magnitude">
       </va-adaptive-need-box>

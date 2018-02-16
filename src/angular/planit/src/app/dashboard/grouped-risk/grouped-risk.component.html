@@ -1,7 +1,7 @@
 <div class="header">
   <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
-                        [potentialImpact]="risks[0].impact_magnitude"
-                        [adaptive_capacity]="risks[0].adaptive_capacity"></va-adaptive-need-box>
+                        [potentialImpact]="aggregateNeed.impact"
+                        [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
   <h4>
     {{ weatherEvent.name }} &bull;
     <span>{{ risks.length }} risks</span>

@@ -5,8 +5,19 @@ import { City, Indicator } from 'climate-change-components';
 
 import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
-import { Risk, WeatherEvent } from '../../shared/';
+import {
+  OrgRiskRelativeOption,
+  Risk,
+  WeatherEvent,
+  numberToRelativeOption,
+  relativeOptionToNumber
+} from '../../shared/';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
+
+interface AggregateNeed {
+  impact: OrgRiskRelativeOption;
+  capacity: OrgRiskRelativeOption;
+}
 
 @Component({
   selector: 'app-grouped-risk',
@@ -21,6 +32,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   @Input() risks: Risk[];
   @Input() weatherEvent: WeatherEvent;
 
+  public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
   public city: City;
   public indicators: Indicator[] = [];
@@ -36,6 +48,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   ngOnChanges() {
     this.updateRelatedIndicators(this.risks);
+    this.aggregateNeed = this.getAggregateNeed();
   }
 
   goToIndicators() {
@@ -44,8 +57,9 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   isAdaptiveNeedBoxVisible() {
-    return this.risks && this.risks.length &&
-        !!this.risks[0].adaptive_capacity && !!this.risks[0].impact_magnitude;
+    return this.aggregateNeed &&
+        this.aggregateNeed.capacity !== OrgRiskRelativeOption.Unsure &&
+        this.aggregateNeed.impact !== OrgRiskRelativeOption.Unsure;
   }
 
   numberOfActionsAssessed() {
@@ -74,6 +88,29 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   percentRisksAssessed() {
     return Math.floor(this.numberOfRisksAssessed() / this.risks.length * 100);
+  }
+
+  getAggregateNeed(): AggregateNeed {
+    // Calculates an average aggregate Adaptive Need using a simple average of all valid scores
+    //  along each axis. The average on each axis is then rounded up to the next worst bucket.
+    return {
+      impact: getRelativeOptionAverage(this.risks, 'impact_magnitude'),
+      capacity: getRelativeOptionAverage(this.risks, 'adaptive_capacity')
+    };
+
+    function getRelativeOptionAverage(risks: Risk[], property: string): OrgRiskRelativeOption {
+      const totals = risks.reduce((accum, risk) => {
+        const val = relativeOptionToNumber(risk[property]);
+        const total = typeof val === 'number' ? val : 0;
+        const count = typeof val === 'number' ? 1 : 0;
+        return {
+          total: accum.total + total,
+          count: accum.count + count
+        };
+      }, {total: 0, count: 0});
+      const average = totals.count ? Math.ceil(totals.total / totals.count) : undefined;
+      return numberToRelativeOption(average);
+    }
   }
 
   private updateRelatedIndicators(risks: Risk[]) {
