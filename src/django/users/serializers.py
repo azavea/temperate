@@ -60,6 +60,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if not dt:
             # year is not required
             return None
+        if self.instance is not None and self.instance.plan_due_date == dt:
+            # we shouldn't validate if it hasn't changed
+            return dt
         if dt < datetime.date.today():
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
