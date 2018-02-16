@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
@@ -44,8 +45,9 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder) {
-    super(session, riskService, toastr, router);
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
@@ -54,6 +56,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
     this.setupForm(this.fromModel(this.risk));
     this.setDisabled(this.risk);
     this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.risk = risk;
       this.setDisabled(risk);
     });
   }

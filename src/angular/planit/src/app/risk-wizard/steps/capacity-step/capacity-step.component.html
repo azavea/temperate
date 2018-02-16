@@ -34,7 +34,8 @@
 </div>
 <div class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" tabindex="4" (click)="finish()">Finish later</button>
+    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
 
   <div class="step-footer-navigation">

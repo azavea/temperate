@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import {
   OrgRiskDirectionalOptions,
   OrgRiskRelativeChanceOptions,
@@ -41,8 +42,9 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
-              protected router: Router) {
-    super(session, riskService, toastr, router);
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard) {
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {

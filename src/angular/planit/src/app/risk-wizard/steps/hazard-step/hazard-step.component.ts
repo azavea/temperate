@@ -19,6 +19,7 @@ import {
   Risk,
 } from '../../../shared/';
 
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 // tslint:disable-next-line:max-line-length
@@ -68,10 +69,11 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
               private cityService: CityService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
-    super(session, riskService, toastr, router);
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
@@ -84,6 +86,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     this.setDisabled(this.risk);
 
     this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.risk = risk;
       this.updateRiskIndicators();
       this.setDisabled(risk);
     });

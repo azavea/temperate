@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
 
+import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
 import { RiskService } from '../core/services/risk.service';
 import { WizardSessionService } from '../core/services/wizard-session.service';
 import { Risk, WizardStepComponent } from '../shared/';
@@ -16,7 +17,8 @@ export abstract class RiskWizardStepComponent<FormModel>
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
-              protected router: Router) {
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard) {
     super(session, toastr);
   }
 
@@ -46,6 +48,11 @@ export abstract class RiskWizardStepComponent<FormModel>
       this.router.navigate(['assessment'],
         {'queryParams': {'hazard': risk.weather_event.id}});
     });
+  }
+
+  cancel() {
+    this.router.navigate([ this.previousRouteGuard.previousUrl ],
+    {'queryParams': this.previousRouteGuard.previousQueryParams});
   }
 
   persistChanges(model: Risk): Observable<Risk> {

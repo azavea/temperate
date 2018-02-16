@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -33,7 +33,7 @@ interface IdentifyStepFormModel {
   templateUrl: 'identify-step.component.html'
 })
 export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepFormModel>
-                                   implements OnInit {
+                                   implements OnDestroy, OnInit {
 
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Identify;
@@ -57,8 +57,8 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
               protected router: Router,
               private weatherEventService: WeatherEventService,
               private communitySystemService: CommunitySystemService,
-              private previousRouteGuard: PreviousRouteGuard) {
-    super(session, riskService, toastr, router);
+              protected previousRouteGuard: PreviousRouteGuard) {
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
@@ -83,9 +83,8 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
       });
   }
 
-  cancel() {
-    this.router.navigate([ this.previousRouteGuard.previousUrl ],
-    {'queryParams': this.previousRouteGuard.previousQueryParams});
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   fromModel(risk: Risk): IdentifyStepFormModel {
