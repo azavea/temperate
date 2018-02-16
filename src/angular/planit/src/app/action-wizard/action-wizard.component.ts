@@ -52,15 +52,28 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
       const riskId: string = this.route.snapshot.paramMap.get('riskid');
       this.action.risk = riskId;
-    }
 
-    this.route.queryParams.take(1).subscribe((params: Params) => {
-      const indexes = {
-        'review': 5
-      };
-      // Default to the first step if the param doesn't match a valid step
-      this.startingStep = indexes[params['step']] || 0;
-    });
+      this.route.queryParams.take(1).subscribe((params: Params) => {
+        const indexes = {
+          'review': 5
+        };
+        // Default to the first step if the param doesn't match a valid step
+        this.startingStep = indexes[params['step']] || 0;
+      });
+
+      if (this.route.snapshot.data['suggestedAction']) {
+        const suggestion = this.route.snapshot.data['suggestedAction'] as Action;
+        this.action.name = suggestion.name;
+        this.action.action_type = suggestion.action_type;
+        this.action.action_goal = suggestion.action_goal;
+        this.action.implementation_details = suggestion.implementation_details;
+        this.action.implementation_notes = suggestion.implementation_notes;
+        this.action.improvements_adaptive_capacity = suggestion.improvements_adaptive_capacity;
+        this.action.improvements_impacts = suggestion.improvements_impacts;
+        this.action.collaborators = suggestion.collaborators;
+        this.action.categories = suggestion.categories;
+      }
+    }
 
     this.session.setData(this.action);
   }

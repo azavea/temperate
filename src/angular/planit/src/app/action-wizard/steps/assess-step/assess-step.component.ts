@@ -58,6 +58,12 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   }
 
   cancel () {
+    // TODO: if have action text entered, save before exiting wizard
+    if (this.form.valid) {
+      console.log('going to save...');
+    } else {
+      console.log('form not valid! should cancel without save');
+    }
     this.router.navigate(['actions'],
       {'queryParams': {'hazard': this.namedRisk.risk.weather_event.id}});
   }

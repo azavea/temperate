@@ -1,6 +1,7 @@
 import { ActionCategory } from './action-category.model';
 
 export class SuggestedAction {
+  id: string;
   plan_city: string;
   plan_due_date: number;
   plan_hyperlink: string;
