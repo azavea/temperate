@@ -96,7 +96,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'name', 'plan_due_date', 'location', 'units')
+        fields = ('id', 'name', 'location', 'units', 'plan_due_date', 'plan_name', 'plan_hyperlink')
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -68,11 +68,13 @@ class PlanItOrganization(models.Model):
                      (METRIC, 'metric'),)
 
     name = models.CharField(max_length=256, blank=False, null=False, unique=True)
-    plan_due_date = models.DateField(null=True, blank=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+    plan_due_date = models.DateField(null=True, blank=True)
+    plan_name = models.CharField(max_length=256, blank=True)
+    plan_hyperlink = models.URLField(blank=True)
 
     def __str__(self):
         return self.name

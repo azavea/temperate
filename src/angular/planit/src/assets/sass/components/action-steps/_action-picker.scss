@@ -1,14 +1,4 @@
 .action-picker {
-  .action-picker-risk-name {
-    width: 80%;
-    margin-bottom: 0;
-  }
-
-  .adaptive-need-box {
-    margin-right: 1rem;
-    padding-left: 0;
-  }
-
   .modal-header {
     background-color: $gray-0;
 
@@ -21,6 +11,11 @@
       background-color: unset;
     }
   }
+
+  .modal-body {
+    width: 65%;
+  }
+
   .modal-footer {
     button {
       background-color: $body-font-color;
@@ -35,13 +30,21 @@
   }
 
   .action-picker-header {
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+    margin: 3rem;
   }
 
   .container {
     margin: 0 2rem 0 2rem;
     width: unset;
+
+    .suggested-action {
+      border: .1px solid $gray-2;
+      padding: 15px;
+
+      .action-metadata {
+        max-width: 240px;
+      }
+    }
   }
 
   h2 {

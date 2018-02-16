@@ -259,7 +259,8 @@ LOGGING = {
         },
         'planit_data': {
             'handlers': ['console'],
-            'propagate': True
+            'propagate': True,
+            'level': LOGLEVEL
         },
         'climate_api': {
             'handlers': ['console'],

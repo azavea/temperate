@@ -20,8 +20,7 @@ export class RiskService {
   private formatRisk(risk: Risk) {
     const formattedRisk = cloneDeep(risk);
     return Object.assign(formattedRisk, {
-      // Django expects pk's for related objects whereas the front end wants the full objs
-      action: formattedRisk.action ? formattedRisk.action.id : null,
+      action: formattedRisk.action ? formattedRisk.action : null,
       weather_event: formattedRisk.weather_event.id,
       community_system: formattedRisk.community_system.id,
       // Django expects empty strings, not null for choice fields

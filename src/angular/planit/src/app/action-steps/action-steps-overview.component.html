@@ -23,7 +23,7 @@
             <as-action-card *ngIf="risk.action"
                             [action]="risk.action"
                             [risk]="risk"
-                            (delete)="deleteAction()"></as-action-card>
+                            (delete)="deleteAction($event)"></as-action-card>
             <as-risk-card *ngIf="!risk.action" [risk]="risk"></as-risk-card>
           </ng-container>
         </div>

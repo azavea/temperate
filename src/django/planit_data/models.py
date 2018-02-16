@@ -164,9 +164,9 @@ class OrganizationRisk(models.Model):
         )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    weather_event = models.ForeignKey('WeatherEvent', null=False, blank=False,
+    weather_event = models.ForeignKey('WeatherEvent', null=True, blank=True, default=None,
                                       on_delete=models.CASCADE)
-    community_system = models.ForeignKey('CommunitySystem', null=False, blank=False,
+    community_system = models.ForeignKey('CommunitySystem', null=True, blank=True, default=None,
                                          on_delete=models.CASCADE)
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
                                      on_delete=models.CASCADE)
@@ -186,13 +186,15 @@ class OrganizationRisk(models.Model):
         unique_together = ('weather_event', 'community_system', 'organization')
 
     def __str__(self):
-        return "{}: {} on {}".format(self.organization.name,
-                                     self.weather_event.name,
-                                     self.community_system.name)
+        return "{}: {} on {}".format(
+            self.organization.name,
+            str(self.weather_event or "Any"),
+            str(self.community_system or "Any"))
 
 
 class OrganizationAction(models.Model):
     """A record of planned or potential adaptation actions an organization may take."""
+
     SINGLELINE_MAX_LENGTH = 1024
 
     class Visibility:
@@ -207,7 +209,7 @@ class OrganizationAction(models.Model):
     id = models.UUIDField(primary_key=True,
                           default=uuid.uuid4,
                           editable=False)
-    organization_risk = models.OneToOneField(OrganizationRisk, unique=True, null=False)
+    organization_risk = models.ForeignKey(OrganizationRisk, null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)

@@ -14,3 +14,4 @@ ipython==6.2.1
 requests>=2.18,<2.19.99
 rollbar>=0.13,<0.13.99
 django-queryset-csv==1.0.0
+geopy==1.11.0

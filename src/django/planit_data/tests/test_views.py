@@ -233,7 +233,7 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_organization_risk_detail(self):
+    def test_organization_risk_no_action_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
@@ -264,13 +264,22 @@ class OrganizationRiskTestCase(APITestCase):
             }})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_organization_risk_detail_with_action(self):
+    def test_organization_risk_with_multi_actions(self):
+        org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
+        actions = OrganizationActionFactory.create_batch(3, organization_risk=org_risk)
+
+        action_ids = [a.id.hex for a in actions]
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.get(url)
+        self.assertIn(response.json()['action']['id'].replace('-', ''), action_ids)
+
+    def test_organization_risk_action_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
         org_action = OrganizationActionFactory(organization_risk=org_risk)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
-
         self.assertDictEqual(response.json()['action'], {
             'name': '',
             'action_goal': '',
@@ -316,6 +325,52 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(organization_risk.weather_event, weather_event)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_organization_risk_requires_weather_event(self):
+        """Ensure front-end users must provide a weatherevent even though we allowed the field to
+        be nullable for the suggested actions feature."""
+        community_system = CommunitySystemFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': ''
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_organization_risk_requires_community_system(self):
+        """Ensure front-end users must provide a community system even though we allowed the field
+        to be nullable for the suggested actions feature."""
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': '',
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_edit_organization_risk(self):
         # Create an organization risk for the user's primary_organization
@@ -592,6 +647,8 @@ class SuggestedActionTestCase(APITestCase):
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
             'plan_due_date': None,
+            'plan_name': '',
+            'plan_hyperlink': '',
             'action_goal': '',
             'action_type': '',
             'collaborators': [],

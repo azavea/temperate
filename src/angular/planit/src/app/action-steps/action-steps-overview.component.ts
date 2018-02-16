@@ -13,7 +13,7 @@ import { Action, Risk } from '../shared';
 export class ActionStepsOverviewComponent implements OnInit {
 
   public risks: Risk[];
-  public actions: Action[];
+  public action: Action;
 
   constructor (private actionService: ActionService,
                private riskService: RiskService,
@@ -30,7 +30,6 @@ export class ActionStepsOverviewComponent implements OnInit {
     return !!this.risks.find((risk: Risk) => risk.isAssessed());
   }
 
-  // Refresh actions, risks and their counts when an action is deleted
   deleteAction(action) {
     this.actionService.delete(action).subscribe(a => {
       const risk = this.risks.find(r => r.action && r.action.id === action.id);

@@ -5,6 +5,8 @@
     "fields": {
         "name": "User Organization",
         "plan_due_date": null,
+        "plan_name": "",
+        "plan_hyperlink": "",
         "units": "IMPERIAL",
         "location": null,
         "created_by": null
@@ -16,6 +18,8 @@
     "fields": {
         "name": "Philadelphia",
         "plan_due_date": "2023-02-01",
+        "plan_name": "",
+        "plan_hyperlink": "",
         "units": "IMPERIAL",
         "location": [
             7
@@ -29,6 +33,8 @@
     "fields": {
         "name": "New York City",
         "plan_due_date": "2022-02-01",
+        "plan_name": "",
+        "plan_hyperlink": "",
         "units": "IMPERIAL",
         "location": [
             1
