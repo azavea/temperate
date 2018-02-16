@@ -7,6 +7,7 @@ import { PreviousRouteGuard } from '../core/services/previous-route-guard.servic
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
 import { ActionResolve } from './resolvers/action-resolve';
+import { SuggestedActionResolve } from './resolvers/suggested-action-resolve';
 
 const routes: Routes = [
   {
@@ -21,6 +22,19 @@ const routes: Routes = [
     component: EditActionComponent,
     canActivate: [PlanAuthGuard]
   }, {
+    path: 'actions/action/new/:riskid',
+    component: EditActionComponent,
+    canActivate: [PlanAuthGuard]
+  },
+  {
+    path: 'actions/action/new/:riskid/:suggestedid',
+    component: EditActionComponent,
+    resolve: {
+      suggestedAction: SuggestedActionResolve
+    },
+    canActivate: [PlanAuthGuard]
+  },
+  {
     path: 'actions/action/:id',
     component: EditActionComponent,
     resolve: {
@@ -32,6 +46,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ActionStepsRoutingModule { }

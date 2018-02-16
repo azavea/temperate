@@ -44,7 +44,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
   }
 
   shouldSave() {
-    return true;
+    return this.form ? this.form.valid : true;
   }
 
   // For inexplicable reasons, we lose access to 'this' if 'save' is
@@ -53,6 +53,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
     if (!this.shouldSave()) {
       return Promise.resolve(true);
     }
+
     const data = this.getFormModel();
     this.session.setDataForKey(this.key, data);
     const model = this.session.getData();
