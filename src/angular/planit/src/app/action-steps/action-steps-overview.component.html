@@ -1,7 +1,8 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <section>
-      <h1 class="heading">Adaptation Actions</h1>
+      <h2 class="heading">Adaptation Actions</h2>
+      <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
       <button class="button icon-edit" routerLink="action/new"></button>
     </section>
     <section class="display-flex flex-vertical" *ngIf="risks === undefined">

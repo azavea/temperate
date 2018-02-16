@@ -1,9 +1,10 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <section>
-      <h1 class="heading">Vulnerability Assessment
+      <h2 class="heading">Vulnerability Assessment
         <button class="button icon-edit" routerLink="risk/new"></button>
-      </h1>
+      </h2>
+      <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
     </section>
     <section>
       <h2>Your city's risks</h2>

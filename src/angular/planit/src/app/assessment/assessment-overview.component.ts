@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
+import { Observable } from 'rxjs/Rx';
+
 import { ActionService } from '../core/services/action.service';
 import { RiskService } from '../core/services/risk.service';
-import { Action, Risk } from '../shared';
+import { WeatherEventService } from '../core/services/weather-event.service';
+import { Action, Risk, WeatherEvent } from '../shared';
 
 @Component({
   selector: 'va-overview',
@@ -21,9 +24,11 @@ export class AssessmentOverviewComponent implements OnInit {
     risk: 'A potential future climate hazard and the social, civic, economic, or ecological ' +
           'system that may be affected.'
   };
+  public weatherEvent?: WeatherEvent;
 
   constructor (private riskService: RiskService,
                private actionService: ActionService,
+               private weatherEventService: WeatherEventService,
                private route: ActivatedRoute,
                private router: Router) {}
 
@@ -31,6 +36,14 @@ export class AssessmentOverviewComponent implements OnInit {
     this.route.queryParamMap.switchMap((params: ParamMap) => {
       return this.riskService.filterByWeatherEvent(+params.get('hazard') || null);
     }).subscribe(risks => this.risks = risks);
+    this.route.queryParamMap.switchMap((params: ParamMap) => {
+      const weatherEventId = +params.get('hazard') || undefined;
+      if (Number.isInteger(weatherEventId)) {
+        return this.weatherEventService.get(weatherEventId);
+      } else {
+        return Observable.of(undefined);
+      }
+    }).subscribe(weatherEvent => this.weatherEvent = weatherEvent);
   }
 
   deleteRisk(risk: Risk) {
