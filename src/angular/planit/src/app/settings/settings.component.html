@@ -7,9 +7,22 @@
     <section>
       <div class="dashboard-main">
         <h3>Profile</h3>
+        <label>First name</label>
+        <app-editable-input [(value)]="user.first_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
+
+        <label>Last name</label>
+        <app-editable-input [(value)]="user.last_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
+
+        <label>Email</label>
+        <input class="form-control" type="text" disabled value="{{ user.email }}">
       </div>
       <div class="dashboard-main">
         <h3>Organization</h3>
+        <label>City</label>
+        <input class="form-control" type="text" disabled value="{{ user.primary_organization.location.properties.name }}">
+
+        <label>Organization/department</label>
+        <app-editable-input [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>
       </div>
     </section>
   </main>

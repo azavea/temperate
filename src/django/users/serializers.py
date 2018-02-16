@@ -60,6 +60,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if not dt:
             # year is not required
             return None
+        if self.instance is not None and self.instance.plan_due_date == dt:
+            # we shouldn't validate if it hasn't changed
+            return dt
         if dt < datetime.date.today():
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
@@ -126,20 +129,21 @@ class UserSerializer(serializers.ModelSerializer):
                   'primary_organization', 'password1', 'password2',)
 
     def validate(self, data):
-        # check passwords match
-        if data['password1'] != data['password2']:
-            raise serializers.ValidationError('Passwords do not match.')
-        if (('primary_organization' in data and
-             data['primary_organization'] not in data['organizations'])):
-            raise serializers.ValidationError(
-                "Primary Organization must be one of the user's Organizations"
-            )
-        # run built-in password validators; will raise ValidationError if it fails
-        validate_password(data['password1'])
-        # return cleaned data with a single password
-        data['password'] = data['password1']
-        data.pop('password1')
-        data.pop('password2')
+        if 'password1' in data and 'password2' in data:
+            # check passwords match
+            if data['password1'] != data['password2']:
+                raise serializers.ValidationError('Passwords do not match.')
+            if (('primary_organization' in data and
+                 data['primary_organization'] not in data['organizations'])):
+                raise serializers.ValidationError(
+                    "Primary Organization must be one of the user's Organizations"
+                )
+            # run built-in password validators; will raise ValidationError if it fails
+            validate_password(data['password1'])
+            # return cleaned data with a single password
+            data['password'] = data['password1']
+            data.pop('password1')
+            data.pop('password2')
         return data
 
 

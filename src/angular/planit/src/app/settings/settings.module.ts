@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { EditableInputComponent } from './editable-input/editable-input.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 
@@ -9,6 +10,9 @@ import { SettingsComponent } from './settings.component';
     CommonModule,
     SettingsRoutingModule
   ],
-  declarations: [SettingsComponent]
+  declarations: [
+    EditableInputComponent,
+    SettingsComponent,
+  ]
 })
 export class SettingsModule { }

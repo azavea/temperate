@@ -49,3 +49,20 @@ select {
   box-shadow: none;
   position: relative;
 }
+
+.inline-buttons {
+  position: relative;
+
+  > .buttons {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    padding: 1px;
+
+    > .button {
+      line-height: 20px;
+      padding: 1px 5px;
+      font-size: 14px;
+    }
+  }
+}

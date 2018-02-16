@@ -1,0 +1,15 @@
+<div class="inline-buttons">
+  <input class="form-control" type="text" [disabled]="!isEditing" [value]="value" (input)="input($event)">
+
+  <div class="buttons">
+    <button type="button" class="button-link" (click)="edit()" *ngIf="!isEditing">
+      <i class="icon icon-edit"></i>
+    </button>
+    <button type="button" class="button button-primary" [disabled]="!value" (click)="save()" *ngIf="isEditing">
+      Save
+    </button>
+    <button type="button" class="button button-danger" (click)="cancel()" *ngIf="isEditing">
+      Cancel
+    </button>
+  </div>
+</div>
