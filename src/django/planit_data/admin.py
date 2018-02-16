@@ -14,18 +14,28 @@ from .models import (
     WeatherEventRank,
 )
 
-for Model in (CommunitySystem,
-              Concern,
+for Model in (Concern,
               DefaultRisk,
               GeoRegion,
               Indicator,
               OrganizationAction,
               OrganizationRisk,
               RelatedAdaptiveValue,
-              WeatherEvent,
               WeatherEventRank,
               ):
     admin.site.register(Model)
+
+
+@admin.register(CommunitySystem)
+class CommunitySystemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'display_class',)
+    list_editable = ('display_class',)
+
+
+@admin.register(WeatherEvent)
+class WeatherEventAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'display_class',)
+    list_editable = ('display_class',)
 
 
 @admin.register(OrganizationWeatherEvent)
