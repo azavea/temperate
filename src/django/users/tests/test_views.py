@@ -125,17 +125,16 @@ class UserCreationApiTestCase(APITestCase):
         token = Token.objects.get(user=user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-        url = reverse('planituser-list')
+        url = reverse('planituser-detail', kwargs={'pk': user.pk})
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, 200)
         result = response.json()
         # should have response with one user, our test user
-        self.assertEqual(result['count'], 1)
-        self.assertEqual(result['results'][0]['email'], 'admin@azavea.com')
+        self.assertEqual(result['email'], 'admin@azavea.com')
 
     def test_get_auth_required(self):
         """Ensure an unauthenticated request cannot GET."""
-        response = self.client.get('/api/users/', format='json')
+        response = self.client.get('/api/user/', format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
