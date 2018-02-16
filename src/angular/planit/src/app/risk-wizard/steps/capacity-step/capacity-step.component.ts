@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from '../../../core/services/related-adaptive-value.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
@@ -42,14 +44,16 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder,
               private relatedAdaptiveValueService: RelatedAdaptiveValueService) {
-    super(session, riskService, toastr);
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.risk = this.session.getData() || new Risk({});
+    this.risk = this.session.getData();
     this.setupForm(this.fromModel(this.risk));
     this.relatedAdaptiveValueService.list()
       .subscribe(adaptiveValues => {
@@ -57,6 +61,7 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
       });
     this.setDisabled(this.risk);
     this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.risk = risk;
       this.setDisabled(risk);
     });
   }

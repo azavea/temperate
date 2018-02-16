@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import {
   OrgRiskDirectionalOptions,
   OrgRiskRelativeChanceOptions,
@@ -41,16 +42,17 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
               protected riskService: RiskService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
-              private router: Router) {
-    super(session, riskService, toastr);
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard) {
+    super(session, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.risk = this.session.getData();
     this.setDisabled(this.risk);
-    this.sessionSubscription = this.session.data.subscribe(r => {
-      this.risk = r;
+    this.sessionSubscription = this.session.data.subscribe(risk => {
+      this.risk = risk;
       this.setDisabled(this.risk);
     });
   }
@@ -74,9 +76,5 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
   }
 
   setupForm(data: any) {
-  }
-
-  finish() {
-    this.router.navigate(['assessment']);
   }
 }

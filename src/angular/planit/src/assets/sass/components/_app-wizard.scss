@@ -59,7 +59,12 @@ wizard {
     }
 
     .step-footer {
-      float: right;
+      .step-footer-exit {
+        float: left;
+      }
+      .step-footer-navigation {
+        float: right;
+      }
     }
   }
 
