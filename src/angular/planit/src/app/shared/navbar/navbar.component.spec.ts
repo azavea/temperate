@@ -2,9 +2,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs/Rx';
+
 import { BsModalService, ModalModule } from 'ngx-bootstrap';
 
 import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 import { NavbarComponent } from './navbar.component';
 
 class RouterStub {
@@ -14,6 +17,12 @@ class RouterStub {
 class AuthServiceStub {
   isAuthenticated() {
     return true;
+  }
+}
+
+class UserServiceStub {
+  current() {
+    return Observable.of({});
   }
 }
 
@@ -27,6 +36,7 @@ describe('NavbarComponent', () => {
       providers: [
         BsModalService,
         { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserService, useClass: UserServiceStub },
         { provide: Router, useClass: RouterStub }
       ],
       imports: [ ModalModule.forRoot() ],

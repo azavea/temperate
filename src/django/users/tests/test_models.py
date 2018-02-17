@@ -125,6 +125,14 @@ class OrganizationTestCase(TestCase):
         )
         self.assertSequenceEqual(org.weather_events.all(), [org_weather_event])
 
+    def test_subscription_end_date_set_on_freetrial_save(self):
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            subscription=PlanItOrganization.Subscription.FREE_TRIAL,
+            subscription_end_date=None
+        )
+        self.assertIsNotNone(org.subscription_end_date)
+
 
 class LocationManagerTestCase(TestCase):
     @mock.patch('users.models.make_token_api_request')

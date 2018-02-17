@@ -9,6 +9,12 @@
         <p class="email">{{ user.email }}</p>
       </a>
     </li>
+    <li role="separator" class="divider"></li>
+    <li role="menuitem">
+      <span>{{ subscriptionOptions.get(user.primary_organization?.subscription) }}</span>
+      <a routerLink="/subscription">Upgrade your plan</a>
+    </li>
+    <li role="separator" class="divider"></li>
     <li role="menuitem">
       <a class="dropdown-item" href="javascript:" routerLink="/settings" routerLinkActive="disabled">
         <i class="icon-cog"></i> Settings

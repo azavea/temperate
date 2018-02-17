@@ -1,5 +1,7 @@
 import factory
 
+from datetime import datetime
+
 from django.contrib.gis.geos import Point
 
 from users.models import PlanItUser, PlanItLocation, PlanItOrganization
@@ -30,6 +32,9 @@ class OrganizationFactory(factory.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: 'Test Organization {}'.format(n))
     location = factory.SubFactory(LocationFactory)
+    created_at = datetime(2018, 1, 1)
+    subscription = PlanItOrganization.Subscription.FREE_TRIAL
+    subscription_end_date = datetime(2018, 1, 14)
 
 
 class UserFactory(factory.DjangoModelFactory):

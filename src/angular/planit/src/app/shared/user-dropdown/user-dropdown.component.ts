@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
-import { User } from '../../shared';
+import { OrgSubscriptionOptions, User } from '../../shared';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -12,9 +12,9 @@ import { User } from '../../shared';
 
 export class UserDropdownComponent implements OnInit {
   public user: User;
+  public subscriptionOptions = OrgSubscriptionOptions;
 
-  constructor(private authService: AuthService, private userService: UserService) {
-  }
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
     this.userService.current().subscribe(user => this.user = user);

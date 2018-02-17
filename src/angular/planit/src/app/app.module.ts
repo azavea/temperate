@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
 import { PageNotFoundComponent } from './not-found.component';
@@ -69,6 +70,7 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
+    ManageSubscriptionComponent,
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent
