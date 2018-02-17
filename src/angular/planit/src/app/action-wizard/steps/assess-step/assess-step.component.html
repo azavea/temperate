@@ -30,8 +30,8 @@
 </div>
 <div class="step-footer">
   <button type="button" class="exit-button" tabindex="4" (click)="cancel()">
-    <span *ngIf="!form.valid">Cancel</span>
-    <span *ngIf="form.valid">Finish later</span>
+    <span *ngIf="!shouldSave()">Cancel</span>
+    <span *ngIf="shouldSave()">Finish later</span>
   </button>
   <button type="button" class="continue-button"
           tabindex="3"
