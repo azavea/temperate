@@ -245,7 +245,8 @@ class OrganizationRiskTestCase(APITestCase):
             'adaptive_capacity_description': '',
             'community_system': {
                 'id': org_risk.community_system.id,
-                'name': org_risk.community_system.name
+                'name': org_risk.community_system.name,
+                'display_class': '',
             },
             'frequency': '',
             'id': str(org_risk.id),

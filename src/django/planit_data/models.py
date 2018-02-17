@@ -42,6 +42,7 @@ class CommunitySystem(models.Model):
 
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
+    display_class = models.CharField(max_length=128, blank=True, default='')
 
     def __str__(self):
         return self.name
@@ -61,13 +62,7 @@ class WeatherEvent(models.Model):
     concern = models.ForeignKey('Concern', null=True, blank=True)
     indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
     community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
-
-    DISPLAY_CHOICES = (
-        ('precipitation', 'Precipitation'),
-        ('heat', 'Heat'),
-        ('extreme-events', 'Extreme Events')
-    )
-    display_class = models.CharField(max_length=32, choices=DISPLAY_CHOICES)
+    display_class = models.CharField(max_length=128, blank=True, default='')
 
     def __str__(self):
         return self.name
