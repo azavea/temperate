@@ -61,30 +61,23 @@ wizard {
     .step-footer {
       width: 100%;
 
+      .step-footer-exit {
+        float: left;
+      }
+
+      .step-footer-navigation {
+        float: right;
+      }
+
       button {
         background-color: $dark-grey-background;
         color: white;
         border: 0;
         padding: .5rem;
 
-        &.exit-button {
-          float: left;
-        }
-
-        &.continue-button {
-          float: right;
-          background-color: $brand-primary;
-        }
-
         &:disabled {
           background-color: $light-grey-background;
         }
-
-      .step-footer-exit {
-        float: left;
-      }
-      .step-footer-navigation {
-        float: right;
       }
     }
   }
