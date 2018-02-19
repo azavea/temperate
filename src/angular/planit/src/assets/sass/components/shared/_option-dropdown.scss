@@ -13,7 +13,7 @@ app-option-dropdown {
     cursor: pointer;
 
     &:not(:last-child) {
-      border-bottom: solid 1px $gray-2;
+      border-bottom: solid 1px $neutral-2;
     }
 
     & > a.dropdown-item {
@@ -27,7 +27,7 @@ app-option-dropdown {
 
       & .dropdown-label {
         font-size: 18px;
-        font-weight: bold;
+        font-weight: $font-weight-bold;
       }
     }
   }

@@ -3,19 +3,19 @@ wizard {
 
     &.current:after, &.editing:after {
       border-color: $brand-primary !important;
-      color: white !important;
+      color: $white !important;
       background-color: $brand-primary !important;
     }
 
     &.done:after {
       border-color: $brand-positive !important;
-      color: white !important;
+      color: $white !important;
       background-color: $brand-positive !important;
     }
 
     &.default:after, &.optional:after {
-      border-color: $gray-0 !important;
-      background-color: $gray-0 !important;
+      border-color: $neutral-0 !important;
+      background-color: $neutral-0 !important;
     }
   }
 }

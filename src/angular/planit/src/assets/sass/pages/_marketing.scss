@@ -27,12 +27,12 @@
 
 .helper-arrow {
   font-size: $text-base;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
   position: absolute;
   bottom: 3rem;
   left: 50%;
   transform: translateX(-50%);
-  color: white;
+  color: $white;
 
   &:after {
     content: "";
@@ -43,6 +43,6 @@
     transform: translateX(-50%);
     height: 5rem;
     width: 1px;
-    background-color: $gray-2;
+    background-color: $neutral-2;
   }
 }

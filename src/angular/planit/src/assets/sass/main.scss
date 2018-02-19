@@ -2,8 +2,6 @@
 
 @import 'bootstrap';
 
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700');
-
 @import 'ngx-bootstrap';
 @import '~ngx-toastr/toastr';
 
@@ -30,7 +28,8 @@
  * * * */
 @import
   'base/normalize',
-  'base/base';
+  'base/base',
+  'base/fonts';
 
 /* * * *
  * Layout and overall structure
@@ -67,9 +66,7 @@
   'components/header-primary',
   'components/link',
   'components/loading',
-  'components/map-attribution',
   'components/modal',
-  'components/navigation-primary',
   'components/popover',
   'components/progressbar',
   'components/slider',
@@ -94,14 +91,3 @@
 @import 'pages/indicators';
 @import 'pages/marketing';
 @import 'pages/vulnerability-assessment';
-
-/* * * *
- * Demo styling
- * * * */
-@mixin demo-everything($demo: true) {
-  @if $demo {
-    @include demo;
-  }
-}
-@import 'demo';
-@include demo-everything;

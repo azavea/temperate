@@ -4,6 +4,7 @@ app-chart {
   height: 100%;
   margin-top: $space-medium;
   flex-direction: column;
+  font-variant-numeric: tabular-nums;
 
   .line-graph {
     height: 200px;
@@ -38,14 +39,14 @@ app-chart {
   .chart-label {
     font-size: $font-size-h3;
     margin: 0;
-    font-weight: 800;
+    font-weight: $font-weight-bold;
     padding: 2rem 1.5rem;
   }
 
   .chart-legend {
     padding: 2rem;
     padding-top: 0;
-    color: #757575;
+    color: $neutral-4;
     font-size: 12px;
 
     .chart-legend-line {
@@ -84,7 +85,7 @@ app-chart {
     padding: 10rem;
     margin-bottom: $space-xlarge;
     font-size: $text-base;
-    font-weight: 400;
+    font-weight: $font-weight-regular;
     background: $loading-background-color;
   }
 
@@ -98,7 +99,7 @@ app-chart {
     }
 
     &.buttons {
-      border-top: 1px solid $gray-2;
+      border-top: 1px solid $neutral-2;
     }
 
     &.slider {
@@ -138,19 +139,19 @@ app-chart {
           height: 35px;
           width: 35px;
           float: left;
-          background-color: #e0e0e0;
-          border: 1px solid #c1c1c1;
+          background-color: $neutral-1;
+          border: 1px solid $neutral-2;
         }
 
         .curl-label {
-          font-weight: 700;
+          font-weight: $font-weight-bold;
         }
       }
 
       .dropdown-toggle {
-        background-color: #e0e0e0;
+        background-color: $neutral-1;
         padding: 0.4rem 0.7rem 0.4rem 0.5rem;
-        border-color: #c1c1c1;
+        border-color: $neutral-2;
       }
 
       .optional-parameters-label {
@@ -185,8 +186,8 @@ app-chart {
 
         font-size: 14px;
         text-align: left;
-        background-color: #ffffff;
-        border: 1px solid #cccccc;
+        background-color: $white;
+        border: 1px solid $neutral-2;
         border: 1px solid rgba(0, 0, 0, 0.15);
 
         box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.05);
@@ -209,7 +210,7 @@ app-chart {
       padding-bottom: .5rem;
       &:after {
         content: "";
-        border-right: 1px solid $gray-2;
+        border-right: 1px solid $neutral-2;
         top: 2px;
         right: -4px;
         bottom: 2px;
@@ -293,18 +294,18 @@ app-chart {
   g {
     circle {
       fill: $brand-primary;
-      stroke: #fff;
+      stroke: $white;
       stroke-width: 2px;
     }
 
     .scrubber-box {
-      fill: #000;
+      fill: $black;
     }
 
     .scrubber-text {
-      fill: #fff;
-      stroke: #fff;
-      font-weight: 300;
+      fill: $white;
+      stroke: $white;
+      font-weight: $font-weight-light;
     }
   }
 
@@ -313,7 +314,7 @@ app-chart {
   }
 
   .chart-controls {
-    color: #000;
+    color: $black;
 
     .controls-header {
       .controls-label {

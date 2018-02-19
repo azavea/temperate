@@ -11,7 +11,7 @@
       @content;
     }
   }
- 
+
   // If the key doesn't exist in the map
   @else {
     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
@@ -38,54 +38,6 @@
 // TODO: Add style for a close/X button to be placed on right side of alert.
 
 /* * * *
- * Generate Padding Utility Classes
- * * * */
-@mixin generate-padding($i: 1) {
-  @for $i from (1 + 1) through 5 {
-    $padding: $i * 1rem;
-    .padding-#{$i} {
-      padding: $padding;
-    }
-    .padding-bottom-#{$i} {
-      padding-bottom: $padding;
-    }
-    .padding-top-#{$i} {
-      padding-top: $padding;
-    }
-    .padding-left-#{$i} {
-      padding-left: $padding;
-    }
-    .padding-right-#{$i} {
-      padding-right: $padding;
-    }
-  }
-}
-
-/* * * *
- * Generate Margin Utility Classes
- * * * */
-@mixin generate-margin($i: 0) {
-  @for $i from (1 + 1) through 5 {
-    $margin: $i * 1rem;
-    .margin-#{$i} {
-      margin: $margin;
-    }
-    .margin-bottom-#{$i} {
-      margin-bottom: $margin;
-    }
-    .margin-top-#{$i} {
-      margin-top: $margin;
-    }
-    .margin-left-#{$i} {
-      margin-left: $margin;
-    }
-    .margin-right-#{$i} {
-      margin-right: $margin;
-    }
-  }
-}
-
-/* * * *
  * Clearfix
  * Source: https://github.com/twbs/bootstrap-sass/
  *         blob/master/assets/stylesheets/bootstrap/
@@ -104,5 +56,10 @@
 
 
 @mixin button-focus-outline() {
-  box-shadow: 0 0 0 3px rgba( $gray-2, 0.15 );
+  box-shadow: 0 0 0 2px rgba($brand-secondary, 0.5);
+}
+
+@mixin light-on-dark() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

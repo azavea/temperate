@@ -1,29 +1,26 @@
-p a {
+a {
   text-decoration: none;
-  padding-bottom: 1px;
-  color: inherit;
+  padding: 0 0 1px 0;
+  color: $brand-primary;
   box-shadow: none;
-  border-bottom: 1px solid $gray-1;
+  border: 0;
+  border-bottom: 1px solid $brand-secondary;
 
-  &:hover, &.hover,
-  &:active, &.active, {
-    color: $gray-4;
-    color: $brand-primary;
-    border-bottom: 1px solid $brand-primary;
+  &:focus, &.focus {
+    border-radius: $border-radius;
+    border-bottom-color: transparent;
+    outline: 0;
+    @include button-focus-outline();
+  }
+
+  &:hover, &.hover {
+    border-bottom-color: $brand-primary;
   }
 
   &:active, &.active {
-    box-shadow: inset 0 1px 2px -1px rgba(black, .1);
-  }
-
-  &:focus, &.focus {
-    color: $gray-5;
-    background-color: lighten( $gray-1, 10% );
-    outline: 0;
-  }
-
-  &:focus:active {
-    box-shadow: inset 0 1px 2px -1px rgba(black, .1);
+    color: $brand-black;
+    border-bottom-color: $brand-black;
+    box-shadow: none;
   }
 
   &:disabled, &.disabled {

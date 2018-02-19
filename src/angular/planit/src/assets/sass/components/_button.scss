@@ -1,66 +1,35 @@
-@mixin button-fill-states($background-color,$text-color) {
-  &:hover, &.hover,
-  &:active, &.active, {
-    color: $text-color;
-    background-color: darken($background-color, 5%);
+@mixin button-states($background-color) {
+  color: $brand-black;
+  background-color: $background-color;
+
+  &:focus, &.focus {
+    @include button-focus-outline();
+    outline: 0;
+  }
+
+  &:hover, &.hover {
+    @include light-on-dark();
+    color: $neutral-0;
+    background-color: adjust-color($background-color, $lightness: lightness($background-color) * -.3);
   }
 
   &:active, &.active {
-    background-color: darken($background-color, 10%);
-    box-shadow: 0 0 0 0 darken($background-color, 10%);
-  }
-
-  &:focus, &.focus {
-    outline: 0;
-    color: $text-color;
-    box-shadow: 0px 0px 0px 5px darken($background-color, 10%) inset;
-    background-color: $background-color;
-    @include button-focus-outline();
-  }
-
-  // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
-  &:focus:active {
-    box-shadow: inset 0 0 0 0 transparent;
+    @include light-on-dark();
+    color: $neutral-0;
+    background-color: adjust-color($background-color, $lightness: lightness($background-color) * -.5);
+    box-shadow: none;
   }
 
   &:disabled, &.disabled {
     opacity: .5;
-  }
-}
-
-@mixin button-outline-states($background-color) {
-  &:hover, &.hover,
-  &:active, &.active, {
-    border-color: darken($background-color, 5%);
-  }
-
-  &:active, &.active {
-    border-color: darken($background-color, 10%);
-  }
-
-  &:focus, &.focus {
-    color: white;
-    outline: 0;
-    box-shadow: 0px 0px 0px 5px darken($background-color, 10%) inset;
-    background-color: $background-color;
-    @include button-focus-outline();
-  }
-
-  // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
-  &:focus:active {
-    box-shadow: inset 0 0 0 0 transparent;
-  }
-
-  &:disabled, &.disabled {
-    opacity: .5;
+    cursor: not-allowed;
   }
 }
 
 .button {
   font-family: $button-font-family;
-  font-weight: 600;
   display: inline-block;
-  -webkit-appearance: none;
+  appearance: none;
   cursor: pointer;
   vertical-align: middle;
   text-align: center;
@@ -70,136 +39,117 @@
   line-height: 1.5;
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
-  background-color: #fff;  
-  color: $gray-4;
   box-shadow: none;
   border: none;
-
-  &:hover, &.hover,
-  &:active, &.active, {
-    color: $gray-4;
-    background-color: lighten( $gray-1, 10% );
-  }
-
-  &:active, &.active {
-    box-shadow: inset 0 1px 2px -1px rgba(black, .1);
-  }
-
-  &:focus, &.focus {
-    color: $gray-5;
-    background-color: lighten( $gray-1, 10% );
-    outline: 0;
-  }
-
-  // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
-  &:focus:active {
-    box-shadow: inset 0 1px 2px -1px rgba(black, .1);
-  }
-
-  &:disabled, &.disabled {
-    opacity: .5;
-    cursor: not-allowed;
-  }
+  @include button-states($neutral-2);
 }
 
 .button-primary {
-  color: white;
-  background-color: $brand-primary;
-  border: 3px solid darken($brand-primary, 5%);
-
-  @include button-fill-states($brand-primary, white);
-}
-
-.button-secondary {
-  color: $brand-secondary;
-  background-color: transparent;
-  border: 3px solid $brand-secondary;
-
-  @include button-outline-states($brand-secondary);
+  @include button-states($brand-teal);
 }
 
 .button-positive {
-  color: white;
-  background-color: $brand-positive;
-  border: 3px solid darken($brand-positive, 5%);
-
-  @include button-fill-states($brand-positive, white);
+  @include button-states($brand-positive);
 }
 
 .button-danger {
-  color: #fff;
-  background-color: $brand-danger;
-  border: 3px solid darken($brand-danger, 5%);
-
-  @include button-fill-states($brand-danger, white);
+  @include button-states($brand-danger);
 }
 
 .button-warning {
-  color: #fff;
-  background-color: $brand-warning;
-  border: 3px solid darken($brand-warning, 5%);
-
-  @include button-fill-states($brand-warning, white);
-}
-
-.button-inverted {
-  color: $brand-primary;
-  background-color: $gray-0;
-  border: 3px solid darken($brand-primary, 5%);
-
-  @include button-fill-states($gray-0, $brand-primary);
-}
-
-.button-secondary-inverted {
-  color: $gray-0;
-  background-color: transparent;
-  border: 3px solid $gray-0;
-
-  @include button-outline-states($gray-0);
+  @include button-states($brand-warning);
 }
 
 .button-link {
+  @extend a;
+  appearance: none;
   background-color: transparent;
-  border: none;
-
-  &:hover, &.hover,
-  &:active, &.active,
-  &:focus, &.focus,
-  &:focus:active {
-    box-shadow: none;
-    color: darken($brand-primary, 10%);
-    background-color: transparent;
-  }
+  font: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  overflow: visible;
+  cursor: pointer;
 }
 
 .button-large {
   font-size: $text-base;
   padding: $button-padding-vertical-large $button-padding-horizontal-large;
-  border-radius: $button-border-radius-large;
 }
 
 .button-small {
   padding: $button-padding-vertical-small $button-padding-horizontal-small;
-  border-width: 2px;
 }
 
 .button-group {
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
 
-  > button {
-    margin: 0;
+  .button {
+      border-radius: 0;
+  }
+
+  > .button:first-child,
+  > *:first-child .button {
+      border-top-left-radius: $button-border-radius;
+      border-bottom-left-radius: $button-border-radius;
+  }
+
+  > .button:last-child,
+  > *:last-child .button {
+      border-top-right-radius: $button-border-radius;
+      border-bottom-right-radius: $button-border-radius;
+  }
+
+  > * + * {
+    margin-left: 2px;
   }
 }
 
 .button-icon-left {
-  i {
-    margin-right: 0.75rem;
+  i:first-of-type {
+    margin-right: 0.4rem;
   }
 }
 
 .button-icon-right {
-  i {
-    margin-left: 0.75rem;
+  i:last-of-type {
+    margin-left: 0.4rem;
+  }
+}
+
+.button-icon {
+    padding: $button-padding-vertical;
+}
+
+.button-floating {
+  width: 6.7rem;
+  height: 6.7rem;
+  border-radius: 50%;
+  color: $white;
+  background-color: $brand-teal;
+  padding: 0;
+  font-size: 3.6rem;
+  box-shadow: 0 0 14px rgba($black, .28);
+
+  &:focus, &.focus {
+    outline: 0;
+    @include button-focus-outline();
+  }
+
+  &:hover, &.hover {
+    color: $neutral-0;
+    background-color: adjust-color($brand-teal, $lightness: lightness($brand-teal) * -.3);
+  }
+
+  &:active, &.active {
+    color: $neutral-0;
+    background-color: adjust-color($brand-teal, $lightness: lightness($brand-teal) * -.5);
+    box-shadow: none;
+  }
+
+  &:disabled, &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
   }
 }

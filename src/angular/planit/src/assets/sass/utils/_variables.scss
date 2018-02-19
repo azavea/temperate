@@ -24,28 +24,45 @@ $breakpoints: (
  * Settings
  *
  * * * */
-$leaflet-control-attribution-on: false;
-$border-radius: 2px;
+$border-radius: 3px;
 
 
 /* * * *
  * Colors
  *
  * * * */
-$gray-0: lighten(#D9D9DE, 10%);
-$gray-1: #d2dcea;
-$gray-2: #688ab7;
-$gray-3: #3D5A80;
-$gray-4: #2a3e58;
-$gray-5: #172230;
+$brand-evergreen: #15514b;
+$brand-teal: #46b6ae;
+$brand-black: #032a1d;
+$brand-leaf: #85c005;
+$brand-persimmon: #ed5c14;
+$brand-saffron: #f2c706;
 
-$brand-primary: #6184D8;
-$brand-secondary: $gray-3;
-$brand-positive: #49A078;
-$brand-danger: #FF3E41;
-$brand-warning: #F7B32B;
+$brand-primary: $brand-evergreen;
+$brand-secondary: $brand-teal;
+$brand-positive: $brand-leaf;
+$brand-warning: $brand-saffron;
+$brand-danger: $brand-persimmon;
 
-$border-color: #D9D9DE;
+$white: #fff;
+$gray: #f2f2f2;
+$black: $brand-black;
+
+$neutral-0: #fafaf9;
+$neutral-1: #ededeb;
+$neutral-2: #c9c9c3;
+$neutral-3: #a4a49a;
+$neutral-4: #7e7e71;
+$neutral-5: #363630;
+
+$border-color: $neutral-1;
+
+// TODO Revisit these
+$adaptive-need-high: $brand-danger;
+$adaptive-need-mod-high: #f75824;
+$adaptive-need-mod: #fa8530;
+$adaptive-need-mod-low: #f7a526;
+$adaptive-need-low: $brand-warning;
 
 
 /* * * *
@@ -60,7 +77,7 @@ $border-color: #D9D9DE;
  $space-medium: 1rem;
  $space-large: 1.25rem;
  $space-xlarge: 2rem;
- $main-background: $gray-0;
+ $main-background: $neutral-0;
  $content-max-width: 125rem;
 
 
@@ -69,7 +86,6 @@ $border-color: #D9D9DE;
  *
  * * * */
 $zindex-popover: 1060;
-$zindex-map-attribution: 2040;
 
 /* * * *
  * Columns
@@ -82,15 +98,17 @@ $column-padding: 1rem;
  * Typography
  *
  * * * */
+$font-weight-light: 200;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
 
 $modular-scale: 1.25;
 $font-size-base: 16px;
-$link-color: $brand-primary;
 $font-size-body: $font-size-base;
 $body-line-height: 1.5;
-$body-font-color: #666;
-$body-font-weight: normal;
-$body-font-family: "Work Sans", Arial, sans-serif;
+$body-font-color: $neutral-4;
+$body-font-weight: $font-weight-regular;
+$body-font-family: National, Arial, sans-serif;
 $monospace-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 
 $text-jumbo: $font-size-base * exponential($modular-scale, 5);
@@ -102,21 +120,12 @@ $text-small: $font-size-base;
 $text-tiny: $font-size-base / $modular-scale;
 
 $heading-line-height: 1.1;
-$heading-font-color: $gray-5;
-$heading-font-weight: 400;
-$heading-font-family: "Work Sans", Arial, sans-serif;
-// $heading-margin-top: 3rem;
+$heading-font-color: $neutral-5;
+$heading-font-weight: $font-weight-bold;
+$heading-font-family: National, Arial, sans-serif;
 $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
-
-
-/* * * *
- * Map Components
- *
- * * * */
-$map-attribution-font-size: 12px;
-$map-attribution-font-color: $body-font-color;
 
 
 /* * * *
@@ -135,13 +144,12 @@ $loading-dimension-small: 1.7rem;
 $button-font-family: $heading-font-family;
 $button-border-radius: $border-radius;
 // Default button
-$button-padding-vertical: 0.75rem;
-$button-padding-horizontal: 1.25rem;
+$button-padding-vertical: 0.8rem;
+$button-padding-horizontal: 2rem;
 // Small button
 $button-padding-vertical-small: $button-padding-vertical*0.55;
 $button-padding-horizontal-small: $button-padding-horizontal*0.75;
 // Large button
-$button-border-radius-large: 3rem;
 $button-padding-vertical-large: $button-padding-vertical*1.45;
 $button-padding-horizontal-large: $button-padding-horizontal*1.95;
 
@@ -168,7 +176,7 @@ $tooltip-font-family: $body-font-family;
 $tooltip-font-size: $text-tiny;
 $tooltip-padding-vertical: 0.4rem;
 $tooltip-padding-horizontal: 0.8rem;
-$tooltip-color: $gray-5;
+$tooltip-color: $neutral-5;
 $tooltip-arrow-width: 0.4rem;
 $tooltip-arrow-height: 0.5rem;
 
@@ -198,7 +206,7 @@ $alert-ghost-style: true;
 $alert-font-size: $font-size-body;
 $alert-heading-font-size: $font-size-body;
 $alert-heading-font-weight: $heading-font-weight;
-$alert-font-color: #fff;
+$alert-font-color: $white;
 
 
 /* * * *
@@ -211,7 +219,7 @@ $popover-border-radius: 3px;
 $popover-font-size: $font-size-body;
 $popover-heading-font-size: $font-size-body;
 $popover-font-color: $heading-font-color;
-$popover-background-color: #fff;
+$popover-background-color: $white;
 $popover-margin: 7px;
 $popover-max-width: 28rem;
 $popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
@@ -224,30 +232,24 @@ $popover-arrow: 8px;
  *
  * * * */
 
-$chart-line: #3D57FF;
+$chart-line: $brand-teal;
 $chart-minmax: $chart-line;
-$chart-trendline: #d44a34;
-$chart-min-bar: #41424d;
-$chart-max-bar: #f3b32f;
-$chart-axis: #757575;
-$chart-grid: #e3e3e3;
+$chart-trendline: $brand-persimmon;
+$chart-min-bar: $neutral-5;
+$chart-max-bar: $brand-saffron;
+$chart-axis: $neutral-4;
+$chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
-$color-header: #32323C;
+$color-header: $neutral-5;
 
 
 /* * * *
  * Cards
  *
  * * * */
-$card-toggle-background: #fff;
-$card-dropshadow: 0 0 40px rgba($gray-2, 0.2);
+$card-toggle-background: $white;
+$card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
-
-/* * * *
- * Navigation
- *
- * * * */
-$primary-nav-background: #fff;
 
 
 /* * * *
@@ -265,4 +267,4 @@ $primary-nav-background: #fff;
  * Loading Screen
  *
  * * * */
- $loading-background-color: $gray-0;
+ $loading-background-color: $neutral-0;

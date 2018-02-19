@@ -8,7 +8,7 @@
   </h4>
   <div [tooltip]="noRelatedIndicatorsTooltip"
        [isDisabled]="canShowIndicators">
-    <button class="button button-link"
+    <button class="button-link"
             [ngClass]="{disabled: !canShowIndicators}"
             (click)="openModal()">See Related Indicators</button>
   </div>
@@ -45,7 +45,7 @@
         [indicators]="indicators"
         [city]="city">
     </app-force-collapse-chart-container>
-    <a class="button button-link" (click)="goToIndicators()">See all indicators</a>
+    <a class="button-link" (click)="goToIndicators()">See all indicators</a>
   </div>
 </app-modal-template>
 
