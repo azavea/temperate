@@ -27,7 +27,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", type: TEMPERATE_SHARED_FOLDER_TYPE, mount_options: TEMPERATE_MOUNT_OPTIONS
 
   config.vm.provider :virtualbox do |vb|
-    vb.memory = 2048
+    vb.memory = 3072
     vb.cpus = 2
   end
 
