@@ -129,7 +129,6 @@ class CurrentUserView(APIView):
 class OrganizationViewSet(mixins.CreateModelMixin,
                           mixins.UpdateModelMixin,
                           mixins.RetrieveModelMixin,
-                          mixins.DestroyModelMixin,
                           GenericViewSet):
     model_class = PlanItOrganization
     serializer_class = OrganizationSerializer
