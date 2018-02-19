@@ -4,6 +4,7 @@ app-chart {
   height: 100%;
   margin-top: $space-medium;
   flex-direction: column;
+  font-variant-numeric: tabular-nums;
 
   .line-graph {
     height: 200px;
