@@ -13,43 +13,11 @@
     <form ngNoForm id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST" target="help-iframe">
       <input type=hidden name="orgid" value="00D700000008ZTW">
       <input type=hidden name="retURL" value="{{ url }}">
+      <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
+      <input type=hidden id="email" name="email" value="{{ user.email }}">
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization.location.properties.name }}">
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization.name }}">
       <div class="container">
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="name">Name</label>
-          </div>
-          <div class="col-sm-5">
-            <input id="name" maxlength="80" name="name" type="text"
-              value="{{ user.first_name }} {{ user.last_name }}">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="email">Email</label>
-          </div>
-          <div class="col-sm-5">
-            <input id="email" maxlength="80" name="email" size="20" type="text"
-              value="{{ user.email }}">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="city">City</label>
-          </div>
-          <div class="col-sm-5">
-            <input id="city" maxlength="80" name="city" size="20" type="text"
-              value="{{ user.primary_organization.location.properties.name }}">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="org">Organization</label>
-          </div>
-          <div class="col-sm-5">
-            <input id="city" maxlength="80" name="city" size="20" type="text"
-              value="{{ user.primary_organization.name }}">
-          </div>
-        </div>
         <div class="row">
           <div class="col-sm-2">
             <label for="city">Subject</label>
@@ -64,7 +32,7 @@
             <label for="city">Description</label>
           </div>
           <div class="col-sm-5">
-            <textarea name="description"></textarea>
+            <textarea name="description" autofocus></textarea>
           </div>
         </div>
       </div>
@@ -75,7 +43,7 @@
       <div class="button-group">
         <button type="button" class="button button-secondary button-small"
           data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
-        <input form="help" type="submit" class="button button-primary button-small" name="Submit"
+        <input form="help" type="submit" class="button button-primary button-small" value="Submit"
           (click)="modalRef.hide()">
       </div>
     </footer>
