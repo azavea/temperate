@@ -16,7 +16,7 @@ export class HelpModalComponent implements OnInit {
   public url: string;
 
   constructor(private modalService: BsModalService,
-              private router: Router,
+              public router: Router,
               private userService: UserService) {}
 
   ngOnInit() {
