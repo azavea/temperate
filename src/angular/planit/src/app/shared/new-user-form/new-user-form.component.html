@@ -70,7 +70,7 @@
 </div>
 <div class="modal-footer">
   <div *ngIf="!submitted" class="button-group">
-    <button type="button" class="button button-secondary button-small" (click)="onClose()">Cancel</button>
+    <button type="button" class="button button-small" (click)="onClose()">Cancel</button>
     <input type="submit" [disabled]="newUserForm && newUserForm.invalid"
       class="button button-primary button-small" value="Create" form="app-new-user-form">
   </div>
