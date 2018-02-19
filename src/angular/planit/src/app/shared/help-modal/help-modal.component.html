@@ -1,5 +1,5 @@
-<a (click)="openModal(template)">
-  <i class="contact-iclei icon-help-circled"></i>
+<a *ngIf="router.url !== '/?ref=footer' && router.url !== '/'" (click)="openModal(template)">
+  <i class="contact-iclei-icon icon-help-circled"></i>
 </a>
 
 <ng-template #template>
