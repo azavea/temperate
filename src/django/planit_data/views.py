@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http.request import QueryDict
 
 from rest_framework import status
@@ -160,24 +161,23 @@ class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class SuggestedActionViewSet(ReadOnlyModelViewSet):
-    model_class = OrganizationAction
+class SuggestedActionView(APIView):
     serializer_class = SuggestedActionSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_queryset(self):
-        """Limit Suggested Actions."""
-
+    def get(self, request, *args, **kwargs):
         queryset = OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
         )
 
-        risk = self.request.query_params.get('risk', None)
-        if risk:
-            queryset = queryset.filter(
-                organization_risk__weather_event__organizationrisk=risk,
-                organization_risk__community_system__organizationrisk=risk)
+        try:
+            risk_id = self.request.query_params['risk']
+        except KeyError:
+            return queryset.none()
+        risk = OrganizationRisk.objects.select_related(
+            'weather_event', 'community_system'
+        ).get(id=risk_id)
 
         # Filter OrganizationActions to organizations that are within the same georegion as the user
         # This may be possible to do entirely in the database
@@ -187,7 +187,45 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
         queryset = queryset.filter(organization_risk__organization__location__in=locations)
 
-        return queryset
+        queryset = queryset.filter(
+            Q(organization_risk__weather_event=risk.weather_event_id) |
+            Q(organization_risk__community_system=risk.community_system_id)
+        )
+
+        # Show the user suggestions in order of:
+        # ?) (If coastal) Matching community system and weather events from coastal cities
+        # 1) Matching community system and weather events from all cities
+        # 2) Matching community system only
+        # 3) Matching weather event only
+        def order_key(item):
+            # If the community system does not match, then we know it only matched because the
+            # weather event, putting it in the last category
+            if item.organization_risk.community_system != risk.community_system:
+                return 0
+
+            # If weather event does not match, then it's community system only and second to last
+            if item.organization_risk.weather_event != risk.weather_event:
+                return 1
+
+            # If both match, check if both cities are coastal:
+            if (location.is_coastal and
+                    item.organization_risk.organization.location.is_coastal):
+                return 3
+
+            return 2
+
+        queryset = queryset.select_related(
+            'organization_risk__weather_event',
+            'organization_risk__community_system',
+            'organization_risk__organization__location'
+        ).prefetch_related(
+            'categories'
+        )
+
+        results = sorted(list(queryset), key=order_key)[:5]
+
+        serializer = self.serializer_class(results, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class WeatherEventViewSet(ReadOnlyModelViewSet):

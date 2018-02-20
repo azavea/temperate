@@ -36,8 +36,6 @@ router.register(r'users', UserViewSet, base_name='planituser')
 router.register(r'risks', planit_data_views.OrganizationRiskView, base_name='organizationrisk')
 router.register(r'actions', planit_data_views.OrganizationActionViewSet,
                 base_name='organizationaction')
-router.register(r'suggestions', planit_data_views.SuggestedActionViewSet,
-                base_name='suggestedaction')
 router.register(r'weather-event', planit_data_views.WeatherEventViewSet)
 router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
                 base_name='organizationweatherevent')
@@ -51,6 +49,9 @@ urlpatterns = [
         planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
     url(r'^api/weather-event-rank/$',
         planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
+    url(r'^api/suggestions/$',
+        planit_data_views.SuggestedActionView.as_view(),
+        name='suggestedaction'),
     url(r'^api/export-plan/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
 
     url(r'^admin/', admin.site.urls),

@@ -636,7 +636,7 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction-list') + '?' + urlencode({
+        url = reverse('suggestedaction') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -671,7 +671,7 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction-list') + '?' + urlencode({
+        url = reverse('suggestedaction') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -680,38 +680,17 @@ class SuggestedActionTestCase(APITestCase):
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_ignore_mismatch_weather_event_actions(self):
-        action = OrganizationActionFactory(
+    def test_ignore_mismatch_weather_event_and_community_system(self):
+        OrganizationActionFactory(
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
         user_risk = OrganizationRiskFactory(
             organization=self.user.primary_organization,
-            # Don't set WeatherEvent so we use a new one
-            community_system=action.organization_risk.community_system
+            # Don't set WeatherEvent or CommunitySystem so we use a new one
         )
 
-        url = reverse('suggestedaction-list') + '?' + urlencode({
-            'risk': user_risk.id
-        })
-        response = self.client.get(url)
-
-        # We should not get back any actions
-        self.assertEqual(len(response.json()), 0)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_ignore_mismatch_community_system_actions(self):
-        action = OrganizationActionFactory(
-            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
-            visibility=OrganizationAction.Visibility.PUBLIC
-        )
-        user_risk = OrganizationRiskFactory(
-            organization=self.user.primary_organization,
-            weather_event=action.organization_risk.weather_event,
-            # Don't set CommunitySystem so we use a new one
-        )
-
-        url = reverse('suggestedaction-list') + '?' + urlencode({
+        url = reverse('suggestedaction') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -731,11 +710,49 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction-list') + '?' + urlencode({
+        url = reverse('suggestedaction') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
 
         # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_include_mismatch_weather_event_actions(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC
+        )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            # Don't set WeatherEvent so we use a new one
+            community_system=action.organization_risk.community_system
+        )
+
+        url = reverse('suggestedaction') + '?' + urlencode({
+            'risk': user_risk.id
+        })
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_include_mismatch_community_system_actions(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC
+        )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            # Don't set CommunitySystem so we use a new one
+        )
+
+        url = reverse('suggestedaction') + '?' + urlencode({
+            'risk': user_risk.id
+        })
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

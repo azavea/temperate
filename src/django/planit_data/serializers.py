@@ -201,7 +201,7 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
 class SuggestedActionSerializer(serializers.ModelSerializer):
     categories = ActionCategoryField(
         many=True,
-        queryset=ActionCategory.objects.all()
+        read_only=True
     )
     plan_city = serializers.SerializerMethodField()
     plan_due_date = serializers.SerializerMethodField()
