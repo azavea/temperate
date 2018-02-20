@@ -125,17 +125,16 @@ class UserCreationApiTestCase(APITestCase):
         token = Token.objects.get(user=user)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-        url = reverse('planituser-list')
+        url = reverse('planituser-detail', kwargs={'pk': user.pk})
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, 200)
         result = response.json()
         # should have response with one user, our test user
-        self.assertEqual(result['count'], 1)
-        self.assertEqual(result['results'][0]['email'], 'admin@azavea.com')
+        self.assertEqual(result['email'], 'admin@azavea.com')
 
     def test_get_auth_required(self):
         """Ensure an unauthenticated request cannot GET."""
-        response = self.client.get('/api/users/', format='json')
+        response = self.client.get('/api/user/', format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
@@ -302,16 +301,6 @@ class OrganizationApiTestCase(APITestCase):
         org.refresh_from_db()
         self.assertEqual(org.name, "Starting Name")
 
-    def test_org_delete_success(self):
-        org = PlanItOrganization.objects.create(name='Test Organization')
-        self.user.organizations.add(org)
-
-        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        result = self.client.delete(url)
-
-        self.assertEqual(result.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(PlanItOrganization.objects.filter(id=org.id).exists())
-
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_saves_user_in_created_by(self, import_mock, from_api_city_mock):
@@ -382,7 +371,7 @@ class CsrfTestCase(TestCase):
 
         # Make a request that doesn't include CSRF token, but does include API token
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        result = self.client.delete(
+        result = self.client.get(
             url,
             HTTP_AUTHORIZATION='Token {}'.format(token.key)
         )
@@ -430,7 +419,7 @@ class CsrfTestCase(TestCase):
 
         # Make a request explicitly using token authentication
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        result = self.client.delete(
+        result = self.client.get(
             url,
             HTTP_AUTHORIZATION='Token {}'.format(token.key)
         )

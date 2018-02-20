@@ -9,13 +9,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from registration.backends.hmac.views import RegistrationView as BaseRegistrationView
 
-from rest_framework import status
+from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 
 from users.serializers import AuthTokenSerializer
 
@@ -93,8 +93,11 @@ class PlanitObtainAuthToken(ObtainAuthToken):
     authentication_classes = []
 
 
-class UserViewSet(ModelViewSet):
-    queryset = PlanItUser.objects.all()
+class UserViewSet(mixins.CreateModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  GenericViewSet):
+    model_class = PlanItUser
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticatedOrCreate, )
 
@@ -112,6 +115,9 @@ class UserViewSet(ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def get_queryset(self):
+        return PlanItUser.objects.filter(pk=self.request.user.pk)
+
 
 class CurrentUserView(APIView):
     permission_classes = (IsAuthenticated, )
@@ -120,7 +126,10 @@ class CurrentUserView(APIView):
         return Response(UserOrgSerializer(request.user).data)
 
 
-class OrganizationViewSet(ModelViewSet):
+class OrganizationViewSet(mixins.CreateModelMixin,
+                          mixins.UpdateModelMixin,
+                          mixins.RetrieveModelMixin,
+                          GenericViewSet):
     model_class = PlanItOrganization
     serializer_class = OrganizationSerializer
     permission_classes = (IsAuthenticated,)
