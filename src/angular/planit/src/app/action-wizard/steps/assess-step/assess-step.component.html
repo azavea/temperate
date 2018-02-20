@@ -29,10 +29,16 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" class="step-footer-exit" tabindex="4" (click)="cancel()">
-    <span *ngIf="!shouldSave()">Cancel</span>
-    <span *ngIf="shouldSave()">Finish later</span>
-  </button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!shouldSave()"
+          (click)="cancelOrSave()">Cancel</button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="shouldSave()"
+          (click)="cancelOrSave()">Finish later</button>
   <button type="button" class="step-footer-navigation button-primary"
           tabindex="3"
           [disabled]="!form.valid"

@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionCategoryService } from '../../../core/services/action-category.service';
 import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, ActionCategory } from '../../../shared/';
+import { Action, ActionCategory, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
@@ -17,6 +18,8 @@ import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 export class CategoryStepComponent extends ActionWizardStepComponent<ActionCategory[]>
                                    implements OnInit {
 
+  @Input() risk: Risk;
+
   public navigationSymbol = '4';
   public title = 'Categories';
   public key = ActionStepKey.Category;
@@ -26,6 +29,7 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
+              private router: Router,
               private fb: FormBuilder,
               private actionCategoryService: ActionCategoryService) {
     super(session, actionService, toastr);
@@ -60,6 +64,16 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
     return this.actionCategories.filter(function(cat: ActionCategory) {
       return cat.selected;
     });
+  }
+
+  shouldSave() {
+    return true;
+  }
+
+  finish() {
+    this.save();
+    this.router.navigate(['actions'],
+      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   setupForm(data: ActionCategory[]) {

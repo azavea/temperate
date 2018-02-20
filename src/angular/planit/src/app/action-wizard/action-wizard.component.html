@@ -33,6 +33,7 @@
                           #implementationStep
                           wizardStep
                           optionalStep
+                          [risk]="assessStep.namedRisk?.risk"
                           [canExit]="implementationStep.save"
                           stepTitle="{{ implementationStep.title }}"
                           navigationSymbol="{{ implementationStep.navigationSymbol }}">
@@ -46,6 +47,7 @@
                           #improvementsStep
                           wizardStep
                           optionalStep
+                          [risk]="assessStep.namedRisk?.risk"
                           [canExit]="improvementsStep.save"
                           stepTitle="{{ improvementsStep.title }}"
                           navigationSymbol="{{ improvementsStep.navigationSymbol }}">
@@ -59,6 +61,7 @@
                           #categoryStep
                           wizardStep
                           optionalStep
+                          [risk]="assessStep.namedRisk?.risk"
                           [canExit]="categoryStep.save"
                           stepTitle="{{ categoryStep.title }}"
                           navigationSymbol="{{ categoryStep.navigationSymbol }}">
@@ -72,6 +75,7 @@
                           #fundingStep
                           wizardStep
                           optionalStep
+                          [risk]="assessStep.namedRisk?.risk"
                           [canExit]="fundingStep.save"
                           stepTitle="{{ fundingStep.title }}"
                           navigationSymbol="{{ fundingStep.navigationSymbol }}">

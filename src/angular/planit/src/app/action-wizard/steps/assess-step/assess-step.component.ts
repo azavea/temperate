@@ -60,7 +60,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   }
 
   // if have unsaved changes, save before redirecting to parent view
-  cancel() {
+  cancelOrSave() {
     if (this.shouldSave()) {
       this.save(this.action).then(result => { this.exit(); });
     } else {
@@ -88,7 +88,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
   // return false if user is creating a new action and has nothing typed in
   shouldSave(): boolean {
-    return this.action.id ? true : this.form.valid && !this.form.pristine;
+    return this.action.id ? true : this.form.valid && !!this.form.controls.name.value;
   }
 
   setupForm(data: AssessStepFormModel) {

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionService } from '../../../core/services/action.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action } from '../../../shared/';
+import { Action, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
@@ -19,6 +20,9 @@ interface FundingStepFormModel {
 })
 export class FundingStepComponent extends ActionWizardStepComponent<FundingStepFormModel>
                                   implements OnInit {
+
+ @Input() risk: Risk;
+
   public form: FormGroup;
   public key = ActionStepKey.Funding;
   public navigationSymbol = '5';
@@ -27,7 +31,8 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
-              protected fb: FormBuilder) {
+              protected fb: FormBuilder,
+              private router: Router) {
     super(session, actionService, toastr);
   }
 
@@ -59,6 +64,12 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
   toModel(data: FundingStepFormModel, model: Action) {
     model.funding = data.funding;
     return model;
+  }
+
+  finish() {
+    this.save();
+    this.router.navigate(['actions'],
+      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   isStepComplete() {

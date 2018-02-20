@@ -19,7 +19,9 @@
   </div>
 </div>
 <div class="step-footer">
-  <button type="button"
-    [disabled]="!haveSelectedActionCategory()" nextStep>Continue</button>
-  <button type="button" previousStep>Back</button>
+  <button type="button" class="step-footer-exit" tabindex="1" (click)="finish()">Finish later</button>
+  <div class="step-footer-navigation">
+    <button type="button" tabindex="2" nextStep>Skip Step</button>
+    <button type="button" tabindex="3" [disabled]="!haveSelectedActionCategory()" nextStep>Continue</button>
+  </div>
 </div>
