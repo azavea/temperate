@@ -12,11 +12,19 @@ import { PlanItApiHttp } from './api-http.service';
 export class SuggestedActionService {
 
   constructor(private apiHttp: PlanItApiHttp) {}
+
   list(risk: Risk): Observable<SuggestedAction[]> {
     const url = `${environment.apiUrl}/api/suggestions/?risk=${risk.id}`;
     return this.apiHttp.get(url).map(resp => {
       const vals = resp.json() || [];
       return vals.map(a => new SuggestedAction(a));
     });
+  }
+
+  get(id: string): Observable<SuggestedAction> {
+   const url = `${environment.apiUrl}/api/suggestions/${id}/`;
+   return this.apiHttp.get(url).map(resp => {
+     return new SuggestedAction(resp.json());
+   });
   }
 }

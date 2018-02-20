@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
@@ -24,6 +25,7 @@ export class AssessmentOverviewComponent implements OnInit {
 
   constructor (private riskService: RiskService,
                private actionService: ActionService,
+               private location: Location,
                private route: ActivatedRoute,
                private router: Router) {}
 
@@ -43,14 +45,10 @@ export class AssessmentOverviewComponent implements OnInit {
     if (risk.action && risk.action.id) {
       this.router.navigate(['actions/action/', risk.action.id]);
     } else {
-      if (!risk.action) {
-        risk.action = new Action({
-          risk: risk.id
-        });
-      }
-      this.actionService.create(risk.action).subscribe(a => {
-        this.router.navigate(['actions/action/', a.id]);
-      });
+      this.router.navigate(['action/new', risk.id],
+                           {relativeTo: this.route, skipLocationChange: true});
+      // change URL to wizard path without risk ID and push to browser history
+      this.location.go('/actions/action/new/');
     }
   }
 }

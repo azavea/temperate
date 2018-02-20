@@ -27,6 +27,7 @@ import { SettingsModule } from './settings/settings.module';
 import { SharedModule } from './shared/shared.module';
 
 import { ActionResolve } from './action-steps/resolvers/action-resolve';
+import { SuggestedActionResolve } from './action-steps/resolvers/suggested-action-resolve';
 import { RiskResolve } from './assessment/resolvers/risk-resolve';
 import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
@@ -130,6 +131,7 @@ import { AppRoutingModule } from './app-routing.module';
     RelatedAdaptiveValueService,
     RiskResolve,
     RiskService,
+    SuggestedActionResolve,
     SuggestedActionService,
     UserResolve,
     UserService,

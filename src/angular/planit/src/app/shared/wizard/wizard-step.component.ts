@@ -44,15 +44,16 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
   }
 
   shouldSave() {
-    return true;
+    return this.form ? this.form.dirty : true;
   }
 
   // For inexplicable reasons, we lose access to 'this' if 'save' is
   // declared as a method instead of as a named lambda
-  public save: (MovingDirection) => Promise<boolean> = (dir) => {
+  public save: (MovingDirection?) => Promise<boolean> = (dir) => {
     if (!this.shouldSave()) {
       return Promise.resolve(true);
     }
+
     const data = this.getFormModel();
     this.session.setDataForKey(this.key, data);
     const model = this.session.getData();

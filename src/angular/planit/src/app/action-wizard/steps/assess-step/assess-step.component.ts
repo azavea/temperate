@@ -36,6 +36,8 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
   public namedRisk: NamedRisk;
 
+  private action: Action;
+
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
@@ -47,17 +49,26 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData();
-    this.setupForm(this.fromModel(action));
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
 
-    this.riskService.get(action.risk).subscribe(risk => {
+    this.riskService.get(this.action.risk).subscribe(risk => {
       this.namedRisk = {
         'risk': risk,
         'name': `${risk.weather_event.name} on ${risk.community_system.name}`};
     });
   }
 
-  cancel () {
+  // if have unsaved changes, save before redirecting to parent view
+  cancel() {
+    if (this.shouldSave()) {
+      this.save(this.action).then(result => { this.exit(); });
+    } else {
+      this.exit();
+    }
+  }
+
+  exit() {
     this.router.navigate(['actions'],
       {'queryParams': {'hazard': this.namedRisk.risk.weather_event.id}});
   }
@@ -75,13 +86,18 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
     return data;
   }
 
+  // return false if user is creating a new action and has nothing typed in
+  shouldSave(): boolean {
+    return this.action.id ? true : this.form.valid && !this.form.pristine;
+  }
+
   setupForm(data: AssessStepFormModel) {
     this.form = this.fb.group({
       'name': [data.name ? data.name : '', [Validators.required]]
     });
   }
 
-  toModel(data: AssessStepFormModel, model: Action) {
+  toModel(data: AssessStepFormModel, model: Action): Action {
     model.name = data.name;
 
     return model;
