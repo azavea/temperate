@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
@@ -43,7 +44,7 @@ import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
-import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
+import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
@@ -71,6 +72,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
     ManageSubscriptionComponent,
+    LoginPageComponent,
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent
@@ -126,7 +128,7 @@ import { AppRoutingModule } from './app-routing.module';
     CollaboratorService,
     CommunitySystemService,
     DownloadService,
-    MarketingAuthGuard,
+    LoggedInAuthGuard,
     OrganizationService,
     PlanAuthGuard,
     PreviousRouteGuard,

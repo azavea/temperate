@@ -17,6 +17,8 @@
 
 @include generate-alert(-warning, $brand-warning);
 
+@include generate-alert(-positive, $brand-positive);
+
 .alert-heading {
   font-size: $alert-heading-font-size;
   font-weight: $alert-heading-font-weight;

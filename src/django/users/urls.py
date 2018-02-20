@@ -4,6 +4,7 @@ from django.conf.urls import include, url
 
 from users.views import (PlanitHomeView,
                          RegistrationView,
+                         ActivationView,
                          UserProfileView,
                          PasswordResetInitView,
                          PasswordResetView)
@@ -19,6 +20,9 @@ urlpatterns = [
     url(r'^password_reset/$',
         PasswordResetView.as_view(),
         name='password_reset'),
+    url(r'^activate/(?P<activation_key>[-:\w]+)/$',
+        ActivationView.as_view(),
+        name='registration_activate'),
     url(r'^api/new_token/', PlanitHomeView().new_token, name='new_token'),
     url(r'^api/$', PlanitHomeView.as_view(), name='planit_home'),
     url(r'^profile/$', UserProfileView.as_view(), name='edit_profile'),
