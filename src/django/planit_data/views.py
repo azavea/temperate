@@ -166,6 +166,32 @@ class SuggestedActionView(APIView):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
+    def order_suggestions(self, community_system, weather_event, is_coastal, suggestions):
+        """Arrange the user suggestions in a specific order
+
+        # ?) (If coastal) Matching community system and weather events from coastal cities
+        # 1) Matching community system and weather events from all cities
+        # 2) Matching community system only
+        # 3) Matching weather event only
+        """
+        def order_key(item):
+            # If the community system does not match, then we know it only matched because the
+            # weather event, putting it in the last category
+            if item.organization_risk.community_system != community_system:
+                return 0
+
+            # If weather event does not match, then it's community system only and second to last
+            if item.organization_risk.weather_event != weather_event:
+                return 1
+
+            # If both match, check if both cities are coastal:
+            if is_coastal and item.organization_risk.organization.location.is_coastal:
+                return 3
+
+            return 2
+
+        return sorted(list(suggestions), key=order_key)
+
     def get(self, request, *args, **kwargs):
         queryset = OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
@@ -190,31 +216,7 @@ class SuggestedActionView(APIView):
         queryset = queryset.filter(
             Q(organization_risk__weather_event=risk.weather_event_id) |
             Q(organization_risk__community_system=risk.community_system_id)
-        )
-
-        # Show the user suggestions in order of:
-        # ?) (If coastal) Matching community system and weather events from coastal cities
-        # 1) Matching community system and weather events from all cities
-        # 2) Matching community system only
-        # 3) Matching weather event only
-        def order_key(item):
-            # If the community system does not match, then we know it only matched because the
-            # weather event, putting it in the last category
-            if item.organization_risk.community_system != risk.community_system:
-                return 0
-
-            # If weather event does not match, then it's community system only and second to last
-            if item.organization_risk.weather_event != risk.weather_event:
-                return 1
-
-            # If both match, check if both cities are coastal:
-            if (location.is_coastal and
-                    item.organization_risk.organization.location.is_coastal):
-                return 3
-
-            return 2
-
-        queryset = queryset.select_related(
+        ).select_related(
             'organization_risk__weather_event',
             'organization_risk__community_system',
             'organization_risk__organization__location'
@@ -222,9 +224,10 @@ class SuggestedActionView(APIView):
             'categories'
         )
 
-        results = sorted(list(queryset), key=order_key)[:5]
+        results = self.order_suggestions(risk.community_system, risk.weather_event,
+                                         location.is_coastal, queryset)
 
-        serializer = self.serializer_class(results, many=True, context={'request': request})
+        serializer = self.serializer_class(results[:5], many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
