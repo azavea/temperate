@@ -28,6 +28,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { ActionResolve } from './action-steps/resolvers/action-resolve';
 import { RiskResolve } from './assessment/resolvers/risk-resolve';
+import { WeatherEventResolve } from './core/resolvers/weather-event.resolve';
 import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
@@ -133,6 +134,7 @@ import { AppRoutingModule } from './app-routing.module';
     SuggestedActionService,
     UserResolve,
     UserService,
+    WeatherEventResolve,
     WeatherEventService,
   ],
   bootstrap: [AppComponent]

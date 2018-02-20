@@ -24,6 +24,12 @@ export class WeatherEventService {
       .map(resp => resp.json() || [] as WeatherEvent[]);
   }
 
+  get(weatherEventId: number): Observable<WeatherEvent> {
+    const url = `${environment.apiUrl}/api/weather-event/${weatherEventId}`;
+    return this.apiHttp.get(url)
+      .map(resp => resp.json() as WeatherEvent);
+  }
+
   listForCurrentOrg(): Observable<OrgWeatherEvent[]> {
     const url = `${environment.apiUrl}/api/organization-weather-event/`;
     return this.apiHttp.get(url)

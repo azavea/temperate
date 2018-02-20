@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
+import { Observable } from 'rxjs/Rx';
 
 import { ActionService } from '../core/services/action.service';
 import { RiskService } from '../core/services/risk.service';
-import { Action, Risk } from '../shared';
+import { Action, Risk, WeatherEvent } from '../shared';
 
 @Component({
   selector: 'as-overview',
@@ -12,17 +14,22 @@ import { Action, Risk } from '../shared';
 
 export class ActionStepsOverviewComponent implements OnInit {
 
-  public risks: Risk[];
   public action: Action;
+  public risks: Risk[];
+  public weatherEvent?: WeatherEvent;
 
   constructor (private actionService: ActionService,
                private riskService: RiskService,
                private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.queryParamMap.switchMap((params: ParamMap) => {
-      return this.riskService.filterByWeatherEvent(+params.get('hazard') || null);
-    }).subscribe(risks => this.risks = risks);
+    if (this.route.snapshot.data['weatherEvent']) {
+      this.weatherEvent = this.route.snapshot.data['weatherEvent'] as WeatherEvent;
+      this.riskService.filterByWeatherEvent(this.weatherEvent.id)
+        .subscribe(risks => this.risks = risks);
+    } else {
+      this.riskService.list().subscribe(risks => this.risks = risks);
+    }
   }
 
   // Check if any of the risks have been assessed yet
