@@ -166,7 +166,8 @@ class SuggestedActionView(APIView):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def order_suggestions(self, community_system, weather_event, is_coastal, suggestions):
+    @staticmethod
+    def order_suggestions(community_system, weather_event, is_coastal, suggestions):
         """Arrange the user suggestions in a specific order
 
         # ?) (If coastal) Matching community system and weather events from coastal cities
@@ -178,17 +179,17 @@ class SuggestedActionView(APIView):
             # If the community system does not match, then we know it only matched because the
             # weather event, putting it in the last category
             if item.organization_risk.community_system != community_system:
-                return 0
+                return 3
 
             # If weather event does not match, then it's community system only and second to last
             if item.organization_risk.weather_event != weather_event:
-                return 1
+                return 2
 
             # If both match, check if both cities are coastal:
             if is_coastal and item.organization_risk.organization.location.is_coastal:
-                return 3
+                return 0
 
-            return 2
+            return 1
 
         return sorted(list(suggestions), key=order_key)
 

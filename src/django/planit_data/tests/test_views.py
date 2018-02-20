@@ -21,6 +21,7 @@ from planit_data.tests.factories import (
     WeatherEventRankFactory
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
+from planit_data.views import SuggestedActionView
 from users.tests.factories import UserFactory
 
 
@@ -756,3 +757,57 @@ class SuggestedActionTestCase(APITestCase):
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_suggested_action_ordering(self):
+        # Create 4 suggestions
+        weather_event = WeatherEventFactory()
+        community_system = CommunitySystemFactory()
+
+        coastal_action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__is_coastal=True,
+            organization_risk__weather_event=weather_event,
+            organization_risk__community_system=community_system,
+        )
+
+        noncoastal_action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__weather_event=weather_event,
+            organization_risk__community_system=community_system,
+        )
+
+        matching_community_system = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__is_coastal=True,
+            organization_risk__community_system=community_system,
+        )
+
+        matching_weather_event = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__weather_event=weather_event,
+        )
+
+        all_suggestions = [
+            matching_weather_event,
+            matching_community_system,
+            noncoastal_action,
+            coastal_action
+        ]
+
+        ordered_suggestions = SuggestedActionView.order_suggestions(
+            community_system=community_system,
+            weather_event=weather_event,
+            is_coastal=True,
+            suggestions=all_suggestions
+        )
+
+        self.assertEqual(ordered_suggestions, [
+            coastal_action,
+            noncoastal_action,
+            matching_community_system,
+            matching_weather_event
+        ])
