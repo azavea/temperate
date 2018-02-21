@@ -54,9 +54,6 @@ class PasswordResetInitView(JsonFormView):
     permission_classes = (AllowAny, )
     form_class = PasswordResetInitForm
 
-    def get(self, request, *args, **kwargs):
-        pass
-
     def form_valid(self, form):
         form.send_email()
         return Response({'status': 'ok'})
@@ -66,9 +63,6 @@ class PasswordResetInitView(JsonFormView):
 class PasswordResetView(JsonFormView):
     permission_classes = (AllowAny, )
     form_class = PasswordResetForm
-
-    def get(self, request, *args, **kwargs):
-        pass
 
     def form_valid(self, form):
         form.cleaned_data['user'].set_password(form.cleaned_data['password1'])
