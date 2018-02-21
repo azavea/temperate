@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
@@ -62,22 +64,43 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
+    DEFAULT_FREE_TRIAL_DAYS = 15
+
     METRIC = 'METRIC'
     IMPERIAL = 'IMPERIAL'
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
                      (METRIC, 'metric'),)
 
+    class Subscription:
+        FREE_TRIAL = 'free_trial'
+        CUSTOM = 'custom'
+
+        CHOICES = (
+            (FREE_TRIAL, 'Free Trial',),
+            (CUSTOM, 'Custom',),
+        )
+
     name = models.CharField(max_length=256, blank=False, null=False, unique=True)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+    subscription = models.CharField(max_length=16,
+                                    choices=Subscription.CHOICES,
+                                    default=Subscription.FREE_TRIAL)
+    subscription_end_date = models.DateTimeField(null=True, blank=True)
+
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self._set_subscription_end_date()
+        super().save(*args, **kwargs)
 
     def import_weather_events(self):
         georegion = GeoRegion.objects.get_for_point(self.location.point)
@@ -105,6 +128,17 @@ class PlanItOrganization(models.Model):
                              community_system_id=risk.community_system_id)
             for risk in top_risks
         )
+
+    def _set_subscription_end_date(self):
+        # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
+        # rounded up to the start of the following day
+        if self.subscription == self.Subscription.FREE_TRIAL and self.subscription_end_date is None:
+            trial_start = self.created_at or timezone.now()
+            trial_end = trial_start + timedelta(days=self.DEFAULT_FREE_TRIAL_DAYS + 1)
+            # Hour 7 UTC is ~ middle of night in US, pushing it there limits impact and chance of
+            #   a user signing up right around the cutoff
+            trial_end_rounded = trial_end.replace(hour=7, minute=0, second=0, microsecond=0)
+            self.subscription_end_date = trial_end_rounded
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

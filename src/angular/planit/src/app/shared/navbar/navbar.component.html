@@ -19,6 +19,15 @@
   </div>
 </header>
 
+<div class="banner" *ngIf="authService.isAuthenticated() && isFreeTrial">
+  <span>There
+    <span *ngIf="trialDaysRemaining !== 1"> are {{ trialDaysRemaining }} days </span>
+    <span *ngIf="trialDaysRemaining === 1"> is 1 day </span>
+    left in your free trial. Keep making progress on your city's adaptation plan and <a class="button-link" routerLink="/subscription">upgrade your plan.</a>
+  </span>
+  <a routerLink="/subscription" class="button-secondary button">Upgrade</a>
+</div>
+
 <!-- Create Account Modal template -->
 <ng-template #newUserForm>
   <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>

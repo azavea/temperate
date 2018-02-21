@@ -32,6 +32,24 @@
     min-width: 25rem;
   }
 }
+.banner {
+  background-color: $brand-primary;
+  color: $neutral-0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 10rem;
+
+  .button-link {
+    color: $white;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $neutral-2;
+    }
+  }
+}
 .button-profile {
   border: none;
   display: flex;

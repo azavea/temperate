@@ -49,10 +49,12 @@
     overflow: hidden;
     background-color: $neutral-1;
   }
+  & > li > * {
+    padding: 0.5rem 2rem;
+  }
   & > li > a {
     text-decoration: none;
     display: block;
-    padding: 0.5rem 2rem;
     clear: both;
     font-weight: $font-weight-regular;
     color: $neutral-5;
