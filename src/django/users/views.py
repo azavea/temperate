@@ -1,7 +1,7 @@
 import logging
 
 from django.db import transaction
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View

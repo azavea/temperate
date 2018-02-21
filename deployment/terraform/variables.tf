@@ -63,3 +63,5 @@ variable "ccapi_email" {}
 variable "ccapi_password" {}
 
 variable "ccapi_host" {}
+
+variable "ccapi_app_home" {}

@@ -87,6 +87,10 @@
             {
                 "name": "CCAPI_HOST",
                 "value": "${ccapi_host}"
+            },
+            {
+                "name": "CCAPI_APP_HOME",
+                "value": "${ccapi_app_home}"
             }
         ],
         "logConfiguration": {

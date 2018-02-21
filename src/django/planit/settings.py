@@ -219,7 +219,6 @@ AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
 PASSWORD_RESET_EMAIL_TEMPLATE = 'password_reset_email.txt'
 PASSWORD_RESET_EMAIL_SUBJECT_TEMPLATE = 'password_reset_email_subject.txt'
 PASSWORD_RESET_EXPIRE = 24 * 60 * 60  # 1 day
-PASSWORD_RESET_URL = 'http://localhost:4210/reset-password/{token}'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -281,7 +280,8 @@ LOGGING = {
 
 # APPLICATION SETTINGS
 
-CCAPP_HOME = 'http://localhost:4210' if ENVIRONMENT == 'Development' else '/'
+CCAPP_HOME = os.getenv('CCAPI_APP_HOME')
+PASSWORD_RESET_URL = CCAPP_HOME + '/reset-password/{token}'
 
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')

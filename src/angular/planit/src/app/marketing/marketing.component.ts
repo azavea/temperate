@@ -10,9 +10,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: []
 })
 export class MarketingComponent implements OnInit {
-  public token: string;
-
   @ViewChild("passwordResetForm", {read: TemplateRef}) passwordResetForm: TemplateRef<any>;
+
   public modalRef: BsModalRef;
     constructor(private modalService: BsModalService,
                 private route: ActivatedRoute,
@@ -23,8 +22,7 @@ export class MarketingComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.token = this.route.snapshot.paramMap.get('token');
-    if(this.token) {
+    if(this.route.snapshot.paramMap.get('token')) {
       this.openModal(this.passwordResetForm);
     }
   }
