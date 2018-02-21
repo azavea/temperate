@@ -23,7 +23,11 @@ const routes: Routes = [
   },
   { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
   { path: 'methodology', component: MethodologyComponent, canActivate: [PreviousRouteGuard] },
-  { path: 'subscription', component: ManageSubscriptionComponent },
+  {
+    path: 'subscription',
+    component: ManageSubscriptionComponent,
+    canActivate: [PreviousRouteGuard]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
