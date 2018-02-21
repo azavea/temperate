@@ -20,7 +20,11 @@ export class HelpModalComponent implements OnInit {
               private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.current().subscribe(u => this.user = u);
+    if (this.router.url !== '/?ref=footer' && this.router.url !== '/') {
+      this.userService.current().subscribe(u => {
+        this.user = u
+      });
+    }
     this.url = document.location.href;
   }
 
