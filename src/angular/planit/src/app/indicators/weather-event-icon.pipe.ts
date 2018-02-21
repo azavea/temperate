@@ -22,7 +22,7 @@ export class WeatherEventIconPipe implements PipeTransform {
     } else if (v.match(/hurricane/)) {
       return 'icon-superpowers';
     } else {
-      return 'icon-help';
+      return 'icon-question-circle';
     }
   }
 }
