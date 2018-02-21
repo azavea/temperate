@@ -13,10 +13,12 @@
     <span *ngIf="isSelected(option)"
           class="icon icon-ok-circled"></span>
     <span *ngIf="!isSelected(option)"
-          class="icon icon-plus-circled"
+          class="icon icon-plus-square"
           tooltip="Add to top concerns"
           tooltipPlacement="right"></span>
     <span class="icon icon-help"></span>
     {{ option.name }}
+    <span *ngIf="isReadOnly(option)"
+          class="icon icon-lock" title="This hazard can't be removed from your top concerns"></span>
   </div>
 </div>

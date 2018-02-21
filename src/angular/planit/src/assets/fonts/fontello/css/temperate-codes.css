@@ -104,7 +104,13 @@
 .icon-eye-slash:before { content: '\e866'; } /* '' */
 .icon-trash-alt:before { content: '\e867'; } /* '' */
 .icon-times-circle:before { content: '\e868'; } /* '' */
+.icon-ok-circled:before { content: '\e869'; } /* '' */
 .icon-chart-area:before { content: '\e86a'; } /* '' */
 .icon-cog:before { content: '\e86b'; } /* '' */
+.icon-plus:before { content: '\e86c'; } /* '' */
 .icon-sign-out:before { content: '\e86d'; } /* '' */
 .icon-question:before { content: '\e86e'; } /* '' */
+.icon-plus-square:before { content: '\e86f'; } /* '' */
+.icon-minus-square:before { content: '\e870'; } /* '' */
+.icon-cancel:before { content: '\e871'; } /* '' */
+.icon-cancel-circled:before { content: '\e872'; } /* '' */
