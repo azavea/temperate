@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -53,6 +53,12 @@ export class ImprovementsStepComponent
       // Create a list of collaborator suggestions to display to the user
       this.collaboratorValues = collaborators.map(c => c.name);
     });
+  }
+
+  finish() {
+    this.save();
+    this.router.navigate(['actions'],
+      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   getFormModel(): ImprovementsStepFormModel {

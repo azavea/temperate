@@ -657,7 +657,9 @@ class SuggestedActionTestCase(APITestCase):
         response = self.client.get(url)
 
         # We should get back the action as a suggestion
+
         self.assertDictEqual(response.json(), {
+            'id': str(action.id),
             'name': action.name,
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
