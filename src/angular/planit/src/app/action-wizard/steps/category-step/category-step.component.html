@@ -2,16 +2,20 @@
   <h3>Categories</h3>
 </div>
 <div class="step-content">
-  <div class="container action-card-container action-categories">
-    <div class="row card-group">
-      <div class="col-4" *ngFor="let category of actionCategories">
-        <div class="action-category-card"
-          [ngClass]="{'selected': category.selected}"
+  <div class="switch-list container action-card-container action-categories">
+    <button class="switch-item"
+        [ngClass]="{selected: category.selected}"
+          *ngFor="let category of actionCategories"
           (click)="selectActionCategory(category)">
-          <span><i class="{{ category.icon }}"></i> {{ category.name }}</span>
-        </div>
-      </div>
-    </div>
+        <span *ngIf="category.selected"
+          class="icon icon-status"></span>
+        <span *ngIf="!category.selected"
+              class="icon icon-status"
+              tooltip="Add category"
+              tooltipPlacement="right"></span>
+          <span class="icon icon-primary {{ category.icon }}"></span>
+        {{ category.name }}
+    </button>
   </div>
 </div>
 <div class="step-footer">

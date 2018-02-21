@@ -38,6 +38,10 @@ $brand-leaf: #85c005;
 $brand-persimmon: #ed5c14;
 $brand-saffron: #f2c706;
 
+$brand-teal-v-light: #eff9f8;
+$brand-teal-light: #a8ddda;
+
+
 $brand-primary: $brand-evergreen;
 $brand-secondary: $brand-teal;
 $brand-positive: $brand-leaf;
@@ -118,6 +122,8 @@ $text-medium: $font-size-base * exponential($modular-scale, 2);
 $text-base: $font-size-base * exponential($modular-scale, 1);
 $text-small: $font-size-base;
 $text-tiny: $font-size-base / $modular-scale;
+
+$icon-font-family: temperate;
 
 $heading-line-height: 1.1;
 $heading-font-color: $neutral-5;
@@ -268,3 +274,37 @@ $card-border-radius: $border-radius;
  *
  * * * */
  $loading-background-color: $neutral-0;
+
+
+/* * * *
+ * Special checkboxes 
+ * These appear in the:
+ * - Add Hazard(/weatherevent) component
+ * - Add Community System component
+ * - Add Category component
+ *
+ * * * */
+ $switch-border-radius: $border-radius;
+ $switch-title-size: $text-medium;
+ $switch-title-color: $brand-black;
+
+ $switch-background: $neutral-0;
+ $switch-background-hover: $brand-teal-v-light;
+ $switch-background-selected: $brand-teal-v-light;
+ $switch-border: 1px solid $neutral-1;
+ $switch-border-hover: 1px solid $brand-teal-light;
+ $switch-border-selected: 3px solid $brand-teal-light;
+
+ $switch-status-icon-size: $text-base;
+
+ $switch-unchecked-icon-color: $neutral-2;
+ $switch-unchecked-icon-color-hover: $brand-teal;
+ $switch-checked-icon-color: $brand-teal;
+ $switch-checked-icon-color-hover: $brand-danger;
+
+ $switch-primary-icon-color: $brand-black;
+ $switch-primary-icon-size: $text-large;
+
+ $switch-readonly-icon-color: $neutral-2;
+ $switch-readonly-icon-color-selected: $neutral-4;
+ $switch-readonly-icon-size: $text-small;

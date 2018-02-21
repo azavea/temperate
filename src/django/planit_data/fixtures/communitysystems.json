@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "name": "Water supply",
-        "display_class": ""
+        "display_class": "icon-water-supply"
     }
 },
 {
@@ -12,7 +12,7 @@
     "pk": 2,
     "fields": {
         "name": "Wastewater/stormwater management",
-        "display_class": ""
+        "display_class": "icon-wastewater-storm-management"
     }
 },
 {
@@ -20,7 +20,7 @@
     "pk": 3,
     "fields": {
         "name": "Transportation",
-        "display_class": ""
+        "display_class": "icon-transportation"
     }
 },
 {
@@ -28,7 +28,7 @@
     "pk": 4,
     "fields": {
         "name": "Agriculture",
-        "display_class": ""
+        "display_class": "icon-agriculture"
     }
 },
 {
@@ -36,7 +36,7 @@
     "pk": 5,
     "fields": {
         "name": "Food supply",
-        "display_class": ""
+        "display_class": "icon-food-supply"
     }
 },
 {
@@ -44,7 +44,7 @@
     "pk": 6,
     "fields": {
         "name": "Emergency management",
-        "display_class": ""
+        "display_class": "icon-emergency-management"
     }
 },
 {
@@ -52,7 +52,7 @@
     "pk": 7,
     "fields": {
         "name": "Waste management",
-        "display_class": ""
+        "display_class": "icon-waste-management"
     }
 },
 {
@@ -60,7 +60,7 @@
     "pk": 8,
     "fields": {
         "name": "Public health",
-        "display_class": ""
+        "display_class": "icon-public-health"
     }
 },
 {
@@ -68,7 +68,7 @@
     "pk": 9,
     "fields": {
         "name": "Emergency services",
-        "display_class": ""
+        "display_class": "icon-emergency-services"
     }
 },
 {
@@ -76,7 +76,7 @@
     "pk": 10,
     "fields": {
         "name": "Tourism",
-        "display_class": ""
+        "display_class": "icon-tourism"
     }
 },
 {
@@ -84,7 +84,7 @@
     "pk": 11,
     "fields": {
         "name": "Recreation",
-        "display_class": ""
+        "display_class": "icon-recreation"
     }
 },
 {
@@ -92,7 +92,7 @@
     "pk": 12,
     "fields": {
         "name": "Fisheries",
-        "display_class": ""
+        "display_class": "icon-fisheries"
     }
 },
 {
@@ -108,7 +108,7 @@
     "pk": 14,
     "fields": {
         "name": "Public safety",
-        "display_class": ""
+        "display_class": "icon-public-safety"
     }
 },
 {
@@ -116,7 +116,7 @@
     "pk": 15,
     "fields": {
         "name": "Energy delivery",
-        "display_class": ""
+        "display_class": "icon-energy-delivery"
     }
 },
 {
@@ -124,7 +124,7 @@
     "pk": 16,
     "fields": {
         "name": "Energy",
-        "display_class": ""
+        "display_class": "icon-energy"
     }
 },
 {
@@ -132,7 +132,7 @@
     "pk": 17,
     "fields": {
         "name": "Internet and communications",
-        "display_class": ""
+        "display_class": "icon-internet-and-communications"
     }
 },
 {
@@ -140,7 +140,7 @@
     "pk": 18,
     "fields": {
         "name": "Community & culture",
-        "display_class": ""
+        "display_class": "icon-community-and-culture"
     }
 },
 {
@@ -148,7 +148,7 @@
     "pk": 19,
     "fields": {
         "name": "Law and order",
-        "display_class": ""
+        "display_class": "icon-law-and-order"
     }
 },
 {
@@ -156,7 +156,7 @@
     "pk": 21,
     "fields": {
         "name": "Emotional and mental health",
-        "display_class": ""
+        "display_class": "icon-emotional-and-mental-health"
     }
 },
 {
@@ -164,7 +164,7 @@
     "pk": 22,
     "fields": {
         "name": "Business continuity",
-        "display_class": ""
+        "display_class": "icon-business-continuity"
     }
 },
 {
@@ -172,7 +172,7 @@
     "pk": 23,
     "fields": {
         "name": "Housing access",
-        "display_class": ""
+        "display_class": "icon-housing-access"
     }
 },
 {
@@ -180,7 +180,7 @@
     "pk": 24,
     "fields": {
         "name": "Employment and job access",
-        "display_class": ""
+        "display_class": "icon-employment-and-job-access"
     }
 },
 {
@@ -188,7 +188,7 @@
     "pk": 25,
     "fields": {
         "name": "Quality of life",
-        "display_class": ""
+        "display_class": "icon-quality-of-life"
     }
 },
 {
@@ -196,7 +196,7 @@
     "pk": 26,
     "fields": {
         "name": "Ecological function",
-        "display_class": ""
+        "display_class": "icon-ecological-function"
     }
 },
 {
@@ -204,7 +204,7 @@
     "pk": 27,
     "fields": {
         "name": "Industrial operations",
-        "display_class": ""
+        "display_class": "icon-industrial-operations"
     }
 }
 ]

@@ -1,22 +1,13 @@
 app-add-weather-events {
-  .list > .item {
-    padding: 1rem;
-    font-size: 24px;
-
-    background-color: $neutral-0;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $neutral-1;
-    }
-
+  .switch-list > .switch-item {
     &.selected {
-      background-color: $neutral-1;
       cursor: auto;
-    }
-
-    .icon {
-      color: $neutral-3;
+      &:hover {
+        .icon-status:after {
+          content: "\E869";
+          color: $switch-checked-icon-color;
+        }
+      }
     }
   }
 }
