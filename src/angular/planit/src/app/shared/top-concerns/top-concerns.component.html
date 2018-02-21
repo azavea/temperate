@@ -2,7 +2,8 @@
   <div class="loading loading-spinner loading-large loading-primary"></div>
 </div>
 <div class="card-content top-concerns" *ngIf="weatherEvents !== undefined">
-  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{ weatherEvent.display_class }}">
+  <div *ngFor="let weatherEvent of weatherEvents" class="concern icon"
+        [ngClass]="weatherEvent.display_class">
     <div class="concern-content">
     <span *ngIf="isReadOnly(weatherEvent)"
           class="icon icon-lock" title="This hazard can't be removed from your top concerns"></span>

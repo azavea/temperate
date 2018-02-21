@@ -400,7 +400,7 @@
     },
     {
       "uid": "37d4488ccdcda332eb9c004211bccadb",
-      "css": "indicators",
+      "css": "indicators-1",
       "code": 59435,
       "src": "custom_icons",
       "selected": true,
@@ -1478,7 +1478,7 @@
     },
     {
       "uid": "2f81c414d7a16eba781193f057d261d0",
-      "css": "chart-area",
+      "css": "indicators",
       "code": 59498,
       "src": "custom_icons",
       "selected": true,

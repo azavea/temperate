@@ -42,7 +42,7 @@
 .icon-heavy-snow:before { content: '\e828'; } /* '' */
 .icon-housing-access:before { content: '\e829'; } /* '' */
 .icon-hurricane:before { content: '\e82a'; } /* '' */
-.icon-indicators:before { content: '\e82b'; } /* '' */
+.icon-indicators-1:before { content: '\e82b'; } /* '' */
 .icon-industrial-operations:before { content: '\e82c'; } /* '' */
 .icon-industrial:before { content: '\e82d'; } /* '' */
 .icon-insect-infestation:before { content: '\e82e'; } /* '' */
@@ -105,7 +105,7 @@
 .icon-trash-alt:before { content: '\e867'; } /* '' */
 .icon-times-circle:before { content: '\e868'; } /* '' */
 .icon-ok-circled:before { content: '\e869'; } /* '' */
-.icon-chart-area:before { content: '\e86a'; } /* '' */
+.icon-indicators:before { content: '\e86a'; } /* '' */
 .icon-cog:before { content: '\e86b'; } /* '' */
 .icon-plus:before { content: '\e86c'; } /* '' */
 .icon-sign-out:before { content: '\e86d'; } /* '' */

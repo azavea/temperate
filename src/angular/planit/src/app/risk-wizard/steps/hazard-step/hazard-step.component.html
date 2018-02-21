@@ -2,7 +2,7 @@
      tooltip="{{ relatedIndicatorsTooltip() }}">
   <button class="button button-primary button-small"
           [disabled]="!indicators?.length"
-          (click)="indicatorsModal.open()">View related indicators</button>
+          (click)="indicatorsModal.open()"><i class="icon-indicators"></i>View related indicators</button>
 </div>
 <div class="step-header">
   <p *ngIf="isDisabled" class="alert alert-warning">

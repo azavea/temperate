@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'temperate';
-  src: url('../font/temperate.eot?12821437');
-  src: url('../font/temperate.eot?12821437#iefix') format('embedded-opentype'),
-       url('../font/temperate.woff2?12821437') format('woff2'),
-       url('../font/temperate.woff?12821437') format('woff'),
-       url('../font/temperate.ttf?12821437') format('truetype'),
-       url('../font/temperate.svg?12821437#temperate') format('svg');
+  src: url('../font/temperate.eot?84325199');
+  src: url('../font/temperate.eot?84325199#iefix') format('embedded-opentype'),
+       url('../font/temperate.woff2?84325199') format('woff2'),
+       url('../font/temperate.woff?84325199') format('woff'),
+       url('../font/temperate.ttf?84325199') format('truetype'),
+       url('../font/temperate.svg?84325199#temperate') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'temperate';
-    src: url('../font/temperate.svg?12821437#temperate') format('svg');
+    src: url('../font/temperate.svg?84325199#temperate') format('svg');
   }
 }
 */
@@ -98,7 +98,7 @@
 .icon-heavy-snow:before { content: '\e828'; } /* '' */
 .icon-housing-access:before { content: '\e829'; } /* '' */
 .icon-hurricane:before { content: '\e82a'; } /* '' */
-.icon-indicators:before { content: '\e82b'; } /* '' */
+.icon-indicators-1:before { content: '\e82b'; } /* '' */
 .icon-industrial-operations:before { content: '\e82c'; } /* '' */
 .icon-industrial:before { content: '\e82d'; } /* '' */
 .icon-insect-infestation:before { content: '\e82e'; } /* '' */
@@ -161,7 +161,7 @@
 .icon-trash-alt:before { content: '\e867'; } /* '' */
 .icon-times-circle:before { content: '\e868'; } /* '' */
 .icon-ok-circled:before { content: '\e869'; } /* '' */
-.icon-chart-area:before { content: '\e86a'; } /* '' */
+.icon-indicators:before { content: '\e86a'; } /* '' */
 .icon-cog:before { content: '\e86b'; } /* '' */
 .icon-plus:before { content: '\e86c'; } /* '' */
 .icon-sign-out:before { content: '\e86d'; } /* '' */

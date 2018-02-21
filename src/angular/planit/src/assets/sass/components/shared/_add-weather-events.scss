@@ -1,22 +1,57 @@
 app-add-weather-events {
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
   .list > .item {
-    padding: 1rem;
-    font-size: 24px;
-
-    background-color: $neutral-0;
+    align-items: center;
+    background-color: $toggle-background;
+    border: $toggle-border;
+    color:  $toggle-title-color;
     cursor: pointer;
+    display: flex;
+    padding: 1rem;
+    font-size: $toggle-title-size;
+    margin: $space-small 0;
 
     &:hover {
-      background-color: $neutral-1;
+      background-color: $toggle-background-hover;
+      border: $toggle-border-hover;
+    }
+
+    &:focus {
+      outline: none;
+      @include button-focus-outline();
+    }
+
+    .icon-status {
+      color: $toggle-unchecked-icon-color;
+      font-size: $toggle-status-icon-size;
+    }
+
+    .icon-hazard {
+      color: $toggle-hazard-icon-color;
+      font-size: $toggle-hazard-icon-size;
+    }
+
+    .icon-readonly {
+      color: $toggle-readonly-icon-color;
+      font-size: $toggle-readonly-icon-size;
     }
 
     &.selected {
-      background-color: $neutral-1;
+      background-color:  $toggle-background-selected;
+      outline: $toggle-border-selected;
+      outline-offset: -2px;
       cursor: auto;
-    }
 
-    .icon {
-      color: $neutral-3;
+      .icon-status {
+        color: $toggle-checked-icon-color;
+      }
+
+      .icon-readonly {
+        color: $toggle-readonly-icon-color-selected
+      }
     }
   }
 }

@@ -6,19 +6,21 @@
 </div>
 <div class="list">
   <h2>All hazards</h2>
-  <div class="item"
+  <button class="item"
       [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
       *ngFor="let option of weatherEvents"
       (click)="add(option)">
     <span *ngIf="isSelected(option)"
-          class="icon icon-ok-circled"></span>
+          class="icon icon-status icon-ok-circled"></span>
     <span *ngIf="!isSelected(option)"
-          class="icon icon-plus-square"
+          class="icon icon-status icon-plus-square"
           tooltip="Add to top concerns"
           tooltipPlacement="right"></span>
-    <span class="icon icon-help"></span>
+    <span class="icon icon-hazard"
+        [ngClass]="option.display_class"
+        ></span>
     {{ option.name }}
     <span *ngIf="isReadOnly(option)"
-          class="icon icon-lock" title="This hazard can't be removed from your top concerns"></span>
-  </div>
+          class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
+  </button>
 </div>
