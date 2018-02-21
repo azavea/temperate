@@ -16,7 +16,7 @@ export class LoginFormComponent {
 
   public errors: any = {};
 
-  public emailSent: boolean = false;
+  public emailSent = false;
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
