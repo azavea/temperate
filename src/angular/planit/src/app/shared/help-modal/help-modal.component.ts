@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../models/user.model';
 
@@ -17,10 +18,13 @@ export class HelpModalComponent implements OnInit {
 
   constructor(private modalService: BsModalService,
               public router: Router,
+              private authService: AuthService,
               private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.current().subscribe(u => this.user = u);
+    if (this.authService.isAuthenticated()) {
+      this.userService.current().subscribe(u => this.user = u);
+    }
     this.url = document.location.href;
   }
 
