@@ -344,15 +344,18 @@ class OrganizationWeatherEvent(models.Model):
     order = models.IntegerField()
 
     def save(self, *args, **kwargs):
-        with connection.cursor() as cursor:
-            with transaction.atomic():
-                # Lock table to avoid race condition where two instances saved at about
-                # the same time can end up attempting to save with the same order value
-                lock_query = 'LOCK TABLE {} IN ACCESS EXCLUSIVE MODE'.format(self._meta.db_table)
+        if self.order is None:
+            # Lock table to avoid race condition where two instances saved at about
+            # the same time can end up attempting to save with the same order value
+            with transaction.atomic(), connection.cursor() as cursor:
+                lock_query = 'LOCK TABLE {} IN ACCESS EXCLUSIVE MODE'.format(
+                    self._meta.db_table)
                 cursor.execute(lock_query)
-                if self.order is None:
-                    self._assign_default_order()
+
+                self._assign_default_order()
                 super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
 
     def _assign_default_order(self):
         """Assign a simple default order such that new objects are inserted at end of list.

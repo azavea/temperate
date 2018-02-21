@@ -117,11 +117,35 @@ class PlanItOrganization(models.Model):
             for weather_event_rank in weather_event_ranks
         )
 
+    @transaction.atomic
+    def update_weather_events(self, weather_event_ids):
+        self.weather_events.all().delete()
+
+        OrganizationWeatherEvent.objects.bulk_create(
+            OrganizationWeatherEvent(weather_event_id=id, organization_id=self.pk,
+                                     order=index + 1)
+            for index, id in enumerate(weather_event_ids)
+        )
+        self.import_risks()
+
     def import_risks(self):
-        weather_event_ids = self.weather_events.values_list('weather_event_id', flat=True)
-        # TODO: Replace this with only organization's community systems as part of onboarding
+        weather_event_ids = set(self.weather_events.values_list('weather_event_id', flat=True))
+        existing_risks = self.organizationrisk_set.all()
+
+        events_with_risks = {risk.weather_event_id for risk in existing_risks}
+        weather_event_ids -= events_with_risks
+
+        # Try not to add more than the starting amount, but make sure we add at least 2 risks
+        # for each new weather event when we already have existing risks
+        if len(existing_risks) > 0:
+            num_to_add = 2 * len(weather_event_ids)
+        else:
+            num_to_add = settings.STARTING_RISK_AMOUNT
+
+        # TODO (#489): Replace this with only organization's community systems as part of onboarding
         community_system_ids = CommunitySystem.objects.all().values_list('id', flat=True)
-        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids)
+        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids,
+                                                  max_amount=num_to_add)
 
         OrganizationRisk.objects.bulk_create(
             OrganizationRisk(organization_id=self.id, weather_event_id=risk.weather_event_id,

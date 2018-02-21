@@ -49,6 +49,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
     """Serializer for user organizations"""
 
     location = LocationSerializer()
+    weather_events = serializers.SlugRelatedField(many=True, read_only=True,
+                                                  slug_field='weather_event_id')
 
     def validate_location(self, location_data):
         if 'api_city_id' not in location_data.keys():
@@ -89,6 +91,10 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if location_data['api_city_id'] is not None:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
         instance.save()
+
+        if 'weather_events' in self.initial_data:
+            instance.update_weather_events(self.initial_data['weather_events'])
+
         return instance
 
     def validate(self, data):
@@ -101,7 +107,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         model = PlanItOrganization
         fields = ('id', 'created_at', 'name', 'location', 'units',
                   'subscription', 'subscription_end_date',
-                  'plan_due_date', 'plan_name', 'plan_hyperlink')
+                  'plan_due_date', 'plan_name', 'plan_hyperlink', 'weather_events')
 
 
 class UserSerializer(serializers.ModelSerializer):

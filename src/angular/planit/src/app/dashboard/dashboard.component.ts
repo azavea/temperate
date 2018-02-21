@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -7,7 +8,7 @@ import { DownloadService } from '../core/services/download.service';
 import { OrganizationService } from '../core/services/organization.service';
 import { RiskService } from '../core/services/risk.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
-import { OrgWeatherEvent, Risk, WeatherEvent } from '../shared/';
+import { OrgWeatherEvent, Organization, Risk, User, WeatherEvent } from '../shared/';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
 import { environment } from '../../environments/environment';
@@ -19,25 +20,32 @@ import { environment } from '../../environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
-  public eventsAtLastSave: OrgWeatherEvent[] = [];
   public groupedRisks: any[];
   public selectedEventsControl = new FormControl([]);
 
+  private organization: Organization;
+  private weatherEvents: WeatherEvent[];
+  private weatherEventIdsAtLastSave: number[] = [];
 
-  constructor(private riskService: RiskService,
-              private downloadService: DownloadService,
+  constructor(private downloadService: DownloadService,
               private organizationService: OrganizationService,
+              private riskService: RiskService,
+              private route: ActivatedRoute,
               private weatherEventService: WeatherEventService) { }
 
   ngOnInit() {
     this.getGroupedRisks();
-    this.weatherEventService.listForCurrentOrg().subscribe(events => {
-      this.setSelectedEvents(events);
+    this.weatherEventService.list().subscribe(events => {
+      this.weatherEvents = events;
+      this.setSelectedEvents(this.organization.weather_events);
+    });
+    this.route.data.subscribe((data: {user: User}) => {
+      this.organization = data.user.primary_organization;
     });
   }
 
   cancelModal(modal: ModalTemplateComponent) {
-    this.setSelectedEvents(this.eventsAtLastSave);
+    this.setSelectedEvents(this.weatherEventIdsAtLastSave);
     modal.close();
   }
 
@@ -57,15 +65,17 @@ export class DashboardComponent implements OnInit {
     //  grouped risks requery
     this.groupedRisks = undefined;
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
-    const saves = this.saveEventsToAPI(selectedEvents);
-    Observable.forkJoin(saves)
+    this.saveEventsToAPI(selectedEvents)
       .finally(() => this.getGroupedRisks())
       .subscribe(results => this.handleAPISave(results));
     modal.close();
   }
 
   get weatherEventsAtLastSave() {
-    return this.eventsAtLastSave.map(e => e.weather_event);
+    if (this.weatherEvents) {
+      return this.weatherEvents.filter(e => this.weatherEventIdsAtLastSave.includes(e.id));
+    }
+    return [];
   }
 
   private getGroupedRisks() {
@@ -75,42 +85,18 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private setSelectedEvents(events: OrgWeatherEvent[]) {
-    this.eventsAtLastSave = events;
-    const weatherEvents = events.map(e => e.weather_event);
-    this.selectedEventsControl.setValue(weatherEvents);
+  private setSelectedEvents(eventIds: number[]) {
+    this.weatherEventIdsAtLastSave = eventIds;
+    this.selectedEventsControl.setValue(this.weatherEventsAtLastSave);
   }
 
-  private handleAPISave(events: (number|OrgWeatherEvent)[]) {
-    events.forEach(e => {
-      if (typeof e === 'number') {
-        const index = this.eventsAtLastSave.findIndex(event => event.id === e);
-        if (index !== -1) {
-          this.eventsAtLastSave.splice(index, 1);
-          console.log('Removed:', e);
-        }
-      } else if (e && e.id) {
-        this.eventsAtLastSave.push(e);
-        console.log('Added:', e);
-      }
-    });
+  private handleAPISave(organization: Organization) {
+    this.weatherEventIdsAtLastSave = organization.weather_events;
   }
 
-  private saveEventsToAPI(events: WeatherEvent[]): Observable<number|OrgWeatherEvent>[] {
-    // If event in events but not eventsAtLastSave, its been added
-    const eventsToAdd = events.filter(e => {
-      return this.eventsAtLastSave.findIndex(els => els.weather_event.id === e.id) === -1;
-    });
-    const addObservables = eventsToAdd.map(e => this.weatherEventService.addToCurrentOrg(e));
+  private saveEventsToAPI(events: WeatherEvent[]): Observable<Organization> {
 
-    // If event in eventsAtLastSave but not events, its been removed
-    const eventsToRemove = this.eventsAtLastSave.filter(els => {
-      return events.findIndex(e => els.weather_event.id === e.id) === -1;
-    });
-    const removeObservables = eventsToRemove.map(e => {
-      return this.weatherEventService.removeFromCurrentOrg(e);
-    });
-
-    return (addObservables as Observable<any>[]).concat(removeObservables);
+    this.organization.weather_events = events.map(e => e.id);
+    return this.organizationService.update(this.organization);
   }
 }

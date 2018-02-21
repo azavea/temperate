@@ -11,6 +11,7 @@ export class Organization {
   location: City;
   subscription: OrgSubscription;
   subscription_end_date?: Date;
+  weather_events: number[];
 
   constructor(object: Object) {
     Object.assign(this, object);
