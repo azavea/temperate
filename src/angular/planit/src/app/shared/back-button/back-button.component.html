@@ -1,3 +1,5 @@
 <a [routerLink]="[previousUrl]"
    [queryParams]="previousParams"
-   *ngIf="previousPage">Back to {{ previousPage }}</a>
+   *ngIf="previousPage">
+   <span class="icon icon-left-circled2"></span>
+   Back to {{ previousPage }}</a>
