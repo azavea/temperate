@@ -127,6 +127,7 @@ $heading-line-height: 1.1;
 $heading-font-color: $neutral-5;
 $heading-font-weight: $font-weight-bold;
 $heading-font-family: National, Arial, sans-serif;
+$icon-font-family: temperate;
 $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
@@ -282,24 +283,27 @@ $card-border-radius: $border-radius;
  * - Add Category component
  *
  * * * */
- $toggle-title-size: $text-medium;
- $toggle-title-color: $brand-black;
+ $switch-border-radius: $border-radius;
+ $switch-title-size: $text-medium;
+ $switch-title-color: $brand-black;
 
- $toggle-background: $neutral-0;
- $toggle-background-hover: $brand-teal-0;
- $toggle-background-selected: $brand-teal-0;
- $toggle-border: 1px solid $neutral-1;
- $toggle-border-hover: 1px solid $brand-teal-1;
- $toggle-border-selected: 3px solid $brand-teal-1;
+ $switch-background: $neutral-0;
+ $switch-background-hover: $brand-teal-0;
+ $switch-background-selected: $brand-teal-0;
+ $switch-border: 1px solid $neutral-1;
+ $switch-border-hover: 1px solid $brand-teal-1;
+ $switch-border-selected: 3px solid $brand-teal-1;
 
- $toggle-status-icon-size: $text-base;
+ $switch-status-icon-size: $text-base;
 
- $toggle-unchecked-icon-color: $neutral-2;
- $toggle-checked-icon-color: $brand-positive;
+ $switch-unchecked-icon-color: $neutral-2;
+ $switch-unchecked-icon-color-hover: $brand-teal;
+ $switch-checked-icon-color: $brand-teal;
+ $switch-checked-icon-color-hover: $brand-danger;
 
- $toggle-hazard-icon-color: $brand-black;
- $toggle-hazard-icon-size: $text-large;
+ $switch-primary-icon-color: $brand-black;
+ $switch-primary-icon-size: $text-large;
 
- $toggle-readonly-icon-color: $neutral-2;
- $toggle-readonly-icon-color-selected: $neutral-4;
- $toggle-readonly-icon-size: $text-small;
+ $switch-readonly-icon-color: $neutral-2;
+ $switch-readonly-icon-color-selected: $neutral-4;
+ $switch-readonly-icon-size: $text-small;
