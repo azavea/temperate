@@ -4,9 +4,6 @@
   </div>
   <div class="button-group" *ngIf="authService.isAuthenticated()">
     <a class="button button-primary"
-       *ngIf="showLink('/dashboard')"
-       routerLink="/dashboard">Go to Dashboard</a>
-    <a class="button button-primary"
        *ngIf="showLink('/indicators')"
        routerLink="/indicators">Indicators</a>
     <app-user-dropdown></app-user-dropdown>
