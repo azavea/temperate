@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { EditableInputComponent } from './editable-input/editable-input.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
@@ -8,6 +10,7 @@ import { SettingsComponent } from './settings.component';
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     SettingsRoutingModule
   ],
   declarations: [

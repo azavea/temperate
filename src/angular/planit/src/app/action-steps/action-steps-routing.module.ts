@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { WeatherEventResolve } from '../core/resolvers/weather-event.resolve';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
+import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
 import { ActionResolve } from './resolvers/action-resolve';
@@ -11,7 +12,7 @@ const routes: Routes = [
   {
     path: 'actions',
     component: ActionStepsOverviewComponent,
-    canActivate: [PlanAuthGuard],
+    canActivate: [PlanAuthGuard, PreviousRouteGuard],
     resolve: {
       weatherEvent: WeatherEventResolve
     }

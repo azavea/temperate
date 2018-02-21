@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 
 import { MarketingAuthGuard } from './core/services/marketing-auth-guard.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { UserResolve } from './core/services/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
@@ -21,8 +22,12 @@ const routes: Routes = [
     canActivate: [PlanAuthGuard]
   },
   { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
-  { path: 'methodology', component: MethodologyComponent },
-  { path: 'subscription', component: ManageSubscriptionComponent },
+  { path: 'methodology', component: MethodologyComponent, canActivate: [PreviousRouteGuard] },
+  {
+    path: 'subscription',
+    component: ManageSubscriptionComponent,
+    canActivate: [PreviousRouteGuard]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
