@@ -18,10 +18,6 @@ export class SettingsComponent implements OnInit {
 
   @ViewChildren(EditableInputComponent) inputs: QueryList<EditableInputComponent>;
 
-  public previousPage = 'Home';
-  public previousUrl = '/';
-  public previousParams = {};
-
   public user: User;
 
   constructor(private previousRouteGuard: PreviousRouteGuard,
@@ -30,10 +26,6 @@ export class SettingsComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
-    this.previousUrl = this.previousRouteGuard.previousUrl;
-    this.previousPage = this.previousRouteGuard.previousPage;
-    this.previousParams = this.previousRouteGuard.previousQueryParams;
-
     this.userService.current().subscribe(user => this.user = user);
   }
 
