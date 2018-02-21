@@ -250,9 +250,6 @@ class OrganizationApiTestCase(APITestCase):
         # Raise an exception when we try to communicate with the Climate Change API
         api_wrapper_mock.side_effect = Exception()
 
-        # Clear the existing default organization to show nothing has been created
-        PlanItOrganization.objects.all().delete()
-
         org_data = {
             'name': 'Test Organization',
             'location': {

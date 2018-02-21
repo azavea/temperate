@@ -1,19 +1,6 @@
 [
 {
     "model": "users.planitorganization",
-    "pk": 1,
-    "fields": {
-        "name": "User Organization",
-        "units": "IMPERIAL",
-        "location": null,
-        "created_by": null,
-        "plan_due_date": null,
-        "plan_name": "",
-        "plan_hyperlink": ""
-    }
-},
-{
-    "model": "users.planitorganization",
     "pk": 2,
     "fields": {
         "name": "Philadelphia",
