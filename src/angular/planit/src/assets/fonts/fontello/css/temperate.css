@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'temperate';
-  src: url('../font/temperate.eot?85081346');
-  src: url('../font/temperate.eot?85081346#iefix') format('embedded-opentype'),
-       url('../font/temperate.woff2?85081346') format('woff2'),
-       url('../font/temperate.woff?85081346') format('woff'),
-       url('../font/temperate.ttf?85081346') format('truetype'),
-       url('../font/temperate.svg?85081346#temperate') format('svg');
+  src: url('../font/temperate.eot?78976123');
+  src: url('../font/temperate.eot?78976123#iefix') format('embedded-opentype'),
+       url('../font/temperate.woff2?78976123') format('woff2'),
+       url('../font/temperate.woff?78976123') format('woff'),
+       url('../font/temperate.ttf?78976123') format('truetype'),
+       url('../font/temperate.svg?78976123#temperate') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'temperate';
-    src: url('../font/temperate.svg?85081346#temperate') format('svg');
+    src: url('../font/temperate.svg?78976123#temperate') format('svg');
   }
 }
 */
@@ -163,3 +163,4 @@
 .icon-chart-area:before { content: '\e86a'; } /* '' */
 .icon-cog:before { content: '\e86b'; } /* '' */
 .icon-sign-out:before { content: '\e86d'; } /* '' */
+.icon-question:before { content: '\e86e'; } /* '' */
