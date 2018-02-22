@@ -25,7 +25,9 @@ export class NavbarComponent implements OnInit {
               private userService: UserService) {}
 
   public ngOnInit() {
-    this.userService.current().subscribe(user => this.setUser(user));
+    if (this.authService.isAuthenticated()) {
+      this.userService.current().subscribe(user => this.setUser(user));
+    }
   }
 
   public openModal(template: TemplateRef<any>) {

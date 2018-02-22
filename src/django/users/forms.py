@@ -20,7 +20,7 @@ class PasswordResetInitForm(forms.Form):
 
     On validation, sends an email to the user with a password reset link.
     """
-    # TODO: rate limit this endpoint to prevent abuse
+    # TODO (issue #668): rate limit this endpoint to prevent abuse
     email = forms.EmailField(help_text=None, widget=forms.TextInput(attrs={'placeholder': ''}))
 
     def generate_token(self, uid):

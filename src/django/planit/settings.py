@@ -280,8 +280,8 @@ LOGGING = {
 
 # APPLICATION SETTINGS
 
-CCAPP_HOME = os.getenv('CCAPI_APP_HOME')
-PASSWORD_RESET_URL = CCAPP_HOME + '/reset-password/{token}'
+PLANIT_APP_HOME = os.getenv('PLANIT_APP_HOME')
+PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/{token}'
 
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')

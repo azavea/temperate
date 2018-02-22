@@ -64,4 +64,4 @@ variable "ccapi_password" {}
 
 variable "ccapi_host" {}
 
-variable "ccapi_app_home" {}
+variable "planit_app_home" {}
