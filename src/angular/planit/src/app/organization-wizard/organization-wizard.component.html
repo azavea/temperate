@@ -14,12 +14,13 @@
 
       <app-organization-invite-step class="wizard-step"
                                     #inviteStep
+                                    [wizard]="wizard"
+                                    [form]="form"
                                     wizardStep>
       </app-organization-invite-step>
 
       <app-organization-confirm-step class="wizard-step"
                                      #confirmStep
-                                     [wizard]="wizard"
                                      [form]="form"
                                      wizardStep>
       </app-organization-confirm-step>

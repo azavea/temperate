@@ -1,16 +1,26 @@
 <div class="step-header">
   <h2 class="center">Invite colleagues</h2>
 </div>
-<div class="step-content">
+<div class="step-content" [formGroup]="form">
   Invitation step
+  <app-user-emails formControlName="invites" [errors]="inviteErrors"></app-user-emails>
+  <div *ngIf="form.controls.invites.errors">
+    <span *ngIf="form.controls.invites.errors.server">
+      *{{ form.controls.invites.errors.server }}
+    </span>
+  </div>
 </div>
 <div class="step-footer">
   <button type="button"
-          tabindex="3"
-          class="button"
-          nextStep>Skip</button>
-  <button type="button"
-          tabindex="2"
           class="button button-primary"
-          nextStep>Continue</button>
+          (click)="confirm()">
+    <span *ngIf="!shouldSkip()">
+      Send {{ form.controls.invites.value.length }}
+      {{ form.controls.invites.value.length === 1 ? 'invite' : 'invites' }}
+      and continue
+    </span>
+    <span *ngIf="shouldSkip()">
+      Skip
+    </span>
+  </button>
 </div>

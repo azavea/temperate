@@ -1,0 +1,28 @@
+<div class="input-group">
+  <input class="form-control"
+         type="email"
+         [email]="email.length > 0"
+         #emailControl="ngModel"
+         [tabindex]="tabindex"
+         [(ngModel)]="email">
+  <!-- Validation tooltip on <span> because tooltips don't show on a disabled button -->
+  <span class="input-group-btn"
+        tooltip="Please enter a valid email address."
+        [isDisabled]="email.length > 0 && emailControl.valid">
+    <button class="button button-primary button-icon" type="button" (click)="add()"
+            [disabled]="email.length == 0 || emailControl.invalid" [tabindex]="tabindex">
+      <i class="icon-plus"></i>
+    </button>
+  </span>
+</div>
+<div class="multiselect">
+  <div *ngFor="let email of emails" class="selected-option"
+       [ngClass]="{'error': hasError(email)}"
+       [tooltip]="errors[email]" [isDisabled]="!hasError(email)">
+    {{ email }}
+    <button type="button" class="button button-icon-only" aria-label="Close"
+            (click)="remove(email)" title="Remove">
+      <i class="icon-cancel"></i>
+    </button>
+  </div>
+</div>

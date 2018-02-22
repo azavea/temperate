@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { MovingDirection, WizardComponent } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../../../core/services/organization.service';
@@ -21,7 +20,6 @@ export class ConfirmStepComponent extends OrganizationWizardStepComponent<any>
 
   public key: OrganizationStepKey = OrganizationStepKey.Confirm;
 
-  @Input() wizard: WizardComponent;
   @Input() form: FormGroup;
 
   constructor(protected session: WizardSessionService<Organization>,
@@ -45,18 +43,5 @@ export class ConfirmStepComponent extends OrganizationWizardStepComponent<any>
 
   toModel(data: any, organization: Organization) {
     return organization;
-  }
-
-  confirm() {
-    this.save(MovingDirection.Forwards).then((success) => {
-      if (success) {
-        this.router.navigate(['/plan']);
-      } else {
-        const controls = this.form.controls;
-        if (controls.location.invalid || controls.name.invalid) {
-          this.wizard.navigation.goToStep(0);
-        }
-      }
-    });
   }
 }

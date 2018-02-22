@@ -215,7 +215,10 @@ class PlanItUserManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
-        user.set_password(password)
+        if password:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
         user.save()
 
         # Add the user's primary organization to their organizations list
@@ -255,7 +258,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
-                                           related_name='user_organizations')
+                                           related_name='users')
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
 

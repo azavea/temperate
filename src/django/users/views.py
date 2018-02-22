@@ -199,6 +199,9 @@ class OrganizationViewSet(mixins.CreateModelMixin,
         serializer.save()
 
         organization = serializer.instance
+        for user in organization.users.all():
+            RegistrationView(request=request).send_activation_email(user)
+
         self.request.user.organizations.add(organization)
         self.request.user.primary_organization = organization
         self.request.user.save()

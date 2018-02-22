@@ -75,9 +75,6 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     return data;
   }
 
-  setupForm(data: CityStepFormModel) {
-  }
-
   toModel(data: CityStepFormModel, organization: Organization) {
     if (!!data.location) {
       organization.location = {

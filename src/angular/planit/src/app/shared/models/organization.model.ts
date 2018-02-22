@@ -14,6 +14,7 @@ export class Organization {
   subscription_pending: boolean;
   weather_events: number[];
   community_systems: number[];
+  invites?: string[];
 
   constructor(object: Object) {
     Object.assign(this, object);

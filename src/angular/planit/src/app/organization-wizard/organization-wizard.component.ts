@@ -35,7 +35,8 @@ export class OrganizationWizardComponent implements OnInit {
     this.session.setData(new Organization({}));
     this.form = this.fb.group({
       'location': ['', [Validators.required]],
-      'name': ['', [Validators.required]]
+      'name': ['', [Validators.required]],
+      'invites': [[], []]
     });
     this.userService.current().subscribe(user => this.user = user);
   }
