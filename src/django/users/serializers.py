@@ -55,7 +55,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                   slug_field='weather_event_id')
 
     def validate_location(self, location_data):
-        if 'api_city_id' not in location_data.keys():
+        if 'api_city_id' not in location_data:
             raise serializers.ValidationError("Location ID is required.")
         return location_data
 
