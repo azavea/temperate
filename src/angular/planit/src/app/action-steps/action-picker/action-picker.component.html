@@ -3,7 +3,9 @@
         (click)="closeModal()" aria-label="Close">
         <i class="icon-cancel-circled2"></i>
 </button>
-<div class="action-picker-prompt" *ngIf="showPrompt">
+
+<!-- "How do you want to start?" prompt -->
+<div class="action-picker-prompt" *ngIf="showPrompt && suggestedActions.length > 0">
   <div class="modal-header action-picker-content">
     <h1 class="action-picker-header">How do you want to start?</h1>
   </div>
@@ -23,6 +25,26 @@
     </div>
   </div>
 </div>
+
+<!-- Alternate prompt when no actions were found -->
+<div class="action-picker-none" *ngIf="showPrompt && suggestedActions.length === 0">
+  <div class="modal-header action-picker-content">
+    <h1 class="action-picker-header">Develop a custom action step</h1>
+  </div>
+  <div class="container">
+    <div class="row justify-content-md-center action-picker-body">
+      <div class="modal-body">
+        <p class="action-picker-content">Sorry, we couldn't find any actions that matched this risk.
+                                         You can still develop a custom action step that addresses this risk.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="button button-primary" (click)="goToWizard()">Get started</button>
+      <button class="button button-default" (click)="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- action picker (second dialog) -->
 <div class="action-picker" *ngIf="!showPrompt">
   <div class="action-picker-header">
@@ -59,8 +81,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="button"
-              (click)="goToWizard()">Nevermind, I'll start from scratch</button>
+      <button class="button" (click)="goToWizard()">Nevermind, I'll start from scratch</button>
     </div>
   </div>
 </div>
