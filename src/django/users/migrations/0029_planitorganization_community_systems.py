@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('planit_data', '0028_merge_20180216_2338'),
-        ('users', '0027_auto_20180220_2052'),
+        ('users', '0028_auto_20180223_2058'),
     ]
 
     operations = [

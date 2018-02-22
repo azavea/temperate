@@ -71,6 +71,15 @@ class OrganizationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
 
+    def validate_name(self, name):
+        try:
+            api_city_id = self.initial_data['location']['properties']['api_city_id']
+        except KeyError:
+            raise serializers.ValidationError("Location ID is required.")
+        if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
+            raise serializers.ValidationError("An organization with this name already exists.")
+        return name
+
     @transaction.atomic
     def create(self, validated_data):
         location_data = validated_data.pop('location')

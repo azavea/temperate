@@ -228,10 +228,13 @@ class OrganizationApiTestCase(APITestCase):
                                        (-100, 0), (0, 0))))
         )
 
+        city_id = 7
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': city_id,
+                }
             },
             'units': 'METRIC'
         }
@@ -243,7 +246,7 @@ class OrganizationApiTestCase(APITestCase):
 
         # check organization exists
         org = PlanItOrganization.objects.get(name='Test Organization')
-        self.assertEqual(org.location.api_city_id, org_data['location']['api_city_id'])
+        self.assertEqual(org.location.api_city_id, city_id)
         self.assertEqual(org.units, org_data['units'])
 
     @mock.patch('users.models.make_token_api_request')
@@ -255,7 +258,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC'
         }
@@ -284,7 +289,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC'
         }
@@ -308,7 +315,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC'
         }
@@ -329,7 +338,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC',
             'weather_events': []
@@ -353,7 +364,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC',
             'weather_events': [we.pk]
@@ -383,7 +396,9 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'api_city_id': 7,
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC',
             'weather_events': [we2.pk]
@@ -393,6 +408,58 @@ class OrganizationApiTestCase(APITestCase):
 
         org = PlanItOrganization.objects.get(id=response.json()['id'])
         self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
+
+    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
+    def test_organization_duplicate_name_allowed(self, import_mock, from_api_city_mock):
+        """Creating an organization with same name as another should succeed."""
+        from_api_city_mock.return_value = LocationFactory()
+
+        # Make an existing object to conflict with
+        org = OrganizationFactory(
+            name="Test Name",
+            location__api_city_id=7
+        )
+
+        org_data = {
+            'name': org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': 5,
+                }
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-list')
+        response = self.client.post(url, org_data, format='json')
+
+        # There should be two organizations
+        self.assertEqual(PlanItLocation.objects.all().count(), 2)
+        self.assertTrue(PlanItOrganization.objects.filter(id=response.json()['id']).exists())
+
+    def test_organization_name_unique_by_location(self):
+        """Creating an organization with same name and location should fail."""
+        # Make an existing object to conflict with
+        org = OrganizationFactory(
+            name="Test Name",
+            location__api_city_id=7
+        )
+
+        org_data = {
+            'name': org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-list')
+        response = self.client.post(url, org_data, format='json')
+
+        # We should have only one organization
+        self.assertEqual(PlanItLocation.objects.all().count(), 1)
+        self.assertEqual(response.status_code, 400)
 
 
 class CsrfTestCase(TestCase):
