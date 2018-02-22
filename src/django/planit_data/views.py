@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.http.request import QueryDict
 
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -161,7 +162,7 @@ class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
     pagination_class = None
 
 
-class SuggestedActionView(APIView):
+class SuggestedActionViewSet(ReadOnlyModelViewSet):
     serializer_class = SuggestedActionSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
@@ -193,30 +194,9 @@ class SuggestedActionView(APIView):
 
         return sorted(list(suggestions), key=order_key)
 
-    def get(self, request, *args, **kwargs):
+    def get_queryset(self):
         queryset = OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
-        )
-
-        try:
-            risk_id = self.request.query_params['risk']
-        except KeyError:
-            return queryset.none()
-        risk = OrganizationRisk.objects.select_related(
-            'weather_event', 'community_system'
-        ).get(id=risk_id)
-
-        # Filter OrganizationActions to organizations that are within the same georegion as the user
-        # This may be possible to do entirely in the database
-        org_id = self.request.user.primary_organization_id
-        location = PlanItLocation.objects.get(planitorganization__id=org_id)
-        georegion = GeoRegion.objects.get_for_point(location.point)
-        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
-        queryset = queryset.filter(organization_risk__organization__location__in=locations)
-
-        queryset = queryset.filter(
-            Q(organization_risk__weather_event=risk.weather_event_id) |
-            Q(organization_risk__community_system=risk.community_system_id)
         ).select_related(
             'organization_risk__weather_event',
             'organization_risk__community_system',
@@ -225,8 +205,33 @@ class SuggestedActionView(APIView):
             'categories'
         )
 
+        # Filter OrganizationActions to organizations that are within the same georegion as the user
+        # This may be possible to do entirely in the database
+        georegion = GeoRegion.objects.get_for_point(
+            self.request.user.primary_organization.location.point)
+        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
+        queryset = queryset.filter(organization_risk__organization__location__in=locations)
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        try:
+            risk_id = self.request.query_params['risk']
+        except KeyError:
+            raise ValidationError('risk parameter required')
+
+        risk = OrganizationRisk.objects.select_related(
+            'weather_event', 'community_system'
+        ).get(id=risk_id)
+
+        queryset = self.get_queryset().filter(
+            Q(organization_risk__weather_event=risk.weather_event_id) |
+            Q(organization_risk__community_system=risk.community_system_id)
+        )
+
+        is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         location.is_coastal, queryset)
+                                         is_coastal, queryset)
 
         serializer = self.serializer_class(results[:5], many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)

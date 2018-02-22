@@ -21,7 +21,7 @@ from planit_data.tests.factories import (
     WeatherEventRankFactory
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
-from planit_data.views import SuggestedActionView
+from planit_data.views import SuggestedActionViewSet
 from users.tests.factories import UserFactory
 
 
@@ -637,14 +637,27 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
 
         # We should get back the action as a suggestion
         self.assertEqual(len(response.json()), 1)
-        self.assertDictEqual(response.json()[0], {
+        self.assertEqual(response.json()[0]['name'], action.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_suggested_action_detail(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC
+        )
+
+        url = reverse('suggestedaction-detail', kwargs={'pk': action.id})
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertDictEqual(response.json(), {
             'name': action.name,
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
@@ -661,6 +674,17 @@ class SuggestedActionTestCase(APITestCase):
         })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_private_action_404s_in_detail(self):
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PRIVATE
+        )
+
+        url = reverse('suggestedaction-detail', kwargs={'pk': action.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_ignore_private_actions(self):
         action = OrganizationActionFactory(
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
@@ -672,7 +696,7 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -691,7 +715,7 @@ class SuggestedActionTestCase(APITestCase):
             # Don't set WeatherEvent or CommunitySystem so we use a new one
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -711,7 +735,7 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -731,7 +755,7 @@ class SuggestedActionTestCase(APITestCase):
             community_system=action.organization_risk.community_system
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -750,7 +774,7 @@ class SuggestedActionTestCase(APITestCase):
             # Don't set CommunitySystem so we use a new one
         )
 
-        url = reverse('suggestedaction') + '?' + urlencode({
+        url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
         response = self.client.get(url)
@@ -798,7 +822,7 @@ class SuggestedActionTestCase(APITestCase):
             coastal_action
         ]
 
-        ordered_suggestions = SuggestedActionView.order_suggestions(
+        ordered_suggestions = SuggestedActionViewSet.order_suggestions(
             community_system=community_system,
             weather_event=weather_event,
             is_coastal=True,
