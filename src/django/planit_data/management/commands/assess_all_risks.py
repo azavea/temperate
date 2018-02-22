@@ -2,6 +2,7 @@ from random import choice
 import logging
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 
 from planit_data.models import OrganizationRisk
 
@@ -17,9 +18,14 @@ logger = logging.getLogger('planit_data')
 
 
 class Command(BaseCommand):
-    help = 'Populates unassessed risks with random selections'
+    help = """Helper command to populate all unassessed risks with random values
+    - Note this cannot be reversed"""
 
     def handle(self, *args, **options):
+        if settings.ENVIRONMENT != 'Development':
+            logger.error('This action is blocked from running on staging or production')
+            exit()
+
         unassessed_risks = OrganizationRisk.objects.filter(**{
             field: '' for field in FIELDS
         })
