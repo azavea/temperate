@@ -1,30 +1,17 @@
 [
 {
     "model": "users.planitorganization",
-    "pk": 1,
-    "fields": {
-        "name": "User Organization",
-        "plan_due_date": null,
-        "plan_name": "",
-        "plan_hyperlink": "",
-        "units": "IMPERIAL",
-        "location": null,
-        "created_by": null
-    }
-},
-{
-    "model": "users.planitorganization",
     "pk": 2,
     "fields": {
         "name": "Philadelphia",
-        "plan_due_date": "2023-02-01",
-        "plan_name": "",
-        "plan_hyperlink": "",
         "units": "IMPERIAL",
         "location": [
             7
         ],
-        "created_by": null
+        "created_by": null,
+        "plan_due_date": "2023-02-01",
+        "plan_name": "",
+        "plan_hyperlink": ""
     }
 },
 {
@@ -32,14 +19,65 @@
     "pk": 3,
     "fields": {
         "name": "New York City",
-        "plan_due_date": "2022-02-01",
-        "plan_name": "",
-        "plan_hyperlink": "",
         "units": "IMPERIAL",
         "location": [
             1
         ],
-        "created_by": null
+        "created_by": null,
+        "plan_due_date": "2022-02-01",
+        "plan_name": "",
+        "plan_hyperlink": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "12f0c4aa-10ab-4128-868e-8f779554f01f",
+    "fields": {
+        "weather_event": 10,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "14587706-b11f-4bb4-a516-364125859f00",
+    "fields": {
+        "weather_event": 17,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "17e9dae3-4ec5-4fee-a264-7543c663c3c9",
+    "fields": {
+        "weather_event": 18,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
     }
 },
 {
@@ -77,6 +115,363 @@
     }
 },
 {
+    "model": "planit_data.organizationrisk",
+    "pk": "3e520690-c3f6-4cbf-b7eb-32d3dded92f8",
+    "fields": {
+        "weather_event": 17,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "3f40fdc7-afd8-4485-b911-133160c0de11",
+    "fields": {
+        "weather_event": 3,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "3feb2167-8360-441b-8d1c-0b306dbda9f7",
+    "fields": {
+        "weather_event": 3,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "4519b4e5-57a9-4762-be7c-33cd2031b0f3",
+    "fields": {
+        "weather_event": 17,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "4d24b988-a8ea-48b7-a9de-a85ded7ac164",
+    "fields": {
+        "weather_event": 3,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "5018a859-ec0d-49fd-80ed-ba9e6e7eef03",
+    "fields": {
+        "weather_event": 12,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "63643b44-1afe-4514-a20a-f1a064ffdb88",
+    "fields": {
+        "weather_event": 12,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "73cf1fb1-2c5a-4cff-ba18-2060ad283e55",
+    "fields": {
+        "weather_event": 12,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "74b6d8ae-92fd-4ecc-830b-a704a4ed4824",
+    "fields": {
+        "weather_event": 8,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "7afd5a07-268c-45a7-b517-c5b43c04701d",
+    "fields": {
+        "weather_event": 3,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "8507c161-62b0-4bce-8947-653ae4d1feb1",
+    "fields": {
+        "weather_event": 17,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "86cfd8ba-fc2c-4654-86be-1427372f88dc",
+    "fields": {
+        "weather_event": 10,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "953af4ec-8ad7-4cf8-94bc-48839aef8dfb",
+    "fields": {
+        "weather_event": 10,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "a4e5e360-27ae-4321-b42d-15d7b0092858",
+    "fields": {
+        "weather_event": 18,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "ac80939a-4ee6-4a53-ae27-25eaad2642ba",
+    "fields": {
+        "weather_event": 12,
+        "community_system": 2,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "c95aebc7-6313-4429-8cff-25991d0b353c",
+    "fields": {
+        "weather_event": 8,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "df23cf95-76dc-435f-b415-9311271cb26a",
+    "fields": {
+        "weather_event": 18,
+        "community_system": 1,
+        "organization": 2,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "e176f545-2f33-4524-a25c-1268b8c7a0f1",
+    "fields": {
+        "weather_event": 10,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "e1a4b8d4-b4dd-4798-83c4-728858f947e1",
+    "fields": {
+        "weather_event": 8,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "e212e795-3b7b-40e4-8fbe-7cc008db7366",
+    "fields": {
+        "weather_event": 8,
+        "community_system": 2,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
+    "model": "planit_data.organizationrisk",
+    "pk": "f73fd1b6-5749-4ce8-8ba4-1a7c3256d714",
+    "fields": {
+        "weather_event": 18,
+        "community_system": 1,
+        "organization": 3,
+        "probability": "",
+        "frequency": "",
+        "intensity": "",
+        "impact_magnitude": "",
+        "impact_description": "",
+        "adaptive_capacity": "",
+        "related_adaptive_values": "[]",
+        "adaptive_capacity_description": ""
+    }
+},
+{
     "model": "planit_data.organizationaction",
     "pk": "5a3b9c67-229b-4c35-97c0-0459623748a9",
     "fields": {
@@ -102,6 +497,347 @@
                 "Technology"
             ]
         ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 1,
+    "fields": {
+        "name": "Drought",
+        "coastal_only": false,
+        "concern": 15,
+        "display_class": "extreme-events",
+        "indicators": [
+            6,
+            14,
+            21,
+            22,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 2,
+    "fields": {
+        "name": "Thunderstorms",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 3,
+    "fields": {
+        "name": "Heat waves",
+        "coastal_only": false,
+        "concern": 13,
+        "display_class": "extreme-events",
+        "indicators": [
+            2,
+            4,
+            8,
+            11,
+            12,
+            15
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 4,
+    "fields": {
+        "name": "Surface floods",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 5,
+    "fields": {
+        "name": "Extreme cold days",
+        "coastal_only": false,
+        "concern": 12,
+        "display_class": "extreme-events",
+        "indicators": [
+            1,
+            3,
+            4,
+            10,
+            11,
+            12,
+            17,
+            18,
+            20
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 7,
+    "fields": {
+        "name": "Coastal flooding",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 8,
+    "fields": {
+        "name": "Hurricanes",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 9,
+    "fields": {
+        "name": "Saltwater intrusion",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 10,
+    "fields": {
+        "name": "Extreme hot days",
+        "coastal_only": false,
+        "concern": 14,
+        "display_class": "heat",
+        "indicators": [
+            2,
+            4,
+            5,
+            8,
+            15,
+            16
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 11,
+    "fields": {
+        "name": "Subsidence",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 12,
+    "fields": {
+        "name": "Wildfires",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "heat",
+        "indicators": [
+            2,
+            6,
+            8,
+            11,
+            12,
+            14,
+            15,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 13,
+    "fields": {
+        "name": "Reduced snowpack",
+        "coastal_only": false,
+        "concern": 18,
+        "display_class": "heat",
+        "indicators": [
+            1,
+            3,
+            10,
+            17,
+            18,
+            21,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 14,
+    "fields": {
+        "name": "Ocean acidification",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "extreme-events",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 15,
+    "fields": {
+        "name": "Changed seasonal patterns",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "extreme-events",
+        "indicators": [
+            2,
+            3,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 16,
+    "fields": {
+        "name": "Landslides",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "extreme-events",
+        "indicators": [
+            6,
+            9,
+            14
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 17,
+    "fields": {
+        "name": "Extreme precipitation",
+        "coastal_only": false,
+        "concern": 22,
+        "display_class": "precipitation",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 18,
+    "fields": {
+        "name": "River flooding",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 19,
+    "fields": {
+        "name": "Storm surge",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 20,
+    "fields": {
+        "name": "Rain storms",
+        "coastal_only": false,
+        "concern": 21,
+        "display_class": "precipitation",
+        "indicators": [
+            9,
+            22,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 21,
+    "fields": {
+        "name": "Ice melt",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "heat",
+        "indicators": [
+            1,
+            3,
+            10,
+            17
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 22,
+    "fields": {
+        "name": "Heavy snow",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "precipitation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 23,
+    "fields": {
+        "name": "Cold wave",
+        "coastal_only": false,
+        "concern": 11,
+        "display_class": "extreme-events",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 25,
+    "fields": {
+        "name": "Forest fire",
+        "coastal_only": false,
+        "concern": 16,
+        "display_class": "extreme-events",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 26,
+    "fields": {
+        "name": "Flash / surface flood",
+        "coastal_only": false,
+        "concern": 22,
+        "display_class": "precipitation",
+        "indicators": []
     }
 },
 {

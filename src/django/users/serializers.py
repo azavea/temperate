@@ -111,7 +111,6 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    # will assign default organization if none given here
     organizations = serializers.SlugRelatedField(many=True,
                                                  queryset=PlanItOrganization.objects.all(),
                                                  required=False,
