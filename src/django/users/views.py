@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from registration.backends.hmac.views import RegistrationView as BaseRegistrationView
+from registration.backends.hmac.views import ActivationView as BaseActivationView
 
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
@@ -25,6 +26,8 @@ from users.forms import UserForm, UserProfileForm, PasswordResetInitForm, Passwo
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
+
+from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
@@ -68,6 +71,10 @@ class PasswordResetView(JsonFormView):
         form.cleaned_data['user'].set_password(form.cleaned_data['password1'])
         form.cleaned_data['user'].save()
         return Response({'status': 'ok'})
+
+
+class ActivationView(BaseActivationView):
+    success_url = settings.PLANIT_APP_HOME + '/login?activated=true'
 
 
 class PlanitHomeView(LoginRequiredMixin, View):

@@ -12,7 +12,7 @@
     <button class="contact-iclei button button-primary button-small"
             (click)="openModal(newUserForm)">Create an Account</button>
     <button class="button button-small"
-            (click)="openModal(loginForm)">Log In</button>
+            routerLink="/login">Log In</button>
   </div>
 </header>
 
@@ -28,9 +28,4 @@
 <!-- Create Account Modal template -->
 <ng-template #newUserForm>
   <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>
-</ng-template>
-
-<!-- Login Modal template -->
-<ng-template #loginForm>
-  <app-login-form (closed)="modalRef.hide()"></app-login-form>
 </ng-template>
