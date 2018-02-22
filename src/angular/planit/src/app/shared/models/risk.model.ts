@@ -1,3 +1,6 @@
+import * as every from 'lodash.every';
+import * as some from 'lodash.some';
+
 import { Action } from './action.model';
 import { CommunitySystem } from './community-system.model';
 import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
@@ -29,7 +32,20 @@ export class Risk {
   }
 
   isAssessed(): boolean {
-    return !!this.probability && !!this.frequency && !!this.intensity && !!this.impact_magnitude
-      && !!this.adaptive_capacity;
+    return every(this.getAssessmentPropsAsBools());
+  }
+
+  isPartiallyAssessed(): boolean {
+    return some(this.getAssessmentPropsAsBools());
+  }
+
+  private getAssessmentPropsAsBools(): boolean[] {
+    return [
+      !!this.probability,
+      !!this.frequency,
+      !!this.intensity,
+      !!this.impact_magnitude,
+      !!this.adaptive_capacity
+    ];
   }
 }
