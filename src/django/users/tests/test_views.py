@@ -12,7 +12,9 @@ from rest_framework.test import APITestCase
 
 from users.models import PlanItOrganization, PlanItLocation, PlanItUser
 from users.tests.factories import LocationFactory, OrganizationFactory, UserFactory
-from planit_data.models import GeoRegion
+
+from planit_data.models import GeoRegion, OrganizationWeatherEvent
+from planit_data.tests.factories import WeatherEventFactory
 
 
 class UserCreationApiTestCase(APITestCase):
@@ -329,13 +331,68 @@ class OrganizationApiTestCase(APITestCase):
             'location': {
                 'api_city_id': 7,
             },
-            'units': 'METRIC'
+            'units': 'METRIC',
+            'weather_events': []
         }
         url = reverse('planitorganization-detail', kwargs={'pk': org.id})
         response = self.client.put(url, org_data, format='json')
 
         org = PlanItOrganization.objects.get(id=response.json()['id'])
         self.assertNotEqual(org.created_by, self.user)
+
+    def test_update_weather_events_saves_data(self):
+        org = OrganizationFactory(
+            name="Starting Name",
+            created_by=UserFactory(),
+            location__api_city_id=7
+        )
+        self.user.organizations.add(org)
+
+        we = WeatherEventFactory()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC',
+            'weather_events': [we.pk]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        org = PlanItOrganization.objects.get(id=response.json()['id'])
+        self.assertEqual(
+            [we.pk],
+            list(org.weather_events.values_list('weather_event_id', flat=True))
+        )
+
+    def test_update_weather_events_deletes_existing_models(self):
+        org = OrganizationFactory(
+            name="Starting Name",
+            created_by=UserFactory(),
+            location__api_city_id=7
+        )
+        self.user.organizations.add(org)
+
+        we1 = WeatherEventFactory()
+        we2 = WeatherEventFactory()
+        org_we = OrganizationWeatherEvent.objects.create(organization=org, weather_event=we1)
+        self.assertEqual(1, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'api_city_id': 7,
+            },
+            'units': 'METRIC',
+            'weather_events': [we2.pk]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        org = PlanItOrganization.objects.get(id=response.json()['id'])
+        self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
 
 
 class CsrfTestCase(TestCase):
