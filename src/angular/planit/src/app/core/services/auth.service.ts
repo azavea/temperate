@@ -49,6 +49,28 @@ export class AuthService {
     }
   }
 
+  resetPasswordSendEmail(email: string): Observable<any> {
+    const body = JSON.stringify({
+      email
+    });
+    const url = `${environment.apiUrl}/accounts/password_reset/send_email/`;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.post(url, body, options);
+  }
+
+  resetPassword(token: string, password1: string, password2: string): Observable<any> {
+    const body = JSON.stringify({
+      token,
+      password1,
+      password2
+    });
+    const url = `${environment.apiUrl}/accounts/password_reset/`;
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.post(url, body, options);
+  }
+
   private setToken(token: string | null) {
     if (token) {
       window.localStorage.setItem(this.LOCALSTORAGE_TOKEN_KEY, token);

@@ -87,6 +87,10 @@
             {
                 "name": "CCAPI_HOST",
                 "value": "${ccapi_host}"
+            },
+            {
+                "name": "PLANIT_APP_HOME",
+                "value": "${planit_app_home}"
             }
         ],
         "logConfiguration": {

@@ -15,13 +15,14 @@ import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 
 const routes: Routes = [
+  { path: 'reset-password/:token', component: MarketingComponent},
+  { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
   {
     path: 'plan',
     component: CreatePlanComponent,
     resolve: { user: UserResolve },
     canActivate: [PlanAuthGuard]
   },
-  { path: '', component: MarketingComponent, canActivate: [MarketingAuthGuard] },
   { path: 'methodology', component: MethodologyComponent, canActivate: [PreviousRouteGuard] },
   {
     path: 'subscription',

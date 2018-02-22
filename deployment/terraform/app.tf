@@ -118,6 +118,7 @@ data "template_file" "planit_app_https_ecs_task" {
     ccapi_email                      = "${var.ccapi_email}"
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
+    planit_app_home                   = "${var.planit_app_home}"
   }
 }
 

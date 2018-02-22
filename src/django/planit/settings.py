@@ -215,6 +215,10 @@ ACCOUNT_ACTIVATION_DAYS = 14
 REGISTRATION_OPEN = True
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
 
+# Password reset
+PASSWORD_RESET_EMAIL_TEMPLATE = 'password_reset_email.txt'
+PASSWORD_RESET_EMAIL_SUBJECT_TEMPLATE = 'password_reset_email_subject.txt'
+PASSWORD_RESET_EXPIRE = 24 * 60 * 60  # 1 day
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -276,7 +280,8 @@ LOGGING = {
 
 # APPLICATION SETTINGS
 
-CCAPP_HOME = 'http://localhost:4210' if ENVIRONMENT == 'Development' else '/'
+PLANIT_APP_HOME = os.getenv('PLANIT_APP_HOME')
+PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/{token}'
 
 # Climate API Configuration
 CCAPI_EMAIL = os.getenv('CCAPI_EMAIL')
