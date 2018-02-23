@@ -10,6 +10,9 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
+import {
+  AddCommunitySystemsComponent
+} from './add-community-systems/add-community-systems.component';
 import { AddWeatherEventsComponent } from './add-weather-events/add-weather-events.component';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { ChartComponent } from './chart/chart.component';
@@ -30,6 +33,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
+import {
+  TopCommunitySystemsComponent
+} from './top-community-systems/top-community-systems.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 
@@ -50,6 +56,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
   ],
   declarations: [
     AdaptiveNeedBoxComponent,
+    AddCommunitySystemsComponent,
     AddWeatherEventsComponent,
     BackButtonComponent,
     ChartComponent,
@@ -66,11 +73,13 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
+    AddCommunitySystemsComponent,
     AddWeatherEventsComponent,
     BackButtonComponent,
     ChartComponent,
@@ -87,6 +96,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent
   ]

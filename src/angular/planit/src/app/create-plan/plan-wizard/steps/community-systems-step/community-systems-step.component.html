@@ -1,3 +1,20 @@
-<h3>Community Systems</h3>
-
-<button type="button" (click)="finish()">Finish</button>
+<div class="step-header">
+  <h3>Community Systems</h3>
+  <p>
+    Select aspects of your community that you believe will be most impacted by the changing climate.
+    Identifying community systems that are most susceptible to climate change helps direct and
+    prioritize your adaptation plan in Temperate. You can add community systems later.
+  </p>
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <app-add-community-systems formControlName="selectedCommunitySystems">
+    </app-add-community-systems>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip Step</button>
+  <button type="button"
+    [disabled]="form.invalid || !isStepComplete()"
+    (click)="finish()">Finish</button>
+</div>

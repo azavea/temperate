@@ -1,0 +1,25 @@
+<div class="loading-wrapper" *ngIf="communitySystems === undefined">
+  <div class="loading loading-spinner loading-large loading-primary"></div>
+</div>
+<div class="card-content top-concerns"
+     *ngIf="communitySystems === undefined || communitySystems.length === 0">
+     <h3>None yet</h3>
+     <p>Choose community systems below that you think should be a top concern for your city.</p>
+</div>
+<div class="card-content top-concerns" *ngIf="communitySystems !== undefined">
+  <div *ngFor="let communitySystem of communitySystems" class="concern icon"
+        [ngClass]="communitySystem.display_class">
+    <div class="concern-content">
+      <div class="concern-options">
+        <button class="button button-danger button-small button-icon"
+                title="Remove from top concerns"
+                (click)="remove(communitySystem)"><i class="icon-minus-square"></i></button>
+      </div>
+      <div class="concern-data">
+        <div class="concern-name">
+          {{ communitySystem.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

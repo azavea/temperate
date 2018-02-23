@@ -1,0 +1,24 @@
+<div class="switch-list">
+  <h2>Top Concerns</h2>
+  <span>Suggested: 1-3 community systems</span>
+  <app-top-community-systems [communitySystems]="selectedSystems"
+                             (removed)="remove($event)"></app-top-community-systems>
+</div>
+<div class="switch-list">
+  <h2>All community systems</h2>
+  <button class="switch-item"
+      [ngClass]="{selected: isSelected(option)}"
+      *ngFor="let option of communitySystems"
+      (click)="add(option)">
+    <span *ngIf="isSelected(option)"
+          class="icon icon-status"></span>
+    <span *ngIf="!isSelected(option)"
+          class="icon icon-status"
+          tooltip="Add to top concerns"
+          tooltipPlacement="right"></span>
+    <span class="icon icon-primary"
+        [ngClass]="option.display_class"
+        ></span>
+    {{ option.name }}
+  </button>
+</div>
