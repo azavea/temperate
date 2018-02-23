@@ -23,7 +23,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         usage
     else
         # Create Django dockerfile only if it doesn't exist
-        if [ ! -f ./src/django/docker-compose.env ]
+        if [ ! -f ./src/django/docker-compose.env ] || [[ -n "${JENKINS}" ]];
         then
             cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
         fi
