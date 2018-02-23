@@ -43,8 +43,8 @@
     color: $concern-readonly-icon-color;
     font-size: $text-base;
     position: absolute;
-    top: $space-small;
-    right: $space-small;
+    top: $space-medium;
+    right: $space-medium;
   }
 
   &:hover:not(.pre-selected) {
@@ -69,8 +69,8 @@
   position: absolute;
   background-color: $white;
   width: auto;
-  right: 1rem;
-  top: 1rem;
+  right:  $space-medium;
+  top:  $space-medium;
   pointer-events: none;
   opacity: 0;
   transition: opacity .25s;
