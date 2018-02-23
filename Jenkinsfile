@@ -8,7 +8,8 @@ node {
         }
 
         env.GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-
+        env.JENKINS = "true"
+    
         // Execute `cibuild` wrapped within a plugin that translates
         // ANSI color codes to something that renders inside the Jenkins
         // console.
