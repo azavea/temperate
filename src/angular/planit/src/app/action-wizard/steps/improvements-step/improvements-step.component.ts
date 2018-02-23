@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionService } from '../../../core/services/action.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, Risk } from '../../../shared/';
 import { Collaborator } from '../../../shared/models/collaborator.model';
@@ -29,6 +31,7 @@ export class ImprovementsStepComponent
 
   @Input() risk: Risk;
 
+  public action: Action;
   public key = ActionStepKey.Improvements;
   public navigationSymbol = '3';
   public title = 'Improvements';
@@ -37,28 +40,24 @@ export class ImprovementsStepComponent
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
-              private router: Router,
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder,
-              private collaboratorService: CollaboratorService) {
-    super(session, actionService, toastr);
+              private collaboratorService: CollaboratorService,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData();
-    this.setupForm(this.fromModel(action));
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
 
     this.collaboratorValues = [];
     this.collaboratorService.list().subscribe(collaborators => {
       // Create a list of collaborator suggestions to display to the user
       this.collaboratorValues = collaborators.map(c => c.name);
     });
-  }
-
-  finish() {
-    this.save();
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   getFormModel(): ImprovementsStepFormModel {

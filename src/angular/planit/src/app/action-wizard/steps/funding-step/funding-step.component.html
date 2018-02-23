@@ -16,7 +16,16 @@
   </form>
 </div>
 <div class="step-footer">
-  <button type="button" class="step-footer-exit" (click)="finish()">Finish later</button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!action?.name"
+          (click)="cancel()">Cancel</button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!!action?.name"
+          (click)="finish()">Finish later</button>
   <div class="step-footer-navigation">
     <button type="button" nextStep>Skip Step</button>
     <button type="button" [disabled]="!form.valid" nextStep>Continue</button>

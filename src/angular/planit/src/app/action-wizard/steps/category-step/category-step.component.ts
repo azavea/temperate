@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ActionCategoryService } from '../../../core/services/action-category.service';
 import { ActionService } from '../../../core/services/action.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, ActionCategory, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
@@ -24,20 +26,23 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
   public title = 'Categories';
   public key = ActionStepKey.Category;
 
+  public action: Action;
   public actionCategories: ActionCategory[] = [];
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
-              private router: Router,
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder,
-              private actionCategoryService: ActionCategoryService) {
-    super(session, actionService, toastr);
+              private actionCategoryService: ActionCategoryService,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
-
+    this.action = this.session.getData();
     this.actionCategoryService.list().subscribe(categories => {
       this.actionCategories = categories;
       this.setupForm(this.fromModel(this.session.getData() || new Action({})));
@@ -68,12 +73,6 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
 
   shouldSave() {
     return true;
-  }
-
-  finish() {
-    this.save();
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   setupForm(data: ActionCategory[]) {

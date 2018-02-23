@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { Action, Risk } from '../../../shared/';
+import { Action } from '../../../shared/';
 
 import { ActionService } from '../../../core/services/action.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
@@ -15,11 +16,6 @@ import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 interface AssessStepFormModel {
   name: string;
-}
-
-interface NamedRisk {
-  name: string;
-  risk: Risk;
 }
 
 @Component({
@@ -33,44 +29,22 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public key: ActionStepKey = ActionStepKey.Assess;
   public navigationSymbol = '1';
   public title = 'General Information';
-
-  public namedRisk: NamedRisk;
-
-  private action: Action;
+  public action: Action;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
               private fb: FormBuilder,
-              private router: Router,
-              private riskService: RiskService) {
-    super(session, actionService, toastr);
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.action = this.session.getData();
     this.setupForm(this.fromModel(this.action));
-
-    this.riskService.get(this.action.risk).subscribe(risk => {
-      this.namedRisk = {
-        'risk': risk,
-        'name': `${risk.weather_event.name} on ${risk.community_system.name}`};
-    });
-  }
-
-  // if have unsaved changes, save before redirecting to parent view
-  cancelOrSave() {
-    if (this.shouldSave()) {
-      this.save(this.action).then(result => { this.exit(); });
-    } else {
-      this.exit();
-    }
-  }
-
-  exit() {
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.namedRisk.risk.weather_event.id}});
   }
 
   fromModel(action: Action): AssessStepFormModel {

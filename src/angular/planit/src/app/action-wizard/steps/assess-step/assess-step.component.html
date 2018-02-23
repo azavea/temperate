@@ -32,13 +32,13 @@
   <button type="button"
           class="step-footer-exit"
           tabindex="2"
-          *ngIf="!shouldSave()"
-          (click)="cancelOrSave()">Cancel</button>
+          *ngIf="!action?.name"
+          (click)="cancel()">Cancel</button>
   <button type="button"
           class="step-footer-exit"
           tabindex="2"
-          *ngIf="shouldSave()"
-          (click)="cancelOrSave()">Finish later</button>
+          *ngIf="!!action?.name"
+          (click)="finish()">Finish later</button>
   <button type="button" class="step-footer-navigation button-primary"
           tabindex="3"
           [disabled]="!form.valid"

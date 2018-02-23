@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionService } from '../../../core/services/action.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
@@ -21,8 +23,9 @@ interface FundingStepFormModel {
 export class FundingStepComponent extends ActionWizardStepComponent<FundingStepFormModel>
                                   implements OnInit {
 
- @Input() risk: Risk;
+  @Input() risk: Risk;
 
+  public action: Action;
   public form: FormGroup;
   public key = ActionStepKey.Funding;
   public navigationSymbol = '5';
@@ -32,14 +35,16 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
               protected actionService: ActionService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
-              private router: Router) {
-    super(session, actionService, toastr);
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData();
-    this.setupForm(this.fromModel(action));
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
   }
 
   getFormModel(): FundingStepFormModel {
@@ -64,12 +69,6 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
   toModel(data: FundingStepFormModel, model: Action) {
     model.funding = data.funding;
     return model;
-  }
-
-  finish() {
-    this.save();
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   isStepComplete() {

@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ActionTypeService } from '../../../core/services/action-type.service';
 import { ActionService } from '../../../core/services/action.service';
+import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, ActionVisibility, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
@@ -28,6 +30,7 @@ export class ImplementationStepComponent
 
   @Input() risk: Risk;
 
+  public action: Action;
   public actionTypes: string[] = [];
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
@@ -42,15 +45,17 @@ export class ImplementationStepComponent
               protected actionService: ActionService,
               protected toastr: ToastrService,
               private fb: FormBuilder,
-              private router: Router,
-              private actionTypeService: ActionTypeService) {
-    super(session, actionService, toastr);
+              protected router: Router,
+              protected previousRouteGuard: PreviousRouteGuard,
+              private actionTypeService: ActionTypeService,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router, previousRouteGuard);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData() || new Action({});
-    this.setupForm(this.fromModel(action));
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
 
     this.actionTypeService.nameList().subscribe(data => this.actionTypes = data);
   }
@@ -97,12 +102,6 @@ export class ImplementationStepComponent
   public updateIsPublic(value: boolean) {
     this.form.controls.isPublic.setValue(value);
     this.form.controls.isPublic.markAsDirty();
-  }
-
-  finish() {
-    this.save();
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.risk.weather_event.id}});
   }
 
   isStepComplete() {

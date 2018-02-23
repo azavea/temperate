@@ -10,7 +10,6 @@ import { PlanItApiHttp } from './api-http.service';
 
 @Injectable()
 export class SuggestedActionService {
-
   constructor(private apiHttp: PlanItApiHttp) {}
 
   list(risk: Risk): Observable<SuggestedAction[]> {

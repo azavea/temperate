@@ -20,6 +20,12 @@ import {
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
 
+
+interface NamedRisk {
+  name: string;
+  risk: Risk;
+}
+
 @Component({
   selector: 'app-action-wizard',
   templateUrl: './action-wizard.component.html',
@@ -37,6 +43,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @Input() action: Action;
 
+  public namedRisk: NamedRisk;
   startingStep = 0;
 
   constructor(private session: WizardSessionService<Action>,
@@ -74,6 +81,13 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
         this.action.categories = suggestion.categories;
       }
     }
+
+    this.riskService.get(this.action.risk).subscribe(risk => {
+      this.namedRisk = {
+        'risk': risk,
+        'name': `${risk.weather_event.name} on ${risk.community_system.name}`
+      };
+    });
 
     this.session.setData(this.action);
   }
