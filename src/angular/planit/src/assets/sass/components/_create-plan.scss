@@ -4,12 +4,15 @@
   .container {
     display: flex;
     flex-flow: wrap;
-    max-width: 70%;
     width: 100%;
-    min-height: calc(100vh - 118px);
     justify-content: space-between;
     padding: 0;
     text-align: center;
+
+    &:not(.community-systems) {
+      min-height: calc(100vh - 118px);
+      max-width: 70%;
+    }
 
     .left-panel {
       background-color: $brand-primary;

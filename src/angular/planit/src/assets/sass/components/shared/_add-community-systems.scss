@@ -1,0 +1,23 @@
+.community-systems {
+  &.container {
+    max-width: 100%;
+    min-height: fit-content;
+
+    .header-title {
+      text-align: left;
+    }
+
+    .header-suggestion {
+      text-align: right;
+    }
+  }
+}
+
+.top-concerns.none-selected {
+  background-color: $neutral-1;
+  flex-direction: column;
+
+  h3, p {
+    text-align: center;
+  }
+}
