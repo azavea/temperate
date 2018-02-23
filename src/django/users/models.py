@@ -15,7 +15,6 @@ from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
 from planit_data.models import (
-    CommunitySystem,
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
@@ -94,6 +93,8 @@ class PlanItOrganization(models.Model):
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
+    community_systems = models.ManyToManyField('planit_data.CommunitySystem',
+                                               related_name='community_systems')
 
     def __str__(self):
         return self.name
@@ -122,9 +123,9 @@ class PlanItOrganization(models.Model):
         self.weather_events.all().delete()
 
         OrganizationWeatherEvent.objects.bulk_create(
-            OrganizationWeatherEvent(weather_event_id=id, organization_id=self.pk,
+            OrganizationWeatherEvent(weather_event_id=event_id, organization_id=self.pk,
                                      order=index + 1)
-            for index, id in enumerate(weather_event_ids)
+            for index, event_id in enumerate(weather_event_ids)
         )
         self.import_risks()
 
