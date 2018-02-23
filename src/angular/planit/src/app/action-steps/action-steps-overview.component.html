@@ -1,6 +1,9 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <app-back-button></app-back-button>
+    <a routerLink="/dashboard" class="button-icon-left button-wayfinding">
+      <span class="icon icon-arrow-left"></span>
+      Go to Dashboard
+    </a>
     <section>
       <h2 class="heading">Adaptation Actions</h2>
       <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
