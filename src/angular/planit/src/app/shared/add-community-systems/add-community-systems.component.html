@@ -9,7 +9,7 @@
   <button class="switch-item"
       [ngClass]="{selected: isSelected(option)}"
       *ngFor="let option of communitySystems"
-      (click)="add(option)">
+      (click)="addOrRemove(option)">
     <span *ngIf="isSelected(option)"
           class="icon icon-status"></span>
     <span *ngIf="!isSelected(option)"

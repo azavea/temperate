@@ -29,11 +29,14 @@ export class AddCommunitySystemsComponent implements OnInit, ControlValueAccesso
     this.communitySystemService.list().subscribe(events => this.communitySystems = events);
   }
 
-  public add(communitySystem: CommunitySystem) {
+  public addOrRemove(communitySystem: CommunitySystem) {
     if (!this.isSelected(communitySystem)) {
       this.selectedSystems.push(communitySystem);
-      this.onChange(this.selectedSystems);
+    } else {
+      // already selected, so toggle to remove
+      this.remove(communitySystem);
     }
+    this.onChange(this.selectedSystems);
   }
 
   public isSelected(communitySystem: CommunitySystem) {
