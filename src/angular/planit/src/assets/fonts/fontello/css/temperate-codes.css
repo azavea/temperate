@@ -66,7 +66,7 @@
 .icon-reduced-snowpack:before { content: '\e840'; } /* '' */
 .icon-reduces-greenhouse-gas-emissions:before { content: '\e841'; } /* '' */
 .icon-research-and-monitoring:before { content: '\e842'; } /* '' */
-.icon-river-flood-1:before { content: '\e843'; } /* '' */
+.icon-check-square:before { content: '\e843'; } /* '' */
 .icon-rockfall:before { content: '\e844'; } /* '' */
 .icon-salt-water-intrusion:before { content: '\e845'; } /* '' */
 .icon-severe-wind:before { content: '\e846'; } /* '' */
@@ -114,3 +114,4 @@
 .icon-minus-square:before { content: '\e870'; } /* '' */
 .icon-cancel:before { content: '\e871'; } /* '' */
 .icon-cancel-circled:before { content: '\e872'; } /* '' */
+.icon-square:before { content: '\e873'; } /* '' */

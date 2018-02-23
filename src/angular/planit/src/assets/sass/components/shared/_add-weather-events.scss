@@ -4,7 +4,7 @@ app-add-weather-events {
       cursor: auto;
       &:hover {
         .icon-status:after {
-          content: "\E869";
+          content: "\E843";
           color: $switch-checked-icon-color;
         }
       }

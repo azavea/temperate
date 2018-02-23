@@ -3,11 +3,22 @@
   flex-wrap: wrap;
 }
 
+.concern-name {
+  color: $concern-title-color;
+  font-size: $concern-title-size;
+  text-align: center;
+  line-height: $concern-title-line-height;
+}
+
 .concern {
+  border: $concern-border;
+  border-radius: $border-radius;
   position: relative;
   flex: 0 0 32.66%;
   margin: 0.33%;
   position: relative;
+  outline: $concern-outline;
+  outline-offset: -($concern-outline-width+1px);
 
   &:last-child {
     margin-right: 0;
@@ -22,62 +33,51 @@
   .concern-content {
     width: 100%;
     position: absolute;
-    top: 0; right: 0; bottom: 0; right: 0;
+    top: 0; right: 0; bottom: 2rem; right: 0;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background-size: 125px;
+  }
 
-    &:after {
-      content: "";
-      width: 100%;
-      position: absolute;
-      top: 0; right: 0; bottom: 0; right: 0;
-      z-index: 1;
-      background: linear-gradient(transparent, rgba($neutral-5, 0.65));
+  .icon-lock {
+    color: $concern-readonly-icon-color;
+    font-size: $text-base;
+    position: absolute;
+    top: $space-medium;
+    right: $space-medium;
+  }
+
+  &:hover:not(.pre-selected) {
+    border: $concern-border-hover;
+    box-shadow: 0px 0px 20px rgba($neutral-4, 0.5);
+    outline: $concern-outline-hover;
+
+    .concern-options {
+      opacity: 1;
+      z-index: 9999;
+      pointer-events: all;
+      cursor: pointer;
     }
-  }
 
-  &.precipitation .concern-content {
-    background-image: url(../images/indicator-1.jpg);
-  }
-  &.heat .concern-content {
-    background-image: url(../images/indicator-2.jpg);
-  }
-  &.extreme-events .concern-content {
-    background-image: url(../images/indicator-3.jpg);
+    .concern-name {
+      color: $concern-title-color-hover;
+    }
   }
 }
 
 .concern-options {
   position: absolute;
-  background-color: $white;
-  width: auto;
-  right: 1rem;
-  top: 1rem;
+  right:  $space-medium;
+  top:  $space-medium;
   pointer-events: none;
   opacity: 0;
   transition: opacity .25s;
-  padding: 0.5rem;
-  border-radius: $button-border-radius;
-}
-
-.concern:hover {
-  box-shadow: 0px 0px 20px rgba($neutral-4, 0.5);
-  outline-offset: -5px;
-
-  .concern-options {
-    opacity: 1;
-    z-index: 9999;
-    pointer-events: all;
-    cursor: pointer;
-  }
 }
 
 .concern-data {
   color: $white;
   position: absolute;
+  right: 1rem;
   bottom: 1rem;
   left: 1rem;
   z-index: 2;
@@ -119,6 +119,211 @@
   }
 }
 
-.concern-name {
-  font-size: $text-medium;
+///////////////////////
+// Top concern images
+///////////////////////
+
+.concern {
+  ///////////////////////
+  // Hazards
+  ///////////////////////
+  &.icon-air-borne-disease .concern-content {
+    background-image: url(../images/hazards/air-borne-disease.svg);
+  }
+  &.icon-atmospheric-co2-concentrations .concern-content {
+    background-image: url(../images/hazards/atmospheric-co2-concentrations.svg);
+  }
+  &.icon-avalanche .concern-content {
+    background-image: url(../images/hazards/avalanche.svg);
+  }
+  &.icon-changed-seasonal-patterns .concern-content {
+    background-image: url(../images/hazards/changed-seasonal-patterns.svg);
+  }
+  &.icon-changed-seasonal-patterns .concern-content {
+    background-image: url(../images/hazards/changed-seasonal-patterns.svg);
+  }
+  &.icon-coastal-flood .concern-content {
+    background-image: url(../images/hazards/coastal-flood.svg);
+  }
+  &.icon-cold-wave .concern-content {
+    background-image: url(../images/hazards/cold-wave.svg);
+  }
+  &.icon-drought .concern-content {
+    background-image: url(../images/hazards/drought.svg);
+  }
+  &.icon-extratropical-storm .concern-content {
+    background-image: url(../images/hazards/extratropical-storm.svg);
+  }
+  &.icon-extreme-cold-days .concern-content {
+    background-image: url(../images/hazards/extreme-cold-days.svg);
+  }
+  &.icon-extreme-hot-days .concern-content {
+    background-image: url(../images/hazards/extreme-hot-days.svg);
+  }
+  &.icon-extreme-winter-conditions .concern-content {
+    background-image: url(../images/hazards/extreme-winter-conditions.svg);
+  }
+  &.icon-flash-flood .concern-content {
+    background-image: url(../images/hazards/flash-and-surface-flood.svg);
+  }
+  &.icon-fog .concern-content {
+    background-image: url(../images/hazards/fog.svg);
+  }
+  &.icon-forest-fire .concern-content {
+    background-image: url(../images/hazards/forest-fire.svg);
+  }
+  &.icon-groundwater-flood .concern-content {
+    background-image: url(../images/hazards/groundwater-flood.svg);
+  }
+  &.icon-hail .concern-content {
+    background-image: url(../images/hazards/hail.svg);
+  }
+  &.icon-heat-wave .concern-content {
+    background-image: url(../images/hazards/heat-wave.svg);
+  }
+  &.icon-heavy-snow .concern-content {
+    background-image: url(../images/hazards/heavy-snow.svg);
+  }
+  &.icon-hurricane .concern-content {
+    background-image: url(../images/hazards/hurricane.svg);
+  }
+  &.icon-insect-infestation .concern-content {
+    background-image: url(../images/hazards/insect-infestation.svg);
+  }
+  &.icon-landslide .concern-content {
+    background-image: url(../images/hazards/landslide.svg);
+  }
+  &.icon-lightning-thunderstorm .concern-content {
+    background-image: url(../images/hazards/lightning-and-thunderstorms.svg);
+  }
+  &.icon-monsoon .concern-content {
+    background-image: url(../images/hazards/monsoon.svg);
+  }
+  &.icon-ocean-acidification .concern-content {
+    background-image: url(../images/hazards/ocean-acidification.svg);
+  }
+  &.icon-permanent-inundation .concern-content {
+    background-image: url(../images/hazards/permanent-inundation.svg);
+  }
+  &.icon-rain-storm .concern-content {
+    background-image: url(../images/hazards/rain-storm.svg);
+  }
+  &.icon-reduced-snowpack .concern-content {
+    background-image: url(../images/hazards/reduced-snowpack.svg);
+  }
+  &.icon-river-flood .concern-content {
+    background-image: url(../images/hazards/river-flood.svg);
+  }
+  &.icon-rockfall .concern-content {
+    background-image: url(../images/hazards/rockfall.svg);
+  }
+  &.icon-salt-water-intrusion .concern-content {
+    background-image: url(../images/hazards/salt-water-intrusion.svg);
+  }
+  &.icon-severe-wind .concern-content {
+    background-image: url(../images/hazards/severe-wind.svg);
+  }
+  &.icon-storm-surge .concern-content {
+    background-image: url(../images/hazards/storm-surge.svg);
+  }
+  &.icon-subsidence .concern-content {
+    background-image: url(../images/hazards/subsidence.svg);
+  }
+  &.icon-tornado .concern-content {
+    background-image: url(../images/hazards/tornado.svg);
+  }
+  &.icon-tropical-storm .concern-content {
+    background-image: url(../images/hazards/tropical-storm.svg);
+  }
+  &.icon-vector-borne-disease .concern-content {
+    background-image: url(../images/hazards/vector-borne-disease.svg);
+  }
+  &.icon-water-borne-disease .concern-content {
+    background-image: url(../images/hazards/water-borne-disease.svg);
+  }
+  &.icon-wildfires .concern-content {
+    background-image: url(../images/hazards/wildfires.svg);
+  }
+
+  ///////////////////////
+  // Community systems
+  ///////////////////////
+  &.icon-agriculture .concern-content {
+    background-image: url(../images/community-system/agriculture.svg);
+  }
+  &.icon-business-continuity .concern-content {
+    background-image: url(../images/community-system/business-continuity.svg);
+  }
+  &.icon-community-and-culture .concern-content {
+    background-image: url(../images/community-system/community-and-culture.svg);
+  }
+  &.icon-ecological-function .concern-content {
+    background-image: url(../images/community-system/ecological-function.svg);
+  }
+  &.icon-emergency-management .concern-content {
+    background-image: url(../images/community-system/emergency-management.svg);
+  }
+  &.icon-emergency-services .concern-content {
+    background-image: url(../images/community-system/emergency-services.svg);
+  }
+  &.icon-emotional-and-mental-well-being .concern-content {
+    background-image: url(../images/community-system/emotional-and-mental-well-being.svg);
+  }
+  &.icon-employment-and-job-access .concern-content {
+    background-image: url(../images/community-system/employment-and-job-access.svg);
+  }
+  &.icon-energy-delivery .concern-content {
+    background-image: url(../images/community-system/energy-delivery.svg);
+  }
+  &.icon-fisheries .concern-content {
+    background-image: url(../images/community-system/fishery.svg);
+  }
+  &.icon-food-supply .concern-content {
+    background-image: url(../images/community-system/food-supply.svg);
+  }
+  &.icon-government-continuity .concern-content {
+    background-image: url(../images/community-system/government-continuity.svg);
+  }
+  &.icon-housing-access .concern-content {
+    background-image: url(../images/community-system/housing-access.svg);
+  }
+  &.icon-industrial-operations .concern-content {
+    background-image: url(../images/community-system/industrial-operations.svg);
+  }
+  &.icon-industrial .concern-content {
+    background-image: url(../images/community-system/industrial.svg);
+  }
+  &.icon-internet-and-communications .concern-content {
+    background-image: url(../images/community-system/internet-and-communications.svg);
+  }
+  &.icon-law-and-order .concern-content {
+    background-image: url(../images/community-system/law-and-order.svg);
+  }
+  &.icon-public-health .concern-content {
+    background-image: url(../images/community-system/public-health.svg);
+  }
+  &.icon-public-safety .concern-content {
+    background-image: url(../images/community-system/public-safety.svg);
+  }
+  &.icon-quality-of-life .concern-content {
+    background-image: url(../images/community-system/quality-of-life.svg);
+  }
+  &.icon-recreation .concern-content {
+    background-image: url(../images/community-system/recreation.svg);
+  }
+  &.icon-tourism .concern-content {
+    background-image: url(../images/community-system/tourism.svg);
+  }
+  &.icon-trasportation .concern-content {
+    background-image: url(../images/community-system/transportation.svg);
+  }
+  &.icon-waste-management .concern-content {
+    background-image: url(../images/community-system/waste-management.svg);
+  }
+  &.icon-wastewater-and-storm-management .concern-content {
+    background-image: url(../images/community-system/wastewater-and-storm-management.svg);
+  }
+  &.icon-water-supply .concern-content {
+    background-image: url(../images/community-system/water-supply.svg);
+  }
 }
