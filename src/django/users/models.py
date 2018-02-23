@@ -143,8 +143,7 @@ class PlanItOrganization(models.Model):
         else:
             num_to_add = settings.STARTING_RISK_AMOUNT
 
-        # TODO (#489): Replace this with only organization's community systems as part of onboarding
-        community_system_ids = CommunitySystem.objects.all().values_list('id', flat=True)
+        community_system_ids = self.community_systems.all().values_list('id', flat=True)
         top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids,
                                                   max_amount=num_to_add)
 
