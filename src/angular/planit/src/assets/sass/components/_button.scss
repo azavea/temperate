@@ -26,6 +26,31 @@
   }
 }
 
+@mixin button-inverse-states($color) {
+  color: $color;
+  background-color: transparent;
+
+  &:focus, &.focus {
+    @include button-inverse-focus-outline();
+    outline: 0;
+  }
+
+  &:hover, &.hover {
+    background-color: rgba($white, .2);
+  }
+
+  &:active, &.active {
+    @include button-inverse-focus-outline();
+    background-color: rgba($white, .2);
+    border-color: rgba($neutral-0, .4);
+  }
+
+  &:disabled, &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}
+
 .button {
   font-family: $button-font-family;
   display: inline-block;
@@ -59,6 +84,16 @@
 .button-warning {
   @include button-states($brand-warning);
 }
+
+.button-inverse-light {
+  @include light-on-dark();
+  @include button-inverse-states($neutral-0);
+}
+
+.button-inverse-dark {
+  @include button-inverse-states($neutral-5);
+}
+
 
 .button-link {
   @extend a;

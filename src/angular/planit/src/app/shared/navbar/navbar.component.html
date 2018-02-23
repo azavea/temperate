@@ -1,19 +1,20 @@
 <header class="header-primary" role="banner">
-  <div class="button-group">
-    <a routerLink="/" class="logo"><img src="assets/images/climate-logo-black.svg" alt="Climate by Azavea logo"></a>
-  </div>
-  <div class="button-group" *ngIf="authService.isAuthenticated()">
-    <a class="button button-primary"
+  <a *ngIf="router.url !== '/'" routerLink="/" class="logo"><img src="assets/images/temperate-mark-white.svg" alt="Temperate, by Azavea"></a>
+  <a *ngIf="router.url === '/'" routerLink="/" class="logo"><img src="assets/images/temperate-logo-white.svg" alt="Temperate, by Azavea"></a>
+  <div class="nav-buttons" *ngIf="authService.isAuthenticated()">
+    <a class="button button-inverse-light"
        *ngIf="showLink('/indicators')"
        routerLink="/indicators">Indicators</a>
     <app-user-dropdown></app-user-dropdown>
   </div>
-  <div class="button-group" *ngIf="!authService.isAuthenticated()">
-    <button class="contact-iclei button button-primary button-small"
-            (click)="openModal(newUserForm)">Create an Account</button>
-    <button class="button button-small"
+  <nav class="nav-buttons" *ngIf="!authService.isAuthenticated()">
+    <a class="button button-inverse-light"
+       routerLink="/pricing">Pricing</a>
+    <button class="button"
             routerLink="/login">Log In</button>
-  </div>
+    <button class="button button-primary"
+            (click)="openModal(newUserForm)">Sign up</button>
+  </nav>
 </header>
 
 <div class="banner" *ngIf="authService.isAuthenticated() && isFreeTrial">
@@ -22,7 +23,7 @@
     <span *ngIf="trialDaysRemaining === 1"> is 1 day </span>
     left in your free trial. Keep making progress on your city's adaptation plan and <a class="button-link" routerLink="/subscription">upgrade your plan.</a>
   </span>
-  <a routerLink="/subscription" class="button-secondary button">Upgrade</a>
+  <a routerLink="/subscription" class="button">Upgrade</a>
 </div>
 
 <!-- Create Account Modal template -->

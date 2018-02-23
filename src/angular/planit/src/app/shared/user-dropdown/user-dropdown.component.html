@@ -1,27 +1,26 @@
-<div class="btn-group" dropdown placement="bottom right">
-  <button dropdownToggle type="button" class="button button-profile button-small dropdown-toggle">
-    <i class="icon-user-circle"></i> <i class="icon-chevron-up"></i>
+<div class="user-dropdown" dropdown placement="bottom right">
+  <button dropdownToggle type="button" class="button button-profile button-inverse-light dropdown-toggle">
+    <i class="icon-user-circle"></i> <i class="icon-chevron icon-chevron-down"></i>
   </button>
   <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-    <li role="menuitem">
-      <a class="dropdown-item">
-        {{ user.name() }}
-        <p class="email">{{ user.email }}</p>
-      </a>
+    <li role="menuitem" class="profile-info">
+      <div class="name">{{ user.name() }}</div>
+      <div class="email">{{ user.email }}</div>
+      <div class="subscription">{{ subscriptionOptions.get(user.primary_organization?.subscription) }}</div>
     </li>
     <li role="separator" class="divider"></li>
     <li role="menuitem">
-      <span>{{ subscriptionOptions.get(user.primary_organization?.subscription) }}</span>
       <a routerLink="/subscription">Upgrade your plan</a>
     </li>
     <li role="separator" class="divider"></li>
     <li role="menuitem">
-      <a class="dropdown-item" href="javascript:" routerLink="/settings" routerLinkActive="disabled">
-        <i class="icon-cog"></i> Settings
+      <a href="javascript:" routerLink="/settings" routerLinkActive="disabled">
+        <i class="icon-cog"></i>
+        Settings
       </a>
     </li>
     <li role="menuitem">
-      <a class="dropdown-item" href="javascript:" (click)="logout()">
+      <a href="javascript:" (click)="logout()">
         <i class="icon-sign-out"></i>
         Log out
       </a>
