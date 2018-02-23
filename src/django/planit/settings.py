@@ -31,6 +31,10 @@ VALID_ENVIRONMENTS = ('Production', 'Staging', 'Development')
 if ENVIRONMENT not in VALID_ENVIRONMENTS:
     raise ImproperlyConfigured('Invalid ENVIRONMENT provided, must be one of {}'
                                .format(VALID_ENVIRONMENTS))
+BREAKING_KEY = os.getenv('BREAKING_KEY')
+
+if not BREAKING_KEY:
+    raise ImproperlyConfigured('Missing BREAKING_KEY')
 
 LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 
