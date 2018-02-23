@@ -22,7 +22,7 @@
         <h2>No risks available</h2>
       </div>
       <table class="table va-summary-table" *ngIf="risks?.length">
-        <caption>
+        <caption class="table-caption">
           Wondering why we selected these risks?
           <button class="button button-link"
                   [popover]="learnMoreRiskPopover"
@@ -32,7 +32,7 @@
         </caption>
         <thead>
           <tr>
-            <th>Adaptive Need</th>
+            <th></th>
             <th>Risk
               <i class="icon-question-circle" [tooltip]="tooltipText.risk"></i>
             </th>
@@ -67,7 +67,7 @@
             </td>
             <td>
               <div class="btn-group" dropdown>
-                <button dropdownToggle type="button" class="button dropdown-toggle">
+                <button dropdownToggle type="button" class="button button-icon dropdown-toggle">
                   <span class="icon-ellipsis-h"></span>
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">

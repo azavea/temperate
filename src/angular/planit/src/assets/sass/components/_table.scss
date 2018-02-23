@@ -1,29 +1,68 @@
 .table {
-  width: 100%;
+  border-radius: $border-radius;
   border-collapse: collapse;
-  border: 1px solid $border-color;
+  border-style: hidden;
+  box-shadow: 0 0 0 1px $table-border-color;
+  color: $table-color;
   margin-bottom: 1rem;
+  text-align: left;
+  width: 100%;
 
   thead {
-    text-align: left;
+    tr {
+      border-bottom: 2px solid $table-border-color;
+    }
 
     th, td {
-      font-weight: $font-weight-bold;
+      background-color: $table-header-background;
+      font-weight: $table-header-weight;
+      padding: $space-medium 0 $space-medium 0; 
+    }
+
+    th:first-child {
+      padding-left: $space-medium;
+    }
+
+    th:first-child,
+    td:first-child {
+      border-top-left-radius: $border-radius;
+    }
+
+    tr:first-child th:last-child,
+    tr:first-child td:first-child {
+      border-top-right-radius: $border-radius;
     }
   }
 
   tbody {
-    text-align: left;
+    tr {
+      padding: $space-medium 0 $space-medium 0; 
+      border-bottom: 2px solid $table-border-color;
+    }
 
-    > tr:hover {
+    th, td {
+      background: $table-row-background;
+      padding: $space-large $space-large $space-large 0;
+      vertical-align: middle;
+    }
+
+    td:first-child {
+      padding: $space-large;
+    }
+
+    tr:last-child th:first-child,
+    tr:last-child td:first-child {
+      border-bottom-left-radius: $border-radius;
+    }
+
+    tr:last-child th:last-child,
+    tr:last-child td:first-child {
+      border-bottom-right-radius: $border-radius;
+    }
+
+    tr:hover {
       background-color: $neutral-1;
     }
-  }
-
-  th,
-  td {
-    border-bottom: 1px solid $border-color;
-    padding: 2rem 1.5rem;
   }
 }
 
@@ -40,7 +79,7 @@
     }
 
     tr {
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $table-border-color;
     }
 
     tbody [data-th] {
@@ -58,4 +97,15 @@
       }
     }
   }
+}
+
+.table-caption {
+  background-color: $table-caption-background;
+  // border: 1px solid $table-caption-border-color;
+  border-radius: $border-radius;
+  color: $table-caption-color;
+  font-style: italic;
+  padding: $space-medium;
+  text-align: left;
+  margin-bottom: $space-tiny;
 }

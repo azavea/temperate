@@ -56,12 +56,14 @@ $neutral-0: #fafaf9;
 $neutral-1: #ededeb;
 $neutral-2: #c9c9c3;
 $neutral-3: #a4a49a;
-$neutral-4: #7e7e71;
+$neutral-4: #5F5F55;
 $neutral-5: #363630;
 
 $border-color: $neutral-1;
 
 // TODO Revisit these
+$adaptive-need-size: 20px;
+
 $adaptive-need-high: $brand-danger;
 $adaptive-need-mod-high: #f75824;
 $adaptive-need-mod: #fa8530;
@@ -75,13 +77,13 @@ $adaptive-need-low: $brand-warning;
  * * * */
 
  $padding-unit: 1rem;
- $space-tiny: 1px;
+ $space-tiny: 2px;
  $space-small: 0.35rem;
  $space-base: 0.65rem;
  $space-medium: 1rem;
  $space-large: 1.25rem;
  $space-xlarge: 2rem;
- $main-background: $neutral-0;
+ $main-background: $neutral-1;
  $content-max-width: 125rem;
 
 
@@ -199,6 +201,23 @@ $modal-heading-padding: 1.5rem;
 $modal-body-padding: 2.5rem;
 $modal-footer-padding: 1.5rem;
 $modal-border-radius: 2px;
+
+
+/* * * *
+ * Tables
+ *
+ * * * */
+$table-color: $brand-black;
+$table-border-color: $border-color;
+
+$table-header-background: $white;
+$table-header-weight: $font-weight-bold;
+
+$table-row-background: $neutral-0;
+
+$table-caption-background: $brand-teal-v-light;
+$table-caption-color: $brand-evergreen;
+$table-caption-border-color: $brand-teal-light;
 
 
 /* * * *
