@@ -67,15 +67,11 @@
 
 .concern-options {
   position: absolute;
-  background-color: $white;
-  width: auto;
   right:  $space-medium;
   top:  $space-medium;
   pointer-events: none;
   opacity: 0;
   transition: opacity .25s;
-  padding: 0.5rem;
-  border-radius: $button-border-radius;
 }
 
 .concern-data {
