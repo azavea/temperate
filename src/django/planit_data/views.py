@@ -1,6 +1,8 @@
+from django.db.models import Q
 from django.http.request import QueryDict
 
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -161,33 +163,78 @@ class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
 
 
 class SuggestedActionViewSet(ReadOnlyModelViewSet):
-    model_class = OrganizationAction
     serializer_class = SuggestedActionSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_queryset(self):
-        """Limit Suggested Actions."""
+    @staticmethod
+    def order_suggestions(community_system, weather_event, is_coastal, suggestions):
+        """Arrange the user suggestions in a specific order
 
+        # ?) (If coastal) Matching community system and weather events from coastal cities
+        # 1) Matching community system and weather events from all cities
+        # 2) Matching community system only
+        # 3) Matching weather event only
+        """
+        def order_key(item):
+            # If the community system does not match, then we know it only matched because the
+            # weather event, putting it in the last category
+            if item.organization_risk.community_system != community_system:
+                return 3
+
+            # If weather event does not match, then it's community system only and second to last
+            if item.organization_risk.weather_event != weather_event:
+                return 2
+
+            # If both match, check if both cities are coastal:
+            if is_coastal and item.organization_risk.organization.location.is_coastal:
+                return 0
+
+            return 1
+
+        return sorted(list(suggestions), key=order_key)
+
+    def get_queryset(self):
         queryset = OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
+        ).select_related(
+            'organization_risk__weather_event',
+            'organization_risk__community_system',
+            'organization_risk__organization__location'
+        ).prefetch_related(
+            'categories'
         )
-
-        risk = self.request.query_params.get('risk', None)
-        if risk:
-            queryset = queryset.filter(
-                organization_risk__weather_event__organizationrisk=risk,
-                organization_risk__community_system__organizationrisk=risk)
 
         # Filter OrganizationActions to organizations that are within the same georegion as the user
         # This may be possible to do entirely in the database
-        org_id = self.request.user.primary_organization_id
-        location = PlanItLocation.objects.get(planitorganization__id=org_id)
-        georegion = GeoRegion.objects.get_for_point(location.point)
+        georegion = GeoRegion.objects.get_for_point(
+            self.request.user.primary_organization.location.point)
         locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
         queryset = queryset.filter(organization_risk__organization__location__in=locations)
 
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        try:
+            risk_id = self.request.query_params['risk']
+        except KeyError:
+            raise ValidationError('risk parameter required')
+
+        risk = OrganizationRisk.objects.select_related(
+            'weather_event', 'community_system'
+        ).get(id=risk_id)
+
+        queryset = self.get_queryset().filter(
+            Q(organization_risk__weather_event=risk.weather_event_id) |
+            Q(organization_risk__community_system=risk.community_system_id)
+        )
+
+        is_coastal = request.user.primary_organization.location.is_coastal
+        results = self.order_suggestions(risk.community_system, risk.weather_event,
+                                         is_coastal, queryset)
+
+        serializer = self.serializer_class(results[:5], many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class WeatherEventViewSet(ReadOnlyModelViewSet):
