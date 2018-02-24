@@ -1,4 +1,16 @@
 // Tooltip, Bootstrap
+.tooltip-trigger {
+  color: $tooltip-trigger-color;
+
+  &:focus, &.focus {
+    @include button-focus-outline();
+    outline: 0;
+  }
+
+  &:hover, &.hover, &:active, &.active {
+   color: $tooltip-trigger-color-hover;
+  }
+}
 
 .tooltip {
   position: absolute;

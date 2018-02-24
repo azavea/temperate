@@ -118,11 +118,20 @@
   }
 }
 
-.adaptive-need-box {
+va-adaptive-need-box {
   border-radius: $border-radius;
   width: $adaptive-need-size;
   height: $adaptive-need-size;
   display: inline-block;
+  position: relative;
+  overflow: hidden;
+  color: $adaptive-need-empty-color;
+  text-align: center;
+
+  .adaptive-need-box {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0; 
+  }
 }
 
 .adaptive-need-box, 

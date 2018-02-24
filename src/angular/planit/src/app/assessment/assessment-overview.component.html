@@ -32,29 +32,29 @@
         </caption>
         <thead>
           <tr>
-            <th></th>
-            <th>Risk
-              <i class="icon-question-circle" [tooltip]="tooltipText.risk"></i>
+            <th scope="col">Risk
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
             </th>
-            <th>Potential Impact
-              <i class="icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
+            <th scope="col">Potential Impact
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
             </th>
-            <th>Adaptive Capacity
-              <i class="icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
+            <th scope="col">Adaptive Capacity
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
             </th>
-            <th></th>
-            <th></th>
+            <th scope="col" class="hidden-header">Assessment progress</th>
+            <th scope="col" class="hidden-header">More options</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let risk of risks">
-            <td><va-adaptive-need-box
-              [adaptiveCapacity]="risk.adaptive_capacity"
-              [popoverPlacement]="'right'"
-              [potentialImpact]="risk.impact_magnitude"></va-adaptive-need-box></td>
-            <td>
+            <th scope="row">
+              <va-adaptive-need-box
+                [adaptiveCapacity]="risk.adaptive_capacity"
+                [popoverPlacement]="'right'"
+                [potentialImpact]="risk.impact_magnitude">
+              </va-adaptive-need-box>
               <va-risk-popover [risk]="risk"></va-risk-popover>
-            </td>
+            </th>
             <td>{{ risk.impact_magnitude }}</td>
             <td>{{ risk.adaptive_capacity }}</td>
             <td>
