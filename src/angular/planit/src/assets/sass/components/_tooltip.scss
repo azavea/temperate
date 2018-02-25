@@ -44,7 +44,7 @@
       left: 50%;
       margin-left: -$tooltip-arrow-width;
       border-width: $tooltip-arrow-height $tooltip-arrow-width 0;
-      border-top-color: $tooltip-color;
+      border-top-color: $tooltip-background;
     }
   }
 
@@ -57,7 +57,7 @@
       left: 0;
       margin-top: -$tooltip-arrow-width;
       border-width: $tooltip-arrow-width $tooltip-arrow-height $tooltip-arrow-width 0;
-      border-right-color: $tooltip-color;
+      border-right-color: $tooltip-background;
     }
   }
 
@@ -70,7 +70,7 @@
       left: 50%;
       margin-left: -$tooltip-arrow-width;
       border-width: 0 $tooltip-arrow-width $tooltip-arrow-height;
-      border-bottom-color: $tooltip-color;
+      border-bottom-color: $tooltip-background;
     }
   }
 
@@ -83,7 +83,7 @@
       right: 0;
       margin-top: -$tooltip-arrow-width;
       border-width: $tooltip-arrow-width 0 $tooltip-arrow-width $tooltip-arrow-height;
-      border-left-color: $tooltip-color;
+      border-left-color: $tooltip-background;
     }
   }
 }
@@ -92,9 +92,11 @@
   max-width: 200px;
   padding: $tooltip-padding-vertical $tooltip-padding-horizontal;
   color: $white;
+  font-weight: $tooltip-font-weight;
   text-align: center;
-  background-color: $tooltip-color;
-  border-radius: 2px;
+  background-color: $tooltip-background;
+  border-radius: $border-radius;
+  box-shadow: $tooltip-shadow;
 }
 
 .tooltip-arrow {

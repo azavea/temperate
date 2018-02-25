@@ -183,11 +183,13 @@ $dropdown-menu-border-radius: $field-border-radius;
  * * * */
 $tooltip-font-family: $body-font-family;
 $tooltip-font-size: $text-tiny;
-$tooltip-padding-vertical: 0.4rem;
-$tooltip-padding-horizontal: 0.8rem;
-$tooltip-color: $neutral-5;
-$tooltip-arrow-width: 0.4rem;
+$tooltip-font-weight: $font-weight-regular;
+$tooltip-padding-vertical: $space-medium;
+$tooltip-padding-horizontal: $space-base;
+$tooltip-background: $neutral-5;
+$tooltip-arrow-width: 0.8rem;
 $tooltip-arrow-height: 0.5rem;
+$tooltip-shadow: 0 0 15px rgba($black,0.4);
 
 $tooltip-trigger-color: $neutral-3;
 $tooltip-trigger-color-hover: $brand-teal;
