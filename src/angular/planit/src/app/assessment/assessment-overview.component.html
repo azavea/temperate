@@ -2,9 +2,7 @@
   <main class="main-content" role="main">
     <app-back-button></app-back-button>
     <section>
-      <h2 class="heading">Vulnerability Assessment
-        <button class="button icon-edit" routerLink="risk/new"></button>
-      </h2>
+      <h2 class="heading">Vulnerability Assessment</h2>
       <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
     </section>
     <section>
@@ -14,7 +12,7 @@
         Click on a row to assess each risk.
       </p>
     </section>
-    <section class="display-flex flex-vertical">
+    <section>
       <div class="loading-wrapper" *ngIf="risks === undefined">
         <div class="loading loading-spinner loading-large loading-primary"></div>
       </div>
@@ -86,6 +84,7 @@
           </tr>
         </tbody>
       </table>
+      <button class="button button-icon-left" routerLink="risk/new">Add new</button>
     </section>
   </main>
 </div>
