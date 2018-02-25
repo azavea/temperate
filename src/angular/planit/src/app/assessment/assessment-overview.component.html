@@ -56,7 +56,7 @@
             <td>{{ risk.impact_magnitude }}</td>
             <td>{{ risk.adaptive_capacity }}</td>
             <td>
-              <button class="button va-status-button"
+              <button class="button button-primary va-status-button"
                       *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
               <button class="button va-status-button in-progress"
@@ -84,7 +84,7 @@
           </tr>
         </tbody>
       </table>
-      <button class="button button-icon-left" routerLink="risk/new">Add new</button>
+      <button class="button" routerLink="risk/new">Add new</button>
     </section>
   </main>
 </div>
