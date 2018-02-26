@@ -15,12 +15,17 @@ class RouterStub {
 }
 
 class AuthServiceStub {
+  public loggedIn = Observable.of({});
+  public loggedOut = Observable.of({});
+
   isAuthenticated() {
     return true;
   }
 }
 
 class UserServiceStub {
+  public currentUser = Observable.of({});
+
   current() {
     return Observable.of({});
   }
