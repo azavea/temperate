@@ -55,8 +55,8 @@
       vertical-align: center;
     }
 
-    th:first-child {
-      padding: $space-large;
+    td:first-child {
+      padding-left: $space-large;
     }
 
     tr:last-child th:first-child,

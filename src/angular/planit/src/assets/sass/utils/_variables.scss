@@ -93,6 +93,7 @@ $content-max-width: 125rem;
  *
  * * * */
 $zindex-popover: 1060;
+$zindex-tooltip: 1060;
 
 /* * * *
  * Columns
@@ -185,11 +186,12 @@ $tooltip-font-family: $body-font-family;
 $tooltip-font-size: $text-tiny;
 $tooltip-font-weight: $font-weight-regular;
 $tooltip-padding-vertical: $space-medium;
-$tooltip-padding-horizontal: $space-base;
+$tooltip-padding-horizontal: $space-large;
 $tooltip-background: $neutral-5;
 $tooltip-arrow-width: 0.8rem;
 $tooltip-arrow-height: 0.5rem;
 $tooltip-shadow: 0 0 15px rgba($black,0.4);
+$tooltip-max-width: 20rem;
 
 $tooltip-trigger-color: $neutral-3;
 $tooltip-trigger-color-hover: $brand-teal;

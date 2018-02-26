@@ -24,6 +24,7 @@
       <table class="table va-summary-table" *ngIf="risks?.length">
         <thead>
           <tr>
+            <th scope="col" class="hidden-header">Adaptive need</th>
             <th scope="col">Community system at risk
               <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
             </th>
@@ -39,12 +40,14 @@
         </thead>
         <tbody>
           <tr *ngFor="let risk of risks">
-            <th scope="row">
+            <td>
               <va-adaptive-need-box
                 [adaptiveCapacity]="risk.adaptive_capacity"
                 [popoverPlacement]="'right'"
                 [potentialImpact]="risk.impact_magnitude">
               </va-adaptive-need-box>
+            </td>
+            <th scope="row">
               <va-risk-popover [risk]="risk"></va-risk-popover>
             </th>
             <td>{{ risk.impact_magnitude }}</td>
@@ -69,7 +72,7 @@
                   <li role="menuitem">
                     <a class="dropdown-item" [routerLink]="['risk', risk.id]">Edit</a>
                   </li>
-                  <li role="menuitem">
+                  <li class="action-destructive" role="menuitem">
                     <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
                   </li>
                 </ul>
@@ -78,7 +81,7 @@
           </tr>
         </tbody>
       </table>
-      <button class="button" routerLink="risk/new">Add new</button>
+      <button class="button" routerLink="risk/new">Add new risk</button>
     </section>
   </main>
 </div>

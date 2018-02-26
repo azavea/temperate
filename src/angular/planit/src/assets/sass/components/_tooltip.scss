@@ -14,7 +14,7 @@
 
 .tooltip {
   position: absolute;
-  z-index: 1070;
+  z-index: $zindex-tooltip;
   display: block;
   font-family: $tooltip-font-family;
   letter-spacing: normal;
@@ -89,11 +89,11 @@
 }
 
 .tooltip-inner {
-  max-width: 200px;
+  max-width: $tooltip-max-width;
   padding: $tooltip-padding-vertical $tooltip-padding-horizontal;
   color: $white;
   font-weight: $tooltip-font-weight;
-  text-align: center;
+  text-align: left;
   background-color: $tooltip-background;
   border-radius: $border-radius;
   box-shadow: $tooltip-shadow;
