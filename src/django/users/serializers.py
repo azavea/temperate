@@ -72,6 +72,10 @@ class OrganizationSerializer(serializers.ModelSerializer):
         return dt
 
     def validate_name(self, name):
+        if self.instance is not None and self.instance.name == name:
+            # No conflict if name hasn't changed
+            return name
+
         try:
             api_city_id = self.initial_data['location']['properties']['api_city_id']
         except KeyError:

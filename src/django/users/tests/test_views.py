@@ -383,7 +383,6 @@ class OrganizationApiTestCase(APITestCase):
     def test_update_weather_events_deletes_existing_models(self):
         org = OrganizationFactory(
             name="Starting Name",
-            created_by=UserFactory(),
             location__api_city_id=7
         )
         self.user.organizations.add(org)
@@ -460,6 +459,31 @@ class OrganizationApiTestCase(APITestCase):
         # We should have only one organization
         self.assertEqual(PlanItLocation.objects.all().count(), 1)
         self.assertEqual(response.status_code, 400)
+
+    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItOrganization, 'import_weather_events')
+    def test_organization_name_does_not_self_conflict(self, import_mock, from_api_city_mock):
+        """Updating an organization without changing its name should not error."""
+
+        org = OrganizationFactory()
+        self.user.organizations.add(org)
+
+        from_api_city_mock.return_value = org.location
+
+        org_data = {
+            'name': org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': org.location.api_city_id,
+                }
+            },
+            'units': 'IMPERIAL'
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # Request should not error
+        self.assertEqual(response.status_code, 200)
 
 
 class CsrfTestCase(TestCase):
