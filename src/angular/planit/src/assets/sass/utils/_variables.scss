@@ -390,3 +390,37 @@ $card-border-radius: $border-radius;
  $concern-title-color-hover: $brand-black;
 
  $concern-readonly-icon-color: $neutral-2;
+
+ /* * * *
+ * Wizards
+ *
+ * * * */
+$wizard-header-background: $brand-evergreen;
+$wizard-header-padding: $space-xlarge;
+$wizard-background: $white;
+
+$wizard-navigation-width: 25rem;
+
+$wizard-title-small-color: $neutral-4;
+$wizard-title-small-size: $text-base;
+$wizard-title-small-weight: $font-weight-regular;
+
+$wizard-title-large-color: $brand-black;
+$wizard-title-large-size: $text-jumbo;
+$wizard-title-large-weight: $font-weight-light;
+
+$wizard-step-border: 2px solid $border-color;
+$wizard-step-title-size: $text-large;
+$wizard-step-title-color: $brand-evergreen;
+$wizard-step-title-weight: $font-weight-light;
+
+$wizard-step-number-background: $neutral-1;
+$wizard-step-number-border: 2px solid $neutral-2;
+$wizard-step-number-background-complete: $brand-positive;
+$wizard-step-number-border-complete: 2px solid darken($brand-positive,0.3);
+$wizard-step-number-background-current: $brand-teal;
+$wizard-step-number-border-current: 2px solid darken($brand-teal,0.3);
+$wizard-step-number-color: $brand-black;
+$wizard-step-number-weight: $font-weight-bold;
+$wizard-step-number-size: $text-large;
+

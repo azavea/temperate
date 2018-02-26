@@ -1,13 +1,11 @@
-<div class="step-header">
-  <p *ngIf="isDisabled" class="alert alert-warning">
-    You must match a hazard to a community system to complete this step.
-  </p>
+<p *ngIf="isDisabled" class="alert alert-warning">
+  You must match a hazard to a community system to complete this step.
+</p>
 
-  <h3>Adaptive Capacity</h3>
-  <p *ngIf="!isDisabled">
-    Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
-  </p>
-</div>
+<h3 class="step-header">Adaptive Capacity</h3>
+<p *ngIf="!isDisabled">
+  Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
+</p>
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
@@ -32,14 +30,14 @@
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
+<footer class="wizard-footer">
+  <div class="wizard-footer-exit">
+    <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+    <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
 
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+  <div class="wizard-footer-navigation">
+    <button class="button button-secondary" type="button" nextStep>Skip Step</button>
+    <button class="button button-primary" type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
   </div>
-</div>
+</footer>

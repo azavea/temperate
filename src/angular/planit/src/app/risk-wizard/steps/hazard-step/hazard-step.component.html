@@ -1,19 +1,17 @@
-<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
-     tooltip="{{ relatedIndicatorsTooltip() }}">
-  <button class="button button-primary button-small"
-          [disabled]="!indicators?.length"
-          (click)="indicatorsModal.open()"><i class="icon-indicators"></i>View related indicators</button>
-</div>
-<div class="step-header">
-  <p *ngIf="isDisabled" class="alert alert-warning">
+<p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
-  <h3>Hazard</h3>
+  <h3 class="step-header">Hazard</h3>
   <div *ngIf="!isDisabled">
     How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
   </div>
-</div>
 <div class="step-content">
+  <div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
+       tooltip="{{ relatedIndicatorsTooltip() }}">
+    <button class="button button-primary button-small"
+            [disabled]="!indicators?.length"
+            (click)="indicatorsModal.open()"><i class="icon-indicators"></i>View related indicators</button>
+  </div>
   <form [formGroup]="form">
     <div class="step-form-control">
       <h5>Probability</h5>
@@ -48,17 +46,17 @@
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
+<footer class="wizard-footer">
+  <div class="wizard-footer-exit">
+    <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+    <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
 
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+  <div class="wizard-footer-navigation">
+    <button class="button button-primary" type="button" nextStep>Skip Step</button>
+    <button class="button button-primary" type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
   </div>
-</div>
+</footer>
 
 
 <app-modal-template #indicatorChartModal

@@ -1,14 +1,13 @@
-<div class="step-header">
-  <p *ngIf="isDisabled" class="alert alert-warning">
-    You must match a hazard to a community system to complete this step.
-  </p>
+<p *ngIf="isDisabled" class="alert alert-warning">
+  You must match a hazard to a community system to complete this step.
+</p>
 
-  <h3>Impact</h3>
-  <!--TODO (issue #366): Calculate # years from plan's goal date -->
-  <p *ngIf="!isDisabled">
-    How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
-  </p>
-</div>
+<h3 class="step-header">Impact</h3>
+<!--TODO (issue #366): Calculate # years from plan's goal date -->
+<p *ngIf="!isDisabled">
+  How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
+</p>
+
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
@@ -24,14 +23,14 @@
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
+<footer class="wizard-footer">
+  <div class="wizard-footer-exit">
+    <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+    <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
 
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+  <div class="wizard-footer-navigation">
+    <button class="button button-secondary" type="button" nextStep>Skip Step</button>
+    <button class="button button-primary" type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
   </div>
-</div>
+</footer>

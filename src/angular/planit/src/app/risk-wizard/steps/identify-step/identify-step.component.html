@@ -1,6 +1,4 @@
-<div class="step-header">
-  <h3>Identify risk</h3>
-</div>
+<h3 class="step-header">Identify risk</h3>
 <div class="step-content">
   <p>Match a hazard to a subset of people, structures or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
   <form [formGroup]="form">
@@ -44,16 +42,16 @@
   </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
+<footer class="wizard-footer">
+  <div class="wizard-footer-exit">
+    <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+    <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
 
-  <div class="step-footer-navigation">
-    <button type="button"
+  <div class="wizard-footer-navigation">
+    <button class="button button-primary" type="button"
             tabindex="3"
             [disabled]="!form.valid"
             nextStep>Continue</button>
   </div>
-</div>
+</footer>
