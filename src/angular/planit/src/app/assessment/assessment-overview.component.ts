@@ -45,19 +45,4 @@ export class AssessmentOverviewComponent implements OnInit {
       this.risks = this.risks.filter(r => r.id !== risk.id);
     });
   }
-
-  takeAction(risk: Risk) {
-    if (risk.action && risk.action.id) {
-      this.router.navigate(['actions/action/', risk.action.id]);
-    } else {
-      if (!risk.action) {
-        risk.action = new Action({
-          risk: risk.id
-        });
-      }
-      this.actionService.create(risk.action).subscribe(a => {
-        this.router.navigate(['actions/action/', a.id]);
-      });
-    }
-  }
 }
