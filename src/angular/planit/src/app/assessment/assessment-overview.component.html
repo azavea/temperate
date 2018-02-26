@@ -1,15 +1,17 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <app-back-button></app-back-button>
-    <section>
+    <section class="page-intro">
       <h2 class="heading">Vulnerability Assessment</h2>
       <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
-    </section>
-    <section>
-      <h2>Your city's risks</h2>
-      <p>Based on your chosen scope, we have identified the below hazards as
+      <p>Based on your chosen scope, we have identified the below risks as
         a high priority to assess vulnerability and include in your report.
-        Click on a row to assess each risk.
+        Click on a row to assess each risk. 
+          <button class="button-link"
+                  [popover]="learnMoreRiskPopover"
+                  [outsideClick]="true"
+                  container="body"
+                  placement="bottom">Learn why we selected these risks.</button>
       </p>
     </section>
     <section>
@@ -20,23 +22,15 @@
         <h2>No risks available</h2>
       </div>
       <table class="table va-summary-table" *ngIf="risks?.length">
-        <caption class="table-caption">
-          Wondering why we selected these risks?
-          <button class="button-link"
-                  [popover]="learnMoreRiskPopover"
-                  [outsideClick]="true"
-                  container="body"
-                  placement="left">Learn more</button>
-        </caption>
         <thead>
           <tr>
-            <th scope="col">Risk
+            <th scope="col">Community system at risk
               <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
             </th>
-            <th scope="col">Potential Impact
+            <th scope="col">Potential impact
               <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
             </th>
-            <th scope="col">Adaptive Capacity
+            <th scope="col">Adaptive capacity
               <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
             </th>
             <th scope="col" class="hidden-header">Status</th>
