@@ -142,7 +142,16 @@ wizard-navigation-bar {
     &.complete {
       border-color: $brand-positive;
       background-color: $wizard-step-number-background-complete;
-      border: $wizard-step-number-border-complete;
+      box-shadow: 0px 0px 0px 4px $main-background, 
+                  0px 0px 0px 6px $wizard-step-number-background-complete;
+    }
+    &.current, &.editing, &.done:last-child {
+      background-color: $wizard-step-number-background-current;
+    }
+    
+    &.current {
+      box-shadow: 0px 0px 0px 4px $main-background, 
+                  0px 0px 0px 6px $wizard-step-number-border-current;
     }
   }
 
@@ -152,13 +161,6 @@ wizard-navigation-bar {
     font-weight: $font-weight-regular;
     color: $neutral-3;
     margin-left: $space-medium;
-  }
-
-  .current, .editing, .done:last-child {
-    .step-indicator-number {
-      background-color: $wizard-step-number-background-current;
-      border: $wizard-step-number-border-current;
-    }
   }
 }
 
