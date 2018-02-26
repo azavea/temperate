@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
 
 import { ActionService } from '../core/services/action.service';
-import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
 import { RiskService } from '../core/services/risk.service';
 import { WizardSessionService } from '../core/services/wizard-session.service';
 import { Action, WizardStepComponent } from '../shared/';
@@ -17,8 +16,7 @@ export abstract class ActionWizardStepComponent<FormModel>
               protected actionService: ActionService,
               protected riskService: RiskService,
               protected toastr: ToastrService,
-              protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard ) {
+              protected router: Router) {
     super(session, toastr);
   }
 
@@ -35,15 +33,18 @@ export abstract class ActionWizardStepComponent<FormModel>
     // but we're not going in any direction when exiting
     this.save(undefined).then(() => {
       this.action = this.session.getData();
-      return this.riskService.get(this.action.risk).subscribe(r => {
-        this.router.navigate(['actions'],
-          {'queryParams': {'hazard': r.weather_event.id}});
-      });
+      this.cancel();
     });
   }
 
   cancel() {
-    this.router.navigate([ this.previousRouteGuard.previousUrl ],
-      {'queryParams': this.previousRouteGuard.previousQueryParams});
+    if (this.action.risk) {
+      this.riskService.get(this.action.risk).subscribe(r => {
+        this.router.navigate(['actions'],
+          {'queryParams': {'hazard': r.weather_event.id}});
+      });
+    } else {
+      this.router.navigate(['/actions']);
+    }
   }
 }

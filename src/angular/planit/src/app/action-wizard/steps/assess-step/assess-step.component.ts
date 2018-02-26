@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Action } from '../../../shared/';
 
 import { ActionService } from '../../../core/services/action.service';
-import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 
@@ -36,9 +35,8 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
               protected toastr: ToastrService,
               private fb: FormBuilder,
               protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
               protected riskService: RiskService) {
-    super(session, actionService, riskService, toastr, router, previousRouteGuard);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
@@ -62,7 +60,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
   // return false if user is creating a new action and has nothing typed in
   shouldSave(): boolean {
-    return this.action.id ? true : this.form.valid && !!this.form.controls.name.value;
+    return !!this.action.id || (this.form.valid && !!this.form.controls.name.value);
   }
 
   setupForm(data: AssessStepFormModel) {

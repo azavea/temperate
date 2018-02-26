@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ActionCategoryService } from '../../../core/services/action-category.service';
 import { ActionService } from '../../../core/services/action.service';
-import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, ActionCategory, Risk } from '../../../shared/';
@@ -33,11 +32,10 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
               protected actionService: ActionService,
               protected toastr: ToastrService,
               protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder,
               private actionCategoryService: ActionCategoryService,
               protected riskService: RiskService) {
-    super(session, actionService, riskService, toastr, router, previousRouteGuard);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
@@ -72,7 +70,7 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
   }
 
   shouldSave() {
-    return true;
+    return !!this.action.name;
   }
 
   setupForm(data: ActionCategory[]) {

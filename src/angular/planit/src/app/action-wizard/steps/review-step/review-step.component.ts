@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Rx';
 
 import { ActionService } from '../../../core/services/action.service';
-import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
@@ -46,10 +45,9 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   constructor(protected actionService: ActionService,
               protected riskService: RiskService,
               protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
               protected session: WizardSessionService<Action>,
               protected toastr: ToastrService) {
-    super(session, actionService, riskService, toastr, router, previousRouteGuard);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {

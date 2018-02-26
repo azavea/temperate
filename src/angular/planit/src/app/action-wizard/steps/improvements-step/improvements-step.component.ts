@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionService } from '../../../core/services/action.service';
-import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, Risk } from '../../../shared/';
@@ -41,11 +40,10 @@ export class ImprovementsStepComponent
               protected actionService: ActionService,
               protected toastr: ToastrService,
               protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
               private fb: FormBuilder,
               private collaboratorService: CollaboratorService,
               protected riskService: RiskService) {
-    super(session, actionService, riskService, toastr, router, previousRouteGuard);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {

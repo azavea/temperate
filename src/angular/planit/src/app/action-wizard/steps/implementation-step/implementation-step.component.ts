@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 
 import { ActionTypeService } from '../../../core/services/action-type.service';
 import { ActionService } from '../../../core/services/action.service';
-import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, ActionVisibility, Risk } from '../../../shared/';
@@ -46,10 +45,9 @@ export class ImplementationStepComponent
               protected toastr: ToastrService,
               private fb: FormBuilder,
               protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
               private actionTypeService: ActionTypeService,
               protected riskService: RiskService) {
-    super(session, actionService, riskService, toastr, router, previousRouteGuard);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
