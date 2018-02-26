@@ -94,6 +94,7 @@ $content-max-width: 125rem;
  * * * */
 $zindex-popover: 1060;
 $zindex-tooltip: 1060;
+$zindex-dropdown-menu: 1000;
 
 /* * * *
  * Columns
@@ -175,7 +176,17 @@ $field-border-radius: 4px;
  * Dropdown
  *
  * * * */
-$dropdown-menu-border-radius: $field-border-radius;
+$dropdown-menu-border: 1px solid $neutral-1;
+$dropdown-menu-border-radius: $border-radius;
+$dropdown-menu-border-padding: $space-medium;
+$dropdown-menu-min-width: 16rem;
+$dropdown-menu-background: $white;
+$dropdown-menu-shadow: 0px 0px 20px rgba($neutral-4, 0.2);
+
+$dropdown-menu-link-color: $neutral-4;
+$dropdown-menu-link-color-hover: $black;
+$dropdown-menu-link-background-hover: $brand-teal-v-light;
+$dropdown-menu-link-background-active: $brand-teal;
 
 
 /* * * *
