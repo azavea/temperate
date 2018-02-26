@@ -1,6 +1,6 @@
 import factory
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.contrib.gis.geos import Point
 
@@ -32,9 +32,9 @@ class OrganizationFactory(factory.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: 'Test Organization {}'.format(n))
     location = factory.SubFactory(LocationFactory)
-    created_at = datetime(2018, 1, 1)
+    created_at = datetime(2018, 1, 1, tzinfo=timezone.utc)
     subscription = PlanItOrganization.Subscription.FREE_TRIAL
-    subscription_end_date = datetime(2018, 1, 14)
+    subscription_end_date = datetime(2018, 1, 14, tzinfo=timezone.utc)
 
 
 class UserFactory(factory.DjangoModelFactory):
