@@ -105,26 +105,39 @@ wizard {
 }
 
 wizard-navigation-bar {
-  li {
-    div {
-      a { // Not working
-        border-bottom: none;
-        font-size: $text-large;
-        font-weight: regular;
-        text-transform: capitalize;
+  .steps-indicator {
+    padding: 0!important;
+
+    li:before {
+      display: none;
+    }
+
+    li:after {
+      display: none;
+    }
+
+    li {
+      margin-bottom: $space-xxlarge;
+
+      div {
+        a {
+          border-bottom: none;
+          margin-left: 0!important;
+        }
       }
     }
   }
-  .step-number {
-    color: $wizard-step-number-color;
-    font-weight: $wizard-step-number-weight;
-    background-color: $wizard-step-number-background;
+
+  .step-indicator-number {
+    color: $wizard-step-number-border;
     border: $wizard-step-number-border;
     border-radius: 100%;
-    transition: 0.25s;
-    padding: $space-medium $space-xlarge;
-    line-height: 0;
+    display: inline-block;
+    font-weight: $wizard-step-number-weight;
     font-variant-numeric: tabular-nums;
+    padding: 15px 12px;
+    line-height: 0;
+    transition: 0.25s;
 
     &.complete {
       border-color: $brand-positive;
@@ -133,20 +146,20 @@ wizard-navigation-bar {
     }
   }
 
-  li.current, li.editing, li.done:last-child {
-    .step-number {
+  .step-indicator-title {
+    font-size: $text-base;
+    text-transform: none;
+    font-weight: $font-weight-regular;
+    color: $neutral-3;
+    margin-left: $space-medium;
+  }
+
+  .current, .editing, .done:last-child {
+    .step-indicator-number {
       background-color: $wizard-step-number-background-current;
       border: $wizard-step-number-border-current;
     }
   }
-
-  ul.steps-indicator li:after {
-    display: none;
-  }
-}
-
-.vertical.large-filled-symbols ul.steps-indicator {
-  padding: 0;
 }
 
 typeahead-container {

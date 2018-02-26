@@ -10,7 +10,6 @@
     <wizard #wizard
             navigationMode="free"
             navBarLocation="left"
-            navBarLayout="large-filled-symbols"
             class="custom-steps"
             [defaultStepIndex]="startingStep">
       <app-risk-step-identify class="wizard-step"
@@ -21,8 +20,8 @@
                               (stepEnter)="resetScroll()"
                               navigationSymbol="{{ identifyStep.navigationSymbol }}">
         <ng-template wizardStepTitle>
-          <span class="step-number" [ngClass]="{'complete': identifyStep.isStepComplete()}">1</span>
-          {{ identifyStep.title }}
+          <span class="step-indicator-number" [ngClass]="{'complete': identifyStep.isStepComplete()}">1</span>
+          <span class="step-indicator-title">{{ identifyStep.title }}</span>
         </ng-template>
       </app-risk-step-identify>
 
@@ -34,8 +33,8 @@
                             (stepEnter)="resetScroll()"
                             navigationSymbol="{{ hazardStep.navigationSymbol }}">
         <ng-template wizardStepTitle>
-          <span class="step-number" [ngClass]="{'complete': hazardStep.isStepComplete()}">2</span>
-          {{ hazardStep.title }}
+          <span class="step-indicator-number" [ngClass]="{'complete': hazardStep.isStepComplete()}">2</span>
+          <span class="step-indicator-title">{{ hazardStep.title }}</span>
         </ng-template>
       </app-risk-step-hazard>
 
@@ -47,8 +46,8 @@
                             (stepEnter)="resetScroll()"
                             navigationSymbol="{{ impactStep.navigationSymbol }}">
         <ng-template wizardStepTitle>
-          <span class="step-number" [ngClass]="{'complete': impactStep.isStepComplete()}">3</span>
-          {{ impactStep.title }}
+          <span class="step-indicator-number" [ngClass]="{'complete': impactStep.isStepComplete()}">3</span>
+          <span class="step-indicator-title">{{ impactStep.title }}</span>
         </ng-template>
       </app-risk-step-impact>
 
@@ -60,8 +59,8 @@
                               (stepEnter)="resetScroll()"
                               navigationSymbol="{{ capacityStep.navigationSymbol }}">
         <ng-template wizardStepTitle>
-          <span class="step-number" [ngClass]="{'complete': capacityStep.isStepComplete()}">4</span>
-          {{ capacityStep.title }}
+          <span class="step-indicator-number" [ngClass]="{'complete': capacityStep.isStepComplete()}">4</span>
+          <span class="step-indicator-title">{{ capacityStep.title }}</span>
         </ng-template>
       </app-risk-step-capacity>
 
@@ -72,11 +71,11 @@
                             (stepEnter)="resetScroll()"
                             navigationSymbol="{{ reviewStep.navigationSymbol }}">
         <ng-template wizardStepTitle>
-          <span class="step-number" [ngClass]="{
+          <span class="step-indicator-number" [ngClass]="{
               'complete': identifyStep.isStepComplete() && hazardStep.isStepComplete()
                           && impactStep.isStepComplete() && capacityStep.isStepComplete()
             }">5</span>
-          {{ reviewStep.title }}
+          <span class="step-indicator-title">{{ reviewStep.title }}</span>
         </ng-template>
       </app-risk-step-review>
     </wizard>
