@@ -109,11 +109,10 @@
 }
 
 .table-caption {
-  background-color: $table-caption-background;
+  text-align: right!important;
   border-radius: $border-radius;
   color: $table-caption-color;
-  // font-style: italic;
-  padding: $space-medium;
+  padding: $space-medium 0;
   text-align: left;
   margin-bottom: $space-tiny;
 }
