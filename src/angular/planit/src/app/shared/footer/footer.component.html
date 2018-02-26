@@ -1,16 +1,15 @@
-<!--App footer-->
-<footer *ngIf="router.url !== '/'" class="site-footer">
-  <a routerLink="/methodology">Methodology</a>&nbsp;&bull; Partnerships &bull;&nbsp;
-  <a href="http://climate.azavea.com">Climate API</a>
-  <a [routerLink]="['']"
-     [queryParams]="{ ref: 'footer' }">&nbsp;&bull; Website</a>
-</footer>
-<!--Marketing page footer-->
-<footer *ngIf="router.url === '/'" class="site-footer" role="contentinfo">
-  <a href="index.html" class="logo"><img src="assets/images/climate-logo-white.svg" alt="Climate by Azavea logo"></a>
-  <div class="site-information">
-    <p>© 2016-2017 <a href="https://www.azavea.com">Azavea,</a> using technology to inform research for civic and social impact. All rights reserved.</p>
-    <p>Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
-    <p>Contact us at <strong>climate@azavea.com</strong></p>
+<footer class="site-footer">
+  <nav class="footer-nav">
+    <a routerLink="/" class="logo"><img src="assets/images/temperate-logo-full-left-neutral.svg" alt="Temperate, by Azavea"></a>
+    <div class="nav-buttons">
+      <a class="button button-inverse-dark" routerLink="/methodology">Methodology</a>
+      <a class="button button-inverse-dark" routerLink="">Partnerships</a>
+      <a class="button button-inverse-dark" href="http://climate.azavea.com">Climate API</a>
+      <a *ngIf="router.url !== '/'" class="button button-inverse-dark" routerLink="/">About</a>
+    </div>
+  </nav>
+  <div class="fine-print">
+    <p class="copyright">&copy; 2016-2017 <a href="http://azavea.com/" target="_blank">Azavea</a>, using technology to inform research for civic and social impact. All rights reserved.</p>
+    <p class="grant">Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
   </div>
 </footer>

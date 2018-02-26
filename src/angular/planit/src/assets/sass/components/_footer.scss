@@ -1,85 +1,81 @@
 .site-footer {
-  background-color: $neutral-5;
-  color: $neutral-2;
-  border-top: 1px solid $neutral-4;
-  padding: 2rem 2rem;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  text-align: left;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  background-color: $neutral-1;
 
-  a, a:visited{
-    text-decoration: none;
-    color: $neutral-2;
-  }
-}
-.site-footer > .logo {
-  padding: 2rem;
-  line-height: 0;
-  overflow: hidden;
+  .footer-nav {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-xlarge $space-large;
 
-  > img {
-    width: 11rem;
-    height: auto;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
-
-  &:focus, &.focus {
-    outline: 0;
-    border-radius: $button-border-radius;
-    background-color: lighten($neutral-5, 10%);
-  }
-}
-.footer-nav {
-  display: flex;
-  justify-content: space-between;
-  align-content: stretch;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
-.footer-nav > .list-item {
-  list-style-type: none;
-
-  .link {
-    color: $neutral-1;
-    margin: 0;
-    padding: 1rem 2rem;
-    text-decoration: none;
-    border-radius: $button-border-radius;
-
-    &:hover, &.hover,
-    &:active, &.active, {
-      color: $brand-primary;
-      background-color: lighten($neutral-5, 5%);
+    @media (max-width: 47.5rem) {
+      padding-top: $space-xlarge;
+      flex-flow: column nowrap;
     }
 
-    &:active, &.active {
-      color: darken( $brand-primary, 2% );
-      background-color: lighten( $neutral-5, 1% );
+    .logo {
+      flex: none;
+      padding: 0;
+      line-height: 0;
+      border: 0;
+      overflow: hidden;
+      text-decoration: none;
+
+      @media (max-width: 47.5rem) {
+        margin-bottom: 1.6rem;
+      }
+
+      > img {
+        width: auto;
+        height: 4.8rem;
+      }
     }
 
-    &:focus, &.focus {
-      outline: 0;
-      background-color: lighten( $neutral-5, 10% );
-    }
+    .nav-buttons {
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
 
-    // Note: <buttons> and <a> handle active+focus differently. This will normalize behaviour.
-    &:focus:active {
-      color: darken( $brand-primary, 2% );
-      background-color: lighten( $neutral-5, 3% );
+      @media (max-width: 47.5rem) {
+        justify-content: center;
+
+        > * {
+          margin: 0 1.6rem;
+        }
+      }
     }
   }
-}
 
-.site-information {
-  font-size: $text-tiny;
-  padding-left: 2rem;
+  .fine-print {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: $space-large $space-xlarge;
+    background-color: $neutral-2;
+    color: $neutral-5;
+    text-align: center;
 
-  p {
-    margin-bottom: 0;
+    p {
+      margin: $space-tiny auto;
+
+      &.copyright a {
+        border-bottom-width: 0;
+
+        &:hover {
+          border-bottom-width: 1px;
+        }
+      }
+
+      &.grant {
+        font-size: $text-tiny;
+      }
+    }
   }
 }

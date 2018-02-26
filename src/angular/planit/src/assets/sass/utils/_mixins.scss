@@ -59,10 +59,6 @@
   box-shadow: 0 0 0 2px rgba($brand-secondary, 0.5);
 }
 
-@mixin button-inverse-focus-outline() {
-  box-shadow: 0 0 0 2px rgba($neutral-0, 0.2);
-}
-
 @mixin light-on-dark() {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

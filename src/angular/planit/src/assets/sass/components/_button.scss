@@ -29,23 +29,27 @@
 @mixin button-inverse-states($color) {
   color: $color;
   background-color: transparent;
+  border: 2px solid transparent;
 
   &:focus, &.focus {
-    @include button-inverse-focus-outline();
+    border: 2px solid transparent;
     outline: 0;
   }
 
   &:hover, &.hover {
-    background-color: rgba($white, .2);
+    border: 2px solid transparent;
+    background-color: rgba($color, 0.2);
+    color: $color;
   }
 
   &:active, &.active {
-    @include button-inverse-focus-outline();
-    background-color: rgba($white, .2);
-    border-color: rgba($neutral-0, .4);
+    border: 2px solid rgba($color, 0.2);
+    background-color: rgba($color, 0.1);
+    color: $color;
   }
 
   &:disabled, &.disabled {
+    border: 2px solid transparent;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -65,7 +69,7 @@
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
   box-shadow: none;
-  border: none;
+  border: 0;
   @include button-states($neutral-2);
 }
 
