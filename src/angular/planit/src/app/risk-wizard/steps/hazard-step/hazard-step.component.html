@@ -1,10 +1,12 @@
-<p *ngIf="isDisabled" class="alert alert-warning">
+<div class="step-intro">  
+  <p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
   <h3 class="step-header">Hazard</h3>
-  <div *ngIf="!isDisabled">
+  <p *ngIf="!isDisabled">
     How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
-  </div>
+  </p>
+</div>
 <div class="step-content">
   <div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
        tooltip="{{ relatedIndicatorsTooltip() }}">

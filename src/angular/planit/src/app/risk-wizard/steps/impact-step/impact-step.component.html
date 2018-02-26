@@ -1,12 +1,12 @@
-<p *ngIf="isDisabled" class="alert alert-warning">
-  You must match a hazard to a community system to complete this step.
-</p>
-
-<h3 class="step-header">Impact</h3>
-<!--TODO (issue #366): Calculate # years from plan's goal date -->
-<p *ngIf="!isDisabled">
-  How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
-</p>
+<div class="step-intro">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must match a hazard to a community system to complete this step.
+  </p>
+  <h3 class="step-header">Impact</h3>
+  <p *ngIf="!isDisabled">
+    How will this hazard affect <em>{{ risk.community_system?.name | lowercase }}</em> over the next five years?
+  </p>
+</div>
 
 <div class="step-content">
   <form [formGroup]="form">

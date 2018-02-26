@@ -143,6 +143,7 @@ $heading-font-family: National, Arial, sans-serif;
 $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
+$paragraph-max-width: 60rem;
 
 /* * * *
  * Page 
@@ -395,24 +396,27 @@ $card-border-radius: $border-radius;
  * Wizards
  *
  * * * */
-$wizard-header-background: $brand-evergreen;
-$wizard-header-padding: $space-xlarge;
+$wizard-header-padding-top: $space-xxlarge;
+$wizard-header-padding-bottom: $space-xxlarge;
 $wizard-background: $white;
 
 $wizard-navigation-width: 25rem;
 
 $wizard-title-small-color: $neutral-4;
-$wizard-title-small-size: $text-base;
+$wizard-title-small-size: $text-small;
 $wizard-title-small-weight: $font-weight-regular;
 
 $wizard-title-large-color: $brand-black;
-$wizard-title-large-size: $text-jumbo;
+$wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-light;
 
 $wizard-step-border: 2px solid $border-color;
 $wizard-step-title-size: $text-large;
 $wizard-step-title-color: $brand-evergreen;
 $wizard-step-title-weight: $font-weight-light;
+
+$wizard-step-prompt-color: $neutral-4;
+$wizard-step-prompt-size: $text-small;
 
 $wizard-step-number-background: $neutral-1;
 $wizard-step-number-border: 2px solid $neutral-2;

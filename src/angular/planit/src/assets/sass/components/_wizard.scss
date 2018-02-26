@@ -1,7 +1,5 @@
 .wizard-header {
-  // background: $wizard-header-background;
-  // padding-bottom: $wizard-header-padding;
-  margin: $wizard-header-padding 0 $wizard-header-padding;
+  margin: $space-xxlarge 0 $space-xlarge;
 
   .wizard-title-small {
     color: $wizard-title-small-color;
@@ -38,13 +36,22 @@
 }
 
 wizard {
+  .step-intro {
+    max-width: $paragraph-max-width;
+    margin-bottom: $space-xxlarge;
+
+    p {
+      color: $wizard-step-prompt-color;
+      font-size: $wizard-step-prompt-size;
+    }
+  }
   .step-header {
     font-size: $wizard-step-title-size;
     font-weight: $wizard-step-title-weight;
   }
 
   .wizard-step {
-    padding: $space-xlarge*2;
+    padding: $space-xxlarge;
     background-color: $wizard-background;
     border-radius: $border-radius;
     border: $wizard-step-border;
