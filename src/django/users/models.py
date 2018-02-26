@@ -94,6 +94,7 @@ class PlanItOrganization(models.Model):
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
     community_systems = models.ManyToManyField('planit_data.CommunitySystem',
+                                               blank=True,
                                                related_name='community_systems')
 
     def __str__(self):

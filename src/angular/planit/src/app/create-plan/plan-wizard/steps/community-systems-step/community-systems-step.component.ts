@@ -87,10 +87,6 @@ export class CommunitySystemsStepComponent
     return model;
   }
 
-  isStepComplete(): boolean {
-    return this.form.controls.selectedCommunitySystems.value.length > 0;
-  }
-
   private getOrganizationSystems(organization) {
     return this.communitySystems.filter(e => organization.community_systems.includes(e.id));
   }

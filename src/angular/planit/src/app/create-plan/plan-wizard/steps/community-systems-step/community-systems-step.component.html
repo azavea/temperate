@@ -15,6 +15,6 @@
 <div class="step-footer">
   <button type="button" previousStep>Back</button>
   <button type="button"
-    [disabled]="form.invalid || !isStepComplete()"
+    [disabled]="form.invalid"
     (click)="finish()">Finish</button>
 </div>
