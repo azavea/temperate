@@ -56,12 +56,15 @@ $neutral-0: #fafaf9;
 $neutral-1: #ededeb;
 $neutral-2: #c9c9c3;
 $neutral-3: #a4a49a;
-$neutral-4: #7e7e71;
+$neutral-4: #5F5F55;
 $neutral-5: #363630;
 
 $border-color: $neutral-1;
 
 // TODO Revisit these
+$adaptive-need-size: 20px;
+$adaptive-need-empty-color: $neutral-3;
+
 $adaptive-need-high: $brand-danger;
 $adaptive-need-mod-high: #f75824;
 $adaptive-need-mod: #fa8530;
@@ -74,15 +77,15 @@ $adaptive-need-low: $brand-warning;
  *
  * * * */
 
- $padding-unit: 1rem;
- $space-tiny: 1px;
- $space-small: 0.35rem;
- $space-base: 0.65rem;
- $space-medium: 1rem;
- $space-large: 1.25rem;
- $space-xlarge: 2rem;
- $main-background: $neutral-0;
- $content-max-width: 125rem;
+$padding-unit: 1rem;
+$space-tiny: 2px;
+$space-small: 0.35rem;
+$space-base: 0.65rem;
+$space-medium: 1rem;
+$space-large: 1.25rem;
+$space-xlarge: 2rem;
+$main-background: $neutral-1;
+$content-max-width: 125rem;
 
 
 /* * * *
@@ -90,6 +93,8 @@ $adaptive-need-low: $brand-warning;
  *
  * * * */
 $zindex-popover: 1060;
+$zindex-tooltip: 1060;
+$zindex-dropdown-menu: 1000;
 
 /* * * *
  * Columns
@@ -171,7 +176,17 @@ $field-border-radius: 4px;
  * Dropdown
  *
  * * * */
-$dropdown-menu-border-radius: $field-border-radius;
+$dropdown-menu-border: 1px solid $neutral-1;
+$dropdown-menu-border-radius: $border-radius;
+$dropdown-menu-border-padding: $space-medium;
+$dropdown-menu-min-width: 16rem;
+$dropdown-menu-background: $white;
+$dropdown-menu-shadow: 0px 0px 20px rgba($neutral-4, 0.2);
+
+$dropdown-menu-link-color: $neutral-4;
+$dropdown-menu-link-color-hover: $black;
+$dropdown-menu-link-background-hover: $brand-teal-v-light;
+$dropdown-menu-link-background-active: $brand-teal;
 
 
 /* * * *
@@ -180,12 +195,17 @@ $dropdown-menu-border-radius: $field-border-radius;
  * * * */
 $tooltip-font-family: $body-font-family;
 $tooltip-font-size: $text-tiny;
-$tooltip-padding-vertical: 0.4rem;
-$tooltip-padding-horizontal: 0.8rem;
-$tooltip-color: $neutral-5;
-$tooltip-arrow-width: 0.4rem;
+$tooltip-font-weight: $font-weight-regular;
+$tooltip-padding-vertical: $space-medium;
+$tooltip-padding-horizontal: $space-large;
+$tooltip-background: $neutral-5;
+$tooltip-arrow-width: 0.8rem;
 $tooltip-arrow-height: 0.5rem;
+$tooltip-shadow: 0 0 15px rgba($black,0.4);
+$tooltip-max-width: 20rem;
 
+$tooltip-trigger-color: $neutral-3;
+$tooltip-trigger-color-hover: $brand-teal;
 
 /* * * *
  * Modal
@@ -200,6 +220,24 @@ $modal-body-padding: 2.5rem;
 $modal-footer-padding: 1.5rem;
 $modal-border-radius: 2px;
 
+
+/* * * *
+ * Tables
+ *
+ * * * */
+$table-min-width: 860px;
+$table-color: $brand-black;
+$table-border-color: $border-color;
+$table-column-max-width: 40%;
+
+$table-header-background: $white;
+$table-header-weight: $font-weight-bold;
+
+$table-row-background: $neutral-0;
+$table-row-weight: $font-weight-regular;
+
+$table-caption-color: $neutral-4;
+$table-caption-border-color: $brand-positive;
 
 /* * * *
  * Alert

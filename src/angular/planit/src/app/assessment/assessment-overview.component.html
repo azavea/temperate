@@ -1,20 +1,20 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <app-back-button></app-back-button>
-    <section>
-      <h2 class="heading">Vulnerability Assessment
-        <button class="button icon-edit" routerLink="risk/new"></button>
-      </h2>
+    <section class="page-intro">
+      <h2 class="heading">Vulnerability Assessment</h2>
       <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
-    </section>
-    <section>
-      <h2>Your city's risks</h2>
-      <p>Based on your chosen scope, we have identified the below hazards as
+      <p>Based on your chosen scope, we have identified the below risks as
         a high priority to assess vulnerability and include in your report.
-        Click on a row to assess each risk.
+        Click on a row to assess each risk. 
+          <button class="button-link"
+                  [popover]="learnMoreRiskPopover"
+                  [outsideClick]="true"
+                  container="body"
+                  placement="bottom">Learn why we selected these risks.</button>
       </p>
     </section>
-    <section class="display-flex flex-vertical">
+    <section>
       <div class="loading-wrapper" *ngIf="risks === undefined">
         <div class="loading loading-spinner loading-large loading-primary"></div>
       </div>
@@ -22,52 +22,44 @@
         <h2>No risks available</h2>
       </div>
       <table class="table va-summary-table" *ngIf="risks?.length">
-        <caption>
-          Wondering why we selected these risks?
-          <button class="button button-link"
-                  [popover]="learnMoreRiskPopover"
-                  [outsideClick]="true"
-                  container="body"
-                  placement="bottom">Learn more</button>
-        </caption>
         <thead>
           <tr>
-            <th>Adaptive Need</th>
-            <th>Risk
-              <i class="icon-question-circle" [tooltip]="tooltipText.risk"></i>
+            <th scope="col" class="hidden-header">Adaptive need</th>
+            <th scope="col">Community system at risk
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
             </th>
-            <th>Potential Impact
-              <i class="icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
+            <th scope="col">Potential impact
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
             </th>
-            <th>Adaptive Capacity
-              <i class="icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
+            <th scope="col">Adaptive capacity
+              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
             </th>
-            <th></th>
-            <th></th>
+            <th scope="col" class="hidden-header">Status</th>
+            <th scope="col" class="hidden-header">More</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let risk of risks">
-            <td><va-adaptive-need-box
-              [adaptiveCapacity]="risk.adaptive_capacity"
-              [popoverPlacement]="'right'"
-              [potentialImpact]="risk.impact_magnitude"></va-adaptive-need-box></td>
             <td>
-              <va-risk-popover [risk]="risk"></va-risk-popover>
+              <va-adaptive-need-box
+                [adaptiveCapacity]="risk.adaptive_capacity"
+                [popoverPlacement]="'right'"
+                [potentialImpact]="risk.impact_magnitude">
+              </va-adaptive-need-box>
             </td>
+            <th scope="row">
+              <va-risk-popover [risk]="risk"></va-risk-popover>
+            </th>
             <td>{{ risk.impact_magnitude }}</td>
             <td>{{ risk.adaptive_capacity }}</td>
             <td>
-              <button class="button va-status-button"
+              <button class="button button-primary va-status-button"
                       *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
-              <button class="button va-status-button in-progress"
-                      *ngIf="!!risk.isAssessed()"
-                      (click)="takeAction(risk)">Take Action</button>
             </td>
             <td>
               <div class="btn-group" dropdown>
-                <button dropdownToggle type="button" class="button dropdown-toggle">
+                <button dropdownToggle type="button" class="button button-icon dropdown-toggle">
                   <span class="icon-ellipsis-h"></span>
                 </button>
                 <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
@@ -75,9 +67,10 @@
                     <a class="dropdown-item" [routerLink]="['risk', risk.id]" [queryParams]="{goToStep:4}">View</a>
                   </li>
                   <li role="menuitem">
-                    <a class="dropdown-item" [routerLink]="['risk', risk.id]">Edit</a>
+                    <a class="dropdown-item" disabled [routerLink]="['risk', risk.id]">Edit</a>
                   </li>
-                  <li role="menuitem">
+                  <div class="divider"></div>
+                  <li class="action-destructive" role="menuitem">
                     <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
                   </li>
                 </ul>
@@ -86,13 +79,14 @@
           </tr>
         </tbody>
       </table>
+      <button class="button" routerLink="risk/new">Add new risk</button>
     </section>
   </main>
 </div>
 
 <ng-template #learnMoreRiskPopover>
   <div>
-    These potential Top Concerns were selected based on the geographic regions used by the
+    These potential risks were selected based on the geographic regions used by the
     <a href="https://data.globalchange.gov/file/ca9c6f09-9890-41db-ace4-827f9cbeb93a" target="_blank">National Climate Assessment</a>
     and the potential future climate hazards that are most likely to exist.
     For more on this, visit our <a routerLink="/methodology">Methodology</a> page.
