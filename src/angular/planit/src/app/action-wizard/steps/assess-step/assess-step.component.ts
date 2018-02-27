@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { Action, Risk } from '../../../shared/';
+import { Action } from '../../../shared/';
 
 import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
@@ -15,11 +15,6 @@ import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 interface AssessStepFormModel {
   name: string;
-}
-
-interface NamedRisk {
-  name: string;
-  risk: Risk;
 }
 
 @Component({
@@ -33,33 +28,21 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public key: ActionStepKey = ActionStepKey.Assess;
   public navigationSymbol = '1';
   public title = 'General Information';
-
-  public namedRisk: NamedRisk;
+  public action: Action;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected toastr: ToastrService,
               private fb: FormBuilder,
-              private router: Router,
-              private riskService: RiskService) {
-    super(session, actionService, toastr);
+              protected router: Router,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData();
-    this.setupForm(this.fromModel(action));
-
-    this.riskService.get(action.risk).subscribe(risk => {
-      this.namedRisk = {
-        'risk': risk,
-        'name': `${risk.weather_event.name} on ${risk.community_system.name}`};
-    });
-  }
-
-  cancel () {
-    this.router.navigate(['actions'],
-      {'queryParams': {'hazard': this.namedRisk.risk.weather_event.id}});
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
   }
 
   fromModel(action: Action): AssessStepFormModel {
@@ -75,13 +58,18 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
     return data;
   }
 
+  // return false if user is creating a new action and has nothing typed in
+  shouldSave(): boolean {
+    return !!this.action.id || (this.form.valid && !!this.form.controls.name.value);
+  }
+
   setupForm(data: AssessStepFormModel) {
     this.form = this.fb.group({
       'name': [data.name ? data.name : '', [Validators.required]]
     });
   }
 
-  toModel(data: AssessStepFormModel, model: Action) {
+  toModel(data: AssessStepFormModel, model: Action): Action {
     model.name = data.name;
 
     return model;

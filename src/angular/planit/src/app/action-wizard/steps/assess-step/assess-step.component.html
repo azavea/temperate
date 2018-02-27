@@ -30,10 +30,19 @@
 </div>
 <div class="step-footer">
   <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!action?.name"
+          (click)="cancel()">Cancel</button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!!action?.name"
+          (click)="finish()">Finish later</button>
+  <button type="button" class="step-footer-navigation button-primary"
           tabindex="3"
           [disabled]="!form.valid"
           nextStep>Continue</button>
-  <button type="button" tabindex="4" (click)="cancel()">Cancel</button>
 </div>
 
 <ng-template #actionExamplesPopover>

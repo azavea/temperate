@@ -59,11 +59,25 @@ wizard {
     }
 
     .step-footer {
+      width: 100%;
+
       .step-footer-exit {
         float: left;
       }
+
       .step-footer-navigation {
         float: right;
+      }
+
+      button {
+        background-color: $dark-grey-background;
+        color: white;
+        border: 0;
+        padding: .5rem;
+
+        &:disabled {
+          background-color: $light-grey-background;
+        }
       }
     }
   }

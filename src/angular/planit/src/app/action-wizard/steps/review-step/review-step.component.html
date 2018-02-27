@@ -15,7 +15,6 @@
     <div class="review-item">
       <h4>
         Risk
-        <button class="button icon-edit" goToStep="0"></button>
       </h4>
       <p>{{ risk?.weather_event?.name || '--' }} on {{ risk?.community_system?.name || '--' }}</p>
     </div>
@@ -155,6 +154,5 @@
   </div>
 </div>
 <div class="step-footer">
-  <button type="button" previousStep>Back</button>
-  <button type="button" (click)="finish()">Finish</button>
+  <button class="step-footer-navigation" type="button" (click)="finish()">Finish</button>
 </div>

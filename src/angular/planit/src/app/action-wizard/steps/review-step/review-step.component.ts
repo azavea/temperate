@@ -43,21 +43,21 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   private sessionSubscription: Subscription;
 
   constructor(protected actionService: ActionService,
-              private riskService: RiskService,
-              private router: Router,
+              protected riskService: RiskService,
+              protected router: Router,
               protected session: WizardSessionService<Action>,
               protected toastr: ToastrService) {
-    super(session, actionService, toastr);
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.action = this.session.getData();
-    this.updateRisk();
+
+    this.riskService.get(this.action.risk).subscribe(r => this.risk = r);
 
     this.sessionSubscription = this.session.data.subscribe(a => {
       this.action = a;
-      this.updateRisk();
     });
   }
 
@@ -82,11 +82,4 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   }
 
   setupForm(data: any) {}
-
-  private updateRisk() {
-    // Call anytime this.action is updated to update the associated risk
-    if (this.action.risk && (!this.risk || this.action.risk !== this.risk.id)) {
-      this.riskService.get(this.action.risk).subscribe(r => this.risk = r);
-    }
-  }
 }

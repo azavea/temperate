@@ -20,6 +20,12 @@ import {
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
 
+
+interface NamedRisk {
+  name: string;
+  risk: Risk;
+}
+
 @Component({
   selector: 'app-action-wizard',
   templateUrl: './action-wizard.component.html',
@@ -37,6 +43,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @Input() action: Action;
 
+  public namedRisk: NamedRisk;
   startingStep = 0;
 
   constructor(private session: WizardSessionService<Action>,
@@ -52,14 +59,34 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
       const riskId: string = this.route.snapshot.paramMap.get('riskid');
       this.action.risk = riskId;
+
+      this.route.queryParams.take(1).subscribe((params: Params) => {
+        const indexes = {
+          'review': 5
+        };
+        // Default to the first step if the param doesn't match a valid step
+        this.startingStep = indexes[params['step']] || 0;
+      });
+
+      if (this.route.snapshot.data['suggestedAction']) {
+        const suggestion = this.route.snapshot.data['suggestedAction'] as Action;
+        this.action.name = suggestion.name;
+        this.action.action_type = suggestion.action_type;
+        this.action.action_goal = suggestion.action_goal;
+        this.action.implementation_details = suggestion.implementation_details;
+        this.action.implementation_notes = suggestion.implementation_notes;
+        this.action.improvements_adaptive_capacity = suggestion.improvements_adaptive_capacity;
+        this.action.improvements_impacts = suggestion.improvements_impacts;
+        this.action.collaborators = suggestion.collaborators;
+        this.action.categories = suggestion.categories;
+      }
     }
 
-    this.route.queryParams.take(1).subscribe((params: Params) => {
-      const indexes = {
-        'review': 5
+    this.riskService.get(this.action.risk).subscribe(risk => {
+      this.namedRisk = {
+        'risk': risk,
+        'name': `${risk.weather_event.name} on ${risk.community_system.name}`
       };
-      // Default to the first step if the param doesn't match a valid step
-      this.startingStep = indexes[params['step']] || 0;
     });
 
     this.session.setData(this.action);

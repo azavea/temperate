@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
 import { ActionTypeService } from '../../../core/services/action-type.service';
 import { ActionService } from '../../../core/services/action.service';
+import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, ActionVisibility } from '../../../shared/';
+import { Action, ActionVisibility, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
@@ -25,6 +27,9 @@ interface ActionDetailsFormModel {
 export class ImplementationStepComponent
   extends ActionWizardStepComponent<ActionDetailsFormModel> implements OnInit {
 
+  @Input() risk: Risk;
+
+  public action: Action;
   public actionTypes: string[] = [];
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
@@ -39,14 +44,16 @@ export class ImplementationStepComponent
               protected actionService: ActionService,
               protected toastr: ToastrService,
               private fb: FormBuilder,
-              private actionTypeService: ActionTypeService) {
-    super(session, actionService, toastr);
+              protected router: Router,
+              private actionTypeService: ActionTypeService,
+              protected riskService: RiskService) {
+    super(session, actionService, riskService, toastr, router);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    const action = this.session.getData() || new Action({});
-    this.setupForm(this.fromModel(action));
+    this.action = this.session.getData();
+    this.setupForm(this.fromModel(this.action));
 
     this.actionTypeService.nameList().subscribe(data => this.actionTypes = data);
   }

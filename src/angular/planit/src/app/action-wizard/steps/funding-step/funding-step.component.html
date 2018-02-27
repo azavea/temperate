@@ -17,8 +17,17 @@
 </div>
 <div class="step-footer">
   <button type="button"
-          tabindex="3"
-          [disabled]="!form.valid"
-          nextStep>Continue</button>
-  <button type="button" previousStep>Back</button>
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!action?.name"
+          (click)="cancel()">Cancel</button>
+  <button type="button"
+          class="step-footer-exit"
+          tabindex="2"
+          *ngIf="!!action?.name"
+          (click)="finish()">Finish later</button>
+  <div class="step-footer-navigation">
+    <button type="button" nextStep>Skip Step</button>
+    <button type="button" [disabled]="!form.valid" nextStep>Continue</button>
+  </div>
 </div>

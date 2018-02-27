@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -27,6 +28,7 @@ export class AssessmentOverviewComponent implements OnInit {
 
   constructor (private riskService: RiskService,
                private actionService: ActionService,
+               private location: Location,
                private route: ActivatedRoute,
                private router: Router) {}
 

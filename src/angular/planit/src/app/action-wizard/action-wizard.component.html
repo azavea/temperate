@@ -1,13 +1,13 @@
 <div class="container wizard-header">
   <p class="row">Take action on</p>
-  <div class="row" *ngIf="assessStep.namedRisk">
+  <div class="row" *ngIf="namedRisk">
       <va-adaptive-need-box
-        [adaptiveCapacity]="assessStep.namedRisk.risk.adaptive_capacity"
+        [adaptiveCapacity]="namedRisk.risk.adaptive_capacity"
         [popoverPlacement]="'right'"
-        [potentialImpact]="assessStep.namedRisk.risk.impact_magnitude">
+        [potentialImpact]="namedRisk.risk.impact_magnitude">
       </va-adaptive-need-box>
     <h2>
-      {{ assessStep.namedRisk.name }}
+      {{ namedRisk.name }}
     </h2>
   </div>
 </div>
