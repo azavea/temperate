@@ -15,7 +15,6 @@ from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
 from planit_data.models import (
-    CommunitySystem,
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
@@ -94,6 +93,9 @@ class PlanItOrganization(models.Model):
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
+    community_systems = models.ManyToManyField('planit_data.CommunitySystem',
+                                               blank=True,
+                                               related_name='community_systems')
 
     def __str__(self):
         return self.name
@@ -122,9 +124,9 @@ class PlanItOrganization(models.Model):
         self.weather_events.all().delete()
 
         OrganizationWeatherEvent.objects.bulk_create(
-            OrganizationWeatherEvent(weather_event_id=id, organization_id=self.pk,
+            OrganizationWeatherEvent(weather_event_id=event_id, organization_id=self.pk,
                                      order=index + 1)
-            for index, id in enumerate(weather_event_ids)
+            for index, event_id in enumerate(weather_event_ids)
         )
         self.import_risks()
 
@@ -142,8 +144,7 @@ class PlanItOrganization(models.Model):
         else:
             num_to_add = settings.STARTING_RISK_AMOUNT
 
-        # TODO (#489): Replace this with only organization's community systems as part of onboarding
-        community_system_ids = CommunitySystem.objects.all().values_list('id', flat=True)
+        community_system_ids = self.community_systems.all().values_list('id', flat=True)
         top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids,
                                                   max_amount=num_to_add)
 

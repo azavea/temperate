@@ -12,6 +12,7 @@ export class Organization {
   subscription: OrgSubscription;
   subscription_end_date?: Date;
   weather_events: number[];
+  community_systems: number[];
 
   constructor(object: Object) {
     Object.assign(this, object);
