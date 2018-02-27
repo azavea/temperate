@@ -1,4 +1,7 @@
-<a id="contact-iclei-button" class="button button-primary button-floating" *ngIf="router.url !== '/?ref=footer' && router.url !== '/'" (click)="openModal(template)">
+<a id="contact-iclei-button"
+   class="button button-primary button-floating"
+   *ngIf="isButtonVisible()"
+   (click)="openModal(template)">
   <i class="icon-question"></i>
 </a>
 
