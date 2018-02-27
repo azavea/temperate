@@ -51,6 +51,9 @@ class PlanItLocation(models.Model):
 
     objects = PlanItLocationManager()
 
+    class Meta:
+        verbose_name = 'location'
+
     def natural_key(self):
         return (self.api_city_id,)
 
@@ -99,6 +102,7 @@ class PlanItOrganization(models.Model):
 
     class Meta:
         unique_together = (("name", "location"),)
+        verbose_name = 'organization'
 
     def __str__(self):
         return "{} - {}".format(self.name, str(self.location))

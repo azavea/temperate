@@ -27,6 +27,7 @@ class ActionCategory(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = 'action categories'
 
 
 class ActionType(models.Model):
