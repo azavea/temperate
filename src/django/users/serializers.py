@@ -83,7 +83,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        validated_data.pop('name')
         location_data = validated_data.pop('location')
         for k, v in validated_data.items():
             setattr(instance, k, v)
