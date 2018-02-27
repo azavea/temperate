@@ -144,6 +144,7 @@ yarn start --port 4211
 | `server` | Run `docker-compose up` to start the containers |
 | `setup` | Bring up the VM, then build the Docker containers |
 | `update` | Rebuild the containers with current required dependencies |
+| `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency. |
 
 ### Docker
 
