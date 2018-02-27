@@ -79,7 +79,7 @@ class PlanItOrganization(models.Model):
             (CUSTOM, 'Custom',),
         )
 
-    name = models.CharField(max_length=256, blank=False, null=False, unique=True)
+    name = models.CharField(max_length=256, blank=False, null=False)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -97,8 +97,11 @@ class PlanItOrganization(models.Model):
                                                blank=True,
                                                related_name='community_systems')
 
+    class Meta:
+        unique_together = (("name", "location"),)
+
     def __str__(self):
-        return self.name
+        return "{} - {}".format(self.name, str(self.location))
 
     def save(self, *args, **kwargs):
         self._set_subscription_end_date()

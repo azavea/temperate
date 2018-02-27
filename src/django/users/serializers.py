@@ -55,7 +55,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                   slug_field='weather_event_id')
 
     def validate_location(self, location_data):
-        if 'api_city_id' not in location_data.keys():
+        if 'api_city_id' not in location_data:
             raise serializers.ValidationError("Location ID is required.")
         return location_data
 
@@ -70,6 +70,19 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if dt < datetime.date.today():
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
+
+    def validate_name(self, name):
+        if self.instance is not None and self.instance.name == name:
+            # No conflict if name hasn't changed
+            return name
+
+        try:
+            api_city_id = self.initial_data['location']['properties']['api_city_id']
+        except KeyError:
+            raise serializers.ValidationError("Location ID is required.")
+        if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
+            raise serializers.ValidationError("An organization with this name already exists.")
+        return name
 
     @transaction.atomic
     def create(self, validated_data):

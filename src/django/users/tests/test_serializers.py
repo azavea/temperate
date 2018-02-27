@@ -13,10 +13,14 @@ class OrganizationSerializerTestCase(TestCase):
     def test_create_no_existing_data(self, from_api_city_mock, import_weather_events_mock):
         """Ensure a new location is created with its Location from from_api_city()."""
         from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
+
+        city_id = 7
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                # Don't embed api_city_id in a properties dict since we're calling create() directly
+                # and bypassing the GeoFeatureModelSerializer magic.
+                'api_city_id': city_id,
             },
             'units': 'METRIC'
         }
@@ -25,7 +29,7 @@ class OrganizationSerializerTestCase(TestCase):
 
         self.assertEqual(organization.name, data['name'])
         self.assertEqual(organization.units, data['units'])
-        from_api_city_mock.assert_called_with(data['location']['api_city_id'])
+        from_api_city_mock.assert_called_with(city_id)
         self.assertEqual(organization.location, from_api_city_mock.return_value)
 
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
@@ -36,7 +40,9 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'units': 'METRIC'
         }
@@ -60,14 +66,17 @@ class OrganizationSerializerTestCase(TestCase):
         - https://github.com/encode/django-rest-framework/issues/2996
         - https://medium.com/django-rest-framework/dealing-with-unique-constraints-in-nested-serializers-dade33b831d9 # NOQA
         """
+        city_id = 7
         PlanItLocation.objects.create(name='Test Location',
-                                      api_city_id=7,
+                                      api_city_id=city_id,
                                       point=Point(0, 0, srid=4326))
         request_mock = mock.Mock()
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': city_id
+                }
             },
             'units': 'METRIC'
         }
@@ -107,7 +116,9 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'plan_due_date': '2500-01-30',
             'units': 'METRIC'
@@ -122,7 +133,9 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'plan_due_date': None,
             'units': 'METRIC'
@@ -142,7 +155,9 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'plan_due_date': 'garbage string',
             'units': 'METRIC'
@@ -158,7 +173,9 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'api_city_id': 7
+                'properties': {
+                    'api_city_id': 7,
+                }
             },
             'plan_due_date': '2018-01-20',
             'units': 'METRIC'
