@@ -145,15 +145,6 @@
 },
 {
     "model": "planit_data.weathereventrank",
-    "pk": 24,
-    "fields": {
-        "georegion": 26,
-        "weather_event": 17,
-        "order": 2
-    }
-},
-{
-    "model": "planit_data.weathereventrank",
     "pk": 25,
     "fields": {
         "georegion": 26,
@@ -186,15 +177,6 @@
         "georegion": 27,
         "weather_event": 3,
         "order": 1
-    }
-},
-{
-    "model": "planit_data.weathereventrank",
-    "pk": 29,
-    "fields": {
-        "georegion": 27,
-        "weather_event": 17,
-        "order": 2
     }
 },
 {
@@ -337,7 +319,7 @@
     "pk": 45,
     "fields": {
         "georegion": 30,
-        "weather_event": 2,
+        "weather_event": 20,
         "order": 2
     }
 },
@@ -366,6 +348,24 @@
         "georegion": 30,
         "weather_event": 5,
         "order": 5
+    }
+},
+{
+    "model": "planit_data.weathereventrank",
+    "pk": 49,
+    "fields": {
+        "georegion": 26,
+        "weather_event": 20,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.weathereventrank",
+    "pk": 50,
+    "fields": {
+        "georegion": 27,
+        "weather_event": 20,
+        "order": 2
     }
 }
 ]
