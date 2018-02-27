@@ -3,7 +3,7 @@
     <div *ngIf="isCloseVisible" class="icon-modal-close">
       <a (click)="close()"><i class="icon-times-circle"></i></a>
     </div>
-    <div class="modal-header">
+    <div class="modal-header" *ngIf="title">
       <h1>{{title}}</h1>
     </div>
     <div class="modal-content">
