@@ -410,21 +410,25 @@ $wizard-title-large-color: $brand-black;
 $wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-light;
 
-$wizard-step-border: 2px solid $border-color;
-$wizard-step-title-size: $text-large;
-$wizard-step-title-color: $brand-evergreen;
-$wizard-step-title-weight: $font-weight-light;
-
 $wizard-step-prompt-color: $neutral-4;
 $wizard-step-prompt-size: $text-small;
 
 $wizard-step-number-background: $neutral-1;
 $wizard-step-number-border: 2px solid $neutral-2;
+$wizard-step-number-divider: $neutral-2;
 $wizard-step-number-background-complete: $brand-positive;
-$wizard-step-number-border-complete: 2px solid darken($brand-positive,0.3);
 $wizard-step-number-background-current: $brand-teal;
-$wizard-step-number-border-current: 2px solid darken($brand-teal,0.3);
 $wizard-step-number-color: $brand-black;
-$wizard-step-number-weight: $font-weight-bold;
-$wizard-step-number-size: $text-large;
+$wizard-step-number-weight: $font-weight-light;
+$wizard-step-number-size: $text-small;
 
+$wizard-step-link-color: $neutral-5;
+$wizard-step-link-color-hover: $black;
+$wizard-step-link-weight: $font-weight-regular;
+$wizard-step-link-size: $text-small;
+
+$wizard-step-border: 1px solid $neutral-2;
+$wizard-step-header-size: $text-medium;
+$wizard-step-padding: 15px 12px 17px;
+$wizard-step-header-color: $brand-evergreen;
+$wizard-step-header-weight: $font-weight-light;
