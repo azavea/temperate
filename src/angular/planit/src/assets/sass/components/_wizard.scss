@@ -17,6 +17,20 @@
 }
 
 wizard {
+  .wizard-step {
+    padding: $space-xxlarge;
+    background-color: $wizard-background;
+    border-radius: $border-radius;
+    border: $wizard-step-border;
+    box-shadow: 0px 0px 20px rgba($neutral-5, 0.1);
+    position: relative;
+  }
+
+  .step-header {
+    font-size: $wizard-step-header-size;
+    font-weight: $wizard-step-header-weight;
+  }
+  
   .step-intro {
     max-width: $paragraph-max-width;
     margin-bottom: $space-xxlarge;
@@ -26,35 +40,22 @@ wizard {
       font-size: $wizard-step-prompt-size;
     }
   }
-  .step-header {
-    font-size: $wizard-step-header-size;
-    font-weight: $wizard-step-header-weight;
-  }
 
-  .wizard-step {
-    padding: $space-xxlarge;
-    background-color: $wizard-background;
-    border-radius: $border-radius;
-    border: $wizard-step-border;
-    box-shadow: 0px 0px 20px rgba($neutral-5, 0.1);
-    position: relative;
+  .step-content {
+    margin-bottom: 4rem;
 
-    .step-content {
-      margin-bottom: 4rem;
+    .step-form-control {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+    }
 
-      .step-form-control {
-        margin-bottom: 2rem;
-        display: flex;
-        flex-direction: column;
-      }
+    label {
+      display: block;
+    }
 
-      label {
-        display: block;
-      }
-
-      textarea {
-        width: 100%;
-      }
+    textarea {
+      width: 100%;
     }
   }
 
@@ -81,32 +82,27 @@ wizard {
   }
 }
 
+// Lots of the code for the navigation bar has to
+// override default ng2-archwizard styling... thus the 
+// overuse of !important. 
 wizard-navigation-bar {
   .steps-indicator {
     padding: 0!important;
-
-    li:before {
-      display: none;
-    }
-
-    li:after {
-      display: none;
-    }
 
     li {    
       margin: $space-medium 0!important;
       padding-bottom: 0!important;
 
-      &:hover {
-        a {
-          color: $wizard-step-link-color-hover;
-          text-transform: uppercase;
-        }
-      }
-
       div {
+        &:hover {
+          a {
+            color: $wizard-step-link-color-hover;
+            text-transform: uppercase;
+          }
+        }
+
         a {
-          border-bottom: none;
+          border-bottom: none; // Hide border added by <a> tags
           margin-left: 0!important;
         }
       }
@@ -132,6 +128,14 @@ wizard-navigation-bar {
           display: none;
         }
       }
+    }
+
+    li:before {
+      display: none; // Hide default ng2-archwizard styling
+    }
+
+    li:after {
+      display: none; // Hide default ng2-archwizard styling
     }
   }
 
