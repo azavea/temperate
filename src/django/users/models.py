@@ -75,10 +75,20 @@ class PlanItOrganization(models.Model):
 
     class Subscription:
         FREE_TRIAL = 'free_trial'
+        BASIC = 'basic'
+        REVIEW = 'review'
+        INSIGHTS = 'insights'
+        GUIDANCE = 'guidance'
+        HOURLY = 'hourly'
         CUSTOM = 'custom'
 
         CHOICES = (
             (FREE_TRIAL, 'Free Trial',),
+            (BASIC, 'Basic',),
+            (REVIEW, 'Review',),
+            (INSIGHTS, 'Insights',),
+            (GUIDANCE, 'Guidance',),
+            (HOURLY, 'Pay as you go',),
             (CUSTOM, 'Custom',),
         )
 
