@@ -84,19 +84,22 @@ To have changes that exist in your Temperate environment's database be written t
 ### Temperate Suggested Actions data
 Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stoltz for her PhD, needs to be ingested.
 
-#### For the freshest data
-The data will be made available in s3 when no more changes are anticipated. Until then, for most up-to-date data you will have to [download the working spreadsheet](https://docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit?usp=sharing), separately export as CSV the "Cities" and "Strategies with weather events" tabs, and point the ingest script at them.
+#### Download the data from s3
+The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
+- Download both CSVs
+- Place them somewhere your local Temperate repo
+- Make sure not to commit the files
 
 ```bash
-./scripts/manage ingest_missy_dataset <cities_csv> <strategies_csv>
+./scripts/manage ingest_missy_dataset <path_to/missy_cities.csv> <path_to/missy_strategies_with_weather_events.csv>
 ```
 
-#### For rough development
-If you only need some data to get your environment set up, you can use the `CSV`s in the `missy_data` folder.
-
-```bash
-./scripts/manage ingest_missy_dataset planit_data/missy_data/missy_cities.csv planit_data/missy_data/missy_strategies_with_weather_events.csv
-```
+#### Export data from source
+It is easier to download the data from s3 (see above). Nevertheless, if you must recreate the CSVs:
+- Export [the original spreadsheet](https://docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit?usp=sharing) as an excel spreadsheet
+- Open the above in a spreadsheet program (i.e. Excel, LibreOffice)
+- Move each the "Cities" and "Strategies with weather events" tabs to their own sheet
+- Save each sheet in CSV format
 
 ### Using Docker in the VM
 
