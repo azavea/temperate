@@ -6,6 +6,7 @@ import { MovingDirection, WizardComponent } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../../../core/services/organization.service';
+import { UserService } from '../../../core/services/user.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Organization } from '../../../shared';
 import { OrganizationStepKey } from '../../organization-step-key.enum';

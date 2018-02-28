@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
 import { CacheService } from './cache.service';
@@ -11,6 +11,12 @@ import { CacheService } from './cache.service';
 export class AuthService {
 
   private LOCALSTORAGE_TOKEN_KEY = 'auth.token';
+
+  private _loggedIn = new Subject<void>();
+  private _loggedOut = new Subject<void>();
+
+  public loggedIn = this._loggedIn.asObservable();
+  public loggedOut = this._loggedOut.asObservable();
 
   // TODO: Inject a window or localStorage service here to abstract implicit
   //       dependency on window
@@ -37,6 +43,7 @@ export class AuthService {
     return this.http.post(url, body, options).map(response => {
       const token = response.json().token;
       this.setToken(token);
+      this._loggedIn.next();
     });
   }
 
@@ -44,6 +51,7 @@ export class AuthService {
     this.setToken(null);
     this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
     this.cache.delete(CacheService.CORE_CITYSERVICE_CURRENT);
+    this._loggedOut.next();
     if (redirectTo) {
       this.router.navigate([redirectTo]);
     }

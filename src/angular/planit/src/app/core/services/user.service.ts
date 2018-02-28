@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../shared';
@@ -10,6 +10,10 @@ import { CacheService } from './cache.service';
 
 @Injectable()
 export class UserService {
+
+  private _currentUser = new Subject<User>();
+
+  public currentUser = this._currentUser.asObservable();
 
   constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
 
@@ -34,6 +38,7 @@ export class UserService {
       if (json) {
         user = new User(json);
         this.cache.set(CacheService.CORE_USERSERVICE_CURRENT, user);
+        this._currentUser.next(user);
         return user;
       }
       return null;
