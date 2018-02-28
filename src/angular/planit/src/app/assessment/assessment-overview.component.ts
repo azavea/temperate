@@ -47,4 +47,8 @@ export class AssessmentOverviewComponent implements OnInit {
       this.risks = this.risks.filter(r => r.id !== risk.id);
     });
   }
+
+  getAssessedRisks() {
+    return this.risks.filter(r => r.isAssessed());
+  }
 }
