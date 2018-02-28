@@ -1,78 +1,94 @@
 <p *ngIf="isDisabled" class="alert alert-warning">
   You must match a hazard to a community system to save this risk.
 </p>
-<h3 class="step-header">Review</h3>
-<section>
-    <h4 class="review-section-header">Identify risk</h4>
-    <button class="button icon-edit" goToStep="0"></button>
-    <div *ngIf="!isDisabled">
-        <p>
-            <span class="answer-label">Hazard:</span> 
-            {{ risk.weather_event.name }}
-        </p>
-    </div>
-    <div *ngIf="!isDisabled">
-        <p>
-            <span class="answer-label">Community system:</span> 
-            {{ risk.community_system.name }}
-        </p>
-    </div>
-</section>
-<section>
-    <h4 class="review-section-header">Hazard</h4>
-    <button class="button icon-edit" goToStep="1"></button>
-    <div>
-        <span class="answer-label">Probability: </span>
-        {{ chanceOptions.get(risk.probability)?.label }}
-    </div>
+<div class="step-intro">
+  <h3 class="step-header">Review</h3>
+</div>
+<div class="step-content">
+	<section class="review-step">
+    <div class="review-step-header-container">
+			<h4 class="review-section-header">Identify risk</h4>
+			<button class="button button-icon icon-edit" goToStep="0"></button>
+		</div>
+		<div *ngIf="!isDisabled">
+			<span class="answer-label">Hazard:</span> 
+			{{ risk.weather_event.name }}
+		</div>
+		<div *ngIf="!isDisabled">
+			<span class="answer-label">Community system:</span> 
+			{{ risk.community_system.name }}
+		</div>
+	</section>
 
-    <div>
-        <span class="answer-label">Frequency: </span>
-        {{ directionalOptions.get(risk.frequency)?.label }}
-    </div>
+	<section class="review-step">
+    <div class="review-step-header-container">
+			<h4 class="review-section-header">Hazard</h4>
+			<button class="button button-icon icon-edit" goToStep="1"></button>
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Probability: </span>
+			{{ chanceOptions.get(risk.probability)?.label }}
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Frequency: </span>
+			{{ directionalOptions.get(risk.frequency)?.label }}
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Intensity: </span>
+			{{ directionalOptions.get(risk.intensity)?.label }}
+		</div>
+	</section>
 
-    <div>
-        <span class="answer-label">Intensity: </span>
-        {{ directionalOptions.get(risk.intensity)?.label }}
-    </div>
-    
-</section>
-<section>
-    <h4 class="review-section-header">Impact</h4>
-    <button class="button icon-edit" goToStep="2"></button>
-    <div>
-        <span class="answer-label">Potential impact: </span>
-        {{ impactOptions.get(risk.impact_magnitude)?.label }}
-    </div>
-    <div>
-        <span class="answer-label">Description: </span>
-        <div *ngIf="risk.impact_description" class="review-description">{{ risk.impact_description }}</div>
-    </div>
-<section>
-    <h4 class="review-section-header">Adaptive capacity</h4>
-    <button class="button icon-edit" goToStep="3"></button>
-    <div>
-        <span class="answer-label">Adaptive capacity: </span>
-        {{ chanceOptions.get(risk.adaptive_capacity)?.label }}
-    </div>
-    <div>
-        <span class="answer-label">Description: </span>
-        <div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
-    </div>
-    <div>
-        <span class="answer-label">Related adaptive values: </span>
-        <div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
-            <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
-                {{ relatedAdaptiveValue }}
-            </div>
-        </div>
-    </div>
-</section>
+	<section class="review-step">
+    <div class="review-step-header-container">
+			<h4 class="review-section-header">Impact</h4>
+			<button class="button button-icon icon-edit" goToStep="2"></button>
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Potential impact: </span>
+			{{ impactOptions.get(risk.impact_magnitude)?.label }}
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Description: </span>
+			<div class="review-description">{{ risk.impact_description || '--' }}</div>
+		</div>
+	</section>
+
+	<section class="review-step">
+    <div class="review-step-header-container">
+			<h4 class="review-section-header">Adaptive capacity</h4>
+			<button class="button button-icon icon-edit" goToStep="3"></button>
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Adaptive capacity: </span>
+			{{ chanceOptions.get(risk.adaptive_capacity)?.label }}
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Description: </span>
+			<div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
+		</div>
+		<div class="review-item">
+			<span class="answer-label">Related adaptive values: </span>
+			<div *ngIf="!risk.related_adaptive_values?.length">--</div>
+			<div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
+				<div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
+					{{ relatedAdaptiveValue }}
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
 
 <footer class="step-footer">
-    <div class="step-footer-exit">
-        <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-        <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
-    </div>
-    <button class="button button-primary" type="button" [disabled]="isDisabled" (click)="finish()">Finish</button>
+	<div class="step-footer-exit">
+		<button type="button" class="button" 
+				*ngIf="!risk?.id" 
+				(click)="cancel()">Cancel</button>
+		<button type="button" class="button" 
+				*ngIf="risk?.id" 
+				(click)="finish()">Finish later</button>
+	</div>
+	<button type="button" class="button button-primary"  
+			[disabled]="isDisabled" 
+			(click)="finish()">Finish</button>
 </footer>

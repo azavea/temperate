@@ -1,13 +1,9 @@
-<div class="step-header">
-  <h3>Anticipated Improvements</h3>
+<div class="step-intro">
+  <h3 class="step-header">Outcomes</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
 <div class="step-content">
   <form [formGroup]="form">
-
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.
-    </p>
-
     <label for="improvements_adaptive_capacity">
       Effect on adaptive capacity
     </label>
@@ -30,19 +26,21 @@
     </app-freeform-multiselect>
   </form>
 </div>
-<div class="step-footer">
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!action?.name"
-          (click)="cancel()">Cancel</button>
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!!action?.name"
-          (click)="finish()">Finish later</button>
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" [disabled]="!form.valid" nextStep>Continue</button>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button button-secondary"   
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button button-secondary"  
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-secondary"   
+            nextStep>Skip Step</button>
+    <button type="button" class="button button-primary"   
+            [disabled]="!form.valid" 
+            nextStep>Continue</button>
+  </div>
+</footer>

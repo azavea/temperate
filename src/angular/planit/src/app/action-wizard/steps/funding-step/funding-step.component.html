@@ -1,33 +1,31 @@
-<div class="step-header">
-  <h3>Funding</h3>
+<div class="step-intro">
+  <h3 class="step-header">Funding</h3>
+  <p>How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.</p>
 </div>
 <div class="step-content">
   <form [formGroup]="form">
-    <p>
-      How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.
-    </p>
-    <h4>Financial details</h4>
+    <label for="funding-description">Financial details</label>
     <div class="action-card-financial-block">
-      <textarea formControlName="funding"></textarea>
-      <p>
-        These details are not shared in any way with other cities, nor used by the application. They are solely a part of the Compact of Mayors
-      </p>
+      <textarea id="funding-description" formControlName="funding"></textarea>
+      <p>These details are not shared in any way with other cities, nor used by the application. They are solely to fulfill requirements for the Global Covenant of Mayors</p>
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!action?.name"
-          (click)="cancel()">Cancel</button>
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!!action?.name"
-          (click)="finish()">Finish later</button>
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" [disabled]="!form.valid" nextStep>Continue</button>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button button-secondary" 
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button button-secondary" 
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-secondary"  
+            nextStep>Skip Step</button>
+    <button type="button" class="button button-primary" 
+            [disabled]="!form.valid" 
+            nextStep>Continue</button>
+  </div>
+</footer>

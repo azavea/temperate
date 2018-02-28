@@ -7,7 +7,6 @@
   <div class="step-form-control">
     <label for="hazard">Hazard <abbr title="required">*</abbr></label>
     <input type="text" id="hazard" class="form-control" formControlName="weather_event"
-                                tabindex="1"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('weather_event', $event)"
                                 (typeaheadOnBlur)="itemBlurred('weather_event')"
@@ -25,7 +24,6 @@
     <label for="community-system">Community system <abbr title="required">*</abbr></label>
     <input type="text" id="community-system" class="form-control" formControlName="community_system"
                                 typeaheadOptionField="name"
-                                tabindex="2"
                                 (typeaheadOnSelect)="itemSelected('community_system', $event)"
                                 (typeaheadOnBlur)="itemBlurred('community_system')"
                                 (blur)="itemBlurred('community_system')"
@@ -43,12 +41,15 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
+    <button type="button" class="button" 
+            *ngIf="!risk?.id" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button" 
+            *ngIf="risk?.id" 
+            (click)="finish()">Finish later</button>
   </div>
   <div class="step-footer-navigation">
-    <button class="button button-primary" type="button"
-            tabindex="3"
+    <button type="button" class="button button-primary"
             [disabled]="!form.valid"
             nextStep>Continue</button>
   </div>

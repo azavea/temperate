@@ -62,6 +62,11 @@ wizard {
   .review-step {
     margin-bottom: 4rem;
 
+    .review-step-header-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
     .review-item {
       background-color: $neutral-1;
       padding: 2rem;

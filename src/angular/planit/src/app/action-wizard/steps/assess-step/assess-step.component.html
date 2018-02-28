@@ -1,49 +1,40 @@
-<div class="step-header">
-  <h3>General Information</h3>
+<div class="step-intro">
+  <h3 class="step-header">Overview</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
 <div class="step-content">
-  <p>Each action you create should have an effect on at least one assessed risk in your Assessments section.</p>
   <form [formGroup]="form">
     <div class="step-form-control">
-      <div>
-        <label for="step-assess-action">Action</label>
-        <button class="button button-link pull-right"
-                [popover]="actionExamplesPopover"
-                [outsideClick]="true"
-                container="body"
-                placement="left">
-          See examples
-        </button>
-      </div>
-      <textarea id="step-assess-action"
-                class="form-control"
-                formControlName="name"
-                cols="70"
-                rows="4"
-                tabindex="1"
-                required></textarea>
+      <button class="button button-link pull-right"
+              [popover]="actionExamplesPopover"
+              [outsideClick]="true"
+              container="body"
+              placement="left">
+        See examples
+      </button>
+      <label for="action">Action <abbr title="required">*</abbr></label>
+      <textarea id="action" class="form-control" formControlName="name" cols="70" rows="4" required></textarea>
       <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
-        <span *ngIf="form.controls.name.errors.required">*Required</span>
+        <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>
     </div>
   </form>
-</div>
-<div class="step-footer">
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!action?.name"
-          (click)="cancel()">Cancel</button>
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!!action?.name"
-          (click)="finish()">Finish later</button>
-  <button type="button" class="step-footer-navigation button-primary"
-          tabindex="3"
-          [disabled]="!form.valid"
-          nextStep>Continue</button>
-</div>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button button-secondary" 
+            *ngIf="!action?.name" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button button-secondary" 
+            *ngIf="!!action?.name" 
+            (click)="finish()">Finish later</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary" 
+            [disabled]="!form.valid" 
+            nextStep>Continue</button>
+  </div>
+</footer>
 
 <ng-template #actionExamplesPopover>
   <h3>Strategy examples</h3>
