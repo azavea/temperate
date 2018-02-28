@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'subscription',
     component: ManageSubscriptionComponent,
-    canActivate: [PreviousRouteGuard]
+    canActivate: [PlanAuthGuard, PreviousRouteGuard]
   },
   { path: '**', component: PageNotFoundComponent }
 ];

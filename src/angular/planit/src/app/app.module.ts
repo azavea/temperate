@@ -16,6 +16,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
+import { PlanSelectorComponent } from './marketing/plan-selector.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { ActionStepsModule } from './action-steps/action-steps.module';
@@ -76,7 +77,8 @@ import { AppRoutingModule } from './app-routing.module';
     LoginPageComponent,
     MarketingComponent,
     MethodologyComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    PlanSelectorComponent
   ],
   imports: [
     // Angular
