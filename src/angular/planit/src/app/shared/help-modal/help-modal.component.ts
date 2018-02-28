@@ -43,7 +43,10 @@ export class HelpModalComponent implements OnInit, OnDestroy {
   }
 
   public isButtonVisible() {
-    return this.user && this.router.url !== '/?ref=footer' && this.router.url !== '/';
+    return this.user &&
+           this.router.url !== '/?ref=footer' &&
+           this.router.url !== '/' &&
+           this.hasSupport();
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -54,5 +57,13 @@ export class HelpModalComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       this.userService.current().subscribe(user => this.user = user);
     }
+  }
+
+  public hasSupport() {
+    if (this.user) {
+      return this.user.primary_organization.hasSupport();
+    }
+
+    return false;
   }
 }
