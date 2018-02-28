@@ -432,6 +432,49 @@ class OrganizationApiTestCase(APITestCase):
         )
         self.assertEqual(response.status_code, 200)
 
+    def test_add_weather_event_creates_new_sample_risks(self):
+        """Adding a WeatherEvent should create 2 sample Risks if any Risks already exist."""
+        OrganizationRiskFactory(organization=self.org)
+        CommunitySystemFactory.create_batch(5)
+        we = WeatherEventFactory()
+
+        org_data = {
+            'name': self.org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'weather_events': [we.pk]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        self.org.refresh_from_db()
+        self.assertEqual(self.org.organizationrisk_set.filter(weather_event=we).count(), 2)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_weather_event_creates_initial_sample_risks(self):
+        """Adding a WeatherEvent should create 15 sample Risks if no Risks already exist."""
+        CommunitySystemFactory.create_batch(5)
+        weather_events = WeatherEventFactory.create_batch(6)
+
+        org_data = {
+            'name': self.org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'weather_events': [we.id for we in weather_events]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        self.org.refresh_from_db()
+        self.assertEqual(self.org.organizationrisk_set.all().count(), 15)
+        self.assertEqual(response.status_code, 200)
+
     def test_update_weather_events_deletes_existing_models(self):
         org_we = OrganizationWeatherEventFactory(organization=self.org)
 

@@ -16,6 +16,7 @@ from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
 from planit_data.models import (
+    CommunitySystem,
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
@@ -170,8 +171,8 @@ class PlanItOrganization(models.Model):
             community_systems = islice(community_systems, count)
 
             OrganizationRisk.objects.bulk_create(
-                OrganizationRisk(organization=self, weather_event=weather_event,
-                                 community_system=community_system)
+                OrganizationRisk(organization=self, weather_event_id=weather_event,
+                                 community_system_id=community_system)
                 for community_system in community_systems
             )
 
@@ -194,6 +195,11 @@ class PlanItOrganization(models.Model):
         yield from self.community_systems.exclude(
             defaultrisk__weather_event=weather_event
         ).values_list('id', flat=True)
+
+        # Last resort fallback, just return anything we haven't before
+        yield from CommunitySystem.objects.exclude(
+            defaultrisk__weather_event=weather_event,
+            organizations__id=self.id).values_list('id', flat=True)
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
