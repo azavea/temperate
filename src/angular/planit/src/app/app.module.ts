@@ -69,6 +69,7 @@ import {
   TypeaheadModule
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { AppRoutingModule } from './app-routing.module';
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent,
-    PlanSelectorComponent
+    PlanSelectorComponent,
+    RegistrationPageComponent
   ],
   imports: [
     // Angular

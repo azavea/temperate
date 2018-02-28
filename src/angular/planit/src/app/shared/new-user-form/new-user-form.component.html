@@ -1,9 +1,6 @@
 <div class="modal-header">
   <h1 *ngIf="!submitted">Create an account</h1>
   <h1 *ngIf="submitted">Account created</h1>
-  <button type="button" class="button button-modal-close" (click)="onClose()">
-    <i class="icon-cancel"></i>
-  </button>
 </div>
 <div *ngIf="submitted" class="modal-body">
   <p>Your account has been created!</p>
@@ -70,11 +67,7 @@
 </div>
 <div class="modal-footer">
   <div *ngIf="!submitted" class="button-group">
-    <button type="button" class="button button-small" (click)="onClose()">Cancel</button>
     <input type="submit" [disabled]="newUserForm && newUserForm.invalid"
       class="button button-primary button-small" value="Create" form="app-new-user-form">
-  </div>
-  <div *ngIf="submitted" class="button-group">
-    <button type="button" class="button button-primary button-small" (click)="onClose()">Close</button>
   </div>
 </div>

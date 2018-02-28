@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 import { AccountCreateService } from '../../core/services/account-create.service';
 import { User } from '../models/user.model';
@@ -14,8 +14,6 @@ export class NewUserFormComponent {
   public submitted = false;
 
   public errors: any[] = [];
-
-  @Output() closed: EventEmitter<string> = new EventEmitter();
 
   constructor(private accountCreateService: AccountCreateService) {}
 

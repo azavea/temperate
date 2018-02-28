@@ -3,9 +3,6 @@ import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Rx';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../shared/';
@@ -17,7 +14,6 @@ import { User } from '../../shared/';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  public modalRef: BsModalRef;
   public isFreeTrial: boolean;
   public loginSubscription: Subscription;
   public logoutSubscription: Subscription;
@@ -26,7 +22,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public userSubscription: Subscription;
 
   constructor(public authService: AuthService,
-              private modalService: BsModalService,
               public router: Router,
               private userService: UserService) {}
 
@@ -43,10 +38,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.loginSubscription.unsubscribe();
     this.logoutSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
-  }
-
-  public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {animated: false});
   }
 
   private showLink(link: string): boolean {
