@@ -165,10 +165,7 @@ class PlanItOrganization(models.Model):
 
         # Divide the number to add as evenly as possible across all weather events
         for weather_event, count in apportion_counts(weather_event_ids, num_to_add):
-            community_systems = self._get_sample_community_systems(weather_event)
-
-            # Limit to `count` community systems
-            community_systems = islice(community_systems, count)
+            community_systems = self._get_sample_community_systems(weather_event, count)
 
             OrganizationRisk.objects.bulk_create(
                 OrganizationRisk(organization=self, weather_event_id=weather_event,
@@ -176,31 +173,46 @@ class PlanItOrganization(models.Model):
                 for community_system in community_systems
             )
 
-    def _get_sample_community_systems(self, weather_event):
-        # First priority goes to community systems from DefaultRisks
-        yield from DefaultRisk.objects.filter(
-            weather_event=weather_event,
-            community_system__organizations__id=self.id
-        ).values_list('community_system_id', flat=True).order_by('-order')
+    def _get_sample_community_systems(self, weather_event, count):
+        """Produce count number of community systems for weather event based on priority rules."""
+        def short_circuit_queryset_sequence(count, querysets):
+            """Convert a series of querysets into a single sequence of values, stopping at count.
 
-        # If we still need community systems, use user configured ones that aren't in a
-        # default risk for this weather event
-        yield from self.community_systems.exclude(
-            defaultrisk__weather_event=weather_event
-        ).values_list('id', flat=True)
+            Uses slicing so Django can limit database queries to max potentially needed results.
+            """
+            for qs in querysets:
+                if count <= 0:
+                    return
+                result = list(qs[:count])
+                count -= len(result)
+                yield from result
 
-        # If that still doesn't produce enough values, prioritize non-preferred DefaultRisks
-        yield from DefaultRisk.objects.filter(
-            weather_event=weather_event
-        ).exclude(
-            community_system__organizations__id=self.id
-        ).values_list('community_system_id', flat=True).order_by('-order')
+        return short_circuit_queryset_sequence(count, [
+            # First priority goes to community systems from DefaultRisks
+            DefaultRisk.objects.filter(
+                weather_event=weather_event,
+                community_system__organizations__id=self.id
+            ).values_list('community_system_id', flat=True).order_by('-order'),
 
-        # Last resort fallback, just return anything we haven't before
-        yield from CommunitySystem.objects.exclude(
-            defaultrisk__weather_event=weather_event,
-            organizations__id=self.id
-        ).values_list('id', flat=True)
+            # If we still need community systems, use user configured ones that aren't in a
+            # default risk for this weather event
+            self.community_systems.exclude(
+                defaultrisk__weather_event=weather_event
+            ).values_list('id', flat=True),
+
+            # If that still doesn't produce enough values, prioritize non-preferred DefaultRisks
+            DefaultRisk.objects.filter(
+                weather_event=weather_event
+            ).exclude(
+                community_system__organizations__id=self.id
+            ).values_list('community_system_id', flat=True).order_by('-order'),
+
+            # Last resort fallback, just return anything we haven't before
+            CommunitySystem.objects.exclude(
+                defaultrisk__weather_event=weather_event,
+                organizations__id=self.id
+            ).values_list('id', flat=True)
+        ])
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
