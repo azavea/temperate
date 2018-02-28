@@ -183,23 +183,24 @@ class PlanItOrganization(models.Model):
             community_system__organizations__id=self.id
         ).values_list('community_system_id', flat=True).order_by('-order')
 
-        # If that doesn't produce enough values, prioritize non-preferred DefaultRisks
+        # If we still need community systems, use user configured ones that aren't in a
+        # default risk for this weather event
+        yield from self.community_systems.exclude(
+            defaultrisk__weather_event=weather_event
+        ).values_list('id', flat=True)
+
+        # If that still doesn't produce enough values, prioritize non-preferred DefaultRisks
         yield from DefaultRisk.objects.filter(
             weather_event=weather_event
         ).exclude(
             community_system__organizations__id=self.id
         ).values_list('community_system_id', flat=True).order_by('-order')
 
-        # If we're still missing community systems, use user configured ones that aren't in any
-        # default risk for this weather event
-        yield from self.community_systems.exclude(
-            defaultrisk__weather_event=weather_event
-        ).values_list('id', flat=True)
-
         # Last resort fallback, just return anything we haven't before
         yield from CommunitySystem.objects.exclude(
             defaultrisk__weather_event=weather_event,
-            organizations__id=self.id).values_list('id', flat=True)
+            organizations__id=self.id
+        ).values_list('id', flat=True)
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
