@@ -27,13 +27,13 @@
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-primary"
+      <div class="button-group">
+        <button class="button button-primary"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
           Public
         </button>
-        <button class="btn btn-primary"
+        <button class="button button-primary"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
           Private

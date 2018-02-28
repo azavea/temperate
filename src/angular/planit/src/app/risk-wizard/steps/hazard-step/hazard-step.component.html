@@ -24,8 +24,8 @@
     </div>
     <div class="step-form-control">
       <h5>Frequency <span class="icon icon-question-circle" tooltip="{{ tooltipText.frequency }}"></span></h5>
-      <div class="btn-group">
-        <button class="btn btn-primary"
+      <div class="button-group">
+        <button class="button button-primary"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -36,8 +36,8 @@
     </div>
     <div class="step-form-control">
       <h5>Intensity <span class="icon icon-question-circle" tooltip="{{ tooltipText.intensity }}"></span></h5>
-      <div class="btn-group">
-        <button class="btn btn-primary"
+      <div class="button-group">
+        <button class="button button-primary"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"

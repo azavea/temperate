@@ -8,13 +8,13 @@
          [typeaheadOptionsInScrollableView]="5"
          [typeaheadOptionsLimit]="100"
          [container]="'body'">
-  <span class="input-group-btn">
+  <span class="input-group-button">
     <button class="button button-primary button-icon" type="button" (click)="add()"><i class="icon-plus"></i></button>
   </span>
 </div>
 <div class="input-group" *ngIf="isDisabled">
   <input class="form-control" disabled>
-  <span class="input-group-btn">
+  <span class="input-group-button">
     <button class="button button-primary button-icon" type="button" disabled><i class="icon-plus"></i></button>
   </span>
 </div>

@@ -1,5 +1,5 @@
-<div class="btn-group" dropdown [isDisabled]="disabled">
-  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+<div class="button-group" dropdown [isDisabled]="disabled">
+  <button dropdownToggle type="button" class="button button-primary dropdown-toggle">
     {{ options.get(control.value)?.label }}<span class="caret"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
