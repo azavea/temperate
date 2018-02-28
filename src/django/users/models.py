@@ -22,6 +22,7 @@ from planit_data.models import (
     OrganizationWeatherEvent,
     WeatherEventRank,
 )
+from planit_data.utils import apportion_counts
 
 
 class PlanItLocationManager(models.Manager):
@@ -110,7 +111,7 @@ class PlanItOrganization(models.Model):
     plan_hyperlink = models.URLField(blank=True)
     community_systems = models.ManyToManyField('planit_data.CommunitySystem',
                                                blank=True,
-                                               related_name='community_systems')
+                                               related_name='organizations')
 
     class Meta:
         unique_together = (("name", "location"),)
@@ -150,28 +151,49 @@ class PlanItOrganization(models.Model):
         self.import_risks()
 
     def import_risks(self):
-        weather_event_ids = set(self.weather_events.values_list('weather_event_id', flat=True))
-        existing_risks = self.organizationrisk_set.all()
-
-        events_with_risks = {risk.weather_event_id for risk in existing_risks}
-        weather_event_ids -= events_with_risks
+        weather_event_ids = self.weather_events.all().exclude(
+            weather_event__organizationrisk__organization__id=self.id
+        ).values_list('weather_event_id', flat=True)
 
         # Try not to add more than the starting amount, but make sure we add at least 2 risks
         # for each new weather event when we already have existing risks
-        if len(existing_risks) > 0:
+        if self.organizationrisk_set.exists():
             num_to_add = 2 * len(weather_event_ids)
         else:
             num_to_add = settings.STARTING_RISK_AMOUNT
 
-        community_system_ids = self.community_systems.all().values_list('id', flat=True)
-        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids,
-                                                  max_amount=num_to_add)
+        # Divide the number to add as evenly as possible across all weather events
+        for weather_event, count in apportion_counts(weather_event_ids, num_to_add):
+            community_systems = self._get_sample_community_systems(weather_event)
 
-        OrganizationRisk.objects.bulk_create(
-            OrganizationRisk(organization_id=self.id, weather_event_id=risk.weather_event_id,
-                             community_system_id=risk.community_system_id)
-            for risk in top_risks
-        )
+            # Limit to `count` community systems
+            community_systems = islice(community_systems, count)
+
+            OrganizationRisk.objects.bulk_create(
+                OrganizationRisk(organization=self, weather_event=weather_event,
+                                 community_system=community_system)
+                for community_system in community_systems
+            )
+
+    def _get_sample_community_systems(self, weather_event):
+        # First priority goes to community systems from DefaultRisks
+        yield from DefaultRisk.objects.filter(
+            weather_event=weather_event,
+            community_system__organizations__id=self.id
+        ).values_list('community_system_id', flat=True).order_by('-order')
+
+        # If that doesn't produce enough values, prioritize non-preferred DefaultRisks
+        yield from DefaultRisk.objects.filter(
+            weather_event=weather_event
+        ).exclude(
+            community_system__organizations__id=self.id
+        ).values_list('community_system_id', flat=True).order_by('-order')
+
+        # If we're still missing community systems, use user configured ones that aren't in any
+        # default risk for this weather event
+        yield from self.community_systems.exclude(
+            defaultrisk__weather_event=weather_event
+        ).values_list('id', flat=True)
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
