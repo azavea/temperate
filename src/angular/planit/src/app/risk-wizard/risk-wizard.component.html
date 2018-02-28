@@ -1,9 +1,9 @@
 <div class="main-container">
   <main class="main-content wizard-container" role="main">
-    <header class="wizard-header"
-          *ngIf="identifyStep.weather_event?.name && identifyStep.community_system?.name">
+    <header class="wizard-header">
       <h1 class="wizard-title-small">Assess the effect of</h1>
-      <h2 class="wizard-title-large">
+      <h2 class="wizard-title-large"
+          *ngIf="identifyStep.weather_event?.name && identifyStep.community_system?.name">
           {{ identifyStep.weather_event.name }} on {{ identifyStep.community_system.name }}
       </h2>
     </header>

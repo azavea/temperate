@@ -4,28 +4,29 @@
   </p>
   <h3 class="step-header">Hazard</h3>
   <p *ngIf="!isDisabled">
-    How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
+    How will <strong>{{ risk.weather_event.name | lowercase }}</strong> change over time?
   </p>
 </div>
 <div class="step-content">
   <div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
        tooltip="{{ relatedIndicatorsTooltip() }}">
-    <button class="button button-primary button-small"
+    <button class="button button-positive button-icon-left"
             [disabled]="!indicators?.length"
-            (click)="indicatorsModal.open()"><i class="icon-indicators"></i>View related indicators</button>
+            (click)="indicatorsModal.open()"><i class="icon-indicators"></i><span class="slide-text">View related indicators</span></button>
   </div>
   <form [formGroup]="form">
     <div class="step-form-control">
-      <h5>Probability</h5>
-      <app-option-dropdown [control]="form.controls['probability']"
-                           [options]="relativeOptions"
-                           [disabled]="isDisabled">
-      </app-option-dropdown>
+      <label for="probability">Probability <span class="required">Required</span></label>
+        <app-option-dropdown id="probability"
+                             [control]="form.controls['probability']"
+                             [options]="relativeOptions"
+                             [disabled]="isDisabled">
+        </app-option-dropdown>
     </div>
-    <div class="step-form-control">
-      <h5>Frequency <span class="icon icon-question-circle" tooltip="{{ tooltipText.frequency }}"></span></h5>
-      <div class="button-group">
-        <button class="button button-primary"
+    <fieldset class="step-form-control">
+      <label>Frequency <span class="icon icon-question-circle" tooltip="{{ tooltipText.frequency }}"></span> <span class="required">Required</span></label>
+      <div class="button-group" role="group">
+        <button class="button button-secondary"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -33,11 +34,11 @@
           {{ directionalOptions.get(opt)?.label }}
         </button>
       </div>
-    </div>
-    <div class="step-form-control">
-      <h5>Intensity <span class="icon icon-question-circle" tooltip="{{ tooltipText.intensity }}"></span></h5>
-      <div class="button-group">
-        <button class="button button-primary"
+    </fieldset>
+    <fieldset class="step-form-control">
+      <label>Intensity <span class="icon icon-question-circle" tooltip="{{ tooltipText.intensity }}"></span> <span class="required">Required</span></label>
+      <div class="button-group" role="group">
+        <button class="button button-secondary"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -45,16 +46,16 @@
           {{ directionalOptions.get(opt)?.label }}
         </button>
       </div>
-    </div>
+    </fieldset>
   </form>
 </div>
-<footer class="wizard-footer">
-  <div class="wizard-footer-exit">
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
     <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
     <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
-
-  <div class="wizard-footer-navigation">
+  <div class="step-footer-navigation">
     <button class="button button-secondary" type="button" nextStep>Skip Step</button>
     <button class="button button-primary" type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
   </div>

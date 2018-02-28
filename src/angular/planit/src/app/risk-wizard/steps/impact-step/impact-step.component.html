@@ -4,32 +4,33 @@
   </p>
   <h3 class="step-header">Impact</h3>
   <p *ngIf="!isDisabled">
-    How will this hazard affect <em>{{ risk.community_system?.name | lowercase }}</em> over the next five years?
+    How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
   </p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
-      <h5>Potential Impact</h5>
-        <app-option-dropdown [control]="form.controls['impact_magnitude']"
-                             [options]="relativeOptions"
-                             [disabled]="isDisabled">
-        </app-option-dropdown>
+      <label for="impact-magnitude">Potential Impact <abbr title="required">*</abbr></label>
+      <app-option-dropdown id="impact-magnitude"
+                           [control]="form.controls['impact_magnitude']"
+                           [options]="relativeOptions"
+                           [disabled]="isDisabled">
+      </app-option-dropdown>
     </div>
     <div class="step-form-control">
-      <h5>Impact Description</h5>
-      <textarea formControlName="impact_description" required></textarea>
+      <label for="impact-description">Description <abbr title="required">*</abbr></label>
+      <textarea id="impact-description" formControlName="impact_description" required></textarea>
     </div>
   </form>
 </div>
-<footer class="wizard-footer">
-  <div class="wizard-footer-exit">
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
     <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
     <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
   </div>
-
-  <div class="wizard-footer-navigation">
+  <div class="step-footer-navigation">
     <button class="button button-secondary" type="button" nextStep>Skip Step</button>
     <button class="button button-primary" type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
   </div>

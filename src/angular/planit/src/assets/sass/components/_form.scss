@@ -79,3 +79,9 @@ textarea {
     z-index: 1;
   }
 }
+
+typeahead-container {
+  ul.dropdown-menu {
+    width: fit-content;
+  }
+}

@@ -1,39 +1,78 @@
 <p *ngIf="isDisabled" class="alert alert-warning">
   You must match a hazard to a community system to save this risk.
 </p>
-<h3 *ngIf="!isDisabled">{{ risk.weather_event.name }} impact on {{ risk.community_system.name | lowercase }}</h3>
-
-<div>
-    Probability: {{ chanceOptions.get(risk.probability)?.label }}
+<h3 class="step-header">Review</h3>
+<section>
+    <h4 class="review-section-header">Identify risk</h4>
+    <button class="button icon-edit" goToStep="0"></button>
+    <div *ngIf="!isDisabled">
+        <p>
+            <span class="answer-label">Hazard:</span> 
+            {{ risk.weather_event.name }}
+        </p>
+    </div>
+    <div *ngIf="!isDisabled">
+        <p>
+            <span class="answer-label">Community system:</span> 
+            {{ risk.community_system.name }}
+        </p>
+    </div>
+</section>
+<section>
+    <h4 class="review-section-header">Hazard</h4>
     <button class="button icon-edit" goToStep="1"></button>
-</div>
+    <div>
+        <span class="answer-label">Probability: </span>
+        {{ chanceOptions.get(risk.probability)?.label }}
+    </div>
 
-<div>
-    Frequency: {{ directionalOptions.get(risk.frequency)?.label }}
-    <button class="button icon-edit" goToStep="1"></button>
-</div>
+    <div>
+        <span class="answer-label">Frequency: </span>
+        {{ directionalOptions.get(risk.frequency)?.label }}
+    </div>
 
-<div>
-    Intensity: {{ directionalOptions.get(risk.intensity)?.label }}
-    <button class="button icon-edit" goToStep="1"></button>
-</div>
-
-<div>
-    Potential Impact: {{ impactOptions.get(risk.impact_magnitude)?.label }}
+    <div>
+        <span class="answer-label">Intensity: </span>
+        {{ directionalOptions.get(risk.intensity)?.label }}
+    </div>
+    
+</section>
+<section>
+    <h4 class="review-section-header">Impact</h4>
     <button class="button icon-edit" goToStep="2"></button>
-    <div *ngIf="risk.impact_description" class="review-description">{{ risk.impact_description }}</div>
-</div>
-
-<div>
-    Adaptive Capacity: {{ chanceOptions.get(risk.adaptive_capacity)?.label }}
+    <div>
+        <span class="answer-label">Potential impact: </span>
+        {{ impactOptions.get(risk.impact_magnitude)?.label }}
+    </div>
+    <div>
+        <span class="answer-label">Description: </span>
+        <div *ngIf="risk.impact_description" class="review-description">{{ risk.impact_description }}</div>
+    </div>
+<section>
+    <h4 class="review-section-header">Adaptive capacity</h4>
     <button class="button icon-edit" goToStep="3"></button>
-    <div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
-    <div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
-        <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
-            {{ relatedAdaptiveValue }}
+    <div>
+        <span class="answer-label">Adaptive capacity: </span>
+        {{ chanceOptions.get(risk.adaptive_capacity)?.label }}
+    </div>
+    <div>
+        <span class="answer-label">Description: </span>
+        <div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
+    </div>
+    <div>
+        <span class="answer-label">Related adaptive values: </span>
+        <div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
+            <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
+                {{ relatedAdaptiveValue }}
+            </div>
         </div>
     </div>
-</div>
-<footer class="wizard-footer">
+</section>
+
+<footer class="step-footer">
+    <div class="step-footer-exit">
+        <button *ngIf="!risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="cancel()">Cancel</button>
+        <button *ngIf="risk?.id" class="button button-secondary" type="button" tabindex="4" (click)="finish()">Finish later</button>
+    </div>
     <button class="button button-primary" type="button" [disabled]="isDisabled" (click)="finish()">Finish</button>
 </footer>

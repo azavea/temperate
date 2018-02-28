@@ -45,9 +45,9 @@ wizard {
     margin-bottom: 4rem;
 
     .step-form-control {
-      margin-bottom: 2rem;
       display: flex;
       flex-direction: column;
+      margin-bottom: 2rem;
     }
 
     label {
@@ -92,28 +92,24 @@ wizard-navigation-bar {
     li {    
       margin: $space-medium 0!important;
       padding-bottom: 0!important;
-
-      div {
-        &:hover {
+      
+      &:hover {
+        div {
           a {
-            color: $wizard-step-link-color-hover;
-            text-transform: uppercase;
+            .step-indicator-number {
+              box-shadow: $wizard-step-number-ring; 
+            }
+            .step-indicator-title {
+              color: $wizard-step-link-color-hover;
+            }
           }
-        }
-
-        a {
-          border-bottom: none; // Hide border added by <a> tags
-          margin-left: 0!important;
         }
       }
 
-      &.current, &.editing, &.done:last-child {
-        .step-indicator-number {
-          background-color: $wizard-step-number-background-current;
-          border-color: $wizard-step-number-background-current;
-          box-shadow: 0px 0px 0px 4px $main-background, 
-                      0px 0px 0px 6px $wizard-step-number-background-current;
-          color: $white;
+      div {
+        a {
+          border-bottom: none; // Hide border added by <a> tags
+          margin-left: 0!important;
         }
       }
 
@@ -139,6 +135,18 @@ wizard-navigation-bar {
     }
   }
 
+  li {
+    &.current, &.editing, &.done:last-child {
+      .step-indicator-number {
+        background-color: $wizard-step-number-background-current;
+        border-color: $wizard-step-number-background-current;
+        box-shadow: $wizard-step-number-ring-current; 
+        color: $white;
+        @include light-on-dark();
+      }
+    }
+  }
+
   .step-indicator-number {
     color: $wizard-step-number-color;
     border: $wizard-step-number-border;
@@ -147,39 +155,35 @@ wizard-navigation-bar {
     font-weight: $wizard-step-number-weight;
     font-size: $wizard-step-number-size;
     font-variant-numeric: tabular-nums;
+    line-height: 0;
     padding: $wizard-step-padding;
     position: relative;
-    line-height: 0;
     transition: 0.25s;
 
-    &:before {
+    &:before, &:after {
+      background: $wizard-step-number-divider-color;
       content: "";
       display: block;
-      width: 2px;
+      width: $wizard-step-number-divider-width;
       height: $space-xlarge;
-      top: -$space-xlarge;
       left: 50%;
-      background: $wizard-step-number-divider;
       position: absolute;
       z-index: -1;
     }
 
+    &:before {
+      top: -$space-xlarge;
+    }
+
     &:after {
-      content: "";
-      display: block;
-      width: 2px;
-      height: $space-xlarge;
       bottom: -$space-xlarge;
-      left: 50%;
-      background: $wizard-step-number-divider;
-      position: absolute;
-      z-index: -1;
     }
 
     &.complete {
       background-color: $wizard-step-number-background-complete;
       border-color: $wizard-step-number-background-complete;
       color: $white;
+      @include light-on-dark();
     }
   }
 
@@ -189,11 +193,5 @@ wizard-navigation-bar {
     font-weight: $wizard-step-link-weight;
     margin-left: $space-medium;
     text-transform: none;
-  }
-}
-
-typeahead-container {
-  ul.dropdown-menu {
-    width: fit-content;
   }
 }
