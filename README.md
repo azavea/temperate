@@ -87,8 +87,8 @@ Temperate draws upon real-world adaptation plan data to help inform and connect 
 #### Download the data from s3
 The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 - Download both CSVs
-- Place them somewhere your local Temperate repo.
-- Make sure not to commit the files.
+- Place them somewhere your local Temperate repo
+- Make sure not to commit the files
 
 ```bash
 ./scripts/manage ingest_missy_dataset <path_to/missy_cities.csv> <path_to/missy_strategies_with_weather_events.csv>
