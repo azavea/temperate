@@ -8,22 +8,18 @@
          [typeaheadOptionsInScrollableView]="5"
          [typeaheadOptionsLimit]="100"
          [container]="'body'">
-  <span class="input-group-button">
-    <button class="button button-primary button-icon" type="button" (click)="add()"><i class="icon-plus"></i></button>
-  </span>
+  <button class="button button-icon" type="button" (click)="add()"><i class="icon-plus"></i></button>
 </div>
 <div class="input-group" *ngIf="isDisabled">
   <input class="form-control" disabled>
-  <span class="input-group-button">
-    <button class="button button-primary button-icon" type="button" disabled><i class="icon-plus"></i></button>
-  </span>
+  <button class="button button-icon" type="button" disabled><i class="icon-plus"></i></button>
 </div>
 <div>
   <div *ngFor="let option of selectedOptions" class="selected-option">
     {{ option }}
-    <button type="button" class="close" aria-label="Close"
-            (click)="remove(option)">
-      <span aria-hidden="true">&times;</span>
+    <button type="button" class="button button-icon-only" aria-label="Close"
+            (click)="remove(option)" title="Remove">
+      <i class="icon-cancel"></i>
     </button>
   </div>
 </div>

@@ -196,3 +196,14 @@
     cursor: not-allowed;
   }
 }
+
+.button-icon-only {
+  padding: 0;
+  background: none;
+
+  &:focus,
+  &:hover,
+  &:active {
+    background: none;
+  }
+}

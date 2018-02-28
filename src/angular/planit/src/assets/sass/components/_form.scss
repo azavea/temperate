@@ -15,7 +15,7 @@ label, .label {
   width: 100%;
   max-width: 60rem;
   position: relative;
-  padding: $space-base;
+  padding: $button-padding-vertical $space-base;
   color: inherit;
   font-size: inherit;
   font-weight: $font-weight-regular;
@@ -67,5 +67,21 @@ textarea {
       padding: 1px 5px;
       font-size: 14px;
     }
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin: $space-base 0 $space-large;
+
+  > .form-control {
+    margin: 0;
+  }
+
+  > .button {
+    z-index: 1;
   }
 }
