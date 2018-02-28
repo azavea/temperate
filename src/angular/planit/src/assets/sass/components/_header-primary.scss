@@ -1,44 +1,60 @@
 .header-primary {
-  background-color: $white;
-  border-bottom: 2px solid $neutral-0;
+  background-color: $brand-black;
   display: block;
-  padding: 0.35rem 2rem;
+  min-height: 6rem;
+  padding: $space-small $space-xlarge;
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 31.25rem) {
+    flex-flow: column nowrap;
+
+    > * {
+      margin: .8rem 0;
+    }
+  }
+
   .logo {
-    padding: 1rem;
+    padding: 0;
     line-height: 0;
+    border: 0;
     overflow: hidden;
+    text-decoration: none;
 
     > img {
-      width: 12rem;
-      height: auto;
-    }
-
-    &:hover {
-      opacity: 0.6;
-    }
-
-    &:focus, &.focus {
-      outline: 0;
-      border-radius: $button-border-radius;
-      background-color: $neutral-0;
+      width: auto;
+      height: 4.2rem;
     }
   }
 
-  .dropdown-menu {
-    min-width: 25rem;
+  .nav-buttons {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    > * {
+      margin-left: $space-base;
+    }
+
+    .button {
+      font-size: 1.8rem;
+    }
   }
 }
+
 .banner {
   background-color: $brand-primary;
   color: $neutral-0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 10rem;
+  padding: $space-medium $space-xlarge;
+
+  @media (max-width: 37.5rem) {
+    font-size: $text-tiny;
+  }
 
   .button-link {
     color: $white;
@@ -49,29 +65,71 @@
       color: $neutral-2;
     }
   }
-}
-.button-profile {
-  border: none;
-  display: flex;
-  align-self: space-between;
-  align-items: center;
-  justify-content: space-between;
 
-  .icon-avatar {
-    font-size: $text-large;
-  }
-  .icon-chevron {
-    font-size: $text-small;
-    padding-left: 0.45rem;
+  .button {
+    margin-left: $space-xlarge;
   }
 }
-.dropdown.open .button-profile  .icon-chevron {
-  padding-right: 0.45rem;
-  padding-left: 0;
-}
-.user-name {
-  font-size: $text-base;
-}
-.user-account {
-  color: $neutral-2;
+
+.user-dropdown {
+  position: relative;
+
+  .button-profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4rem;
+    padding: 0.3rem $button-padding-horizontal-small;
+
+    .icon-user-circle {
+      font-size: $text-medium;
+    }
+
+    [class*=icon-chevron] {
+      font-size: $text-tiny;
+    }
+  }
+
+  .dropdown-menu {
+    min-width: 25rem;
+    border-color: $neutral-2;
+
+    li:not(.divider):not(.profile-info):hover {
+      background: none;
+      color: inherit;
+    }
+
+    li > * {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .profile-info {
+      margin: -$dropdown-menu-border-padding;
+      padding: $dropdown-menu-border-padding;
+      background-color: $neutral-1;
+      border-radius: 0;
+      color: $neutral-5;
+      line-height: 1.4;
+
+      .name {
+        font-weight: $font-weight-bold;
+      }
+    }
+
+    a {
+      line-height: 2;
+
+      &:focus,
+      &:hover,
+      &:active {
+        color: $dropdown-menu-link-color-hover;
+        background-color: $dropdown-menu-link-background-hover;
+      }
+    }
+  }
+
+  &.open .button-profile {
+    background-color: adjust-color($brand-teal, $lightness: lightness($brand-teal) * -.5);
+  }
 }

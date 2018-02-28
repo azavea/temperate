@@ -6,8 +6,7 @@ import { OrgSubscriptionOptions, User } from '../../shared';
 
 @Component({
   selector: 'app-user-dropdown',
-  templateUrl: './user-dropdown.component.html',
-  styleUrls: ['./user-dropdown.component.scss']
+  templateUrl: './user-dropdown.component.html'
 })
 
 export class UserDropdownComponent implements OnInit {
