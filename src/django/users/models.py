@@ -290,6 +290,9 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         """Return the appropriate PlanItLocation for this user."""
         return self.primary_organization.location
 
+    def has_required_fields(self):
+        return all(getattr(self, attr, False) for attr in PlanItUser.REQUIRED_FIELDS)
+
     # All methods below copied from Django's AbstractUser
     def clean(self):
         super().clean()

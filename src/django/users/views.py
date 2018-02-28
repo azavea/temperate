@@ -3,6 +3,7 @@ import logging
 
 from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.http.request import QueryDict
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
@@ -10,14 +11,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from registration.backends.hmac.views import RegistrationView as BaseRegistrationView
-from registration.backends.hmac.views import ActivationView as BaseActivationView
+from registration.backends.hmac.views import (
+    RegistrationView as BaseRegistrationView,
+    ActivationView as BaseActivationView,
+)
 
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
@@ -91,6 +95,18 @@ class PasswordResetView(JsonFormView):
 class ActivationView(BaseActivationView):
     success_url = settings.PLANIT_APP_HOME + '/login?activated=true'
 
+    def get(self, *args, **kwargs):
+        activation_key = kwargs.get('activation_key')
+        username = self.validate_key(activation_key)
+        if username is not None:
+            user = self.get_user(username)
+            if user is not None and not user.has_required_fields():
+                url = settings.PLANIT_APP_HOME + '/register?email={}&key={}'.format(
+                    user.email, activation_key)
+                return HttpResponseRedirect(url)
+
+        return super().get(*args, **kwargs)
+
 
 class PlanitHomeView(LoginRequiredMixin, View):
     permission_classes = (IsAuthenticated, )
@@ -160,15 +176,38 @@ class UserViewSet(mixins.CreateModelMixin,
     permission_classes = (IsAuthenticatedOrCreate, )
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        # if 'data' is a QueryDict it must be copied before being modified
+        data = request.data.copy() if isinstance(request.data, QueryDict) else request.data
+        activation_key = data.pop('activation_key', None)
 
-        # We set is_active to False because we want to require email verification
-        serializer.save(is_active=False)
+        if activation_key:
+            user_email = ActivationView(request=request).validate_key(activation_key)
+        else:
+            user_email = None
 
-        # If got this far, user was created successfully. Update and send registration email.
-        user = serializer.instance
-        RegistrationView(request=self.request).send_activation_email(user)
+        if user_email is not None and user_email == data['email']:
+            user = PlanItUser.objects.get(email=user_email)
+            # Check if they already finished registration
+            if user.has_required_fields():
+                raise ValidationError({
+                    'email': ['A user account has already been created for this email address.']
+                })
+
+            serializer = self.get_serializer(user, data=data)
+            serializer.is_valid(raise_exception=True)
+
+            # User was invited, email already verified and so account can be made active
+            serializer.save(is_active=True)
+        else:
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+
+            # We set is_active to False because we want to require email verification
+            serializer.save(is_active=False)
+
+            # If got this far, user was created successfully. Update and send registration email.
+            user = serializer.instance
+            RegistrationView(request=self.request).send_activation_email(user)
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

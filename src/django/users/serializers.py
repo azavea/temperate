@@ -197,6 +197,11 @@ class UserSerializer(serializers.ModelSerializer):
             data.pop('password2')
         return data
 
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            instance.set_password(validated_data.pop('password'))
+        return super().update(instance, validated_data)
+
 
 class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""

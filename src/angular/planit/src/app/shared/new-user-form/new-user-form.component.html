@@ -4,7 +4,8 @@
 </div>
 <div *ngIf="submitted" class="modal-body">
   <p>Your account has been created!</p>
-  <p>Please check your email at {{ model.email }} to verify the address and complete registration.</p>
+  <p *ngIf="!activated">Please check your email at {{ model.email }} to verify the address and complete registration.</p>
+  <p *ngIf="activated">Please <a routerLink="/login">Log in</a> to get started.</p>
 </div>
 <div *ngIf="!submitted" class="modal-body">
   <p>Please enter your information below to create a <strong>Temperate</strong> account.</p>
@@ -37,7 +38,8 @@
     <div class="required form-group">
       <label for="email">Email Address</label>
       <input class="form-control" type="email" required autocomplete="email"
-        [(ngModel)]="model.email" #email="ngModel" name="email">
+        [(ngModel)]="model.email" #email="ngModel" name="email"
+        [disabled]="emailDisabled">
       <div *ngIf="errors.email" class="alert alert-danger">
         <div *ngFor="let error of errors.email">
           <p>{{ error }}</p>

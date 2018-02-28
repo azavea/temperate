@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+
+import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs/Rx';
 
 import { User } from '../../shared';
@@ -15,13 +17,22 @@ export class AccountCreateService {
 
   constructor(private http: Http) {}
 
-  public create(user: User): Observable<User> {
+  private formatUser(user: User, key?: string): any {
+    if (key) {
+      const formattedUser = cloneDeep(user);
+      formattedUser.activation_key = key;
+      return formattedUser;
+    }
+    return user;
+  }
+
+  public create(user: User, key?: string): Observable<User> {
 
     const url = `${environment.apiUrl}/api/users/`;
-    return this.http.post(url, user)
-    .map(resp => resp.json() || {} as User)
-    .catch((error: Response) => {
-      return Observable.throw(error);
-    });
+    return this.http.post(url, this.formatUser(user, key))
+      .map(resp => resp.json() || {} as User)
+      .catch((error: Response) => {
+        return Observable.throw(error);
+      });
   }
 }
