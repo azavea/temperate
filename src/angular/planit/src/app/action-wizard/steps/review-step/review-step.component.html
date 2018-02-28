@@ -3,8 +3,8 @@
 </div>
 <div class="step-content">
   <section class="review-step">
-    <div class="review-step-header-container">
-      <h4 class="review-section-header">Action</h4>
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Overview</h4>
       <button class="button button-icon icon-edit" goToStep="0"></button>
     </div>
     <div class="review-item"
@@ -19,8 +19,8 @@
   </section>
 
   <section class="review-step">
-    <div class="review-step-header-container">
-      <h4 class="review-section-header">Implementation</h4>
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Details</h4>
       <button class="button button-icon icon-edit" goToStep="1"></button>
     </div>
     <div class="review-item"
@@ -45,7 +45,7 @@
   </section>
 
   <section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
       <h4 class="review-section-header">Outcomes</h4>
       <button class="button button-icon icon-edit" goToStep="2"></button>
     </div>
@@ -72,7 +72,7 @@
   </section>
 
   <section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
       <h4 class="review-section-header">Categories</h4>
       <button class="button button-icon icon-edit" goToStep="3"></button>
     </div>
@@ -89,7 +89,7 @@
   </section>
 
   <section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
       <h4 class="review-section-header">Funding</h4>
       <button class="button button-icon icon-edit" goToStep="4"></button>
     </div>
@@ -100,43 +100,39 @@
     </div>
   </section>
 
-  <div class="review-step" *ngIf="!action.isComplete()">
-    <div class="review-item warning">
-      <h2>This is a great start</h2>
-
-      <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are highlighted in yellow.</p>
-
-      <div class="review-icon-box">
-        <span class="icon icon-dollar"></span>
+  <div class="review-feedback warning" *ngIf="!action.isComplete()">
+    <p class="review-feedback-header">This is a great start</p>
+    <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are highlighted in yellow.</p>
+    <ul class="feedback-steps">
+      <li>
+        <span class="icon icon-funding"></span>
         <div>
-          <h4>Get funding for this action</h4>
+          <p class="feedback-header">Get funding for this action</p>
           <p>When you fill out more information, you can apply for funding.</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 
-  <div class="review-step" *ngIf="action.isComplete()">
-    <div class="review-item success">
-      <h2>This looks good!</h2>
-
-      <p>You've developed a well thought-out action to undertake in order to address your adaptation needs. You now have the following options:</p>
-
-      <div class="review-icon-box">
+  <div class="review-feedback success" *ngIf="action.isComplete()">
+    <p class="review-feedback-header">This looks good!</p>
+    <p>You've developed a well-considered action that addresses this risk. You now have the following options:</p>
+    <ul class="feedback-steps">
+      <li>
         <span class="icon icon-edit"></span>
         <div>
-          <h4>Create another action</h4>
+          <p class="feedback-header">Create another action</p>
           <p>You still have more assessed risks to develop actions to counteract.</p>
         </div>
-      </div>
-      <div class="review-icon-box">
-        <span class="icon icon-dollar"></span>
+      </li>
+      <li>
+        <span class="icon icon-funding"></span>
         <div>
-          <h4>Get funding for this action</h4>
+          <p class="feedback-header">Get funding for this action</p>
           <p>This action will appear on your Adaptation Actions page. Click on the $ icon to find funding.</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </div>
 

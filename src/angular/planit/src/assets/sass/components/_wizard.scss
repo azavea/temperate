@@ -62,34 +62,86 @@ wizard {
   .review-step {
     margin-bottom: 4rem;
 
-    .review-step-header-container {
+    .review-section-header-container {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: $space-base;
     }
 
+    .review-section-header {
+      font-size: $review-header-size;
+      font-weight: $review-header-weight;
+    }
+    
     .review-item {
-      background-color: $neutral-1;
-      padding: 2rem;
-      margin-bottom: 0.5rem;
+      background-color: $review-item-background;
+      padding: $space-xlarge;
+      margin-bottom: $space-base;
+      border-radius: $border-radius;
+
+      .answer-label {
+        color: $review-item-label-color;
+        font-weight: $review-item-label-weight;
+        margin-right: $space-small;
+      }
 
       &.warning {
-        background-color: $brand-warning;
+        border-left: 4px solid $review-item-warning-color;
       }
+    }
+  }
 
-      &.success {
-        background-color: $brand-success;
-      }
+  .review-feedback {
+    background-color: $review-item-background;
+    color: $review-feedback-color;
+    padding: $space-xlarge;
+    border-radius: $border-radius;
 
-      h4 > .button {
-        float: right;
+    .review-feedback-header {
+      font-size: $review-feedback-header-size;
+      font-weight: $review-feedback-header-weight;
+    }
+
+    &.warning {
+      background-color: $review-item-warning-color;
+      border-bottom: 4px solid darken($review-item-warning-color, 10%);
+    }
+
+    &.success {
+      background-color: $review-item-success-color;
+      border-bottom: 4px solid darken($review-item-success-color, 10%);
+    }
+
+    .feedback-header {
+      font-size: $review-feedback-list-size;
+      margin-bottom: $space-small;
+    }
+
+    .feedback-steps {
+      padding-left: 0;
+      list-style: none;
+      
+      li {
+        display: flex;
+        background: $review-feedback-row-background;
+        margin-bottom: $space-base;
+        border-radius: $border-radius;
+        padding: $space-medium;
+
+        .icon {
+          font-size: $review-feedback-icon-size;
+          background: $review-feedback-icon-background;
+          padding: $space-medium;
+          border-radius: 100%;
+          align-self: center;
+          margin-right: $space-medium;
+        }
       }
     }
   }
 }
 
-// Lots of the code for the navigation bar has to
-// override default ng2-archwizard styling... thus the 
-// overuse of !important. 
 wizard-navigation-bar {
   .steps-indicator {
     padding: 0!important;

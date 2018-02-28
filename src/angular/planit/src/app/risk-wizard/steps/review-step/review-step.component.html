@@ -6,47 +6,47 @@
 </div>
 <div class="step-content">
 	<section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
 			<h4 class="review-section-header">Identify risk</h4>
 			<button class="button button-icon icon-edit" goToStep="0"></button>
 		</div>
-		<div *ngIf="!isDisabled">
+		<div class="review-item">
 			<span class="answer-label">Hazard:</span> 
-			{{ risk.weather_event.name }}
+			{{ risk.weather_event.name || "--" }}
 		</div>
-		<div *ngIf="!isDisabled">
+		<div class="review-item">
 			<span class="answer-label">Community system:</span> 
-			{{ risk.community_system.name }}
+			{{ risk.community_system.name || "--" }}
 		</div>
 	</section>
 
 	<section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
 			<h4 class="review-section-header">Hazard</h4>
 			<button class="button button-icon icon-edit" goToStep="1"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Probability: </span>
-			{{ chanceOptions.get(risk.probability)?.label }}
+			{{ chanceOptions.get(risk.probability)?.label || "--" }}
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Frequency: </span>
-			{{ directionalOptions.get(risk.frequency)?.label }}
+			{{ directionalOptions.get(risk.frequency)?.label || "--" }}
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Intensity: </span>
-			{{ directionalOptions.get(risk.intensity)?.label }}
+			{{ directionalOptions.get(risk.intensity)?.label || "--" }}
 		</div>
 	</section>
 
 	<section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
 			<h4 class="review-section-header">Impact</h4>
 			<button class="button button-icon icon-edit" goToStep="2"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Potential impact: </span>
-			{{ impactOptions.get(risk.impact_magnitude)?.label }}
+			{{ impactOptions.get(risk.impact_magnitude)?.label || "--" }}
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Description: </span>
@@ -55,17 +55,17 @@
 	</section>
 
 	<section class="review-step">
-    <div class="review-step-header-container">
+    <div class="review-section-header-container">
 			<h4 class="review-section-header">Adaptive capacity</h4>
 			<button class="button button-icon icon-edit" goToStep="3"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Adaptive capacity: </span>
-			{{ chanceOptions.get(risk.adaptive_capacity)?.label }}
+			{{ chanceOptions.get(risk.adaptive_capacity)?.label || "--" }}
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Description: </span>
-			<div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
+			<div class="review-description">{{ risk.adaptive_capacity_description || "--" }}</div>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Related adaptive values: </span>

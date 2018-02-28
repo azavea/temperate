@@ -1,0 +1,11 @@
+app-action-wizard {
+  .wizard-title-large {
+    display: flex;
+    align-items: center;
+  }
+
+  va-adaptive-need-box {
+    box-shadow: $wizard-adaptive-need-border;
+    margin-right: $space-large;
+  }
+}
