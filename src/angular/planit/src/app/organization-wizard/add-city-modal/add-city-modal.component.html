@@ -1,0 +1,47 @@
+<a class="button button-primary" (click)="openModal(addCityTemplate)">City not available?</a>
+
+<ng-template #addCityTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Contact ICLEI</h4>
+  </div>
+  <div class="modal-body">
+    <p>Let us add your city's data!</p>
+    <iframe name="help-iframe" id="help-iframe" src="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
+    </iframe>
+    <form ngNoForm id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST" target="help-iframe">
+      <input type=hidden name="orgid" value="00D700000008ZTW">
+      <input type=hidden name="retURL" value="{{ url }}">
+      <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
+      <input type=hidden id="email" name="email" value="{{ user.email }}">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="city">Subject</label>
+          </div>
+          <div class="col-sm-5">
+            <input id="subject" maxlength="200" name="subject" size="20" type="text"
+              value="Add my city to Temperate please">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-2">
+            <label for="city">Description</label>
+          </div>
+          <div class="col-sm-5">
+            <textarea name="description" autofocus></textarea>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="recordType" name="recordType" value="0120g000000cfLg">
+      <input type="hidden" id="external" name="external" value="1">
+    </form>
+    <footer class="modal-footer">
+      <div class="button-group">
+        <button type="button" class="button button-secondary button-small"
+          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
+        <input form="help" type="submit" class="button button-primary button-small" value="Submit"
+          (click)="modalRef.hide()">
+      </div>
+    </footer>
+  </div>
+</ng-template>

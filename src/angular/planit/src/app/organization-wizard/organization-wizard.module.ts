@@ -13,6 +13,7 @@ import { OrganizationWizardComponent } from './organization-wizard.component';
 import { CityStepComponent } from './steps/city-step/city-step.component';
 import { ConfirmStepComponent } from './steps/confirm-step/confirm-step.component';
 import { InviteStepComponent } from './steps/invite-step/invite-step.component';
+import { AddCityModalComponent } from './add-city-modal/add-city-modal.component';
 
 const routes: Routes = [
   { path: 'create-organization',
@@ -39,7 +40,8 @@ const routes: Routes = [
     CityStepComponent,
     ConfirmStepComponent,
     InviteStepComponent,
-    OrganizationWizardComponent
+    OrganizationWizardComponent,
+    AddCityModalComponent
   ]
 })
 export class OrganizationWizardModule { }
