@@ -10,7 +10,7 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
-      <label for="adaptive-capacity">Adaptive capacity <abbr title="required">*</abbr></label>
+      <label for="adaptive-capacity">Adaptive capacity <span class="required">Required</span></label>
       <app-option-dropdown id="adaptive-capacity"
                            [control]="form.controls['adaptive_capacity']"
                            [options]="capacityOptions"

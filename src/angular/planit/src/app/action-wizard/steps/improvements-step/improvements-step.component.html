@@ -15,7 +15,7 @@
     <textarea formControlName="improvements_impacts"></textarea>
 
     <label for="collaborators">
-      Collaborator(s)
+      Collaborators
       <span class="icon icon-question-circle"
             tooltip="Select or enter other departments you will need to collaborate with to develop and implement this strategy. Keep in mind that additional stakeholder engagement is a key component of adaptation planning."
             placement="right"></span>
@@ -29,15 +29,15 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button button-secondary"   
+    <button type="button" class="button"   
             *ngIf="!action?.name"
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button button-secondary"  
+    <button type="button" class="button"  
             *ngIf="!!action?.name"
             (click)="finish()">Finish later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button button-secondary"   
+    <button type="button" class="button"   
             nextStep>Skip Step</button>
     <button type="button" class="button button-primary"   
             [disabled]="!form.valid" 

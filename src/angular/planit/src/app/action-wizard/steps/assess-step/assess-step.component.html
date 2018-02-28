@@ -1,5 +1,5 @@
 <div class="step-intro">
-  <h3 class="step-header">Overview</h3>
+  <h3 id="action-header" class="step-header">Overview</h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
 <div class="step-content">
@@ -12,8 +12,8 @@
               placement="left">
         See examples
       </button>
-      <label for="action">Action <abbr title="required">*</abbr></label>
-      <textarea id="action" class="form-control" formControlName="name" cols="70" rows="4" required></textarea>
+      <span class="required">Required</span>
+      <textarea id="action" class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-header" required></textarea>
       <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>
@@ -22,15 +22,15 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button button-secondary" 
+    <button type="button" class="button" 
             *ngIf="!action?.name" 
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button button-secondary" 
+    <button type="button" class="button" 
             *ngIf="!!action?.name" 
             (click)="finish()">Finish later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button button-primary" 
+    <button type="button" class="button" 
             [disabled]="!form.valid" 
             nextStep>Continue</button>
   </div>
