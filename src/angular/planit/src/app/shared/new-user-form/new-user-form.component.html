@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1 *ngIf="!submitted">Create an account</h1>
+  <h1 *ngIf="!submitted">Create a Temperate account</h1>
   <h1 *ngIf="submitted">Account created</h1>
 </div>
 <div *ngIf="submitted" class="modal-body">
@@ -8,13 +8,12 @@
   <p *ngIf="activated">Please <a routerLink="/login">Log in</a> to get started.</p>
 </div>
 <div *ngIf="!submitted" class="modal-body">
-  <p>Please enter your information below to create a <strong>Temperate</strong> account.</p>
   <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">
     <!-- First name -->
     <div class="required form-group">
-      <label for="first_name">First Name</label>
+      <label for="first_name">First name</label>
       <input class="form-control" type="text" required autocomplete="given-name"
-        [(ngModel)]="model.first_name" #first_name="ngModel" name="first_name">
+        [(ngModel)]="model.first_name" #first_name="ngModel" id="first_name" name="first_name">
       <div *ngIf="errors.first_name" class="alert alert-danger">
         <div *ngFor="let error of errors.first_name">
           <p>{{ error }}</p>
@@ -24,9 +23,9 @@
 
     <!-- Last Name -->
     <div class="required form-group">
-      <label for="last_name">Last Name</label>
+      <label for="last_name">Last name</label>
       <input class="form-control" type="text" required autocomplete="family-name"
-        [(ngModel)]="model.last_name" #last_name="ngModel" name="last_name">
+        [(ngModel)]="model.last_name" #last_name="ngModel" id="last_name" name="last_name">
         <div *ngIf="errors.last_name" class="alert alert-danger">
         <div *ngFor="let error of errors.last_name">
           <p>{{ error }}</p>
@@ -36,9 +35,9 @@
 
     <!-- Email Address -->
     <div class="required form-group">
-      <label for="email">Email Address</label>
+      <label for="email">Email address</label>
       <input class="form-control" type="email" required autocomplete="email"
-        [(ngModel)]="model.email" #email="ngModel" name="email"
+        [(ngModel)]="model.email" #email="ngModel" id="email" name="email"
         [disabled]="emailDisabled">
       <div *ngIf="errors.email" class="alert alert-danger">
         <div *ngFor="let error of errors.email">
@@ -51,13 +50,13 @@
     <div class="required form-group">
       <label for="password1">Password</label>
       <input class="form-control" type="password" required autocomplete="new-password"
-        [(ngModel)]="model.password1" #password1="ngModel" name="password1">
+        [(ngModel)]="model.password1" #password1="ngModel" id="password1" name="password1">
     </div>
 
     <div class="required form-group">
-      <label for="password2">Password (confirm)</label>
+      <label for="password2">Password again</label>
       <input class="form-control" type="password" required autocomplete="new-password"
-        [(ngModel)]="model.password2" #password2="ngModel" name="password2">
+        [(ngModel)]="model.password2" #password2="ngModel" id="password2" name="password2">
     </div>
 
     <div *ngIf="errors.non_field_errors" class="alert alert-danger">
@@ -69,7 +68,7 @@
 </div>
 <div class="modal-footer">
   <div *ngIf="!submitted" class="button-group">
-    <input type="submit" [disabled]="newUserForm && newUserForm.invalid"
-      class="button button-primary button-small" value="Create" form="app-new-user-form">
+    <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
+      class="button button-primary" form="app-new-user-form">Create account</button>
   </div>
 </div>
