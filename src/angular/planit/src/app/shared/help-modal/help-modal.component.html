@@ -18,8 +18,8 @@
       <input type=hidden name="retURL" value="{{ url }}">
       <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
       <input type=hidden id="email" name="email" value="{{ user.email }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization.location.properties.name }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization.name }}">
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization?.location.properties.name }}">
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization?.name }}">
       <div class="container">
         <div class="row">
           <div class="col-sm-2">
