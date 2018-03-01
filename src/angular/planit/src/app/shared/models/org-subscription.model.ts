@@ -79,7 +79,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   [OrgSubscription.Custom, {
     name: OrgSubscription.Custom,
     label: 'Custom',
-    yearlyCost: 0,
+    yearlyCost: 10000,
     header: 'Custom',
     // tslint:disable-next-line:max-line-length
     description: 'Need custom assistance from ICLEI-USA? We\'re happy to work with you to create a plan that fits your needs.',
