@@ -115,6 +115,7 @@ class PlanItOrganization(models.Model):
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
+    plan_setup_complete = models.BooleanField(default=False)
     community_systems = models.ManyToManyField('planit_data.CommunitySystem',
                                                blank=True,
                                                related_name='organizations')
@@ -154,7 +155,9 @@ class PlanItOrganization(models.Model):
                                      order=index + 1)
             for index, event_id in enumerate(weather_event_ids)
         )
-        self.import_risks()
+
+        if self.plan_setup_complete:
+            self.import_risks()
 
     def import_risks(self):
         # Get IDs for all Weather Events that don't currently have any Risks

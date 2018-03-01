@@ -7,6 +7,7 @@ export class Organization {
   name: string;
   created_at: Date;
   plan_due_date?: Date;
+  plan_setup_complete?: boolean;
   units: OrgUnitType;
   location: City;
   subscription: OrgSubscription;
@@ -32,7 +33,7 @@ export class Organization {
 
   // Organization has a plan if all the required fields are populated
   public hasPlan(): boolean {
-    return !!this.id && !!this.name && !!this.plan_due_date && !!this.units && !!this.location;
+    return !!this.id && !!this.plan_setup_complete;
   }
 
   public isFreeTrial(): boolean {

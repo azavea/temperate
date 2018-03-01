@@ -445,6 +445,7 @@ class OrganizationApiTestCase(APITestCase):
                     'api_city_id': self.org.location.api_city_id,
                 }
             },
+            'plan_setup_complete': True,
             'weather_events': [we.pk]
         }
         url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
@@ -466,6 +467,7 @@ class OrganizationApiTestCase(APITestCase):
                     'api_city_id': self.org.location.api_city_id,
                 }
             },
+            'plan_setup_complete': True,
             'weather_events': [we.id for we in weather_events]
         }
         url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})

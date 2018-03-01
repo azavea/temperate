@@ -149,7 +149,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         model = PlanItOrganization
         fields = ('id', 'created_at', 'name', 'location', 'units', 'invites',
                   'subscription', 'subscription_end_date', 'subscription_pending',
-                  'plan_due_date', 'plan_name', 'plan_hyperlink',
+                  'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
                   'community_systems', 'weather_events')
         read_only_fields = ('subscription_end_date', 'subscription_pending',)
 
