@@ -146,13 +146,13 @@
 }
 
 .button-icon-left {
-  i:first-of-type {
+  i:first-of-type, .icon:first-of-type {
     margin-right: 0.4rem;
   }
 }
 
 .button-icon-right {
-  i:last-of-type {
+  i:last-of-type, .icon:last-of-type {
     margin-left: 0.4rem;
   }
 }
