@@ -8,10 +8,12 @@
         "location": [
             7
         ],
+        "created_at": "2018-02-28",
         "created_by": null,
         "plan_due_date": "2023-02-01",
         "plan_name": "",
-        "plan_hyperlink": ""
+        "plan_hyperlink": "",
+        "community_systems": []
     }
 },
 {
@@ -23,10 +25,12 @@
         "location": [
             1
         ],
+        "created_at": "2018-02-28",
         "created_by": null,
         "plan_due_date": "2022-02-01",
         "plan_name": "",
-        "plan_hyperlink": ""
+        "plan_hyperlink": "",
+        "community_systems": []
     }
 },
 {
