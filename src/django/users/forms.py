@@ -126,3 +126,44 @@ class UserProfileForm(UserValidationMixin, forms.ModelForm):
     class Meta:
         model = PlanItUser
         fields = ('first_name', 'last_name', 'organizations', 'primary_organization',)
+
+
+class AddCityForm(forms.Form):
+    """Form to email a request to add a city."""
+
+    email = forms.EmailField(help_text=None, widget=forms.TextInput(attrs={'placeholder': ''}))
+    first_name = forms.CharField(max_length=30, required=False,
+                                 widget=forms.TextInput(attrs={'placeholder': ''}))
+    last_name = forms.CharField(max_length=30, required=False,
+                                widget=forms.TextInput(attrs={'placeholder': ''}))
+    city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': ''}))
+    state = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': ''}))
+    subject = forms.CharField(max_length=80, required=False,
+                              widget=forms.TextInput(attrs={'placeholder': ''}))
+    description = forms.CharField(max_length=280, required=False,
+                                  widget=forms.TextInput(attrs={'placeholder': ''}))
+
+    def is_valid(self):
+        valid = super(AddCityForm, self).is_valid()
+        if not valid:
+            return False
+        if self.cleaned_data['city'] is None:
+            self.errors['non_field_errors'] = ['No city specified.']
+            return False
+        if self.cleaned_data['state'] is None:
+            self.errors['non_field_errors'] = ['No state specified.']
+            return False
+        if self.cleaned_data['email'] is None:
+            self.errors['non_field_errors'] = ['User not provided.']
+            return False
+        return True
+
+    def send_email(self):
+        message = 'City, State: {}, {}. {}'.format(self.cleaned_data['city'],
+                                                   self.cleaned_data['state'],
+                                                   self.cleaned_data['description'])
+        send_mail(self.cleaned_data['subject'],
+                  message,
+                  self.cleaned_data['email'],
+                  [settings.DEFAULT_TO_EMAIL],
+                  fail_silently=False)

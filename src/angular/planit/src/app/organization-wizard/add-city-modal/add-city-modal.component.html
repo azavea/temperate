@@ -5,22 +5,17 @@
     <h4 class="modal-title pull-left">Request Your City's Data</h4>
   </div>
   <div class="container">
-    <form #addCityForm="ngForm" (ngSubmit)="changeTemplate(addCityForm, submittedForm)">
+    <form [formGroup]="cityForm"
+          (ngSubmit)="changeTemplate(submittedForm)">
       <div class="modal-body">
         <p>If Temperate doesn't offer your city yet, we can.</p>
-        <div class="form-group">
-          <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
-        </div>
-        <div class="form-group">
-          <input type=hidden id="email" name="email" value="{{ user.email }}">
-        </div>
         <div class="row form-group">
           <div class="col-sm-2">
             <label for="city">Subject</label>
           </div>
           <div class="col-sm-5">
             <input class="form-control" maxlength="200" name="subject" size="20" type="text"
-              value="Add my city to Temperate please">
+              [formControl]="cityForm.controls.subject">
           </div>
         </div>
         <div class="row form-group">
@@ -28,10 +23,7 @@
             <label for="city">City</label>
           </div>
           <div class="col-sm-5">
-            <input name="city" id="city" class="form-control" required autofocus>
-          </div>
-          <div [hidden]="city.valid || city.pristine" class="alert alert-danger">
-            City is required
+            <input name="city" type="text" class="form-control" [formControl]="cityForm.controls.city" required autofocus>
           </div>
         </div>
         <div class="row form-group">
@@ -39,10 +31,7 @@
             <label for="state">State</label>
           </div>
           <div class="col-sm-5">
-            <input name="state" id="state" class="form-control" required>
-          </div>
-          <div [hidden]="state.valid || state.pristine" class="alert alert-danger">
-            State is required
+            <input name="state" class="form-control" [formControl]="cityForm.controls.state" required>
           </div>
         </div>
         <div class="row form-group">
@@ -50,7 +39,7 @@
             <label for="description">Description</label>
           </div>
           <div class="col-sm-5">
-            <textarea name="description" class="form-control"></textarea>
+            <textarea name="description" class="form-control" [formControl]="cityForm.controls.description"></textarea>
           </div>
         </div>
       </div>
@@ -59,7 +48,7 @@
           <button type="button" class="button button-secondary button-small"
             data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
           <button type="submit" class="button button-primary button-small"
-          [disabled]="!addCityForm.form.valid">Submit</button>
+          [disabled]="!cityForm.valid">Submit</button>
         </div>
       </footer>
     </form>

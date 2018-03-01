@@ -1,6 +1,6 @@
 import logging
 
-
+from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import QueryDict
@@ -27,7 +27,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from users.serializers import AuthTokenSerializer
 
-from users.forms import UserForm, UserProfileForm, PasswordResetInitForm, PasswordResetForm
+from users.forms import (UserForm, UserProfileForm, PasswordResetInitForm,
+                         PasswordResetForm, AddCityForm)
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
@@ -258,3 +259,13 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     def get_queryset(self):
         return self.request.user.organizations.all()
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddCityView(JsonFormView):
+    permission_classes = (AllowAny,)
+    form_class = AddCityForm
+
+    def form_valid(self, form):
+        form.send_email()
+        return Response({'status': 'ok'})
