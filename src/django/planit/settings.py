@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_gis',
     'bootstrap3',
+    'django_premailer',
 
     # local apps
     'climate_api',
