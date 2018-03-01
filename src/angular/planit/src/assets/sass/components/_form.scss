@@ -85,3 +85,8 @@ typeahead-container {
     width: fit-content;
   }
 }
+
+.form-help-button {
+  flex: 0 1 auto;
+  align-self: flex-end;
+}

@@ -5,8 +5,8 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
-      <label for="step-implementation-action-type">Type of action</label>
-      <input id="step-implementation-action-type"
+      <label for="action-type">Type of action</label>
+      <input id="action-type"
              type="text"
              class="form-control"
              formControlName="action_type"
@@ -14,26 +14,26 @@
              [typeaheadMinLength]="0">
     </div>
     <div class="step-form-control">
-      <label for="step-implementation-action-goal">Action goal</label>
-      <input id="step-implementation-action-goal" type="text" class="form-control" formControlName="action_goal">
+      <label for="action-goal">Action goal</label>
+      <input id="action-goal" type="text" formControlName="action_goal">
     </div>
     <div class="step-form-control">
-      <label for="step-implementation-details">Implementation details</label>
-      <textarea id="step-implementation-details" formControlName="implementation_details"></textarea>
+      <label for="implementation-details">Implementation details</label>
+      <textarea id="implementation-details" formControlName="implementation_details"></textarea>
     </div>
     <div class="step-form-control">
-      <div>Share with other cities
+      <label for="share">Share with other cities
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
-      </div>
-      <div class="button-group">
-        <button class="button button-primary"
+      </label>
+      <div id="share" class="button-group" role="group">
+        <button class="button"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
           Public
         </button>
-        <button class="button button-primary"
+        <button class="button"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
           Private
@@ -41,8 +41,8 @@
       </div>
     </div>
     <div class="step-form-control">
-      <label for="step-implementation-notes">Notes</label>
-      <textarea id="step-implementation-notes" formControlName="notes"></textarea>
+      <label for="notes">Notes</label>
+      <textarea id="notes" formControlName="notes"></textarea>
     </div>
   </form>
 </div>

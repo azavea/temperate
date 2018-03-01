@@ -26,7 +26,7 @@
     <fieldset class="step-form-control">
       <label>Frequency <span class="icon icon-question-circle" tooltip="{{ tooltipText.frequency }}"></span> <span class="required">Required</span></label>
       <div class="button-group" role="group">
-        <button class="button button-secondary"
+        <button class="button"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -38,7 +38,7 @@
     <fieldset class="step-form-control">
       <label>Intensity <span class="icon icon-question-circle" tooltip="{{ tooltipText.intensity }}"></span> <span class="required">Required</span></label>
       <div class="button-group" role="group">
-        <button class="button button-secondary"
+        <button class="button"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"

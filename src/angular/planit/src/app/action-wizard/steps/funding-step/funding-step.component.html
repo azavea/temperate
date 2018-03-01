@@ -1,12 +1,11 @@
 <div class="step-intro">
-  <h3 class="step-header">Funding</h3>
+  <h3 id="funding-header" class="step-header">Funding</h3>
   <p>How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.</p>
 </div>
 <div class="step-content">
   <form [formGroup]="form">
-    <label for="funding-description">Financial details</label>
     <div class="action-card-financial-block">
-      <textarea id="funding-description" formControlName="funding"></textarea>
+      <textarea formControlName="funding" aria-labelledby="funding-header"></textarea>
       <p>These details are not shared in any way with other cities, nor used by the application. They are solely to fulfill requirements for the Global Covenant of Mayors</p>
     </div>
   </form>

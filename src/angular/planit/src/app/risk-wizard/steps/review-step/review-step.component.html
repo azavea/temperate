@@ -8,22 +8,22 @@
 	<section class="review-step">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Identify risk</h4>
-			<button class="button button-icon icon-edit" goToStep="0"></button>
+			<button class="button button-icon icon-edit" goToStep="0" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Hazard:</span> 
-			{{ risk.weather_event.name || "--" }}
+			{{ risk.weather_event?.name || "--" }}
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Community system:</span> 
-			{{ risk.community_system.name || "--" }}
+			{{ risk.community_system?.name || "--" }}
 		</div>
 	</section>
 
 	<section class="review-step">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Hazard</h4>
-			<button class="button button-icon icon-edit" goToStep="1"></button>
+			<button class="button button-icon icon-edit" goToStep="1" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Probability: </span>
@@ -42,7 +42,7 @@
 	<section class="review-step">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Impact</h4>
-			<button class="button button-icon icon-edit" goToStep="2"></button>
+			<button class="button button-icon icon-edit" goToStep="2" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Potential impact: </span>
@@ -50,14 +50,14 @@
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Description: </span>
-			<div class="review-description">{{ risk.impact_description || '--' }}</div>
+			<span class="review-description">{{ risk.impact_description || '--' }}</span>
 		</div>
 	</section>
 
 	<section class="review-step">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Adaptive capacity</h4>
-			<button class="button button-icon icon-edit" goToStep="3"></button>
+			<button class="button button-icon icon-edit" goToStep="3" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Adaptive capacity: </span>
@@ -65,11 +65,11 @@
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Description: </span>
-			<div class="review-description">{{ risk.adaptive_capacity_description || "--" }}</div>
+			<span class="review-description">{{ risk.adaptive_capacity_description || "--" }}</span>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Related adaptive values: </span>
-			<div *ngIf="!risk.related_adaptive_values?.length">--</div>
+			<span *ngIf="!risk.related_adaptive_values?.length">--</span>
 			<div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
 				<div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
 					{{ relatedAdaptiveValue }}
@@ -84,11 +84,10 @@
 		<button type="button" class="button" 
 				*ngIf="!risk?.id" 
 				(click)="cancel()">Cancel</button>
-		<button type="button" class="button" 
-				*ngIf="risk?.id" 
-				(click)="finish()">Finish later</button>
 	</div>
-	<button type="button" class="button button-primary"  
-			[disabled]="isDisabled" 
-			(click)="finish()">Finish</button>
+  <div class="step-footer-navigation">
+		<button type="button" class="button button-primary"  
+				[disabled]="isDisabled" 
+				(click)="finish()">Finish</button>
+	</div>
 </footer>

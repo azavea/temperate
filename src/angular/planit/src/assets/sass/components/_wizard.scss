@@ -104,13 +104,13 @@ wizard {
     }
 
     &.warning {
-      background-color: $review-item-warning-color;
-      border-bottom: 4px solid darken($review-item-warning-color, 10%);
+      background-color: $review-item-background;
+      border-left: 4px solid $review-item-warning-color;
     }
 
     &.success {
-      background-color: $review-item-success-color;
-      border-bottom: 4px solid darken($review-item-success-color, 10%);
+      background-color: $review-item-background;
+      border-left: 4px solid $review-item-success-color;
     }
 
     .feedback-header {
@@ -127,7 +127,7 @@ wizard {
         background: $review-feedback-row-background;
         margin-bottom: $space-base;
         border-radius: $border-radius;
-        padding: $space-medium;
+        padding: $space-medium $space-xlarge;
 
         .icon {
           font-size: $review-feedback-icon-size;
@@ -135,7 +135,7 @@ wizard {
           padding: $space-medium;
           border-radius: 100%;
           align-self: center;
-          margin-right: $space-medium;
+          margin-right: $space-large;
         }
       }
     }

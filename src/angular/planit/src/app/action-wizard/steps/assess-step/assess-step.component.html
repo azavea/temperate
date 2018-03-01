@@ -5,7 +5,7 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
-      <button class="button button-link pull-right"
+      <button class="button-link pull-right form-help-button"
               [popover]="actionExamplesPopover"
               [outsideClick]="true"
               container="body"
@@ -13,7 +13,7 @@
         See examples
       </button>
       <span class="required">Required</span>
-      <textarea id="action" class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-header" required></textarea>
+      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-header" required></textarea>
       <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>
