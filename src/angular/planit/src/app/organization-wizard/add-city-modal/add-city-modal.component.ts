@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -15,20 +15,26 @@ export class AddCityModalComponent implements OnInit {
 
   public url: string;
   public user: User;
-  private modalRef: BsModalRef;
+  public modalRef: BsModalRef;
 
   constructor(private modalService: BsModalService,
-              public router: Router,
               private authService: AuthService,
-              public userService: UserService) { }
+              private userService: UserService) { }
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
       this.userService.current().subscribe(u => this.user = u);
     }
+    this.url = document.location.origin + '/methodology';
   }
 
   public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, {animated: false});
+  }
+
+  public changeTemplate(form: NgForm, template: TemplateRef<any>) {
+    console.log(form);
+    this.modalRef.hide();
+    this.openModal(template);
   }
 }
