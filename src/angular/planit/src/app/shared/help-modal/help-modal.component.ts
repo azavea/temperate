@@ -60,7 +60,7 @@ export class HelpModalComponent implements OnInit, OnDestroy {
   }
 
   public hasSupport() {
-    if (this.user) {
+    if (this.user && this.user.primary_organization) {
       return this.user.primary_organization.hasSupport();
     }
 
