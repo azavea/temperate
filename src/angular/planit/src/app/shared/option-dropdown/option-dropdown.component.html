@@ -1,6 +1,6 @@
 <div class="button-group" dropdown [isDisabled]="disabled">
   <button dropdownToggle type="button" class="button button-primary dropdown-toggle">
-    {{ options.get(control.value)?.label }}<span class="caret"></span>
+    {{ options.get(control.value)?.label }}<i class="icon icon-chevron-down"></i>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li role="menuitem"

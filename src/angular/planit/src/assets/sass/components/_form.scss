@@ -23,7 +23,7 @@ label, .label {
   width: 100%;
   max-width: 60rem;
   position: relative;
-  padding: $button-padding-vertical $space-base;
+  padding: $button-padding-vertical;
   color: inherit;
   font-size: inherit;
   font-weight: $font-weight-regular;
@@ -33,26 +33,24 @@ label, .label {
   &:focus {
     @include button-focus-outline();
   }
-}
 
-.required {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    resize: none;
 
-  &:after {
-    content: "(required)";
-    font-size: $text-tiny;
-    position: absolute;
-    top: 0; right: 0;
-    color: $brand-danger;
+    app-editable-input & {
+      border-color: $neutral-2;
+      background-color: transparent;
+      opacity: 1;
+      cursor: default;
+    }
   }
 }
 
 input.ng-invalid {
   &:not(.ng-pristine) {
-    outline: 2px solid $brand-danger;
+    box-shadow: 0 0 0 2px rgba($brand-danger, 0.8);
   }
 }
 
@@ -63,23 +61,6 @@ select {
 
 textarea {
   resize: vertical;
-}
-
-.inline-buttons {
-  position: relative;
-
-  > .buttons {
-    position: absolute;
-    right: 10px;
-    top: 2px;
-    padding: 1px;
-
-    > .button {
-      line-height: 20px;
-      padding: 1px 5px;
-      font-size: 14px;
-    }
-  }
 }
 
 .input-group {
@@ -93,7 +74,8 @@ textarea {
     margin: 0;
   }
 
-  > .button {
+  .button {
+    margin-left: $space-medium;
     z-index: 1;
   }
 }
