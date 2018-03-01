@@ -9,7 +9,6 @@ a {
   &:focus, &.focus {
     border-radius: $border-radius;
     border-bottom-color: transparent;
-    outline: 0;
     @include button-focus-outline();
   }
 

@@ -58,7 +58,6 @@
   }
 
   &:focus {
-    outline: 0;
     border-radius: $border-radius;
     @include button-focus-outline();
   }
@@ -83,7 +82,6 @@
   }
 
   &:focus {
-    outline: 0;
     @include button-focus-outline();
   }
 }

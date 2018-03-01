@@ -29,6 +29,10 @@ label, .label {
   font-weight: $font-weight-regular;
   border: 1px solid $neutral-1;
   border-radius: $field-border-radius;
+
+  &:focus {
+    @include button-focus-outline();
+  }
 }
 
 .required {

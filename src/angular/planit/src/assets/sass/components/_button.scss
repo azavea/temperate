@@ -4,7 +4,6 @@
 
   &:focus, &.focus {
     @include button-focus-outline();
-    outline: 0;
   }
 
   &:hover, &.hover {
@@ -176,7 +175,6 @@
   align-items: center;
 
   &:focus, &.focus {
-    outline: 0;
     @include button-focus-outline();
   }
 
