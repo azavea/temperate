@@ -1,3 +1,5 @@
+import logging
+
 from datetime import timedelta
 
 from django.conf import settings
@@ -24,6 +26,9 @@ from planit_data.models import (
     WeatherEventRank,
 )
 from planit_data.utils import apportion_counts
+
+
+logger = logging.getLogger(__name__)
 
 
 class PlanItLocationManager(models.Manager):
@@ -152,19 +157,24 @@ class PlanItOrganization(models.Model):
         self.import_risks()
 
     def import_risks(self):
+        # Get IDs for all Weather Events that don't currently have any Risks
         weather_event_ids = self.weather_events.all().exclude(
             weather_event__organizationrisk__organization__id=self.id
         ).values_list('weather_event_id', flat=True)
 
-        # Try not to add more than the starting amount, but make sure we add at least 2 risks
-        # for each new weather event when we already have existing risks
-        if self.organizationrisk_set.exists():
-            num_to_add = 2 * len(weather_event_ids)
-        else:
-            num_to_add = settings.STARTING_RISK_AMOUNT
+        # Create a Risk for every Community System, but at least 2 in case the user picked none
+        risks_per = max(2, self.community_systems.count())
+        num_to_add = risks_per * len(weather_event_ids)
+        logger.debug("Importing {} risks per hazard, {} total".format(risks_per, num_to_add))
+
+        if not self.organizationrisk_set.exists():
+            # For initial population, make sure to create at least 15 Risks overall
+            num_to_add = max(num_to_add, settings.STARTING_RISK_AMOUNT)
+            logger.debug("First import, set number to import to {}".format(num_to_add))
 
         # Divide the number to add as evenly as possible across all weather events
         for weather_event, count in apportion_counts(weather_event_ids, num_to_add):
+            logger.debug("Importing {} Risks for {}".format(count, weather_event))
             community_systems = self._get_sample_community_systems(weather_event, count)
 
             OrganizationRisk.objects.bulk_create(
@@ -178,7 +188,8 @@ class PlanItOrganization(models.Model):
         def short_circuit_queryset_sequence(count, querysets):
             """Convert a series of querysets into a single sequence of values, stopping at count.
 
-            Uses slicing so Django can limit database queries to max potentially needed results.
+            Uses array slicing so Django can limit database queries to only potentially needed
+            results.
             """
             for qs in querysets:
                 if count <= 0:
@@ -188,28 +199,24 @@ class PlanItOrganization(models.Model):
                 yield from result
 
         return short_circuit_queryset_sequence(count, [
-            # First priority goes to community systems from DefaultRisks
-            DefaultRisk.objects.filter(
-                weather_event=weather_event,
-                community_system__organizations__id=self.id
-            ).values_list('community_system_id', flat=True).order_by('-order'),
+            # Start with any of the user's community systems
+            self.community_systems.values_list('id', flat=True),
 
-            # If we still need community systems, use user configured ones that aren't in a
-            # default risk for this weather event
-            self.community_systems.exclude(
-                defaultrisk__weather_event=weather_event
-            ).values_list('id', flat=True),
-
-            # If that still doesn't produce enough values, prioritize non-preferred DefaultRisks
+            # If we want more values, prioritize non-preferred DefaultRisks
             DefaultRisk.objects.filter(
                 weather_event=weather_event
             ).exclude(
                 community_system__organizations__id=self.id
-            ).values_list('community_system_id', flat=True).order_by('-order'),
+            ).values_list('community_system_id', flat=True).order_by('order'),
 
-            # Last resort fallback, just return anything we haven't before
+            # If there aren't enough organization Community Systems or DefaultRisks for this Weather
+            # Event, use remaining Community Systems to pad out.
+            # This is necessary since if the user picks no Community Systems and the Weather Event
+            # has no Default Risks, it'll be perpetually empty and inflate the counts for other
+            # Weather Events.
             CommunitySystem.objects.exclude(
-                defaultrisk__weather_event=weather_event,
+                defaultrisk__weather_event=weather_event
+            ).exclude(
                 organizations__id=self.id
             ).values_list('id', flat=True)
         ])
