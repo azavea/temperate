@@ -20,7 +20,6 @@ app-collapsible-chart {
 
     button {
       &:focus {
-        outline: none;
         box-shadow: none;
         @include button-focus-outline();
       }
@@ -59,7 +58,6 @@ app-indicator-chart {
     border: 1px solid $neutral-2;
 
     &:focus {
-      outline: none;
       box-shadow: none;
       @include button-focus-outline();
     }

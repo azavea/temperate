@@ -1,33 +1,31 @@
 app-option-dropdown {
 
-  .dropdown-toggle .caret {
-    margin-left: 0.8rem;
+  .dropdown-toggle .icon {
+    margin-left: $space-medium;
   }
 
   .dropdown-menu {
     min-width: 32rem;
+    max-width: 40rem;
   }
 
   .dropdown-menu > li {
-
     cursor: pointer;
 
-    &:not(:last-child) {
-      border-bottom: solid 1px $neutral-2;
-    }
-
-    & > a.dropdown-item {
+    > a.dropdown-item {
       display: flex;
       flex-direction: column;
       white-space: normal;
+      padding-top: $space-base;
+      padding-bottom: $space-base;
 
-      & span {
-        white-space: normal;
+      .dropdown-label {
+        font-size: $text-base;
+        font-weight: $font-weight-bold;
       }
 
-      & .dropdown-label {
-        font-size: 18px;
-        font-weight: $font-weight-bold;
+      .dropdown-description {
+        font-size: $text-tiny;
       }
     }
   }

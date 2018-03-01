@@ -4,44 +4,53 @@
   justify-content: space-between;
 }
 
-.label {
-  font-size: $text-tiny;
+label, .label {
   margin-bottom: 0.25rem;
-}
+  font-weight: $font-weight-bold;
 
-.form-control {
-  margin-bottom: 1.5rem;
-  position: relative;
-  padding: 0.35rem 0.65rem;
-  font-size: $text-small;
-  border: 1px solid $neutral-1;
-  border-radius: $field-border-radius;
-  box-shadow: none;
-
-  &:focus {
-    box-shadow: none;
-    @include button-focus-outline();
+  > .required {
+    color: $neutral-3;
+    font-size: $text-tiny;
+    font-style: italic;
+    text-align: right;
+    text-transform: uppercase;
   }
 }
 
-.required {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.form-control, textarea {
+  display: block;
+  margin: $space-base 0 $space-large;
+  width: 100%;
+  max-width: 60rem;
   position: relative;
+  padding: $button-padding-vertical;
+  color: inherit;
+  font-size: inherit;
+  font-weight: $font-weight-regular;
+  border: 1px solid $neutral-1;
+  border-radius: $field-border-radius;
 
-  &:after {
-    content: "(required)";
-    font-size: $text-tiny;
-    position: absolute;
-    top: 0; right: 0;
-    color: $brand-danger;
+  &:focus {
+    @include button-focus-outline();
+  }
+
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    resize: none;
+
+    app-editable-input & {
+      border-color: $neutral-2;
+      background-color: transparent;
+      opacity: 1;
+      cursor: default;
+    }
   }
 }
 
 input.ng-invalid {
   &:not(.ng-pristine) {
-    outline: 2px solid $brand-danger;
+    box-shadow: 0 0 0 2px rgba($brand-danger, 0.8);
   }
 }
 
@@ -50,19 +59,23 @@ select {
   position: relative;
 }
 
-.inline-buttons {
-  position: relative;
+textarea {
+  resize: vertical;
+}
 
-  > .buttons {
-    position: absolute;
-    right: 10px;
-    top: 2px;
-    padding: 1px;
+.input-group {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin: $space-base 0 $space-large;
 
-    > .button {
-      line-height: 20px;
-      padding: 1px 5px;
-      font-size: 14px;
-    }
+  > .form-control {
+    margin: 0;
+  }
+
+  .button {
+    margin-left: $space-medium;
+    z-index: 1;
   }
 }

@@ -4,7 +4,6 @@
 
   &:focus, &.focus {
     @include button-focus-outline();
-    outline: 0;
   }
 
   &:hover, &.hover, &:active, &.active {

@@ -1,8 +1,8 @@
-<div class="inline-buttons">
+<div class="input-group">
   <input class="form-control" type="text" [disabled]="!isEditing" [value]="value" (input)="input($event)">
 
-  <div class="buttons">
-    <button type="button" class="button-link" (click)="edit()" *ngIf="!isEditing">
+  <div class="button-group">
+    <button type="button" class="button button-icon-only" (click)="edit()" *ngIf="!isEditing">
       <i class="icon icon-edit"></i>
     </button>
     <button type="button" class="button button-primary" [disabled]="!value" (click)="save()" *ngIf="isEditing">

@@ -30,8 +30,8 @@
   display: none;
   float: left;
   min-width: $dropdown-menu-min-width;
-  padding: $dropdown-menu-border-padding;
-  margin: $space-tiny 0 0;
+  padding: $dropdown-menu-border-padding 0;
+  margin: 1px 0 0;
   list-style: none;
   text-align: left;
   background-color: $dropdown-menu-background;
@@ -53,7 +53,7 @@
   }
 
   li > * {
-    padding: $space-base $space-medium;
+    padding: $space-medium;
   }
 
   li {
@@ -68,7 +68,7 @@
     &:focus {
       @include button-focus-outline();
     }
-    
+
     a {
       border-bottom: none;
       color: $dropdown-menu-link-color;
@@ -78,14 +78,18 @@
       white-space: nowrap;
       text-decoration: none;
     }
+
+    strong {
+      color: $black;
+    }
   }
 
   .active {
     a, a:hover, a:active, a:focus {
-      color: $white;
+      color: $dropdown-menu-link-color-hover;
       text-decoration: none;
       outline: 0;
-      background-color: $dropdown-menu-link-background-active;
+      background-color: $dropdown-menu-link-background-hover;
     }
   }
 

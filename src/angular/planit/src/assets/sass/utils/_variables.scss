@@ -24,7 +24,7 @@ $breakpoints: (
  * Settings
  *
  * * * */
-$border-radius: 3px;
+$border-radius: 2px;
 
 
 /* * * *
@@ -38,7 +38,7 @@ $brand-leaf: #85c005;
 $brand-persimmon: #ed5c14;
 $brand-saffron: #f2c706;
 
-$brand-teal-v-light: #eff9f8;
+$brand-teal-v-light: #d3eae9;
 $brand-teal-light: #a8ddda;
 
 
@@ -96,9 +96,11 @@ $content-max-width: 125rem;
  * z-index
  *
  * * * */
-$zindex-popover: 1060;
-$zindex-tooltip: 1060;
-$zindex-dropdown-menu: 1000;
+$zindex-modal: 1050;
+$zindex-typeahead: 1060;
+$zindex-dropdown-menu: 1070;
+$zindex-popover: 1080;
+$zindex-tooltip: 1080;
 
 /* * * *
  * Columns
@@ -173,7 +175,7 @@ $button-padding-horizontal-large: $button-padding-horizontal*1.95;
  * Fields
  *
  * * * */
-$field-border-radius: 4px;
+$field-border-radius: $border-radius;
 
 
 /* * * *
@@ -182,7 +184,7 @@ $field-border-radius: 4px;
  * * * */
 $dropdown-menu-border: 1px solid $neutral-1;
 $dropdown-menu-border-radius: $border-radius;
-$dropdown-menu-border-padding: $space-medium;
+$dropdown-menu-border-padding: $space-base;
 $dropdown-menu-min-width: 16rem;
 $dropdown-menu-background: $white;
 $dropdown-menu-shadow: 0px 0px 20px rgba($neutral-4, 0.2);
@@ -222,7 +224,7 @@ $modal-width-small: 50rem;
 $modal-heading-padding: 1.5rem;
 $modal-body-padding: 2.5rem;
 $modal-footer-padding: 1.5rem;
-$modal-border-radius: 2px;
+$modal-border-radius: $border-radius;
 
 
 /* * * *
@@ -249,7 +251,7 @@ $table-caption-border-color: $brand-positive;
  * * * */
 $alert-padding-vertical: 1.4rem;
 $alert-padding-horizontal: 1.8rem;
-$alert-border-radius: 3px;
+$alert-border-radius: $border-radius;
 $alert-ghost-style: true;
 $alert-font-size: $font-size-body;
 $alert-heading-font-size: $font-size-body;
@@ -263,7 +265,7 @@ $alert-font-color: $white;
  * * * */
 $popover-padding-vertical: 0.9rem;
 $popover-padding-horizontal: 1.4rem;
-$popover-border-radius: 3px;
+$popover-border-radius: $border-radius;
 $popover-font-size: $font-size-body;
 $popover-heading-font-size: $font-size-body;
 $popover-font-color: $heading-font-color;
@@ -319,7 +321,7 @@ $card-border-radius: $border-radius;
 
 
 /* * * *
- * Special checkboxes 
+ * Special checkboxes
  * These appear in the:
  * - Add Hazard(/weatherevent) component
  * - Add Community System component

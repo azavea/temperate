@@ -105,8 +105,8 @@
     }
 
     .profile-info {
-      margin: -$dropdown-menu-border-padding;
-      padding: $dropdown-menu-border-padding;
+      margin: -$dropdown-menu-border-padding 0 (-$space-medium);
+      padding: $dropdown-menu-border-padding 0 $space-medium;
       background-color: $neutral-1;
       border-radius: 0;
       color: $neutral-5;

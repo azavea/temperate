@@ -8,13 +8,14 @@
       <label for="step-implementation-action-type">Type of action</label>
       <input id="step-implementation-action-type"
              type="text"
+             class="form-control"
              formControlName="action_type"
              [typeahead]="actionTypes"
              [typeaheadMinLength]="0">
     </div>
     <div class="step-form-control">
       <label for="step-implementation-action-goal">Action goal</label>
-      <input id="step-implementation-action-goal" type="text" formControlName="action_goal">
+      <input id="step-implementation-action-goal" type="text" class="form-control" formControlName="action_goal">
     </div>
     <div class="step-form-control">
       <label for="step-implementation-details">Implementation details</label>
@@ -26,13 +27,13 @@
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
       </div>
-      <div class="btn-group">
-        <button class="btn btn-primary"
+      <div class="button-group">
+        <button class="button button-primary"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
           Public
         </button>
-        <button class="btn btn-primary"
+        <button class="button button-primary"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
           Private

@@ -4,7 +4,6 @@
 
   &:focus, &.focus {
     @include button-focus-outline();
-    outline: 0;
   }
 
   &:hover, &.hover {
@@ -120,6 +119,7 @@
 }
 
 .button-group {
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -175,7 +175,6 @@
   align-items: center;
 
   &:focus, &.focus {
-    outline: 0;
     @include button-focus-outline();
   }
 
@@ -193,5 +192,17 @@
   &:disabled, &.disabled {
     opacity: .5;
     cursor: not-allowed;
+  }
+}
+
+.button-icon-only {
+  padding: 0;
+  background: none;
+
+  &:focus,
+  &:hover,
+  &:active {
+    color: inherit;
+    background: none;
   }
 }
