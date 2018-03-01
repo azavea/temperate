@@ -421,13 +421,14 @@ $wizard-step-number-background-complete: $brand-positive;
 $wizard-step-number-background-current: $brand-teal;
 $wizard-step-number-border: 2px solid $neutral-2;
 $wizard-step-number-color: $neutral-3;
+$wizard-step-number-color-special: $black;
 $wizard-step-number-divider-color: $neutral-2;
 $wizard-step-number-divider-width: 1px;
 $wizard-step-number-weight: $font-weight-regular;
 $wizard-step-number-size: $text-small;
-$wizard-step-number-ring: 0px 0px 0px 3px $main-background, 
+$wizard-step-number-ring: 0px 0px 0px 3px $main-background,
                           0px 0px 0px 4px $neutral-2;
-$wizard-step-number-ring-current: 0px 0px 0px 3px $main-background, 
+$wizard-step-number-ring-current: 0px 0px 0px 3px $main-background,
                           0px 0px 0px 5px $brand-teal-light;
 
 $wizard-step-link-color: $neutral-5;

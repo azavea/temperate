@@ -53,34 +53,3 @@
     background-color: $main-background;
   }
 }
-
-.wizard-container {
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-
-  wizard {
-    flex: 1;
-  }
-
-  .wizard-header {
-    flex: 1 100%;
-  }
-
-  wizard-navigation-bar {
-    flex: 1 0 $wizard-navigation-width;
-  }
-
-  wizard-step {
-    flex: 1 auto;
-  }
-}
-
-.step-footer {
-  display: flex;
-  justify-content: space-between;
-
-  .step-footer-navigation {
-    justify-self: flex-end;
-  }
-}

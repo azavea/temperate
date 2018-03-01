@@ -1,29 +1,33 @@
-<div class="container">
-  <h1 class="text-center">Welcome, {{ user.first_name }}!</h1>
-  <form [formGroup]="form">
-    <wizard #wizard
-            navigationMode="free"
-            navBarLocation="">
+<div class="main-container">
+  <main class="main-content wizard-container wizard-no-nav" role="main">
+    <header class="wizard-header">
+      <h1 class="wizard-title-large">Welcome, {{ user.first_name }}!</h1>
+    </header>
+    <form [formGroup]="form">
+      <wizard #wizard
+              navigationMode="free"
+              navBarLocation="">
 
-      <app-organization-city-step class="wizard-step"
-                                  #cityStep
-                                  wizardStep
-                                  [form]="form"
-                                  navigationSymbol="{{ cityStep.navigationSymbol }}">
-      </app-organization-city-step>
-
-      <app-organization-invite-step class="wizard-step"
-                                    #inviteStep
-                                    [wizard]="wizard"
+        <app-organization-city-step class="wizard-step"
+                                    #cityStep
+                                    wizardStep
                                     [form]="form"
-                                    wizardStep>
-      </app-organization-invite-step>
+                                    navigationSymbol="{{ cityStep.navigationSymbol }}">
+        </app-organization-city-step>
 
-      <app-organization-confirm-step class="wizard-step"
-                                     #confirmStep
-                                     [form]="form"
-                                     wizardStep>
-      </app-organization-confirm-step>
-    </wizard>
-  </form>
+        <app-organization-invite-step class="wizard-step"
+                                      #inviteStep
+                                      [wizard]="wizard"
+                                      [form]="form"
+                                      wizardStep>
+        </app-organization-invite-step>
+
+        <app-organization-confirm-step class="wizard-step"
+                                       #confirmStep
+                                       [form]="form"
+                                       wizardStep>
+        </app-organization-confirm-step>
+      </wizard>
+    </form>
+  </main>
 </div>

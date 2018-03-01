@@ -1,5 +1,30 @@
+.wizard-container {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+
+  wizard {
+    flex: 1;
+  }
+
+  &.wizard-no-nav {
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    .wizard-header,
+    .step-header {
+      text-align: center;
+    }
+
+    .wizard-steps {
+      flex: 1 0 auto;
+    }
+  }
+}
+
 .wizard-header {
   margin: $space-xxlarge 0 $space-xlarge;
+  flex: 1 0 100%;
 
   .wizard-title-small {
     color: $wizard-title-small-color;
@@ -16,133 +41,135 @@
   }
 }
 
-wizard {
-  .wizard-step {
-    padding: $space-xxlarge;
-    background-color: $wizard-background;
-    border-radius: $border-radius;
-    border: $wizard-step-border;
-    box-shadow: 0px 0px 20px rgba($neutral-5, 0.1);
-    position: relative;
-  }
+.wizard-step {
+  padding: $space-xxlarge;
+  background-color: $wizard-background;
+  border-radius: $border-radius;
+  border: $wizard-step-border;
+  box-shadow: 0px 0px 20px rgba($neutral-5, 0.1);
+  flex: 1 auto;
+  position: relative;
+}
 
-  .step-header {
+.step-header {
+  margin-bottom: $space-xxlarge;
+
+  .step-title {
     font-size: $wizard-step-header-size;
     font-weight: $wizard-step-header-weight;
   }
-  
-  .step-intro {
+
+  p {
+    color: $wizard-step-prompt-color;
+    font-size: $wizard-step-prompt-size;
     max-width: $paragraph-max-width;
-    margin-bottom: $space-xxlarge;
+  }
+}
 
-    p {
-      color: $wizard-step-prompt-color;
-      font-size: $wizard-step-prompt-size;
-    }
+.step-content {
+  margin-bottom: 4rem;
+
+  .step-form-control {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
   }
 
-  .step-content {
-    margin-bottom: 4rem;
-
-    .step-form-control {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 2rem;
-    }
-
-    label {
-      display: block;
-    }
-
-    textarea {
-      width: 100%;
-    }
+  label {
+    display: block;
   }
 
-  .review-step {
-    margin-bottom: 4rem;
+  textarea {
+    width: 100%;
+  }
+}
 
-    .review-section-header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: $space-base;
-    }
+.review-step {
+  margin-bottom: 4rem;
 
-    .review-section-header {
-      font-size: $review-header-size;
-      font-weight: $review-header-weight;
-    }
-    
-    .review-item {
-      background-color: $review-item-background;
-      padding: $space-xlarge;
-      margin-bottom: $space-base;
-      border-radius: $border-radius;
-
-      .answer-label {
-        color: $review-item-label-color;
-        font-weight: $review-item-label-weight;
-        margin-right: $space-small;
-      }
-
-      &.warning {
-        border-left: 4px solid $review-item-warning-color;
-      }
-    }
+  .review-section-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-base;
   }
 
-  .review-feedback {
+  .review-section-header {
+    font-size: $review-header-size;
+    font-weight: $review-header-weight;
+  }
+  
+  .review-item {
     background-color: $review-item-background;
-    color: $review-feedback-color;
     padding: $space-xlarge;
+    margin-bottom: $space-base;
     border-radius: $border-radius;
 
-    .review-feedback-header {
-      font-size: $review-feedback-header-size;
-      font-weight: $review-feedback-header-weight;
+    .answer-label {
+      color: $review-item-label-color;
+      font-weight: $review-item-label-weight;
+      margin-right: $space-small;
     }
 
     &.warning {
-      background-color: $review-item-background;
       border-left: 4px solid $review-item-warning-color;
     }
+  }
+}
 
-    &.success {
-      background-color: $review-item-background;
-      border-left: 4px solid $review-item-success-color;
-    }
+.review-feedback {
+  background-color: $review-item-background;
+  color: $review-feedback-color;
+  padding: $space-xlarge;
+  border-radius: $border-radius;
 
-    .feedback-header {
-      font-size: $review-feedback-list-size;
-      margin-bottom: $space-small;
-    }
+  .review-feedback-header {
+    font-size: $review-feedback-header-size;
+    font-weight: $review-feedback-header-weight;
+  }
 
-    .feedback-steps {
-      padding-left: 0;
-      list-style: none;
-      
-      li {
-        display: flex;
-        background: $review-feedback-row-background;
-        margin-bottom: $space-base;
-        border-radius: $border-radius;
-        padding: $space-medium $space-xlarge;
+  &.warning {
+    background-color: $review-item-background;
+    border-left: 4px solid $review-item-warning-color;
+  }
 
-        .icon {
-          font-size: $review-feedback-icon-size;
-          background: $review-feedback-icon-background;
-          padding: $space-medium;
-          border-radius: 100%;
-          align-self: center;
-          margin-right: $space-large;
-        }
+  &.success {
+    background-color: $review-item-background;
+    border-left: 4px solid $review-item-success-color;
+  }
+
+  .feedback-header {
+    font-size: $review-feedback-list-size;
+    margin-bottom: $space-small;
+  }
+
+  .feedback-steps {
+    padding-left: 0;
+    list-style: none;
+    
+    li {
+      display: flex;
+      background: $review-feedback-row-background;
+      margin-bottom: $space-base;
+      border-radius: $border-radius;
+      padding: $space-medium $space-xlarge;
+
+      .icon {
+        font-size: $review-feedback-icon-size;
+        background: $review-feedback-icon-background;
+        padding: $space-medium;
+        border-radius: 100%;
+        align-self: center;
+        margin-right: $space-large;
       }
     }
   }
 }
 
+
 wizard-navigation-bar {
+  flex: 1 0 $wizard-navigation-width;
+
   .steps-indicator {
     padding: 0!important;
 
@@ -198,7 +225,7 @@ wizard-navigation-bar {
         background-color: $wizard-step-number-background-current;
         border-color: $wizard-step-number-background-current;
         box-shadow: $wizard-step-number-ring-current; 
-        color: $white;
+        color: $wizard-step-number-color-special;
         @include light-on-dark();
       }
     }
@@ -239,7 +266,7 @@ wizard-navigation-bar {
     &.complete {
       background-color: $wizard-step-number-background-complete;
       border-color: $wizard-step-number-background-complete;
-      color: $white;
+      color: $wizard-step-number-color-special;
       @include light-on-dark();
     }
   }
@@ -250,5 +277,14 @@ wizard-navigation-bar {
     font-weight: $wizard-step-link-weight;
     margin-left: $space-medium;
     text-transform: none;
+  }
+}
+
+.step-footer {
+  display: flex;
+  justify-content: space-between;
+
+  .step-footer-navigation {
+    justify-content: flex-end;
   }
 }

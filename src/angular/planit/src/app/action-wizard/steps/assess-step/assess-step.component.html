@@ -1,7 +1,8 @@
-<div class="step-intro">
-  <h3 id="action-header" class="step-header">Overview</h3>
+<div class="step-header">
+  <h3 id="action-title" class="step-title">Overview</h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
+
 <div class="step-content">
   <form [formGroup]="form">
     <div class="step-form-control">
@@ -13,7 +14,7 @@
         See examples
       </button>
       <span class="required">Required</span>
-      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-header" required></textarea>
+      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
       <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>

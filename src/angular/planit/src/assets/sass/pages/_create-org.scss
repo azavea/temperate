@@ -1,13 +1,3 @@
-app-organization-wizard {
-  .container > h1 {
-    padding-top: 3rem;
-  }
-
-  wizard > .wizard-steps {
-    width: 100%;
-
-    .wizard-step {
-        width: 100%;
-    }
-  }
+app-organization-confirm-step {
+  text-align: center;
 }
