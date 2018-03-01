@@ -37,6 +37,16 @@ export class Organization {
     return this.subscription === OrgSubscription.FreeTrial;
   }
 
+  // An organization recieves support if they are on the free trial or have a custom plan
+  public hasSupport(): boolean {
+    const hasFreeTrial = this.subscription === OrgSubscription.FreeTrial &&
+                         this.trialDaysRemaining() > 0;
+    const hasCustomPlan = this.subscription !== OrgSubscription.FreeTrial &&
+                          this.subscription !== OrgSubscription.Basic;
+
+    return (hasFreeTrial || hasCustomPlan);
+  }
+
   public trialDaysRemaining() {
     if (!this.subscription_end_date) {
       return 0;
