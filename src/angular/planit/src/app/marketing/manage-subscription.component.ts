@@ -8,6 +8,7 @@ import {
   User
 } from '../shared';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
+import { OrganizationService } from '../core/services/organization.service';
 
 enum SubscriptionModalStep {
   Select,
@@ -30,7 +31,8 @@ export class ManageSubscriptionComponent implements OnInit {
   public url: string;
   public user: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private organizationService: OrganizationService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.url = document.location.href;
@@ -52,14 +54,24 @@ export class ManageSubscriptionComponent implements OnInit {
   }
 
   submitPlanChange(plan: OrgSubscriptionPlan) {
+    if (!(this.user && this.user.primary_organization)) {
+      return;
+    }
     // Delay actual changes until next event loop so the form has a chance to send its POST
     //  before being removed from DOM due to the switch to the Review step
+    const oldSubscription = this.user.primary_organization.subscription;
     setTimeout(() => {
-      this.activeModalStep = SubscriptionModalStep.Review;
-      this.user.primary_organization = Object.assign(this.user.primary_organization, {
-        subscription: plan.name
-      });
-      console.log('You selected:', plan);
+      this.user.primary_organization.subscription = plan.name;
+      this.organizationService.update(this.user.primary_organization).subscribe(
+        org => {
+          Object.assign({}, this.user, { primary_organization: org});
+          this.activeModalStep = SubscriptionModalStep.Review;
+        },
+        error => {
+          this.user.primary_organization.subscription = oldSubscription;
+          this.closeModal(this.subscriptionModal);
+        }
+      );
     });
   }
 }
