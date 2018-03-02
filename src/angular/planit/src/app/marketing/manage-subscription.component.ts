@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
+import { OrganizationService } from '../core/services/organization.service';
 import { UserService } from '../core/services/user.service';
 import {
   OrgSubscription,
@@ -8,7 +9,6 @@ import {
   User
 } from '../shared';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
-import { OrganizationService } from '../core/services/organization.service';
 
 enum SubscriptionModalStep {
   Select,
@@ -61,10 +61,12 @@ export class ManageSubscriptionComponent implements OnInit {
     //  before being removed from DOM due to the switch to the Review step
     const oldSubscription = this.user.primary_organization.subscription;
     setTimeout(() => {
-      this.user.primary_organization.subscription = plan.name;
-      this.organizationService.update(this.user.primary_organization).subscribe(
+      const o = Object.assign({}, this.user.primary_organization, {
+        subscription: plan.name
+      });
+      this.organizationService.update(o).subscribe(
         org => {
-          Object.assign({}, this.user, { primary_organization: org});
+          this.user = Object.assign({}, this.user, { primary_organization: org});
           this.activeModalStep = SubscriptionModalStep.Review;
         },
         error => {

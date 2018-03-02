@@ -1,5 +1,8 @@
 <div class="main-container">
   <main class="main-content" role="main">
+    <div *ngIf="user?.primary_organization?.subscription_pending">
+      You have a subscription change pending. Further changes are disabled.
+    </div>
     <h1>Manage Subscription</h1>
     <div>
       <div>
@@ -17,12 +20,16 @@
       <div [ngClass]="{active: hourlyPlan.name === user?.primary_organization?.subscription}">
         <h4>{{ hourlyPlan.header }}</h4>
         <p>{{ hourlyPlan.description }}</p>
-        <button class="button" (click)="selectPlan(hourlyPlan)">Contact us</button>
+        <button class="button"
+                [disabled]="user?.primary_organization?.subscription_pending"
+                (click)="selectPlan(hourlyPlan)">Contact us</button>
       </div>
       <div [ngClass]="{active: customPlan.name === user?.primary_organization?.subscription}">
         <h4>{{ customPlan.header }}</h4>
         <p>{{ customPlan.description }}</p>
-        <button class="button" (click)="selectPlan(customPlan)">Contact us</button>
+        <button class="button"
+                [disabled]="user?.primary_organization?.subscription_pending"
+                (click)="selectPlan(customPlan)">Contact us</button>
       </div>
     </div>
   </main>

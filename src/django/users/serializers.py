@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -123,8 +123,10 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanItOrganization
         fields = ('id', 'created_at', 'name', 'location', 'units',
-                  'subscription', 'subscription_end_date', 'community_systems',
-                  'plan_due_date', 'plan_name', 'plan_hyperlink', 'weather_events')
+                  'subscription', 'subscription_end_date', 'subscription_pending',
+                  'plan_due_date', 'plan_name', 'plan_hyperlink',
+                  'community_systems', 'weather_events')
+        read_only_fields = ('subscription_end_date', 'subscription_pending',)
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -10,6 +10,7 @@
     </div>
     <p>{{ plan.description }}</p>
     <button class="button"
+            [disabled]="org?.subscription_pending"
             (click)="planSelected(plan)"
             *ngIf="plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
     <span *ngIf="plan.yearlyValue">*${{ plan.yearlyValue | number }} value</span>
