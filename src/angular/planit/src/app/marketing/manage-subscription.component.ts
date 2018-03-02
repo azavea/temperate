@@ -27,6 +27,7 @@ export class ManageSubscriptionComponent implements OnInit {
   public customPlan = OrgSubscriptionOptions.get(OrgSubscription.Custom);
   public hourlyPlan = OrgSubscriptionOptions.get(OrgSubscription.Hourly);
   public modalStep = SubscriptionModalStep;
+  public customSubscription = OrgSubscription.Custom;
   public selectedPlan: OrgSubscriptionPlan;
   public url: string;
   public user: User;

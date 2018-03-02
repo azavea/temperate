@@ -72,8 +72,10 @@
                type="hidden"
                value="{{ selectedPlan?.name | titlecase }}">
 
-        If you are looking for custom engagement or have anything else to share, please describe it here:<br>
-        <textarea  id="00N700000036oeq" name="00N700000036oeq" rows="3" type="text" wrap="soft"></textarea><br>
+        <div *ngIf="selectedPlan?.name === customSubscription">
+          If you are looking for custom engagement or have anything else to share, please describe it here:<br>
+          <textarea  id="00N700000036oeq" name="00N700000036oeq" rows="3" type="text" wrap="soft"></textarea><br>
+        </div>
       </form>
       <div>
         <button class="button"
