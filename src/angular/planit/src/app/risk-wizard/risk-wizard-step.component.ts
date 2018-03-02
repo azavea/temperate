@@ -41,12 +41,14 @@ export abstract class RiskWizardStepComponent<FormModel>
 
 
   finish() {
-    // ng2-archwizard save() takes a direction, like forward or back,
-    // but we're not going in any direction when exiting
-    this.save(undefined).then(() => {
-      const risk = this.session.getData();
-      this.router.navigate(['assessment'],
-        {'queryParams': {'hazard': risk.weather_event.id}});
+    this.save().then((succeeded) => {
+      if (succeeded) {
+        const risk = this.session.getData();
+        this.router.navigate(['assessment'],
+          {'queryParams': {'hazard': risk.weather_event.id}});
+      } else {
+        this.cancel();
+      }
     });
   }
 
