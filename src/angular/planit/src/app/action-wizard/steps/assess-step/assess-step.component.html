@@ -14,7 +14,7 @@
         See examples
       </button>
       <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
-      <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
+      <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>
     </div>

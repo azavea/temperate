@@ -1,6 +1,42 @@
 <div class="step-header">
   <h3 class="step-title">Review</h3>
+
+  <div class="review-feedback warning" *ngIf="!action.isComplete()">
+    <p class="review-feedback-header">This is a great start</p>
+    <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are marked as &ldquo;recommended&rdquo;.</p>
+    <ul class="feedback-steps">
+      <li>
+        <span class="icon icon-funding"></span>
+        <div>
+          <p class="feedback-header">Get funding for this action</p>
+          <p>Not sure how to fund this? <a href="needs_link">Here are some ideas.</a> courtesy of the <a href="https://efc.umd.edu/" target="_blank">University of Maryland's Environmental Finance Center.</a></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="review-feedback success" *ngIf="action.isComplete()">
+    <p class="review-feedback-header">This looks good!</p>
+    <p>You've developed a well-considered action that addresses this risk. You now have the following options:</p>
+    <ul class="feedback-steps">
+      <li>
+        <span class="icon icon-edit"></span>
+        <div>
+          <p class="feedback-header">Create another action</p>
+          <p>You still have more assessed risks to develop actions to counteract.</p>
+        </div>
+      </li>
+      <li>
+        <span class="icon icon-funding"></span>
+        <div>
+          <p class="feedback-header">Get funding for this action</p>
+          <p>Not sure how to fund this? <a href="needs_link">Here are some ideas.</a> courtesy of the <a href="https://efc.umd.edu/" target="_blank">University of Maryland's Environmental Finance Center.</a></p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>
+
 <div class="step-content">
   <section class="review-step">
     <div class="review-section-header-container">
@@ -99,49 +135,9 @@
       <span class="review-description">{{ action.funding || '--' }}</span>
     </div>
   </section>
-
-  <div class="review-feedback warning" *ngIf="!action.isComplete()">
-    <p class="review-feedback-header">This is a great start</p>
-    <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are highlighted in yellow.</p>
-    <ul class="feedback-steps">
-      <li>
-        <span class="icon icon-funding"></span>
-        <div>
-          <p class="feedback-header">Get funding for this action</p>
-          <p>When you fill out more information, you can apply for funding.</p>
-        </div>
-      </li>
-    </ul>
-  </div>
-
-  <div class="review-feedback success" *ngIf="action.isComplete()">
-    <p class="review-feedback-header">This looks good!</p>
-    <p>You've developed a well-considered action that addresses this risk. You now have the following options:</p>
-    <ul class="feedback-steps">
-      <li>
-        <span class="icon icon-edit"></span>
-        <div>
-          <p class="feedback-header">Create another action</p>
-          <p>You still have more assessed risks to develop actions to counteract.</p>
-        </div>
-      </li>
-      <li>
-        <span class="icon icon-funding"></span>
-        <div>
-          <p class="feedback-header">Get funding for this action</p>
-          <p>This action will appear on your Adaptation Actions page. Click on the $ icon to find funding.</p>
-        </div>
-      </li>
-    </ul>
-  </div>
 </div>
 
 <footer class="step-footer">
-  <div class="step-footer-exit">
-    <button type="button" class="button"   
-            *ngIf="!action?.name"
-            (click)="cancel()">Cancel</button>
-  </div>
   <div class="step-footer-navigation">
     <button type="button" class="button button-primary" 
             (click)="finish()">Finish</button>  

@@ -94,6 +94,7 @@
     padding: $space-xlarge;
     margin-bottom: $space-base;
     border-radius: $border-radius;
+    position: relative;
 
     .answer-label {
       color: $review-item-label-color;
@@ -102,7 +103,15 @@
     }
 
     &.warning {
-      border-left: 4px solid $review-item-warning-color;
+      &:after {
+        content: "Recommended";
+        font-size: $required-size;
+        color: $required-color;
+        position: absolute;
+        top: 40%;
+        right: $space-xlarge;
+        text-transform: uppercase;
+      }
     }
   }
 }
@@ -120,12 +129,10 @@
 
   &.warning {
     background-color: $review-item-background;
-    border-left: 4px solid $review-item-warning-color;
   }
 
   &.success {
     background-color: $review-item-background;
-    border-left: 4px solid $review-item-success-color;
   }
 
   .feedback-header {
@@ -135,6 +142,7 @@
 
   .feedback-steps {
     padding-left: 0;
+    margin-bottom: 0;
     list-style: none;
     
     li {
@@ -275,6 +283,6 @@ wizard-navigation-bar {
   justify-content: space-between;
 
   .step-footer-navigation {
-    justify-content: flex-end;
+    margin-left: auto;
   }
 }

@@ -35,8 +35,8 @@ $brand-evergreen: #15514b;
 $brand-teal: #46b6ae;
 $brand-black: #032a1d;
 $brand-leaf: #85c005;
+$brand-tumeric: #f2c706;
 $brand-persimmon: #ed5c14;
-$brand-saffron: #f2c706;
 
 $brand-teal-v-light: #d3eae9;
 $brand-teal-light: #a8ddda;
@@ -45,7 +45,7 @@ $brand-teal-light: #a8ddda;
 $brand-primary: $brand-evergreen;
 $brand-secondary: $brand-teal;
 $brand-positive: $brand-leaf;
-$brand-warning: $brand-saffron;
+$brand-warning: $brand-tumeric;
 $brand-danger: $brand-persimmon;
 
 $white: #fff;
@@ -200,7 +200,11 @@ $field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
 $label-weight: $font-weight-bold;
 $required-color: $neutral-3;
 $required-size: $text-tiny;
+$hint-size: $text-tiny;
+$error-color: $brand-danger;
 
+$multiselect-pill-background: $brand-teal-light;
+$multiselect-pill-color: $neutral-5;
 
 /* * * *
  * Dropdown
@@ -310,7 +314,7 @@ $chart-line: $brand-teal;
 $chart-minmax: $chart-line;
 $chart-trendline: $brand-persimmon;
 $chart-min-bar: $neutral-5;
-$chart-max-bar: $brand-saffron;
+$chart-max-bar: $brand-tumeric;
 $chart-axis: $neutral-4;
 $chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
@@ -399,7 +403,8 @@ $card-border-radius: $border-radius;
 
  $concern-readonly-icon-color: $neutral-2;
 
- /* * * *
+
+/* * * *
  * Wizards
  *
  * * * */
@@ -458,10 +463,10 @@ $review-item-label-color: $black;
 $review-item-warning-color: $brand-warning;
 $review-item-success-color: $brand-positive;
 
-$review-feedback-header-size: $text-large;
+$review-feedback-header-size: $text-base;
 $review-feedback-header-weight: $font-weight-bold;
 $review-feedback-color: $black;
-$review-feedback-list-size: $text-medium;
+$review-feedback-list-size: $text-base;
 $review-feedback-icon-size: $text-medium;
 $review-feedback-icon-background: $brand-teal-light;
 $review-feedback-row-background: $neutral-0;

@@ -93,3 +93,12 @@ typeahead-container {
   top: 0;
   right: 0;
 }
+
+.form-control-error, .form-control-hint {
+  font-size: $hint-size;
+  line-height: 1.35;
+}
+
+.form-control-error {
+  color: $error-color;
+}

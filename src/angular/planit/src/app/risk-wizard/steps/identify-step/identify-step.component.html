@@ -18,7 +18,7 @@
                                 [typeaheadOptionsInScrollableView]="5"
                                 [container]="'body'">
     <div *ngIf="form.controls.weather_event.errors && (form.controls.weather_event.dirty || form.controls.weather_event.touched)">
-      <span *ngIf="form.controls.weather_event.errors.required || form.controls.weather_event.errors.autocomplete">Please select a hazard to assess.</span>
+      <div class="form-control-error" *ngIf="form.controls.weather_event.errors.required || form.controls.weather_event.errors.autocomplete">Please select a hazard to assess.</div>
     </div>
   </div>
   <div class="form-control-container">
@@ -33,7 +33,7 @@
                                 [typeaheadScrollable]="true"
                                 [typeaheadOptionsInScrollableView]="5"
                                 [container]="'body'">
-    <div *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
+    <div class="form-control-error" *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
       <span *ngIf="form.controls.community_system.errors.required || form.controls.community_system.errors.autocomplete">Please select a community system to focus on.</span>
     </div>
   </div>

@@ -81,11 +81,6 @@
 </div>
 
 <footer class="step-footer">
-	<div class="step-footer-exit">
-		<button type="button" class="button" 
-				*ngIf="!risk?.id" 
-				(click)="cancel()">Cancel</button>
-	</div>
   <div class="step-footer-navigation">
 		<button type="button" class="button button-primary"  
 				[disabled]="isDisabled" 
