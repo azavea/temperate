@@ -181,6 +181,15 @@ class PlanItOrganization(models.Model):
             #   a user signing up right around the cutoff
             trial_end_rounded = trial_end.replace(hour=7, minute=0, second=0, microsecond=0)
             self.subscription_end_date = trial_end_rounded
+        # Automatically update plan end date to one year from now when we switch to a paid plan
+        elif self.subscription != self.Subscription.FREE_TRIAL:
+            try:
+                last_subscription = PlanItOrganization.objects.get(id=self.id).subscription
+                if last_subscription != self.subscription:
+                    now = timezone.now()
+                    self.subscription_end_date = now.replace(year=now.year + 1)
+            except PlanItOrganization.DoesNotExist:
+                pass
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

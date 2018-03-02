@@ -1,4 +1,5 @@
 # User management tests
+from datetime import datetime, timezone
 from unittest import mock
 
 from django.contrib.auth import get_user_model

@@ -1,4 +1,4 @@
-import datetime
+from datetime import date, datetime, timezone
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -67,7 +67,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if self.instance is not None and self.instance.plan_due_date == dt:
             # we shouldn't validate if it hasn't changed
             return dt
-        if dt < datetime.date.today():
+        if dt < date.today():
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
 

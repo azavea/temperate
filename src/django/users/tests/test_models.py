@@ -3,6 +3,7 @@ from unittest import mock
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point, Polygon, MultiPolygon
 from django.test import TestCase
+from django.utils import timezone
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 from planit_data.models import GeoRegion, OrganizationWeatherEvent, WeatherEvent, WeatherEventRank
@@ -132,6 +133,37 @@ class OrganizationTestCase(TestCase):
             subscription_end_date=None
         )
         self.assertIsNotNone(org.subscription_end_date)
+
+    def test_subscription_end_date_set_on_paid_plan_save(self):
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            subscription=PlanItOrganization.Subscription.FREE_TRIAL,
+            subscription_end_date=None
+        )
+        now = timezone.now()
+        org.subscription = PlanItOrganization.Subscription.BASIC
+        org.save()
+        self.assertGreater(org.subscription_end_date, now.replace(year=now.year + 1))
+
+    def test_subscription_end_date_unchanged_when_paid_plan_created(self):
+        now = timezone.now()
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            subscription=PlanItOrganization.Subscription.BASIC,
+            subscription_end_date=now
+        )
+        self.assertEqual(org.subscription_end_date, now)
+
+    def test_subscription_end_date_unchanged_when_paid_plan_updated(self):
+        now = timezone.now()
+        org = PlanItOrganization.objects.create(
+            name="Test Organization",
+            subscription=PlanItOrganization.Subscription.BASIC,
+            subscription_end_date=now
+        )
+        org.name = 'A New Organization'
+        org.save()
+        self.assertEqual(org.subscription_end_date, now)
 
 
 class LocationManagerTestCase(TestCase):
