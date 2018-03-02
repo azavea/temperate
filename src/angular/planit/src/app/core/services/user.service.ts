@@ -45,6 +45,12 @@ export class UserService {
     });
   }
 
+  invalidate() {
+    this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+    // Trigger requery and internal push to currentUser in current() call
+    this.current().subscribe(() => undefined);
+  }
+
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {

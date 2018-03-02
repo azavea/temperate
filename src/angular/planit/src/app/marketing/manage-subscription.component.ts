@@ -67,6 +67,7 @@ export class ManageSubscriptionComponent implements OnInit {
       this.organizationService.update(o).subscribe(
         org => {
           this.user = Object.assign({}, this.user, { primary_organization: org});
+          this.userService.invalidate();
           this.activeModalStep = SubscriptionModalStep.Review;
         },
         error => {

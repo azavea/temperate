@@ -6,11 +6,14 @@
     <h1>Manage Subscription</h1>
     <div>
       <div>
-        <p>You can upgrade or cancel your Temperate package at any time. If the below packages don't suit your needs, <a href="">contact us</a> so we can figure out what works for you.</p>
+        <p>You can upgrade or cancel your Temperate package at any time. If the below packages don't suit your needs, <a href="mailto:support@temperate.io">contact us</a> so we can figure out what works for you.</p>
       </div>
       <div class="current" *ngIf="user?.primary_organization.isFreeTrial()">
         <h3>Free trial</h3>
-        <p>Your 15-day free trial ends on September 25, 2018</p>
+        <p>
+          Your 15-day free trial ends on
+          {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
+        </p>
       </div>
     </div>
     <app-plan-selector [org]="user?.primary_organization"
