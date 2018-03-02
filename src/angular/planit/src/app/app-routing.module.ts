@@ -12,6 +12,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
+import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
@@ -27,6 +28,7 @@ const routes: Routes = [
   },
   { path: 'methodology', component: MethodologyComponent, canActivate: [PreviousRouteGuard] },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInAuthGuard] },
+  { path: 'partnerships', component: PartnershipsComponent, canActivate: [PreviousRouteGuard] },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
   {
     path: 'subscription',
