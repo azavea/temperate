@@ -100,16 +100,20 @@
   transform: translate(-50%, -50%);
 }
 
-.page-section {
-  margin: 4rem 0;
+.page-header {
+  margin: $space-xxlarge 0;
 }
 
+.page-content {
+  padding: $space-xxlarge;
+  background-color: $page-content-background;
+  border-radius: $border-radius;
+  border: $page-content-border;
+  box-shadow: 0px 0px 20px rgba($neutral-5, 0.1);
+  flex: 0 1 auto;
+  position: relative;
+}
 
-/* * * *
- * Typography
- * * * */
 .page-section {
-  h1, h2, h3, h4, p, ul, ol {
-    max-width: 60rem;
-  }
+  margin-bottom: $space-xxlarge;
 }

@@ -144,6 +144,22 @@ $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
 
+/* * * *
+ * Page 
+ *
+ * * * */
+$page-template-background: linear-gradient(to top, $neutral-1, $neutral-2);
+$page-title-large-size: $text-display;
+$page-title-large-color: $brand-black;
+$page-title-large-weight: $font-weight-regular;
+
+$page-title-small-color: $neutral-4;
+$page-title-small-size: $text-small;
+$page-title-small-weight: $font-weight-regular;
+
+$page-content-background: $white;
+$page-content-border: 1px solid $neutral-2;
+
 
 /* * * *
  * Loading

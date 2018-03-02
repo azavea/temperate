@@ -10,6 +10,21 @@
     margin: auto;
   }
 }
+  
+.page-template {
+  max-width: 85rem;
+  margin: auto;
+  justify-content: center;
+
+  .page-header {
+    max-width: 75rem;
+    margin: $space-xxlarge;
+  }
+
+  .page-content {
+    margin: auto;
+  }
+}
 
 .app-body {
   display: flex;

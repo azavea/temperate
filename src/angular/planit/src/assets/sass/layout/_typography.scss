@@ -51,10 +51,6 @@ p {
   margin-bottom: $paragraph-margin;
 }
 
-.paragraph-intro {
-  font-size: $text-base;
-}
-
 small, .small {
   font-size: 85%;
 }
@@ -81,4 +77,23 @@ figcaption {
   text-transform: uppercase;
   max-width: 15rem;
   margin: 0 auto;
+}
+
+.page-title-large {
+  color: $page-title-large-color;
+  font-size: $page-title-large-size;
+  font-weight: $page-title-large-weight;
+}
+
+.page-title-small {
+  color: $page-title-small-color;
+  font-size: $page-title-small-size;
+  font-weight: $page-title-small-weight;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+}
+
+.paragraph-intro {
+  font-size: $text-base;
 }
