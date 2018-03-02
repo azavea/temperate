@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 
 import {
   Chart,
@@ -9,6 +17,7 @@ import {
   Indicator,
   IndicatorQueryParams,
   IndicatorRequestOpts,
+  ModelModalComponent,
   Scenario,
   isBasetempIndicator,
   isHistoricIndicator,
@@ -50,12 +59,26 @@ export class IndicatorChartComponent implements OnInit {
   public temperatureUnits = TemperatureUnits;
   public precipitationUnits = PrecipitationUnits;
 
-  constructor(private userService: UserService) {}
+  @ViewChild(ModelModalComponent)
+  private modelModal: ModelModalComponent;
+  private el: ElementRef;
+
+  constructor(private userService: UserService, private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.userService.current().subscribe(user => {
       this.unit = this.translateOrgUnits(user.primary_organization.units);
     });
+
+    this.el = this.elementRef;
+  }
+
+  ngDoCheck() {
+    const isParentModalVisible = this.el.nativeElement.offsetParent !== null;
+
+    if (!isParentModalVisible) {
+      this.modelModal.hide();
+    }
   }
 
   translateOrgUnits(unit_type: OrgUnitType) {
