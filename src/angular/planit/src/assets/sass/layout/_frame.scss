@@ -8,21 +8,37 @@
     // refer to: https://stackoverflow.com/questions/7985021/css-flexbox-issue-why-is-the-width-of-my-flexchildren-affected-by-their-content
     width: 0;
     margin: auto;
+    padding: $space-large $space-medium;
+
+    @media all and (min-width: 31.250em) {
+      padding: $space-large $space-xxlarge;
+      max-width: $content-max-width;
+    }
   }
 }
   
 .page-template {
-  max-width: 85rem;
-  margin: auto;
-  justify-content: center;
+  @media all and (min-width: 45.625em) {
+    margin: auto;
+    max-width: 85rem;
+  }
 
   .page-header {
-    max-width: 75rem;
-    margin: $space-xxlarge;
+    margin: 0 $space-xxlarge;
+    
+    @media all and (min-width: 31.250em) {
+      margin: 0;
+    }
+    @media all and (min-width: 45.625em) {
+      max-width: 75rem;
+      margin: $space-xxlarge;
+    }
   }
 
   .page-content {
-    margin: auto;
+    @media all and (min-width: 45.625em) {
+      margin: auto;
+    }
   }
 }
 
