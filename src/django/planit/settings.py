@@ -37,11 +37,14 @@ LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (ENVIRONMENT == 'Development')
 
+PLANIT_APP = os.getenv('PLANIT_APP', 'localhost:4210')
+
 # Set ALLOWED_HOSTS
 ALLOWED_HOSTS = [
     '.temperate.io',
     '.elb.amazonaws.com',
-    'localhost'
+    'localhost',
+    PLANIT_APP
 ]
 
 if ENVIRONMENT in ['Production', 'Staging']:
@@ -138,7 +141,8 @@ REST_FRAMEWORK = {
 }
 
 if ENVIRONMENT == 'Development':
-    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:4211', 'localhost:8000',)
+    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:4211', 'localhost:8000',
+                             PLANIT_APP)
 else:
     CORS_ORIGIN_WHITELIST = tuple()
 
@@ -280,7 +284,11 @@ LOGGING = {
 
 # APPLICATION SETTINGS
 
-PLANIT_APP_HOME = os.getenv('PLANIT_APP_HOME')
+if DEBUG:
+    PLANIT_APP_HOME = 'http://' + PLANIT_APP
+else:
+    PLANIT_APP_HOME = 'https://' + PLANIT_APP
+
 PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/{token}'
 
 # Climate API Configuration
