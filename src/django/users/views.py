@@ -266,6 +266,13 @@ class AddCityView(JsonFormView):
     permission_classes = (AllowAny,)
     form_class = AddCityForm
 
+    def post(self, request, *args, **kwargs):
+        """Prevent potentially unwanted requests."""
+        if str(request.META['HTTP_ORIGIN']) != str(settings.PLANIT_APP_HOME):
+            return Response({'status': 'Unauthorized origin'}, content_type='application/json',
+                            status=401)
+        return super(AddCityView, self).post(request, *args, **kwargs)
+
     def form_valid(self, form):
         form.send_email()
         return Response({'status': 'ok'})
