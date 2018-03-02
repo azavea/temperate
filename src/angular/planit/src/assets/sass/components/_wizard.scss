@@ -19,6 +19,10 @@
     .wizard-steps {
       flex: 1 0 auto;
     }
+
+    .form-control-container {
+      margin: 0 auto 2rem;
+    }
   }
 }
 
@@ -68,20 +72,6 @@
 
 .step-content {
   margin-bottom: 4rem;
-
-  .step-form-control {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-  }
-
-  label {
-    display: block;
-  }
-
-  textarea {
-    width: 100%;
-  }
 }
 
 .review-step {

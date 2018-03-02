@@ -5,8 +5,8 @@
 
 <div class="step-content">
   <form [formGroup]="form">
-  <div class="step-form-control">
-    <label for="hazard">Hazard <span class="required">Required</span></label>
+  <div class="form-control-container">
+    <label for="hazard">Hazard <span class="required">(Required)</span></label>
     <input type="text" id="hazard" class="form-control" formControlName="weather_event"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('weather_event', $event)"
@@ -21,8 +21,8 @@
       <span *ngIf="form.controls.weather_event.errors.required || form.controls.weather_event.errors.autocomplete">Please select a hazard to assess.</span>
     </div>
   </div>
-  <div class="step-form-control">
-    <label for="community-system">Community system <span class="required">Required</span></label>
+  <div class="form-control-container">
+    <label for="community-system">Community system <span class="required">(Required)</span></label>
     <input type="text" id="community-system" class="form-control" formControlName="community_system"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('community_system', $event)"

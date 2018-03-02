@@ -3,15 +3,14 @@
 </div>
 
 <div class="step-content" [formGroup]="form">
-  <div class="step-form-control">
-    <label>City
-      <button type="button" class="button-link pull-right" href="javascript:"
+  <div class="form-control-container">
+    <label>City <span class="required">(Required)</span></label>
+      <button type="button" class="button-link pull-right form-help-button" href="javascript:"
               tooltip="Temperate is customized to your city. We need this information in order to create an organization for you and your team.">
         Why do I need to provide a city?
       </button>
       <input class="form-control"
              formControlName="location"
-             tabindex="1"
              typeaheadOptionField="properties.displayName"
              (typeaheadOnSelect)="itemSelected($event)"
              (typeaheadOnBlur)="itemBlurred()"
@@ -24,29 +23,25 @@
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
       <div *ngIf="noResults" class="form-control-error">No results found</div>
-      <div *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
-        <span *ngIf="form.controls.location.errors.required">*Required</span>
-        <span *ngIf="form.controls.location.errors.autocomplete">*Not found</span>
+      <div *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">>
+        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">This is a required field.</span>
         <span *ngIf="form.controls.location.errors.server">
           *{{ form.controls.location.errors.server }}
         </span>
       </div>
-    </label>
     e.g. Philadelphia, PA. Please note that we only have US cities at this time.
   </div>
-  <div class="step-form-control">
-    <label>Organization/department
+  <div class="form-control-container">
+    <label>Organization/department <span class="required">(Required)</span></label>
       <input class="form-control"
              formControlName="name"
-             type="text"
-             tabindex="2">
+             type="text">
       <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
-        <span *ngIf="form.controls.name.errors.required">*Required</span>
+        <span *ngIf="form.controls.name.errors.required">This is a required field.</span>
         <span *ngIf="form.controls.name.errors.server">
           *{{ form.controls.name.errors.server }}
         </span>
       </div>
-    </label>
     e.g. Ecology Action Center. If you work from more than one department, just pick one.
   </div>
 </div>

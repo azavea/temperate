@@ -192,7 +192,14 @@ $button-padding-horizontal-large: $button-padding-horizontal*1.95;
  * Fields
  *
  * * * */
+$field-text-weight: $font-weight-regular;
+$field-border: 1px solid $neutral-1;
 $field-border-radius: $border-radius;
+$field-disabled-border-color: $neutral-2;
+$field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
+$label-weight: $font-weight-bold;
+$required-color: $neutral-3;
+$required-size: $text-tiny;
 
 
 /* * * *

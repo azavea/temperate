@@ -10,16 +10,16 @@
 
 <div class="step-content">
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <label for="impact-magnitude">Potential Impact <span class="required">Required</span></label>
+    <div class="form-control-container">
+      <label for="impact-magnitude">Potential Impact <span class="required">(Required)</span></label>
       <app-option-dropdown id="impact-magnitude"
                            [control]="form.controls['impact_magnitude']"
                            [options]="relativeOptions"
                            [disabled]="isDisabled">
       </app-option-dropdown>
     </div>
-    <div class="step-form-control">
-      <label for="impact-description">Description <span class="required">Required</span></label>
+    <div class="form-control-container">
+      <label for="impact-description">Description <span class="required">(Required)</span></label>
       <textarea id="impact-description" formControlName="impact_description" required></textarea>
     </div>
   </form>

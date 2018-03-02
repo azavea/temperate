@@ -1,11 +1,10 @@
 <div class="step-header">
-  <h3 class="step-title">Categories</h3>
+  <h3 class="step-title">Categories <span class="required">(Required)</span></h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
 
 <div class="step-content">
   <div class="switch-list container action-card-container action-categories">
-    <span class="required">Required</span>
     <button class="switch-item"
         [ngClass]="{selected: category.selected}"
           *ngFor="let category of actionCategories"

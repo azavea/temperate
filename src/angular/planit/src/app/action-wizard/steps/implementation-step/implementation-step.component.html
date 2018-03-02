@@ -5,7 +5,7 @@
 
 <div class="step-content">
   <form [formGroup]="form">
-    <div class="step-form-control">
+    <div class="form-control-container">
       <label for="action-type">Type of action</label>
       <input id="action-type"
              type="text"
@@ -14,34 +14,35 @@
              [typeahead]="actionTypes"
              [typeaheadMinLength]="0">
     </div>
-    <div class="step-form-control">
+    <div class="form-control-container">
       <label for="action-goal">Action goal</label>
-      <input id="action-goal" type="text" formControlName="action_goal">
+      <input id="action-goal" type="text" class="form-control" formControlName="action_goal">
     </div>
-    <div class="step-form-control">
+    <div class="form-control-container">
       <label for="implementation-details">Implementation details</label>
       <textarea id="implementation-details" formControlName="implementation_details"></textarea>
     </div>
-    <div class="step-form-control">
-      <label for="share">Share with other cities
+    <div class="form-control-container">
+      <label for="share">
+        Share with other cities
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
       </label>
-      <div id="share" class="button-group" role="group">
-        <button class="button"
-                [ngClass]="{active: form.controls['isPublic'].value}"
-                (click)="updateIsPublic(true)">
-          Public
-        </button>
-        <button class="button"
+      <div id="share" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
+        <button class="button button-primary" role="radio"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
           Private
         </button>
+        <button class="button button-primary" role="radio"
+                [ngClass]="{active: form.controls['isPublic'].value}"
+                (click)="updateIsPublic(true)">
+          Public
+        </button>
       </div>
     </div>
-    <div class="step-form-control">
+    <div class="form-control-container">
       <label for="notes">Notes</label>
       <textarea id="notes" formControlName="notes"></textarea>
     </div>
