@@ -42,6 +42,9 @@
             <textarea name="description" class="form-control" [formControl]="cityForm.controls.description"></textarea>
           </div>
         </div>
+        <div *ngIf="error" class="alert alert-danger">
+          <p>{{ error }}</p>
+        </div>
       </div>
       <footer class="modal-footer">
         <div class="button-group">

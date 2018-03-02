@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Headers, Http, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
@@ -12,8 +13,7 @@ export class AddCityService {
 
   constructor(protected http: Http) {}
 
-  sendAddCityEmail(form: any, user: User): Observable<any> {
-    // TODO: figure out the input type
+  sendAddCityEmail(form: FormGroup, user: User): Observable<any> {
     const body = JSON.stringify({
       'email': user.email,
       'first_name': user.first_name,

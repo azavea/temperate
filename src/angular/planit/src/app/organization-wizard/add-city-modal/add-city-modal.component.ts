@@ -18,6 +18,7 @@ export class AddCityModalComponent implements OnInit {
   public user: User;
   public modalRef: BsModalRef;
   public cityForm: FormGroup;
+  public error: string[];
 
   constructor(private modalService: BsModalService,
               private addCityService: AddCityService,
@@ -48,11 +49,12 @@ export class AddCityModalComponent implements OnInit {
   public changeTemplate(template: TemplateRef<any>) {
     this.addCityService.sendAddCityEmail(this.cityForm, this.user).subscribe(
       response => {
+        this.modalRef.hide();
+        this.openModal(template);
       },
       error => {
+        this.error = ["There was an error submitting your request. Check your form is correct and try again or email support@temperate.io directly."]
       }
     );
-    this.modalRef.hide();
-    this.openModal(template);
   }
 }
