@@ -1,6 +1,7 @@
 @mixin button-states($background-color) {
   color: $brand-black;
   background-color: $background-color;
+  border-color: $background-color;
 
   &:focus, &.focus {
     @include button-focus-outline();
@@ -10,12 +11,14 @@
     @include light-on-dark();
     color: $neutral-0;
     background-color: adjust-color($background-color, $lightness: lightness($background-color) * -.3);
+    border-color: adjust-color($background-color, $lightness: lightness($background-color) * -.3);
   }
 
   &:active, &.active {
     @include light-on-dark();
     color: $neutral-0;
     background-color: adjust-color($background-color, $lightness: lightness($background-color) * -.5);
+    border-color: adjust-color($background-color, $lightness: lightness($background-color) * -.5);
     box-shadow: none;
   }
 
@@ -80,7 +83,7 @@
   padding: $button-padding-vertical $button-padding-horizontal;
   border-radius: $button-border-radius;
   box-shadow: none;
-  border: 0;
+  border: 2px solid transparent;
   @include button-states($neutral-2);
 }
 
@@ -210,6 +213,8 @@
 .button-icon-only {
   padding: 0;
   background: none;
+  border-color: transparent;
+  line-height: 1;
 
   &:focus,
   &:hover,

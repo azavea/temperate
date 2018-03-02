@@ -1,6 +1,6 @@
-<div class="modal-header">
-  <h1>Log Into Your Account</h1>
-</div>
+<header class="modal-header">
+  <h1 class="modal-title">Log Into Your Account</h1>
+</header>
 <div class="modal-body">
   <form class="form" id="form-login">
     <!-- Email Address/Username -->
@@ -34,19 +34,14 @@
       <p>{{ error }}</p>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-  <div class="button-group">
-    <input type="submit" class="button button-primary button"
-        (click)="submit()" value="Log in" form="form-login">
-  </div>
-  <div class="button-group">
-    <a routerLink="/register">
-      Don't have an account?
-    </a>
-    &ndash;
-    <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
+  <footer class="modal-footer">
+    <button type="submit" class="button button-primary"
+        (click)="submit()" form="form-login">Log in</button>
+    <a routerLink="/forgot-password"  class="secondary-link" [queryParams]="username ? {'username': username} : {}">
       Forgot password?
     </a>
-  </div>
+    <a routerLink="/register" class="secondary-link">
+      Don't have an account?
+    </a>
+  </footer>
 </div>

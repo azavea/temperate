@@ -1,13 +1,13 @@
 <ng-template>
-  <div>
-    <div *ngIf="isCloseVisible" class="icon-modal-close">
-      <a (click)="close()"><i class="icon-times-circle"></i></a>
-    </div>
-    <div class="modal-header" *ngIf="title">
-      <h1>{{title}}</h1>
-    </div>
-    <div class="modal-content">
-      <ng-content></ng-content>
-    </div>
+  <header class="modal-header">
+    <h1 class="modal-title" *ngIf="title">{{title}}</h1>
+    <button *ngIf="isCloseVisible" type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="close()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
+  <div class="modal-body">
+    <ng-content></ng-content>
   </div>
 </ng-template>

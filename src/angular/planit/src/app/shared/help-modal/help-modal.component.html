@@ -6,9 +6,13 @@
 </a>
 
 <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Contact ICLEI</h4>
-  </div>
+  <header class="modal-header">
+    <h1 class="modal-title">Contact ICLEI</h1>
+    <button type="button" class="button button-large button-icon button-inverse-dark modal-close"
+      data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
   <div class="modal-body">
     <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
     <iframe name="help-iframe" id="help-iframe" src="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
@@ -44,10 +48,10 @@
     </form>
     <footer class="modal-footer">
       <div class="button-group">
-        <button type="button" class="button button-secondary button-small"
-          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
-        <input form="help" type="submit" class="button button-primary button-small" value="Submit"
-          (click)="modalRef.hide()">
+        <button form="help" type="submit" class="button button-primary"
+          (click)="modalRef.hide()">Send</button>
+        <button type="button" class="button"
+          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Cancel</button>
       </div>
     </footer>
   </div>

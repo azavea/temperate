@@ -179,7 +179,7 @@ $button-font-family: $heading-font-family;
 $button-border-radius: $border-radius;
 // Default button
 $button-padding-vertical: 0.8rem;
-$button-padding-horizontal: 2rem;
+$button-padding-horizontal: 1.8rem;
 // Small button
 $button-padding-vertical-small: $button-padding-vertical*0.55;
 $button-padding-horizontal-small: $button-padding-horizontal*0.75;
@@ -249,15 +249,14 @@ $tooltip-trigger-color-hover: $brand-teal;
  * Modal
  *
  * * * */
-$modal-font-size: $text-tiny;
 $modal-width: 60rem;
 $modal-width-large: 80rem;
 $modal-width-small: 50rem;
-$modal-heading-padding: 1.5rem;
-$modal-body-padding: 2.5rem;
-$modal-footer-padding: 1.5rem;
+$modal-header-padding: $space-xlarge;
+$modal-body-padding: $space-xlarge;
+$modal-footer-padding: $space-xlarge;
 $modal-border-radius: $border-radius;
-
+$modal-shadow: 0 14px 28px rgba($black, 0.25), 0 10px 10px rgba($black, 0.22);
 
 /* * * *
  * Tables
