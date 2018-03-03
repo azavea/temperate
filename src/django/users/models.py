@@ -18,7 +18,6 @@ from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
 from planit_data.models import (
-    CommunitySystem,
     DefaultRisk,
     GeoRegion,
     OrganizationRisk,
@@ -175,54 +174,36 @@ class PlanItOrganization(models.Model):
             num_to_add = max(num_to_add, settings.STARTING_RISK_AMOUNT)
             logger.debug("First import, set number to import to {}".format(num_to_add))
 
-        # Divide the number to add as evenly as possible across all weather events
-        for weather_event, count in apportion_counts(weather_event_ids, num_to_add):
-            logger.debug("Importing {} Risks for {}".format(count, weather_event))
-            community_systems = self._get_sample_community_systems(weather_event, count)
+        # Produce a list of (weather_event, community_system) pairs
+        sample_risk_tuples = self._get_sample_risks(weather_event_ids, num_to_add)
 
-            OrganizationRisk.objects.bulk_create(
-                OrganizationRisk(organization=self, weather_event_id=weather_event,
-                                 community_system_id=community_system)
-                for community_system in community_systems
-            )
+        # Turn the (weather_event, community_system) pairs into OrganizationRisk objects
+        OrganizationRisk.objects.bulk_create(
+            OrganizationRisk(
+                organization=self,
+                weather_event_id=weather_event,
+                community_system_id=community_system
+            ) for weather_event, community_system in sample_risk_tuples
+        )
 
-    def _get_sample_community_systems(self, weather_event, count):
-        """Produce count number of community systems for weather event based on priority rules."""
-        def short_circuit_queryset_sequence(count, querysets):
-            """Convert a series of querysets into a single sequence of values, stopping at count.
-
-            Uses array slicing so Django can limit database queries to only potentially needed
-            results.
-            """
-            for qs in querysets:
-                if count <= 0:
-                    return
-                result = list(qs[:count])
-                count -= len(result)
-                yield from result
-
-        return short_circuit_queryset_sequence(count, [
+    def _get_sample_risks(self, weather_events, total):
+        community_systems = self.community_systems.values_list('id', flat=True)
+        for weather_event, count in apportion_counts(weather_events, total):
             # Start with any of the user's community systems
-            self.community_systems.values_list('id', flat=True),
+            for community_system in community_systems:
+                yield (weather_event, community_system)
 
-            # If we want more values, prioritize non-preferred DefaultRisks
-            DefaultRisk.objects.filter(
-                weather_event=weather_event
-            ).exclude(
-                community_system__organizations__id=self.id
-            ).values_list('community_system_id', flat=True).order_by('order'),
+            # If we need more sample risks, take from the DefaultRisk objects
+            count -= len(community_systems)
+            if count > 0:
+                default_risk_community_systems = DefaultRisk.objects.filter(
+                    weather_event=weather_event
+                ).exclude(
+                    community_system__organizations__id=self.id
+                ).values_list('community_system_id', flat=True).order_by('order')
 
-            # If there aren't enough organization Community Systems or DefaultRisks for this Weather
-            # Event, use remaining Community Systems to pad out.
-            # This is necessary since if the user picks no Community Systems and the Weather Event
-            # has no Default Risks, it'll be perpetually empty and inflate the counts for other
-            # Weather Events.
-            CommunitySystem.objects.exclude(
-                defaultrisk__weather_event=weather_event
-            ).exclude(
-                organizations__id=self.id
-            ).values_list('id', flat=True)
-        ])
+                for community_system in default_risk_community_systems[:count]:
+                    yield (weather_event, community_system)
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
