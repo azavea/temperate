@@ -19,6 +19,7 @@
       background-color: $table-header-background;
       font-weight: $table-header-weight;
       padding: $space-medium 0 $space-medium 0; 
+      text-align: left;
     }
 
     th:first-child {
@@ -53,6 +54,7 @@
       font-weight: $table-row-weight;
       padding: $space-large $space-large $space-large 0;
       vertical-align: center;
+      text-align: left;
     }
 
     td:first-child {
