@@ -15,6 +15,7 @@ from users.tests.factories import LocationFactory, OrganizationFactory, UserFact
 
 from planit_data.models import GeoRegion, OrganizationWeatherEvent
 from planit_data.tests.factories import (
+    DefaultRiskFactory,
     WeatherEventFactory,
     CommunitySystemFactory,
     OrganizationRiskFactory,
@@ -435,8 +436,11 @@ class OrganizationApiTestCase(APITestCase):
     def test_add_weather_event_creates_new_sample_risks(self):
         """Adding a WeatherEvent should create 2 sample Risks if any Risks already exist."""
         OrganizationRiskFactory(organization=self.org)
-        CommunitySystemFactory.create_batch(5)
-        we = WeatherEventFactory()
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        # Create background default Risks for this Weather Event
+        DefaultRiskFactory.create_batch(10, weather_event=weather_event)
 
         org_data = {
             'name': self.org.name,
@@ -446,19 +450,35 @@ class OrganizationApiTestCase(APITestCase):
                 }
             },
             'plan_setup_complete': True,
-            'weather_events': [we.pk]
+            'weather_events': [weather_event.pk],
+            'community_systems': [community_system.pk]
         }
         url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
         response = self.client.put(url, org_data, format='json')
 
-        self.org.refresh_from_db()
-        self.assertEqual(self.org.organizationrisk_set.filter(weather_event=we).count(), 2)
+        created_risk = self.org.organizationrisk_set.filter(
+            weather_event=weather_event,
+            community_system=community_system
+        )
+        self.assertTrue(created_risk.exists(),
+                        'Should have created Risk for Weather Event and Community System')
+
+        # We should have two risks... one with the community system, and one from the Default Risks
+        weather_event_risks = self.org.organizationrisk_set.filter(
+            weather_event=weather_event
+        )
+        self.assertEqual(weather_event_risks.count(), 2,
+                         'Should have created two Risks for Weather Event')
+
         self.assertEqual(response.status_code, 200)
 
     def test_add_weather_event_creates_initial_sample_risks(self):
         """Adding a WeatherEvent should create 15 sample Risks if no Risks already exist."""
-        CommunitySystemFactory.create_batch(5)
-        weather_events = WeatherEventFactory.create_batch(6)
+        weather_events = WeatherEventFactory.create_batch(3)
+        community_systems = CommunitySystemFactory.create_batch(2)
+
+        for weather_event in weather_events:
+            DefaultRiskFactory.create_batch(10, weather_event=weather_event)
 
         org_data = {
             'name': self.org.name,
@@ -468,12 +488,28 @@ class OrganizationApiTestCase(APITestCase):
                 }
             },
             'plan_setup_complete': True,
-            'weather_events': [we.id for we in weather_events]
+            'weather_events': [we.pk for we in weather_events],
+            'community_systems': [cs.pk for cs in community_systems]
         }
         url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
         response = self.client.put(url, org_data, format='json')
 
-        self.org.refresh_from_db()
+        # Should have created Risks for the Community System/Weather Event pairs
+        created_community_system_risks = self.org.organizationrisk_set.filter(
+            weather_event=weather_events[0],
+            community_system__in=community_systems
+        )
+        self.assertEqual(created_community_system_risks.count(),
+                         len(community_systems))
+
+        created_weather_event_risks = self.org.organizationrisk_set.filter(
+            weather_event__in=weather_events,
+            community_system=community_systems[0]
+        )
+        self.assertEqual(created_weather_event_risks.count(),
+                         len(weather_events))
+
+        # Should have created a total of 15 Risks
         self.assertEqual(self.org.organizationrisk_set.all().count(), 15)
         self.assertEqual(response.status_code, 200)
 
@@ -501,7 +537,6 @@ class OrganizationApiTestCase(APITestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_name_does_not_self_conflict(self, import_mock, from_api_city_mock):
         """Updating an organization without changing its name should not error."""
-
         org = OrganizationFactory()
         self.user.organizations.add(org)
 
