@@ -37,14 +37,19 @@ LOGLEVEL = os.getenv('DJANGO_LOG_LEVEL', 'INFO')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (ENVIRONMENT == 'Development')
 
-PLANIT_APP = os.getenv('PLANIT_APP', 'localhost:4210')
+PLANIT_APP_HOME = os.getenv('PLANIT_APP_HOME')
+
+# PLANIT_APP_HOME includes the protocol, we just want host and port
+PLANIT_APP = PLANIT_APP_HOME.replace('http://', '').replace('https://', '')
+PLANIT_APP_HOST = PLANIT_APP.replace(':4210', '')
+
 
 # Set ALLOWED_HOSTS
 ALLOWED_HOSTS = [
     '.temperate.io',
     '.elb.amazonaws.com',
     'localhost',
-    PLANIT_APP
+    PLANIT_APP_HOST
 ]
 
 if ENVIRONMENT in ['Production', 'Staging']:
@@ -283,11 +288,6 @@ LOGGING = {
 }
 
 # APPLICATION SETTINGS
-
-if DEBUG:
-    PLANIT_APP_HOME = 'http://' + PLANIT_APP
-else:
-    PLANIT_APP_HOME = 'https://' + PLANIT_APP
 
 PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/{token}'
 
