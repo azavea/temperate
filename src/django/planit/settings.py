@@ -110,6 +110,7 @@ MIDDLEWARE = [
 # Set up development tools
 if DEBUG:
     INSTALLED_APPS += [
+        'django.contrib.sites',
         'dbes',
         'debug_toolbar',
     ]
@@ -119,6 +120,10 @@ if DEBUG:
         '127.0.0.1',
         'localhost',
     ]
+    SITE_ID = 1
+    MIGRATION_MODULES = {
+        'sites': 'planit.sites_migrations',
+    }
 
 if not DEBUG:
     ROLLBAR = {
