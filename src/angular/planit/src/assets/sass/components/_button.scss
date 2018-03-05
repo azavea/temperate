@@ -23,6 +23,10 @@
     opacity: .5;
     cursor: not-allowed;
   }
+
+  &.current {
+    border-bottom: 2px solid $brand-black;
+  }
 }
 
 @mixin button-inverse-states($color) {
@@ -51,6 +55,10 @@
     border: 2px solid transparent;
     opacity: .5;
     cursor: not-allowed;
+  }
+
+  &.current {
+    border-bottom: 2px solid $color;
   }
 }
 

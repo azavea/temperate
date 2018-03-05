@@ -3,16 +3,17 @@
   <a *ngIf="router.url === '/'" routerLink="/" class="logo"><img src="assets/images/temperate-logo-white.svg" alt="Temperate, by Azavea"></a>
   <div class="nav-buttons" *ngIf="authService.isAuthenticated()">
     <a class="button button-inverse-light"
-       *ngIf="showLink('/dashboard')"
-       routerLink="/dashboard" >Dashboard</a>
+       routerLink="/dashboard"
+       routerLinkActive="current">Dashboard</a>
     <a class="button button-inverse-light"
-       *ngIf="showLink('/indicators')"
-       routerLink="/indicators">Indicators</a>
+       routerLink="/indicators"
+       routerLinkActive="current">Indicators</a>
     <app-user-dropdown></app-user-dropdown>
   </div>
   <nav class="nav-buttons" *ngIf="!authService.isAuthenticated()">
     <a class="button button-inverse-light"
-       routerLink="/pricing">Pricing</a>
+       routerLink="/pricing"
+       routerLinkActive="current">Pricing</a>
     <button class="button"
             routerLink="/login">Log In</button>
     <button class="button button-primary"
