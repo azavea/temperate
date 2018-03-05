@@ -1,19 +1,19 @@
 <div class="step-header">
-  <h3 id="action-title" class="step-title">Overview <span class="required">(Required)</span></h3>
+  <h3 id="action-title" class="step-title">Overview <span class="required">required</span></h3>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <button class="button-link pull-right form-help-button"
+      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <div class="form-control-hint">Unsure of where to begin? <button class="button-link"
               [popover]="actionExamplesPopover"
               [outsideClick]="true"
               container="body"
-              placement="left">
+              placement="top">
         See examples
-      </button>
-      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      </button></div>
       <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
       </div>

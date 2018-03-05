@@ -4,7 +4,7 @@ label, .label {
   display: flex;
 }
 
-.required {
+.required, .optional {
   color: $required-color;
   font-size: $required-size;
   margin: 0 0 $space-tiny $space-small;
@@ -86,12 +86,6 @@ typeahead-container {
   ul.dropdown-menu {
     width: fit-content;
   }
-}
-
-.form-help-button {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 .form-control-error, .form-control-hint {

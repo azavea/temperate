@@ -2,7 +2,7 @@
   <p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
-  <h3 class="step-title">Impact</h3>
+  <h3 id="potential-impact-title" class="step-title">Potential Impact <span class="required">required</span></h3>
   <p *ngIf="!isDisabled">
     How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
   </p>
@@ -11,15 +11,14 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <label for="impact-magnitude">Potential Impact <span class="required">(Required)</span></label>
-      <app-option-dropdown id="impact-magnitude"
+      <app-option-dropdown aria-labelledby="potential-impact-title"
                            [control]="form.controls['impact_magnitude']"
                            [options]="relativeOptions"
                            [disabled]="isDisabled">
       </app-option-dropdown>
     </div>
     <div class="form-control-container">
-      <label for="impact-description">Description <span class="required">(Required)</span></label>
+      <label for="impact-description">Description <span class="required">required</span></label>
       <textarea id="impact-description" formControlName="impact_description" required></textarea>
     </div>
   </form>
