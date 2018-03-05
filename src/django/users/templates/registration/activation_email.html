@@ -1,11 +1,20 @@
 {% load i18n %}
-<h1>
-{% trans "Activate account at" %} {{ site.name }}:
-</h1>
+{% load premailer %}
+{% premailer %}
+<html>
+    <style type="text/css">
+        h1 { border:1px solid black }
+        p { color:red;}
+    </style>
+    <h1>
+    {% trans "Activate account at" %} {{ site.name }}:
+    </h1>
 
-<a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">https://{{ site.domain }}{% url 'registration_activate' activation_key %}</a>
+    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">https://{{ site.domain }}{% url 'registration_activate' activation_key %}</a>
 
-<br />
-<em>
-{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
-</em>
+    <br />
+    <em>
+        {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
+    </em></p>
+</html>
+{% endpremailer %}
