@@ -183,8 +183,7 @@ class PlanItOrganization(models.Model):
             trial_end_rounded = trial_end.replace(hour=7, minute=0, second=0, microsecond=0)
             self.subscription_end_date = trial_end_rounded
         # Automatically update plan end date to one year from now when we switch to a paid plan
-        #   if we don't have a plan switch already pending
-        elif not self.subscription_pending and self.subscription != self.Subscription.FREE_TRIAL:
+        elif self.subscription != self.Subscription.FREE_TRIAL:
             try:
                 last_subscription = PlanItOrganization.objects.get(id=self.id).subscription
                 if last_subscription != self.subscription:
