@@ -173,15 +173,6 @@ class PlanItOrganization(models.Model):
         )
 
     def _set_subscription(self):
-        # Disallow any changes to the subscription while a current subscription change is pending
-        if self.subscription_pending:
-            try:
-                # Ensure any attempt to change subscription is reverted
-                self.subscription = PlanItOrganization.objects.get(id=self.id).subscription
-                return
-            except PlanItOrganization.DoesNotExist:
-                pass
-
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
         # rounded up to the start of the following day
         if self.subscription == self.Subscription.FREE_TRIAL and self.subscription_end_date is None:

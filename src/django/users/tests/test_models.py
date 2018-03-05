@@ -165,18 +165,6 @@ class OrganizationTestCase(TestCase):
         org.save()
         self.assertEqual(org.subscription_end_date, now)
 
-    def test_subscription_no_change_when_pending(self):
-        original_subscription = PlanItOrganization.Subscription.BASIC,
-        org = PlanItOrganization.objects.create(
-            name="Test Organization",
-            subscription=original_subscription,
-            subscription_pending=True
-        )
-        org.subscription = PlanItOrganization.Subscription.REVIEW
-        org.save()
-        self.assertEqual(org.subscription, str(original_subscription))
-        self.assertTrue(org.subscription_pending)
-
 
 class LocationManagerTestCase(TestCase):
     @mock.patch('users.models.make_token_api_request')

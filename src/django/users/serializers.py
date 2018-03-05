@@ -84,6 +84,14 @@ class OrganizationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("An organization with this name already exists.")
         return name
 
+    def validate_subscription(self, subscription):
+        if (self.instance is not None and
+                self.instance.subscription_pending and
+                subscription != self.instance.subscription):
+            raise serializers.ValidationError("Subscription cannot be changed while another " +
+                                              "change is pending.")
+        return subscription
+
     @transaction.atomic
     def create(self, validated_data):
         location_data = validated_data.pop('location')
@@ -115,8 +123,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, data):
-        # Only set created_by if we are creating a new object instance
-        if not self.instance:
+        # Only set created_by if we are creating a new object instance and have related user info
+        if not self.instance and self.context and self.context.get('request', None):
             data['created_by'] = self.context['request'].user
         return data
 

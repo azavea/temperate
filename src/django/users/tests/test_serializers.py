@@ -6,6 +6,8 @@ from django.test import TestCase
 from users.models import PlanItLocation, PlanItOrganization
 from users.serializers import OrganizationSerializer
 
+from users.tests.factories import OrganizationFactory
+
 
 class OrganizationSerializerTestCase(TestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
@@ -187,3 +189,68 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertEqual(len(serializer.errors['plan_due_date']), 1)
         self.assertEqual(serializer.errors['plan_due_date'][0],
                          "Plan due date cannot be in the past.")
+
+    def test_subscription_when_no_instance(self):
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'properties': {
+                    'api_city_id': 7,
+                }
+            },
+            'subscription': PlanItOrganization.Subscription.BASIC,
+            'units': 'METRIC'
+        }
+        serializer = OrganizationSerializer(data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_subscription_not_in_choices(self):
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'properties': {
+                    'api_city_id': 7,
+                }
+            },
+            'subscription': 'notavalidchoice',
+            'units': 'METRIC'
+        }
+        serializer = OrganizationSerializer(data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue(serializer.errors and 'subscription' in serializer.errors)
+        self.assertEqual(len(serializer.errors['subscription']), 1)
+
+    def test_subscription_changed_when_not_pending(self):
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'properties': {
+                    'api_city_id': 7,
+                }
+            },
+            'subscription': PlanItOrganization.Subscription.BASIC,
+            'units': 'METRIC'
+        }
+        instance = OrganizationFactory(subscription=PlanItOrganization.Subscription.REVIEW,
+                                       subscription_pending=False)
+        serializer = OrganizationSerializer(instance, data=data)
+        self.assertTrue(serializer.is_valid())
+
+    def test_subscription_unchanged_when_pending(self):
+        data = {
+            'name': 'Test Org',
+            'location': {
+                'properties': {
+                    'api_city_id': 7,
+                }
+            },
+            'subscription': PlanItOrganization.Subscription.BASIC,
+            'units': 'METRIC'
+        }
+        instance = OrganizationFactory(subscription=PlanItOrganization.Subscription.REVIEW,
+                                       subscription_pending=True)
+        serializer = OrganizationSerializer(instance, data=data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue(serializer.errors and 'subscription' in serializer.errors)
+        self.assertEqual(len(serializer.errors['subscription']), 1)
+        self.assertTrue(serializer.errors['subscription'][0].startswith("Subscription cannot"))
