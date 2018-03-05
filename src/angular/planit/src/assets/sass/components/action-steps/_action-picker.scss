@@ -1,117 +1,102 @@
 .action-picker {
-  .modal-header {
-    background-color: $neutral-0;
+  .suggested-actions-button {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding: $space-xxlarge $space-large;
+    border: 0;
+    background-color: $brand-positive;
+    color: $black;
+    text-align: left;
 
-    .container {
-      margin: 0;
-      width: 100%;
-    }
-
-    .row {
-      background-color: unset;
-    }
-  }
-
-  .modal-body {
-    width: 65%;
-  }
-
-  .modal-footer {
-    button {
-      background-color: $body-font-color;
+    &:hover {
+      @include light-on-dark();
       color: $white;
     }
-  }
-}
 
-.action-picker, .action-picker-prompt, .action-picker-none {
-  .action-picker-content {
-    text-align: center;
-  }
+    > .icon {
+      flex: none;
+      width: 14rem;
+      height: 14rem;
+      margin: 0 $space-xlarge 0 $space-large;
+      background-color: $white;
+      color: $brand-positive;
+      border-radius: 50%;
+      font-size: 10rem;
+      line-height: 1.3;
+    }
 
-  .action-picker-header {
-    margin: 3rem;
-  }
+    > .suggested-actions-invitation {
+      display: flex;
+      flex: auto;
+      flex-flow: column nowrap;
+      align-items: flex-start;
+      justify-content: flex-start;
 
-  .container {
-    margin: 0 2rem 0 2rem;
-    width: unset;
+      > .title {
+        font-size: $text-medium;
+        font-weight: $font-weight-bold;
+        color: inherit;
+      }
 
-    .suggested-action {
-      border: .1px solid $neutral-2;
-      padding: 15px;
-
-      .action-metadata {
-        max-width: 240px;
+      > .description {
+        font-size: $text-small;
+        color: inherit;
       }
     }
   }
 
-  h2 {
-    width: 100%;
+  .suggested-actions-description {
+    margin-bottom: $space-xlarge;
   }
 
-  .icon-cancel-circled2 {
-    font-size: 2rem;
-  }
+  .suggested-action {
+    display: flex;
+    flex-direction: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: $space-large;
+    padding: $space-xlarge;
+    background-color: $neutral-1;
 
-  .modal-header {
-    padding-bottom: 0;
-    padding-top: 0;
+    > .action-main {
+      display: flex;
+      flex: initial;
+      flex-flow: column nowrap;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-right: $space-large;
+
+      > .action-name {
+        margin-bottom: $space-large;
+        font-size: $text-small;
+        font-weight: $font-weight-regular;
+        line-height: 1.5;
+      }
+
+      > .action-source {
+        margin-bottom: $space-xlarge;
+        font-size: $text-tiny;
+      }
+    }
+
+    > .action-metadata-list {
+      flex: none;
+      width: 16rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: $text-tiny;
+
+      > .action-metadata-item {
+        margin: $space-small 0;
+      }
+    }
   }
 
   .modal-footer {
-    a {
-      text-decoration: none;
-      color: $brand-primary;
-    }
-
-    border: 0;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-
+    margin-top: $space-xlarge;
+    text-align: right;
   }
-
-  .row {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-.action-picker-prompt {
-  .action-picker-body {
-    :hover {
-      background-color: $neutral-1;
-      cursor: pointer;
-    }
-  }
-
-  button {
-    text-align: left;
-    width: max-content;
-    margin-left: -2.5rem;
-    margin-bottom: -3rem;
-  }
-
-  .modal-body {
-    h2, i {
-      color: $brand-primary;
-    }
-
-    i {
-      font-size: 5rem;
-    }
-  }
-}
-
-.action-picker-content.button-modal-close {
-  background-color: transparent;
-  border-radius: 50%;
-  float: right;
-  font-size: 2rem;
-  margin-bottom: -5rem;
-  margin-left: -5rem;
-  padding: 0px;
 }
