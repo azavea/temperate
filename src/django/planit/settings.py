@@ -122,6 +122,7 @@ if DEBUG:
     ]
     SITE_ID = 1
     MIGRATION_MODULES = {
+        'dbes': 'planit.dbes_migrations',
         'sites': 'planit.sites_migrations',
     }
 
