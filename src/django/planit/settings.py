@@ -107,9 +107,10 @@ MIDDLEWARE = [
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
-# Django Debug Toolbar
+# Set up development tools
 if DEBUG:
     INSTALLED_APPS += [
+        'dbes',
         'debug_toolbar',
     ]
     INTERNAL_IPS = [
@@ -203,7 +204,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email Settings
 if ENVIRONMENT == 'Development':
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'dbes.backends.EmailBackend'
 else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 

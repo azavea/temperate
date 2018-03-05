@@ -71,5 +71,6 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
+        url(r'^emails/', include('dbes.urls', namespace='dbes')),
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
