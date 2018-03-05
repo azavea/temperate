@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.db.models import Q
 from django.http.request import QueryDict
 
@@ -113,6 +114,47 @@ class OrganizationRiskView(ModelViewSet):
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(organization_id=org_id)
+
+    @transaction.atomic
+    def create(self, request):
+        response = super().create(request)
+
+        weather_event_id = request.data['weather_event']
+        organization = request.user.primary_organization
+        if not organization.weather_events.filter(id=weather_event_id).exists():
+            weather_event_ids = list(organization.weather_events.values_list('id', flat=True))
+            organization.update_weather_events(weather_event_ids + [weather_event_id])
+
+        return response
+
+    @transaction.atomic
+    def update(self, request, pk=None):
+        if pk:
+            new_weather_event_id = request.data['weather_event']
+            old_weather_event = WeatherEvent.objects.get(organizationrisk=pk)
+            if new_weather_event_id != old_weather_event.id:
+                print("Updating weather event list")
+                organization = request.user.primary_organization
+                remaining_risks = organization.organizationrisk_set.exclude(id=pk)
+                weather_event_ids = set(remaining_risks.values_list('weather_event_id', flat=True)
+                                        .distinct())
+                weather_event_ids.add(new_weather_event_id)
+                organization.update_weather_events(weather_event_ids)
+        return super().update(request, pk)
+
+    @transaction.atomic
+    def destroy(self, request, pk=None):
+        if pk:
+            organization = request.user.primary_organization
+            weather_event = WeatherEvent.objects.get(organizationrisk=pk)
+            remaining_risks = organization.organizationrisk_set.exclude(id=pk)
+            if not remaining_risks.filter(weather_event=weather_event).exists():
+                OrganizationWeatherEvent.objects.filter(
+                    organization=organization,
+                    weather_event=weather_event
+                ).delete()
+
+        return super().destroy(request, pk=pk)
 
 
 class OrganizationActionViewSet(ModelViewSet):

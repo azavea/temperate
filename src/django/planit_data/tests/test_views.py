@@ -374,6 +374,30 @@ class OrganizationRiskTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_create_organization_risk_adds_weather_event(self):
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        payload = {
+            'adaptive_capacity': '',
+            'adaptive_capacity_description': '',
+            'community_system': community_system.id,
+            'frequency': '',
+            'impact_description': '',
+            'impact_magnitude': '',
+            'intensity': '',
+            'probability': '',
+            'related_adaptive_values': [],
+            'weather_event': weather_event.id
+        }
+
+        url = reverse('organizationrisk-list')
+        response = self.client.post(url, data=payload)
+
+        self.assertTrue(self.user.primary_organization.weather_events
+                        .filter(weather_event=weather_event).exists())
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
     def test_edit_organization_risk(self):
         # Create an organization risk for the user's primary_organization
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
@@ -394,6 +418,53 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(organization_risk.community_system.id, new_community_system.id)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_edit_organization_risk_updates_weather_event(self):
+        org = self.user.primary_organization
+        org_risk = OrganizationRiskFactory(organization=org)
+        OrganizationWeatherEventFactory(
+            weather_event=org_risk.weather_event,
+            organization=self.user.primary_organization
+        )
+        original_weather_event = org_risk.weather_event
+        new_weather_event = WeatherEventFactory()
+
+        # Update the organization risk to use the new community system
+        payload = {
+            'community_system': org_risk.community_system.id,
+            'weather_event': new_weather_event.id
+        }
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.put(url, data=payload)
+
+        self.assertFalse(org.weather_events.filter(weather_event=original_weather_event).exists())
+        self.assertTrue(org.weather_events.filter(weather_event=new_weather_event).exists())
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_delete_organization_risk(self):
+        org = self.user.primary_organization
+        org_risk = OrganizationRiskFactory(organization=org)
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.delete(url)
+
+        self.assertFalse(org.organizationrisk_set.filter(id=org_risk.id).exists())
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_delete_organization_risk_removes_weather_event(self):
+        org = self.user.primary_organization
+        org_risk = OrganizationRiskFactory(organization=org)
+        OrganizationWeatherEventFactory(
+            weather_event=org_risk.weather_event,
+            organization=self.user.primary_organization
+        )
+
+        url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
+        response = self.client.delete(url)
+
+        self.assertFalse(org.weather_events.filter(weather_event=org_risk.weather_event).exists())
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_cannot_edit_other_organizations_risk(self):
         # Create an organization risk with a new organization the user does not belong to
