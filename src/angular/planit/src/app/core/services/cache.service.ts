@@ -9,6 +9,7 @@ export class CacheService {
   public static CORE_USERSERVICE_CURRENT = 'core.userservice.current';
   public static CORE_CITYSERVICE_CURRENT = 'core.cityservice.current';
   public static CORE_ACTIONTYPESERVICE_LIST = 'core.actiontypeservice.list';
+  public static APP_DASHBOARD_TRIALWARNING = 'app.dashboard.trial_warning';
 
   private data: { [index: string]: any } = {};
 

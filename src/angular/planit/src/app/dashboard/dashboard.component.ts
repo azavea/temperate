@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
+import { CacheService } from '../core/services/cache.service';
 import { DownloadService } from '../core/services/download.service';
 import { OrganizationService } from '../core/services/organization.service';
 import { RiskService } from '../core/services/risk.service';
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit {
   public trialDaysRemaining: number;
 
   constructor(private downloadService: DownloadService,
+              private cache: CacheService,
               private organizationService: OrganizationService,
               private userService: UserService,
               private riskService: RiskService,
@@ -49,12 +51,14 @@ export class DashboardComponent implements OnInit {
     this.route.data.subscribe((data: {user: User}) => {
       this.organization = data.user.primary_organization;
 
-      setTimeout(() => {
+      const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
+      if (!shownWarning) {
         this.trialDaysRemaining = this.organization.trialDaysRemaining();
-        if(this.organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
+        if (this.organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
           this.openModal(this.trialWarningModal);
+          this.cache.set(CacheService.APP_DASHBOARD_TRIALWARNING, true);
         }
-      });
+      }
     });
   }
 
@@ -71,7 +75,9 @@ export class DashboardComponent implements OnInit {
   }
 
   openModal(modal: ModalTemplateComponent) {
-    modal.open();
+    setTimeout(() => {
+      modal.open();
+    });
   }
 
   upgradeSubscription() {
