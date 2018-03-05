@@ -18,6 +18,7 @@
                           wizardStep
                           optionalStep
                           [canExit]="identifyStep.save"
+                          (stepEnter)="resetScroll()"
                           navigationSymbol="{{ identifyStep.navigationSymbol }}">
     <ng-template wizardStepTitle>
       <span class="step-number" [ngClass]="{'complete': identifyStep.isStepComplete()}">1</span>
@@ -30,6 +31,7 @@
                         wizardStep
                         optionalStep
                         [canExit]="hazardStep.save"
+                        (stepEnter)="resetScroll()"
                         navigationSymbol="{{ hazardStep.navigationSymbol }}">
     <ng-template wizardStepTitle>
       <span class="step-number" [ngClass]="{'complete': hazardStep.isStepComplete()}">2</span>
@@ -42,6 +44,7 @@
                         wizardStep
                         optionalStep
                         [canExit]="impactStep.save"
+                        (stepEnter)="resetScroll()"
                         navigationSymbol="{{ impactStep.navigationSymbol }}">
     <ng-template wizardStepTitle>
       <span class="step-number" [ngClass]="{'complete': impactStep.isStepComplete()}">3</span>
@@ -54,6 +57,7 @@
                           wizardStep
                           optionalStep
                           [canExit]="capacityStep.save"
+                          (stepEnter)="resetScroll()"
                           navigationSymbol="{{ capacityStep.navigationSymbol }}">
     <ng-template wizardStepTitle>
       <span class="step-number" [ngClass]="{'complete': capacityStep.isStepComplete()}">4</span>
@@ -65,6 +69,7 @@
                         #reviewStep
                         wizardCompletionStep
                         enableBackLinks
+                        (stepEnter)="resetScroll()"
                         navigationSymbol="{{ reviewStep.navigationSymbol }}">
     <ng-template wizardStepTitle>
       <span class="step-number" [ngClass]="{

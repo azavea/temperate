@@ -46,4 +46,8 @@ export class PlanWizardComponent implements OnInit {
       self.router.navigate(['dashboard']);
     }, 5000);
   }
+
+  public resetScroll() {
+    window.scrollTo(0, 0);
+  }
 }

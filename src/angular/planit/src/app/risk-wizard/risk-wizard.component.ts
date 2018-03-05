@@ -58,4 +58,8 @@ export class RiskWizardComponent implements OnInit, AfterViewChecked {
       this.startingStep = params['goToStep'] || 0;
     });
   }
+
+  public resetScroll() {
+    window.scrollTo(0, 0);
+  }
 }

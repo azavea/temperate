@@ -101,4 +101,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
       this.fundingStep.isStepComplete();
   }
 
+  public resetScroll() {
+    window.scrollTo(0, 0);
+  }
 }
