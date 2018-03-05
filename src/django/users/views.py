@@ -1,8 +1,10 @@
 import logging
 
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,6 +39,32 @@ class RegistrationView(BaseRegistrationView):
     """Extends default Django-registration HMAC view."""
 
     form_class = UserForm
+
+    class Meta:
+        proxy = True
+
+    def send_activation_email(self, user):
+        """Send the activation mail.
+
+        Oerride to send multipart HTML emails."""
+        activation_key = self.get_activation_key(user)
+        context = self.get_email_context(activation_key)
+        context.update({
+            'user': user,
+        })
+
+        subject = render_to_string(self.email_subject_template, context)
+        # Force subject to a single line to avoid header-injection issues.
+        subject = ''.join(subject.splitlines())
+        message_text = render_to_string(self.email_body_template, context)
+        user.email_user(subject, message_text, settings.DEFAULT_FROM_EMAIL)
+        message_html = render_to_string('registration/activation_email.html', context)
+
+        msg = EmailMultiAlternatives(subject, message_text,
+                                     settings.DEFAULT_FROM_EMAIL,
+                                     [user.email])
+        msg.attach_alternative(message_html, "text/html")
+        msg.send()
 
 
 class JsonFormView(APIView):
