@@ -58,9 +58,13 @@
     <p>
       You have {{trialDaysRemaining}} more days in your free trial! Upgrade to continue using Temperate
     </p>
-    <button class="button button-secondary"
-            (click)="cancelModal(trialWarningModal)">Not now</button>
-    <button class="button button-primary"
-            (click)="upgradeSubscription()">Upgrade</button>
+  </div>
+  <div class="modal-footer">
+    <div class="button-group">
+      <button class="button button-primary"
+              (click)="upgradeSubscription()">Upgrade</button>
+      <button class="button"
+              (click)="cancelModal(trialWarningModal)">Not now</button>
+    </div>
   </div>
 </app-modal-template>
