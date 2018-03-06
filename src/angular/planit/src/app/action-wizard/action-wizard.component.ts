@@ -44,7 +44,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
   @Input() action: Action;
 
   public namedRisk: NamedRisk;
-  startingStep = 0;
+  public startingStep = 0;
 
   constructor(private session: WizardSessionService<Action>,
               private actionService: ActionService,
@@ -60,14 +60,6 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
       const riskId: string = this.route.snapshot.paramMap.get('riskid');
       this.action.risk = riskId;
 
-      this.route.queryParams.take(1).subscribe((params: Params) => {
-        const indexes = {
-          'review': 5
-        };
-        // Default to the first step if the param doesn't match a valid step
-        this.startingStep = indexes[params['step']] || 0;
-      });
-
       if (this.route.snapshot.data['suggestedAction']) {
         const suggestion = this.route.snapshot.data['suggestedAction'] as Action;
         this.action.name = suggestion.name;
@@ -80,6 +72,16 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
         this.action.collaborators = suggestion.collaborators;
         this.action.categories = suggestion.categories;
       }
+    } else {
+      // Only allow jumping to other steps if we're not creating
+      //  a new action
+      this.route.queryParams.take(1).subscribe((params: Params) => {
+        const indexes = {
+          'review': 5
+        };
+        // Default to the first step if the param doesn't match a valid step
+        this.startingStep = indexes[params['step']] || 0;
+      });
     }
 
     this.riskService.get(this.action.risk).subscribe(risk => {
