@@ -22,29 +22,19 @@
       <input type=hidden name="retURL" value="{{ url }}">
       <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
       <input type=hidden id="email" name="email" value="{{ user.email }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization?.location.properties.name }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization?.name }}">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="city">Subject</label>
-          </div>
-          <div class="col-sm-5">
-            <input id="subject" class="form-control" maxlength="200" name="subject" size="20" type="text"
-              value="I need some help with Temperate">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-2">
-            <label for="city">Description</label>
-          </div>
-          <div class="col-sm-5">
-            <textarea name="description" autofocus></textarea>
-          </div>
-        </div>
-      </div>
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization.location.properties.name }}">
+      <input type=hidden id="city" name="city" value="{{ user.primary_organization.name }}">
       <input type="hidden" id="recordType" name="recordType" value="0120g000000cfLg">
       <input type="hidden" id="external" name="external" value="1">
+      <div class="form-control-container">
+        <label for="subject">Subject</label>
+        <input id="subject" class="form-control" maxlength="200" name="subject" size="20" type="text"
+          placeholder="I need some help with Temperate">
+      </div>
+      <div class="form-control-container">
+        <label for="description">Description</label>
+        <textarea id="description" class="form-control"></textarea>
+      </div>
     </form>
     <footer class="modal-footer">
       <div class="button-group">
