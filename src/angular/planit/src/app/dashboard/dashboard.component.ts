@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
 
+import { CacheService } from '../core/services/cache.service';
 import { DownloadService } from '../core/services/download.service';
 import { OrganizationService } from '../core/services/organization.service';
 import { RiskService } from '../core/services/risk.service';
+import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 import { OrgWeatherEvent, Organization, Risk, User, WeatherEvent } from '../shared/';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
@@ -18,7 +20,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
 
   public groupedRisks: any[];
   public selectedEventsControl = new FormControl([]);
@@ -27,10 +29,17 @@ export class DashboardComponent implements OnInit {
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
 
+  @ViewChild('trialWarningModal')
+  private trialWarningModal: ModalTemplateComponent;
+  public trialDaysRemaining: number;
+
   constructor(private downloadService: DownloadService,
+              private cache: CacheService,
               private organizationService: OrganizationService,
+              private userService: UserService,
               private riskService: RiskService,
               private route: ActivatedRoute,
+              private router: Router,
               private weatherEventService: WeatherEventService) { }
 
   ngOnInit() {
@@ -41,6 +50,19 @@ export class DashboardComponent implements OnInit {
     });
     this.route.data.subscribe((data: {user: User}) => {
       this.organization = data.user.primary_organization;
+    });
+  }
+
+  ngAfterViewInit() {
+    this.userService.current().subscribe(user => {
+      const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
+      if (!shownWarning) {
+        this.trialDaysRemaining = user.primary_organization.trialDaysRemaining();
+        if (user.primary_organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
+          this.openModal(this.trialWarningModal);
+          this.cache.set(CacheService.APP_DASHBOARD_TRIALWARNING, true);
+        }
+      }
     });
   }
 
@@ -58,6 +80,11 @@ export class DashboardComponent implements OnInit {
 
   openModal(modal: ModalTemplateComponent) {
     modal.open();
+  }
+
+  upgradeSubscription() {
+    this.trialWarningModal.close();
+    this.router.navigate(['subscription']);
   }
 
   saveWeatherEventsModal(modal: ModalTemplateComponent) {
