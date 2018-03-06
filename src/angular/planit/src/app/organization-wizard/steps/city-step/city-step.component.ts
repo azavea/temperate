@@ -29,6 +29,7 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
   public cities: Observable<ApiCity[]>;
   public city: ApiCity = null;
+  public noResults = false;
 
   @Input() form: FormGroup;
 
@@ -103,6 +104,7 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
     if (savedName !== formName) {
       this.city = event.item ? event.item : null;
+      this.noResults = false;
     }
   }
 
@@ -113,6 +115,17 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     if (savedName !== formName) {
       this.form.controls.location.setValue('');
       this.city = null;
+      this.noResults = false;
+    }
+  }
+
+  onNoResults() {
+    this.noResults = true;
+  }
+
+  onKey(e) {
+    if (e.target.value === '') {
+      this.noResults = false;
     }
   }
 
