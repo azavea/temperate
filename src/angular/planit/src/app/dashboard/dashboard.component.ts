@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -20,7 +20,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
 
   public groupedRisks: any[];
   public selectedEventsControl = new FormControl([]);
@@ -50,15 +50,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
     this.route.data.subscribe((data: {user: User}) => {
       this.organization = data.user.primary_organization;
-    });
-  }
 
-  ngAfterViewInit() {
-    this.userService.current().subscribe(user => {
       const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
       if (!shownWarning) {
-        this.trialDaysRemaining = user.primary_organization.trialDaysRemaining();
-        if (user.primary_organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
+        this.trialDaysRemaining = this.organization.trialDaysRemaining();
+        if (this.organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
           this.openModal(this.trialWarningModal);
           this.cache.set(CacheService.APP_DASHBOARD_TRIALWARNING, true);
         }
@@ -79,7 +75,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   openModal(modal: ModalTemplateComponent) {
-    modal.open();
+    setTimeout(() => {
+      modal.open();
+    });
   }
 
   upgradeSubscription() {
