@@ -10,6 +10,7 @@
                             #dueDateStep
                             wizardStep
                             [canExit]="dueDateStep.save"
+                            (stepEnter)="resetScroll()"
                             stepTitle="{{ dueDateStep.title }}"
                             navigationSymbol="{{ dueDateStep.navigationSymbol }}">
     </app-plan-step-due-date>
@@ -19,6 +20,7 @@
                            wizardStep
                            optionalStep
                            [canExit]="hazardsStep.save"
+                           (stepEnter)="resetScroll()"
                            stepTitle="{{ hazardsStep.title }}"
                            navigationSymbol="{{ hazardsStep.navigationSymbol }}">
     </app-plan-step-hazards>
@@ -28,6 +30,7 @@
                                      wizardCompletionStep
                                      enableBackLinks
                                      (wizardCompleted)="onWizardCompleted($event)"
+                                     (stepEnter)="resetScroll()"
                                      stepTitle="{{ communitySystemsStep.title }}"
                                      navigationSymbol="{{ communitySystemsStep.navigationSymbol }}">
     </app-plan-step-community-systems>
