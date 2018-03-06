@@ -56,7 +56,10 @@
                     title="Your trial is ending">
   <div class="dashboard-modal-trial-ending">
     <p>
-      You have {{trialDaysRemaining}} more days in your free trial! Upgrade to continue using Temperate
+      You have
+      <span *ngIf="trialDaysRemaining !== 1">{{ trialDaysRemaining }} more days</span>
+      <span *ngIf="trialDaysRemaining === 1">1 more day</span>
+      in your free trial! Upgrade to continue using Temperate
     </p>
   </div>
   <div class="modal-footer">
