@@ -46,26 +46,13 @@ class RegistrationView(BaseRegistrationView):
     def send_activation_email(self, user):
         """Send the activation mail.
 
-        Oerride to send multipart HTML emails."""
+        Oerridde to send multipart HTML emails via customized `email_user` method."""
         activation_key = self.get_activation_key(user)
         context = self.get_email_context(activation_key)
         context.update({
             'user': user,
         })
-
-        subject = render_to_string(self.email_subject_template, context)
-        # Force subject to a single line to avoid header-injection issues.
-        subject = ''.join(subject.splitlines())
-        message_text = render_to_string(self.email_body_template, context)
-        user.email_user(subject, message_text, settings.DEFAULT_FROM_EMAIL)
-        message_html = render_to_string('registration/activation_email.html', context)
-
-        msg = EmailMultiAlternatives(subject, message_text,
-                                     settings.DEFAULT_FROM_EMAIL,
-                                     [user.email])
-        msg.attach_alternative(message_html, "text/html")
-        msg.send()
-
+        user.email_user('registration/activation_email', context)
 
 class JsonFormView(APIView):
     def form_valid(self, form):

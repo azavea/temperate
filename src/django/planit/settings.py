@@ -224,8 +224,6 @@ REGISTRATION_OPEN = True
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
 
 # Password reset
-PASSWORD_RESET_EMAIL_TEMPLATE = 'password_reset_email.txt'
-PASSWORD_RESET_EMAIL_SUBJECT_TEMPLATE = 'password_reset_email_subject.txt'
 PASSWORD_RESET_EXPIRE = 24 * 60 * 60  # 1 day
 
 # Internationalization

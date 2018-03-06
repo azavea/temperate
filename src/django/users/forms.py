@@ -35,9 +35,7 @@ class PasswordResetInitForm(forms.Form):
             token = self.generate_token(uid)
             url = settings.PASSWORD_RESET_URL.format(token=token)
             context = {'user': user, 'url': url}
-            message = render_to_string(settings.PASSWORD_RESET_EMAIL_TEMPLATE, context)
-            subject = render_to_string(settings.PASSWORD_RESET_EMAIL_SUBJECT_TEMPLATE, context)
-            send_mail(subject.split('\n')[0], message, settings.DEFAULT_FROM_EMAIL, [user.email])
+            user.send_email('password_reset_email', context)
         except PlanItUser.DoesNotExist:
             # We don't don't complain if the user isn't found because that would allow
             # someone to enumerate users from the public internet.
