@@ -1,0 +1,12 @@
+{% load i18n %}
+Hi {{ user.first_name }},
+
+Welcome to Temperate!
+
+You can sign in to the app here:
+
+{{ url }}
+
+Questons? You can reach us at {{ support_email }}.
+
+Hope to see you soon!

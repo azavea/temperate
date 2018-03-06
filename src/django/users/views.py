@@ -1,5 +1,6 @@
 import logging
 
+
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -37,6 +38,20 @@ class RegistrationView(BaseRegistrationView):
     """Extends default Django-registration HMAC view."""
 
     form_class = UserForm
+
+    class Meta:
+        proxy = True
+
+    def send_activation_email(self, user):
+        """Send the activation mail.
+
+        Oerridde to send multipart HTML emails via customized `email_user` method."""
+        activation_key = self.get_activation_key(user)
+        context = self.get_email_context(activation_key)
+        context.update({
+            'user': user,
+        })
+        user.email_user('registration/activation_email', context)
 
 
 class JsonFormView(APIView):

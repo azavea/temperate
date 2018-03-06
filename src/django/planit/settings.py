@@ -94,6 +94,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_gis',
     'bootstrap3',
+    'django_premailer',
 
     # local apps
     'climate_api',
@@ -114,9 +115,11 @@ MIDDLEWARE = [
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
-# Django Debug Toolbar
+# Set up development tools
 if DEBUG:
     INSTALLED_APPS += [
+        'django.contrib.sites',
+        'dbes',
         'debug_toolbar',
     ]
     INTERNAL_IPS = [
@@ -125,6 +128,11 @@ if DEBUG:
         '127.0.0.1',
         'localhost',
     ]
+    SITE_ID = 1
+    MIGRATION_MODULES = {
+        'dbes': 'planit.dbes_migrations',
+        'sites': 'planit.sites_migrations',
+    }
 
 if not DEBUG:
     ROLLBAR = {
@@ -211,12 +219,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email Settings
 if ENVIRONMENT == 'Development':
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'dbes.backends.EmailBackend'
 else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
-DEFAULT_TO_EMAIL = 'support@temperate.io'
+SUPPORT_EMAIL = 'support@temperate.io'
+DEFAULT_TO_EMAIL = SUPPORT_EMAIL
 
 
 # Django-Registration
@@ -225,8 +234,6 @@ REGISTRATION_OPEN = True
 AUTH_PROFILE_MODULE = 'registration.RegistrationProfile'
 
 # Password reset
-PASSWORD_RESET_EMAIL_TEMPLATE = 'password_reset_email.txt'
-PASSWORD_RESET_EMAIL_SUBJECT_TEMPLATE = 'password_reset_email_subject.txt'
 PASSWORD_RESET_EXPIRE = 24 * 60 * 60  # 1 day
 
 # Internationalization
