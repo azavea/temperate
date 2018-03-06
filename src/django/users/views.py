@@ -49,13 +49,20 @@ class RegistrationView(BaseRegistrationView):
     def send_activation_email(self, user):
         """Send the activation mail.
 
-        Oerridde to send multipart HTML emails via customized `email_user` method."""
+        Override to send multipart HTML emails via customized `email_user` method."""
+
+        self._send_email(user, 'registration/activation_email')
+
+    def send_invitation_email(self, user):
+        self._send_email(user, 'registration/invitation_email')
+
+    def _send_email(self, user, template):
         activation_key = self.get_activation_key(user)
         context = self.get_email_context(activation_key)
         context.update({
             'user': user,
         })
-        user.email_user('registration/activation_email', context)
+        user.email_user(template, context)
 
 
 class JsonFormView(APIView):
@@ -239,7 +246,7 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
         organization = serializer.instance
         for user in organization.users.all():
-            RegistrationView(request=request).send_activation_email(user)
+            RegistrationView(request=request).send_invitation_email(user)
 
         self.request.user.organizations.add(organization)
         self.request.user.primary_organization = organization

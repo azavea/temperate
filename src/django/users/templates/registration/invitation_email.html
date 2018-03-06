@@ -1,0 +1,19 @@
+{% load premailer %}
+{% premailer %}
+<html>
+    <style type="text/css">
+        h1 { border:1px solid black }
+        p { color:red;}
+    </style>
+    <h1>
+    You've been invited to join the Temperate organization {{ user.primary_organization.name }} in {{ user.primary_organization.location }}.
+    </h1>
+
+    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">https://{{ site.domain }}{% url 'registration_activate' activation_key %}</a>
+
+    <br />
+    <em>
+        Link is valid for {{ expiration_days }} days.
+    </em></p>
+</html>
+{% endpremailer %}

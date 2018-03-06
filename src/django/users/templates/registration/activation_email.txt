@@ -1,11 +1,6 @@
-{% if user.primary_organization %}
-You've been invited to join the Temperate organization {{ user.primary_organization.name }} in {{ user.primary_organization.location.name }}.
-
-Register for an account at {{ site.name }}:
-{% else %}
-Activate account at {{ site.name }}:
-{% endif%}
+{% load i18n %}
+{% trans "Activate account at" %} {{ site.name }}:
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
-Link is valid for {{ expiration_days }} days.
+{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
