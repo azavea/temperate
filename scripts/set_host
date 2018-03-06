@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# Sets various environment variables to the VM host's hostname to enable
+# connecting to the local development web server from another host
+#
+# ./scripts/set_host [hostname]
+
+set -e
+set -x
+
+if [[ $# -eq 1 ]]; then
+    host="$1"
+else
+    # For the Azavea network, '--fqdn' gives a '*.internal.azavea.com' hostname
+    host=$(hostname --fqdn)
+fi
+
+sed -i -e "s/PLANIT_APP_HOME=.*/PLANIT_APP_HOME=$host:4210/g" src/django/docker-compose.env
+sed -i -e "s/apiUrl: .*/apiUrl: 'http:\/\/$host:8100'/g" src/angular/planit/src/environments/environment.ts
