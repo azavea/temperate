@@ -53,6 +53,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                      slug_field='id')
     weather_events = serializers.SlugRelatedField(many=True, read_only=True,
                                                   slug_field='weather_event_id')
+    invites = serializers.ListField(child=serializers.EmailField(), write_only=True, required=False)
 
     def validate_location(self, location_data):
         if 'api_city_id' not in location_data:
@@ -79,9 +80,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         try:
             api_city_id = self.initial_data['location']['properties']['api_city_id']
         except KeyError:
-            raise serializers.ValidationError("Location ID is required.")
+            raise serializers.ValidationError('Location ID is required.')
         if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
-            raise serializers.ValidationError("An organization with this name already exists.")
+            raise serializers.ValidationError('An organization with this name already exists.')
         return name
 
     def validate_subscription(self, subscription):
@@ -92,13 +93,29 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                               "change is pending.")
         return subscription
 
+    def validate_invites(self, invites):
+        # TODO (#368): Only check for duplicate users in this organization instead of all
+        # organizations once users can switch their primary organization
+        existing_emails = PlanItUser.objects \
+            .filter(email__in=invites).values_list('email', flat=True)
+        if existing_emails:
+            raise serializers.ValidationError({email: 'A user with this email already exists.'
+                                               for email in existing_emails})
+        return invites
+
     @transaction.atomic
     def create(self, validated_data):
+        invites = validated_data.pop('invites', [])
         location_data = validated_data.pop('location')
+
         instance = PlanItOrganization.objects.create(**validated_data)
         if 'api_city_id' in location_data:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
             instance.save()
+
+        for email in invites:
+            PlanItUser.objects.create_user(email, '', '', primary_organization=instance,
+                                           is_active=False)
 
         # Copy the template WeatherEventRank objects for this new Organization
         instance.import_weather_events()
@@ -130,7 +147,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'created_at', 'name', 'location', 'units',
+        fields = ('id', 'created_at', 'name', 'location', 'units', 'invites',
                   'subscription', 'subscription_end_date', 'subscription_pending',
                   'plan_due_date', 'plan_name', 'plan_hyperlink',
                   'community_systems', 'weather_events')
@@ -179,6 +196,11 @@ class UserSerializer(serializers.ModelSerializer):
             data.pop('password1')
             data.pop('password2')
         return data
+
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            instance.set_password(validated_data.pop('password'))
+        return super().update(instance, validated_data)
 
 
 class UserOrgSerializer(UserSerializer):

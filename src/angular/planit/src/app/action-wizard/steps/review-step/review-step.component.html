@@ -77,7 +77,7 @@
         <button class="button icon-edit" goToStep="2"></button>
       </h4>
       <p *ngIf="!action.collaborators?.length">--</p>
-      <div class="freeform-multiselect" *ngIf="action.collaborators?.length">
+      <div class="multiselect" *ngIf="action.collaborators?.length">
         <div class="selected-option" *ngFor="let collaborator of action.collaborators">
             {{ collaborator }}
         </div>
@@ -94,7 +94,7 @@
         <button class="button icon-edit" goToStep="3"></button>
       </h4>
       <p *ngIf="!action.categories?.length">--</p>
-      <div class="freeform-multiselect" *ngIf="action.categories?.length">
+      <div class="multiselect" *ngIf="action.categories?.length">
         <div class="selected-option" *ngFor="let category of action.categories">
             {{ category.name }}
         </div>

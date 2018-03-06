@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
-import { BsDropdownModule, TypeaheadModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -37,6 +37,7 @@ import {
 } from './top-community-systems/top-community-systems.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
+import { UserEmailsComponent } from './user-emails/user-emails.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     NouisliderModule,
     PopoverModule,
     RouterModule,
+    TooltipModule,
     TypeaheadModule,
   ],
   declarations: [
@@ -73,7 +75,8 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     PasswordResetFormComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
-    UserDropdownComponent
+    UserDropdownComponent,
+    UserEmailsComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
@@ -95,7 +98,8 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
     PasswordResetFormComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
-    UserDropdownComponent
+    UserDropdownComponent,
+    UserEmailsComponent
   ]
 })
 export class SharedModule { }

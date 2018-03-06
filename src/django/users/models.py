@@ -215,7 +215,10 @@ class PlanItUserManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = PlanItUser(email=email, first_name=first_name, last_name=last_name, **extra)
-        user.set_password(password)
+        if password:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
         user.save()
 
         # Add the user's primary organization to their organizations list
@@ -255,7 +258,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
-                                           related_name='user_organizations')
+                                           related_name='users')
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
 
@@ -287,19 +290,16 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         """Return the appropriate PlanItLocation for this user."""
         return self.primary_organization.location
 
-    # All methods below copied from Django's AbstractUser
-    def clean(self):
-        super().clean()
-        self.email = self.__class__.objects.normalize_email(self.email)
+    def has_required_fields(self):
+        return all(getattr(self, attr, False) for attr in PlanItUser.REQUIRED_FIELDS)
 
-    def get_full_name(self):
-        """Return the first_name plus the last_name, with a space in between."""
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
-
-    def get_short_name(self):
-        """Return the short name for the user."""
-        return self.first_name
+    def send_registration_complete_email(self):
+        context = {
+            'user': self,
+            'url': settings.PLANIT_APP_HOME,
+            'support_email': settings.SUPPORT_EMAIL
+        }
+        self.email_user('registration_complete_email', context)
 
     def email_user(self, template_prefix, context={}, from_email=settings.DEFAULT_FROM_EMAIL):
         """Send an email to this user.
@@ -322,3 +322,17 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         msg = EmailMultiAlternatives(subject, message_text, from_email, [self.email])
         msg.attach_alternative(message_html, "text/html")
         msg.send()
+
+    # All methods below copied from Django's AbstractUser
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
+    def get_full_name(self):
+        """Return the first_name plus the last_name, with a space in between."""
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+
+    def get_short_name(self):
+        """Return the short name for the user."""
+        return self.first_name

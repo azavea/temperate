@@ -69,6 +69,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
       .catch((response) => {
         const code = response.status;
         const genericError = 'Something went wrong. Please refresh the page and try again.';
+        const genericRecoverableError = 'Something went wrong. Please try again.';
 
         if (code === 400) {
           // Show the non-field error(s) in Toast, map form-field errors to
@@ -90,7 +91,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
             const message = non_field_errors.join(', ');
             this.toastr.warning(message);
           } else {
-            this.toastr.warning(genericError);
+            this.toastr.warning(genericRecoverableError);
           }
 
         } else {

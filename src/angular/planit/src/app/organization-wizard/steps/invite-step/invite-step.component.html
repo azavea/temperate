@@ -1,16 +1,31 @@
 <div class="step-header">
   <h2 class="center">Invite colleagues</h2>
 </div>
-<div class="step-content">
-  Invitation step
+<div class="step-content" [formGroup]="form">
+  <p>
+    You can invite your colleagues to work on this plan with you.
+    They will receive an email prompting them to join your organization and create a Temperate account.
+    This can also be accomplished later.
+  </p>
+  <label>Email</label>
+  <app-user-emails formControlName="invites" [errors]="inviteErrors"></app-user-emails>
+  <div *ngIf="form.controls.invites.errors">
+    <span *ngIf="form.controls.invites.errors.server">
+      *{{ form.controls.invites.errors.server }}
+    </span>
+  </div>
 </div>
 <div class="step-footer">
   <button type="button"
-          tabindex="3"
-          class="button"
-          nextStep>Skip</button>
-  <button type="button"
-          tabindex="2"
           class="button button-primary"
-          nextStep>Continue</button>
+          (click)="confirm()">
+    <span *ngIf="!shouldSkip()">
+      Send {{ form.controls.invites.value.length }}
+      {{ form.controls.invites.value.length === 1 ? 'invite' : 'invites' }}
+      and continue
+    </span>
+    <span *ngIf="shouldSkip()">
+      Skip
+    </span>
+  </button>
 </div>

@@ -104,7 +104,7 @@ class UserValidationMixin(object):
     def clean(self):
         cleaned_data = super().clean()
         primary_organization = cleaned_data.get('primary_organization')
-        organizations = list(cleaned_data.get('organizations'))
+        organizations = list(cleaned_data.get('organizations', []))
 
         if primary_organization is not None and primary_organization not in organizations:
             raise ValidationError(

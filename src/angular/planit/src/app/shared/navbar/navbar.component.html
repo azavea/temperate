@@ -16,7 +16,7 @@
     <button class="button"
             routerLink="/login">Log In</button>
     <button class="button button-primary"
-            (click)="openModal(newUserForm)">Sign up</button>
+            routerLink="/register">Sign up</button>
   </nav>
 </header>
 
@@ -28,8 +28,3 @@
   </span>
   <a routerLink="/subscription" class="button">Upgrade</a>
 </div>
-
-<!-- Create Account Modal template -->
-<ng-template #newUserForm>
-  <app-new-user-form (closed)="modalRef.hide()"></app-new-user-form>
-</ng-template>
