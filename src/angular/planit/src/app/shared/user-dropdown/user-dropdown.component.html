@@ -9,12 +9,12 @@
       <div class="subscription">{{ subscriptionOptions.get(user.primary_organization?.subscription) }}</div>
     </li>
     <li role="separator" class="divider"></li>
-    <li role="menuitem">
+    <li *ngIf="organization?.id" role="menuitem">
       <a routerLink="/subscription">Upgrade your plan</a>
     </li>
     <li role="separator" class="divider"></li>
     <li role="menuitem">
-      <a href="javascript:" routerLink="/settings" routerLinkActive="disabled">
+      <a *ngIf="organization?.id" href="javascript:" routerLink="/settings" routerLinkActive="disabled">
         <i class="icon-cog"></i>
         Settings
       </a>
