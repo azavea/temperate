@@ -2,34 +2,50 @@
   <main class="main-content" role="main">
     <div class="page-header">
       <h1 class="page-title-large">Methodology</h1>
-      <p class="paragraph-intro">This is the methodology behind all of the components of Temperate.</p>
+      <p class="paragraph-intro">Learn more about the data used in Temperate, and the logic behind the suggestions provided.</p>
     </div>
     <div class="page-content">
       <section class="page-section">
         <h2>Indicator data</h2>
         <p>Using <a href="https://docs.climate.azavea.com/">Azavea’s Climate API,</a> Temperate features 22 temperature and precipitation climate change indicators derived from either the <a href="https://cds.nccs.nasa.gov/nex-gddp/">NASA NEX-GDDP</a> or <a href="http://loca.ucsd.edu/">UCSD LOCA</a> datasets.</p> 
-        <p>Currently, the Climate API includes data for 1,000 cities across the USA historically and under two popular carbon emission scenarios projected until the end of the century. To provide the most detail possible, by default Temperate averages more than 30 climate models provided by a variety of research institutions around the globe. For those who have particular models in mind, when looking at a specific indicator, Temperate users can select one or more models of interest.</p>
+        <p>Currently, the Climate API includes data for 1,000 cities across the USA historically and under two popular carbon emission scenarios projected until the end of the century. To provide the most detail possible, Temperate averages more than 30 climate models provided by a variety of research institutions around the globe. For those who have particular models in mind, Temperate users can select one or more models of interest when looking at a specific indicator.</p>
+        <p>Visit the <a href="https://docs.climate.azavea.com/indicators.html">Climate API documentation</a> for more information on how we calculate the Indicators used in Temperate.</p>
       </section>
       
       <section class="page-section">
         <h2>Top concerns</h2>
-        <p>The Temperate dashboard will display some potential future climate hazards for the user’s city, based on the geographic regions used in and findings included in the 2014 <a href="https://nca2014.globalchange.gov/">National Climate Assessment.</a> If for some reason those hazards are not a concern for a user’s city, the user can delete them from the list of top concerns.</p>
+        <p>The Temperate dashboard will display some potential future climate hazards for the user’s city, based on the geographic regions and findings included in the 2014 <a href="https://nca2014.globalchange.gov/">National Climate Assessment.</a> If a user determines those hazards are not a concern for their city, the user can delete them from the list of Top Hazards.</p>
       </section>
 
       <section class="page-section">
         <h2>Suggested risks</h2>
-        <p>Temperate uses the <a href="https://b8f65cb373b1b7b15feb-c70d8ead6ced550b4d987d7c03fcdd1d.ssl.cf3.rackcdn.com/cms/guidance_docs/pdfs/000/000/015/original/Compact-of-Mayors_2016_guidance_doc_(1).pdf?1455637590">list of hazards and community systems</a> that the <a href="https://www.globalcovenantofmayors.org/">Global Covenant of Mayors for Climate and Energy</a> has adopted. </p>
-        <p>The hazards that are temperature or precipitation related will be linked to a subset of related climate change indicators. Those hazards that are not temperature or precipitation related will not have any related climate change indicators (although we hope to add additional resources and context to those hazards in the future). For each potential future climate hazard, Temperate selects two to five community systems that may be impacted, based on the experience of the adaptation planners at <a href="http://icleiusa.org/">ICLEI-USA.</a></p>
+        <p>Temperate uses the <a href="https://b8f65cb373b1b7b15feb-c70d8ead6ced550b4d987d7c03fcdd1d.ssl.cf3.rackcdn.com/cms/guidance_docs/pdfs/000/000/015/original/Compact-of-Mayors_2016_guidance_doc_(1).pdf?1455637590">list of hazards and community systems</a> that the <a href="https://www.globalcovenantofmayors.org/">Global Covenant of Mayors for Climate and Energy</a> has adopted.</p>
+        <p> The hazards that are temperature or precipitation related will be linked to a subset of related climate change indicators. Those hazards that are not temperature or precipitation related will not have any related climate change indicators (although we hope to add additional resources and context related to those hazards in the future). For each potential future climate hazard, Temperate selects two to five community systems that may be impacted, based on the experience of the adaptation planners at <a href="http://icleiusa.org/">ICLEI-USA.</a></p>
       </section>
 
       <section class="page-section">
         <h2>Adaptive need</h2>
-        <p>Description pending</p>
+        <p>Averaging the values entered for Impact Magnitude and Adaptive Capacity, Adaptive Need is an illustration of relative priority, from yellow (lowest priority) to deep red (highest priority). Both Impact Magnitude and Adaptive Capacity values are along a five-point Likert scale and the Adaptive Need is calculated by taking a simple average of the two values. For example, an individual Risk with high Impact Magnitude and low Adaptive Capacity will be displayed as red, indicating a higher Adaptive Need, than a Risk with low Impact Magnitude and high Adaptive Capacity. For the Risks grouped by hazard, the aggregate Adaptive Need is a simple average of the Adaptive Need “scores” of each individual risk.</p>
       </section>
 
       <section class="page-section">
         <h2>Suggested actions</h2>
-        <p>Description pending</p>
+        <p>Based on the <a href="https://deepblue.lib.umich.edu/bitstream/handle/2027.42/135830/stultsm_1.pdf?sequence=1&isAllowed=y">research</a> of adaptation professional Melissa Stults, the strategies displayed as Suggested actions were gathered from adaptation plans created by 43 cities, counties, or tribes and included in Stults’ analysis. Temperate provides a link to the plan that includes the strategy, along with the name of city and the date of the plan. (In those cases where the plan was created by a county or a tribe, the nearest city is provided). Wherever possible, the categories Stults determined for each strategy are included as well.</p>
+        <p>Based on the Risk a user is hoping to take action on, the strategies displayed will be shown in the following priority order:</p>
+        <ul>
+          <li>Strategies from cities within the same georegion as the user</li>
+          <li>Strategies from other coastal cities</li>
+          <li>Strategies from other cities that match the identified Risk (Risk being the combination of Hazard and Community System)</li>
+          <li>Strategies from other cities that match the identified Community System</li>
+          <li>Strategies from other cities that match the identified Hazard</li>
+        </ul>
+        
+        <p>If there are no strategies in our database that match any of these criteria, the user will receive a notification that no matching strategies were found.</p>
+      </section>
+
+      <section class="page-section">
+        <h2>Categories</h2>
+        <p>The categories included in Temperate are based on those designed by adaptation professional Melissa Stults as part of her <a href="https://deepblue.lib.umich.edu/bitstream/handle/2027.42/135830/stultsm_1.pdf?sequence=1&isAllowed=y">research</a> and serve merely as a means of grouping strategies created in order to view them altogether at a later point.</p>
       </section>
     </div>
   </main>
