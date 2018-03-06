@@ -1,27 +1,42 @@
 .wizard-container {
   display: flex;
-  flex: 1;
+  flex: 1 1 auto;
   flex-wrap: wrap;
 
   wizard {
-    flex: 1;
+    flex: 1 1 auto;
   }
 
   &.wizard-no-nav {
     flex-wrap: nowrap;
     flex-direction: column;
 
+    wizard {
+      justify-content: center;
+    }
+
     .wizard-header,
-    .step-header {
+    .step-header,
+    p {
       text-align: center;
     }
 
+    p {
+      max-width: 55rem;
+    }
+
     .wizard-steps {
-      flex: 1 0 auto;
+      flex: 0 1 100rem;
     }
 
     .form-control-container {
       margin: 0 auto 2rem;
+    }
+
+    .step-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

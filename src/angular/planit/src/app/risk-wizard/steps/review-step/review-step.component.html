@@ -71,7 +71,7 @@
 		<div class="review-item">
 			<span class="answer-label">Related adaptive values: </span>
 			<span *ngIf="!risk.related_adaptive_values?.length">--</span>
-			<div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
+			<div class="multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
 				<div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
 					{{ relatedAdaptiveValue }}
 				</div>
