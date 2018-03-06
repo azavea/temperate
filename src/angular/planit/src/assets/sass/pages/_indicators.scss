@@ -1,14 +1,26 @@
 app-indicators {
-  .indicators-header {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .indicator-filters {
+    margin-bottom: $space-small;
+
+    .button-group {
+      flex-wrap: wrap;
+
+      .button {
+        margin-bottom: $space-tiny;
+        flex: 0 0 auto;
+      }
+    }
+
     .filter-header {
-      display:flex;
-      align-items: center;
-      justify-content: space-between;
+      margin-bottom: 0.35rem;
+
+      label {
+        margin-right: $space-medium;
+      }
+
+      .reset-button {
+        margin-left: $space-tiny;
+      }
     }
   }
 

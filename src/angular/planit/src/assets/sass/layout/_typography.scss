@@ -79,6 +79,10 @@ figcaption {
   margin: 0 auto;
 }
 
+.page-header p {
+  max-width: 65rem;
+}
+
 .page-title-large {
   color: $page-title-large-color;
   font-size: $page-title-large-size;

@@ -1,32 +1,31 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <section class="page-section page-intro">
+    <div class="page-header">
       <h1 class="page-title-large">Indicators</h1>
       <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p>
       <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
-    </section>
-    <section>
+    </div>
+
+    <section class="page-section">
       <h2>Top hazards</h2>
       <app-top-concerns [weatherEvents]="topConcerns"></app-top-concerns>
     </section>
+    
     <section class="page-section indicators">
       <div class="indicators-header">
-        <div>
-          <h2>Indicators</h2>
-          <p>Below are all of the indicators for your city.</p>
-        </div>
+        <h2>Indicators</h2>
         <div class="indicator-filters" *ngIf="filters?.length">
           <div class="filter-header">
-            <label for="filter-indicators">Filter by hazard <span class="icon icon-question-circle" tooltip="Top hazards that have related indicators can filter the list below"></span></label>
-            <button class="button-link" (click)="resetAccordion()">Reset</button>
-          </div>
-          <div id="filter-indicators" class="button-group">
-            <button class="button button-primary"
-                 [ngClass]="{'active': activeFilter?.name === filter.name}"
-                 *ngFor="let filter of filters"
-                 (click)="setActiveFilter(filter)">
-                {{ filter.name }}
-            </button>
+            <label for="filter-indicators">Filter by hazard:</label>
+            <div id="filter-indicators" class="button-group">
+              <button class="button button-primary button-small"
+                   [ngClass]="{'active': activeFilter?.name === filter.name}"
+                   *ngFor="let filter of filters"
+                   (click)="setActiveFilter(filter)">
+                  {{ filter.name }}
+              </button>
+              <button class="button button-small reset-button" (click)="resetAccordion()">Reset</button>
+            </div>
           </div>
         </div>
       </div>
