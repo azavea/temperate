@@ -2,7 +2,12 @@
   <h2 class="center">Invite colleagues</h2>
 </div>
 <div class="step-content" [formGroup]="form">
-  Invitation step
+  <p>
+    You can invite your colleagues to work on this plan with you.
+    They will receive an email prompting them to join your organization and create a Temperate account.
+    This can also be accomplished later.
+  </p>
+  <label>Email</label>
   <app-user-emails formControlName="invites" [errors]="inviteErrors"></app-user-emails>
   <div *ngIf="form.controls.invites.errors">
     <span *ngIf="form.controls.invites.errors.server">
