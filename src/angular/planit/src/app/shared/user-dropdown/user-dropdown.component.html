@@ -6,7 +6,9 @@
     <li role="menuitem" class="profile-info">
       <div class="name">{{ user.name() }}</div>
       <div class="email">{{ user.email }}</div>
-      <div class="subscription">{{ subscriptionOptions.get(user.primary_organization?.subscription) }}</div>
+      <div class="subscription">
+        {{ subscriptionOptions.get(user.primary_organization?.subscription)?.label }}
+      </div>
     </li>
     <li role="separator" class="divider"></li>
     <li *ngIf="organization?.id" role="menuitem">

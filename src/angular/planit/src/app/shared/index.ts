@@ -9,7 +9,8 @@ export { Concern } from './models/concern.model';
 export { Organization } from './models/organization.model';
 export {
   OrgSubscription,
-  OrgSubscriptionOptions
+  OrgSubscriptionOptions,
+  OrgSubscriptionPlan
 } from './models/org-subscription.model';
 export { OrgWeatherEvent } from './models/org-weather-event.model';
 export { Risk } from './models/risk.model';

@@ -11,6 +11,7 @@ export class Organization {
   location: City;
   subscription: OrgSubscription;
   subscription_end_date?: Date;
+  subscription_pending: boolean;
   weather_events: number[];
   community_systems: number[];
 

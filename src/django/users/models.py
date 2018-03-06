@@ -75,10 +75,20 @@ class PlanItOrganization(models.Model):
 
     class Subscription:
         FREE_TRIAL = 'free_trial'
+        BASIC = 'basic'
+        REVIEW = 'review'
+        INSIGHTS = 'insights'
+        GUIDANCE = 'guidance'
+        HOURLY = 'hourly'
         CUSTOM = 'custom'
 
         CHOICES = (
             (FREE_TRIAL, 'Free Trial',),
+            (BASIC, 'Basic',),
+            (REVIEW, 'Review',),
+            (INSIGHTS, 'Insights',),
+            (GUIDANCE, 'Guidance',),
+            (HOURLY, 'Pay as you go',),
             (CUSTOM, 'Custom',),
         )
 
@@ -92,6 +102,7 @@ class PlanItOrganization(models.Model):
                                     choices=Subscription.CHOICES,
                                     default=Subscription.FREE_TRIAL)
     subscription_end_date = models.DateTimeField(null=True, blank=True)
+    subscription_pending = models.BooleanField(default=False)
 
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
@@ -108,7 +119,7 @@ class PlanItOrganization(models.Model):
         return "{} - {}".format(self.name, str(self.location))
 
     def save(self, *args, **kwargs):
-        self._set_subscription_end_date()
+        self._set_subscription()
         super().save(*args, **kwargs)
 
     def import_weather_events(self):
@@ -161,7 +172,7 @@ class PlanItOrganization(models.Model):
             for risk in top_risks
         )
 
-    def _set_subscription_end_date(self):
+    def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
         # rounded up to the start of the following day
         if self.subscription == self.Subscription.FREE_TRIAL and self.subscription_end_date is None:
@@ -171,6 +182,16 @@ class PlanItOrganization(models.Model):
             #   a user signing up right around the cutoff
             trial_end_rounded = trial_end.replace(hour=7, minute=0, second=0, microsecond=0)
             self.subscription_end_date = trial_end_rounded
+        # Automatically update plan end date to one year from now when we switch to a paid plan
+        elif self.subscription != self.Subscription.FREE_TRIAL:
+            try:
+                last_subscription = PlanItOrganization.objects.get(id=self.id).subscription
+                if last_subscription != self.subscription:
+                    now = timezone.now()
+                    self.subscription_end_date = now.replace(year=now.year + 1)
+                    self.subscription_pending = True
+            except PlanItOrganization.DoesNotExist:
+                pass
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

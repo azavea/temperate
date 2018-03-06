@@ -1,4 +1,4 @@
-import datetime
+from datetime import date
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
@@ -67,7 +67,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if self.instance is not None and self.instance.plan_due_date == dt:
             # we shouldn't validate if it hasn't changed
             return dt
-        if dt < datetime.date.today():
+        if dt < date.today():
             raise serializers.ValidationError("Plan due date cannot be in the past.")
         return dt
 
@@ -83,6 +83,14 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
             raise serializers.ValidationError("An organization with this name already exists.")
         return name
+
+    def validate_subscription(self, subscription):
+        if (self.instance is not None and
+                self.instance.subscription_pending and
+                subscription != self.instance.subscription):
+            raise serializers.ValidationError("Subscription cannot be changed while another " +
+                                              "change is pending.")
+        return subscription
 
     @transaction.atomic
     def create(self, validated_data):
@@ -115,16 +123,18 @@ class OrganizationSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, data):
-        # Only set created_by if we are creating a new object instance
-        if not self.instance:
+        # Only set created_by if we are creating a new object instance and have related user info
+        if not self.instance and self.context and self.context.get('request', None):
             data['created_by'] = self.context['request'].user
         return data
 
     class Meta:
         model = PlanItOrganization
         fields = ('id', 'created_at', 'name', 'location', 'units',
-                  'subscription', 'subscription_end_date', 'community_systems',
-                  'plan_due_date', 'plan_name', 'plan_hyperlink', 'weather_events')
+                  'subscription', 'subscription_end_date', 'subscription_pending',
+                  'plan_due_date', 'plan_name', 'plan_hyperlink',
+                  'community_systems', 'weather_events')
+        read_only_fields = ('subscription_end_date', 'subscription_pending',)
 
 
 class UserSerializer(serializers.ModelSerializer):

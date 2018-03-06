@@ -1,5 +1,99 @@
 <div class="main-container">
   <main class="main-content" role="main">
+    <div *ngIf="user?.primary_organization?.subscription_pending">
+      You have a subscription change pending. Further changes are disabled.
+    </div>
     <h1>Manage Subscription</h1>
+    <div>
+      <div>
+        <p>You can upgrade or cancel your Temperate package at any time. If the below packages don't suit your needs, <a href="mailto:support@temperate.io">contact us</a> so we can figure out what works for you.</p>
+      </div>
+      <div class="current" *ngIf="user?.primary_organization.isFreeTrial()">
+        <h3>Free trial</h3>
+        <p>
+          Your 15-day free trial ends on
+          {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
+        </p>
+      </div>
+    </div>
+    <app-plan-selector [org]="user?.primary_organization"
+                       (selected)="selectPlan($event)"></app-plan-selector>
+    <div>
+      <h2>Not seeing what you need above?</h2>
+      <div [ngClass]="{active: hourlyPlan.name === user?.primary_organization?.subscription}">
+        <h4>{{ hourlyPlan.header }}</h4>
+        <p>{{ hourlyPlan.description }}</p>
+        <button class="button"
+                [disabled]="user?.primary_organization?.subscription_pending"
+                (click)="selectPlan(hourlyPlan)">Contact us</button>
+      </div>
+      <div [ngClass]="{active: customPlan.name === user?.primary_organization?.subscription}">
+        <h4>{{ customPlan.header }}</h4>
+        <p>{{ customPlan.description }}</p>
+        <button class="button"
+                [disabled]="user?.primary_organization?.subscription_pending"
+                (click)="selectPlan(customPlan)">Contact us</button>
+      </div>
+    </div>
   </main>
 </div>
+
+<app-modal-template #selectSubscriptionModal
+                    title="">
+  <div class="select-subscription-modal">
+    <div *ngIf="activeModalStep === modalStep.Select">
+      <h2>You have selected:</h2>
+      <p>
+        <span class="icon icon-ok-circled"></span>
+        <span class="plan-name">{{ selectedPlan?.name | titlecase }}</span> plan
+      </p>
+      <iframe name="manage-subscription-iframe"
+              id="manage-subscription-iframe"
+              src="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8">
+      </iframe>
+      <form ngNoForm
+          id="manage-subscription-form"
+          action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8"
+          method="POST"
+          target="manage-subscription-iframe">
+        <input type=hidden name="oid" value="00D700000008ZTW">
+        <input type=hidden name="retURL" value="{{ url }}">
+        <input type=hidden id="lead_source" name="lead_source" value="Temperate">
+
+        <input id="first_name" name="first_name" type="hidden" value="{{ user?.first_name }}">
+        <input id="last_name" name="last_name" type="hidden" value="{{ user?.last_name }}">
+        <input id="email" name="email" type="hidden" value="{{ user?.email }}">
+        <input id="company" name="company" type="hidden" value="{{ user?.primary_organization?.name }}">
+        <input  id="state" name="state" type="hidden" value="">
+
+        <input id="00N0g000003o4q3"
+               name="00N0g000003o4q3"
+               title="Temperate Support Package"
+               type="hidden"
+               value="{{ selectedPlan?.name | titlecase }}">
+
+        <div *ngIf="selectedPlan?.name === customSubscription">
+          If you are looking for custom engagement or have anything else to share, please describe it here:<br>
+          <textarea  id="00N700000036oeq" name="00N700000036oeq" rows="3" type="text" wrap="soft"></textarea><br>
+        </div>
+      </form>
+      <div>
+        <button class="button"
+                type="button"
+                (click)="closeModal(selectSubscriptionModal)">Go back</button>
+        <input form="manage-subscription-form" type="submit" name="submit" value="Send me the invoice"
+                class="button button-primary"
+                (click)="submitPlanChange(selectedPlan)">
+      </div>
+    </div>
+    <div *ngIf="activeModalStep === modalStep.Review">
+      <h2>Great! We're excited to help you on this journey</h2>
+      <p>You should receive an invoice in your email soon. Please pay the invoice within 30 days to continue building your plan in Temperate!</p>
+      <div>
+        <button class="button button-primary"
+                (click)="closeModal(selectSubscriptionModal)">Back to app</button>
+      </div>
+
+    </div>
+  </div>
+</app-modal-template>
