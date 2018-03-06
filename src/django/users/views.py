@@ -205,6 +205,7 @@ class UserViewSet(mixins.CreateModelMixin,
 
             # User was invited, email already verified and so account can be made active
             serializer.save(is_active=True)
+            user.send_registration_complete_email()
         else:
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
