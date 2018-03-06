@@ -10,59 +10,69 @@
 <div *ngIf="!submitted" class="modal-body">
   <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">
     <!-- First name -->
-    <div class="required form-group">
+    <div class="required form-control-container">
       <label for="first_name">First name</label>
       <input class="form-control" type="text" required autocomplete="given-name"
         [(ngModel)]="model.first_name" #first_name="ngModel" id="first_name" name="first_name">
-      <div *ngIf="errors.first_name" class="alert alert-danger">
-        <div *ngFor="let error of errors.first_name">
-          <p>{{ error }}</p>
-        </div>
+      <div *ngIf="errors.first_name" class="form-control-error">
+        <p *ngFor="let error of errors.first_name">
+          {{ error }}
+        </p>
       </div>
     </div>
 
     <!-- Last Name -->
-    <div class="required form-group">
+    <div class="required form-control-container">
       <label for="last_name">Last name</label>
       <input class="form-control" type="text" required autocomplete="family-name"
         [(ngModel)]="model.last_name" #last_name="ngModel" id="last_name" name="last_name">
-        <div *ngIf="errors.last_name" class="alert alert-danger">
-        <div *ngFor="let error of errors.last_name">
-          <p>{{ error }}</p>
-        </div>
+        <div *ngIf="errors.last_name" class="form-control-error">
+        <p *ngFor="let error of errors.last_name">
+          {{ error }}
+        </p>
       </div>
     </div>
 
     <!-- Email Address -->
-    <div class="required form-group">
+    <div class="required form-control-container">
       <label for="email">Email address</label>
       <input class="form-control" type="email" required autocomplete="email"
         [(ngModel)]="model.email" #email="ngModel" id="email" name="email"
         [disabled]="emailDisabled">
-      <div *ngIf="errors.email" class="alert alert-danger">
-        <div *ngFor="let error of errors.email">
-          <p>{{ error }}</p>
-        </div>
+      <div *ngIf="errors.email" class="form-control-error">
+        <p *ngFor="let error of errors.email">
+          {{ error }}
+        </p>
       </div>
     </div>
 
     <!-- Password -->
-    <div class="required form-group">
+    <div class="required form-control-container">
       <label for="password1">Password</label>
       <input class="form-control" type="password" required autocomplete="new-password"
         [(ngModel)]="model.password1" #password1="ngModel" id="password1" name="password1">
+      <div *ngIf="errors.password1" class="form-control-error">
+        <p *ngFor="let error of errors.password1">
+          {{ error }}
+        </p>
+      </div>
     </div>
 
-    <div class="required form-group">
-      <label for="password2">Password again</label>
+    <div class="required form-control-container">
+      <label for="password2">Confirm password</label>
       <input class="form-control" type="password" required autocomplete="new-password"
         [(ngModel)]="model.password2" #password2="ngModel" id="password2" name="password2">
+      <div *ngIf="errors.password2" class="form-control-error">
+        <p *ngFor="let error of errors.password2">
+          {{ error }}
+        </p>
+      </div>
     </div>
 
-    <div *ngIf="errors.non_field_errors" class="alert alert-danger">
-      <div *ngFor="let error of errors.non_field_errors">
-        <p>{{ error }}</p>
-      </div>
+    <div *ngIf="errors.non_field_errors" class="form-control-error">
+      <p *ngFor="let error of errors.non_field_errors">
+        {{ error }}
+      </p>
     </div>
   </form>
   <footer *ngIf="!submitted" class="modal-footer">
