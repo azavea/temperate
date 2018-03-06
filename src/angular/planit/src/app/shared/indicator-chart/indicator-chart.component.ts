@@ -1,5 +1,6 @@
 import {
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   Input,
@@ -41,7 +42,7 @@ import {
   selector: 'app-indicator-chart',
   templateUrl: './indicator-chart.component.html'
 })
-export class IndicatorChartComponent implements OnInit {
+export class IndicatorChartComponent implements OnInit, DoCheck {
   @Input() indicator: Indicator;
   @Input() city: City;
 
