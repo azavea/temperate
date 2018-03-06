@@ -1,16 +1,17 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
-from django.utils import timezone
-
-from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.loader import render_to_string
+from django.utils import timezone
+
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
@@ -297,6 +298,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         subject = ''.join(subject.splitlines())
         message_text = render_to_string(template_prefix + ".txt", context)
         message_html = render_to_string(template_prefix + ".html", context)
-        msg = EmailMultiAlternatives(subject, message_text, from_email, [user.email])
+        msg = EmailMultiAlternatives(subject, message_text, from_email, [self.email])
         msg.attach_alternative(message_html, "text/html")
         msg.send()

@@ -215,7 +215,8 @@ else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
-DEFAULT_TO_EMAIL = 'support@temperate.io'
+SUPPORT_EMAIL = 'support@temperate.io'
+DEFAULT_TO_EMAIL = SUPPORT_EMAIL
 
 
 # Django-Registration

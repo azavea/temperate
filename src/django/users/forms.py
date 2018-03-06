@@ -1,9 +1,6 @@
 from django import forms
-from django.core.exceptions import ValidationError
-
 from django.conf import settings
-from django.template.loader import render_to_string
-from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 from django.core import signing
 
 from django.contrib.auth.password_validation import validate_password
@@ -35,7 +32,7 @@ class PasswordResetInitForm(forms.Form):
             token = self.generate_token(uid)
             url = settings.PASSWORD_RESET_URL.format(token=token)
             context = {'user': user, 'url': url}
-            user.send_email('password_reset_email', context)
+            user.email_user('password_reset_email', context)
         except PlanItUser.DoesNotExist:
             # We don't don't complain if the user isn't found because that would allow
             # someone to enumerate users from the public internet.

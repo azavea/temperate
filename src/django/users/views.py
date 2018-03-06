@@ -1,10 +1,9 @@
 import logging
 
-from django.core.mail import EmailMultiAlternatives
+
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -53,6 +52,7 @@ class RegistrationView(BaseRegistrationView):
             'user': user,
         })
         user.email_user('registration/activation_email', context)
+
 
 class JsonFormView(APIView):
     def form_valid(self, form):
