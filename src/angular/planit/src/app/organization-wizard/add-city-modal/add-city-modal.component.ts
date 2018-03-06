@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
@@ -31,8 +31,7 @@ export class AddCityModalComponent implements OnInit {
     this.cityForm = this.fb.group({
       'city': ['', [Validators.required]],
       'state': ['', [Validators.required]],
-      'subject': ['Add my city to Temperate please'],
-      'description': ['']
+      'notes': ['']
     });
     if (this.authService.isAuthenticated()) {
       this.userService.current().subscribe(u => {
@@ -47,13 +46,14 @@ export class AddCityModalComponent implements OnInit {
   }
 
   public changeTemplate(template: TemplateRef<any>) {
-    this.addCityService.sendAddCityEmail(this.cityForm, this.user).subscribe(
+    this.addCityService.sendAddCityEmail(this.cityForm).subscribe(
       response => {
         this.modalRef.hide();
         this.openModal(template);
       },
       error => {
-        this.error = ["There was an error submitting your request. Check your form is correct and try again or email support@temperate.io directly."]
+        this.error = ['There was an error submitting your request. Check your form is correct ' +
+                      'and try again or email support@temperate.io directly.'];
       }
     );
   }

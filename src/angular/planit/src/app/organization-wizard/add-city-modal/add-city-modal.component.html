@@ -1,68 +1,54 @@
-<a class="button button-primary" (click)="openModal(addCityTemplate)">City not available?</a>
+Please note that we only have US cities at this time...<a (click)="openModal(addCityTemplate)" class="link-text">Not seeing yours?</a>
 
 <ng-template #addCityTemplate>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Request Your City's Data</h4>
-  </div>
-  <div class="container">
-    <form [formGroup]="cityForm"
-          (ngSubmit)="changeTemplate(submittedForm)">
-      <div class="modal-body">
-        <p>If Temperate doesn't offer your city yet, we can.</p>
-        <div class="row form-group">
-          <div class="col-sm-2">
-            <label for="city">Subject</label>
-          </div>
-          <div class="col-sm-5">
-            <input class="form-control" maxlength="200" name="subject" size="20" type="text"
-              [formControl]="cityForm.controls.subject">
-          </div>
-        </div>
-        <div class="row form-group">
-          <div class="col-sm-2">
-            <label for="city">City</label>
-          </div>
-          <div class="col-sm-5">
-            <input name="city" type="text" class="form-control" [formControl]="cityForm.controls.city" required autofocus>
-          </div>
-        </div>
-        <div class="row form-group">
-          <div class="col-sm-2">
-            <label for="state">State</label>
-          </div>
-          <div class="col-sm-5">
-            <input name="state" class="form-control" [formControl]="cityForm.controls.state" required>
-          </div>
-        </div>
-        <div class="row form-group">
-          <div class="col-sm-2">
-            <label for="description">Description</label>
-          </div>
-          <div class="col-sm-5">
-            <textarea name="description" class="form-control" [formControl]="cityForm.controls.description"></textarea>
-          </div>
-        </div>
-        <div *ngIf="error" class="alert alert-danger">
-          <p>{{ error }}</p>
-        </div>
+  <header class="modal-header">
+    <h1 class="modal-title">Request to add your city to Temperate</h1>
+  </header>
+  <form [formGroup]="cityForm"
+        (ngSubmit)="changeTemplate(submittedForm)">
+    <div class="modal-body">
+      <p>If Temperate doesn't offer your city yet, we can.</p>
+      <div class="form-control-container">
+        <label for="city">City</label>
+        <input id="city" type="text" class="form-control" [formControl]="cityForm.controls.city" required autofocus>
+      </div>
+      <div class="form-control-container">
+        <label for="state">State</label>
+        <input id="state" class="form-control" [formControl]="cityForm.controls.state" required>
+      </div>
+      <div class="form-control-container">
+        <label for="notes">Notes</label>
+        <textarea id="notes" class="form-control" [formControl]="cityForm.controls.notes"></textarea>
+      </div>
+      <div *ngIf="error" class="form-control-error">
+        <p>{{ error }}</p>
       </div>
       <footer class="modal-footer">
         <div class="button-group">
-          <button type="button" class="button button-secondary button-small"
-            data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
-          <button type="submit" class="button button-primary button-small"
-          [disabled]="!cityForm.valid">Submit</button>
+          <button type="submit" class="button button-primary"
+            [disabled]="!cityForm.valid">Submit</button>
+          <button type="button"
+            class="button button-secondary"
+            aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
         </div>
       </footer>
-    </form>
-  </div>
+    </div>
+  </form>
 </ng-template>
 
-<ng-template #submittedForm>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Thanks for your message!</h4>
-  </div>
+<ng-template #submittedForm class="add-city-success-modal">
+  <header class="modal-header">
+    <h1 class="modal-title">Thanks for your message!</h1>
+    <button type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="modalRef.hide()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
   <div class="modal-body">
-   We'll get back to you ASAP. In the meantime, check out our <a href="{{ url }}">resources page.</a>
+    We'll get back to you as soon as possible. In the meantime, check out our <a href="{{ url }}">resources page.</a>
+    <footer class="modal-footer">
+      <a class="button button-primary" href="{{ url }}">Okay</a>
+    </footer>
   </div>
 </ng-template>

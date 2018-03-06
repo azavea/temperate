@@ -1,6 +1,5 @@
 import logging
 
-from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import QueryDict
@@ -261,18 +260,15 @@ class OrganizationViewSet(mixins.CreateModelMixin,
         return self.request.user.organizations.all()
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class AddCityView(JsonFormView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     form_class = AddCityForm
 
     def post(self, request, *args, **kwargs):
-        """Prevent potentially unwanted requests."""
-        if str(request.META['HTTP_ORIGIN']) != str(settings.PLANIT_APP_HOME):
-            return Response({'status': 'Unauthorized origin'}, content_type='application/json',
-                            status=401)
+        self.user = request.user
         return super(AddCityView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        form.cleaned_data['email'] = self.user.email
         form.send_email()
-        return Response({'status': 'ok'})
+        return

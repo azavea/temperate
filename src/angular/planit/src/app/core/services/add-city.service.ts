@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx';
+
+import { PlanItApiHttp } from '../../core/services/api-http.service';
 
 import { User } from '../../shared/';
 
@@ -11,21 +13,17 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class AddCityService {
 
-  constructor(protected http: Http) {}
+  constructor(protected apiHttp: PlanItApiHttp) {}
 
-  sendAddCityEmail(form: FormGroup, user: User): Observable<any> {
+  sendAddCityEmail(form: FormGroup): Observable<any> {
     const body = JSON.stringify({
-      'email': user.email,
-      'first_name': user.first_name,
-      'last_name': user.last_name,
       'city': form.controls.city.value,
       'state': form.controls.state.value,
-      'subject': form.controls.subject.value,
-      'description': form.controls.description.value
+      'notes': form.controls.notes.value
     });
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
     const url = `${environment.apiUrl}/add_city/`;
-    return this.http.post(url, body, options);
+    return this.apiHttp.post(url, body, options);
   }
 }
