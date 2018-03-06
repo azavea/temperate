@@ -6,47 +6,47 @@
 </div>
 
 <div class="step-content">
-	<section class="review-step">
+	<section class="review-section">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Identify risk</h4>
-			<button class="button button-icon icon-edit" goToStep="0" title="Edit fields"></button>
+			<button class="button button-icon-only icon-edit" goToStep="0" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
 			<span class="answer-label">Hazard:</span> 
 			{{ risk.weather_event?.name || "--" }}
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Community system:</span> 
+			<span class="answer-label">Community system at risk:</span> 
 			{{ risk.community_system?.name || "--" }}
 		</div>
 	</section>
 
-	<section class="review-step">
+	<section class="review-section">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Hazard</h4>
-			<button class="button button-icon icon-edit" goToStep="1" title="Edit fields"></button>
+			<button class="button button-icon-only icon-edit" goToStep="1" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Probability: </span>
+			<span class="answer-label">Probability of hazard occurring: </span>
 			{{ chanceOptions.get(risk.probability)?.label || "--" }}
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Frequency: </span>
+			<span class="answer-label">Frequency over the next five years: </span>
 			{{ directionalOptions.get(risk.frequency)?.label || "--" }}
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Intensity: </span>
+			<span class="answer-label">Intensity over the next five years: </span>
 			{{ directionalOptions.get(risk.intensity)?.label || "--" }}
 		</div>
 	</section>
 
-	<section class="review-step">
+	<section class="review-section">
     <div class="review-section-header-container">
-			<h4 class="review-section-header">Impact</h4>
-			<button class="button button-icon icon-edit" goToStep="2" title="Edit fields"></button>
+			<h4 class="review-section-header">Potential Impact</h4>
+			<button class="button button-icon-only icon-edit" goToStep="2" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Potential impact: </span>
+			<span class="answer-label">Potential impact on this community system: </span>
 			{{ impactOptions.get(risk.impact_magnitude)?.label || "--" }}
 		</div>
 		<div class="review-item">
@@ -55,17 +55,17 @@
 		</div>
 	</section>
 
-	<section class="review-step">
+	<section class="review-section">
     <div class="review-section-header-container">
 			<h4 class="review-section-header">Adaptive capacity</h4>
-			<button class="button button-icon icon-edit" goToStep="3" title="Edit fields"></button>
+			<button class="button button-icon-only icon-edit" goToStep="3" title="Edit fields"></button>
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Adaptive capacity: </span>
+			<span class="answer-label">Your city's adaptive capacity: </span>
 			{{ chanceOptions.get(risk.adaptive_capacity)?.label || "--" }}
 		</div>
 		<div class="review-item">
-			<span class="answer-label">Description: </span>
+			<span class="answer-label">Description:</span>
 			<span class="review-description">{{ risk.adaptive_capacity_description || "--" }}</span>
 		</div>
 		<div class="review-item">

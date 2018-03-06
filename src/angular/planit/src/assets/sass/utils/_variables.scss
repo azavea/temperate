@@ -199,6 +199,10 @@ $field-disabled-border-color: $neutral-2;
 $field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
 $label-weight: $font-weight-bold;
 $required-color: $neutral-3;
+$required-weight: $font-weight-bold;
+$optional-color: $neutral-3;
+$optional-weight: $font-weight-regular;
+$recommended-color: $brand-black;
 $required-size: $text-tiny;
 $hint-size: $text-tiny;
 $error-color: $brand-danger;
@@ -357,7 +361,7 @@ $card-border-radius: $border-radius;
  *
  * * * */
  $switch-border-radius: $border-radius;
- $switch-title-size: $text-medium;
+ $switch-title-size: $text-base;
  $switch-title-color: $brand-black;
 
  $switch-background: $neutral-0;
@@ -466,7 +470,8 @@ $review-item-success-color: $brand-positive;
 $review-feedback-header-size: $text-base;
 $review-feedback-header-weight: $font-weight-bold;
 $review-feedback-color: $black;
+$review-feedback-background: $neutral-0;
 $review-feedback-list-size: $text-base;
 $review-feedback-icon-size: $text-medium;
 $review-feedback-icon-background: $brand-teal-light;
-$review-feedback-row-background: $neutral-0;
+$review-feedback-row-background: $white;

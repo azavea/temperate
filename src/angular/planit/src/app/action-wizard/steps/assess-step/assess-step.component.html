@@ -11,7 +11,7 @@
               [popover]="actionExamplesPopover"
               [outsideClick]="true"
               container="body"
-              placement="top">
+              placement="right">
         See examples
       </button></div>
       <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
@@ -27,12 +27,12 @@
             (click)="cancel()">Cancel</button>
     <button type="button" class="button" 
             *ngIf="!!action?.name" 
-            (click)="finish()">Finish later</button>
+            (click)="finish()">Finish action later</button>
   </div>
   <div class="step-footer-navigation">
     <button type="button" class="button button-primary" 
             [disabled]="!form.valid" 
-            nextStep>Continue</button>
+            nextStep>Next</button>
   </div>
 </footer>
 

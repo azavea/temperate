@@ -6,16 +6,16 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <label for="adaptive-capacity-effect">Effect on adaptive capacity</label>
+      <label for="adaptive-capacity-effect">How will this action step improve your city's adaptive capacity?</label>
       <textarea id="adaptive-capacity-effect" formControlName="improvements_adaptive_capacity"></textarea>
     </div>
     <div class="form-control-container">
-      <label for="impact-reduction">Reduction in potential impact</label>
+      <label for="impact-reduction">How will this action step reduce the potential impact of this risk?</label>
       <textarea id="impact-reduction" formControlName="improvements_impacts"></textarea>
     </div>
     <div class="form-control-container">
       <label for="collaborators">
-        Collaborators
+        Departments to collaborate with
           <span class="icon icon-question-circle"
                 tooltip="Select or enter other departments you will need to collaborate with to develop and implement this strategy. Keep in mind that additional stakeholder engagement is a key component of adaptation planning."
                 placement="right"></span>
@@ -36,13 +36,13 @@
             (click)="cancel()">Cancel</button>
     <button type="button" class="button"  
             *ngIf="!!action?.name"
-            (click)="finish()">Finish later</button>
+            (click)="finish()">Finish action later</button>
   </div>
   <div class="step-footer-navigation">
     <button type="button" class="button"   
-            nextStep>Skip Step</button>
+            nextStep>Skip step</button>
     <button type="button" class="button button-primary"   
             [disabled]="!form.valid" 
-            nextStep>Continue</button>
+            nextStep>Next</button>
   </div>
 </footer>

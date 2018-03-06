@@ -2,10 +2,9 @@
   <p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
-  <h3 id="potential-impact-title" class="step-title">Potential Impact <span class="required">required</span></h3>
+  <h3 id="potential-impact-title" class="step-title">Potential Impact</h3>
   <p *ngIf="!isDisabled">
-    How will this hazard affect <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?
-  </p>
+    How much impact might this hazard have on <strong>{{ risk.community_system?.name | lowercase }}</strong> over the next five years?</p>
 </div>
 
 <div class="step-content">
@@ -18,7 +17,7 @@
       </app-option-dropdown>
     </div>
     <div class="form-control-container">
-      <label for="impact-description">Description <span class="required">required</span></label>
+      <label for="impact-description">Describe the expected impact on your city</label>
       <textarea id="impact-description" formControlName="impact_description" required></textarea>
     </div>
   </form>
@@ -31,13 +30,13 @@
             (click)="cancel()">Cancel</button>
     <button type="button" class="button" 
             *ngIf="risk?.id" 
-            (click)="finish()">Finish later</button>
+            (click)="finish()">Finish assessment later</button>
   </div>
   <div class="step-footer-navigation">
     <button type="button" class="button" 
-            nextStep>Skip Step</button>
+            nextStep>Skip step</button>
     <button type="button" class="button button-primary" 
             [disabled]="form.invalid || !isStepComplete()"
-            nextStep>Continue</button>
+            nextStep>Next</button>
   </div>
 </footer>

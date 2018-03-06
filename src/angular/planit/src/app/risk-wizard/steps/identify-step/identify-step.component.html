@@ -1,12 +1,12 @@
 <div class="step-header">
   <h3 class="step-title">Identify risk</h3>
-  <p>Match a hazard to a subset of people, structures or assets (sometimes referred to as a &ldquo;community system&rdquo;) that the selected hazard may impact</p>
+  <p>In Temperate, a &ldquo;risk&rdquo; is the pairing of a climate-related hazard and a community system (a subset of people, structures or assets) that may be impacted by it.</p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
   <div class="form-control-container">
-    <label for="hazard">Hazard <span class="required">required</span></label>
+    <label for="hazard">Hazard</label>
     <input type="text" id="hazard" class="form-control" formControlName="weather_event"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('weather_event', $event)"
@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="form-control-container">
-    <label for="community-system">Community system <span class="required">required</span></label>
+    <label for="community-system">Community system at risk</label>
     <input type="text" id="community-system" class="form-control" formControlName="community_system"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('community_system', $event)"
@@ -47,11 +47,11 @@
             (click)="cancel()">Cancel</button>
     <button type="button" class="button" 
             *ngIf="risk?.id" 
-            (click)="finish()">Finish later</button>
+            (click)="finish()">Finish assessment later</button>
   </div>
   <div class="step-footer-navigation">
     <button type="button" class="button button-primary"
             [disabled]="!form.valid"
-            nextStep>Continue</button>
+            nextStep>Next</button>
   </div>
 </footer>

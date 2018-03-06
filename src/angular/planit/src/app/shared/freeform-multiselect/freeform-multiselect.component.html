@@ -1,5 +1,5 @@
 <div class="input-group" *ngIf="!isDisabled">
-  <input class="form-control"
+  <input class="form-control" placeholder="Type to search. Add new item by clicking the +"
          [(ngModel)]="selected"
          (typeaheadOnSelect)="add()"
          [typeahead]="availableOptions"
@@ -11,7 +11,7 @@
   <button class="button button-icon" type="button" (click)="add()"><i class="icon-plus"></i></button>
 </div>
 <div class="input-group" *ngIf="isDisabled">
-  <input class="form-control" disabled>
+  <input class="form-control" placeholder="Type to search. Add new item by clicking the +" disabled>
   <button class="button button-icon" type="button" disabled><i class="icon-plus"></i></button>
 </div>
 <div>

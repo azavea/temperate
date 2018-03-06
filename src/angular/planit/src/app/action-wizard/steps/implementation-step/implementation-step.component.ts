@@ -35,9 +35,8 @@ export class ImplementationStepComponent
   public navigationSymbol = '2';
   public title = 'Details';
   public tooltipText = {
-    shareWithCities: 'If \u201Cpublic\u201D is selected, other organizations in Temperate will be able ' +
-                     'to view this action and use it as a template for their own vulnerability ' +
-                     'assessments'
+    shareWithCities: 'Public actions can be adapted by other organizations ' +
+                     'for their own vulnerability assessments'
   };
 
   constructor(protected session: WizardSessionService<Action>,

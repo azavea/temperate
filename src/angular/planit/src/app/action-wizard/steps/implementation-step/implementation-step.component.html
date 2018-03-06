@@ -24,7 +24,7 @@
     </div>
     <div class="form-control-container">
       <label for="share">
-        Share with other cities
+        Visibility to other cities
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
@@ -33,12 +33,12 @@
         <button class="button button-primary" role="radio"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
-          Private
+          Keep private
         </button>
         <button class="button button-primary" role="radio"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
-          Public
+          Make public
         </button>
       </div>
     </div>
@@ -56,13 +56,13 @@
             (click)="cancel()">Cancel</button>
     <button type="button" class="button"  
             *ngIf="!!action?.name"
-            (click)="finish()">Finish later</button>
+            (click)="finish()">Finish action later</button>
   </div>
   <div class="step-footer-navigation">
     <button type="button" class="button"   
-            nextStep>Skip Step</button>
+            nextStep>Skip step</button>
     <button type="button" class="button button-primary"   
             [disabled]="!form.valid" 
-            nextStep>Continue</button>
+            nextStep>Next</button>
   </div>
 </footer>

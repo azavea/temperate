@@ -22,6 +22,7 @@
              [typeaheadScrollable]="true"
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
+      <div class="form-control-hint">Please note that we only have US cities at this time.</div>
       <div class="form-control-error" *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
         <span *ngIf="noResults">No results found</span>
         <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">This is a required field.</span>
@@ -29,20 +30,19 @@
           *{{ form.controls.location.errors.server }}
         </span>
       </div>
-    <div class="form-control-hint">e.g. Philadelphia, PA. Please note that we only have US cities at this time.</div>
   </div>
   <div class="form-control-container">
     <label>Organization/department <span class="required">(Required)</span></label>
       <input class="form-control"
              formControlName="name"
              type="text">
-      <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
+      <div class="form-control-hint">e.g. Ecology Action Center. If you work from more than one department, just pick one.</div>
+      <div class="form-control-error" *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
         <span *ngIf="form.controls.name.errors.required">This is a required field.</span>
         <span *ngIf="form.controls.name.errors.server">
           *{{ form.controls.name.errors.server }}
         </span>
       </div>
-    <div class="form-control-hint">e.g. Ecology Action Center. If you work from more than one department, just pick one.</div>
   </div>
 </div>
 
@@ -51,6 +51,6 @@
     <button type="button" class="button button-primary"
             [disabled]="!form.valid"
             nextStep
-            (click)="store()">Continue</button>
+            (click)="store()">Next</button>
   </div>
 </div>

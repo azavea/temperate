@@ -5,12 +5,20 @@ label, .label {
 }
 
 .required, .optional {
-  color: $required-color;
   font-size: $required-size;
   margin: 0 0 $space-tiny $space-small;
   line-height: 1.35;
   text-transform: uppercase;
   align-self: flex-end;
+}
+
+.required {
+  color: $required-color;
+}
+
+.optional {
+  color: $optional-color;
+  font-weight: $font-weight-regular;
 }
 
 .form-control-container {

@@ -71,11 +71,11 @@
 }
 
 .step-content {
-  margin-bottom: 4rem;
+  margin-bottom: $space-xxlarge;
 }
 
-.review-step {
-  margin-bottom: 4rem;
+.review-section {
+  margin-bottom: $space-xlarge!important;
 
   .review-section-header-container {
     display: flex;
@@ -87,14 +87,17 @@
   .review-section-header {
     font-size: $review-header-size;
     font-weight: $review-header-weight;
+    margin-bottom: $space-small;
   }
   
   .review-item {
     background-color: $review-item-background;
-    padding: $space-xlarge;
-    margin-bottom: $space-base;
-    border-radius: $border-radius;
+    padding: $space-medium $space-medium 0 $space-medium;
     position: relative;
+
+    &:last-child {
+      padding-bottom: $space-medium;
+    }
 
     .answer-label {
       color: $review-item-label-color;
@@ -104,11 +107,12 @@
 
     &.warning {
       &:after {
-        content: "Recommended";
+        content: "recommended";
         font-size: $required-size;
-        color: $required-color;
+        color: $recommended-color;
         position: absolute;
-        top: 40%;
+        top: 50%;
+        margin-top: -0.85rem;
         right: $space-xlarge;
         text-transform: uppercase;
       }
@@ -117,10 +121,10 @@
 }
 
 .review-feedback {
-  background-color: $review-item-background;
   color: $review-feedback-color;
   padding: $space-xlarge;
   border-radius: $border-radius;
+  border: 1px solid $neutral-1;
 
   .review-feedback-header {
     font-size: $review-feedback-header-size;
@@ -128,11 +132,11 @@
   }
 
   &.warning {
-    background-color: $review-item-background;
+    background: $review-feedback-background;
   }
 
   &.success {
-    background-color: $review-item-background;
+    background: $review-feedback-background;
   }
 
   .feedback-header {
@@ -148,9 +152,9 @@
     li {
       display: flex;
       background: $review-feedback-row-background;
-      margin-bottom: $space-base;
+      margin-bottom: $space-small;
       border-radius: $border-radius;
-      padding: $space-medium $space-xlarge;
+      padding: $space-small $space-medium;
 
       .icon {
         font-size: $review-feedback-icon-size;
@@ -164,7 +168,8 @@
   }
 }
 
-
+// Styles below use a lot of !important because they need to override
+// styles that are being added by the archwizard plugin that we are using.
 wizard-navigation-bar {
   flex: 1 0 $wizard-navigation-width;
 
@@ -174,6 +179,7 @@ wizard-navigation-bar {
     li {    
       margin: $space-medium 0!important;
       padding-bottom: 0!important;
+      align-self: flex-start;
       
       &:hover {
         div {
