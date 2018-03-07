@@ -31,11 +31,14 @@ export class AddWeatherEventsComponent implements OnInit, ControlValueAccessor {
     this.weatherEventService.list().subscribe(events => this.weatherEvents = events);
   }
 
-  public add(weatherEvent: WeatherEvent) {
+  public addOrRemove(weatherEvent: WeatherEvent) {
     if (!this.isSelected(weatherEvent)) {
       this.selectedEvents.push(weatherEvent);
-      this.onChange(this.selectedEvents);
+    } else {
+      // already selected, so toggle to remove
+      this.remove(weatherEvent);
     }
+    this.onChange(this.selectedEvents);
   }
 
   public isReadOnly(weatherEvent: WeatherEvent) {
