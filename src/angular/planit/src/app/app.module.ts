@@ -18,6 +18,7 @@ import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PlanSelectorComponent } from './marketing/plan-selector.component';
+import { PricingComponent } from './marketing/pricing.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { ActionStepsModule } from './action-steps/action-steps.module';
@@ -82,6 +83,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     PageNotFoundComponent,
     PartnershipsComponent,
     PlanSelectorComponent,
+    PricingComponent,
     RegistrationPageComponent
   ],
   imports: [

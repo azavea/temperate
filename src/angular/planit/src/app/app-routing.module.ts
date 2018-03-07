@@ -12,6 +12,7 @@ import { ManageSubscriptionComponent } from './marketing/manage-subscription.com
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
+import { PricingComponent } from './marketing/pricing.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
     canActivate: [PlanAuthGuard]
   },
   { path: 'methodology', component: MethodologyComponent },
+  { path: 'pricing', component: PricingComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInAuthGuard] },
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
