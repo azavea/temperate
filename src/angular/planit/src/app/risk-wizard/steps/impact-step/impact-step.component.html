@@ -11,7 +11,7 @@
   <form [formGroup]="form">
     <div class="form-control-container">
       <label for="potential-impact">Potential impact</label>
-      <app-option-dropdown id="potential-impact"
+      <app-option-dropdown buttonId="potential-impact"
                            [control]="form.controls['impact_magnitude']"
                            [options]="relativeOptions"
                            [disabled]="isDisabled">

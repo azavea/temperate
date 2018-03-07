@@ -12,7 +12,7 @@
   <form [formGroup]="form">
     <div class="form-control-container">
       <label for="adaptive-capacity">Adaptive capacity</label>
-      <app-option-dropdown id="adaptive-capacity"
+      <app-option-dropdown buttonId="adaptive-capacity"
                            [control]="form.controls['adaptive_capacity']"
                            [options]="capacityOptions"
                            [disabled]="isDisabled">
