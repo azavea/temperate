@@ -25,7 +25,7 @@
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
       <div *ngIf="noResults" class="form-control-error">No results found</div>
-      <div *ngIf="form.controls.location.errors">
+      <div *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
         <span *ngIf="form.controls.location.errors.required">*Required</span>
         <span *ngIf="form.controls.location.errors.autocomplete">*Not found</span>
         <span *ngIf="form.controls.location.errors.server">
@@ -41,7 +41,7 @@
              formControlName="name"
              type="text"
              tabindex="2">
-      <div *ngIf="form.controls.name.errors">
+      <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">*Required</span>
         <span *ngIf="form.controls.name.errors.server">
           *{{ form.controls.name.errors.server }}
