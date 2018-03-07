@@ -1,6 +1,6 @@
 <div class="plan-card-container">
   <div class="plan-card"
-      [ngClass]="{active: activePlan.name === plan.name}"
+      [ngClass]="{active: activePlan && activePlan.name === plan.name}"
       *ngFor="let plan of visiblePlans">
     <h4 class="header">{{ plan.label }}</h4>
     <span class="icon" [ngClass]="plan.iconClass"></span>
@@ -12,7 +12,7 @@
     <button class="button"
             [disabled]="org?.subscription_pending"
             (click)="planSelected(plan)"
-            *ngIf="plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
+            *ngIf="activePlan && plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
     <span *ngIf="plan.yearlyValue">*${{ plan.yearlyValue | number }} value</span>
   </div>
 </div>

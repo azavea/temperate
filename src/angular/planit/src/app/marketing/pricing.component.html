@@ -6,5 +6,17 @@
         <p>You can upgrade or cancel your Temperate package at any time. If the below packages don't suit your needs, <a href="mailto:support@temperate.io">contact us</a> so we can figure out what works for you.</p>
       </div>
     </div>
+    <app-plan-selector></app-plan-selector>
+    <div>
+      <h2>Not seeing what you need above?</h2>
+      <div>
+        <h4>{{ hourlyPlan.header }}</h4>
+        <p>{{ hourlyPlan.description }}</p>
+      </div>
+      <div>
+        <h4>{{ customPlan.header }}</h4>
+        <p>{{ customPlan.description }}</p>
+      </div>
+    </div>
   </main>
 </div>
