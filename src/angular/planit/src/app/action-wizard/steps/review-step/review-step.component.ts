@@ -10,7 +10,8 @@ import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
   Action,
-  OrgRiskDirectionalOptions,
+  OrgRiskDirectionalFrequencyOptions,
+  OrgRiskDirectionalIntensityOptions,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeImpactOptions,
   Risk
@@ -35,7 +36,8 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   public action: Action;
   public risk: Risk;
 
-  public directionalOptions = OrgRiskDirectionalOptions;
+  public frequencyOptions = OrgRiskDirectionalFrequencyOptions;
+  public intensityOptions = OrgRiskDirectionalIntensityOptions;
   public chanceOptions = OrgRiskRelativeChanceOptions;
   public impactOptions = OrgRiskRelativeImpactOptions;
   public visibilityOptions = ActionVisibility;

@@ -12,8 +12,9 @@ import {
 import { ToastrService } from 'ngx-toastr';
 
 import {
+  OrgRiskDirectionalFrequencyOptions,
+  OrgRiskDirectionalIntensityOptions,
   OrgRiskDirectionalOption,
-  OrgRiskDirectionalOptions,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeOption,
   Risk,
@@ -49,10 +50,12 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public risk: Risk;
   public title = 'Hazard';
 
-  public directionalOptions = OrgRiskDirectionalOptions;
+  public frequencyOptions = OrgRiskDirectionalFrequencyOptions;
+  public intensityOptions = OrgRiskDirectionalIntensityOptions;
   public relativeOptions = OrgRiskRelativeChanceOptions;
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
-  public directionalOptionsKeys = Array.from(OrgRiskDirectionalOptions.keys());
+  public directionalFrequencyOptionsKeys = Array.from(OrgRiskDirectionalFrequencyOptions.keys());
+  public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
   public city: City;
   public indicators: Indicator[] = [];
 

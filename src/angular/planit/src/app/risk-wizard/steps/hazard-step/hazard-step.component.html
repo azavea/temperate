@@ -30,9 +30,9 @@
         <button class="button button-primary" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
-                *ngFor="let opt of directionalOptionsKeys"
+                *ngFor="let opt of directionalFrequencyOptionsKeys"
                 (click)="updateDirectionalControl(form.controls.frequency, opt)">
-          {{ directionalOptions.get(opt)?.label }}
+          {{ frequencyOptions.get(opt)?.label }}
         </button>
       </div>
     </div>
@@ -42,9 +42,9 @@
         <button class="button button-primary" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
-                *ngFor="let opt of directionalOptionsKeys"
+                *ngFor="let opt of directionalIntensityOptionsKeys"
                 (click)="updateDirectionalControl(form.controls.intensity, opt)">
-          {{ directionalOptions.get(opt)?.label }}
+          {{ intensityOptions.get(opt)?.label }}
         </button>
       </div>
     </div>

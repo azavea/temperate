@@ -7,7 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import {
-  OrgRiskDirectionalOptions,
+  OrgRiskDirectionalFrequencyOptions,
+  OrgRiskDirectionalIntensityOptions,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeImpactOptions,
   Risk
@@ -32,7 +33,8 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
   public risk: Risk;
   public key: RiskStepKey = RiskStepKey.Review;
 
-  public directionalOptions = OrgRiskDirectionalOptions;
+  public frequencyOptions = OrgRiskDirectionalFrequencyOptions;
+  public intensityOptions = OrgRiskDirectionalIntensityOptions;
   public chanceOptions = OrgRiskRelativeChanceOptions;
   public impactOptions = OrgRiskRelativeImpactOptions;
 
