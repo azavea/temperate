@@ -92,7 +92,7 @@ class DefaultRisk(models.Model):
 
     class Meta:
         unique_together = (('weather_event', 'community_system'), ('weather_event', 'order'))
-        ordering = ['weather_event', 'order']
+        ordering = ['weather_event', 'order', 'community_system']
 
     def __str__(self):
         return "{} on {}".format(self.weather_event.name, self.community_system.name)

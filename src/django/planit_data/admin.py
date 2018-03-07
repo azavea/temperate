@@ -33,7 +33,7 @@ class CommunitySystemAdmin(admin.ModelAdmin):
 
 @admin.register(DefaultRisk)
 class DefaultRiskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'community_system', 'weather_event', 'order',)
+    list_display = ('id', 'weather_event', 'community_system', 'order',)
     list_editable = ('order',)
 
 
