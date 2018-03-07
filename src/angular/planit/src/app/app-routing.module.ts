@@ -15,11 +15,11 @@ import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PricingComponent } from './marketing/pricing.component';
 import { PageNotFoundComponent } from './not-found.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 const routes: Routes = [
-  { path: 'reset-password/:token', component: MarketingComponent},
   { path: '', component: MarketingComponent, canActivate: [LoggedInAuthGuard] },
   {
     path: 'plan',
@@ -33,6 +33,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordPageComponent, canActivate: [LoggedInAuthGuard] },
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
+  { path: 'reset-password/:token', component: ResetPasswordComponent},
   {
     path: 'subscription',
     component: ManageSubscriptionComponent,

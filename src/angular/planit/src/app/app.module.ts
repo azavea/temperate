@@ -73,6 +73,7 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-passw
     PlanSelectorComponent,
     PricingComponent,
     RegistrationPageComponent,
-    ForgotPasswordPageComponent
+    ForgotPasswordPageComponent,
+    ResetPasswordComponent
   ],
   imports: [
     // Angular
