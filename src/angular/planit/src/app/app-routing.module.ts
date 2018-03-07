@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
-import { UserResolve } from './core/services/user.resolve';
+import { UserResolve } from './core/resolvers/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';

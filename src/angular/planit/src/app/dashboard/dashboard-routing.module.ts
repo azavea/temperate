@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
-import { UserResolve } from '../core/services/user.resolve';
+import { UserResolve } from '../core/resolvers/user.resolve';
 import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardComponent } from './dashboard.component';
 
