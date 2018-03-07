@@ -18,6 +18,16 @@
   transition: transform 0.15s;
 }
 
+// Catch-all for external components using old font-icon syntax
+i.caret {
+  font-family: temperate;
+  font-style: normal;
+  
+    &:before {
+      content: '\E861';
+  }
+}
+
 .dropdown-toggle:focus {
   outline: 0;
 }

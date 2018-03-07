@@ -56,12 +56,16 @@ app-indicator-chart {
     }
   }
 
+  .dropdown {
+    i.caret {
+      padding-left: 0.5rem;
+    }
+  }
+
   input[type="number"] {
     width: 5rem;
     margin-right: $space-small;
     margin-left: $space-small;
-    // height: 3.4rem;
-    // padding-left: 0.75rem;
   }
 
   select {
