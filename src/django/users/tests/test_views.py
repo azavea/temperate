@@ -410,6 +410,48 @@ class OrganizationApiTestCase(APITestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_organization_update_adds_new_community_systems(self):
+        new_community_system = CommunitySystemFactory()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'community_systems': [new_community_system.id]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # The new community system should be added
+        self.assertEqual(self.org.community_systems.count(), 1)
+        self.assertIn(new_community_system, self.org.community_systems.all())
+        self.assertEqual(response.status_code, 200)
+
+    def test_organization_update_removes_old_community_systems(self):
+        old_community_system = CommunitySystemFactory()
+        self.org.community_systems.add(old_community_system)
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'community_systems': []
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # The old community system should not be in the list anymore
+        self.assertEqual(self.org.community_systems.count(), 0)
+        self.assertEqual(response.status_code, 200)
+
     def test_update_weather_events_saves_data(self):
         we = WeatherEventFactory()
 

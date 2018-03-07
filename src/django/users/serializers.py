@@ -8,6 +8,7 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
+from planit_data.models import CommunitySystem
 
 
 class AuthTokenSerializer(serializers.Serializer):
@@ -49,7 +50,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
     """Serializer for user organizations"""
 
     location = LocationSerializer()
-    community_systems = serializers.SlugRelatedField(many=True, read_only=True,
+    community_systems = serializers.SlugRelatedField(many=True,
+                                                     queryset=CommunitySystem.objects.all(),
+                                                     required=False,
                                                      slug_field='id')
     weather_events = serializers.SlugRelatedField(many=True, read_only=True,
                                                   slug_field='weather_event_id')
@@ -129,10 +132,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
         if location_data['api_city_id'] is not None:
             instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
         instance.save()
-
-        if 'community_systems' in self.initial_data:
-            for community_system in self.initial_data['community_systems']:
-                instance.community_systems.add(community_system)
 
         if 'weather_events' in self.initial_data:
             instance.update_weather_events(self.initial_data['weather_events'])
