@@ -14,7 +14,13 @@ from users.models import PlanItOrganization, PlanItLocation, PlanItUser
 from users.tests.factories import LocationFactory, OrganizationFactory, UserFactory
 
 from planit_data.models import GeoRegion, OrganizationWeatherEvent
-from planit_data.tests.factories import WeatherEventFactory
+from planit_data.tests.factories import (
+    DefaultRiskFactory,
+    WeatherEventFactory,
+    CommunitySystemFactory,
+    OrganizationRiskFactory,
+    OrganizationWeatherEventFactory
+)
 
 
 class UserCreationApiTestCase(APITestCase):
@@ -186,7 +192,7 @@ class UserAuthenticationApiTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-class OrganizationApiTestCase(APITestCase):
+class OrganizationCreationApiTestCase(APITestCase):
 
     def setUp(self):
         user_class = get_user_model()
@@ -275,38 +281,6 @@ class OrganizationApiTestCase(APITestCase):
         # No PlanItOrganization objects should have been created
         self.assertFalse(PlanItOrganization.objects.all().exists())
 
-    @mock.patch('users.models.make_token_api_request')
-    @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
-    def test_org_updated_api_failure(self, api_wrapper_mock):
-        # Raise an exception when we try to communicate with the Climate Change API
-        api_wrapper_mock.side_effect = Exception()
-
-        org = PlanItOrganization.objects.create(
-            name="Starting Name"
-        )
-        self.user.organizations.add(org)
-
-        org_data = {
-            'name': 'Test Organization',
-            'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
-            },
-            'units': 'METRIC'
-        }
-        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-
-        with self.assertRaises(Exception):
-            self.client.put(url, org_data, format='json')
-
-        # No PlanItLocation objects should have been created
-        self.assertFalse(PlanItLocation.objects.all().exists())
-
-        # The organization should not have been changed
-        org.refresh_from_db()
-        self.assertEqual(org.name, "Starting Name")
-
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_saves_user_in_created_by(self, import_mock, from_api_city_mock):
@@ -327,93 +301,12 @@ class OrganizationApiTestCase(APITestCase):
         org = PlanItOrganization.objects.get(id=response.json()['id'])
         self.assertEqual(org.created_by, self.user)
 
-    def test_organization_update_does_not_change_created_by(self):
-        org = OrganizationFactory(
-            name="Starting Name",
-            created_by=UserFactory(),
-            location__api_city_id=7
-        )
-        self.user.organizations.add(org)
-
-        org_data = {
-            'name': 'Test Organization',
-            'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
-            },
-            'units': 'METRIC',
-            'weather_events': []
-        }
-        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        response = self.client.put(url, org_data, format='json')
-
-        org = PlanItOrganization.objects.get(id=response.json()['id'])
-        self.assertNotEqual(org.created_by, self.user)
-
-    def test_update_weather_events_saves_data(self):
-        org = OrganizationFactory(
-            name="Starting Name",
-            created_by=UserFactory(),
-            location__api_city_id=7
-        )
-        self.user.organizations.add(org)
-
-        we = WeatherEventFactory()
-
-        org_data = {
-            'name': 'Test Organization',
-            'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
-            },
-            'units': 'METRIC',
-            'weather_events': [we.pk]
-        }
-        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        response = self.client.put(url, org_data, format='json')
-
-        org = PlanItOrganization.objects.get(id=response.json()['id'])
-        self.assertEqual(
-            [we.pk],
-            list(org.weather_events.values_list('weather_event_id', flat=True))
-        )
-
-    def test_update_weather_events_deletes_existing_models(self):
-        org = OrganizationFactory(
-            name="Starting Name",
-            location__api_city_id=7
-        )
-        self.user.organizations.add(org)
-
-        we1 = WeatherEventFactory()
-        we2 = WeatherEventFactory()
-        org_we = OrganizationWeatherEvent.objects.create(organization=org, weather_event=we1)
-        self.assertEqual(1, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
-
-        org_data = {
-            'name': 'Test Organization',
-            'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
-            },
-            'units': 'METRIC',
-            'weather_events': [we2.pk]
-        }
-        url = reverse('planitorganization-detail', kwargs={'pk': org.id})
-        response = self.client.put(url, org_data, format='json')
-
-        org = PlanItOrganization.objects.get(id=response.json()['id'])
-        self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
-
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    def test_organization_duplicate_name_allowed(self, import_mock, from_api_city_mock):
+    def test_organization_duplicate_name_allowed(self, import_mock):
         """Creating an organization with same name as another should succeed."""
-        from_api_city_mock.return_value = LocationFactory()
-
+        location = LocationFactory(
+            api_city_id=5
+        )
         # Make an existing object to conflict with
         org = OrganizationFactory(
             name="Test Name",
@@ -424,7 +317,7 @@ class OrganizationApiTestCase(APITestCase):
             'name': org.name,
             'location': {
                 'properties': {
-                    'api_city_id': 5,
+                    'api_city_id': location.api_city_id,
                 }
             },
             'units': 'METRIC'
@@ -460,11 +353,232 @@ class OrganizationApiTestCase(APITestCase):
         self.assertEqual(PlanItLocation.objects.all().count(), 1)
         self.assertEqual(response.status_code, 400)
 
+
+class OrganizationApiTestCase(APITestCase):
+
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+        self.org = self.user.primary_organization
+
+    @mock.patch('users.models.make_token_api_request')
+    @override_settings(DEBUG_PROPAGATE_EXCEPTIONS=True)  # Do not log the expected exception
+    def test_org_updated_api_failure(self, api_wrapper_mock):
+        # Raise an exception when we try to communicate with the Climate Change API
+        api_wrapper_mock.side_effect = Exception()
+
+        starting_name = self.org.name
+
+        org_data = {
+            'name': '{} Changed'.format(starting_name),
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id + 1,
+                }
+            },
+            'units': 'METRIC'
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+
+        with self.assertRaises(Exception):
+            self.client.put(url, org_data, format='json')
+
+        # No PlanItLocation objects should have been created
+        self.assertEqual(PlanItLocation.objects.all().count(), 1)
+
+        # The organization should not have been changed
+        self.org.refresh_from_db()
+        self.assertEqual(self.org.name, starting_name)
+
+    def test_organization_update_does_not_change_created_by(self):
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'weather_events': []
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        self.org.refresh_from_db()
+        self.assertNotEqual(self.org.created_by, self.user)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_organization_update_adds_new_community_systems(self):
+        new_community_system = CommunitySystemFactory()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'community_systems': [new_community_system.id]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # The new community system should be added
+        self.assertEqual(self.org.community_systems.count(), 1)
+        self.assertIn(new_community_system, self.org.community_systems.all())
+        self.assertEqual(response.status_code, 200)
+
+    def test_organization_update_removes_old_community_systems(self):
+        old_community_system = CommunitySystemFactory()
+        self.org.community_systems.add(old_community_system)
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'community_systems': []
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # The old community system should not be in the list anymore
+        self.assertEqual(self.org.community_systems.count(), 0)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_weather_events_saves_data(self):
+        we = WeatherEventFactory()
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'weather_events': [we.pk]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        self.org.refresh_from_db()
+        self.assertEqual(
+            [we.pk],
+            list(self.org.weather_events.values_list('weather_event_id', flat=True))
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_weather_event_creates_new_sample_risks(self):
+        """Adding a WeatherEvent should create 2 sample Risks if any Risks already exist."""
+        OrganizationRiskFactory(organization=self.org)
+        community_system = CommunitySystemFactory()
+        weather_event = WeatherEventFactory()
+
+        # Create background default Risks for this Weather Event
+        DefaultRiskFactory.create_batch(10, weather_event=weather_event)
+
+        org_data = {
+            'name': self.org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'plan_setup_complete': True,
+            'weather_events': [weather_event.pk],
+            'community_systems': [community_system.pk]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        created_risk = self.org.organizationrisk_set.filter(
+            weather_event=weather_event,
+            community_system=community_system
+        )
+        self.assertTrue(created_risk.exists(),
+                        'Should have created Risk for Weather Event and Community System')
+
+        # We should have two risks... one with the community system, and one from the Default Risks
+        weather_event_risks = self.org.organizationrisk_set.filter(
+            weather_event=weather_event
+        )
+        self.assertEqual(weather_event_risks.count(), 2,
+                         'Should have created two Risks for Weather Event')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_weather_event_creates_initial_sample_risks(self):
+        """Adding a WeatherEvent should create 15 sample Risks if no Risks already exist."""
+        weather_events = WeatherEventFactory.create_batch(3)
+        community_systems = CommunitySystemFactory.create_batch(2)
+
+        for weather_event in weather_events:
+            DefaultRiskFactory.create_batch(10, weather_event=weather_event)
+
+        org_data = {
+            'name': self.org.name,
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'plan_setup_complete': True,
+            'weather_events': [we.pk for we in weather_events],
+            'community_systems': [cs.pk for cs in community_systems]
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        # Should have created Risks for the Community System/Weather Event pairs
+        created_community_system_risks = self.org.organizationrisk_set.filter(
+            weather_event=weather_events[0],
+            community_system__in=community_systems
+        )
+        self.assertEqual(created_community_system_risks.count(),
+                         len(community_systems))
+
+        created_weather_event_risks = self.org.organizationrisk_set.filter(
+            weather_event__in=weather_events,
+            community_system=community_systems[0]
+        )
+        self.assertEqual(created_weather_event_risks.count(),
+                         len(weather_events))
+
+        # Should have created a total of 15 Risks
+        self.assertEqual(self.org.organizationrisk_set.all().count(), 15)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_weather_events_deletes_existing_models(self):
+        org_we = OrganizationWeatherEventFactory(organization=self.org)
+
+        org_data = {
+            'name': 'Test Organization',
+            'location': {
+                'properties': {
+                    'api_city_id': self.org.location.api_city_id,
+                }
+            },
+            'units': 'METRIC',
+            'weather_events': []
+        }
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.put(url, org_data, format='json')
+
+        self.org.refresh_from_db()
+        self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
+        self.assertEqual(response.status_code, 200)
+
     @mock.patch.object(PlanItLocation.objects, 'from_api_city')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_name_does_not_self_conflict(self, import_mock, from_api_city_mock):
         """Updating an organization without changing its name should not error."""
-
         org = OrganizationFactory()
         self.user.organizations.add(org)
 

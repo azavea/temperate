@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
 
+import { OrganizationService } from '../../core/services/organization.service';
 import { WizardSessionService } from '../../core/services/wizard-session.service';
 import { Organization } from '../../shared/';
 // tslint:disable-next-line:max-line-length
@@ -31,6 +32,7 @@ export class PlanWizardComponent implements OnInit {
   public wizardComplete = false;
 
   constructor(private session: WizardSessionService<Organization>,
+              private organizationService: OrganizationService,
               private router: Router) {}
 
   ngOnInit() {
@@ -41,10 +43,14 @@ export class PlanWizardComponent implements OnInit {
   // when done, show spinner for a few seconds before redirecting to home page
   onWizardCompleted() {
     this.wizardComplete = true;
-    const self = this;
-    setTimeout(function () {
-      self.router.navigate(['dashboard']);
-    }, 5000);
+
+    const organization = this.session.getData();
+    organization.plan_setup_complete = true;
+    this.organizationService.update(organization).subscribe(() => {
+      setTimeout(() => {
+        this.router.navigate(['dashboard']);
+      }, 5000);
+    });
   }
 
   public resetScroll() {

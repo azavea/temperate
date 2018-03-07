@@ -6,6 +6,7 @@ from users.tests.factories import OrganizationFactory
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    DefaultRisk,
     GeoRegion,
     Indicator,
     OrganizationAction,
@@ -68,6 +69,15 @@ class WeatherEventRankFactory(factory.DjangoModelFactory):
 
     georegion = factory.SubFactory(GeoRegionFactory)
     weather_event = factory.SubFactory(WeatherEventFactory)
+    order = factory.Sequence(int)
+
+
+class DefaultRiskFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = DefaultRisk
+
+    weather_event = factory.SubFactory(WeatherEventFactory)
+    community_system = factory.SubFactory(CommunitySystemFactory)
     order = factory.Sequence(int)
 
 

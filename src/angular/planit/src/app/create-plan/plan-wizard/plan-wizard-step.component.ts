@@ -17,9 +17,6 @@ export abstract class PlanWizardStepComponent<FormModel>
   }
 
   persistChanges(model: Organization): Observable<Organization> {
-    console.log('persistChanges:');
-    console.log(model);
-
     return this.orgService.update(model);
   }
 }

@@ -1,3 +1,5 @@
+import logging
+
 from datetime import timedelta
 
 from django.conf import settings
@@ -22,6 +24,10 @@ from planit_data.models import (
     OrganizationWeatherEvent,
     WeatherEventRank,
 )
+from planit_data.utils import apportion_counts
+
+
+logger = logging.getLogger(__name__)
 
 
 class PlanItLocationManager(models.Manager):
@@ -108,9 +114,10 @@ class PlanItOrganization(models.Model):
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)
     plan_hyperlink = models.URLField(blank=True)
+    plan_setup_complete = models.BooleanField(default=False)
     community_systems = models.ManyToManyField('planit_data.CommunitySystem',
                                                blank=True,
-                                               related_name='community_systems')
+                                               related_name='organizations')
 
     class Meta:
         unique_together = (("name", "location"),)
@@ -147,31 +154,56 @@ class PlanItOrganization(models.Model):
                                      order=index + 1)
             for index, event_id in enumerate(weather_event_ids)
         )
-        self.import_risks()
+
+        if self.plan_setup_complete:
+            self.import_risks()
 
     def import_risks(self):
-        weather_event_ids = set(self.weather_events.values_list('weather_event_id', flat=True))
-        existing_risks = self.organizationrisk_set.all()
+        # Get IDs for all Weather Events that don't currently have any Risks
+        weather_event_ids = self.weather_events.all().exclude(
+            weather_event__organizationrisk__organization__id=self.id
+        ).values_list('weather_event_id', flat=True)
 
-        events_with_risks = {risk.weather_event_id for risk in existing_risks}
-        weather_event_ids -= events_with_risks
+        # Create a Risk for every Community System, but at least 2 in case the user picked none
+        risks_per = max(2, self.community_systems.count())
+        num_to_add = risks_per * len(weather_event_ids)
+        logger.debug("Importing {} risks per hazard, {} total".format(risks_per, num_to_add))
 
-        # Try not to add more than the starting amount, but make sure we add at least 2 risks
-        # for each new weather event when we already have existing risks
-        if len(existing_risks) > 0:
-            num_to_add = 2 * len(weather_event_ids)
-        else:
-            num_to_add = settings.STARTING_RISK_AMOUNT
+        if not self.organizationrisk_set.exists():
+            # For initial population, make sure to create at least 15 Risks overall
+            num_to_add = max(num_to_add, settings.STARTING_RISK_AMOUNT)
+            logger.debug("First import, set number to import to {}".format(num_to_add))
 
-        community_system_ids = self.community_systems.all().values_list('id', flat=True)
-        top_risks = DefaultRisk.objects.top_risks(weather_event_ids, community_system_ids,
-                                                  max_amount=num_to_add)
+        # Produce a list of (weather_event, community_system) pairs
+        sample_risk_tuples = self._get_sample_risks(weather_event_ids, num_to_add)
 
+        # Turn the (weather_event, community_system) pairs into OrganizationRisk objects
         OrganizationRisk.objects.bulk_create(
-            OrganizationRisk(organization_id=self.id, weather_event_id=risk.weather_event_id,
-                             community_system_id=risk.community_system_id)
-            for risk in top_risks
+            OrganizationRisk(
+                organization=self,
+                weather_event_id=weather_event,
+                community_system_id=community_system
+            ) for weather_event, community_system in sample_risk_tuples
         )
+
+    def _get_sample_risks(self, weather_events, total):
+        community_systems = self.community_systems.values_list('id', flat=True)
+        for weather_event, count in apportion_counts(weather_events, total):
+            # Start with any of the user's community systems
+            for community_system in community_systems:
+                yield (weather_event, community_system)
+
+            # If we need more sample risks, take from the DefaultRisk objects
+            count -= len(community_systems)
+            if count > 0:
+                default_risk_community_systems = DefaultRisk.objects.filter(
+                    weather_event=weather_event
+                ).exclude(
+                    community_system__organizations__id=self.id
+                ).values_list('community_system_id', flat=True).order_by('order')
+
+                for community_system in default_risk_community_systems[:count]:
+                    yield (weather_event, community_system)
 
     def _set_subscription(self):
         # Ensure that free trials always have an end date, defaulting to DEFAULT_FREE_TRIAL_DAYS
