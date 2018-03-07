@@ -31,7 +31,6 @@ export class Organization {
     }
   }
 
-  // Organization has a plan if all the required fields are populated
   public hasPlan(): boolean {
     return !!this.id && !!this.plan_setup_complete;
   }
