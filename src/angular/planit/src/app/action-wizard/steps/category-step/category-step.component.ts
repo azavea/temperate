@@ -47,13 +47,6 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
     });
   }
 
-  // check if any of the action categories have been selected
-  public haveSelectedActionCategory(): boolean {
-    return this.actionCategories && !!this.actionCategories.find(function(cat: ActionCategory) {
-      return cat.selected;
-    });
-  }
-
   // toggle button selections on click
   public selectActionCategory(actionCategory: ActionCategory) {
     actionCategory.selected = !actionCategory.selected;
