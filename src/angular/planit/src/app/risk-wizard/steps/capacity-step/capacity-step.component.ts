@@ -35,7 +35,8 @@ export class CapacityStepComponent extends RiskWizardStepComponent<CapacityStepF
   public title = 'Adaptive capacity';
   public risk: Risk;
   public tooltipText = {
-    values: 'Usually determined by agency or city-wide policy, adaptive values are issues that should be given priority during the adaptation planning process',
+    values: 'Usually determined by agency or city-wide policy, adaptive values are issues ' +
+            'that should be given priority during the adaptation planning process',
   };
 
   public capacityOptions = OrgRiskAdaptiveCapacityOptions;
