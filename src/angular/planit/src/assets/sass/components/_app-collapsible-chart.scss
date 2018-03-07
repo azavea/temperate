@@ -19,8 +19,8 @@ app-collapsible-chart {
     }
 
     span {
-      font-size: $text-tiny;
-      margin-bottom: $space-small;
+      margin-bottom: 0.25rem;
+      font-weight: $font-weight-bold;
     }
 
     button {
@@ -32,6 +32,25 @@ app-collapsible-chart {
         @include button-focus-outline();
       }
     }
+  }
+
+  .optional-parameters-label {
+    font-weight: $font-weight-bold;
+  }
+
+  .chart-legend {
+    font-size: $text-small;
+    padding: 0 0 1rem 0;
+
+    &.chart-legend-datasets {
+      font-size: $text-tiny;
+      border-top: 1px solid $neutral-1;
+      padding-top: 1rem;
+    }
+  }
+
+  .chart {
+    width: 100%;
   }
 }
 
@@ -70,13 +89,5 @@ app-indicator-chart {
 
   select {
     font-variant: tabular-nums;
-  }
-
-  .optional-parameters-label {
-    color: $neutral-5;
-  }
-
-  .chart {
-    width: 100%;
   }
 }
