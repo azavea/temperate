@@ -8,6 +8,7 @@
   <div class="form-control-container">
     <label for="hazard">Hazard</label>
     <input type="text" id="hazard" class="form-control" formControlName="weather_event"
+                                autocomplete="off"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('weather_event', $event)"
                                 (typeaheadOnBlur)="itemBlurred('weather_event')"
@@ -24,6 +25,7 @@
   <div class="form-control-container">
     <label for="community-system">Community system at risk</label>
     <input type="text" id="community-system" class="form-control" formControlName="community_system"
+                                autocomplete="off"
                                 typeaheadOptionField="name"
                                 (typeaheadOnSelect)="itemSelected('community_system', $event)"
                                 (typeaheadOnBlur)="itemBlurred('community_system')"
