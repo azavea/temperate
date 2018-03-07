@@ -271,4 +271,3 @@ class AddCityView(JsonFormView):
     def form_valid(self, form):
         form.cleaned_data['email'] = self.user.email
         form.send_email()
-        return

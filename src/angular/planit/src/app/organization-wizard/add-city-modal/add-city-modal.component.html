@@ -46,9 +46,9 @@ Please note that we only have US cities at this time...<a (click)="openModal(add
     </button>
   </header>
   <div class="modal-body">
-    We'll get back to you as soon as possible. In the meantime, check out our <a href="{{ url }}">resources page.</a>
+    We'll get back to you as soon as possible. In the meantime, check out our <a routerLink="/methodology">resources page.</a>
     <footer class="modal-footer">
-      <a class="button button-primary" href="{{ url }}">Okay</a>
+      <button class="button button-primary" (click)="modalRef.hide()">Okay</button>
     </footer>
   </div>
 </ng-template>

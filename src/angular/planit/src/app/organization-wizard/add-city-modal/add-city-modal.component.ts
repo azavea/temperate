@@ -14,7 +14,6 @@ import { User } from '../../shared/models/user.model';
 })
 export class AddCityModalComponent implements OnInit {
 
-  public url: string;
   public user: User;
   public modalRef: BsModalRef;
   public cityForm: FormGroup;
@@ -38,7 +37,6 @@ export class AddCityModalComponent implements OnInit {
         this.user = u;
       });
     }
-    this.url = document.location.origin + '/methodology';
   }
 
   public openModal(template: TemplateRef<any>) {
