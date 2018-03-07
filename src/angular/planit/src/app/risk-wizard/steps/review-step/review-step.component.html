@@ -1,38 +1,89 @@
-<p *ngIf="isDisabled" class="alert alert-warning">
-  You must match a hazard to a community system to save this risk.
-</p>
-<h3 *ngIf="!isDisabled">{{ risk.weather_event.name }} impact on {{ risk.community_system.name | lowercase }}</h3>
-
-<div>
-    Probability: {{ chanceOptions.get(risk.probability)?.label }}
-    <button class="button icon-edit" goToStep="1"></button>
+<div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must match a hazard to a community system to save this risk.
+  </p>
+  <h3 class="step-title">Review</h3>
 </div>
 
-<div>
-    Frequency: {{ directionalOptions.get(risk.frequency)?.label }}
-    <button class="button icon-edit" goToStep="1"></button>
-</div>
-
-<div>
-    Intensity: {{ directionalOptions.get(risk.intensity)?.label }}
-    <button class="button icon-edit" goToStep="1"></button>
-</div>
-
-<div>
-    Potential Impact: {{ impactOptions.get(risk.impact_magnitude)?.label }}
-    <button class="button icon-edit" goToStep="2"></button>
-    <div *ngIf="risk.impact_description" class="review-description">{{ risk.impact_description }}</div>
-</div>
-
-<div>
-    Adaptive Capacity: {{ chanceOptions.get(risk.adaptive_capacity)?.label }}
-    <button class="button icon-edit" goToStep="3"></button>
-    <div *ngIf="risk.adaptive_capacity_description" class="review-description">{{ risk.adaptive_capacity_description }}</div>
-    <div class="freeform-multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
-        <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
-            {{ relatedAdaptiveValue }}
-        </div>
+<div class="step-content">
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Identify risk</h4>
+      <button class="button button-icon-only icon-edit" goToStep="0" title="Edit fields"></button>
     </div>
+    <div class="review-item">
+      <span class="answer-label">Hazard:</span> 
+      {{ risk.weather_event?.name || "--" }}
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Community system at risk:</span> 
+      {{ risk.community_system?.name || "--" }}
+    </div>
+  </section>
+
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Hazard</h4>
+      <button class="button button-icon-only icon-edit" goToStep="1" title="Edit fields"></button>
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Probability of hazard occurring: </span>
+      {{ chanceOptions.get(risk.probability)?.label || "--" }}
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Frequency over the next five years: </span>
+      {{ directionalOptions.get(risk.frequency)?.label || "--" }}
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Intensity over the next five years: </span>
+      {{ directionalOptions.get(risk.intensity)?.label || "--" }}
+    </div>
+  </section>
+
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Potential Impact</h4>
+      <button class="button button-icon-only icon-edit" goToStep="2" title="Edit fields"></button>
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Potential impact on this community system: </span>
+      {{ impactOptions.get(risk.impact_magnitude)?.label || "--" }}
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Description: </span>
+      <span class="review-description">{{ risk.impact_description || '--' }}</span>
+    </div>
+  </section>
+
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Adaptive capacity</h4>
+      <button class="button button-icon-only icon-edit" goToStep="3" title="Edit fields"></button>
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Your city's adaptive capacity: </span>
+      {{ chanceOptions.get(risk.adaptive_capacity)?.label || "--" }}
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Description:</span>
+      <span class="review-description">{{ risk.adaptive_capacity_description || "--" }}</span>
+    </div>
+    <div class="review-item">
+      <span class="answer-label">Related adaptive values: </span>
+      <span *ngIf="!risk.related_adaptive_values?.length">--</span>
+      <div class="multiselect" *ngIf="risk.related_adaptive_values?.length > 0">
+        <div class="selected-option" *ngFor="let relatedAdaptiveValue of risk.related_adaptive_values">
+          {{ relatedAdaptiveValue }}
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
-<button type="button" [disabled]="isDisabled" (click)="finish()">Finish</button>
+<footer class="step-footer">
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary"  
+        [disabled]="isDisabled" 
+        (click)="finish()">Finish</button>
+  </div>
+</footer>

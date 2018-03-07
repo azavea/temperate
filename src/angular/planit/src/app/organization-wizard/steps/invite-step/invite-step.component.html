@@ -1,31 +1,37 @@
 <div class="step-header">
-  <h2 class="center">Invite colleagues</h2>
+  <h2 id="invite-header" class="step-title">Invite colleagues <span class="optional">optional</span></h2>
 </div>
+
 <div class="step-content" [formGroup]="form">
-  <p>
-    You can invite your colleagues to work on this plan with you.
-    They will receive an email prompting them to join your organization and create a Temperate account.
-    This can also be accomplished later.
-  </p>
-  <label>Email</label>
-  <app-user-emails formControlName="invites" [errors]="inviteErrors"></app-user-emails>
-  <div *ngIf="form.controls.invites.errors">
-    <span *ngIf="form.controls.invites.errors.server">
-      *{{ form.controls.invites.errors.server }}
-    </span>
+  <p>You can invite your colleagues to work on this plan with you. They will receive an email prompting them to join your organization and create a Temperate account. This can also be accomplished later.</p>
+  <div class="form-control-container">
+    <label for="invite">Email</label>
+    <app-user-emails formControlName="invites" [errors]="inviteErrors" aria-labelledby="invite-header"></app-user-emails>
+    <div class="form-control-error" *ngIf="form.controls.invites.errors">
+      <span *ngIf="form.controls.invites.errors.server">
+        *{{ form.controls.invites.errors.server }}
+      </span>
+    </div>
   </div>
 </div>
+
 <div class="step-footer">
-  <button type="button"
-          class="button button-primary"
-          (click)="confirm()">
-    <span *ngIf="!shouldSkip()">
-      Send {{ form.controls.invites.value.length }}
-      {{ form.controls.invites.value.length === 1 ? 'invite' : 'invites' }}
-      and continue
-    </span>
-    <span *ngIf="shouldSkip()">
-      Skip
-    </span>
-  </button>
+  <div class="step-footer-exit">
+    <button type="button" class="button" 
+            previousStep>Previous</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button"
+            class="button button-primary"
+            (click)="confirm()">
+      <span *ngIf="!shouldSkip()">
+        Send {{ form.controls.invites.value.length }}
+        {{ form.controls.invites.value.length === 1 ? 'invite' : 'invites' }}
+        and continue
+      </span>
+      <span *ngIf="shouldSkip()">
+        Skip
+      </span>
+    </button>
+  </div>
 </div>

@@ -1,158 +1,135 @@
 <div class="step-header">
-  <h2>Confirm</h2>
-</div>
-<div class="step-content">
-  <div class="review-step">
-    <h3>General Information</h3>
-    <div class="review-item"
-         [ngClass]="{warning: !action.name}">
-      <h4>
-        Action
-        <button class="button icon-edit" goToStep="0"></button>
-      </h4>
-      <p class="review-description">{{ action.name || '--' }}</p>
-    </div>
-    <div class="review-item">
-      <h4>
-        Risk
-      </h4>
-      <p>{{ risk?.weather_event?.name || '--' }} on {{ risk?.community_system?.name || '--' }}</p>
-    </div>
+  <h3 class="step-title">Review</h3>
+
+  <div class="review-feedback warning" *ngIf="!action.isComplete()">
+    <p class="review-feedback-header">This is a good start!</p>
+    <p>You've filled out the most important parts of your action. There are still a few details that would be helpful to fill out, however. These fields are marked as &ldquo;recommended&rdquo;.</p>
   </div>
 
-  <div class="review-step">
-    <h3>Action Details</h3>
+  <div class="review-feedback success" *ngIf="action.isComplete()">
+    <p class="review-feedback-header">This looks great!</p>
+    <p>You've developed a well-considered action that addresses this risk. Next steps:</p>
+    <ul class="feedback-steps">
+      <li>
+        <span class="icon icon-edit"></span>
+        <div>
+          <p class="feedback-header">Create another action</p>
+          <p>You still have more risks to counteract. Save this action and
+            <button type="button" class="button-link" 
+            (click)="finish()">go to action page.</button>
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="icon icon-funding"></span>
+        <div>
+          <p class="feedback-header">Get funding for this action</p>
+          <p>Not sure how to fund this? <a href="needs_link">Here are some ideas</a> courtesy of the <a href="https://efc.umd.edu/" target="_blank">University of Maryland's Environmental Finance Center.</a></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="step-content">
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Overview</h4>
+      <button class="button button-icon-only icon-edit" goToStep="0" title="Edit fields"></button>
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.name}">
+      <span class="answer-label">Description of action: </span>
+      <span class="review-description">{{ action.name || '--' }}</span>
+    </div>
+  </section>
+
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Details</h4>
+      <button class="button button-icon-only icon-edit" goToStep="1" title="Edit fields"></button>
+    </div>
     <div class="review-item"
          [ngClass]="{warning: !action.action_type}">
-      <h4>
-        Type of action: {{ action.action_type || '--' }}
-        <button class="button icon-edit" goToStep="1"></button>
-      </h4>
+      <span class="answer-label">Type of action: </span>
+      {{ action.action_type || '--' }}
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.action_goal}">
-      <h4>
-        Action goal: {{ action.action_goal || '--' }}
-        <button class="button icon-edit" goToStep="1"></button>
-      </h4>
+      <span class="answer-label">Action goal: </span>
+      {{ action.action_goal || '--' }}
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.implementation_details}">
-      <h4>
-        Implementation details
-        <button class="button icon-edit" goToStep="1"></button>
-      </h4>
-      <p class="review-description">{{ action.implementation_details || '--' }}</p>
+      <span class="answer-label">Implementation details: </span>
+      <span class="review-description">{{ action.implementation_details || '--' }}</span>
     </div>
     <div class="review-item">
-      <h4>
-        Public/Private: {{ action.visibility | titlecase }}
-        <button class="button icon-edit" goToStep="1"></button>
-      </h4>
+      <span class="answer-label">Visibility to other cities: </span>
+      {{ action.visibility | titlecase }}
     </div>
-  </div>
+  </section>
 
-  <div class="review-step">
-    <h3>Anticipated Improvements</h3>
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Outcomes</h4>
+      <button class="button button-icon-only icon-edit" goToStep="2" title="Edit fields"></button>
+    </div>
     <div class="review-item"
          [ngClass]="{warning: !action.improvements_adaptive_capacity}">
-      <h4>
-        Effect on adaptive capacity
-        <button class="button icon-edit" goToStep="2"></button>
-      </h4>
-      <p class="review-description">{{ action.improvements_adaptive_capacity || '--' }}</p>
+      <span class="answer-label">Effect on your city&rsquo;s adaptive capacity: </span>
+      <span class="review-description">{{ action.improvements_adaptive_capacity || '--' }}</span>
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.improvements_impacts }">
-      <h4>
-        Reduction in potential impact
-        <button class="button icon-edit" goToStep="2"></button>
-      </h4>
-      <p class="review-description">{{ action.improvements_impacts || '--' }}</p>
+      <span class="answer-label">Reduction in this risk&rsquo;s potential impact: </span>
+      <span class="review-description">{{ action.improvements_impacts || '--' }}</span>
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.collaborators }">
-      <h4>
-        Collaborators
-        <button class="button icon-edit" goToStep="2"></button>
-      </h4>
-      <p *ngIf="!action.collaborators?.length">--</p>
-      <div class="multiselect" *ngIf="action.collaborators?.length">
-        <div class="selected-option" *ngFor="let collaborator of action.collaborators">
+      <span class="answer-label">Departments to collaborate with: </span>
+      <span *ngIf="!action.collaborators?.length">--</span>
+      <span class="multiselect" *ngIf="action.collaborators?.length">
+        <span class="selected-option" *ngFor="let collaborator of action.collaborators">
             {{ collaborator }}
-        </div>
-      </div>
+        </span>
+      </span>
     </div>
-  </div>
+  </section>
 
-  <div class="review-step">
-    <h3>Categories</h3>
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Categories</h4>
+      <button class="button button-icon-only icon-edit" goToStep="3" title="Edit fields"></button>
+    </div>
     <div class="review-item"
          [ngClass]="{warning: !action.categories}">
-      <h4>
-        Categories
-        <button class="button icon-edit" goToStep="3"></button>
-      </h4>
-      <p *ngIf="!action.categories?.length">--</p>
-      <div class="multiselect" *ngIf="action.categories?.length">
-        <div class="selected-option" *ngFor="let category of action.categories">
+      <span class="answer-label">Selected categories: </span>
+      <span *ngIf="!action.categories?.length">--</span>
+      <span class="multiselect" *ngIf="action.categories?.length">
+        <span class="selected-option" *ngFor="let category of action.categories">
             {{ category.name }}
-        </div>
-      </div>
+        </span>
+      </span>
     </div>
-  </div>
+  </section>
 
-  <div class="review-step">
-    <h3>Funding</h3>
+  <section class="review-section">
+    <div class="review-section-header-container">
+      <h4 class="review-section-header">Funding</h4>
+      <button class="button button-icon-only icon-edit" goToStep="4" tooltip="Edit fields"></button>
+    </div>
     <div class="review-item"
          [ngClass]="{warning: !action.funding}">
-      <h4>
-        Funding
-        <button class="button icon-edit" goToStep="4"></button>
-      </h4>
-      <p class="review-description">{{ action.funding || '--' }}</p>
+      <span class="answer-label">Description: </span>
+      <span class="review-description">{{ action.funding || '--' }}</span>
     </div>
-  </div>
-
-  <div class="review-step" *ngIf="!action.isComplete()">
-    <div class="review-item warning">
-      <h2>This is a great start</h2>
-
-      <p>You've filled out the most important parts of your action, but there are still a few details that would be helpful to fill out, which are highlighted in yellow.</p>
-
-      <div class="review-icon-box">
-        <span class="icon icon-dollar"></span>
-        <div>
-          <h4>Get funding for this action</h4>
-          <p>When you fill out more information, you can apply for funding.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="review-step" *ngIf="action.isComplete()">
-    <div class="review-item success">
-      <h2>This looks good!</h2>
-
-      <p>You've developed a well thought-out action to undertake in order to address your adaptation needs. You now have the following options:</p>
-
-      <div class="review-icon-box">
-        <span class="icon icon-edit"></span>
-        <div>
-          <h4>Create another action</h4>
-          <p>You still have more assessed risks to develop actions to counteract.</p>
-        </div>
-      </div>
-      <div class="review-icon-box">
-        <span class="icon icon-dollar"></span>
-        <div>
-          <h4>Get funding for this action</h4>
-          <p>This action will appear on your Adaptation Actions page. Click on the $ icon to find funding.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  </section>
 </div>
-<div class="step-footer">
-  <button class="step-footer-navigation" type="button" (click)="finish()">Finish</button>
-</div>
+
+<footer class="step-footer">
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary" 
+            (click)="finish()">Finish</button>  
+  </div>
+</footer>

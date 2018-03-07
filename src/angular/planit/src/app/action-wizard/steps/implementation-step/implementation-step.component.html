@@ -1,64 +1,68 @@
 <div class="step-header">
-  <h3>Action Details</h3>
-  <p>Add copy text here that talks about what action details means.</p>
+  <h3 class="step-title">Details</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
+
 <div class="step-content">
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <label for="step-implementation-action-type">Type of action</label>
-      <input id="step-implementation-action-type"
+    <div class="form-control-container">
+      <label for="action-type">Type of action</label>
+      <input id="action-type"
              type="text"
              class="form-control"
              formControlName="action_type"
              [typeahead]="actionTypes"
              [typeaheadMinLength]="0">
     </div>
-    <div class="step-form-control">
-      <label for="step-implementation-action-goal">Action goal</label>
-      <input id="step-implementation-action-goal" type="text" class="form-control" formControlName="action_goal">
+    <div class="form-control-container">
+      <label for="action-goal">Action goal</label>
+      <input id="action-goal" type="text" class="form-control" formControlName="action_goal">
     </div>
-    <div class="step-form-control">
-      <label for="step-implementation-details">Implementation details</label>
-      <textarea id="step-implementation-details" formControlName="implementation_details"></textarea>
+    <div class="form-control-container">
+      <label for="implementation-details">Implementation details</label>
+      <textarea id="implementation-details" formControlName="implementation_details"></textarea>
     </div>
-    <div class="step-form-control">
-      <div>Share with other cities
+    <div class="form-control-container">
+      <label for="share">
+        Visibility to other cities
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
-      </div>
-      <div class="button-group">
-        <button class="button button-primary"
-                [ngClass]="{active: form.controls['isPublic'].value}"
-                (click)="updateIsPublic(true)">
-          Public
-        </button>
-        <button class="button button-primary"
+      </label>
+      <div id="share" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
+        <button class="button button-primary" role="radio"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
-          Private
+          Keep private
+        </button>
+        <button class="button button-primary" role="radio"
+                [ngClass]="{active: form.controls['isPublic'].value}"
+                (click)="updateIsPublic(true)">
+          Make public
         </button>
       </div>
     </div>
-    <div class="step-form-control">
-      <label for="step-implementation-notes">Notes</label>
-      <textarea id="step-implementation-notes" formControlName="notes"></textarea>
+    <div class="form-control-container">
+      <label for="notes">Notes</label>
+      <textarea id="notes" formControlName="notes"></textarea>
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!action?.name"
-          (click)="cancel()">Cancel</button>
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!!action?.name"
-          (click)="finish()">Finish later</button>
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" [disabled]="!form.valid" nextStep>Continue</button>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link"   
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link"  
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish action later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button"   
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary"   
+            [disabled]="!form.valid" 
+            nextStep>Next</button>
+  </div>
+</footer>

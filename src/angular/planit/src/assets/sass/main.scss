@@ -55,8 +55,7 @@
   'components/action-steps/action-picker',
   'components/action-steps/action-steps',
   'components/action-steps/action-card',
-  'components/archwizard',
-  'components/app-wizard',
+  'components/wizard',
   'components/button',
   'components/card',
   'components/dropdown',
@@ -94,3 +93,5 @@
 @import 'pages/manage-subscription';
 @import 'pages/marketing';
 @import 'pages/vulnerability-assessment';
+@import 'pages/risk-wizard';
+@import 'pages/action-wizard';

@@ -48,10 +48,6 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public navigationSymbol = '2';
   public risk: Risk;
   public title = 'Hazard';
-  public tooltipText = {
-    frequency: 'Estimation of the change in how often this hazard will occur in the future',
-    intensity: 'Estimation of the change in strength of this hazard in the future'
-  };
 
   public directionalOptions = OrgRiskDirectionalOptions;
   public relativeOptions = OrgRiskRelativeChanceOptions;

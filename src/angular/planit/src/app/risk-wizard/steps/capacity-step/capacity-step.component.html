@@ -2,44 +2,55 @@
   <p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
-
-  <h3>Adaptive Capacity</h3>
+  <h3 class="step-title">Adaptive capacity</h3>
   <p *ngIf="!isDisabled">
     Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
   </p>
 </div>
+
 <div class="step-content">
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <h5>Adaptive Capacity</h5>
-        <app-option-dropdown [control]="form.controls['adaptive_capacity']"
-                             [options]="capacityOptions"
-                             [disabled]="isDisabled">
-        </app-option-dropdown>
+    <div class="form-control-container">
+      <label for="adaptive-capacity">Adaptive capacity</label>
+      <app-option-dropdown buttonId="adaptive-capacity"
+                           [control]="form.controls['adaptive_capacity']"
+                           [options]="capacityOptions"
+                           [disabled]="isDisabled">
+      </app-option-dropdown>
     </div>
-    <div class="step-form-control">
-      <h5>Related Adaptive Values</h5>
-      <app-freeform-multiselect formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
+    <div class="form-control-container">
+      <label for="related-adaptive-values">Related adaptive values 
+        <span class="icon icon-question-circle" tooltip="{{ tooltipText.values }}"></span>
+        <span class="optional">optional</span>
+      </label>
+      <app-freeform-multiselect inputId="related-adaptive-values" formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
       <div *ngIf="form.controls.related_adaptive_values.errors">
         <span *ngIf="form.controls.related_adaptive_values.errors.server">
           *{{ form.controls.related_adaptive_values.errors.server }}
         </span>
       </div>
     </div>
-    <div class="step-form-control">
-      <h5>Description</h5>
-      <textarea formControlName="adaptive_capacity_description"></textarea>
+    <div class="form-control-container">
+      <label for="adaptive-capacity-description">Describe your city's capacity to mitigate this hazard's impact<span class="optional">optional</span></label>
+      <textarea id="adaptive-capacity-description" formControlName="adaptive_capacity_description"></textarea>
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
-  </div>
 
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!risk?.id" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link"
+            *ngIf="risk?.id" 
+            (click)="finish()">Finish assessment later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button" 
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary" 
+            [disabled]="form.invalid || !isStepComplete()" 
+            nextStep>Next</button>
+  </div>
+</footer>

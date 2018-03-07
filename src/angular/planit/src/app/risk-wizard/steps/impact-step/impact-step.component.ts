@@ -34,7 +34,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public key: RiskStepKey = RiskStepKey.Impact;
   public navigationSymbol = '3';
   public risk: Risk;
-  public title = 'Impact';
+  public title = 'Potential impact';
 
   public relativeOptions = OrgRiskRelativeImpactOptions;
 

@@ -3,6 +3,7 @@
 .switch-list {
   display: flex;
   flex-direction: column;
+  padding: 0;
 }
 
 .switch-list > .switch-item {
@@ -12,15 +13,15 @@
   color:  $switch-title-color;
   cursor: pointer;
   display: flex;
-  padding: 1rem;
+  padding: $space-small $space-medium;
   font-size: $switch-title-size;
-  margin: $space-small 0;
+  margin: $space-tiny 0;
   border-radius: $switch-border-radius;
 
   .icon-status {
     font-family: $icon-font-family;
     font-size: $switch-status-icon-size;
-    margin-right: $space-small;
+    margin-right: $space-medium;
     width: 2rem;
 
     &:after {
@@ -32,6 +33,7 @@
   .icon-primary {
     color: $switch-primary-icon-color;
     font-size: $switch-primary-icon-size;
+    margin-right: $space-small;
   }
 
   .icon-readonly {
@@ -53,7 +55,7 @@
   }
 
   &.selected {
-    background-color:  $switch-background-selected;
+    background-color: $switch-background-selected;
     outline: $switch-border-selected;
     outline-offset: -2px;
 

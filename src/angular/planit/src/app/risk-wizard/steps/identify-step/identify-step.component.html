@@ -1,59 +1,57 @@
 <div class="step-header">
-  <h3>Identify risk</h3>
+  <h3 class="step-title">Identify risk</h3>
+  <p>In Temperate, a &ldquo;risk&rdquo; is the pairing of a climate-related hazard and a community system (a subset of people, structures or assets) that may be impacted by it.</p>
 </div>
+
 <div class="step-content">
-  <p>Match a hazard to a subset of people, structures or assets (sometimes referred to as a "community system") that the selected hazard may impact</p>
   <form [formGroup]="form">
-  <div class="step-form-control">
-    <label>Hazards
-      <input class="form-control" formControlName="weather_event"
-                                  tabindex="1"
-                                  typeaheadOptionField="name"
-                                  (typeaheadOnSelect)="itemSelected('weather_event', $event)"
-                                  (typeaheadOnBlur)="itemBlurred('weather_event')"
-                                  (blur)="itemBlurred('weather_event')"
-                                  [typeahead]="weatherEvents"
-                                  [typeaheadMinLength]="0"
-                                  [typeaheadScrollable]="true"
-                                  [typeaheadOptionsInScrollableView]="5"
-                                  [container]="'body'">
-      <div *ngIf="form.controls.weather_event.errors && (form.controls.weather_event.dirty || form.controls.weather_event.touched)">
-        <span *ngIf="form.controls.weather_event.errors.required">*Required</span>
-        <span *ngIf="form.controls.weather_event.errors.autocomplete">*Not found</span>
-      </div>
-    </label>
+  <div class="form-control-container">
+    <label for="hazard">Hazard</label>
+    <input type="text" id="hazard" class="form-control" formControlName="weather_event"
+                                typeaheadOptionField="name"
+                                (typeaheadOnSelect)="itemSelected('weather_event', $event)"
+                                (typeaheadOnBlur)="itemBlurred('weather_event')"
+                                (blur)="itemBlurred('weather_event')"
+                                [typeahead]="weatherEvents"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="5"
+                                [container]="'body'">
+    <div *ngIf="form.controls.weather_event.errors && (form.controls.weather_event.dirty || form.controls.weather_event.touched)">
+      <div class="form-control-error" *ngIf="form.controls.weather_event.errors.required || form.controls.weather_event.errors.autocomplete">Please select a hazard to assess.</div>
+    </div>
   </div>
-  <div>
-    <label>Community system
-      <input class="form-control" formControlName="community_system"
-                                  typeaheadOptionField="name"
-                                  tabindex="2"
-                                  (typeaheadOnSelect)="itemSelected('community_system', $event)"
-                                  (typeaheadOnBlur)="itemBlurred('community_system')"
-                                  (blur)="itemBlurred('community_system')"
-                                  [typeahead]="communitySystems"
-                                  [typeaheadMinLength]="0"
-                                  [typeaheadScrollable]="true"
-                                  [typeaheadOptionsInScrollableView]="5"
-                                  [container]="'body'">
-      <div *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
-        <span *ngIf="form.controls.community_system.errors.required">*Required</span>
-        <span *ngIf="form.controls.community_system.errors.autocomplete">*Not found</span>
-      </div>
-    </label>
+  <div class="form-control-container">
+    <label for="community-system">Community system at risk</label>
+    <input type="text" id="community-system" class="form-control" formControlName="community_system"
+                                typeaheadOptionField="name"
+                                (typeaheadOnSelect)="itemSelected('community_system', $event)"
+                                (typeaheadOnBlur)="itemBlurred('community_system')"
+                                (blur)="itemBlurred('community_system')"
+                                [typeahead]="communitySystems"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="5"
+                                [container]="'body'">
+    <div class="form-control-error" *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
+      <span *ngIf="form.controls.community_system.errors.required || form.controls.community_system.errors.autocomplete">Please select a community system to focus on.</span>
+    </div>
   </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
-  </div>
 
-  <div class="step-footer-navigation">
-    <button type="button"
-            tabindex="3"
-            [disabled]="!form.valid"
-            nextStep>Continue</button>
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!risk?.id" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="risk?.id" 
+            (click)="finish()">Finish assessment later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary"
+            [disabled]="!form.valid"
+            nextStep>Next</button>
+  </div>
+</footer>

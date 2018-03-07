@@ -33,7 +33,7 @@ export class ImprovementsStepComponent
   public action: Action;
   public key = ActionStepKey.Improvements;
   public navigationSymbol = '3';
-  public title = 'Improvements';
+  public title = 'Outcomes';
   public collaboratorValues: string[];
 
   constructor(protected session: WizardSessionService<Action>,

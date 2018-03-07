@@ -1,48 +1,48 @@
 <div class="step-header">
-  <h3>Anticipated Improvements</h3>
+  <h3 class="step-title">Outcomes</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
 </div>
+
 <div class="step-content">
   <form [formGroup]="form">
-
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.
-    </p>
-
-    <label for="improvements_adaptive_capacity">
-      Effect on adaptive capacity
-    </label>
-    <textarea formControlName="improvements_adaptive_capacity"></textarea>
-
-    <label for="improvements_impacts">
-      Reduction in potential impacts
-    </label>
-    <textarea formControlName="improvements_impacts"></textarea>
-
-    <label for="collaborators">
-      Collaborator(s)
-      <span class="icon icon-question-circle"
-            tooltip="Select or enter other departments you will need to collaborate with to develop and implement this strategy. Keep in mind that additional stakeholder engagement is a key component of adaptation planning."
-            placement="right"></span>
-    </label>
-    <app-freeform-multiselect
-      formControlName="collaborators"
-      [options]="collaboratorValues">
-    </app-freeform-multiselect>
+    <div class="form-control-container">
+      <label for="adaptive-capacity-effect">How will this action step improve your city's adaptive capacity?</label>
+      <textarea id="adaptive-capacity-effect" formControlName="improvements_adaptive_capacity"></textarea>
+    </div>
+    <div class="form-control-container">
+      <label for="impact-reduction">How will this action step reduce the potential impact of this risk?</label>
+      <textarea id="impact-reduction" formControlName="improvements_impacts"></textarea>
+    </div>
+    <div class="form-control-container">
+      <label for="collaborators">
+        Departments to collaborate with
+          <span class="icon icon-question-circle"
+                tooltip="Select or enter other departments you will need to collaborate with to develop and implement this strategy. Keep in mind that additional stakeholder engagement is a key component of adaptation planning."
+                placement="right"></span>
+      </label>
+      <app-freeform-multiselect
+        inputId="collaborators"
+        formControlName="collaborators"
+        [options]="collaboratorValues">
+      </app-freeform-multiselect>
+    </div>
   </form>
 </div>
-<div class="step-footer">
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!action?.name"
-          (click)="cancel()">Cancel</button>
-  <button type="button"
-          class="step-footer-exit"
-          tabindex="2"
-          *ngIf="!!action?.name"
-          (click)="finish()">Finish later</button>
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" [disabled]="!form.valid" nextStep>Continue</button>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link"   
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link"  
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish action later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button"   
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary"   
+            [disabled]="!form.valid" 
+            nextStep>Next</button>
+  </div>
+</footer>

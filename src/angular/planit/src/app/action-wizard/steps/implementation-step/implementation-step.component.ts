@@ -33,11 +33,10 @@ export class ImplementationStepComponent
   public actionTypes: string[] = [];
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
-  public title = 'Action details';
+  public title = 'Details';
   public tooltipText = {
-    shareWithCities: 'If \'public\' is selected, other organizations in Temperate will be able ' +
-                     'to view this action and use it as a template for their own vulnerability ' +
-                     'assessments'
+    shareWithCities: 'Public actions can be adapted by other organizations ' +
+                     'for their own vulnerability assessments'
   };
 
   constructor(protected session: WizardSessionService<Action>,

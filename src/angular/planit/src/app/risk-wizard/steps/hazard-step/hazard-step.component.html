@@ -1,31 +1,33 @@
-<div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
-     tooltip="{{ relatedIndicatorsTooltip() }}">
-  <button class="button button-primary button-small"
-          [disabled]="!indicators?.length"
-          (click)="indicatorsModal.open()"><i class="icon-indicators"></i>View related indicators</button>
-</div>
-<div class="step-header">
+<div class="step-header">  
   <p *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
   </p>
-  <h3>Hazard</h3>
-  <div *ngIf="!isDisabled">
-    How will <em>{{ risk.weather_event.name | lowercase }}</em> change over time?
-  </div>
+  <h3 class="step-title">Hazard</h3>
+  <p *ngIf="!isDisabled">
+    How will <strong>{{ risk.weather_event.name | lowercase }}</strong> change over time?
+  </p>
 </div>
+
 <div class="step-content">
+  <div class="icon-related-indicators tooltip-wrapper" *ngIf="risk.weather_event?.indicators"
+       tooltip="{{ relatedIndicatorsTooltip() }}">
+    <button class="button button-positive button-icon-left"
+            [disabled]="!indicators?.length"
+            (click)="indicatorsModal.open()"><i class="icon-indicators"></i><span class="slide-text">View related indicators</span></button>
+  </div>
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <h5>Probability</h5>
-      <app-option-dropdown [control]="form.controls['probability']"
-                           [options]="relativeOptions"
-                           [disabled]="isDisabled">
-      </app-option-dropdown>
+    <div class="form-control-container">
+      <label for="probability">Probability of this hazard occuring</label>
+        <app-option-dropdown buttonId="probability"
+                             [control]="form.controls['probability']"
+                             [options]="relativeOptions"
+                             [disabled]="isDisabled">
+        </app-option-dropdown>
     </div>
-    <div class="step-form-control">
-      <h5>Frequency <span class="icon icon-question-circle" tooltip="{{ tooltipText.frequency }}"></span></h5>
-      <div class="button-group">
-        <button class="button button-primary"
+    <div class="form-control-container">
+      <label>How often do you expect this hazard to occur in the next five years?</label>
+      <div class="button-group" data-toggle="buttons" role="radiogroup">
+        <button class="button button-primary" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -34,10 +36,10 @@
         </button>
       </div>
     </div>
-    <div class="step-form-control">
-      <h5>Intensity <span class="icon icon-question-circle" tooltip="{{ tooltipText.intensity }}"></span></h5>
-      <div class="button-group">
-        <button class="button button-primary"
+    <div class="form-control-container">
+      <label>How intense do you expect this hazard to be in the next five years?</label>
+      <div class="button-group" role="group">
+        <button class="button button-primary" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalOptionsKeys"
@@ -48,17 +50,24 @@
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <div class="step-footer-exit">
-    <button *ngIf="!risk?.id" type="button" tabindex="4" (click)="cancel()">Cancel</button>
-    <button *ngIf="risk?.id" type="button" tabindex="4" (click)="finish()">Finish later</button>
-  </div>
 
-  <div class="step-footer-navigation">
-    <button type="button" nextStep>Skip Step</button>
-    <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Continue</button>
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!risk?.id" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="risk?.id" 
+            (click)="finish()">Finish assessment later</button>
   </div>
-</div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button" 
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary" 
+            [disabled]="form.invalid || !isStepComplete()" 
+            nextStep>Next</button>
+  </div>
+</footer>
 
 
 <app-modal-template #indicatorChartModal

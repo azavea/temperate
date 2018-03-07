@@ -35,8 +35,8 @@ $brand-evergreen: #15514b;
 $brand-teal: #46b6ae;
 $brand-black: #032a1d;
 $brand-leaf: #85c005;
+$brand-turmeric: #f2c706;
 $brand-persimmon: #ed5c14;
-$brand-saffron: #f2c706;
 
 $brand-teal-v-light: #d3eae9;
 $brand-teal-light: #a8ddda;
@@ -45,7 +45,7 @@ $brand-teal-light: #a8ddda;
 $brand-primary: $brand-evergreen;
 $brand-secondary: $brand-teal;
 $brand-positive: $brand-leaf;
-$brand-warning: $brand-saffron;
+$brand-warning: $brand-turmeric;
 $brand-danger: $brand-persimmon;
 
 $white: #fff;
@@ -143,6 +143,7 @@ $heading-font-family: National, Arial, sans-serif;
 $heading-margin-bottom: 1.4rem;
 
 $paragraph-margin: 1.4rem;
+$paragraph-max-width: 60rem;
 
 /* * * *
  * Page 
@@ -191,8 +192,23 @@ $button-padding-horizontal-large: $button-padding-horizontal*1.95;
  * Fields
  *
  * * * */
+$field-text-weight: $font-weight-regular;
+$field-border: 1px solid $neutral-1;
 $field-border-radius: $border-radius;
+$field-disabled-border-color: $neutral-2;
+$field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
+$label-weight: $font-weight-bold;
+$required-color: $neutral-3;
+$required-weight: $font-weight-bold;
+$optional-color: $neutral-3;
+$optional-weight: $font-weight-regular;
+$recommended-color: $brand-black;
+$required-size: $text-tiny;
+$hint-size: $text-tiny;
+$error-color: $brand-danger;
 
+$multiselect-pill-background: $brand-teal-light;
+$multiselect-pill-color: $neutral-5;
 
 /* * * *
  * Dropdown
@@ -302,7 +318,7 @@ $chart-line: $brand-teal;
 $chart-minmax: $chart-line;
 $chart-trendline: $brand-persimmon;
 $chart-min-bar: $neutral-5;
-$chart-max-bar: $brand-saffron;
+$chart-max-bar: $brand-turmeric;
 $chart-axis: $neutral-4;
 $chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
@@ -345,7 +361,7 @@ $card-border-radius: $border-radius;
  *
  * * * */
  $switch-border-radius: $border-radius;
- $switch-title-size: $text-medium;
+ $switch-title-size: $text-base;
  $switch-title-color: $brand-black;
 
  $switch-background: $neutral-0;
@@ -390,3 +406,72 @@ $card-border-radius: $border-radius;
  $concern-title-color-hover: $brand-black;
 
  $concern-readonly-icon-color: $neutral-2;
+
+
+/* * * *
+ * Wizards
+ *
+ * * * */
+$wizard-header-padding-top: $space-xxlarge;
+$wizard-header-padding-bottom: $space-xxlarge;
+$wizard-background: $white;
+
+$wizard-navigation-width: 25rem;
+
+$wizard-title-small-color: $neutral-4;
+$wizard-title-small-size: $text-small;
+$wizard-title-small-weight: $font-weight-regular;
+
+$wizard-title-large-color: $brand-black;
+$wizard-title-large-size: $text-display;
+$wizard-title-large-weight: $font-weight-regular;
+
+$wizard-adaptive-need-border: 0px 0px 0 3px $white, 
+                              0px 0px 0 4px $neutral-2;
+
+$wizard-step-prompt-color: $neutral-4;
+$wizard-step-prompt-size: $text-small;
+
+$wizard-step-number-background: $neutral-1;
+$wizard-step-number-background-complete: $brand-positive;
+$wizard-step-number-background-current: $brand-teal;
+$wizard-step-number-border: 2px solid $neutral-2;
+$wizard-step-number-color: $neutral-3;
+$wizard-step-number-color-special: $black;
+$wizard-step-number-divider-color: $neutral-2;
+$wizard-step-number-divider-width: 1px;
+$wizard-step-number-weight: $font-weight-regular;
+$wizard-step-number-size: $text-small;
+$wizard-step-number-ring: 0px 0px 0px 3px $main-background,
+                          0px 0px 0px 4px $neutral-2;
+$wizard-step-number-ring-current: 0px 0px 0px 3px $main-background,
+                          0px 0px 0px 5px $brand-teal-light;
+
+$wizard-step-link-color: $neutral-5;
+$wizard-step-link-color-hover: $black;
+$wizard-step-link-weight: $font-weight-regular;
+$wizard-step-link-size: $text-small;
+
+$wizard-step-border: 1px solid $neutral-2;
+$wizard-step-padding: 15px 12px 17px;
+$wizard-step-header-size: $text-medium;
+$wizard-step-header-color: $brand-evergreen;
+$wizard-step-header-weight: $font-weight-bold;
+
+$review-header-size: $text-base;
+$review-header-weight: $font-weight-regular;
+$review-item-background: $neutral-1;
+$review-item-label-weight: $font-weight-bold;
+$review-item-label-color: $black;
+
+$review-item-warning-color: $brand-warning;
+$review-item-success-color: $brand-positive;
+
+$review-feedback-header-size: $text-base;
+$review-feedback-header-weight: $font-weight-bold;
+$review-feedback-color: $black;
+$review-feedback-background: $neutral-0;
+$review-feedback-list-size: $text-base;
+$review-feedback-icon-size: $text-medium;
+$review-feedback-icon-background: $brand-teal-light;
+$review-feedback-row-background: $white;

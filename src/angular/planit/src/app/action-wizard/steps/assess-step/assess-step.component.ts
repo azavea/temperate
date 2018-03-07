@@ -27,7 +27,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public formValid: boolean;
   public key: ActionStepKey = ActionStepKey.Assess;
   public navigationSymbol = '1';
-  public title = 'General Information';
+  public title = 'Overview';
   public action: Action;
 
   constructor(protected session: WizardSessionService<Action>,

@@ -1,20 +1,34 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 label, .label {
   margin-bottom: 0.25rem;
-  font-weight: $font-weight-bold;
+  font-weight: $label-weight;
+  display: flex;
+}
 
-  > .required {
-    color: $neutral-3;
-    font-size: $text-tiny;
-    font-style: italic;
-    text-align: right;
-    text-transform: uppercase;
-  }
+.required, .optional {
+  font-size: $required-size;
+  margin: 0 0 $space-tiny $space-small;
+  line-height: 1.35;
+  text-transform: uppercase;
+  align-self: flex-end;
+}
+
+.required {
+  color: $required-color;
+}
+
+.optional {
+  color: $optional-color;
+  font-weight: $font-weight-regular;
+}
+
+.form-control-container {
+  margin-bottom: $space-xxlarge;
+  max-width: 60rem;
+  position: relative;
+}
+
+.form-control-container .button-group {
+  margin: 0.65rem 0 1.25rem;
 }
 
 .form-control, textarea {
@@ -26,8 +40,8 @@ label, .label {
   padding: $button-padding-vertical;
   color: inherit;
   font-size: inherit;
-  font-weight: $font-weight-regular;
-  border: 1px solid $neutral-1;
+  font-weight: $field-text-weight;
+  border: $field-border;
   border-radius: $field-border-radius;
 
   &:focus {
@@ -40,7 +54,7 @@ label, .label {
     resize: none;
 
     app-editable-input & {
-      border-color: $neutral-2;
+      border-color: $field-disabled-border-color;
       background-color: transparent;
       opacity: 1;
       cursor: default;
@@ -50,7 +64,7 @@ label, .label {
 
 input.ng-invalid {
   &:not(.ng-pristine) {
-    box-shadow: 0 0 0 2px rgba($brand-danger, 0.8);
+    box-shadow: $field-error-border;
   }
 }
 
@@ -78,4 +92,19 @@ textarea {
     margin-left: $space-medium;
     z-index: 1;
   }
+}
+
+typeahead-container {
+  ul.dropdown-menu {
+    width: fit-content;
+  }
+}
+
+.form-control-error, .form-control-hint {
+  font-size: $hint-size;
+  line-height: 1.35;
+}
+
+.form-control-error {
+  color: $error-color;
 }
