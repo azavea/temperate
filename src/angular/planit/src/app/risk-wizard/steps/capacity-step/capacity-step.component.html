@@ -22,7 +22,7 @@
         <span class="icon icon-question-circle" tooltip="{{ tooltipText.values }}"></span>
         <span class="optional">optional</span>
       </label>
-      <app-freeform-multiselect id="related-adaptive-values" formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
+      <app-freeform-multiselect inputId="related-adaptive-values" formControlName="related_adaptive_values" [options]="adaptiveValues"></app-freeform-multiselect>
       <div *ngIf="form.controls.related_adaptive_values.errors">
         <span *ngIf="form.controls.related_adaptive_values.errors.server">
           *{{ form.controls.related_adaptive_values.errors.server }}

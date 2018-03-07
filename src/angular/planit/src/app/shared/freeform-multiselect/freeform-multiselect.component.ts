@@ -17,6 +17,7 @@ import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 export class FreeformMultiselectComponent implements ControlValueAccessor, OnChanges {
 
   @Input() public options: string[] = [];
+  @Input() public inputId: string = null;
 
   public selected = '';
   public availableOptions: Set<string> = new Set();

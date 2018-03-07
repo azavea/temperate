@@ -18,7 +18,7 @@
   <form [formGroup]="form">
     <div class="form-control-container">
       <label for="probability">Probability of this hazard occuring</label>
-        <app-option-dropdown id="probability"
+        <app-option-dropdown buttonId="probability"
                              [control]="form.controls['probability']"
                              [options]="relativeOptions"
                              [disabled]="isDisabled">
