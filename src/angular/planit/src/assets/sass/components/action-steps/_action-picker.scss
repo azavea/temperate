@@ -58,11 +58,11 @@
       flex-flow: column nowrap;
       align-items: flex-start;
       justify-content: flex-start;
-      margin-right: $space-large;
+      margin-right: $space-xlarge;
 
       > .action-name {
         margin-bottom: $space-large;
-        font-size: $text-small;
+        font-size: $text-base;
         font-weight: $font-weight-regular;
         line-height: 1.5;
       }
@@ -70,6 +70,19 @@
       > .action-source {
         margin-bottom: $space-xlarge;
         font-size: $text-tiny;
+        opacity: .7;
+
+        > a {
+          border-bottom-width: 0;
+
+          &:hover {
+            border-bottom-width: 1px;
+          }
+        }
+      }
+
+      > .button {
+        margin-bottom: $space-tiny;
       }
     }
 
