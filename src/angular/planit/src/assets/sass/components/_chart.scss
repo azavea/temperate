@@ -25,3 +25,12 @@ ccc-line-graph {
 .card-block {
   margin: 0 2rem;
 }
+
+.chart-legend-line {
+  background: $chart-line;
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  margin-right: $space-tiny;
+  margin-bottom: 3px;
+}
