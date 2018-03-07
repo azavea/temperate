@@ -1,5 +1,5 @@
-import { OrgRiskOptionDescription } from './org-risk-option-description.model';
 import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
+import { OrgRiskOptionDescription } from './org-risk-option-description.model';
 
 
 export const OrgRiskDirectionalIntensityOptions =
