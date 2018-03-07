@@ -23,7 +23,8 @@ from rest_framework import routers
 from climate_api.views import ClimateAPIProxyView
 import action_steps.views as action_steps_views
 import planit_data.views as planit_data_views
-from users.views import CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet
+from users.views import (CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet,
+                         AddCityView)
 
 router = routers.DefaultRouter()
 router.register(r'action-categories', action_steps_views.ActionCategoryViewSet)
@@ -59,6 +60,7 @@ urlpatterns = [
     url(r'^accounts/', include('users.urls')),
     url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
     url(r'^api-token-auth/', PlanitObtainAuthToken.as_view(), name='token_auth'),
+    url(r'^add_city/', AddCityView.as_view(), name='add_city'),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),

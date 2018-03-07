@@ -1,0 +1,54 @@
+Please note that we only have US cities at this time... <a (click)="openModal(addCityTemplate)" class="link-text">Not seeing yours?</a>
+
+<ng-template #addCityTemplate>
+  <header class="modal-header">
+    <h1 class="modal-title">Request to add your city to Temperate</h1>
+  </header>
+  <form [formGroup]="cityForm"
+        (ngSubmit)="changeTemplate(submittedForm)">
+    <div class="modal-body">
+      <p>If Temperate doesn't offer your city yet, we can.</p>
+      <div class="form-control-container">
+        <label for="city">City</label>
+        <input id="city" type="text" class="form-control" [formControl]="cityForm.controls.city" required autofocus>
+      </div>
+      <div class="form-control-container">
+        <label for="state">State</label>
+        <input id="state" class="form-control" [formControl]="cityForm.controls.state" required>
+      </div>
+      <div class="form-control-container">
+        <label for="notes">Notes</label>
+        <textarea id="notes" class="form-control" [formControl]="cityForm.controls.notes"></textarea>
+      </div>
+      <div *ngIf="error" class="form-control-error">
+        <p>{{ error }}</p>
+      </div>
+      <footer class="modal-footer">
+        <div class="button-group">
+          <button type="submit" class="button button-primary"
+            [disabled]="!cityForm.valid">Submit</button>
+          <button type="button"
+            class="button button-secondary"
+            aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
+        </div>
+      </footer>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #submittedForm class="add-city-success-modal">
+  <header class="modal-header">
+    <h1 class="modal-title">Thanks for your message!</h1>
+    <button type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="modalRef.hide()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
+  <div class="modal-body">
+    We'll get back to you as soon as possible. In the meantime, check out our <a routerLink="/methodology">resources page.</a>
+    <footer class="modal-footer">
+      <button class="button button-primary" (click)="modalRef.hide()">Okay</button>
+    </footer>
+  </div>
+</ng-template>

@@ -9,6 +9,7 @@ import { ButtonsModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
 import { UserResolve } from '../core/services/user.resolve';
 import { SharedModule } from '../shared/shared.module';
+import { AddCityModalComponent } from './add-city-modal/add-city-modal.component';
 import { OrganizationWizardComponent } from './organization-wizard.component';
 import { CityStepComponent } from './steps/city-step/city-step.component';
 import { ConfirmStepComponent } from './steps/confirm-step/confirm-step.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   declarations: [
+    AddCityModalComponent,
     CityStepComponent,
     ConfirmStepComponent,
     InviteStepComponent,

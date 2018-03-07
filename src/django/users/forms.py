@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.core import signing
 
 from django.contrib.auth.password_validation import validate_password
@@ -126,3 +127,22 @@ class UserProfileForm(UserValidationMixin, forms.ModelForm):
     class Meta:
         model = PlanItUser
         fields = ('first_name', 'last_name', 'organizations', 'primary_organization',)
+
+
+class AddCityForm(forms.Form):
+    """Form to email us a request to add a city."""
+
+    email = forms.EmailField(help_text=None, required=False)
+    city = forms.CharField(max_length=100, required=True)
+    state = forms.CharField(max_length=30, required=True)
+    notes = forms.CharField(max_length=280, required=False)
+
+    def send_email(self):
+        message = 'City, State: {}, {}. {}'.format(self.cleaned_data['city'],
+                                                   self.cleaned_data['state'],
+                                                   self.cleaned_data['notes'])
+        send_mail('Add my city to Temperate please',
+                  message,
+                  self.cleaned_data['email'],
+                  [settings.DEFAULT_TO_EMAIL],
+                  fail_silently=False)

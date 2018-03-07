@@ -39,6 +39,7 @@ import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
+import { AddCityService } from './core/services/add-city.service';
 import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
@@ -128,6 +129,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     ActionTypeService,
     ActionResolve,
     ActionService,
+    AddCityService,
     apiHttpProvider,
     AuthService,
     AuthGuard,

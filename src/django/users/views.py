@@ -1,6 +1,5 @@
 import logging
 
-
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import QueryDict
@@ -27,7 +26,8 @@ from rest_framework.viewsets import GenericViewSet
 
 from users.serializers import AuthTokenSerializer
 
-from users.forms import UserForm, UserProfileForm, PasswordResetInitForm, PasswordResetForm
+from users.forms import (UserForm, UserProfileForm, PasswordResetInitForm,
+                         PasswordResetForm, AddCityForm)
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
@@ -258,3 +258,16 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     def get_queryset(self):
         return self.request.user.organizations.all()
+
+
+class AddCityView(JsonFormView):
+    permission_classes = (IsAuthenticated,)
+    form_class = AddCityForm
+
+    def post(self, request, *args, **kwargs):
+        self.user = request.user
+        return super(AddCityView, self).post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.cleaned_data['email'] = self.user.email
+        form.send_email()

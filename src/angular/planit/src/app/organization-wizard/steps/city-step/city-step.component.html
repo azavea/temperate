@@ -20,11 +20,8 @@
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
       <div class="form-control-hint">
-        <button type="button" class="button-link form-help-button" 
-                tooltip="Temperate is customized to your city. We need this information in order to create an organization for you and your team.">
-                Why do I need to provide a city? 
-        </button>
-        Please note that we only have US cities at this time.</div>
+        <app-add-city-modal></app-add-city-modal>
+      </div>
       <div class="form-control-error" *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
         <span *ngIf="noResults">No results found</span>
         <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">This is a required field.</span>
