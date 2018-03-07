@@ -7,6 +7,7 @@ import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service'
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { UserResolve } from './core/services/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'methodology', component: MethodologyComponent },
   { path: 'pricing', component: PricingComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInAuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordPageComponent, canActivate: [LoggedInAuthGuard] },
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
   {

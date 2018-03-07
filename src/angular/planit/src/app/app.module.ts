@@ -72,6 +72,7 @@ import {
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     PartnershipsComponent,
     PlanSelectorComponent,
     PricingComponent,
-    RegistrationPageComponent
+    RegistrationPageComponent,
+    ForgotPasswordPageComponent
   ],
   imports: [
     // Angular

@@ -30,21 +30,16 @@
     </div>
   </form>
   <div *ngIf="errors.non_field_errors" class="alert alert-danger">
-      <div *ngFor="let error of errors.non_field_errors">
-          <p>{{ error }}</p>
-      </div>
-  </div>
-  <div *ngIf="emailSent" class="alert">
-    <p>An email with a link to reset your password has been sent to you
-    if the account exists. This link will expire in 24 hours.
-    </p>
+    <div *ngFor="let error of errors.non_field_errors">
+      <p>{{ error }}</p>
+    </div>
   </div>
 </div>
 <div class="modal-footer">
   <div class="button-group">
     <input type="submit" class="button button-primary button-small"
         (click)="submit()" value="Log In" form="form-login">
-    <input type="submit" class="button button-primary button-small"
-        (click)="forgotPassword()" value="Forgot password" form="form-login">
+    <input type="submit" class="button button-primary button-small" value="Forgot password" form="form-login"
+           routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
   </div>
 </div>
