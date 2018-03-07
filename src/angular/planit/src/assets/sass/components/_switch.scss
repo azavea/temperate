@@ -69,12 +69,5 @@
     .icon-readonly {
       color: $switch-readonly-icon-color-selected;
     }
-
-    &:hover {
-      .icon-status:after {
-        content: "\E868";
-        color: $switch-checked-icon-color-hover;
-      }
-    }
   }
 }
