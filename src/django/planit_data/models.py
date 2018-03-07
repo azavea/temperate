@@ -88,7 +88,7 @@ class DefaultRisk(models.Model):
 
     weather_event = models.ForeignKey('WeatherEvent', null=False, blank=False)
     community_system = models.ForeignKey('CommunitySystem', null=False, blank=False)
-    order = models.IntegerField()
+    order = models.IntegerField(null=True, blank=True)
 
     class Meta:
         unique_together = (('weather_event', 'community_system'), ('weather_event', 'order'))
