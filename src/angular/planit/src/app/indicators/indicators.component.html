@@ -18,13 +18,13 @@
           <div class="filter-header">
             <label for="filter-indicators">Filter by hazard:</label>
             <div id="filter-indicators" class="button-group">
-              <button class="button button-primary button-small"
+              <button class="button button-secondary"
                    [ngClass]="{'active': activeFilter?.name === filter.name}"
                    *ngFor="let filter of filters"
                    (click)="setActiveFilter(filter)">
                   {{ filter.name }}
               </button>
-              <button class="button button-small reset-button" (click)="resetAccordion()">Reset</button>
+              <button class="button-link reset-button" (click)="resetAccordion()">Reset</button>
             </div>
           </div>
         </div>

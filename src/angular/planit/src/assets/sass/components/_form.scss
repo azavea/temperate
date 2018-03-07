@@ -113,6 +113,7 @@ textarea {
     z-index: 1;
   }
 }
+
 .form-control-error, .form-control-hint {
   font-size: $hint-size;
   line-height: 1.35;
@@ -120,6 +121,8 @@ textarea {
 
 .form-control-error {
   color: $error-color;
+}
+
 input[type="number"] {
   border: 1px solid $neutral-1;
   border-radius: $field-border-radius;

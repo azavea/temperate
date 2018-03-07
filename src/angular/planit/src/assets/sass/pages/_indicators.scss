@@ -1,6 +1,6 @@
 app-indicators {
   .indicator-filters {
-    margin-bottom: $space-small;
+    margin-bottom: $space-large;
 
     .button-group {
       flex-wrap: wrap;
@@ -19,7 +19,7 @@ app-indicators {
       }
 
       .reset-button {
-        margin-left: $space-tiny;
+        margin-left: $space-large;
       }
     }
   }
