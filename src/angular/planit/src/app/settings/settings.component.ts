@@ -3,7 +3,6 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../core/services/organization.service';
-import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
 import { UserService } from '../core/services/user.service';
 import { User } from '../shared';
 
@@ -20,8 +19,7 @@ export class SettingsComponent implements OnInit {
 
   public user: User;
 
-  constructor(private previousRouteGuard: PreviousRouteGuard,
-              private organizationService: OrganizationService,
+  constructor(private organizationService: OrganizationService,
               private toastr: ToastrService,
               private userService: UserService) { }
 

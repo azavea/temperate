@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'assessment',
     component: AssessmentOverviewComponent,
-    canActivate: [PlanAuthGuard, PreviousRouteGuard],
+    canActivate: [PlanAuthGuard],
     resolve: {
       weatherEvent: WeatherEventResolve
     }

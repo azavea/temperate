@@ -16,6 +16,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
+import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PlanSelectorComponent } from './marketing/plan-selector.component';
 import { PageNotFoundComponent } from './not-found.component';
 
@@ -79,6 +80,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent,
+    PartnershipsComponent,
     PlanSelectorComponent,
     RegistrationPageComponent
   ],
