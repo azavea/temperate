@@ -15,7 +15,6 @@ from .models import (
 )
 
 for Model in (Concern,
-              DefaultRisk,
               GeoRegion,
               Indicator,
               OrganizationAction,
@@ -30,6 +29,12 @@ for Model in (Concern,
 class CommunitySystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'display_class',)
     list_editable = ('display_class',)
+
+
+@admin.register(DefaultRisk)
+class DefaultRiskAdmin(admin.ModelAdmin):
+    list_display = ('id', 'community_system', 'weather_event', 'order',)
+    list_editable = ('order',)
 
 
 @admin.register(WeatherEvent)
