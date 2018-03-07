@@ -28,7 +28,7 @@ export class AppComponent implements AfterViewInit {
     for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(
     arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify",
     "removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)
-    heap[p[c]]=o(p[c])};heap.load(${environment.heapID});`;
+    heap[p[c]]=o(p[c])};heap.load(${environment.heapID}, {forceSSL: true});`;
 
     const elem = this.renderer.createElement(this.document.head, 'script');
     elem.type = 'text/javascript';
