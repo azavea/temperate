@@ -7,6 +7,9 @@
       <div *ngIf="reset" class="alert alert-positive">
         Your Temperate password was reset. Login to get started.
       </div>
+      <div *ngIf="resetExpired" class="alert alert-warning">
+        The password reset link expired. Click &ldquo;Forgot Pasword&rdquo; to get another link sent to you.
+      </div>
       <app-login-form></app-login-form>
     </div>
   </section>

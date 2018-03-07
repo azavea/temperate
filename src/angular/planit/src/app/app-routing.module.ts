@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { UserResolve } from './core/resolvers/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
@@ -33,7 +34,10 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordPageComponent, canActivate: [LoggedInAuthGuard] },
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
-  { path: 'reset-password/:token', component: ResetPasswordComponent},
+  { path: 'reset-password/:token',
+    component: ResetPasswordComponent,
+    canActivate: [PasswordResetGuard, LoggedInAuthGuard]
+  },
   {
     path: 'subscription',
     component: ManageSubscriptionComponent,

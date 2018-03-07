@@ -9,6 +9,7 @@ export class LoginPageComponent implements OnInit {
 
   public activated: Boolean = false;
   public reset: Boolean = false;
+  public resetExpired: Boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router) {}
@@ -20,6 +21,9 @@ export class LoginPageComponent implements OnInit {
       }
       if (paramsAsMap['params']['reset']) {
         this.reset = true;
+      }
+      if (paramsAsMap['params']['resetExpired']) {
+        this.resetExpired = true;
       }
     });
   }

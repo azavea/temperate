@@ -50,6 +50,7 @@ import { CommunitySystemService } from './core/services/community-system.service
 import { DownloadService } from './core/services/download.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
+import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
@@ -143,6 +144,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     DownloadService,
     LoggedInAuthGuard,
     OrganizationService,
+    PasswordResetGuard,
     PlanAuthGuard,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
