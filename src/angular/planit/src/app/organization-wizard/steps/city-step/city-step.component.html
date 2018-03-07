@@ -13,15 +13,18 @@
       <input class="form-control"
              formControlName="location"
              tabindex="1"
-             typeaheadOptionField="properties.name"
+             typeaheadOptionField="properties.displayName"
              (typeaheadOnSelect)="itemSelected($event)"
              (typeaheadOnBlur)="itemBlurred()"
+             (typeaheadNoResults)="onNoResults()"
              (blur)="itemBlurred()"
+             (keyup)="onKey($event)"
              [typeahead]="cities"
              [typeaheadMinLength]="1"
              [typeaheadScrollable]="true"
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
+      <div *ngIf="noResults" class="form-control-error">No results found</div>
       <div *ngIf="form.controls.location.errors">
         <span *ngIf="form.controls.location.errors.required">*Required</span>
         <span *ngIf="form.controls.location.errors.autocomplete">*Not found</span>

@@ -29,6 +29,7 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
   public cities: Observable<ApiCity[]>;
   public city: ApiCity = null;
+  public noResults = false;
 
   @Input() form: FormGroup;
 
@@ -46,6 +47,14 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     this.cities = Observable.create((observer) => {
       this.cityService
         .search(this.form.controls.location.value)
+        .map(results => {
+          results.forEach(result => {
+            const displayName = this.getDisplayName(result);
+            result.properties['displayName'] = displayName;
+          });
+
+          return results;
+        })
         .subscribe(res => observer.next(res));
     });
   }
@@ -90,20 +99,37 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
   }
 
   itemSelected(event: TypeaheadMatch) {
-    const savedName = this.city ? this.city.properties.name : null;
+    const savedName = this.city ? this.getDisplayName(this.city) : null;
     const formName = this.form.controls.location.value;
 
     if (savedName !== formName) {
       this.city = event.item ? event.item : null;
+      this.noResults = false;
     }
   }
 
   itemBlurred() {
-    const savedName = this.city ? this.city.properties.name : null;
+    const savedName = this.city ? this.getDisplayName(this.city) : null;
     const formName = this.form.controls.location.value;
+
     if (savedName !== formName) {
       this.form.controls.location.setValue('');
       this.city = null;
+      this.noResults = false;
     }
+  }
+
+  onNoResults() {
+    this.noResults = true;
+  }
+
+  onKey(e) {
+    if (e.target.value === '') {
+      this.noResults = false;
+    }
+  }
+
+  getDisplayName(city: ApiCity): string {
+    return `${city.properties.name}, ${city.properties.admin}`;
   }
 }
