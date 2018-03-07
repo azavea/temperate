@@ -43,11 +43,12 @@ export class PlanWizardComponent implements OnInit {
   // when done, show spinner for a few seconds before redirecting to home page
   onWizardCompleted() {
     this.wizardComplete = true;
-    this.organization.plan_setup_complete = true;
-    this.organizationService.update(this.organization).subscribe(() => {
-      const self = this;
-      setTimeout(function () {
-        self.router.navigate(['dashboard']);
+
+    const organization = this.session.getData();
+    organization.plan_setup_complete = true;
+    this.organizationService.update(organization).subscribe(() => {
+      setTimeout(() => {
+        this.router.navigate(['dashboard']);
       }, 5000);
     });
   }
