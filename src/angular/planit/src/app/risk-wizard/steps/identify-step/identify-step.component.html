@@ -17,7 +17,7 @@
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
-      <div *ngIf="form.controls.weather_event.errors">
+      <div *ngIf="form.controls.weather_event.errors && (form.controls.weather_event.dirty || form.controls.weather_event.touched)">
         <span *ngIf="form.controls.weather_event.errors.required">*Required</span>
         <span *ngIf="form.controls.weather_event.errors.autocomplete">*Not found</span>
       </div>
@@ -36,7 +36,7 @@
                                   [typeaheadScrollable]="true"
                                   [typeaheadOptionsInScrollableView]="5"
                                   [container]="'body'">
-      <div *ngIf="form.controls.community_system.errors">
+      <div *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
         <span *ngIf="form.controls.community_system.errors.required">*Required</span>
         <span *ngIf="form.controls.community_system.errors.autocomplete">*Not found</span>
       </div>

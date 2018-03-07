@@ -22,7 +22,7 @@
                 rows="4"
                 tabindex="1"
                 required></textarea>
-      <div *ngIf="form.controls.name.errors">
+      <div *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">*Required</span>
       </div>
     </div>
