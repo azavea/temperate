@@ -10,38 +10,11 @@
 },
 {
     "model": "action_steps.actioncategory",
-    "pk": "1861f7fb-5477-4455-9358-eaabad01c691",
-    "fields": {
-        "name": "Monitoring",
-        "icon": "icon-chart-bar",
-        "description": ""
-    }
-},
-{
-    "model": "action_steps.actioncategory",
     "pk": "1f7e97cb-c526-419e-a1bc-0385cb5e23dc",
     "fields": {
         "name": "Advocacy",
         "icon": "icon-advocacy",
         "description": "Encouraging regional and state agencies to have adaptation strategies."
-    }
-},
-{
-    "model": "action_steps.actioncategory",
-    "pk": "21ba3d74-ac31-4646-9634-aee8ebfe057d",
-    "fields": {
-        "name": "Draft policy",
-        "icon": "icon-doc-text",
-        "description": ""
-    }
-},
-{
-    "model": "action_steps.actioncategory",
-    "pk": "252d504f-2c7e-472b-ad96-da77740c2148",
-    "fields": {
-        "name": "Create (internal) partnership",
-        "icon": "icon-handshake-o",
-        "description": ""
     }
 },
 {
@@ -73,15 +46,6 @@
 },
 {
     "model": "action_steps.actioncategory",
-    "pk": "325d889f-21d3-4690-8762-0a3048e9424e",
-    "fields": {
-        "name": "Revise standard",
-        "icon": "icon-bookmark",
-        "description": ""
-    }
-},
-{
-    "model": "action_steps.actioncategory",
     "pk": "3a2cc487-f5a7-45e6-8602-69f8b5221608",
     "fields": {
         "name": "Policies",
@@ -96,15 +60,6 @@
         "name": "Greenhouse gas related",
         "icon": "icon-reduces-greenhouse-gas-emissions",
         "description": "Reducing greenhouse gas emissions."
-    }
-},
-{
-    "model": "action_steps.actioncategory",
-    "pk": "484d132f-cde2-4002-8158-09af996deada",
-    "fields": {
-        "name": "Create (external) partnership",
-        "icon": "icon-handshake-o",
-        "description": ""
     }
 },
 {
@@ -127,28 +82,10 @@
 },
 {
     "model": "action_steps.actioncategory",
-    "pk": "5777fba4-32af-422c-bfd5-e0ccba82892a",
-    "fields": {
-        "name": "Revise guideline",
-        "icon": "icon-bookmark",
-        "description": ""
-    }
-},
-{
-    "model": "action_steps.actioncategory",
     "pk": "5e82029c-0ddd-497a-bf86-9a922841bad6",
     "fields": {
         "name": "New guideline",
         "icon": "icon-plus",
-        "description": ""
-    }
-},
-{
-    "model": "action_steps.actioncategory",
-    "pk": "631eec7d-bb68-400c-96af-85f4c2cd44bb",
-    "fields": {
-        "name": "Review policy",
-        "icon": "icon-doc-text",
         "description": ""
     }
 },
@@ -231,15 +168,6 @@
         "name": "Energy",
         "icon": "icon-energy",
         "description": "Focusing on sustainable energy production and consumption strategies."
-    }
-},
-{
-    "model": "action_steps.actioncategory",
-    "pk": "d080b361-34c9-42c4-b8c2-e3d3fe7b0db3",
-    "fields": {
-        "name": "Research",
-        "icon": "icon-balance-scale",
-        "description": ""
     }
 },
 {
