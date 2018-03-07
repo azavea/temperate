@@ -24,6 +24,8 @@ export class RiskCardComponent implements OnInit {
   ngOnInit() { }
 
   public openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, {animated: false, class: 'modal-lg'});
+    if (this.risk.isAssessed()) {
+      this.modalRef = this.modalService.show(template, {animated: false, class: 'modal-lg'});
+    }
   }
 }
