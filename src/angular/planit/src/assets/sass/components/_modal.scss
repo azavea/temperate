@@ -18,7 +18,7 @@
   background-color: $neutral-5;
 
   &.in {
-    opacity: 0.8;
+    opacity: 0.9;
   }
 }
 
@@ -68,7 +68,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $modal-header-padding;
+  padding: ($modal-header-padding - .4rem) $modal-header-padding $modal-header-padding;
   border-bottom: none;
   background-color: $neutral-1;
 }
