@@ -146,7 +146,7 @@ $paragraph-margin: 1.4rem;
 $paragraph-max-width: 60rem;
 
 /* * * *
- * Page 
+ * Page
  *
  * * * */
 $page-template-background: linear-gradient(to top, $neutral-1, $neutral-2);
@@ -249,12 +249,16 @@ $tooltip-trigger-color-hover: $brand-teal;
  * Modal
  *
  * * * */
+$modal-overlay-opacity: 0.9;
 $modal-width: 60rem;
 $modal-width-large: 80rem;
 $modal-width-small: 50rem;
+$modal-width-max: 90vw;
 $modal-header-padding: $space-xlarge;
+$modal-heading-padding-top:($modal-header-padding - .4rem);
 $modal-body-padding: $space-xlarge;
 $modal-footer-padding: $space-xlarge;
+$modal-footer-primary-button-min-width: 12rem;
 $modal-border-radius: $border-radius;
 $modal-shadow: 0 14px 28px rgba($black, 0.25), 0 10px 10px rgba($black, 0.22);
 
@@ -425,7 +429,7 @@ $wizard-title-large-color: $brand-black;
 $wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-regular;
 
-$wizard-adaptive-need-border: 0px 0px 0 3px $white, 
+$wizard-adaptive-need-border: 0px 0px 0 3px $white,
                               0px 0px 0 4px $neutral-2;
 
 $wizard-step-prompt-color: $neutral-4;
