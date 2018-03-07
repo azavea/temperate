@@ -39,7 +39,7 @@
 </div>
 
 <app-modal-template #indicatorChartModal
-  title="Indicators related to {{ modalRisk?.weather_event.name }}">
+  title="Indicators related to {{ modalRisk?.weather_event.name | lowercase }}">
   <app-force-collapse-chart-container
       [indicators]="indicators"
       [city]="city">

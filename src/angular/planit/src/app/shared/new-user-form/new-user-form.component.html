@@ -10,7 +10,7 @@
 <div *ngIf="!submitted" class="modal-body">
   <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">
     <!-- First name -->
-    <div class="required form-control-container">
+    <div class="form-control-container">
       <label for="first_name">First name</label>
       <input class="form-control" type="text" required autofocus autocomplete="given-name"
         [(ngModel)]="model.first_name" #first_name="ngModel" id="first_name" name="first_name">
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Last Name -->
-    <div class="required form-control-container">
+    <div class="form-control-container">
       <label for="last_name">Last name</label>
       <input class="form-control" type="text" required autocomplete="family-name"
         [(ngModel)]="model.last_name" #last_name="ngModel" id="last_name" name="last_name">
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Email Address -->
-    <div class="required form-control-container">
+    <div class="form-control-container">
       <label for="email">Email address</label>
       <input class="form-control" type="email" required autocomplete="email"
         [(ngModel)]="model.email" #email="ngModel" id="email" name="email"
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Password -->
-    <div class="required form-control-container">
+    <div class="form-control-container">
       <label for="password1">Password</label>
       <input class="form-control" type="password" required autocomplete="new-password"
         [(ngModel)]="model.password1" #password1="ngModel" id="password1" name="password1">
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="required form-control-container">
+    <div class="form-control-container">
       <label for="password2">Confirm password</label>
       <input class="form-control" type="password" required autocomplete="new-password"
         [(ngModel)]="model.password2" #password2="ngModel" id="password2" name="password2">
