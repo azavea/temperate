@@ -7,7 +7,7 @@
     <div class="required form-control-container">
       <label for="email-address">Email address</label>
       <input class="form-control" id="email-address"
-          [(ngModel)]="username"
+          [(ngModel)]="username" autofocus
           type="email" name="textfield" autocomplete="email" required>
       <div *ngIf="errors.email" class="form-control-error">
         <p *ngFor="let error of errors.email">
