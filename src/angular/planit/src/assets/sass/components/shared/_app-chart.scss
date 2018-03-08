@@ -1,0 +1,335 @@
+app-chart {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-top: $space-medium;
+  flex-direction: column;
+  font-variant-numeric: tabular-nums;
+
+  .line-graph {
+    height: 200px;
+  }
+
+  .noUi-pips-horizontal {
+    font-size: 12px;
+    // Prevents this div from creating an area outside the pips that can't be clicked on
+    // Setting height to zero doesn't seem to affect any part of the visible page layout
+    height: 0;
+  }
+
+  .noUi-marker-horizontal.noUi-marker-large {
+    height: 10px;
+  }
+
+  .noUi-marker-horizontal.noUi-marker {
+    margin-top: -3px;
+    width: 1px;
+    margin-left: 0;
+  }
+
+  .noUi-connect {
+    background-color: darken($chart-line, 30%);
+  }
+
+  sk-wave[ng-reflect-is-running="true"] {
+    padding: 6rem;
+    display: block;
+  }
+
+  .chart-label {
+    font-size: $font-size-h3;
+    margin: 0;
+    font-weight: $font-weight-bold;
+    padding: 2rem 1.5rem;
+  }
+
+  .chart-legend {
+    padding: 2rem;
+    padding-top: 0;
+    color: $neutral-4;
+    font-size: 12px;
+
+    .chart-legend-line {
+      color: $chart-line;
+    }
+
+    .chart-legend-icons {
+       padding-bottom: 0.5rem;
+       color: $color-header;
+       position: relative;
+       left: -3px;
+       margin-top: 16px;
+    }
+
+    .chart-legend-minmax {
+        background-color: darken($chart-minmax, 10%);
+        width: 1rem;
+        height: 1rem;
+        display: inline-block;
+        margin-left: 0.5rem;
+        margin-right: 2px;
+        position: relative;
+        opacity: 0.2;
+        top: 1px;
+    }
+  }
+
+  .chart-body {
+    width: 100%;
+  }
+
+  .chart-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10rem;
+    margin-bottom: $space-xlarge;
+    font-size: $text-base;
+    font-weight: $font-weight-regular;
+    background: $loading-background-color;
+  }
+
+  .chart-options {
+    margin: 0;
+    padding: 1rem 1.5rem;
+    color: $heading-font-color;
+
+    & + .chart-options {
+      margin-top: -20px;
+    }
+
+    &.buttons {
+      border-top: 1px solid $neutral-2;
+    }
+
+    &.slider {
+      padding: 0rem 2rem 3rem;
+      width: auto;
+    }
+
+    .chart-options-body {
+      &.form-group {
+        margin: -1rem 0 2rem;
+      }
+    }
+
+    .chart-options-group {
+      align-items: center;
+      padding-right: 0.5rem;
+
+      &.threshold {
+      }
+
+      span {
+        margin-right: 0.5rem;
+      }
+
+      .curl-popup {
+        width: 300px;
+        padding: 1rem;
+
+        h4 {
+          margin-top: 4px;
+          margin-bottom: 10px;
+        }
+      }
+
+      .input-group {
+        button {
+          height: 35px;
+          width: 35px;
+          float: left;
+          background-color: $neutral-1;
+          border: 1px solid $neutral-2;
+        }
+
+        .curl-label {
+          font-weight: $font-weight-bold;
+        }
+      }
+
+      .dropdown-toggle {
+        background-color: $neutral-1;
+        padding: 0.4rem 0.7rem 0.4rem 0.5rem;
+        border-color: $neutral-2;
+      }
+
+      .optional-parameters-label {
+        line-height: 3rem;
+      }
+
+      button {
+        line-height: 3.0rem;
+      }
+
+      input {
+        width: 60px;
+        font-weight: $body-font-weight;
+        font-family: $body-font-family;
+        line-height: 3.0rem;
+        height: 3rem;
+        border-radius: 3px;
+
+        &.curl-command {
+          width: 240px;
+          height: 35px;
+          float: left;
+        }
+      }
+
+      select {
+        font-weight: $body-font-weight;
+        font-family: $body-font-family;
+        margin-right: 0.5rem;
+        min-width: 100px;
+        padding: 0;
+
+        font-size: 14px;
+        text-align: left;
+        background-color: $white;
+        border: 1px solid $neutral-2;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.05);
+        background-clip: padding-box;
+      }
+    }
+  }
+
+  .chart-heading {
+    margin: 0;
+  }
+
+  .chart-actions {
+    text-align: right;
+    padding: 0.8rem 0;
+    .button {
+      float: left;
+      margin-right: 3px;
+      padding-top: .5rem;
+      padding-bottom: .5rem;
+      &:after {
+        content: "";
+        border-right: 1px solid $neutral-2;
+        top: 2px;
+        right: -4px;
+        bottom: 2px;
+      }
+      &:last-child {
+        &:after {
+          border-width: 0;
+        }
+      }
+    }
+  }
+
+  .axis {
+
+    color: $chart-axis;
+    opacity: .5;
+
+    path, line {
+      fill: none;
+      stroke-width: 1;
+    }
+
+    text {
+      font-size: 11px;
+      font-family: $body-font-family;
+    }
+  }
+
+  .grid {
+
+    line {
+      stroke: $chart-grid;
+      stroke-width: 1;
+      opacity: 1;
+      shape-rendering: crispEdges;
+    }
+
+    path {
+      stroke-width: 0;
+    }
+  }
+
+  .color-label{
+    display: inline;
+  }
+
+  .line {
+    fill: none;
+    stroke: $chart-line;
+    stroke-width: 2px;
+  }
+
+  .trendline {
+    fill: none;
+    stroke: $chart-trendline;
+    stroke-width: 1px;
+    opacity: .7;
+  }
+
+  .area {
+    fill: $chart-minmax;
+    opacity: .2;
+    z-index: -1;
+  }
+
+  .min-bar{
+    fill: $chart-min-bar;
+    opacity: .3;
+  }
+
+  .max-bar{
+    fill: $chart-max-bar;
+    opacity: .3;
+  }
+
+  #overlay {
+    fill: none;
+    pointer-events: all;
+  }
+
+  g {
+    circle {
+      fill: $brand-primary;
+      stroke: $white;
+      stroke-width: 2px;
+    }
+
+    .scrubber-box {
+      fill: $black;
+    }
+
+    .scrubber-text {
+      fill: $white;
+      stroke: $white;
+      font-weight: $font-weight-light;
+    }
+  }
+
+  .scrubline {
+    stroke: $chart-scrubline;
+  }
+
+  .chart-controls {
+    color: $black;
+
+    .controls-header {
+      .controls-label {
+       display: inline-block;
+      }
+
+      .options-icon {
+        display: inline-block;
+      }
+    }
+
+    .controls-body {
+      input {
+        width: 75px;
+      }
+    }
+  }
+}

@@ -1,0 +1,191 @@
+[
+{
+    "model": "action_steps.actioncategory",
+    "pk": "09218f8a-5d0c-400c-bab1-5da6b6fbfc90",
+    "fields": {
+        "name": "Water conservation",
+        "icon": "icon-water-conservation",
+        "description": "Focusing on conserving water and water supplies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "1f7e97cb-c526-419e-a1bc-0385cb5e23dc",
+    "fields": {
+        "name": "Advocacy",
+        "icon": "icon-advocacy",
+        "description": "Encouraging regional and state agencies to have adaptation strategies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "2dd75381-e432-426c-b4e8-77fa79f5701a",
+    "fields": {
+        "name": "Planning",
+        "icon": "icon-planning",
+        "description": "Incoporating climate science, impacts, and assessments into government and institutional planning practices."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "2dd84c58-cfc0-450b-80f6-aa65412257a0",
+    "fields": {
+        "name": "Conservation",
+        "icon": "icon-conservation",
+        "description": "Preserving biodiversity and protecting open spaces."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "2e317506-278f-45c4-ada6-a81f0f1d0976",
+    "fields": {
+        "name": "Physical infrastructure",
+        "icon": "icon-physical-infrastructure",
+        "description": "Managing systems and facilities that house and transport people and goods and provide services (e.g, transportation, energy, water)"
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "3a2cc487-f5a7-45e6-8602-69f8b5221608",
+    "fields": {
+        "name": "Policies",
+        "icon": "icon-policies",
+        "description": "Introducing/revising policies to address climate change."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "4021368a-caa5-421e-b2f9-7ec8d7cea91b",
+    "fields": {
+        "name": "Greenhouse gas related",
+        "icon": "icon-reduces-greenhouse-gas-emissions",
+        "description": "Reducing greenhouse gas emissions."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "4d774d46-4fea-4c85-8240-292c31f4851d",
+    "fields": {
+        "name": "Technology",
+        "icon": "icon-technology",
+        "description": "Leveraging technology to implement strategies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "52b388df-df38-438a-9089-e9645435c2c6",
+    "fields": {
+        "name": "Land use",
+        "icon": "icon-land-use",
+        "description": "Managing and/or modifying the natural environment for built environments."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "5e82029c-0ddd-497a-bf86-9a922841bad6",
+    "fields": {
+        "name": "New guideline",
+        "icon": "icon-plus",
+        "description": ""
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "67c95da1-4080-4b50-a748-c4aea71b9ba3",
+    "fields": {
+        "name": "Capacity building",
+        "icon": "icon-capacity-building",
+        "description": "Developing the capability of human resources, institutions, and communities to adapt."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "70eccdd1-a8a2-4c98-87a6-01589e8132b7",
+    "fields": {
+        "name": "Green infrastructure",
+        "icon": "icon-green-infrastructure",
+        "description": "Managing water resources in a manner that protects, restores, or mimics the natural water cycle (e.g., planting trees and restoring wetlands)."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "79fa883e-4fe6-4395-88f2-900d45753b59",
+    "fields": {
+        "name": "Research & monitoring",
+        "icon": "icon-research-and-monitoring",
+        "description": "Focusing on gathering and synthesizing information and/or long-term observation or measurement."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "7cf058e1-b8f7-426c-88e5-c3e86d2975b4",
+    "fields": {
+        "name": "Funding",
+        "icon": "icon-funding",
+        "description": "Finding funding for strategy implementation or offering funding programs for others' implementation efforts."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "866f60b3-36b8-410d-9b7f-9a160ae2165a",
+    "fields": {
+        "name": "Financing",
+        "icon": "icon-financing",
+        "description": "Leveraging financing or insurance strategies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "99e387b9-686e-4674-9432-6afd86c83af7",
+    "fields": {
+        "name": "Building codes & engineering",
+        "icon": "icon-building-codes-and-engineering",
+        "description": "Improving physical infrastructure's adaptive capacity through standards or engineering."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "a26cf9a1-0129-4094-87b8-e74efd914ffa",
+    "fields": {
+        "name": "Practice & behavior",
+        "icon": "icon-practice-and-behavior",
+        "description": "Revising and/or expanding on-the-ground behavior that affects resilience."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "ab4faaee-4499-4f52-a63b-3e60d79fb99f",
+    "fields": {
+        "name": "Zoning",
+        "icon": "icon-zoning",
+        "description": "Limiting what developers and landowners can do with their properties, ideally advancing public health, safety, and welfare."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "cedc4e93-8ab5-4cfe-a004-3da6216ea2c9",
+    "fields": {
+        "name": "Energy",
+        "icon": "icon-energy",
+        "description": "Focusing on sustainable energy production and consumption strategies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "e0446bfd-4035-4ad3-9bd3-5d69e039b7f4",
+    "fields": {
+        "name": "Education",
+        "icon": "icon-education",
+        "description": "Increasing public knowledge regarding climate change impacts and adaptation strategies."
+    }
+},
+{
+    "model": "action_steps.actioncategory",
+    "pk": "f0f4c234-9570-48ea-8a21-4c45ef26155d",
+    "fields": {
+        "name": "Create new standard",
+        "icon": "icon-plus",
+        "description": ""
+    }
+}
+]

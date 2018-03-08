@@ -1,0 +1,105 @@
+[
+    {
+        "cpu": 10,
+        "essential": true,
+        "memory": 512,
+        "name": "nginx",
+        "image": "${nginx_url}",
+        "links": [
+            "django"
+        ],
+        "portMappings": [
+            {
+                "containerPort": 443,
+                "hostPort": 0
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "syslog",
+            "options": {
+                "syslog-address": "${planit_app_papertrail_endpoint}",
+                "syslog-tls-ca-cert": "/etc/papertrail-bundle.pem",
+                "tag": "planit/nginx"
+            }
+        }
+    },
+    {
+        "cpu": 10,
+        "essential": true,
+        "memory": 1024,
+        "name": "django",
+        "image": "${app_server_django_url}",
+        "portMappings": [
+            {
+                "containerPort": 8080,
+                "hostPort": 0
+            }
+        ],
+        "environment": [
+            {
+                "name": "DJANGO_SECRET_KEY",
+                "value": "${django_secret_key}"
+            },
+            {
+                "name": "POSTGRES_HOST",
+                "value": "${rds_host}"
+            },
+            {
+                "name": "POSTGRES_PORT",
+                "value": "5432"
+            },
+            {
+                "name": "POSTGRES_PASSWORD",
+                "value": "${rds_password}"
+            },
+            {
+                "name": "POSTGRES_USER",
+                "value": "${rds_username}"
+            },
+            {
+                "name": "POSTGRES_DB",
+                "value": "${rds_database_name}"
+            },
+            {
+                "name": "AWS_DEFAULT_REGION",
+                "value": "${aws_region}"
+            },
+            {
+                "name": "ROLLBAR_SERVER_SIDE_ACCESS_TOKEN",
+                "value": "${rollbar_server_side_access_token}"
+            },
+            {
+                "name": "DJANGO_ENV",
+                "value": "${environment}"
+            },
+            {
+                "name": "COMMIT",
+                "value": "${git_commit}"
+            },
+            {
+                "name": "CCAPI_EMAIL",
+                "value": "${ccapi_email}"
+            },
+            {
+                "name": "CCAPI_PASSWORD",
+                "value": "${ccapi_password}"
+            },
+            {
+                "name": "CCAPI_HOST",
+                "value": "${ccapi_host}"
+            },
+            {
+                "name": "PLANIT_APP_HOME",
+                "value": "${planit_app_home}"
+            }
+        ],
+        "logConfiguration": {
+            "logDriver": "syslog",
+            "options": {
+                "syslog-address": "${planit_app_papertrail_endpoint}",
+                "syslog-tls-ca-cert": "/etc/papertrail-bundle.pem",
+                "tag": "planit/django"
+            }
+        }
+    }
+]

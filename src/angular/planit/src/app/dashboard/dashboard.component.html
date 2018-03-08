@@ -1,0 +1,71 @@
+<div class="main-container">
+  <main class="main-content" role="main">
+    <header>
+      <h1 class="heading">Dashboard</h1>
+      <h2 class="heading">
+        Your Adaptive Plan
+        <a routerLink="/dashboard"><span class="icon icon-cog"></span></a>
+      </h2>
+    </header>
+    <section>
+      <div class="dashboard-main">
+        <h3>Adaptation planning</h3>
+        <div class="loading-wrapper" *ngIf="this.groupedRisks === undefined">
+          <div class="loading loading-spinner loading-large loading-primary"></div>
+        </div>
+        <div class="card card-full dashboard-no-risks" *ngIf="this.groupedRisks?.length === 0">
+          <h3>You haven't started your assessment</h3>
+          <div>
+            <a class="button button-primary" routerLink="/assessment/risk/new">Get Started</a>
+          </div>
+        </div>
+        <app-grouped-risk
+            *ngFor="let risks of groupedRisks"
+            [risks]="risks"
+            [weatherEvent]="risks[0].weather_event">
+        </app-grouped-risk>
+        <button class="button button-primary"
+                (click)="openModal(weatherEventsModal)">Add Hazard</button>
+      </div>
+      <div class="dashboard-sidebar">
+        <app-city-profile-summary></app-city-profile-summary>
+        <div class="plan-review">Review</div>
+        <a (click)="downloadPlan()">Download plan (CSV)</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<app-modal-template #weatherEventsModal
+                    [modalOptions]="{ignoreBackdropClick: true, keyboard: false}"
+                    title="Add Hazard">
+  <div class="dashboard-modal-add-hazards">
+    <app-add-weather-events [formControl]="selectedEventsControl"
+                            [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
+    <div class="footer">
+      <button class="button button-secondary"
+              (click)="cancelModal(weatherEventsModal)">Cancel</button>
+      <button class="button button-primary"
+              (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>
+    </div>
+  </div>
+</app-modal-template>
+
+<app-modal-template #trialWarningModal
+                    [modalOptions]="{ignoreBackdropClick: false, keyboard: true}"
+                    title="Your trial is ending">
+  <p>
+    You have
+    <span *ngIf="trialDaysRemaining !== 1">{{ trialDaysRemaining }} more days</span>
+    <span *ngIf="trialDaysRemaining === 1">1 more day</span>
+    in your free trial! Upgrade to continue using Temperate
+  </p>
+  <div class="modal-footer">
+    <div class="button-group">
+      <button class="button button-primary"
+              (click)="upgradeSubscription()">Upgrade</button>
+      <button class="button"
+              (click)="cancelModal(trialWarningModal)">Not now</button>
+    </div>
+  </div>
+</app-modal-template>

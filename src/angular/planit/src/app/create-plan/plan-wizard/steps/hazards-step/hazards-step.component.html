@@ -1,0 +1,15 @@
+<div class="step-header">
+  <h3>Hazards</h3>
+  <p>
+    Select hazards that you believe will have the most impact on your city in the future. The hazards selected here will give you a starting point in Temperate and give focus to your overall plan. You can add additional hazards later.
+  </p>
+</div>
+<div class="step-content">
+  <form [formGroup]="form">
+    <app-add-weather-events formControlName="selectedEvents"></app-add-weather-events>
+  </form>
+</div>
+<div class="step-footer">
+  <button type="button" nextStep>Skip step</button>
+  <button type="button" nextStep [disabled]="form.invalid || !isStepComplete()">Next</button>
+</div>

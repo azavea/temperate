@@ -1,0 +1,20 @@
+<div [ngClass]="{'card': true, 'card-full': true, 'collapsed': !isOpen}">
+  <header class="card-header" role="tab" id="headingOne">
+
+    <ng-content select="[header-action]"></ng-content>
+
+    <button class="card-header-container card-toggle" (click)="chartToggled()">
+      <h2 class="card-title">
+        {{ indicator.label }}
+      </h2>
+      <i class="icon-accordion" [ngClass]="{'accordion': true, 'icon-chevron-right': !isOpen, 'icon-chevron-down': isOpen}"></i>
+    </button>
+  </header>
+  <!--We only want to create and show row contents when needed to prevent clogging the page with unwanted requests and page updates. Below looks repetitive but [collapse] only provides the accordion UI action which shows/hides the chart guts but doesn't manage requests; *ngIf does that by actually creating/removing DOM components -->
+  <div *ngIf="isOpen" [collapse]="!isOpen">
+    <app-indicator-chart
+      [indicator]="indicator"
+      [city]="city">
+    </app-indicator-chart>
+  </div>
+</div>

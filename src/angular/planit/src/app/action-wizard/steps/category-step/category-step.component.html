@@ -1,0 +1,39 @@
+<div class="step-header">
+  <h3 class="step-title">Categories <span class="required">required</span></h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum volutpat maximus finibus.</p>
+</div>
+
+<div class="step-content">
+  <div class="switch-list container action-card-container action-categories">
+    <button class="switch-item"
+        [ngClass]="{selected: category.selected}"
+          *ngFor="let category of actionCategories"
+          (click)="selectActionCategory(category)">
+        <span *ngIf="category.selected"
+          class="icon icon-status"></span>
+        <span *ngIf="!category.selected"
+              class="icon icon-status"
+              tooltip="Add category"
+              tooltipPlacement="right"></span>
+          <span class="icon icon-primary {{ category.icon }}"></span>
+        {{ category.name }}
+    </button>
+  </div>
+</div>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish action later</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button" 
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary"
+            nextStep>Next</button>
+  </div>
+</footer>

@@ -1,0 +1,57 @@
+<div class="step-header">
+  <h3 id="action-title" class="step-title">Overview <span class="required">required</span></h3>
+  <p>Please describe the action you plan to undertake to address this potential risk. Keep in mind that the action may have an effect on more than one of the risks you have included in your Vulnerability Assessment.</p>
+</div>
+
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="form-control-container">
+      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <div class="form-control-hint">Unsure of where to begin? <button class="button-link"
+              [popover]="actionExamplesPopover"
+              [outsideClick]="true"
+              container="body"
+              placement="right">
+        See examples
+      </button></div>
+      <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
+        <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
+      </div>
+    </div>
+  </form>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!action?.name" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="!!action?.name" 
+            (click)="finish()">Finish action later</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary" 
+            [disabled]="!form.valid" 
+            nextStep>Next</button>
+  </div>
+</footer>
+
+<ng-template #actionExamplesPopover>
+  <h3>Strategy examples</h3>
+  <div>
+    <h5>Keene, NH</h5>
+    <p>Increase local food production by 20% within five years of establishing baseline of community food production.</p>
+  </div>
+  <div>
+    <h5>Albany, NY</h5>
+    <p>Identify locations of vulnerable populations (those who live alone, seniors, low income areas, others at-risk, etc.) and provide each home with a window card to indicate if help is needed.</p>
+  </div>
+  <div>
+    <h5>Baltimore, MD</h5>
+    <p>Encourage use of permeable pavement in non-critical areas – low-use roadways, sidewalks, parking lots and alleys where soils permit proper drainage.</p>
+  </div>
+  <div>
+    <h5>Denver, CO</h5>
+    <p>Identify opportunities for the city to become a subscriber in community solar gardens.</p>
+  </div>
+</ng-template>

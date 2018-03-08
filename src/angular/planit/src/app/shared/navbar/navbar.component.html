@@ -1,0 +1,31 @@
+<header class="header-primary" role="banner">
+  <a *ngIf="router.url !== '/'" routerLink="/" class="logo"><img src="assets/images/temperate-mark-white.svg" alt="Temperate, by Azavea"></a>
+  <a *ngIf="router.url === '/'" routerLink="/" class="logo"><img src="assets/images/temperate-logo-white.svg" alt="Temperate, by Azavea"></a>
+  <div class="nav-buttons" *ngIf="authService.isAuthenticated()">
+    <a class="button button-inverse-light"
+       routerLink="/dashboard"
+       routerLinkActive="current">Dashboard</a>
+    <a class="button button-inverse-light"
+       routerLink="/indicators"
+       routerLinkActive="current">Indicators</a>
+    <app-user-dropdown></app-user-dropdown>
+  </div>
+  <nav class="nav-buttons" *ngIf="!authService.isAuthenticated()">
+    <a class="button button-inverse-light"
+       routerLink="/pricing"
+       routerLinkActive="current">Pricing</a>
+    <button class="button"
+            routerLink="/login">Log In</button>
+    <button class="button button-primary"
+            routerLink="/register">Sign up</button>
+  </nav>
+</header>
+
+<div class="banner" *ngIf="authService.isAuthenticated() && isFreeTrial">
+  <span>There
+    <span *ngIf="trialDaysRemaining !== 1"> are {{ trialDaysRemaining }} days </span>
+    <span *ngIf="trialDaysRemaining === 1"> is 1 day </span>
+    left in your free trial. Keep making progress on your city's adaptation plan and <a class="button-link" routerLink="/subscription">upgrade your plan.</a>
+  </span>
+  <a routerLink="/subscription" class="button">Upgrade</a>
+</div>

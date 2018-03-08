@@ -1,0 +1,31 @@
+<div class="user-dropdown" dropdown placement="bottom right">
+  <button dropdownToggle type="button" class="button button-profile button-inverse-light dropdown-toggle">
+    <i class="icon-user-circle"></i> <i class="icon-chevron icon-chevron-down"></i>
+  </button>
+  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+    <li role="menuitem" class="profile-info">
+      <div class="name">{{ user.name() }}</div>
+      <div class="email">{{ user.email }}</div>
+      <div class="subscription">
+        {{ subscriptionOptions.get(user.primary_organization?.subscription)?.label }}
+      </div>
+    </li>
+    <li role="separator" class="divider"></li>
+    <li *ngIf="organization?.id" role="menuitem">
+      <a routerLink="/subscription">Upgrade your plan</a>
+    </li>
+    <li role="separator" class="divider"></li>
+    <li role="menuitem">
+      <a *ngIf="organization?.id" href="javascript:" routerLink="/settings" routerLinkActive="disabled">
+        <i class="icon-cog"></i>
+        Settings
+      </a>
+    </li>
+    <li role="menuitem">
+      <a href="javascript:" (click)="logout()">
+        <i class="icon-sign-out"></i>
+        Log out
+      </a>
+    </li>
+  </ul>
+</div>

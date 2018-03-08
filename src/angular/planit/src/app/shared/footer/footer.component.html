@@ -1,0 +1,22 @@
+<footer class="site-footer">
+  <nav class="footer-nav">
+    <a routerLink="/" class="logo"><img src="assets/images/temperate-logo-full-left-neutral.svg" alt="Temperate, by Azavea"></a>
+    <div class="nav-buttons">
+      <a class="button button-inverse-dark"
+         routerLink="/methodology"
+         routerLinkActive="current">Methodology</a>
+      <a class="button button-inverse-dark"
+         routerLink="/partnerships"
+         routerLinkActive="current">Partnerships</a>
+      <a class="button button-inverse-dark" href="https://climate.azavea.com">Climate API</a>
+      <a class="button button-inverse-dark"
+         routerLink="/"
+         routerLinkActive="current"
+         [queryParams]="{ ref: 'footer' }">About</a>
+    </div>
+  </nav>
+  <div class="fine-print">
+    <p class="copyright">&copy; 2016-2017 <a href="http://azavea.com/" target="_blank">Azavea</a>, using technology to inform research for civic and social impact. All rights reserved.</p>
+    <p class="grant">Components of the Climate API have been developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
+  </div>
+</footer>

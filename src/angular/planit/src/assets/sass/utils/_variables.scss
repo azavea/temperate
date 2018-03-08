@@ -1,0 +1,477 @@
+/* * * *
+ * Screen Sizes
+ * Used in _mixins.scss > @mixin respond-to($breakpoint)
+ * * * */
+$breakpoints: (
+
+  'xxs': (max-width: 480px),
+
+  'xs': (max-width: 767px),
+
+  'sm': "(min-width: 768px) and (max-width: 991px)",
+  'sm-up': (min-width: 768px),
+  'sm-down': (max-width: 991px),
+
+  'md': "(min-width: 992px) and (max-width: 1200px)",
+  'md-up': (min-width: 992px),
+  'md-down': (max-width: 1200px),
+
+  'lg': (min-width: 1201px),
+);
+
+
+/* * * *
+ * Settings
+ *
+ * * * */
+$border-radius: 2px;
+
+
+/* * * *
+ * Colors
+ *
+ * * * */
+$brand-evergreen: #15514b;
+$brand-teal: #46b6ae;
+$brand-black: #032a1d;
+$brand-leaf: #85c005;
+$brand-turmeric: #f2c706;
+$brand-persimmon: #ed5c14;
+
+$brand-teal-v-light: #d3eae9;
+$brand-teal-light: #a8ddda;
+
+
+$brand-primary: $brand-evergreen;
+$brand-secondary: $brand-teal;
+$brand-positive: $brand-leaf;
+$brand-warning: $brand-turmeric;
+$brand-danger: $brand-persimmon;
+
+$white: #fff;
+$gray: #f2f2f2;
+$black: $brand-black;
+
+$neutral-0: #fafaf9;
+$neutral-1: #ededeb;
+$neutral-2: #c9c9c3;
+$neutral-3: #a4a49a;
+$neutral-4: #5F5F55;
+$neutral-5: #363630;
+
+$border-color: $neutral-1;
+
+// TODO Revisit these
+$adaptive-need-size: 20px;
+$adaptive-need-empty-color: $neutral-3;
+
+$adaptive-need-high: $brand-danger;
+$adaptive-need-mod-high: #f75824;
+$adaptive-need-mod: #fa8530;
+$adaptive-need-mod-low: #f7a526;
+$adaptive-need-low: $brand-warning;
+
+$dark-grey-background: darken(grey, 25%);
+$light-grey-background: lighten(grey, 25%);
+
+
+/* * * *
+ * Layout
+ *
+ * * * */
+
+$padding-unit: 1rem;
+$space-tiny: 2px;
+$space-small: 0.35rem;
+$space-base: 0.65rem;
+$space-medium: 1rem;
+$space-large: 1.25rem;
+$space-xlarge: 2rem;
+$space-xxlarge: 3rem;
+$main-background: $neutral-1;
+$content-max-width: 125rem;
+
+
+/* * * *
+ * z-index
+ *
+ * * * */
+$zindex-modal: 1050;
+$zindex-typeahead: 1060;
+$zindex-dropdown-menu: 1070;
+$zindex-popover: 1080;
+$zindex-tooltip: 1080;
+
+/* * * *
+ * Columns
+ * * * */
+$column-count: 12;
+$column-padding: 1rem;
+
+
+/* * * *
+ * Typography
+ *
+ * * * */
+$font-weight-light: 200;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+$modular-scale: 1.25;
+$font-size-base: 16px;
+$font-size-body: $font-size-base;
+$body-line-height: 1.5;
+$body-font-color: $neutral-4;
+$body-font-weight: $font-weight-regular;
+$body-font-family: National, Arial, sans-serif;
+$monospace-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+$text-jumbo: $font-size-base * exponential($modular-scale, 5);
+$text-display: $font-size-base * exponential($modular-scale, 4);
+$text-large: $font-size-base * exponential($modular-scale, 3);
+$text-medium: $font-size-base * exponential($modular-scale, 2);
+$text-base: $font-size-base * exponential($modular-scale, 1);
+$text-small: $font-size-base;
+$text-tiny: $font-size-base / $modular-scale;
+
+$icon-font-family: temperate;
+
+$heading-line-height: 1.1;
+$heading-font-color: $neutral-5;
+$heading-font-weight: $font-weight-bold;
+$heading-font-family: National, Arial, sans-serif;
+$heading-margin-bottom: 1.4rem;
+
+$paragraph-margin: 1.4rem;
+$paragraph-max-width: 60rem;
+
+/* * * *
+ * Page 
+ *
+ * * * */
+$page-template-background: linear-gradient(to top, $neutral-1, $neutral-2);
+$page-title-large-size: $text-display;
+$page-title-large-color: $brand-black;
+$page-title-large-weight: $font-weight-regular;
+
+$page-title-small-color: $neutral-4;
+$page-title-small-size: $text-small;
+$page-title-small-weight: $font-weight-regular;
+
+$page-content-background: $white;
+$page-content-border: 1px solid $neutral-2;
+
+
+/* * * *
+ * Loading
+ *
+ * * * */
+$loading-dimension: 3rem;
+$loading-dimension-large: 8rem;
+$loading-dimension-small: 1.7rem;
+
+
+/* * * *
+ * Button
+ *
+ * * * */
+$button-font-family: $heading-font-family;
+$button-border-radius: $border-radius;
+// Default button
+$button-padding-vertical: 0.8rem;
+$button-padding-horizontal: 2rem;
+// Small button
+$button-padding-vertical-small: $button-padding-vertical*0.55;
+$button-padding-horizontal-small: $button-padding-horizontal*0.75;
+// Large button
+$button-padding-vertical-large: $button-padding-vertical*1.45;
+$button-padding-horizontal-large: $button-padding-horizontal*1.95;
+
+
+/* * * *
+ * Fields
+ *
+ * * * */
+$field-text-weight: $font-weight-regular;
+$field-border: 1px solid $neutral-1;
+$field-border-radius: $border-radius;
+$field-disabled-border-color: $neutral-2;
+$field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
+$label-weight: $font-weight-bold;
+$required-color: $neutral-3;
+$required-weight: $font-weight-bold;
+$optional-color: $neutral-3;
+$optional-weight: $font-weight-regular;
+$recommended-color: $brand-black;
+$required-size: $text-tiny;
+$hint-size: $text-tiny;
+$error-color: $brand-danger;
+
+$multiselect-pill-background: $brand-teal-light;
+$multiselect-pill-color: $neutral-5;
+
+/* * * *
+ * Dropdown
+ *
+ * * * */
+$dropdown-menu-border: 1px solid $neutral-1;
+$dropdown-menu-border-radius: $border-radius;
+$dropdown-menu-border-padding: $space-base;
+$dropdown-menu-min-width: 16rem;
+$dropdown-menu-background: $white;
+$dropdown-menu-shadow: 0px 0px 20px rgba($neutral-4, 0.2);
+
+$dropdown-menu-link-color: $neutral-4;
+$dropdown-menu-link-color-hover: $black;
+$dropdown-menu-link-background-hover: $brand-teal-v-light;
+$dropdown-menu-link-background-active: $brand-teal;
+
+
+/* * * *
+ * Tooltip
+ *
+ * * * */
+$tooltip-font-family: $body-font-family;
+$tooltip-font-size: $text-tiny;
+$tooltip-font-weight: $font-weight-regular;
+$tooltip-padding-vertical: $space-medium;
+$tooltip-padding-horizontal: $space-large;
+$tooltip-background: $neutral-5;
+$tooltip-arrow-width: 0.8rem;
+$tooltip-arrow-height: 0.5rem;
+$tooltip-shadow: 0 0 15px rgba($black,0.4);
+$tooltip-max-width: 20rem;
+
+$tooltip-trigger-color: $neutral-3;
+$tooltip-trigger-color-hover: $brand-teal;
+
+/* * * *
+ * Modal
+ *
+ * * * */
+$modal-font-size: $text-tiny;
+$modal-width: 60rem;
+$modal-width-large: 80rem;
+$modal-width-small: 50rem;
+$modal-heading-padding: 1.5rem;
+$modal-body-padding: 2.5rem;
+$modal-footer-padding: 1.5rem;
+$modal-border-radius: $border-radius;
+
+
+/* * * *
+ * Tables
+ *
+ * * * */
+$table-min-width: 860px;
+$table-color: $brand-black;
+$table-border-color: $border-color;
+$table-column-max-width: 40%;
+
+$table-header-background: $white;
+$table-header-weight: $font-weight-bold;
+
+$table-row-background: $neutral-0;
+$table-row-weight: $font-weight-regular;
+
+$table-caption-color: $neutral-4;
+$table-caption-border-color: $brand-positive;
+
+/* * * *
+ * Alert
+ *
+ * * * */
+$alert-padding-vertical: 1.4rem;
+$alert-padding-horizontal: 1.8rem;
+$alert-border-radius: $border-radius;
+$alert-ghost-style: true;
+$alert-font-size: $font-size-body;
+$alert-heading-font-size: $font-size-body;
+$alert-heading-font-weight: $heading-font-weight;
+$alert-font-color: $white;
+
+
+/* * * *
+ * Popover
+ *
+ * * * */
+$popover-padding-vertical: 0.9rem;
+$popover-padding-horizontal: 1.4rem;
+$popover-border-radius: $border-radius;
+$popover-font-size: $font-size-body;
+$popover-heading-font-size: $font-size-body;
+$popover-font-color: $heading-font-color;
+$popover-background-color: $white;
+$popover-margin: 7px;
+$popover-max-width: 28rem;
+$popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
+$popover-border: 1px solid rgba(48,47,77,.15);
+$popover-arrow: 8px;
+
+
+/* * * *
+ * chart
+ *
+ * * * */
+
+$chart-line: $brand-teal;
+$chart-minmax: $chart-line;
+$chart-trendline: $brand-persimmon;
+$chart-min-bar: $neutral-5;
+$chart-max-bar: $brand-turmeric;
+$chart-axis: $neutral-4;
+$chart-grid: $neutral-1;
+$chart-scrubline: $chart-axis;
+$color-header: $neutral-5;
+
+
+/* * * *
+ * Cards
+ *
+ * * * */
+$card-toggle-background: $white;
+$card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
+$card-border-radius: $border-radius;
+
+
+/* * * *
+ * Animations
+ *
+ * * * */
+ $speed-very-fast: 0.1s;
+ $speed-fast: 0.25s;
+ $speed-normal: 0.35s;
+ $speed-slow: 0.5s;
+ $speed-very-slow: 1s;
+
+
+ /* * * *
+ * Loading Screen
+ *
+ * * * */
+ $loading-background-color: $neutral-0;
+
+
+/* * * *
+ * Special checkboxes
+ * These appear in the:
+ * - Add Hazard(/weatherevent) component
+ * - Add Community System component
+ * - Add Category component
+ *
+ * * * */
+ $switch-border-radius: $border-radius;
+ $switch-title-size: $text-base;
+ $switch-title-color: $brand-black;
+
+ $switch-background: $neutral-0;
+ $switch-background-hover: $brand-teal-v-light;
+ $switch-background-selected: $brand-teal-v-light;
+ $switch-border: 1px solid $neutral-1;
+ $switch-border-hover: 1px solid $brand-teal-light;
+ $switch-border-selected: 3px solid $brand-teal-light;
+
+ $switch-status-icon-size: $text-base;
+
+ $switch-unchecked-icon-color: $neutral-2;
+ $switch-unchecked-icon-color-hover: $brand-teal;
+ $switch-checked-icon-color: $brand-teal;
+ $switch-checked-icon-color-hover: $brand-danger;
+
+ $switch-primary-icon-color: $brand-black;
+ $switch-primary-icon-size: $text-large;
+
+ $switch-readonly-icon-color: $neutral-2;
+ $switch-readonly-icon-color-selected: $neutral-4;
+ $switch-readonly-icon-size: $text-small;
+
+
+/* * * *
+ * Top Concerns
+ * These appear in the:
+ * - Add Hazard(/weatherevent) component
+ * - Add Community System component
+ *
+ * * * */
+ $concern-background: $white;
+ $concern-border: 1px solid $neutral-2;
+ $concern-border-hover: 1px solid $brand-teal;
+ $concern-outline-width: 4px;
+ $concern-outline: $concern-outline-width solid $neutral-1;
+ $concern-outline-hover: $concern-outline-width solid $brand-teal-light;
+
+ $concern-title-size: $text-small;
+ $concern-title-line-height: 1.25;
+ $concern-title-color: $neutral-4;
+ $concern-title-color-hover: $brand-black;
+
+ $concern-readonly-icon-color: $neutral-2;
+
+
+/* * * *
+ * Wizards
+ *
+ * * * */
+$wizard-header-padding-top: $space-xxlarge;
+$wizard-header-padding-bottom: $space-xxlarge;
+$wizard-background: $white;
+
+$wizard-navigation-width: 25rem;
+
+$wizard-title-small-color: $neutral-4;
+$wizard-title-small-size: $text-small;
+$wizard-title-small-weight: $font-weight-regular;
+
+$wizard-title-large-color: $brand-black;
+$wizard-title-large-size: $text-display;
+$wizard-title-large-weight: $font-weight-regular;
+
+$wizard-adaptive-need-border: 0px 0px 0 3px $white, 
+                              0px 0px 0 4px $neutral-2;
+
+$wizard-step-prompt-color: $neutral-4;
+$wizard-step-prompt-size: $text-small;
+
+$wizard-step-number-background: $neutral-1;
+$wizard-step-number-background-complete: $brand-positive;
+$wizard-step-number-background-current: $brand-teal;
+$wizard-step-number-border: 2px solid $neutral-2;
+$wizard-step-number-color: $neutral-3;
+$wizard-step-number-color-special: $black;
+$wizard-step-number-divider-color: $neutral-2;
+$wizard-step-number-divider-width: 1px;
+$wizard-step-number-weight: $font-weight-regular;
+$wizard-step-number-size: $text-small;
+$wizard-step-number-ring: 0px 0px 0px 3px $main-background,
+                          0px 0px 0px 4px $neutral-2;
+$wizard-step-number-ring-current: 0px 0px 0px 3px $main-background,
+                          0px 0px 0px 5px $brand-teal-light;
+
+$wizard-step-link-color: $neutral-5;
+$wizard-step-link-color-hover: $black;
+$wizard-step-link-weight: $font-weight-regular;
+$wizard-step-link-size: $text-small;
+
+$wizard-step-border: 1px solid $neutral-2;
+$wizard-step-padding: 15px 12px 17px;
+$wizard-step-header-size: $text-medium;
+$wizard-step-header-color: $brand-evergreen;
+$wizard-step-header-weight: $font-weight-bold;
+
+$review-header-size: $text-base;
+$review-header-weight: $font-weight-regular;
+$review-item-background: $neutral-1;
+$review-item-label-weight: $font-weight-bold;
+$review-item-label-color: $black;
+
+$review-item-warning-color: $brand-warning;
+$review-item-success-color: $brand-positive;
+
+$review-feedback-header-size: $text-base;
+$review-feedback-header-weight: $font-weight-bold;
+$review-feedback-color: $black;
+$review-feedback-background: $neutral-0;
+$review-feedback-list-size: $text-base;
+$review-feedback-icon-size: $text-medium;
+$review-feedback-icon-background: $brand-teal-light;
+$review-feedback-row-background: $white;

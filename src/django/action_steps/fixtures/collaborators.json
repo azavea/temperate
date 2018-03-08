@@ -1,0 +1,170 @@
+[
+{
+    "model": "action_steps.collaborator",
+    "pk": "04837e97-67a7-4b70-aa76-57f2f8d5bdde",
+    "fields": {
+        "name": "Department of Public Property"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "0cf1d111-36f7-4ccf-bad4-cc524a3f9cd0",
+    "fields": {
+        "name": "Department of City Planning"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "0f1d340a-8c84-47ba-9044-7ef8bd251feb",
+    "fields": {
+        "name": "Department of Tourism"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "1439ac03-dca7-44fd-ae5e-6dce0ce5ab1b",
+    "fields": {
+        "name": "Department of Sustainability"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "16973568-118e-4c66-ae41-dfbee487de98",
+    "fields": {
+        "name": "Department of Transportation"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "1bfe760d-c72d-401e-bec2-3043fdb47d67",
+    "fields": {
+        "name": "State Government"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "1d0b1cf6-6a3d-4f38-bf3d-b04c7a6bb7fc",
+    "fields": {
+        "name": "Federal Government"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "2afbdecc-8fa2-42b4-9401-38303c653f23",
+    "fields": {
+        "name": "Department of Commerce"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "3994f51b-c18d-40f1-bf06-10e410d6a600",
+    "fields": {
+        "name": "Department of Emergency Management"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "521ba638-2e26-4e28-9209-b4f810f2044f",
+    "fields": {
+        "name": "Water Department"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "522c7490-87c4-431c-9a99-1048f5858f11",
+    "fields": {
+        "name": "Licenses and Inspection"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "5da6c121-c6ed-4f13-a1cd-caad840ca49a",
+    "fields": {
+        "name": "Police/Fire Department"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "63950d17-2f52-4a84-9ed7-380d1e8d6dc6",
+    "fields": {
+        "name": "Office of the Mayor"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "64551856-5143-4a5d-8b2a-f0927f38dc61",
+    "fields": {
+        "name": "Department of Public Health"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "65839fbb-4064-474c-aca0-78a272ddaffc",
+    "fields": {
+        "name": "Department of Finance"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "71f6f42f-aef3-45ea-a98b-e79ca5899e78",
+    "fields": {
+        "name": "Department of Public Works"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "774a4edd-1170-4019-ba78-1e16e9049407",
+    "fields": {
+        "name": "County Government"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "88b576d2-7983-4455-8a32-08f6290eb399",
+    "fields": {
+        "name": "Department of Parks & Recreation"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "99624c0b-351f-4d49-a217-c4964afae75d",
+    "fields": {
+        "name": "Department of Sanitation"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "a9316877-2f6d-4eb7-9875-4b0ce59035bd",
+    "fields": {
+        "name": "Department of Streets"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "b42f9f85-85d5-42a7-b6d2-4b294c10266a",
+    "fields": {
+        "name": "Department of Public Housing"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "d4d181aa-81e4-4d99-adf6-58fbaed0be22",
+    "fields": {
+        "name": "Office of the City Manager"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "e7326601-9f89-4fe8-ab98-b8e5a4db3cc7",
+    "fields": {
+        "name": "Department of Economic Development"
+    }
+},
+{
+    "model": "action_steps.collaborator",
+    "pk": "eff273ce-b223-485a-ab5c-14f8fa927fff",
+    "fields": {
+        "name": "Department of Education/School District"
+    }
+}
+]

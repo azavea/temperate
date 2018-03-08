@@ -1,0 +1,32 @@
+app-option-dropdown {
+
+  .dropdown-toggle .icon {
+    margin-left: $space-medium;
+  }
+
+  .dropdown-menu {
+    min-width: 32rem;
+    max-width: 40rem;
+  }
+
+  .dropdown-menu > li {
+    cursor: pointer;
+
+    > a.dropdown-item {
+      display: flex;
+      flex-direction: column;
+      white-space: normal;
+      padding-top: $space-base;
+      padding-bottom: $space-base;
+
+      .dropdown-label {
+        font-size: $text-base;
+        font-weight: $font-weight-bold;
+      }
+
+      .dropdown-description {
+        font-size: $text-tiny;
+      }
+    }
+  }
+}

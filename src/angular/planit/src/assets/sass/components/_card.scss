@@ -1,0 +1,107 @@
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  border-radius: $card-border-radius;
+}
+
+.card-full {
+  flex: 2 0 100%;
+}
+
+.card-half {
+  flex: 0 1 49.5%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $space-tiny;
+  background-color: $white;
+  border: 1px solid $neutral-0;
+  box-shadow: $card-dropshadow;
+  border-radius: $card-border-radius;
+
+  &.collapsed {
+    min-height: 0;
+    box-shadow: none;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: $space-medium $space-large;
+  border-radius: $card-border-radius;
+}
+
+.card-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Toggles the accordion and contains card header content
+.card-toggle {
+  -webkit-appearance: none;
+  cursor: pointer;
+  box-shadow: none;
+  border: none;
+  background: $card-toggle-background;
+  width: 100%;
+
+  &:hover, &:active, &:hover:focus {
+    color: $brand-primary;
+    .card-title {
+      color: $brand-primary;
+    }
+  }
+
+  &:focus {
+    border-radius: $border-radius;
+    @include button-focus-outline();
+  }
+  .icon-accordion {
+    font-size: $text-large;
+  }
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.card-title-button {
+  padding: 0;
+  margin-right: 1rem;
+  font-size: $text-medium;
+  color: $brand-primary;
+  transition: color $speed-normal;
+
+  &:hover, &:active, &:hover:focus, &:active:focus {
+    color: darken( $brand-primary, 20% );
+  }
+
+  &:focus {
+    @include button-focus-outline();
+  }
+}
+
+.card-empty {
+  color: $neutral-4;
+  background-color: $neutral-1;
+  margin: 0 2rem 2rem;
+  text-align: center;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  >* {
+    max-width: 40rem;
+  }
+}
+
+.card-content {
+  padding: 2rem;
+}

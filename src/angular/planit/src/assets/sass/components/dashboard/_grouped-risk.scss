@@ -1,0 +1,52 @@
+app-grouped-risk {
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 4rem;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    background-color: $neutral-2;
+    padding: 1rem;
+
+    h4 {
+      font-weight: $font-weight-bold;
+      margin: 0 1rem;
+      padding: 0;
+
+      & > span {
+        font-weight: $font-weight-regular;
+      }
+    }
+
+    & :last-child {
+      margin-left: auto;
+    }
+  }
+
+  .block-assessment {
+    display: flex;
+    padding: 2rem;
+
+    & > .summary {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding-right: 2rem;
+
+      & > .summary-title {
+        display: flex;
+        justify-content: space-between;
+
+        margin-bottom: 2rem;
+      }
+    }
+
+    & > a {
+      flex: 0 0 200px;
+      align-self: center;
+    }
+  }
+}

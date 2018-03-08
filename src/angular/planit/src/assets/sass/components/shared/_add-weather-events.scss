@@ -1,0 +1,13 @@
+app-add-weather-events {
+  .switch-list > .switch-item {
+    &.selected {
+      cursor: auto;
+      &:hover {
+        .icon-status:after {
+          content: "\E843";
+          color: $switch-checked-icon-color;
+        }
+      }
+    }
+  }
+}

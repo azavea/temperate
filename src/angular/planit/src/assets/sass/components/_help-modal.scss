@@ -1,0 +1,26 @@
+#contact-iclei-button {
+  float: right;
+  margin-right: 30px;
+}
+
+.modal-body {
+  .row {
+
+    background-color: inherit;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 100px;
+  }
+
+  #help-iframe {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+}

@@ -1,0 +1,176 @@
+@font-face {
+  font-family: 'temperate';
+  src: url('../font/temperate.eot?13933685');
+  src: url('../font/temperate.eot?13933685#iefix') format('embedded-opentype'),
+       url('../font/temperate.woff2?13933685') format('woff2'),
+       url('../font/temperate.woff?13933685') format('woff'),
+       url('../font/temperate.ttf?13933685') format('truetype'),
+       url('../font/temperate.svg?13933685#temperate') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'temperate';
+    src: url('../font/temperate.svg?13933685#temperate') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "temperate";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-river-flood:before { content: '\e800'; } /* '' */
+.icon-advocacy:before { content: '\e801'; } /* '' */
+.icon-agriculture:before { content: '\e802'; } /* '' */
+.icon-air-borne-disease:before { content: '\e803'; } /* '' */
+.icon-atmospheric-co2-concentrations:before { content: '\e804'; } /* '' */
+.icon-avalanche:before { content: '\e805'; } /* '' */
+.icon-avatar:before { content: '\e806'; } /* '' */
+.icon-building-codes-and-engineering:before { content: '\e807'; } /* '' */
+.icon-business-continuity:before { content: '\e808'; } /* '' */
+.icon-capacity-building:before { content: '\e809'; } /* '' */
+.icon-changed-seasonal-patterns:before { content: '\e80a'; } /* '' */
+.icon-coastal-flood:before { content: '\e80b'; } /* '' */
+.icon-cold-wave:before { content: '\e80c'; } /* '' */
+.icon-community-and-culture:before { content: '\e80d'; } /* '' */
+.icon-conservation:before { content: '\e80e'; } /* '' */
+.icon-drought:before { content: '\e80f'; } /* '' */
+.icon-ecological-function:before { content: '\e810'; } /* '' */
+.icon-education:before { content: '\e811'; } /* '' */
+.icon-emergency-management:before { content: '\e812'; } /* '' */
+.icon-emergency-services:before { content: '\e813'; } /* '' */
+.icon-emotional-and-mental-health:before { content: '\e814'; } /* '' */
+.icon-energy-delivery:before { content: '\e815'; } /* '' */
+.icon-employment-and-job-access:before { content: '\e816'; } /* '' */
+.icon-energy:before { content: '\e817'; } /* '' */
+.icon-extratropical-storm:before { content: '\e818'; } /* '' */
+.icon-extreme-cold-days:before { content: '\e819'; } /* '' */
+.icon-extreme-hot-days:before { content: '\e81a'; } /* '' */
+.icon-extreme-winter-conditions:before { content: '\e81b'; } /* '' */
+.icon-financing:before { content: '\e81c'; } /* '' */
+.icon-fisheries:before { content: '\e81d'; } /* '' */
+.icon-flash-flood:before { content: '\e81e'; } /* '' */
+.icon-fog:before { content: '\e81f'; } /* '' */
+.icon-food-supply:before { content: '\e820'; } /* '' */
+.icon-forest-fire:before { content: '\e821'; } /* '' */
+.icon-funding:before { content: '\e822'; } /* '' */
+.icon-government-continuity:before { content: '\e823'; } /* '' */
+.icon-green-infrastructure:before { content: '\e824'; } /* '' */
+.icon-groundwater-flood:before { content: '\e825'; } /* '' */
+.icon-hail:before { content: '\e826'; } /* '' */
+.icon-heat-wave:before { content: '\e827'; } /* '' */
+.icon-heavy-snow:before { content: '\e828'; } /* '' */
+.icon-housing-access:before { content: '\e829'; } /* '' */
+.icon-hurricane:before { content: '\e82a'; } /* '' */
+.icon-indicators-1:before { content: '\e82b'; } /* '' */
+.icon-industrial-operations:before { content: '\e82c'; } /* '' */
+.icon-industrial:before { content: '\e82d'; } /* '' */
+.icon-insect-infestation:before { content: '\e82e'; } /* '' */
+.icon-internet-and-communications:before { content: '\e82f'; } /* '' */
+.icon-land-use:before { content: '\e830'; } /* '' */
+.icon-landslide:before { content: '\e831'; } /* '' */
+.icon-law-and-order:before { content: '\e832'; } /* '' */
+.icon-lightning-thunderstorm:before { content: '\e833'; } /* '' */
+.icon-monsoon:before { content: '\e834'; } /* '' */
+.icon-ocean-acidification:before { content: '\e835'; } /* '' */
+.icon-permanent-inundation:before { content: '\e836'; } /* '' */
+.icon-physical-infrastructure:before { content: '\e837'; } /* '' */
+.icon-planning:before { content: '\e838'; } /* '' */
+.icon-policies:before { content: '\e839'; } /* '' */
+.icon-practice-and-behavior:before { content: '\e83a'; } /* '' */
+.icon-public-health:before { content: '\e83b'; } /* '' */
+.icon-public-safety:before { content: '\e83c'; } /* '' */
+.icon-quality-of-life:before { content: '\e83d'; } /* '' */
+.icon-rain-storm:before { content: '\e83e'; } /* '' */
+.icon-recreation:before { content: '\e83f'; } /* '' */
+.icon-reduced-snowpack:before { content: '\e840'; } /* '' */
+.icon-reduces-greenhouse-gas-emissions:before { content: '\e841'; } /* '' */
+.icon-research-and-monitoring:before { content: '\e842'; } /* '' */
+.icon-check-square:before { content: '\e843'; } /* '' */
+.icon-rockfall:before { content: '\e844'; } /* '' */
+.icon-salt-water-intrusion:before { content: '\e845'; } /* '' */
+.icon-severe-wind:before { content: '\e846'; } /* '' */
+.icon-storm-surge:before { content: '\e847'; } /* '' */
+.icon-subsidence:before { content: '\e848'; } /* '' */
+.icon-technology:before { content: '\e849'; } /* '' */
+.icon-tornado:before { content: '\e84a'; } /* '' */
+.icon-tourism:before { content: '\e84b'; } /* '' */
+.icon-transportation:before { content: '\e84c'; } /* '' */
+.icon-tropical-storm:before { content: '\e84d'; } /* '' */
+.icon-vector-borne-disease:before { content: '\e84e'; } /* '' */
+.icon-waste-management:before { content: '\e84f'; } /* '' */
+.icon-wastewater-storm-management:before { content: '\e850'; } /* '' */
+.icon-water-borne-disease:before { content: '\e851'; } /* '' */
+.icon-water-conservation:before { content: '\e852'; } /* '' */
+.icon-water-supply:before { content: '\e853'; } /* '' */
+.icon-wildfires:before { content: '\e854'; } /* '' */
+.icon-zoning:before { content: '\e855'; } /* '' */
+.icon-user-circle:before { content: '\e856'; } /* '' */
+.icon-ellipsis-h:before { content: '\e857'; } /* '' */
+.icon-edit:before { content: '\e858'; } /* '' */
+.icon-download:before { content: '\e859'; } /* '' */
+.icon-lightbulb:before { content: '\e85a'; } /* '' */
+.icon-question-circle:before { content: '\e85b'; } /* '' */
+.icon-dollar-sign:before { content: '\e85c'; } /* '' */
+.icon-lock:before { content: '\e85d'; } /* '' */
+.icon-chevron-up:before { content: '\e85e'; } /* '' */
+.icon-chevron-right:before { content: '\e85f'; } /* '' */
+.icon-chevron-left:before { content: '\e860'; } /* '' */
+.icon-chevron-down:before { content: '\e861'; } /* '' */
+.icon-link:before { content: '\e862'; } /* '' */
+.icon-external-link-square:before { content: '\e863'; } /* '' */
+.icon-file:before { content: '\e864'; } /* '' */
+.icon-eye:before { content: '\e865'; } /* '' */
+.icon-eye-slash:before { content: '\e866'; } /* '' */
+.icon-trash-alt:before { content: '\e867'; } /* '' */
+.icon-times-circle:before { content: '\e868'; } /* '' */
+.icon-ok-circled:before { content: '\e869'; } /* '' */
+.icon-indicators:before { content: '\e86a'; } /* '' */
+.icon-cog:before { content: '\e86b'; } /* '' */
+.icon-plus:before { content: '\e86c'; } /* '' */
+.icon-sign-out:before { content: '\e86d'; } /* '' */
+.icon-question:before { content: '\e86e'; } /* '' */
+.icon-plus-square:before { content: '\e86f'; } /* '' */
+.icon-minus-square:before { content: '\e870'; } /* '' */
+.icon-cancel:before { content: '\e871'; } /* '' */
+.icon-cancel-circled:before { content: '\e872'; } /* '' */
+.icon-square:before { content: '\e873'; } /* '' */
+.icon-river-flood-1:before { content: '\e874'; } /* '' */
+.icon-arrow-left:before { content: '\e875'; } /* '' */
+.icon-forestry:before { content: '\e8e6'; } /* '' */

@@ -1,0 +1,88 @@
+#! /bin/bash
+
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+    set -x
+fi
+
+if [[ -n "${GIT_COMMIT}" ]]; then
+    GIT_COMMIT="${GIT_COMMIT:0:7}"
+else
+    GIT_COMMIT="$(git rev-parse --short HEAD)"
+fi
+
+function usage() {
+    echo -ne \
+         "Usage: $(basename "${0}")
+Run linters and tests.
+--jenkins \tAlso run linter with file output for Jenkins CI server to parse.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        if which shellcheck > /dev/null; then
+            find ./scripts -maxdepth 1 -type f -print0 | xargs -0 shellcheck
+        fi
+
+        if [ "${1:-}" = "--jenkins" ]; then
+            FLAKE8_ARGS="--output-file=violations.txt"
+            ANGULAR_LINT_CMD="lint:ci"
+        else
+            FLAKE8_ARGS=""
+            ANGULAR_LINT_CMD="lint"
+
+            # Make sure we've built a tagged image if
+            # not in CI.
+            GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                      -f docker-compose.yml \
+                      -f docker-compose.test.yml \
+                      build django angular
+        fi
+
+        # Python Lint
+        echo "Remove linter output file, if present"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint rm \
+                  django -f violations.txt
+
+        echo "Execute flake8"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint flake8 \
+                  django --tee $FLAKE8_ARGS
+
+        echo "Execute Angular linter"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm angular run "$ANGULAR_LINT_CMD"
+
+        echo "Execute Angular tests"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm angular run test
+
+        echo "Check for missing migrations"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint python \
+                  django manage.py makemigrations --check --dry-run
+
+        echo "Execute Django tests"
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  run --rm --entrypoint python \
+                  django manage.py test --noinput
+
+    fi
+fi

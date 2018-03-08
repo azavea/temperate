@@ -1,0 +1,102 @@
+<div class="main-container">
+  <main class="main-content wizard-container" role="main">
+    <header class="wizard-header">
+      <h1 class="wizard-title-small">Take action on</h1>
+      <h2 class="wizard-title-large" *ngIf="namedRisk">
+          <va-adaptive-need-box
+            [adaptiveCapacity]="namedRisk.risk.adaptive_capacity"
+            [popoverPlacement]="'right'"
+            [potentialImpact]="namedRisk.risk.impact_magnitude">
+          </va-adaptive-need-box>
+        {{ namedRisk.name }}
+      </h2>
+    </header>
+    <wizard #wizard
+            class="custom-steps"
+            navigationMode="free"
+            navBarLocation="left"
+            [defaultStepIndex]="startingStep">
+      <app-action-assess-step class="wizard-step"
+                              #assessStep
+                              wizardStep
+                              optionalStep
+                              [canExit]="assessStep.save"
+                              (stepEnter)="resetScroll()"
+                              navigationSymbol="{{ assessStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': assessStep.isStepComplete()}">1</span>
+          <span class="step-indicator-title">{{ assessStep.title }}</span>
+        </ng-template>
+      </app-action-assess-step>
+
+      <app-action-implementation-step class="wizard-step"
+                              #implementationStep
+                              wizardStep
+                              optionalStep
+                              [canExit]="implementationStep.save"
+                              (stepEnter)="resetScroll()"
+                              stepTitle="{{ implementationStep.title }}"
+                              navigationSymbol="{{ implementationStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': implementationStep.isStepComplete()}">2</span>
+          <span class="step-indicator-title">{{ implementationStep.title }}</span>
+        </ng-template>
+      </app-action-implementation-step>
+
+      <app-action-improvements-step class="wizard-step"
+                              #improvementsStep
+                              wizardStep
+                              optionalStep
+                              [canExit]="improvementsStep.save"
+                              (stepEnter)="resetScroll()"
+                              stepTitle="{{ improvementsStep.title }}"
+                              navigationSymbol="{{ improvementsStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': improvementsStep.isStepComplete()}">3</span>
+          <span class="step-indicator-title">{{ improvementsStep.title }}</span>
+        </ng-template>
+      </app-action-improvements-step>
+
+      <app-action-category-step class="wizard-step"
+                              #categoryStep
+                              wizardStep
+                              optionalStep
+                              [canExit]="categoryStep.save"
+                              (stepEnter)="resetScroll()"
+                              stepTitle="{{ categoryStep.title }}"
+                              navigationSymbol="{{ categoryStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': categoryStep.isStepComplete()}">4</span>
+          <span class="step-indicator-title">{{ categoryStep.title }}</span>
+        </ng-template>
+      </app-action-category-step>
+
+      <app-action-funding-step class="wizard-step"
+                              #fundingStep
+                              wizardStep
+                              optionalStep
+                              [canExit]="fundingStep.save"
+                              (stepEnter)="resetScroll()"
+                              stepTitle="{{ fundingStep.title }}"
+                              navigationSymbol="{{ fundingStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': fundingStep.isStepComplete()}">5</span>
+          <span class="step-indicator-title">{{ fundingStep.title }}</span>
+        </ng-template>
+      </app-action-funding-step>
+
+      <app-action-review-step class="wizard-step"
+                              #reviewStep
+                              wizardCompletionStep
+                              enableBackLinks
+                              stepTitle="{{ reviewStep.title }}"
+                              (stepEnter)="resetScroll()"
+                              navigationSymbol="{{ reviewStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number" [ngClass]="{'complete': allStepsCompleted()}">6</span>
+          <span class="step-indicator-title">{{ reviewStep.title }}</span>
+        </ng-template>
+      </app-action-review-step>
+    </wizard>
+  </main>
+</div>

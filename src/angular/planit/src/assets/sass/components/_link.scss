@@ -1,0 +1,29 @@
+a {
+  text-decoration: none;
+  padding: 0 0 1px 0;
+  color: $brand-primary;
+  box-shadow: none;
+  border: 0;
+  border-bottom: 1px solid $brand-secondary;
+
+  &:focus, &.focus {
+    border-radius: $border-radius;
+    border-bottom-color: transparent;
+    @include button-focus-outline();
+  }
+
+  &:hover, &.hover {
+    border-bottom-color: $brand-primary;
+  }
+
+  &:active, &.active {
+    color: $brand-black;
+    border-bottom-color: $brand-black;
+    box-shadow: none;
+  }
+
+  &:disabled, &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}

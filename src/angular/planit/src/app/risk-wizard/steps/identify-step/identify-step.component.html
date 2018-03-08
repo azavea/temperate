@@ -1,0 +1,59 @@
+<div class="step-header">
+  <h3 class="step-title">Identify risk</h3>
+  <p>In Temperate, a &ldquo;risk&rdquo; is the pairing of a climate-related hazard and a community system (a subset of people, structures or assets) that may be impacted by it.</p>
+</div>
+
+<div class="step-content">
+  <form [formGroup]="form">
+  <div class="form-control-container">
+    <label for="hazard">Hazard</label>
+    <input type="text" id="hazard" class="form-control" formControlName="weather_event"
+                                autocomplete="off"
+                                typeaheadOptionField="name"
+                                (typeaheadOnSelect)="itemSelected('weather_event', $event)"
+                                (typeaheadOnBlur)="itemBlurred('weather_event')"
+                                (blur)="itemBlurred('weather_event')"
+                                [typeahead]="weatherEvents"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="5"
+                                [container]="'body'">
+    <div *ngIf="form.controls.weather_event.errors && (form.controls.weather_event.dirty || form.controls.weather_event.touched)">
+      <div class="form-control-error" *ngIf="form.controls.weather_event.errors.required || form.controls.weather_event.errors.autocomplete">Please select a hazard to assess.</div>
+    </div>
+  </div>
+  <div class="form-control-container">
+    <label for="community-system">Community system at risk</label>
+    <input type="text" id="community-system" class="form-control" formControlName="community_system"
+                                autocomplete="off"
+                                typeaheadOptionField="name"
+                                (typeaheadOnSelect)="itemSelected('community_system', $event)"
+                                (typeaheadOnBlur)="itemBlurred('community_system')"
+                                (blur)="itemBlurred('community_system')"
+                                [typeahead]="communitySystems"
+                                [typeaheadMinLength]="0"
+                                [typeaheadScrollable]="true"
+                                [typeaheadOptionsInScrollableView]="5"
+                                [container]="'body'">
+    <div class="form-control-error" *ngIf="form.controls.community_system.errors && (form.controls.community_system.dirty || form.controls.community_system.touched)">
+      <span *ngIf="form.controls.community_system.errors.required || form.controls.community_system.errors.autocomplete">Please select a community system to focus on.</span>
+    </div>
+  </div>
+  </form>
+</div>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!risk?.id" 
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="risk?.id" 
+            (click)="finish()">Finish assessment later</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary"
+            [disabled]="!form.valid"
+            nextStep>Next</button>
+  </div>
+</footer>

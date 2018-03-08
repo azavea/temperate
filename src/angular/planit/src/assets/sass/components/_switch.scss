@@ -1,0 +1,75 @@
+// Switch components. Noted in Add Hazard (/Weather Events) component,
+// add category component, and add community system component.
+.switch-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.switch-list > .switch-item {
+  align-items: center;
+  background-color: $switch-background;
+  border: $switch-border;
+  color:  $switch-title-color;
+  cursor: pointer;
+  display: flex;
+  padding: $space-small $space-medium;
+  font-size: $switch-title-size;
+  margin: $space-tiny 0;
+  border-radius: $switch-border-radius;
+
+  .icon-status {
+    font-family: $icon-font-family;
+    font-size: $switch-status-icon-size;
+    margin-right: $space-medium;
+    width: 2rem;
+
+    &:after {
+      content: "\E873";
+      color: $switch-unchecked-icon-color;
+    }
+  }
+
+  .icon-primary {
+    color: $switch-primary-icon-color;
+    font-size: $switch-primary-icon-size;
+    margin-right: $space-small;
+  }
+
+  .icon-readonly {
+    color: $switch-readonly-icon-color;
+    font-size: $switch-readonly-icon-size;
+  }
+
+  &:hover {
+    background-color: $switch-background-hover;
+    border: $switch-border-hover;
+
+    .icon-status:after {
+      color: $switch-unchecked-icon-color-hover;
+    }
+  }
+
+  &:focus {
+    @include button-focus-outline();
+  }
+
+  &.selected {
+    background-color: $switch-background-selected;
+    outline: $switch-border-selected;
+    outline-offset: -2px;
+
+    .icon-status {
+      color: $switch-checked-icon-color;
+
+      &:after {
+        content: "\E843";
+        color: $switch-checked-icon-color;
+      }
+    }
+
+    .icon-readonly {
+      color: $switch-readonly-icon-color-selected;
+    }
+  }
+}

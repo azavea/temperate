@@ -1,0 +1,35 @@
+// Autocomplete/freeform text used in vulnerability assessment and action steps
+app-freeform-multiselect, .multiselect {
+  .selected-option {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $multiselect-pill-background;
+    color: $multiselect-pill-color;
+    border-radius: 30px;
+    padding: 4px 12px 6px 12px;
+
+    &:not(:last-child) {
+      margin-right: $space-medium;
+    }
+    &.error {
+      background-color: $brand-danger;
+      color: $white;
+
+      > .button {
+        opacity: .4;
+      }
+    }
+
+    > .button {
+      color: inherit;
+      margin-left: $space-base;
+      opacity: .2;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+}

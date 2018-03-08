@@ -1,0 +1,209 @@
+[
+{
+    "model": "planit_data.indicator",
+    "pk": 1,
+    "fields": {
+        "name": "accumulated_freezing_degree_days",
+        "label": "Accumulated Freezing Degree Days",
+        "description": "Maximum cumulative total of differences in average daily temperature and freezing for consecutive days across the aggregation period."
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 2,
+    "fields": {
+        "name": "average_high_temperature",
+        "label": "\"Average High Temperature",
+        "description": "Aggregated average high temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 3,
+    "fields": {
+        "name": "average_low_temperature",
+        "label": "Average Low Temperature",
+        "description": "Aggregated average low temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 4,
+    "fields": {
+        "name": "cooling_degree_days",
+        "label": "Cooling Degree Days",
+        "description": "Total difference of daily average temperature to a reference base temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 5,
+    "fields": {
+        "name": "diurnal_temperature_range",
+        "label": "Diurnal Temperature Range",
+        "description": "Average difference between daily max and daily min temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 6,
+    "fields": {
+        "name": "dry_spells",
+        "label": "Dry Spells",
+        "description": "Total number of times per period that there are 5 or more consecutive days without precipitation"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 7,
+    "fields": {
+        "name": "extreme_cold_events",
+        "label": "Extreme Cold Events",
+        "description": "Total number of times per period daily minimum temperature is below the specified percentile of historic observations"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 8,
+    "fields": {
+        "name": "extreme_heat_events",
+        "label": "Extreme Heat Events",
+        "description": "Total number of times per period daily maximum temperature exceeds the specified percentile of historic observations"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 9,
+    "fields": {
+        "name": "extreme_precipitation_events",
+        "label": "Extreme Precipitation Events",
+        "description": "Total number of times per period daily average precipitation rate exceeds the specified percentile of historic observations"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 10,
+    "fields": {
+        "name": "frost_days",
+        "label": "Frost Days",
+        "description": "Number of days per period in which the daily low temperature is below the freezing point of water"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 11,
+    "fields": {
+        "name": "heat_wave_duration_index",
+        "label": "Heat Wave Duration Index",
+        "description": "Maximum period of consecutive days with daily high temperature greater than 5C above historic norm"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 12,
+    "fields": {
+        "name": "heat_wave_incidents",
+        "label": "Heat Wave Incidents",
+        "description": "Number of times daily high temperature exceeds 5C above historic norm for at least 5 consecutive days"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 13,
+    "fields": {
+        "name": "heating_degree_days",
+        "label": "Heating Degree Days",
+        "description": "Total difference of daily average temperature to a reference base temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 14,
+    "fields": {
+        "name": "max_consecutive_dry_days",
+        "label": "Max Consecutive Dry Days",
+        "description": "Maximum number of consecutive days with no precipitation"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 15,
+    "fields": {
+        "name": "max_high_temperature",
+        "label": "Maximum High Temperature",
+        "description": "Maximum high temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 16,
+    "fields": {
+        "name": "max_temperature_threshold",
+        "label": "Max Temperature Threshold",
+        "description": "Number of days where high temperature, generated from daily data using all requested models, fulfills the comparison"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 17,
+    "fields": {
+        "name": "min_low_temperature",
+        "label": "Minimum Low Temperature",
+        "description": "Minimum low temperature"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 18,
+    "fields": {
+        "name": "min_temperature_threshold",
+        "label": "Min Temperature Threshold",
+        "description": "Number of days where min temperature, generated from daily data using all requested models, fulfils the comparison"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 19,
+    "fields": {
+        "name": "percentile_high_temperature",
+        "label": "Percentile High Temperature",
+        "description": "The specified percentile of high temperature for each timespan. Defaults to 50th percentile (Median)"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 20,
+    "fields": {
+        "name": "percentile_low_temperature",
+        "label": "Percentile Low Temperature",
+        "description": "The specified percentile of low temperature for each timespan. Defaults to 50th percentile (Median)"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 21,
+    "fields": {
+        "name": "percentile_precipitation",
+        "label": "Percentile Precipitation",
+        "description": "The specified percentile of precipitation rate for each timespan. Defaults to 50th percentile (Median)"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 22,
+    "fields": {
+        "name": "precipitation_threshold",
+        "label": "Precipitation Threshold",
+        "description": "Number of days where precipitation rate, generated from daily data using all requested models, fulfils the comparison"
+    }
+},
+{
+    "model": "planit_data.indicator",
+    "pk": 23,
+    "fields": {
+        "name": "total_precipitation",
+        "label": "Total Precipitation",
+        "description": "Total precipitation"
+    }
+}
+]

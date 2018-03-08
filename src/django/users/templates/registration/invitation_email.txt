@@ -1,0 +1,7 @@
+You've been invited to join the Temperate organization {{ user.primary_organization.name }} in {{ user.primary_organization.location }}.
+
+Register for an account at {{ site.name }}:
+
+https://{{ site.domain }}{% url 'registration_activate' activation_key %}
+
+Link is valid for {{ expiration_days }} days.

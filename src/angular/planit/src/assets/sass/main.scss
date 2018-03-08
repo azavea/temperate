@@ -1,0 +1,97 @@
+/* TODO: Copy prototype SCSS as part of #40 */
+
+@import 'bootstrap';
+
+@import 'ngx-bootstrap';
+@import '~ngx-toastr/toastr';
+
+/* * * *
+ * Utilities
+ * No css should output from these
+ * * * */
+@import
+  'utils/functions',
+  'utils/variables',
+  'utils/mixins',
+  'utils/clearfix',
+  'utils/utilities';
+
+
+/* * * *
+ * Vendors imports
+ * * * */
+// @import Placeholder
+
+/* * * *
+ * Base boilerplate styling
+ * * * */
+@import
+  'base/normalize',
+  'base/base',
+  'base/fonts';
+
+/* * * *
+ * Layout and overall structure
+ * * * */
+@import
+  'layout/content',
+  'layout/frame',
+  'layout/typography';
+
+/* * * *
+ * Components styling
+ * * * */
+@import
+  'components/dashboard/city-profile-summary',
+  'components/dashboard/grouped-risk',
+  'components/indicators/model-modal',
+  'components/marketing/plan-selector',
+  'components/shared/app-chart',
+  'components/shared/add-community-systems',
+  'components/shared/add-weather-events',
+  'components/shared/ld-progressbar',
+  'components/shared/option-dropdown',
+  'components/alert',
+  'components/action-steps/action-picker',
+  'components/action-steps/action-steps',
+  'components/action-steps/action-card',
+  'components/wizard',
+  'components/button',
+  'components/card',
+  'components/dropdown',
+  'components/form',
+  'components/freeform_multiselect',
+  'components/grid',
+  'components/help-modal',
+  'components/header-primary',
+  'components/link',
+  'components/loading',
+  'components/modal',
+  'components/popover',
+  'components/progressbar',
+  'components/slider',
+  'components/switch',
+  'components/footer',
+  'components/table',
+  'components/tooltip',
+  'components/chart',
+  'components/create-plan',
+  'components/timeslider',
+  'components/top-concern',
+  'components/typeahead',
+  'components/app-collapsible-chart',
+  'components/va-popover',
+  'components/va-risk-popover';
+
+/* * * *
+ * Page specific styling
+ * * * */
+@import 'pages/action-steps';
+@import 'pages/create-org';
+@import 'pages/dashboard';
+@import 'pages/indicators';
+@import 'pages/manage-subscription';
+@import 'pages/marketing';
+@import 'pages/vulnerability-assessment';
+@import 'pages/risk-wizard';
+@import 'pages/action-wizard';

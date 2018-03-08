@@ -1,0 +1,504 @@
+[
+{
+    "model": "planit_data.weatherevent",
+    "pk": 1,
+    "fields": {
+        "name": "Drought",
+        "coastal_only": false,
+        "concern": 15,
+        "display_class": "icon-drought",
+        "indicators": [
+            6,
+            14,
+            21,
+            22,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 2,
+    "fields": {
+        "name": "Lightning / Thunderstorm",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-lightning-thunderstorm",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 3,
+    "fields": {
+        "name": "Heat waves",
+        "coastal_only": false,
+        "concern": 13,
+        "display_class": "icon-heat-wave",
+        "indicators": [
+            2,
+            4,
+            8,
+            11,
+            12,
+            15
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 4,
+    "fields": {
+        "name": "Groundwater flooding",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-groundwater-flood",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 5,
+    "fields": {
+        "name": "Extreme cold days",
+        "coastal_only": false,
+        "concern": 12,
+        "display_class": "icon-extreme-cold-days",
+        "indicators": [
+            1,
+            3,
+            4,
+            10,
+            11,
+            12,
+            17,
+            18,
+            20
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 7,
+    "fields": {
+        "name": "Coastal flooding",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "icon-coastal-flood",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 8,
+    "fields": {
+        "name": "Cyclone (Hurricane / Typhoon)",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-hurricane",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 9,
+    "fields": {
+        "name": "Saltwater intrusion",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-salt-water-intrusion",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 10,
+    "fields": {
+        "name": "Extreme hot days",
+        "coastal_only": false,
+        "concern": 14,
+        "display_class": "icon-extreme-hot-days",
+        "indicators": [
+            2,
+            4,
+            5,
+            8,
+            15,
+            16
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 11,
+    "fields": {
+        "name": "Subsidence",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-subsidence",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 12,
+    "fields": {
+        "name": "Wildfires",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-wildfires",
+        "indicators": [
+            2,
+            6,
+            8,
+            11,
+            12,
+            14,
+            15,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 13,
+    "fields": {
+        "name": "Reduced snowpack",
+        "coastal_only": false,
+        "concern": 18,
+        "display_class": "icon-reduced-snowpack",
+        "indicators": [
+            1,
+            3,
+            10,
+            17,
+            18,
+            21,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 14,
+    "fields": {
+        "name": "Ocean acidification",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "icon-ocean-acidification",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 15,
+    "fields": {
+        "name": "Changed seasonal patterns",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-changed-seasonal-patterns",
+        "indicators": [
+            2,
+            3,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 16,
+    "fields": {
+        "name": "Landslides",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-landslide",
+        "indicators": [
+            6,
+            9,
+            14
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 18,
+    "fields": {
+        "name": "River flooding",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-river-flood",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 19,
+    "fields": {
+        "name": "Storm surge",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "icon-storm-surge",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 20,
+    "fields": {
+        "name": "Rain storms",
+        "coastal_only": false,
+        "concern": 21,
+        "display_class": "icon-rain-storm",
+        "indicators": [
+            9,
+            22,
+            23
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 21,
+    "fields": {
+        "name": "Extreme winter conditions",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-extreme-winter-conditions",
+        "indicators": [
+            1,
+            3,
+            10,
+            17
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 22,
+    "fields": {
+        "name": "Heavy snow",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-heavy-snow",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 23,
+    "fields": {
+        "name": "Cold wave",
+        "coastal_only": false,
+        "concern": 11,
+        "display_class": "icon-cold-wave",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 25,
+    "fields": {
+        "name": "Forest fire",
+        "coastal_only": false,
+        "concern": 16,
+        "display_class": "icon-forest-fire",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 26,
+    "fields": {
+        "name": "Flash / surface flooding",
+        "coastal_only": false,
+        "concern": 22,
+        "display_class": "icon-flash-flood",
+        "indicators": [
+            9,
+            22
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 27,
+    "fields": {
+        "name": "Monsoon",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-monsoon",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 28,
+    "fields": {
+        "name": "Hail",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-hail",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 29,
+    "fields": {
+        "name": "Severe wind",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-severe-wind",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 30,
+    "fields": {
+        "name": "Tornado",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-tornado",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 31,
+    "fields": {
+        "name": "Tropical storm",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-tropical-storm",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 32,
+    "fields": {
+        "name": "Extratropical storm",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-extratropical-storm",
+        "indicators": [
+            9
+        ]
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 33,
+    "fields": {
+        "name": "Fog",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-fog",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 34,
+    "fields": {
+        "name": "Permanent inundation",
+        "coastal_only": true,
+        "concern": null,
+        "display_class": "icon-permanent-inundation",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 35,
+    "fields": {
+        "name": "Atmospheric CO2 concentrations",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-atmospheric-co2-concentrations",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 36,
+    "fields": {
+        "name": "Avalanche",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-avalanche",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 37,
+    "fields": {
+        "name": "Rockfall",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-rockfall",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 38,
+    "fields": {
+        "name": "Water-borne disease",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-water-borne-disease",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 39,
+    "fields": {
+        "name": "Air-borne disease",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-air-borne-disease",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 40,
+    "fields": {
+        "name": "Vector-borne disease",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-vector-borne-disease",
+        "indicators": []
+    }
+},
+{
+    "model": "planit_data.weatherevent",
+    "pk": 41,
+    "fields": {
+        "name": "Insect infestation",
+        "coastal_only": false,
+        "concern": null,
+        "display_class": "icon-insect-infestation",
+        "indicators": []
+    }
+}
+]

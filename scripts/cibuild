@@ -1,0 +1,64 @@
+#!/bin/bash
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+    set -x
+fi
+
+if [[ -n "${GIT_COMMIT}" ]]; then
+    GIT_COMMIT="${GIT_COMMIT:0:7}"
+else
+    GIT_COMMIT="$(git rev-parse --short HEAD)"
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0")
+Build application for staging or a release.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+    if [ "${1:-}" = "--help" ]; then
+        usage
+    else
+        # Create Django dockerfile if it doesn't exist, or we're in CI
+        if [ ! -f ./src/django/docker-compose.env ] || [[ -n "${JENKINS}" ]];
+        then
+            cp ./src/django/docker-compose.env.example ./src/django/docker-compose.env
+        fi
+
+        # Build angular and django containers
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  build django angular
+
+        echo "Running tests"
+        GIT_COMMIT="${GIT_COMMIT}" ./scripts/test --jenkins
+        echo "All tests pass!"
+
+        # Copy django static files into nginx folder
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.test.yml run \
+            --rm --entrypoint python \
+            django manage.py collectstatic --noinput
+
+        # Clean out existing angular bundle before build
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.test.yml run \
+            --rm --entrypoint "bash -c" angular "rm -rf dist/*"
+
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.test.yml run \
+            --rm angular run build:prod --delete-output-path false
+
+        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
+                  -f docker-compose.yml \
+                  -f docker-compose.test.yml \
+                  build nginx
+    fi
+fi

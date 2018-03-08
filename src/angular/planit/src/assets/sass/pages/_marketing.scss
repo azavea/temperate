@@ -1,0 +1,48 @@
+#marketing .container-hero {
+  background-image: url(../images/hero-1.jpg);
+  background-size: cover;
+  background-position: center;
+
+  p {
+    font-size: $text-base;
+    line-height: $body-line-height;
+  }
+}
+
+.illustration-fullwidth {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+.illustration-row {
+  display: flex;
+  justify-content: center;
+  align-content: stretch;
+}
+.figure-third {
+  flex: 1 1 auto;
+}
+.figure-full {
+  flex: 3 1 auto;
+}
+
+.helper-arrow {
+  font-size: $text-base;
+  font-weight: $font-weight-bold;
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: $white;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: block;
+    margin-top: 0.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 5rem;
+    width: 1px;
+    background-color: $neutral-2;
+  }
+}

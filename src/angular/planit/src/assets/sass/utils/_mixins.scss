@@ -1,0 +1,66 @@
+/* * * *
+ * Responsive Breakpoint Manager
+ * requires $breakpoints from _variables.scss > $breakpoints
+ * Useage: @include respond-to('small') {...}
+ * * * */
+@mixin respond-to($breakpoint) {
+  // If the key exists in the map
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Prints a media query based on the value
+    @media #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
+
+/* * * *
+ * Generate Alerts
+ * * * */
+@mixin generate-alert($name:'', $color:#666) {
+  .alert#{$name} {
+    @if $alert-ghost-style {
+      border-color: $color;
+      color: $color;
+      background-color: transparent;
+    } @else {
+      background-color: $color;
+      color: $alert-font-color;
+    }
+  }
+}
+
+// TODO: Add style for a close/X button to be placed on right side of alert.
+
+/* * * *
+ * Clearfix
+ * Source: https://github.com/twbs/bootstrap-sass/
+ *         blob/master/assets/stylesheets/bootstrap/
+ *         mixins/_clearfix.scss
+ * * * */
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+
+@mixin button-focus-outline() {
+  box-shadow: 0 0 0 2px rgba($brand-secondary, 0.5);
+  outline: 0;
+}
+
+@mixin light-on-dark() {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

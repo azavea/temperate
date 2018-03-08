@@ -1,0 +1,99 @@
+/* * * *
+ * Typography
+ * * * */
+body {
+  font-size: $font-size-body;
+  line-height: $body-line-height;
+  color: $body-font-color;
+  font-family: $body-font-family;
+  font-weight: $body-font-weight;
+}
+
+.text-jumbo {
+  font-size: $text-jumbo;
+}
+
+.text-display {
+  font-size: $text-display;
+}
+
+.text-large {
+  font-size: $text-large;
+}
+
+.text-medium, .card-title {
+  font-size: $text-medium;
+}
+
+.text-base {
+  font-size: $text-base;
+}
+
+.text-small {
+  font-size: $text-small;
+}
+
+.text-tiny {
+  font-size: $text-tiny;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: $heading-line-height;
+  color: $heading-font-color;
+  font-family: $heading-font-family;
+  margin-top: 0;
+  margin-bottom: $heading-margin-bottom;
+  font-weight: $heading-font-weight;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: $paragraph-margin;
+}
+
+small, .small {
+  font-size: 85%;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: $font-weight-bold;
+}
+
+ul, ol, dt {
+  margin-top: 0;
+  margin-bottom: $paragraph-margin;
+}
+
+pre, code {
+  font-family: $monospace-font-family;
+}
+
+figcaption {
+  font-family: $body-font-family;
+  text-transform: uppercase;
+  max-width: 15rem;
+  margin: 0 auto;
+}
+
+.page-title-large {
+  color: $page-title-large-color;
+  font-size: $page-title-large-size;
+  font-weight: $page-title-large-weight;
+}
+
+.page-title-small {
+  color: $page-title-small-color;
+  font-size: $page-title-small-size;
+  font-weight: $page-title-small-weight;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+}
+
+.paragraph-intro {
+  font-size: $text-base;
+}

@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load premailer %}
+{% premailer %}
+<html>
+    <style type="text/css">
+        em { color: grey;}
+    </style>
+    <h1>Welcome to Temperate!</h1>
+    <p>Hi {{ user.first_name }},</p>
+    <p>You can sign in to the app here:</p>
+    <p><a href="{{ url }}">{{ url }}</a></p>
+    <p>Hope to see you soon!</p>
+    <br />
+    <p>
+        <em>Questons? You can reach us at
+            <a href="mailto:{{ support_email }}?subject=Help%20request">{{ support_email }}.</em>
+    </p>
+</html>
+{% endpremailer %}

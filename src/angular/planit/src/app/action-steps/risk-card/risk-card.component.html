@@ -1,0 +1,15 @@
+<div class="risk-card">
+  <div class="risk-card-content">
+    <h3>{{ risk.weather_event.name }} on {{ risk.community_system.name }}</h3>
+    <button class="take-action button"
+            tooltip="You need to assess this risk first"
+            [isDisabled]="risk.isAssessed()"
+            [ngClass]="{disabled: !risk.isAssessed()}"
+            (click)="openModal(actionPicker)">Take action</button>
+  </div>
+</div>
+
+<!-- action prompt template -->
+<ng-template #actionPicker>
+  <app-action-picker [risk]="risk" (closed)="modalRef.hide()"></app-action-picker>
+</ng-template>

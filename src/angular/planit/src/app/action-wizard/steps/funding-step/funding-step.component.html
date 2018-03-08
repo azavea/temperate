@@ -1,0 +1,31 @@
+<div class="step-header">
+  <h3 id="funding-title" class="step-title">Funding</h3>
+  <p>How will you be funding this action? Once this action is created, you will have the opportunity to find funding for actions.</p>
+</div>
+
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="form-control-container">
+      <textarea formControlName="funding" aria-labelledby="funding-title"></textarea>
+      <div class="form-control-hint">These details are not shared in any way with other cities, nor used by the application.</div>
+    </div>
+  </form>
+</div>
+
+<footer class="step-footer">
+  <div class="step-footer-exit">
+    <button type="button" class="button-link" 
+            *ngIf="!action?.name"
+            (click)="cancel()">Cancel</button>
+    <button type="button" class="button-link" 
+            *ngIf="!!action?.name"
+            (click)="finish()">Finish action later</button>
+  </div>
+  <div class="step-footer-navigation">
+    <button type="button" class="button"  
+            nextStep>Skip step</button>
+    <button type="button" class="button button-primary" 
+            [disabled]="!form.valid" 
+            nextStep>Next</button>
+  </div>
+</footer>

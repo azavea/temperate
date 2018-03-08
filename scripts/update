@@ -1,0 +1,78 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+    set -x
+fi
+
+function usage() {
+    echo -n \
+         "Usage: $(basename "$0")
+
+Builds and pulls container images using docker-compose.
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+    if [ "${1:-}" = "--help" ]
+    then
+        usage
+    else
+        # Prevent setup and warn if Django dockerfile doesn't exist
+        if [ ! -f ./src/django/docker-compose.env ]
+        then
+            echo "Missing Django dockerfile. Consult project README."
+            exit 1
+        fi
+
+        # Build the angular container image.
+        docker-compose \
+            -f docker-compose.yml \
+            build angular
+
+        # Build the Django container image.
+        docker-compose build django
+
+        # Bring up PostgreSQL and Django in a way that respects
+        # configured service health checks.
+        docker-compose up -d database django
+
+        # Apply any outstanding migrations.
+        docker-compose \
+            run --rm --entrypoint python \
+            django manage.py migrate --noinput
+
+        docker-compose \
+            run --rm --entrypoint python \
+            django manage.py loaddata \
+                    georegions \
+                    indicators \
+                    concerns \
+                    weatherevents \
+                    weathereventrank \
+                    communitysystems \
+                    defaultrisks \
+                    collaborators \
+                    relatedadaptivevalues \
+                    actioncategories \
+                    actiontypes
+
+        docker-compose \
+            run --rm --entrypoint python \
+            django manage.py collectstatic --noinput
+
+        # Remove Django service associated with `docker-compose up`
+        # command above.
+        docker-compose kill django \
+            && docker-compose rm -f django
+
+        # Build Angular bundle for use with nginx
+        docker-compose run --rm --entrypoint "bash -c" angular "rm -rf dist/*"
+        docker-compose run --rm angular run build:prod --delete-output-path false
+
+        # Build Nginx
+        docker-compose build nginx
+    fi
+fi

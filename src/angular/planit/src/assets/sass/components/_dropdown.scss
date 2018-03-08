@@ -1,0 +1,166 @@
+.dropup,
+.dropdown {
+  position: relative;
+  border-radius: $border-radius;
+  border: 1px solid $neutral-1;
+  & > button {
+    color: $heading-font-color;
+    font-size: $text-small;
+  }
+}
+
+.dropdown .icon-chevron {
+  transition: transform 0.1s;
+}
+
+.dropdown.open .icon-chevron {
+  transform: rotate(-180deg);
+  transition: transform 0.15s;
+}
+
+.dropdown-toggle:focus {
+  outline: 0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: $zindex-dropdown-menu;
+  display: none;
+  float: left;
+  min-width: $dropdown-menu-min-width;
+  padding: $dropdown-menu-border-padding 0;
+  margin: 1px 0 0;
+  list-style: none;
+  text-align: left;
+  background-color: $dropdown-menu-background;
+  border: $dropdown-menu-border;
+  border-radius: $dropdown-menu-border-radius;
+  box-shadow: $dropdown-menu-shadow;
+  background-clip: padding-box;
+
+  &.pull-right {
+    right: 0;
+    left: auto;
+  }
+
+  .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: $neutral-1;
+  }
+
+  li > * {
+    padding: $space-medium;
+  }
+
+  li {
+    border-radius: $border-radius;
+
+    &:hover {
+      text-decoration: none;
+      color: $dropdown-menu-link-color-hover;
+      background-color: $dropdown-menu-link-background-hover;
+    }
+
+    &:focus {
+      @include button-focus-outline();
+    }
+
+    a {
+      border-bottom: none;
+      color: $dropdown-menu-link-color;
+      cursor: pointer;
+      clear: both;
+      display: block;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    strong {
+      color: $black;
+    }
+  }
+
+  .active {
+    a, a:hover, a:active, a:focus {
+      color: $dropdown-menu-link-color-hover;
+      text-decoration: none;
+      outline: 0;
+      background-color: $dropdown-menu-link-background-hover;
+    }
+  }
+
+  .disabled, :disabled {
+    a, a:hover, a:focus {
+      color: $neutral-4;
+    }
+
+    a:hover, a:focus {
+      text-decoration: none;
+      background-color: transparent;
+      background-image: none;
+      cursor: not-allowed;
+    }
+  }
+
+  .action-destructive {
+    a {
+      color: $brand-danger;
+    }
+    &:hover, &:focus {
+      background-color: $brand-danger;
+      a {
+        color: $white;
+      }
+    }
+  }
+}
+
+.open > .dropdown-menu {
+  display: block;
+}
+
+.open > a {
+  outline: 0;
+}
+
+.dropdown-menu-right {
+  left: auto;
+  right: 0;
+}
+
+.dropdown-menu-left {
+  left: 0;
+  right: auto;
+}
+
+.dropdown-header {
+  display: block;
+  padding: 3px 20px;
+  font-size: 12px;
+  color: $neutral-4;
+  white-space: nowrap;
+}
+
+.dropdown-backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 990;
+}
+
+.pull-right > .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.dropdown .list-item {
+  i {
+    padding-right: 0.5rem;
+  }
+}

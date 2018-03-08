@@ -1,0 +1,54 @@
+<div class="header">
+  <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
+                        [potentialImpact]="aggregateNeed.impact"
+                        [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
+  <h4>
+    {{ weatherEvent.name }} &bull;
+    <span>{{ risks.length }} risks</span>
+  </h4>
+  <div [tooltip]="noRelatedIndicatorsTooltip"
+       [isDisabled]="canShowIndicators">
+    <button class="button-link"
+            [ngClass]="{disabled: !canShowIndicators}"
+            (click)="openModal()">See Related Indicators</button>
+  </div>
+</div>
+<div class="block-assessment">
+  <div class="summary">
+    <div class="summary-title">
+      <h4>Assessment</h4>
+      <span>{{ percentRisksAssessed() }} %</span>
+    </div>
+    <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
+  </div>
+  <a class="button button-primary"
+     routerLink="/assessment"
+     [queryParams]="{hazard: weatherEvent?.id}" >Assess</a>
+</div>
+<div class="block-assessment" *ngIf="numberOfRisksAssessed() > 0">
+  <div class="summary">
+    <div class="summary-title">
+      <h4>Action steps</h4>
+      <span>{{ percentActionsAssessed() }} %</span>
+    </div>
+    <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
+  </div>
+  <a class="button button-positive"
+     routerLink="/actions"
+     [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
+</div>
+
+<app-modal-template #indicatorChartModal
+    title="Viewing indicators related to {{ modalRisk?.weather_event.name }}">
+  <div>
+    <app-force-collapse-chart-container
+        [indicators]="indicators"
+        [city]="city">
+    </app-force-collapse-chart-container>
+    <a class="button-link" (click)="goToIndicators()">See all indicators</a>
+  </div>
+</app-modal-template>
+
+<ng-template #noRelatedIndicatorsTooltip>
+  No related indicators for {{ modalRisk?.weather_event.name }}
+</ng-template>

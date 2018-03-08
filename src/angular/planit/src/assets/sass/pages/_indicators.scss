@@ -1,0 +1,46 @@
+section:not(:last-child) {
+  margin-bottom: 4rem;
+}
+
+.indicator-filters {
+  .filter-header {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-container > .card {
+    display: flex;
+    flex: 1 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin: 0.25rem;
+    box-shadow: none;
+    text-align: center;
+    border: 1px solid $neutral-1;
+
+    .icon {
+      font-size: $text-jumbo;
+    }
+
+    &:hover, &.active {
+      color: $neutral-5;
+      cursor: pointer;
+      background-color: $neutral-1;
+      border: 1px solid $neutral-2;
+    }
+
+    &.active {
+      outline: 4px solid $neutral-2;
+      outline-offset: -4px;
+    }
+
+    &:focus {
+      box-shadow: none;
+      background-color: $neutral-1;
+      @include button-focus-outline();
+    }
+  }
+}
