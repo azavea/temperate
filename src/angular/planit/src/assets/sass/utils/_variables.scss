@@ -313,12 +313,13 @@ $popover-arrow: 8px;
 
 
 /* * * *
- * chart
+ * Chart
  *
  * * * */
 
 $chart-line: $brand-teal;
 $chart-minmax: $chart-line;
+$chart-minmax-outline: 1px solid $neutral-2;
 $chart-trendline: $brand-persimmon;
 $chart-min-bar: $neutral-5;
 $chart-max-bar: $brand-turmeric;

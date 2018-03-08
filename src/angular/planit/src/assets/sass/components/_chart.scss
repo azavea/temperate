@@ -26,13 +26,24 @@ ccc-line-graph {
   margin: 0 2rem;
 }
 
-.chart-legend-line {
-  background: $chart-line;
-  display: inline-block;
-  width: 10px;
-  height: 2px;
-  margin-right: $space-tiny;
-  margin-bottom: 3px;
+app-chart .chart-legend {
+  .chart-legend-line {
+    background: $chart-line;
+    display: inline-block;
+    width: 12px;
+    height: 3px;
+    margin-right: $space-tiny;
+    margin-bottom: 2px;
+  }
+
+  .chart-legend-minmax {
+    background: rgba($chart-line, 0.4);
+    height: 1.25rem;
+    width: 1.25rem;
+    margin-left: 1.65rem;
+    opacity: 1;
+    outline: $chart-minmax-outline;
+  }
 }
 
 app-chart .chart-options.slider {
