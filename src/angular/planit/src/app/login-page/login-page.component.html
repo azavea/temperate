@@ -4,6 +4,13 @@
       <div *ngIf="activated" class="alert alert-positive">
         Your Temperate account is now active. Login to get started.
       </div>
+      <div *ngIf="reset" class="alert alert-positive">
+        Your Temperate password was reset. Login to get started.
+      </div>
+      <div *ngIf="resetExpired" class="alert alert-warning">
+        Sorry, your password reset link has expired.
+        <a routerLink="/forgot-password">Click here</a> to get another link sent to you.
+      </div>
       <app-login-form></app-login-form>
     </div>
   </section>
