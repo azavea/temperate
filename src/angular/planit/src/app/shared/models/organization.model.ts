@@ -42,23 +42,25 @@ export class Organization {
   // An organization recieves support if they are on the free trial or have a custom plan
   public hasSupport(): boolean {
     const hasFreeTrial = this.subscription === OrgSubscription.FreeTrial &&
-                         this.trialDaysRemaining() > 0;
+                         this.trialMillisRemaining() > 0;
     const hasCustomPlan = this.subscription !== OrgSubscription.FreeTrial &&
                           this.subscription !== OrgSubscription.Basic;
 
     return (hasFreeTrial || hasCustomPlan);
   }
 
-  public trialDaysRemaining() {
+  private trialMillisRemaining() {
     if (!this.subscription_end_date) {
       return 0;
     }
-    const oneDayMillis = 1000 * 60 * 60 * 24;
     const now = new Date();
-    const daysRemaining = Math.ceil(
-      (this.subscription_end_date.getTime() - now.getTime()) / oneDayMillis
-    );
-    return Math.max(daysRemaining, 0);
+    return this.subscription_end_date.getTime() - now.getTime();
+  }
+
+  public trialDaysRemaining() {
+    const oneDayMillis = 1000 * 60 * 60 * 24;
+    const daysRemaining = Math.floor(this.trialMillisRemaining() / oneDayMillis);
+    return Math.max(daysRemaining, 1);
   }
 
   // take short ISO date from JSON representation and apply timezone offset for current locale
