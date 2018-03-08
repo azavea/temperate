@@ -23,10 +23,13 @@ export {
   PrecipitationUnits,
   TemperatureUnits
 } from './constants/units-conversion';
+export { OrgRiskDirectionalOption } from './models/org-risk-directional-option.model';
 export {
-  OrgRiskDirectionalOption,
-  OrgRiskDirectionalOptions
-} from './models/org-risk-directional-option.model';
+  OrgRiskDirectionalFrequencyOptions
+} from './models/org-risk-directional-frequency-options.model';
+export {
+  OrgRiskDirectionalIntensityOptions
+} from './models/org-risk-directional-intensity-options.model';
 
 export {
   OrgRiskRelativeOption,

@@ -12,11 +12,11 @@
       <button class="button button-icon-only icon-edit" goToStep="0" title="Edit fields"></button>
     </div>
     <div class="review-item">
-      <span class="answer-label">Hazard:</span> 
+      <span class="answer-label">Hazard:</span>
       {{ risk.weather_event?.name || "--" }}
     </div>
     <div class="review-item">
-      <span class="answer-label">Community system at risk:</span> 
+      <span class="answer-label">Community system at risk:</span>
       {{ risk.community_system?.name || "--" }}
     </div>
   </section>
@@ -32,11 +32,11 @@
     </div>
     <div class="review-item">
       <span class="answer-label">Frequency over the next five years: </span>
-      {{ directionalOptions.get(risk.frequency)?.label || "--" }}
+      {{ frequencyOptions.get(risk.frequency)?.label || "--" }}
     </div>
     <div class="review-item">
       <span class="answer-label">Intensity over the next five years: </span>
-      {{ directionalOptions.get(risk.intensity)?.label || "--" }}
+      {{ intensityOptions.get(risk.intensity)?.label || "--" }}
     </div>
   </section>
 
@@ -82,8 +82,8 @@
 
 <footer class="step-footer">
   <div class="step-footer-navigation">
-    <button type="button" class="button button-primary"  
-        [disabled]="isDisabled" 
+    <button type="button" class="button button-primary"
+        [disabled]="isDisabled"
         (click)="finish()">Finish</button>
   </div>
 </footer>
