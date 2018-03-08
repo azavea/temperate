@@ -15,8 +15,6 @@ export class PasswordResetFormComponent {
 
   public errors: any = {};
 
-  @Output() closed: EventEmitter<string> = new EventEmitter();
-
   constructor(private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute) {}
@@ -25,16 +23,11 @@ export class PasswordResetFormComponent {
     const token: string = this.route.snapshot.paramMap.get('token');
     this.authService.resetPassword(token, this.password1, this.password2).subscribe(
       (data) => {
-        this.closeModal();
+        this.router.navigate(['/login'], {queryParams: {reset: true}});
       },
       (errors) => {
         this.errors = errors.json().errors;
       }
     );
-  }
-
-  closeModal() {
-    this.router.navigate(['/']);
-    this.closed.emit('closed');
   }
 }
