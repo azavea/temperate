@@ -7,16 +7,16 @@ from django.db import migrations
 
 
 def align_org_weather_events(apps, schema_editor):
-        """Populate the sites model"""
+        """Populate the organization weather events from associated risks"""
         OrganizationWeatherEvent = apps.get_model('planit_data', 'OrganizationWeatherEvent')
         OrganizationRisk = apps.get_model('planit_data', 'OrganizationRisk')
 
         OrganizationWeatherEvent.objects.all().delete()
 
-        all_risks = (OrganizationRisk.objects.all().values(
-                     'organization_id',
-                     'weather_event_id'
-                     ).order_by('organization_id').distinct())
+        all_risks = (OrganizationRisk.objects.filter(
+                        weather_event__isnull=False
+                     ).values('organization_id', 'weather_event_id')
+                      .order_by('organization_id').distinct())
         for organization_id, org_risks in groupby(all_risks, lambda r: r['organization_id']):
             OrganizationWeatherEvent.objects.bulk_create(
                 OrganizationWeatherEvent(
