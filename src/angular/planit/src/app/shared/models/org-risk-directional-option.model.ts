@@ -1,6 +1,6 @@
 export enum OrgRiskDirectionalOption {
-  NotSure= 'not sure',
-  NoChange = 'no change',
   Decreasing = 'decreasing',
-  Increasing = 'increasing'
+  NoChange = 'no change',
+  Increasing = 'increasing',
+  NotSure= 'not sure'
 }
