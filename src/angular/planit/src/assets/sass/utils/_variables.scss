@@ -138,7 +138,7 @@ $icon-font-family: temperate;
 
 $heading-line-height: 1.1;
 $heading-font-color: $neutral-5;
-$heading-font-weight: $font-weight-bold;
+$heading-font-weight: $font-weight-regular;
 $heading-font-family: National, Arial, sans-serif;
 $heading-margin-bottom: 1.4rem;
 
@@ -313,12 +313,13 @@ $popover-arrow: 8px;
 
 
 /* * * *
- * chart
+ * Chart
  *
  * * * */
 
 $chart-line: $brand-teal;
 $chart-minmax: $chart-line;
+$chart-minmax-outline: 1px solid $neutral-2;
 $chart-trendline: $brand-persimmon;
 $chart-min-bar: $neutral-5;
 $chart-max-bar: $brand-turmeric;
@@ -326,6 +327,10 @@ $chart-axis: $neutral-4;
 $chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
 $color-header: $neutral-5;
+$chart-toggle-label-weight: $font-weight-bold;
+$chart-legend-text-size: $text-small;
+$chart-legend-datasets-text-size: $text-tiny;
+$chart-legend-datasets-border-top: 1px solid $neutral-1;
 
 
 /* * * *

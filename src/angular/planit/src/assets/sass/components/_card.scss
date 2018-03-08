@@ -31,7 +31,7 @@
 .card-header {
   display: flex;
   align-items: center;
-  padding: $space-medium $space-large;
+  padding: $space-tiny;
   border-radius: $card-border-radius;
 }
 
@@ -48,12 +48,15 @@
   box-shadow: none;
   border: none;
   background: $card-toggle-background;
+  padding: $space-large $space-small $space-large $space-large;
   width: 100%;
 
   &:hover, &:active, &:hover:focus {
-    color: $brand-primary;
+    color: $brand-black;
+    background: $brand-teal-v-light;
+    
     .card-title {
-      color: $brand-primary;
+      color: $brand-black;
     }
   }
 
@@ -61,29 +64,16 @@
     border-radius: $border-radius;
     @include button-focus-outline();
   }
+
   .icon-accordion {
-    font-size: $text-large;
+    font-size: $text-small;
   }
 }
 
 .card-title {
+  color: $neutral-4;
+  font-size: $text-base;
   margin-bottom: 0;
-}
-
-.card-title-button {
-  padding: 0;
-  margin-right: 1rem;
-  font-size: $text-medium;
-  color: $brand-primary;
-  transition: color $speed-normal;
-
-  &:hover, &:active, &:hover:focus, &:active:focus {
-    color: darken( $brand-primary, 20% );
-  }
-
-  &:focus {
-    @include button-focus-outline();
-  }
 }
 
 .card-empty {

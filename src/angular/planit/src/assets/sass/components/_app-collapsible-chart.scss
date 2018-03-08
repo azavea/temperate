@@ -19,8 +19,8 @@ app-collapsible-chart {
     }
 
     span {
-      font-size: $text-tiny;
-      margin-bottom: $space-small;
+      margin-bottom: 0.25rem;
+      font-weight: $chart-toggle-label-weight;
     }
 
     button {
@@ -32,6 +32,26 @@ app-collapsible-chart {
         @include button-focus-outline();
       }
     }
+  }
+
+  .optional-parameters-label {
+    font-weight: $font-weight-bold;
+  }
+
+  .chart-legend {
+    font-size: $chart-legend-text-size;
+    padding: 0 0 $space-medium 0;
+
+    &.chart-legend-datasets {
+      font-size: $chart-legend-datasets-text-size;
+      border-top: $chart-legend-datasets-border-top;
+      padding-top: $space-medium;
+      padding-bottom: $space-xlarge;
+    }
+  }
+
+  .chart {
+    width: 100%;
   }
 }
 
@@ -52,30 +72,23 @@ app-indicator-chart {
     > * {
       flex: 0 1 auto;
       width: auto;
-      margin: $space-small $space-base $space-small 0;
+      margin: 0 $space-base 0 0;
+    }
+  }
+
+  .dropdown {
+    i.caret {
+      padding-left: 0.5rem;
     }
   }
 
   input[type="number"] {
     width: 5rem;
-    height: 3.4rem;
-    margin-top: 0.3rem;
-    padding-left: 0.75rem;
-    box-shadow: none;
-    border-radius: $field-border-radius;
-    border: 1px solid $neutral-2;
-
-    &:focus {
-      box-shadow: none;
-      @include button-focus-outline();
-    }
+    margin-right: $space-small;
+    margin-left: $space-small;
   }
 
-  .optional-parameters-label {
-    color: $neutral-5;
-  }
-
-  .chart {
-    width: 100%;
+  select {
+    font-variant: tabular-nums;
   }
 }

@@ -11,15 +11,7 @@
                 [unit]="unit">
             </ccc-line-graph>
         </div>
-        <div class="chart-legend">
-            <div class="chart-legend-icons">
-                <span><span class="icon-minus chart-legend-line"></span> {{ unit }}</span>
-                <span><span class="chart-legend-minmax"></span> Range between min/max of selected models</span>
-            </div>
-            <div class="chart-legend-description">
-                {{ indicator.description }}
-            </div>
-        </div>
+
         <div class="chart-options slider">
             <div class="chart-options-body">
                 <nouislider class="chart-options-group"
@@ -29,7 +21,18 @@
                 </nouislider>
             </div>
         </div>
+
         <div class="chart-legend">
+            <div class="chart-legend-icons">
+                <span><span class="chart-legend-line"></span> {{ unit }}</span>
+                <span><span class="chart-legend-minmax"></span> Range between min/max of selected models</span>
+            </div>
+            <div class="chart-legend-description">
+                {{ indicator.description }}
+            </div>
+        </div>
+
+        <div class="chart-legend chart-legend-datasets">
             <span *ngIf="dataset.name === 'NEX-GDDP'">Derived from the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP) dataset. Data available at <a target="_blank" href="https://nex.nasa.gov/nex/projects/1356/">https://nex.nasa.gov/nex/projects/1356/<i class="icon-link-ext-alt"></i></a>.</span>
             <span *ngIf="dataset.name === 'LOCA'">Downscaled from CMIP5, using the Localized Constructed Analogs (LOCA) statistical technique. Data available at <a target="_blank" href="http://loca.ucsd.edu">loca.ucsd.edu<i class="icon-link-ext-alt"></i></a>.</span>
         </div>

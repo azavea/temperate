@@ -1,6 +1,7 @@
 .top-concerns {
   display: flex;
   flex-wrap: wrap;
+  padding: 0;
 }
 
 .concern-name {
@@ -11,9 +12,9 @@
 }
 
 .concern {
+  background-color: $white;
   border: $concern-border;
   border-radius: $border-radius;
-  position: relative;
   flex: 0 0 32.66%;
   margin: 0.33%;
   position: relative;
@@ -36,7 +37,7 @@
     top: 0; right: 0; bottom: 2rem; right: 0;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 125px;
+    background-size: 60%;
   }
 
   .icon-lock {

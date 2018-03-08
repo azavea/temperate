@@ -203,11 +203,13 @@ app-chart {
   .chart-actions {
     text-align: right;
     padding: 0.8rem 0;
+
     .button {
       float: left;
       margin-right: 3px;
       padding-top: .5rem;
       padding-bottom: .5rem;
+
       &:after {
         content: "";
         border-right: 1px solid $neutral-2;
@@ -215,6 +217,7 @@ app-chart {
         right: -4px;
         bottom: 2px;
       }
+
       &:last-child {
         &:after {
           border-width: 0;
@@ -224,7 +227,6 @@ app-chart {
   }
 
   .axis {
-
     color: $chart-axis;
     opacity: .5;
 
@@ -240,7 +242,6 @@ app-chart {
   }
 
   .grid {
-
     line {
       stroke: $chart-grid;
       stroke-width: 1;
@@ -332,4 +333,8 @@ app-chart {
       }
     }
   }
+}
+
+ccc-scenario-toggle {
+  font-variant-numeric: tabular-nums;
 }

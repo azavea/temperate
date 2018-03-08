@@ -1,46 +1,75 @@
-section:not(:last-child) {
-  margin-bottom: 4rem;
-}
-
-.indicator-filters {
-  .filter-header {
-    display:flex;
-    align-items: center;
-    justify-content: space-between;
+app-indicators {
+  .main-container .main-content {
+    max-width: 92rem;
   }
 
-  .card-container > .card {
-    display: flex;
-    flex: 1 0;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    margin: 0.25rem;
-    box-shadow: none;
-    text-align: center;
-    border: 1px solid $neutral-1;
+  .indicator-filters {
+    margin-bottom: $space-large;
 
-    .icon {
-      font-size: $text-jumbo;
+    .button-group {
+      flex-wrap: wrap;
+
+      .button {
+        margin-bottom: $space-tiny;
+        flex: 0 0 auto;
+      }
     }
 
-    &:hover, &.active {
-      color: $neutral-5;
-      cursor: pointer;
-      background-color: $neutral-1;
-      border: 1px solid $neutral-2;
-    }
+    .filter-header {
+      margin-bottom: 0.35rem;
 
-    &.active {
-      outline: 4px solid $neutral-2;
-      outline-offset: -4px;
-    }
+      label {
+        margin-right: $space-medium;
+      }
 
-    &:focus {
-      box-shadow: none;
-      background-color: $neutral-1;
-      @include button-focus-outline();
+      .reset-button {
+        margin-left: $space-large;
+      }
     }
   }
+
+  .concern {
+    pointer-events: none;
+    flex: 0 0 100%;
+    margin-bottom: 0.5%;
+
+    &:before {
+      content: "";
+      display: block;
+      padding-top: 30%;
+    }
+    
+    .concern-content {
+      top: 1rem;
+      right: 2rem;
+      bottom: 1rem;
+      left: 2rem;
+      background-position: left;
+      background-size: 20%;
+    }
+
+    .concern-data {
+      top: 50%;
+      left: 20%;
+      bottom: auto;
+      transform: translateY(-50%);
+      margin-left: 4rem;
+    }
+
+    .concern-name {
+      text-align: left;
+    }
+
+    @media screen and (min-width: 25.938em) {
+      flex: 0 0 49%;
+      margin: 0.5%;
+    }
+
+    @media screen and (min-width: 40.625em) {
+      flex: 0 0 32.66%;
+      margin: 0.33%;
+    }
+
+  }
 }
+
