@@ -13,7 +13,8 @@ export class PlanAuthGuard implements CanActivate {
               private userService: UserService,
               private router: Router) {}
 
-  // When applied, an app route is only available to authenticated users whose org has a plan.
+  // When applied, an app route is only available to authenticated users whose org has a plan,
+  // with exception of the create org and create plan wizards
   // If logged in, but user's primary organization has no plan set up yet, show plan wizard.
   // Otherwise, the user is redirected to the public marketing page.
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
@@ -23,6 +24,10 @@ export class PlanAuthGuard implements CanActivate {
         if (user.primary_organization) {
           const org = new Organization(user.primary_organization);
           if (org.hasPlan()) {
+            if (route.url[0].path === 'create-organization' || route.url[0].path === 'plan') {
+              this.router.navigate(['/dashboard']);
+              return false;
+            }
             return true;
           } else if (route.url[0].path !== 'plan') {
             // direct user to create organization plan, if one not set up yet
