@@ -20,7 +20,7 @@ app-collapsible-chart {
 
     span {
       margin-bottom: 0.25rem;
-      font-weight: $font-weight-bold;
+      font-weight: $chart-toggle-label-weight;
     }
 
     button {
@@ -39,13 +39,14 @@ app-collapsible-chart {
   }
 
   .chart-legend {
-    font-size: $text-small;
-    padding: 0 0 1rem 0;
+    font-size: $chart-legend-text-size;
+    padding: 0 0 $space-medium 0;
 
     &.chart-legend-datasets {
-      font-size: $text-tiny;
-      border-top: 1px solid $neutral-1;
-      padding-top: 1rem;
+      font-size: $chart-legend-datasets-text-size;
+      border-top: $chart-legend-datasets-border-top;
+      padding-top: $space-medium;
+      padding-bottom: $space-xlarge;
     }
   }
 
