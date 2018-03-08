@@ -19,4 +19,6 @@ Optional. Ancillary topics, caveats, alternative strategies that didn't work out
  * Include any setup required, such as bundling scripts, restarting services, etc.
  * Include test case, and expected output
 
+ - [ ] Is the "[Unreleased]" section of the CHANGELOG.md updated with appropriate notes for this PR?
+
 Closes #XXX
