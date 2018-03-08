@@ -54,7 +54,7 @@ export class Organization {
       return 0;
     }
     const now = new Date();
-    return this.subscription_end_date.getTime() - now.getTime()
+    return this.subscription_end_date.getTime() - now.getTime();
   }
 
   public trialDaysRemaining() {
