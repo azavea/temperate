@@ -1,87 +1,90 @@
-
-<button type="button" class="button button-modal-close action-picker-content"
-        (click)="closeModal()" aria-label="Close">
-        <i class="icon-cancel-circled2"></i>
-</button>
-
 <!-- "How do you want to start?" prompt -->
-<div class="action-picker-prompt" *ngIf="showPrompt && suggestedActions.length > 0">
-  <div class="modal-header action-picker-content">
-    <h1 class="action-picker-header">How do you want to start?</h1>
-  </div>
-  <div class="container">
-    <div class="row justify-content-md-center action-picker-body">
-      <div class="modal-body col-5" (click)="showPrompt = false">
-        <div class="action-picker-prompt-title action-picker-content">
-          <i class="icon-lightbulb"></i>
-          <h2>Begin from suggested actions</h2>
-        </div>
-        <p class="action-picker-content">We've gathered actions that some cities have undertaken over the years and will recommend some for you to start from!</p>
-        <button class="button button-primary">Recommended!</button>
+<div class="action-picker" *ngIf="showPrompt && suggestedActions.length > 0">
+  <header class="modal-header">
+    <h1 class="modal-title">Take action</h1>
+    <button type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="closeModal()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
+  <div class="modal-body">
+    <div class="suggested-actions-cta">
+      <div class="suggested-actions-overview">
+        <div class="recommended">Recommended</div>
+        <h2 class="title">Begin with suggested actions</h2>
+        <p class="description">We&apos;ve gathered actions that some cities have undertaken over the years and will recommend some for you to start with.</p>
       </div>
+      <button class="button button-positive suggested-actions-button" (click)="showPrompt = false">
+        Get started
+      </button>
     </div>
-    <div class="modal-footer">
-      <a (click)="goToWizard()">Or, start from scratch</a>
-    </div>
+    <footer class="modal-footer">
+      <button class="button-link" (click)="goToWizard()">No thanks. I&apos;ll start from scratch.</button>
+    </footer>
   </div>
 </div>
 
 <!-- Alternate prompt when no actions were found -->
-<div class="action-picker-none" *ngIf="showPrompt && suggestedActions.length === 0">
-  <div class="modal-header action-picker-content">
-    <h1 class="action-picker-header">Develop a custom action step</h1>
-  </div>
-  <div class="container">
-    <div class="row justify-content-md-center action-picker-body">
-      <div class="modal-body">
-        <p class="action-picker-content">Sorry, we couldn't find any actions that matched this risk.
-                                         You can still develop a custom action step that addresses this risk.</p>
-      </div>
-    </div>
-    <div class="modal-footer">
+<div class="action-picker" *ngIf="showPrompt && suggestedActions.length === 0">
+  <header class="modal-header">
+    <h1 class="modal-title">Develop a custom action step</h1>
+    <button type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="closeModal()">
+      <i class="icon-cancel"></i>
+    </button>
+  </header>
+  <div class="modal-body">
+    <p class="no-suggested-actions">
+      Sorry, we couldn&apos;t find any actions that matched this risk.
+      You can still develop a custom action step that addresses this risk.
+    </p>
+    <footer class="modal-footer">
       <button class="button button-primary" (click)="goToWizard()">Get started</button>
-      <button class="button button-default" (click)="closeModal()">Cancel</button>
-    </div>
+    </footer>
   </div>
 </div>
 
 <!-- action picker (second dialog) -->
 <div class="action-picker" *ngIf="!showPrompt">
-  <div class="action-picker-header">
-    <h1>Suggested actions</h1>
-    <p>Actions below were chosen for you based on your region and the selected hazard and/or community system.</p>
+  <div class="modal-header">
+    <h1 class="modal-title">Suggested actions</h1>
+    <button type="button"
+      class="button button-large button-icon button-inverse-dark modal-close"
+      aria-label="Close" (click)="closeModal()">
+      <i class="icon-cancel"></i>
+    </button>
   </div>
-  <div class="container">
-    <div class="row justify-content-md-center suggested-action" *ngFor="let suggestion of suggestedActions">
-      <div class="modal-body col-5">
-        Action
-        <h2>{{suggestion.name}}</h2>
+  <div class="modal-body">
+    <p class="suggested-actions-description">Actions below were chosen for you based on your region and the selected hazard and/or community system.</p>
+    <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
+      <div class="action-main">
+        <h2 class="action-name">{{suggestion.name}}</h2>
+        <p *ngIf="suggestion.plan_name && !suggestion.plan_hyperlink" class="action-source">
+          Source: {{ suggestion.plan_name }}
+        </p>
+        <p *ngIf="suggestion.plan_name && suggestion.plan_hyperlink" class="action-source">
+          Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+        </p>
         <button class="button button-primary"
                 (click)="goToWizard(suggestion)">Choose and customize</button>
       </div>
-      <div class="modal-body col-5" class="pull-right action-metadata">
-        <p>City: {{ suggestion.plan_city }}</p>
-        <p *ngIf="suggestion.plan_due_date">
+      <ul class="action-metadata-list">
+        <li class="action-metadata-item">City: {{ suggestion.plan_city }}</li>
+        <li class="action-metadata-item" *ngIf="suggestion.plan_due_date">
           Date planned: {{ suggestion.plan_due_date | date: 'longDate' }}
-        </p>
-        <p *ngIf="suggestion.plan_name">
-          <span *ngIf="!suggestion.plan_hyperlink">
-            Source: {{ suggestion.plan_name }}
-          </span>
-          <span *ngIf="suggestion.plan_hyperlink">
-            Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
-          </span>
-        </p>
-        <p *ngIf="suggestion.categories?.length">
+        </li>
+        <li class="action-metadata-item" *ngIf="suggestion.categories?.length">
           Categories: <i *ngFor="let category of suggestion.categories"
            class="{{ category.icon }}"
            tooltip="{{ category.name }}"
            placement="bottom"></i>
-        </p>
-      </div>
+        </li>
+      </ul>
     </div>
     <div class="modal-footer">
-      <button class="button" (click)="goToWizard()">Nevermind, I'll start from scratch</button>
+      <button class="button-link" (click)="goToWizard()">No thanks. I&apos;ll start from scratch.</button>
     </div>
   </div>
 </div>

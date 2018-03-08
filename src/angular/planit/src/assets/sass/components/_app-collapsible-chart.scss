@@ -5,13 +5,18 @@ app-collapsible-chart {
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
+    justify-content: flex-start;
     padding: $space-small 0;
   }
+
   .chart-controls > .chart-toggle {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    margin: $space-small $space-xlarge $space-small 0;
+
+    &:not(:last-child) {
+      margin-right: $space-medium;
+    }
 
     span {
       font-size: $text-tiny;
@@ -19,6 +24,9 @@ app-collapsible-chart {
     }
 
     button {
+      padding-right: $space-large;
+      padding-left: $space-large;
+
       &:focus {
         box-shadow: none;
         @include button-focus-outline();
