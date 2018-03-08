@@ -59,7 +59,7 @@ export class Organization {
 
   public trialDaysRemaining() {
     const oneDayMillis = 1000 * 60 * 60 * 24;
-    const daysRemaining = Math.ceil(this.trialMillisRemaining() / oneDayMillis);
+    const daysRemaining = Math.floor(this.trialMillisRemaining() / oneDayMillis);
     return Math.max(daysRemaining, 1);
   }
 
