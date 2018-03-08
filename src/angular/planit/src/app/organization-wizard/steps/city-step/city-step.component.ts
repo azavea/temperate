@@ -112,10 +112,10 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     const savedName = this.city ? this.getDisplayName(this.city) : null;
     const formName = this.form.controls.location.value;
 
-    if (savedName !== formName) {
-      this.form.controls.location.setValue('');
+    if (formName && savedName !== formName) {
       this.city = null;
       this.noResults = false;
+      this.form.controls.location.setErrors({city: 'City not found.'});
     }
   }
 

@@ -20,14 +20,24 @@
              [typeaheadWaitMs]="100"
              [typeaheadOptionsInScrollableView]="5">
       <div class="form-control-hint">
-        <app-add-city-modal></app-add-city-modal>
+        <div *ngIf="!form.controls.location.errors || !form.controls.location.errors.city">
+          <div *ngIf="noResults">No results found.</div>
+          Please note that we only have US cities at this time...
+          <app-add-city-modal>Not seeing yours?</app-add-city-modal>
+        </div>
+        <div *ngIf="form.controls.location.errors && form.controls.location.errors.city">
+          Please select an available city or
+          <app-add-city-modal>request that we add one.</app-add-city-modal>
+        </div>
       </div>
-      <div class="form-control-error" *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
-        <span *ngIf="noResults">No results found</span>
-        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">This is a required field.</span>
+      <div class="form-control-error"
+           *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
+        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">
+          This is a required field.</span>
         <span *ngIf="form.controls.location.errors.server">
-          *{{ form.controls.location.errors.server }}
-        </span>
+          *{{ form.controls.location.errors.server }}</span>
+        <span *ngIf="form.controls.location.errors.city">
+          *{{ form.controls.location.errors.city }}</span>
       </div>
   </div>
   <div class="form-control-container">
@@ -36,7 +46,7 @@
              formControlName="name"
              type="text">
       <div class="form-control-hint">e.g. Ecology Action Center. If you work from more than one department, just pick one.</div>
-      <div class="form-control-error" *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
+      <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">This is a required field.</span>
         <span *ngIf="form.controls.name.errors.server">
           *{{ form.controls.name.errors.server }}
