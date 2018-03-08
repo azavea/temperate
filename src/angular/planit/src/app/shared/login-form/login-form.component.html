@@ -37,9 +37,16 @@
 </div>
 <div class="modal-footer">
   <div class="button-group">
-    <input type="submit" class="button button-primary button-small"
-        (click)="submit()" value="Log In" form="form-login">
-    <input type="submit" class="button button-primary button-small" value="Forgot password" form="form-login"
-           routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
+    <input type="submit" class="button button-primary button"
+        (click)="submit()" value="Log in" form="form-login">
+  </div>
+  <div class="button-group">
+    <a routerLink="/register">
+      Don't have an account?
+    </a>
+    &ndash;
+    <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
+      Forgot password?
+    </a>
   </div>
 </div>
