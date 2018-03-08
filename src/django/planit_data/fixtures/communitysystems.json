@@ -100,7 +100,7 @@
     "pk": 13,
     "fields": {
         "name": "Forestry",
-        "display_class": ""
+        "display_class": "icon-forestry"
     }
 },
 {

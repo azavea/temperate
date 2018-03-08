@@ -261,7 +261,7 @@
         "name": "Rain storms",
         "coastal_only": false,
         "concern": 21,
-        "display_class": "",
+        "display_class": "icon-rain-storm",
         "indicators": [
             9,
             22,
@@ -276,7 +276,7 @@
         "name": "Extreme winter conditions",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-extreme-winter-conditions",
         "indicators": [
             1,
             3,
@@ -339,7 +339,7 @@
         "name": "Monsoon",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-monsoon",
         "indicators": []
     }
 },
@@ -350,7 +350,7 @@
         "name": "Hail",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-hail",
         "indicators": []
     }
 },
@@ -361,7 +361,7 @@
         "name": "Severe wind",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-severe-wind",
         "indicators": []
     }
 },
@@ -372,7 +372,7 @@
         "name": "Tornado",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-tornado",
         "indicators": []
     }
 },
@@ -383,7 +383,7 @@
         "name": "Tropical storm",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-tropical-storm",
         "indicators": [
             9
         ]
@@ -396,7 +396,7 @@
         "name": "Extratropical storm",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-extratropical-storm",
         "indicators": [
             9
         ]
@@ -409,7 +409,7 @@
         "name": "Fog",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-fog",
         "indicators": []
     }
 },
@@ -420,7 +420,7 @@
         "name": "Permanent inundation",
         "coastal_only": true,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-permanent-inundation",
         "indicators": []
     }
 },
@@ -431,7 +431,7 @@
         "name": "Atmospheric CO2 concentrations",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-atmospheric-co2-concentrations",
         "indicators": []
     }
 },
@@ -442,7 +442,7 @@
         "name": "Avalanche",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-avalanche",
         "indicators": []
     }
 },
@@ -453,7 +453,7 @@
         "name": "Rockfall",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-rockfall",
         "indicators": []
     }
 },
@@ -464,7 +464,7 @@
         "name": "Water-borne disease",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-water-borne-disease",
         "indicators": []
     }
 },
@@ -475,7 +475,7 @@
         "name": "Air-borne disease",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-air-borne-disease",
         "indicators": []
     }
 },
@@ -486,7 +486,7 @@
         "name": "Vector-borne disease",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-vector-borne-disease",
         "indicators": []
     }
 },
@@ -497,7 +497,7 @@
         "name": "Insect infestation",
         "coastal_only": false,
         "concern": null,
-        "display_class": "",
+        "display_class": "icon-insect-infestation",
         "indicators": []
     }
 }

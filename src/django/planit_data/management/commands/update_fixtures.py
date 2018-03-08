@@ -20,13 +20,6 @@ FIXTURES = {
         ('actioncategories.json', ['action_steps.actioncategory']),
         ('actiontypes.json', ['action_steps.actiontype']),
         ('collaborators.json', ['action_steps.collaborator']),
-    ],
-    'users': [
-        ('test_organizations.json', ['users.planitorganization',
-                                     'planit_data.organizationrisk',
-                                     'planit_data.organizationaction',
-                                     'planit_data.weatherevent',
-                                     'planit_data.organizationweatherevent'])
     ]
 }
 
