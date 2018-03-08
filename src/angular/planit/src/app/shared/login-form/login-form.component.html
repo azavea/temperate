@@ -37,11 +37,13 @@
   <footer class="modal-footer">
     <button type="submit" class="button button-primary"
         (click)="submit()" form="form-login">Log in</button>
-    <a routerLink="/forgot-password"  class="secondary-link" [queryParams]="username ? {'username': username} : {}">
-      Forgot password?
-    </a>
-    <a routerLink="/register" class="secondary-link">
-      Don't have an account?
-    </a>
+    <div class="secondary-links">
+      <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
+        Forgot password?
+      </a>
+      <a routerLink="/register">
+        Don't have an account?
+      </a>
+    </div>
   </footer>
 </div>

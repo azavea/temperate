@@ -105,7 +105,11 @@
     min-width: $modal-footer-primary-button-min-width;
   }
 
-  .secondary-link {
+  .secondary-links {
     margin-left: $space-xxlarge;
+
+    a {
+      margin-left: $space-xxlarge;
+    }
   }
 }
