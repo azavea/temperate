@@ -76,19 +76,6 @@
   margin-bottom: 0;
 }
 
-// .card-title-button {
-//   padding: 0;
-//   transition: color $speed-normal;
-
-//   &:hover, &:active, &:hover:focus, &:active:focus {
-//     color: darken( $brand-primary, 20% );
-//   }
-
-//   &:focus {
-//     @include button-focus-outline();
-//   }
-// }
-
 .card-empty {
   color: $neutral-4;
   background-color: $neutral-1;
