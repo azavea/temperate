@@ -12,11 +12,11 @@ export const OrgRiskDirectionalFrequencyOptions =
     label: 'No change',
     description: ''
   }],
-  [OrgRiskDirectionalOption.Increasing, {
+  [OrgRiskDirectionalOption.Decreasing, {
     label: 'Less frequent',
     description: ''
   }],
-  [OrgRiskDirectionalOption.Decreasing, {
+  [OrgRiskDirectionalOption.Increasing, {
     label: 'More frequent',
     description: ''
   }]
