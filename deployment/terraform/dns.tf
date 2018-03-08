@@ -7,7 +7,7 @@ data "aws_route53_zone" "external" {
 
 resource "aws_route53_record" "planit_app" {
   zone_id = "${data.aws_route53_zone.external.zone_id}"
-  name    = "app.${data.aws_route53_zone.external.name}"
+  name    = "${data.aws_route53_zone.external.name}"
   type    = "A"
 
   alias {
