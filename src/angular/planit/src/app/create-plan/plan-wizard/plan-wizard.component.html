@@ -4,9 +4,9 @@
       <h1 class="wizard-title-large">Set up your city&rsquo;s plan</h1>
     </header>
     <wizard #wizard
+            class="custom-steps"
             navigationMode="strict"
-            navBarLocation="left"
-            navBarLayout="large-filled-symbols">
+            navBarLocation="left">
       <app-plan-step-due-date class="wizard-step"
                               #dueDateStep
                               wizardStep
@@ -14,6 +14,10 @@
                               (stepEnter)="resetScroll()"
                               stepTitle="{{ dueDateStep.title }}"
                               navigationSymbol="{{ dueDateStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number">1</span>
+          <span class="step-indicator-title">{{ dueDateStep.title }}</span>
+        </ng-template>
       </app-plan-step-due-date>
 
       <app-plan-step-hazards class="wizard-step"
@@ -24,6 +28,10 @@
                              (stepEnter)="resetScroll()"
                              stepTitle="{{ hazardsStep.title }}"
                              navigationSymbol="{{ hazardsStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number">2</span>
+          <span class="step-indicator-title">{{ hazardsStep.title }}</span>
+        </ng-template>
       </app-plan-step-hazards>
 
       <app-plan-step-community-systems class="wizard-step"
@@ -34,6 +42,10 @@
                                        (stepEnter)="resetScroll()"
                                        stepTitle="{{ communitySystemsStep.title }}"
                                        navigationSymbol="{{ communitySystemsStep.navigationSymbol }}">
+        <ng-template wizardStepTitle>
+          <span class="step-indicator-number">3</span>
+          <span class="step-indicator-title">{{ communitySystemsStep.title }}</span>
+        </ng-template>
       </app-plan-step-community-systems>
     </wizard>
   </main>
