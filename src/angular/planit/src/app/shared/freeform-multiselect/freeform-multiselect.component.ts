@@ -35,16 +35,29 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
     }
   }
 
-  public add() {
+  // From the add button, get the value from the model.
+  public onAdd() {
     const selected = this.selected.trim();
+    this.add(selected);
+  }
 
+  // From the enter key, also get the value from the model, but wait a moment in case this
+  // "enter" press triggered a selection, since we then want the onSelect to take precedence
+  // and clear the input.
+  public onEnter() {
+    setTimeout(() => {
+      this.onAdd(); }
+    , 100);
+  }
+
+  // From a typeahead selection, use the event value
+  public onSelect(event: TypeaheadMatch) {
+    this.add(event.item);
+  }
+
+  // Shared logic to store a value, remove it from available options, and clear the input.
+  private add(selected: string) {
     if (!selected) {
-      return;
-    }
-
-    // Don't add text that partially matches an item in the options list
-    if (some(Array.from(this.availableOptions),
-        (opt) => opt.toLowerCase().search(selected.toLowerCase()) !== -1 && selected !== opt )) {
       return;
     }
 
