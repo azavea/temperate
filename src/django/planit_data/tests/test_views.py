@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from action_steps.models import ActionCategory
-from planit_data.views import WeatherEventRankView, PlanExportView
+from planit_data.views import PlanExportView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
@@ -210,7 +210,6 @@ class OrganizationWeatherEventRankViewTestCase(APITestCase):
         georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
 
         org_we = OrganizationWeatherEventFactory(organization=organization)
-        organization.weather_events.add(org_we)
 
         # Create additional WeatherEventRanks for the same georegion that are not associated
         WeatherEventRankFactory.create_batch(2, georegion=georegion)
@@ -218,8 +217,17 @@ class OrganizationWeatherEventRankViewTestCase(APITestCase):
         url = reverse('weather-event-rank-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = WeatherEventRankView.serializer_class([org_we], many=True)
-        self.assertEqual(response.json(), serializer.data)
+        self.assertEqual(len(response.json()), 1)
+        self.assertDictEqual(response.json()[0], {
+            'weather_event': {
+                'id': org_we.weather_event.id,
+                'name': org_we.weather_event.name,
+                'coastal_only': False,
+                'concern': None,
+                'indicators': [],
+                'display_class': ''
+            },
+            'order': org_we.order})
 
 
 class OrganizationRiskTestCase(APITestCase):
