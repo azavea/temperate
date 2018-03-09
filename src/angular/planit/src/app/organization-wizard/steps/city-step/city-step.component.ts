@@ -109,13 +109,18 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
   }
 
   itemBlurred() {
-    const savedName = this.city ? this.getDisplayName(this.city) : null;
-    const formName = this.form.controls.location.value;
+    // Clicking on a suggested option blurs the input, and before `itemSelected` has a chance
+    // to update the value, this will find a mis-match and set an error state. Using a timeout
+    // means `itemSelected` will run first and all will be in order by the time this fires.
+    setTimeout(() => {
+      const savedName = this.city ? this.getDisplayName(this.city) : null;
+      const formName = this.form.controls.location.value;
 
-    if (formName && savedName !== formName) {
-      this.city = null;
-      this.form.controls.location.setErrors({city: true});
-    }
+      if (formName && savedName !== formName) {
+        this.city = null;
+        this.form.controls.location.setErrors({city: true});
+      }
+    }, 100);
   }
 
   onNoResults(noResults) {
