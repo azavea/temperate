@@ -1,17 +1,19 @@
 app-plan-step-hazards,
 app-plan-step-community-systems {
   .concerns-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-
-    p {
+    .concern-title {
       margin-bottom: 0.5rem;
     }
   }
 
   .switch-list-container {
     margin-top: $space-xxlarge;
+  }
+}
+
+app-plan-step-due-date {
+  .date-picker-control {
+    max-width: 12rem;
   }
 }
 

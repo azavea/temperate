@@ -1,17 +1,17 @@
 <div class="step-header">
-  <h2 class="step-title">Top hazards</h2>
-  <p>Select hazards that you believe will have the most impact on your city in the future. The hazards selected here will give you a starting point in Temperate and establish a scope for your plan. You can always add additional hazards later.</p>
+  <h2 class="step-title">Choose your city&rsquo;s top hazards</h2>
+  <p>The hazards selected here will give you a starting point in Temperate and establish a scope for your plan. You can always add additional hazards later.</p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
     <div class="concerns-header">
-      <p class="concern-explanation">Below are hazards that we have pre-selected for you 
+      <h3 class="concern-title">We recommend selecting 3–6 hazards</h3>
+      <p class="concern-explanation">Some hazards are pre-selected based on your city's location 
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.explainHazardConcerns }}">
         </span>
       </p>
-      <span class="form-control-hint">Suggested: 3–6 hazards</span>
     </div>
     <app-add-weather-events formControlName="selectedEvents"></app-add-weather-events>
   </form>

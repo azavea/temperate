@@ -32,9 +32,7 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
   public organization: Organization;
   public title = 'Top hazards';
   public tooltipText = {
-    explainHazardConcerns: 'Based on your location, we have selected ' +
-                     'hazards. For more information, look to our ' +
-                     'Methodology page'
+    explainHazardConcerns: 'See the Methodology page for more information.'
   };
 
   private weatherEvents: WeatherEvent[] = [];
