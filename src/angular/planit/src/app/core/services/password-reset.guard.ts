@@ -10,20 +10,21 @@ export class PasswordResetGuard implements CanActivate {
   constructor(private authService: AuthService,
               private router: Router) {}
   canActivate(route: ActivatedRouteSnapshot) {
+    const uid = route.params['uid'];
     const token = route.params['token'];
-    if (!token) {
+    if (!uid || !token) {
       this.router.navigate(['/']);
       return false;
     }
     // Check for token validity by attempting to reset the password with
     // invalid passwords.
-    return this.authService.resetPassword(token, '', '')
+    return this.authService.resetPassword(uid, token, 'bad', 'password')
       .map(data => {
         return true;
       })
       .catch(error => {
-        const errors = error.json().errors;
-        const tokenValid = errors.non_field_errors === undefined;
+        const errors = error.json();
+        const tokenValid = errors.token === undefined && errors.uid === undefined;
         if (!tokenValid) {
           this.router.navigate(['/login'], {queryParams: {resetExpired: true}});
         }

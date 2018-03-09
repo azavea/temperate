@@ -33,7 +33,7 @@ export class ForgotPasswordPageComponent implements OnInit {
         this.errors = {};
       },
       error => {
-        this.errors = error.json().errors;
+        this.errors = error.json();
       }
     );
   }

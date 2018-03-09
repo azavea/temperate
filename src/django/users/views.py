@@ -1,5 +1,6 @@
 import logging
 
+
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import QueryDict
@@ -7,12 +8,15 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from registration.backends.hmac.views import (
     RegistrationView as BaseRegistrationView,
     ActivationView as BaseActivationView,
+)
+
+from rest_auth.views import (
+    PasswordResetView as AuthPasswordResetView,
+    PasswordResetConfirmView as AuthPasswordResetConfirmView,
 )
 
 from rest_framework import status, mixins
@@ -24,13 +28,18 @@ from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
-from users.serializers import AuthTokenSerializer
 
-from users.forms import (UserForm, UserProfileForm, PasswordResetInitForm,
-                         PasswordResetForm, AddCityForm, InviteUserForm)
+from users.forms import AddCityForm, InviteUserForm, UserForm, UserProfileForm
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
-from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
+from users.serializers import (
+    AuthTokenSerializer,
+    OrganizationSerializer,
+    PasswordResetSerializer,
+    PasswordResetConfirmSerializer,
+    UserSerializer,
+    UserOrgSerializer,
+)
 
 from django.conf import settings
 
@@ -78,25 +87,12 @@ class JsonFormView(APIView):
                         status=400)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class PasswordResetInitView(JsonFormView):
-    permission_classes = (AllowAny, )
-    form_class = PasswordResetInitForm
-
-    def form_valid(self, form):
-        form.send_email()
-        return Response({'status': 'ok'})
+class PasswordResetView(AuthPasswordResetView):
+    serializer_class = PasswordResetSerializer
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class PasswordResetView(JsonFormView):
-    permission_classes = (AllowAny, )
-    form_class = PasswordResetForm
-
-    def form_valid(self, form):
-        form.cleaned_data['user'].set_password(form.cleaned_data['password1'])
-        form.cleaned_data['user'].save()
-        return Response({'status': 'ok'})
+class PasswordResetConfirmView(AuthPasswordResetConfirmView):
+    serializer_class = PasswordResetConfirmSerializer
 
 
 class ActivationView(BaseActivationView):

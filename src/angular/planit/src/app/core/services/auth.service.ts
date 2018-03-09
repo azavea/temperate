@@ -67,11 +67,13 @@ export class AuthService {
     return this.http.post(url, body, options);
   }
 
-  resetPassword(token: string, password1: string, password2: string): Observable<any> {
+  resetPassword(uid: string, token: string, new_password1: string,
+                new_password2: string): Observable<any> {
     const body = JSON.stringify({
+      uid,
       token,
-      password1,
-      password2
+      new_password1,
+      new_password2
     });
     const url = `${environment.apiUrl}/accounts/password_reset/`;
     const headers = new Headers({ 'Content-Type': 'application/json' });
