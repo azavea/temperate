@@ -30,7 +30,6 @@ export class WeatherEventService {
   }
 
   rankedEvents(): Observable<WeatherEvent[]> {
-    const url = `${environment.apiUrl}/api/weather-event-rank/`;
     return this.listForCurrentOrg().map(events => {
       return events.map(e => e.weather_event as WeatherEvent);
     });

@@ -25,7 +25,6 @@ from planit_data.serializers import (
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
-    OrganizationWeatherEventRankSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
     WeatherEventSerializer,
@@ -313,22 +312,4 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
             'name'
         ).prefetch_related(
             'indicators'
-        )
-
-
-class WeatherEventRankView(ReadOnlyModelViewSet):
-
-    permission_classes = [IsAuthenticated]
-    serializer_class = OrganizationWeatherEventRankSerializer
-    pagination_class = None
-    # Explicit permission classes because we use request.user in the view
-
-    def get_queryset(self):
-        org_id = self.request.user.primary_organization_id
-        return OrganizationWeatherEvent.objects.filter(
-            organization_id=org_id
-        ).select_related(
-            'weather_event'
-        ).prefetch_related(
-            'weather_event__indicators'
         )

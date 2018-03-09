@@ -207,12 +207,3 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
-
-
-class OrganizationWeatherEventRankSerializer(serializers.ModelSerializer):
-    """Serialize weather events by rank."""
-    weather_event = WeatherEventWithConcernSerializer()
-
-    class Meta:
-        model = OrganizationWeatherEvent
-        fields = ('weather_event', 'order',)
