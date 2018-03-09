@@ -31,6 +31,14 @@ export class Risk {
     }
   }
 
+  title(): string {
+    const communitySystem = this.community_system && this.community_system.name
+      ? this.community_system.name : '--';
+    const weatherEvent = this.weather_event && this.weather_event.name
+      ? this.weather_event.name : '--';
+    return `${weatherEvent} on ${communitySystem.toLowerCase()}`;
+  }
+
   isAssessed(): boolean {
     return every(this.getAssessmentPropsAsBools());
   }
