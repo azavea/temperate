@@ -1,0 +1,13 @@
+app-top-concerns {
+  .empty-state {
+    &:before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 8rem;
+      margin-bottom: $space-medium;
+      background: url(../images/empty-states/hazard-concerns.svg) no-repeat center;
+      background-size: contain;
+    }
+  }
+}

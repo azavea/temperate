@@ -483,3 +483,15 @@ $review-feedback-list-size: $text-base;
 $review-feedback-icon-size: $text-medium;
 $review-feedback-icon-background: $brand-teal-light;
 $review-feedback-row-background: $white;
+
+
+
+/* * * *
+ * Empty states
+ *
+ * * * */
+$empty-state-background: $neutral-1;
+$empty-state-header-color: $brand-black;
+$empty-state-header-size: $text-base;
+$empty-state-text-style: italic;
+$empty-state-text-max-width: 35rem;

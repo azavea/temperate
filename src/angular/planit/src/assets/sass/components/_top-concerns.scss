@@ -120,6 +120,24 @@
   }
 }
 
+.top-concerns.empty-state {
+  text-align: center;
+  background: $empty-state-background;
+  flex-direction: column;
+  padding: $space-xlarge $space-xxlarge $space-xxlarge;
+
+  .empty-state-header {
+    font-size: $empty-state-header-size;
+    color: $empty-state-header-color;
+  }
+
+  .empty-state-text {
+    font-style: $empty-state-text-style;
+    max-width: $empty-state-text-max-width;
+    margin: 0 auto;
+  }
+}
+
 ///////////////////////
 // Top concern images
 ///////////////////////
