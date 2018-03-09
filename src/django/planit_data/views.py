@@ -121,8 +121,9 @@ class OrganizationRiskView(ModelViewSet):
 
         weather_event_id = request.data['weather_event']
         organization = request.user.primary_organization
-        if not organization.weather_events.filter(id=weather_event_id).exists():
-            weather_event_ids = list(organization.weather_events.values_list('id', flat=True))
+        if not organization.weather_events.filter(weather_event_id=weather_event_id).exists():
+            weather_event_ids = list(
+                organization.weather_events.values_list('weather_event_id', flat=True))
             organization.update_weather_events(weather_event_ids + [weather_event_id])
 
         return response

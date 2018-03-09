@@ -375,6 +375,11 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_organization_risk_adds_weather_event(self):
+        org = self.user.primary_organization
+
+        # Create a pre-existing weather event to sit in the background
+        OrganizationWeatherEventFactory(organization=org)
+
         community_system = CommunitySystemFactory()
         weather_event = WeatherEventFactory()
 
@@ -394,8 +399,9 @@ class OrganizationRiskTestCase(APITestCase):
         url = reverse('organizationrisk-list')
         response = self.client.post(url, data=payload)
 
-        self.assertTrue(self.user.primary_organization.weather_events
-                        .filter(weather_event=weather_event).exists())
+        self.assertTrue(OrganizationWeatherEvent.objects.filter(
+            organization=org,
+            weather_event=weather_event).exists())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_edit_organization_risk(self):
@@ -421,6 +427,10 @@ class OrganizationRiskTestCase(APITestCase):
 
     def test_edit_organization_risk_updates_weather_event(self):
         org = self.user.primary_organization
+
+        # Create a pre-existing weather event to sit in the background
+        OrganizationWeatherEventFactory(organization=org)
+
         org_risk = OrganizationRiskFactory(organization=org)
         OrganizationWeatherEventFactory(
             weather_event=org_risk.weather_event,
@@ -453,6 +463,10 @@ class OrganizationRiskTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_organization_risk_removes_weather_event(self):
+        org = self.user.primary_organization
+        # Create a pre-existing weather event to sit in the background
+        OrganizationWeatherEventFactory(organization=org)
+
         org = self.user.primary_organization
         org_risk = OrganizationRiskFactory(organization=org)
         OrganizationWeatherEventFactory(
