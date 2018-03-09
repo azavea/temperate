@@ -126,9 +126,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
     def get_action(self, obj):
         try:
-            # Need to convert the queryset into a list because prefetch_related causes the related
-            # manager's all() to return a non-iterable QuerySet
-            action = list(obj.organizationaction_set.all())[0]
+            # Use slicing ([0]) instead of .first() to use prefetched data
+            action = obj.organizationaction_set.all()[0]
             return OrganizationActionSerializer(action).data
         except IndexError:
             return None
