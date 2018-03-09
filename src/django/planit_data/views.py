@@ -300,8 +300,6 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
     pagination_class = None
 
     def get_queryset(self):
-        return WeatherEvent.objects.all().order_by(
-            'name'
-        ).prefetch_related(
+        return WeatherEvent.objects.all().prefetch_related(
             'indicators'
-        )
+        ).order_by('name')
