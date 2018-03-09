@@ -182,12 +182,11 @@ class OrganizationWeatherEventTestCase(APITestCase):
 
     def test_list_filters_by_organization(self):
         organization = self.user.primary_organization
-        other_organization = OrganizationFactory(name='Other')
         weather_event = WeatherEventFactory()
         org_we = OrganizationWeatherEventFactory(organization=organization,
                                                  weather_event=weather_event)
-        OrganizationWeatherEventFactory(organization=other_organization,
-                                        weather_event=weather_event)
+        # Create another weather event for a different organization
+        OrganizationWeatherEventFactory(weather_event=weather_event)
 
         url = reverse('organizationweatherevent-list')
         response = self.client.get(url)
