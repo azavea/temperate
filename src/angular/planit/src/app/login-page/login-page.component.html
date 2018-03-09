@@ -4,6 +4,16 @@
       <div *ngIf="activated" class="alert alert-positive">
         Your Temperate account is now active. Login to get started.
       </div>
+      <div *ngIf="alreadyActivated" class="alert alert-positive">
+        Your Temperate account has already been activated. Login to get started.
+        <p>
+          If you cannot log in, you can <a routerLink="/forgot-password">click here to reset your password</a>.
+        </p>
+      </div>
+      <div *ngIf="activationFailed" class="alert alert-warning">
+        <p>Account activation failed.</p>
+        You may not have copied the entire URL into your web browser, or the activation link may have expired. Please try again, or <a routerLink="/register">register for an account</a>.
+      </div>
       <div *ngIf="reset" class="alert alert-positive">
         Your Temperate password was reset. Login to get started.
       </div>
