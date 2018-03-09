@@ -1,5 +1,6 @@
 <div class="input-group" *ngIf="!isDisabled">
   <input class="form-control" placeholder="Type to search. Add new item by clicking the +"
+         (keyup.enter)="add()"
          [attr.id]="inputId"
          autocomplete="off"
          [(ngModel)]="selected"

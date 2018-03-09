@@ -1,3 +1,5 @@
+import * as some from 'lodash.some';
+
 import { Component, Input, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -35,9 +37,17 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
 
   public add() {
     const selected = this.selected.trim();
+
     if (!selected) {
       return;
     }
+
+    // Don't add text that partially matches an item in the options list
+    if (some(Array.from(this.availableOptions),
+        (opt) => opt.toLowerCase().search(selected.toLowerCase()) !== -1 && selected !== opt )) {
+      return;
+    }
+
     this.selectedOptions.add(selected);
     this.availableOptions.delete(this.selected);
     this.onChange(Array.from(this.selectedOptions));
