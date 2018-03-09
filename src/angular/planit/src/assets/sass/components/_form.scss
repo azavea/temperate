@@ -71,7 +71,7 @@ input.ng-invalid {
 select {
   box-shadow: none;
   position: relative;
-  -webkit-appearance: none; 
+  -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   margin: $space-base 0 $space-large;
@@ -117,6 +117,10 @@ textarea {
 .form-control-error, .form-control-hint {
   font-size: $hint-size;
   line-height: 1.35;
+
+  &.form-control-hint-right {
+    float: right;
+  }
 }
 
 .form-control-error {

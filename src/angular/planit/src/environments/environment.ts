@@ -8,5 +8,6 @@ export const environment = {
   // In development the Angular app is served by 'ng serve' so we need
   // an absolute URL for the Django application
   apiUrl: 'http://localhost:8100',
-  heapID: '2972517413'
+  heapID: '2972517413',
+  actionTextMaxLength: 1024
 };

@@ -596,7 +596,7 @@ class OrganizationActionTestCase(APITestCase):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
 
         payload = {
-            'name': '',
+            'name': 'test',
             'action_goal': '',
             'action_type': '',
             'categories': [],
@@ -655,7 +655,7 @@ class OrganizationActionTestCase(APITestCase):
         category = ActionCategory.objects.create()
 
         payload = {
-            'name': '',
+            'name': 'test',
             'action_goal': '',
             'action_type': '',
             'categories': [str(category.id)],

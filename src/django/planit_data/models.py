@@ -176,7 +176,7 @@ class OrganizationAction(models.Model):
                           default=uuid.uuid4,
                           editable=False)
     organization_risk = models.ForeignKey(OrganizationRisk, null=False, on_delete=models.CASCADE)
-    name = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
+    name = models.CharField(max_length=SINGLELINE_MAX_LENGTH)
     action_type = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     action_goal = models.CharField(max_length=SINGLELINE_MAX_LENGTH, blank=True)
     implementation_details = models.TextField(blank=True)
