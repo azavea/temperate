@@ -44,12 +44,12 @@ router.register(r'weather-event', planit_data_views.WeatherEventViewSet,
 router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
                 base_name='organizationweatherevent')
 router.register(r'concern', planit_data_views.ConcernViewSet, base_name='concern')
+router.register(r'weather-event-rank', planit_data_views.WeatherEventRankView,
+                base_name='weather-event-rank')
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
-    url(r'^api/weather-event-rank/$',
-        planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
     url(r'^api/export-plan/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
 
     url(r'^admin/', admin.site.urls),

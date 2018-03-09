@@ -316,15 +316,19 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
         )
 
 
-class WeatherEventRankView(APIView):
+class WeatherEventRankView(ReadOnlyModelViewSet):
 
     permission_classes = [IsAuthenticated]
     serializer_class = OrganizationWeatherEventRankSerializer
     pagination_class = None
     # Explicit permission classes because we use request.user in the view
 
-    def get(self, request, *args, **kwargs):
-        """Return ranked risks based on authenticated user's primary org location."""
-        queryset = request.user.primary_organization.weather_events.all().order_by('order')
-        serializer = self.serializer_class(queryset, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        org_id = self.request.user.primary_organization_id
+        return OrganizationWeatherEvent.objects.filter(
+            organization_id=org_id
+        ).select_related(
+            'weather_event'
+        ).prefetch_related(
+            'weather_event__indicators'
+        )
