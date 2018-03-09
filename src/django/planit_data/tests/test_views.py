@@ -1,7 +1,6 @@
 from urllib.parse import urlencode
 from unittest import mock
 
-from django.contrib.gis.geos import Point
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
@@ -13,12 +12,10 @@ from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
     GeoRegionFactory,
-    OrganizationFactory,
     OrganizationActionFactory,
     OrganizationRiskFactory,
     OrganizationWeatherEventFactory,
-    WeatherEventFactory,
-    WeatherEventRankFactory
+    WeatherEventFactory
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from planit_data.views import SuggestedActionViewSet

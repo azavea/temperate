@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from rest_framework import serializers
 
 from action_steps.models import ActionCategory
