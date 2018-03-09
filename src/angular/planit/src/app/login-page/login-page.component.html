@@ -2,10 +2,10 @@
   <section class="container-standard">
     <div class="container-content">
       <div *ngIf="activated" class="alert alert-positive">
-        Your Temperate account is now active. Login to get started.
+        Your Temperate account is now active. Log in to get started.
       </div>
       <div *ngIf="alreadyActivated" class="alert alert-positive">
-        Your Temperate account has already been activated. Login to get started.
+        Your Temperate account has already been activated. Log in to get started.
         <p>
           If you cannot log in, you can <a routerLink="/forgot-password">click here to reset your password</a>.
         </p>
@@ -15,7 +15,7 @@
         You may not have copied the entire URL into your web browser, or the activation link may have expired. Please try again, or <a routerLink="/register">register for an account</a>.
       </div>
       <div *ngIf="reset" class="alert alert-positive">
-        Your Temperate password was reset. Login to get started.
+        Your Temperate password was reset. Log in to get started.
       </div>
       <div *ngIf="resetExpired" class="alert alert-warning">
         Sorry, your password reset link has expired.
