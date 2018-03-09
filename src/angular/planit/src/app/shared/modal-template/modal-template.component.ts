@@ -27,7 +27,9 @@ export class ModalTemplateComponent {
   }
 
   public close() {
-    this.modalRef.hide();
+    if (this.modalRef) {
+      this.modalRef.hide();
+    }
   }
 
   public get isCloseVisible() {
