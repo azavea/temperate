@@ -1,40 +1,42 @@
-<div *ngIf="!wizardComplete">
-  <div class="plan-wizard-header">
-    <h2>Set up your city's plan</h2>
-  </div>
-  <wizard #wizard
-          navigationMode="strict"
-          navBarLocation="left"
-          navBarLayout="large-filled-symbols">
-    <app-plan-step-due-date class="wizard-step"
-                            #dueDateStep
-                            wizardStep
-                            [canExit]="dueDateStep.save"
-                            (stepEnter)="resetScroll()"
-                            stepTitle="{{ dueDateStep.title }}"
-                            navigationSymbol="{{ dueDateStep.navigationSymbol }}">
-    </app-plan-step-due-date>
+<div class="main-container" *ngIf="!wizardComplete">
+  <main class="main-content wizard-container" role="main">
+    <header class="wizard-header">
+      <h1 class="wizard-title-large">Set up your city&rsquo;s plan</h1>
+    </header>
+    <wizard #wizard
+            navigationMode="strict"
+            navBarLocation="left"
+            navBarLayout="large-filled-symbols">
+      <app-plan-step-due-date class="wizard-step"
+                              #dueDateStep
+                              wizardStep
+                              [canExit]="dueDateStep.save"
+                              (stepEnter)="resetScroll()"
+                              stepTitle="{{ dueDateStep.title }}"
+                              navigationSymbol="{{ dueDateStep.navigationSymbol }}">
+      </app-plan-step-due-date>
 
-    <app-plan-step-hazards class="wizard-step"
-                           #hazardsStep
-                           wizardStep
-                           optionalStep
-                           [canExit]="hazardsStep.save"
-                           (stepEnter)="resetScroll()"
-                           stepTitle="{{ hazardsStep.title }}"
-                           navigationSymbol="{{ hazardsStep.navigationSymbol }}">
-    </app-plan-step-hazards>
+      <app-plan-step-hazards class="wizard-step"
+                             #hazardsStep
+                             wizardStep
+                             optionalStep
+                             [canExit]="hazardsStep.save"
+                             (stepEnter)="resetScroll()"
+                             stepTitle="{{ hazardsStep.title }}"
+                             navigationSymbol="{{ hazardsStep.navigationSymbol }}">
+      </app-plan-step-hazards>
 
-    <app-plan-step-community-systems class="wizard-step"
-                                     #communitySystemsStep
-                                     wizardCompletionStep
-                                     enableBackLinks
-                                     (wizardCompleted)="onWizardCompleted($event)"
-                                     (stepEnter)="resetScroll()"
-                                     stepTitle="{{ communitySystemsStep.title }}"
-                                     navigationSymbol="{{ communitySystemsStep.navigationSymbol }}">
-    </app-plan-step-community-systems>
-  </wizard>
+      <app-plan-step-community-systems class="wizard-step"
+                                       #communitySystemsStep
+                                       wizardCompletionStep
+                                       enableBackLinks
+                                       (wizardCompleted)="onWizardCompleted($event)"
+                                       (stepEnter)="resetScroll()"
+                                       stepTitle="{{ communitySystemsStep.title }}"
+                                       navigationSymbol="{{ communitySystemsStep.navigationSymbol }}">
+      </app-plan-step-community-systems>
+    </wizard>
+  </main>
 </div>
 <div *ngIf="wizardComplete" class="wizard-done">
   <div class="loading-wrapper">
