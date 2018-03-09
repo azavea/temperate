@@ -5,40 +5,41 @@
 <div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label>City</label>
-      <input class="form-control"
-             formControlName="location"
-             autocomplete="off"
-             typeaheadOptionField="properties.displayName"
-             (typeaheadOnSelect)="itemSelected($event)"
-             (typeaheadOnBlur)="itemBlurred()"
-             (typeaheadNoResults)="onNoResults()"
-             (blur)="itemBlurred()"
-             (keyup)="onKey($event)"
-             [typeahead]="cities"
-             [typeaheadMinLength]="1"
-             [typeaheadScrollable]="true"
-             [typeaheadWaitMs]="100"
-             [typeaheadOptionsInScrollableView]="5">
-      <div class="form-control-hint">
+    <input class="form-control"
+            formControlName="location"
+            autocomplete="off"
+            typeaheadOptionField="properties.displayName"
+            (typeaheadOnSelect)="itemSelected($event)"
+            (typeaheadOnBlur)="itemBlurred()"
+            (typeaheadNoResults)="onNoResults($event)"
+            (blur)="itemBlurred()"
+            [typeahead]="cities"
+            [typeaheadMinLength]="1"
+            [typeaheadScrollable]="true"
+            [typeaheadWaitMs]="100"
+            [typeaheadOptionsInScrollableView]="5">
+    <div class="form-control-hint">
+      <div *ngIf="noResults">
+        Please select an available city or
+        <app-add-city-modal>request that we add one.</app-add-city-modal>
         <div *ngIf="!form.controls.location.errors || !form.controls.location.errors.city">
-          <div *ngIf="noResults">No results found.</div>
-          Please note that we only have US cities at this time...
-          <app-add-city-modal>Not seeing yours?</app-add-city-modal>
-        </div>
-        <div *ngIf="form.controls.location.errors && form.controls.location.errors.city">
-          Please select an available city or
-          <app-add-city-modal>request that we add one.</app-add-city-modal>
+          City not found.
         </div>
       </div>
-      <div class="form-control-error"
-           *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
-        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">
-          This is a required field.</span>
-        <span *ngIf="form.controls.location.errors.server">
-          *{{ form.controls.location.errors.server }}</span>
-        <span *ngIf="form.controls.location.errors.city">
-          *{{ form.controls.location.errors.city }}</span>
+      <div *ngIf="!noResults">
+        Please note that we only have US cities at this time...
+        <app-add-city-modal>Not seeing yours?</app-add-city-modal>
       </div>
+    </div>
+    <div class="form-control-error"
+          *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
+      <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">
+        This is a required field.</span>
+      <span *ngIf="form.controls.location.errors.server">
+        *{{ form.controls.location.errors.server }}</span>
+      <span *ngIf="form.controls.location.errors.city">
+        City not found.</span>
+    </div>
   </div>
   <div class="form-control-container">
     <label>Organization/department</label>

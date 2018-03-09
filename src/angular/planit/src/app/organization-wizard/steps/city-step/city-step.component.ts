@@ -114,19 +114,14 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
     if (formName && savedName !== formName) {
       this.city = null;
-      this.noResults = false;
-      this.form.controls.location.setErrors({city: 'City not found.'});
+      this.form.controls.location.setErrors({city: true});
     }
   }
 
-  onNoResults() {
-    this.noResults = true;
-  }
-
-  onKey(e) {
-    if (e.target.value === '') {
-      this.noResults = false;
-    }
+  onNoResults(noResults) {
+    // typeaheadNoResults gets triggered on every change, not just when there are no results,
+    // and passes a boolean for whether there are results or not. So we can just store it.
+    this.noResults = noResults;
   }
 
   getDisplayName(city: ApiCity): string {
