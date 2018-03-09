@@ -89,17 +89,19 @@ To have changes that exist in your Temperate environment's database be written t
 ```
 
 ### Temperate Suggested Actions data
-Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stoltz for her PhD, needs to be ingested.
+Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stults for her PhD, needs to be ingested.
 
 #### Download the data from s3
 The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 - Download both CSVs
-- Place them somewhere your local Temperate repo
-- Make sure not to commit the files
+- Place them somewhere in the django folder of your local Temperate repo
+- Delete the files when done running the script/Make sure not to commit them
 
 ```bash
 ./scripts/manage ingest_missy_dataset <path_to/missy_cities.csv> <path_to/missy_strategies_with_weather_events.csv>
 ```
+
+Note: Sometimes the script's geocoder fails, in which case you have to run the script several times if you want all the data (~3.1k actions). Re-running the script does not overwrite data.
 
 #### Export data from source
 It is easier to download the data from s3 (see above). Nevertheless, if you must recreate the CSVs:
