@@ -43,14 +43,11 @@ router.register(r'weather-event', planit_data_views.WeatherEventViewSet,
                 base_name='weatherevent')
 router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
                 base_name='organizationweatherevent')
+router.register(r'concern', planit_data_views.ConcernViewSet, base_name='concern')
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
-    url(r'^api/concern/$',
-        planit_data_views.ConcernViewSet.as_view({'get': 'list'}), name='concern-list'),
-    url(r'^api/concern/(?P<pk>[0-9]+)/$',
-        planit_data_views.ConcernViewSet.as_view({'get': 'retrieve'}), name='concern-detail'),
     url(r'^api/weather-event-rank/$',
         planit_data_views.WeatherEventRankView.as_view(), name='weather-event-rank-list'),
     url(r'^api/export-plan/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
