@@ -1,3 +1,4 @@
+export { ConfirmModalConfig } from './confirmation-modal/confirmation-modal.component';
 export { Action, ActionVisibility } from './models/action.model';
 export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';

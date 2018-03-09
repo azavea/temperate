@@ -5,7 +5,7 @@
       <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
       <p>Based on your chosen scope, we have identified the below risks as
         a high priority to assess vulnerability and include in your report.
-        Click on a row to assess each risk. 
+        Click on a row to assess each risk.
           <button class="button-link"
                   [popover]="learnMoreRiskPopover"
                   [outsideClick]="true"
@@ -88,6 +88,8 @@
     </section>
   </main>
 </div>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>
 
 <ng-template #learnMoreRiskPopover>
   <div>
