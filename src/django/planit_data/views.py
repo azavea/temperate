@@ -113,7 +113,18 @@ class OrganizationRiskView(ModelViewSet):
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
-        return OrganizationRisk.objects.filter(organization_id=org_id)
+        return OrganizationRisk.objects.filter(
+            organization_id=org_id
+        ).select_related(
+            'community_system',
+            'weather_event',
+            'weather_event__concern',
+            'weather_event__concern__indicator',
+        ).prefetch_related(
+            'organizationaction_set',
+            'organizationaction_set__categories',
+            'weather_event__indicators',
+        )
 
     @transaction.atomic
     def create(self, request):
@@ -174,7 +185,11 @@ class OrganizationActionViewSet(ModelViewSet):
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
-        return self.model_class.objects.filter(organization_risk__organization_id=org_id)
+        return self.model_class.objects.filter(
+            organization_risk__organization_id=org_id
+        ).prefetch_related(
+            'categories'
+        )
 
 
 class OrganizationWeatherEventViewSet(ModelViewSet):
@@ -195,7 +210,13 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
-        return self.model_class.objects.filter(organization_id=org_id)
+        return self.model_class.objects.filter(
+            organization_id=org_id
+        ).select_related(
+            'weather_event'
+        ).prefetch_related(
+            'weather_event__indicators'
+        )
 
 
 class RelatedAdaptiveValueViewSet(ReadOnlyModelViewSet):
@@ -238,7 +259,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         return sorted(list(suggestions), key=order_key)
 
     def get_queryset(self):
-        queryset = OrganizationAction.objects.all().filter(
+        return OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
         ).select_related(
             'organization_risk__weather_event',
@@ -247,15 +268,6 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         ).prefetch_related(
             'categories'
         )
-
-        # Filter OrganizationActions to organizations that are within the same georegion as the user
-        # This may be possible to do entirely in the database
-        georegion = GeoRegion.objects.get_for_point(
-            self.request.user.primary_organization.location.point)
-        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
-        queryset = queryset.filter(organization_risk__organization__location__in=locations)
-
-        return queryset
 
     def list(self, request, *args, **kwargs):
         try:
@@ -267,7 +279,14 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
             'weather_event', 'community_system'
         ).get(id=risk_id)
 
+        # Filter OrganizationActions to organizations that are within the same georegion as the user
+        # This may be possible to do entirely in the database
+        georegion = GeoRegion.objects.get_for_point(
+            self.request.user.primary_organization.location.point)
+        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
         queryset = self.get_queryset().filter(
+            organization_risk__organization__location__in=locations
+        ).filter(
             Q(organization_risk__weather_event=risk.weather_event_id) |
             Q(organization_risk__community_system=risk.community_system_id)
         )
@@ -281,10 +300,16 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
 
 class WeatherEventViewSet(ReadOnlyModelViewSet):
-    queryset = WeatherEvent.objects.all().order_by('name')
     permission_classes = [IsAuthenticated]
     serializer_class = WeatherEventSerializer
     pagination_class = None
+
+    def get_queryset(self):
+        return WeatherEvent.objects.all().order_by(
+            'name'
+        ).prefetch_related(
+            'indicators'
+        )
 
 
 class WeatherEventRankView(APIView):

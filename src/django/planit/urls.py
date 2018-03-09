@@ -39,7 +39,8 @@ router.register(r'actions', planit_data_views.OrganizationActionViewSet,
                 base_name='organizationaction')
 router.register(r'suggestions', planit_data_views.SuggestedActionViewSet,
                 base_name='suggestedaction')
-router.register(r'weather-event', planit_data_views.WeatherEventViewSet)
+router.register(r'weather-event', planit_data_views.WeatherEventViewSet,
+                base_name='weatherevent')
 router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
                 base_name='organizationweatherevent')
 

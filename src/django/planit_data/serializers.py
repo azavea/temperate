@@ -13,6 +13,7 @@ from planit_data.models import (
     WeatherEvent,
 )
 from users.models import PlanItOrganization
+from planit.fields import OneWayPrimaryKeyRelatedField
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
@@ -60,44 +61,16 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'coastal_only', 'concern', 'indicators', 'display_class')
 
 
-class WeatherEventField(serializers.PrimaryKeyRelatedField):
+class WeatherEventField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
-
-    def to_representation(self, value):
-        pk = super().to_representation(value)
-        try:
-            item = WeatherEvent.objects.get(pk=pk)
-            serializer = WeatherEventSerializer(item)
-            return serializer.data
-        except WeatherEvent.DoesNotExist:
-            return None
-
-    def get_choices(self, cutoff=None):
-        queryset = self.get_queryset()
-        if queryset is None:
-            return {}
-
-        return OrderedDict([(item.id, str(item)) for item in queryset])
+    serializer = WeatherEventSerializer
+    queryset = WeatherEvent.objects.all()
 
 
-class CommunitySystemField(serializers.PrimaryKeyRelatedField):
+class CommunitySystemField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
-
-    def to_representation(self, value):
-        pk = super().to_representation(value)
-        try:
-            item = CommunitySystem.objects.get(pk=pk)
-            serializer = CommunitySystemSerializer(item)
-            return serializer.data
-        except CommunitySystem.DoesNotExist:
-            return None
-
-    def get_choices(self, cutoff=None):
-        queryset = self.get_queryset()
-        if queryset is None:
-            return {}
-
-        return OrderedDict([(item.id, str(item)) for item in queryset])
+    serializer = CommunitySystemSerializer
+    queryset = CommunitySystem.objects.all()
 
 
 class WeatherEventWithConcernSerializer(WeatherEventSerializer):
@@ -147,15 +120,16 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     organization = serializers.PrimaryKeyRelatedField(
         many=False,
         queryset=PlanItOrganization.objects.all(),
-        write_only=True)
+        write_only=True
+    )
 
     def get_action(self, obj):
         try:
-            action = obj.organizationaction_set.first()
-            if action:
-                return OrganizationActionSerializer(action).data
-            return None
-        except OrganizationAction.DoesNotExist:
+            # Need to convert the queryset into a list because prefetch_related causes the related
+            # manager's all() to return a non-iterable QuerySet
+            action = list(obj.organizationaction_set.all())[0]
+            return OrganizationActionSerializer(action).data
+        except IndexError:
             return None
 
     class Meta:
