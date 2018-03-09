@@ -90,7 +90,8 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
     )
 
     def validate_risk(self, value):
-        if value.organization.id != self.context['organization']:
+        user_organization = self.context['request'].user.primary_organization
+        if value.organization_id != user_organization.id:
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 

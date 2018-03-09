@@ -178,14 +178,6 @@ class OrganizationActionViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_serializer_context(self):
-        # Pass the user's organization to the serializer so it can be saved correctly
-        context = super().get_serializer_context()
-        context.update({
-            "organization": self.request.user.primary_organization_id
-        })
-        return context
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -298,7 +290,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         results = self.order_suggestions(risk.community_system, risk.weather_event,
                                          is_coastal, queryset)
 
-        serializer = self.serializer_class(results[:5], many=True, context={'request': request})
+        serializer = self.serializer_class(results[:5], many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
