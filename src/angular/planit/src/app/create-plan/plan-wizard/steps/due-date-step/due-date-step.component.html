@@ -1,42 +1,45 @@
 <div class="step-header">
-  <h3>Expected finish date</h3>
-</div>
-<div class="step-content">
+  <h2 class="step-title">Expected finish date</h2>
   <p>Members of the Global Covenant of Mayors are required to submit their plan once every five years. We recommend keeping plans up to date throughout the year.</p>
+</div>
+
+<div class="step-content">
   <form [formGroup]="form">
-    <div class="step-form-control">
-      <label>City
-        <input class="form-control"
-               formControlName="city_name"
-               type="text">
-      </label>
+    <div class="form-control-container">
+      <label for="city-name">City</label>
+      <input id="city-name"
+             class="form-control"
+             formControlName="city_name"
+             type="text">
     </div>
-    <div class="step-form-control">
-      <label>Date *
-        <input class="form-control"
-               formControlName="plan_due_date"
-               type="text"
-               placeholder="mm/dd/yyyy"
-               #dp="bsDatepicker"
-               bsDatepicker [(ngModel)]="planDueDate"
-               [minDate]="minDate"
-               [bsConfig]="{ containerClass: 'theme-default' }"
-               tabindex="1">
-        <div *ngIf="form.controls.plan_due_date.errors && (form.controls.plan_due_date.dirty || form.controls.plan_due_date.touched)">
-          <span *ngIf="form.controls.plan_due_date.errors.required">*Required</span>
-          <div *ngIf="form.controls.plan_due_date.errors.bsDate">
-            <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
-                       !form.controls.plan_due_date.errors.required">*Invalid date.</span>
-            <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">*Date must be in the future.</span>
-          </div>
+    <div class="form-control-container">
+      <label for="plan-due-date">Date</label>
+      <input id="plan-due-date"
+             class="form-control"
+             formControlName="plan_due_date"
+             type="text"
+             placeholder="mm/dd/yyyy"
+             #dp="bsDatepicker"
+             bsDatepicker [(ngModel)]="planDueDate"
+             [minDate]="minDate"
+             [bsConfig]="{ containerClass: 'theme-default' }">
+      <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && (form.controls.plan_due_date.dirty || form.controls.plan_due_date.touched)">
+        <span *ngIf="form.controls.plan_due_date.errors.required">Enter the date that you and your team expect to finish this plan. Don&rsquo;t worry, you can change this later</span>
+        <div *ngIf="form.controls.plan_due_date.errors.bsDate">
+          <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
+                     !form.controls.plan_due_date.errors.required">Try a valid date.</span>
+          <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">Oops, this date was set in the past!</span>
         </div>
-      </label>
+      </div>
     </div>
   </form>
 </div>
-<div class="step-footer">
-  <button type="button"
-          tabindex="3"
-          [disabled]="!form.valid"
-          nextStep>Continue</button>
-</div>
+
+<footer class="step-footer">
+  <div class="step-footer-navigation">
+    <button class="button button-primary"
+            type="button"
+            [disabled]="!form.valid"
+            nextStep>Next</button>
+  </div>
+</footer>

@@ -30,7 +30,12 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
   public key = PlanStepKey.Hazards;
   public navigationSymbol = '2';
   public organization: Organization;
-  public title = 'Hazards';
+  public title = 'Top hazards';
+  public tooltipText = {
+    explainHazardConcerns: 'Based on your location, we have selected ' +
+                     'hazards. For more information, look to our ' +
+                     'Methodology page'
+  };
 
   private weatherEvents: WeatherEvent[] = [];
 

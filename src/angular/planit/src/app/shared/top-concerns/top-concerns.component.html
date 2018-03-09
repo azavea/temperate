@@ -1,7 +1,7 @@
 <div class="loading-wrapper" *ngIf="weatherEvents === undefined">
   <div class="loading loading-spinner loading-large loading-primary"></div>
 </div>
-<div class="card-content top-concerns" *ngIf="weatherEvents !== undefined">
+<div class="top-concerns" *ngIf="weatherEvents !== undefined">
   <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}"
         [ngClass]="{'pre-selected':isReadOnly(weatherEvent)}">
     <div class="concern-content">

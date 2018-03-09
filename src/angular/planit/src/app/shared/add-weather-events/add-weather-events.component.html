@@ -1,11 +1,10 @@
-<div class="switch-list">
-  <h2>Top Concerns</h2>
+<div class="switch-list-container">
   <app-top-concerns [weatherEvents]="selectedEvents"
                     [readOnlyEvents]="readOnlyEvents"
                     (removed)="remove($event)"></app-top-concerns>
 </div>
 <div class="switch-list">
-  <h2>All hazards</h2>
+  <h3>All hazards</h3>
   <button class="switch-item"
       [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
       *ngFor="let option of weatherEvents"
