@@ -84,9 +84,13 @@ class PlanExportView(APIView):
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):
-    queryset = Concern.objects.all().order_by('id')
     serializer_class = ConcernSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Concern.objects.all().select_related(
+            'indicator'
+        ).order_by('id')
 
 
 class CommunitySystemViewSet(ReadOnlyModelViewSet):
