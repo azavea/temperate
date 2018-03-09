@@ -1,25 +1,25 @@
+<app-top-concerns [weatherEvents]="selectedEvents"
+                  [readOnlyEvents]="readOnlyEvents"
+                  (removed)="remove($event)"></app-top-concerns>
 <div class="switch-list-container">
-  <app-top-concerns [weatherEvents]="selectedEvents"
-                    [readOnlyEvents]="readOnlyEvents"
-                    (removed)="remove($event)"></app-top-concerns>
-</div>
-<div class="switch-list">
-  <h3>All hazards</h3>
-  <button class="switch-item"
-      [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
-      *ngFor="let option of weatherEvents"
-      (click)="addOrRemove(option)">
-    <span *ngIf="isSelected(option)"
-          class="icon icon-status"></span>
-    <span *ngIf="!isSelected(option)"
-          class="icon icon-status"
-          tooltip="Add to top concerns"
-          tooltipPlacement="right"></span>
-    <span class="icon icon-primary"
-        [ngClass]="option.display_class"
-        ></span>
-    {{ option.name }}
-    <span *ngIf="isReadOnly(option)"
-          class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
-  </button>
+  <div class="switch-list">
+    <h3>All hazards</h3>
+    <button class="switch-item"
+        [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
+        *ngFor="let option of weatherEvents"
+        (click)="addOrRemove(option)">
+      <span *ngIf="isSelected(option)"
+            class="icon icon-status"></span>
+      <span *ngIf="!isSelected(option)"
+            class="icon icon-status"
+            tooltip="Add to top concerns"
+            tooltipPlacement="right"></span>
+      <span class="icon icon-primary"
+          [ngClass]="option.display_class"
+          ></span>
+      {{ option.name }}
+      <span *ngIf="isReadOnly(option)"
+            class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
+    </button>
+  </div>
 </div>
