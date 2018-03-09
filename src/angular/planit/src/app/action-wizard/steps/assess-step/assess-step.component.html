@@ -6,7 +6,11 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <textarea class="form-control" formControlName="name" #actionName cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <div class="form-control-hint form-control-hint-right"
+           [ngClass]="{'form-control-error': textMaxLength - actionName.value.length < 0}">
+        {{ textMaxLength - actionName.value.length }} characters remaining
+      </div>
       <div class="form-control-hint">Unsure of where to begin? <button class="button-link"
               [popover]="actionExamplesPopover"
               [outsideClick]="true"
