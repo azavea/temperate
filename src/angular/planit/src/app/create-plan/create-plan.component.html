@@ -1,14 +1,18 @@
-<div *ngIf="showSplash" class="main-container">
+<div *ngIf="showSplash" class="main-container splash-container">
   <main class="main-content splash-content" role="main">
     <header class="splash-header">
-      <h1 class="splash-intro">Thanks for letting us help you protect our cities against the effects of climate change</h1>
+      <h1 class="splash-title">Create your plan</h1>
+      <p class="splash-intro">Thanks for letting us help you protect our cities</p>
     </header>
 
     <div class="splash-prompt">
-      <p>At any point, if you have questions or need assistance, you can click the &ldquo;help&rdquo; button to get help from climate experts.</p>
-      <button class="button button-primary button-large button-icon-right" (click)="showSplash = false">
-        Set up plan<span class="icon-arrow-right"></span>
-      </button>
+      <div class="splash-prompt-content">
+        <p>You can now enter your plan&rsquo;s basic information, such as aspects of your changing climate and aspects of your community that you want to focus on.</p>
+        <p>If you have questions or need assistance at any time, click the &ldquo;help&rdquo; button to enlist the help of climate experts at ICLEI-USA.</p>
+        <button class="button button-primary button-large button-icon-right" (click)="showSplash = false">
+          Set up plan<span class="icon-arrow-right"></span>
+        </button>
+      </div>
     </div>
   </main>
 </div>
