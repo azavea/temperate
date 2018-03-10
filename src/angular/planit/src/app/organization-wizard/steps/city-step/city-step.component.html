@@ -8,6 +8,7 @@
     <input class="form-control"
             formControlName="location"
             autocomplete="off"
+            placeholder="Start typing to search cities"
             typeaheadOptionField="properties.displayName"
             (typeaheadOnSelect)="itemSelected($event)"
             (typeaheadOnBlur)="itemBlurred()"
