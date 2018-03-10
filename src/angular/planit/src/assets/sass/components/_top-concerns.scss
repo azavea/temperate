@@ -9,14 +9,18 @@
   font-size: $concern-title-size;
   text-align: center;
   line-height: $concern-title-line-height;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .concern {
   background-color: $white;
   border: $concern-border;
   border-radius: $border-radius;
-  flex: 0 0 32.66%;
-  margin: 0.33%;
+  flex: 0 0 24%;
+  margin: 0.5%;
   position: relative;
   outline: $concern-outline;
   outline-offset: -($concern-outline-width+1px);
@@ -34,10 +38,10 @@
   .concern-content {
     width: 100%;
     position: absolute;
-    top: 0; right: 0; bottom: 2rem; right: 0;
+    top: 0; right: 0; bottom: 5.5rem; right: 0;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 60%;
+    background-size: 50%;
   }
 
   .icon-lock {
