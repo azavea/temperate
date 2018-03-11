@@ -1,29 +1,31 @@
 app-dashboard {
-  header {
-    margin-bottom: 4rem;
-  }
-
-  main section {
+  .main-content {
     display: flex;
-
-    .dashboard-main {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      margin-right: 4rem;
-    }
-
-    .dashboard-sidebar {
-      flex: 0 0 350px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 2rem;
-    }
-
-    .dashboard-no-risks {
-      justify-content: center;
-      align-items: center;
-    }
+    flex-wrap: wrap;
   }
+
+  .page-header {
+    flex: 1 0 100%;
+  }
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-right: $space-medium;
+}
+
+.dashboard-container .section-header {
+  max-width: 65rem;
+}
+
+.dashboard-sidebar {
+  flex: 0 0 350px;
+  padding: $space-large;
+}
+
+.dashboard-no-risks {
+  justify-content: center;
+  align-items: center;
 }

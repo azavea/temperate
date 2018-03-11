@@ -6,7 +6,11 @@
     </header>
 
     <section class="dashboard-container">
-      <h3>Adaptation planning</h3>
+      <div class="section-header">
+        <h3 class="section-title">Adaptation planning</h3>
+        <p>The top hazards that you selected while setting up your plan show up here, with any associated risks that you want to focus on or that Temperate thinks you could include listed within each. Start assessing risks by clicking the "assess" button.</p>
+      </div>
+
       <div class="dashboard-content">
         <div class="dashboard-loader loading-wrapper" *ngIf="this.groupedRisks === undefined">
           <div class="loading loading-spinner loading-large loading-primary"></div>
@@ -26,7 +30,7 @@
 
       <footer class="dashboard-footer">
         <button class="button button-primary"
-                (click)="openModal(weatherEventsModal)">Add Hazard</button>
+                (click)="openModal(weatherEventsModal)">Add top hazard</button>
       </footer>
     </section>
 
