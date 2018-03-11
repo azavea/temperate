@@ -7,6 +7,10 @@ app-dashboard {
   .page-header {
     flex: 1 0 100%;
   }
+
+  .section-header {
+    max-width: 65rem;
+  }
 }
 
 .dashboard-container {
@@ -14,10 +18,6 @@ app-dashboard {
   flex-direction: column;
   flex: 1 1 auto;
   margin-right: $space-medium;
-}
-
-.dashboard-container .section-header {
-  max-width: 65rem;
 }
 
 .dashboard-sidebar {

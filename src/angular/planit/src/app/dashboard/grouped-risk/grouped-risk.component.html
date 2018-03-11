@@ -1,41 +1,48 @@
-<div class="header">
-  <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
-                        [potentialImpact]="aggregateNeed.impact"
-                        [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
-  <h4>
-    {{ weatherEvent.name }} &bull;
-    <span>{{ risks.length }} risks</span>
+<div class="hazard-header">
+  <h4 class="hazard-title">
+    <span class="hazard-priority">
+      <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
+                            [potentialImpact]="aggregateNeed.impact"
+                            [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
+      <span class="hazard-priority-empty" 
+           *ngIf="!isAdaptiveNeedBoxVisible()"
+           tooltip="When you assess risks, an aggregate of their priority will appear here.">--</span>
+    </span>
+    {{ weatherEvent.name }}
+    <span class="hazard-risks-number">&bull; {{ risks.length }} risks</span>
   </h4>
-  <div [tooltip]="noRelatedIndicatorsTooltip"
+
+  <span class="hazard-indicators-trigger" [tooltip]="noRelatedIndicatorsTooltip"
        [isDisabled]="canShowIndicators">
-    <button class="button-link"
+    <button class="button-link" type="button"
             [ngClass]="{disabled: !canShowIndicators}"
-            (click)="openModal()">See Related Indicators</button>
-  </div>
+            (click)="openModal()"><span class="icon icon-indicators"></span>Related indicators</button>
+  </span>
 </div>
-<div class="block-assessment">
-  <div class="summary">
-    <div class="summary-title">
-      <h4>Assessment</h4>
-      <span>{{ percentRisksAssessed() }} %</span>
+
+<div class="hazard-summary">
+  <div class="hazard-assessment-block hazard-block">
+    <div class="hazard-assessment-progress hazard-block-progress">
+      <h5 class="hazard-assessment-title hazard-block-title">Vulnerability assessment</h5>
+      <span class="progress-percentage">{{ percentRisksAssessed() }} %</span>
+      <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
     </div>
-    <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
+    <a class="button button-small button-primary" 
+       routerLink="/assessment"
+       [queryParams]="{hazard: weatherEvent?.id}">Assess</a>
   </div>
-  <a class="button button-primary"
-     routerLink="/assessment"
-     [queryParams]="{hazard: weatherEvent?.id}" >Assess</a>
-</div>
-<div class="block-assessment" *ngIf="numberOfRisksAssessed() > 0">
-  <div class="summary">
-    <div class="summary-title">
-      <h4>Action steps</h4>
-      <span>{{ percentActionsAssessed() }} %</span>
+  
+
+  <div class="hazard-action-block hazard-block" *ngIf="numberOfRisksAssessed() > 0">
+    <div class="hazard-action-progress hazard-block-progress">
+      <h5 class="hazard-action-title hazard-block-title">Action steps</h5>
+      <span class="progress-percentage">{{ percentActionsAssessed() }} %</span>
+      <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
-    <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
+    <a class="button button-small button-positive"
+       routerLink="/actions"
+       [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
   </div>
-  <a class="button button-positive"
-     routerLink="/actions"
-     [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
 </div>
 
 <app-modal-template #indicatorChartModal

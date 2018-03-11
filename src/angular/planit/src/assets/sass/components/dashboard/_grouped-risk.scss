@@ -1,52 +1,110 @@
-app-grouped-risk {
+.hazard-header {
   display: flex;
-  flex-direction: column;
+  background: $white;
+  padding: $space-large;
+  align-items: center;
+  justify-content: space-between;
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+}
 
-  margin-bottom: 4rem;
+.hazard-priority {
+  margin-right: $space-small;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
+.hazard-priority-empty {
+  color: $neutral-2;
+  margin-right: $space-small;
+}
 
-    background-color: $neutral-2;
-    padding: 1rem;
+.hazard-title {
+  margin-bottom: 0;
+  font-size: $text-base;
+}
 
-    h4 {
-      font-weight: $font-weight-bold;
-      margin: 0 1rem;
-      padding: 0;
+.hazard-risks-number {
+  font-size: $text-small;
+  color: $neutral-3;
+}
 
-      & > span {
-        font-weight: $font-weight-regular;
-      }
-    }
+//////////////////////////
+// Grouped risk blocks
+//////////////////////////
+.hazard-summary {
+  background-color: $white;
+  padding: 0 $space-tiny $space-tiny;
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  margin-bottom: $space-medium;
+}
 
-    & :last-child {
-      margin-left: auto;
+.hazard-block {
+  display: flex;
+  background: $neutral-0;
+  padding: $space-medium;
+  border-radius: $border-radius;
+
+  .progress {
+    height: 8px;
+    margin-bottom: 0;
+    box-shadow: none;
+    background-color: $neutral-1;
+
+    .progress-bar {
+      box-shadow: none;
     }
   }
 
-  .block-assessment {
-    display: flex;
-    padding: 2rem;
+  .button {
+    flex: 0 0 12rem;
+    margin-left: $space-large;
+  }
+}
 
-    & > .summary {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding-right: 2rem;
+.hazard-block-title {
+  font-size: $text-small;
+  color: $neutral-4;
+  margin-bottom: 0;
+}
 
-      & > .summary-title {
-        display: flex;
-        justify-content: space-between;
+.progress-percentage {
+  font-size: $text-tiny;
+  color: $neutral-3;
+}
 
-        margin-bottom: 2rem;
-      }
+.hazard-action-block {
+  margin-top: $space-tiny;
+  padding-top: $space-large;
+}
+
+.hazard-block-progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
+
+.hazard-summary .button-link {
+  border-bottom: none;
+  color: $brand-primary;
+}
+
+//////////////////////////
+// Change color based on 
+// Assessment or Action steps
+//////////////////////////
+.hazard-assessment-block {
+  .progress {
+    .progress-bar {
+      background: $brand-teal;
     }
+  }
+}
 
-    & > a {
-      flex: 0 0 200px;
-      align-self: center;
+.hazard-action-block {
+  .progress {
+    .progress-bar {
+      background: $brand-positive;
     }
   }
 }
