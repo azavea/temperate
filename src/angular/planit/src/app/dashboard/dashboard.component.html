@@ -1,42 +1,47 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <header>
-      <h1 class="heading">Dashboard</h1>
-      <h2 class="heading">
-        Your Adaptive Plan
-        <a routerLink="/dashboard"><span class="icon icon-cog"></span></a>
-      </h2>
+    <header class="page-header">
+      <h1 class="page-title-small">Your Adaptive Plan</h1>
+      <h2 class="page-title-large">Dashboard</h2>
     </header>
-    <section>
-      <div class="dashboard-main">
-        <h3>Adaptation planning</h3>
-        <div class="loading-wrapper" *ngIf="this.groupedRisks === undefined">
+
+    <section class="dashboard-container">
+      <h3>Adaptation planning</h3>
+      <div class="dashboard-content">
+        <div class="dashboard-loader loading-wrapper" *ngIf="this.groupedRisks === undefined">
           <div class="loading loading-spinner loading-large loading-primary"></div>
         </div>
-        <div class="card card-full dashboard-no-risks" *ngIf="this.groupedRisks?.length === 0">
-          <h3>You haven't started your assessment</h3>
-          <div>
-            <a class="button button-primary" routerLink="/assessment/risk/new">Get Started</a>
-          </div>
+
+        <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
+          <h4>You haven&rsquo;t started your assessment yet</h4>
+          <p>To get started, you can either <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add hazards</button> that you want to include in your assessment or start considering risks <a routerLink="/assessment/risk/new">from scratch.</a></p>
         </div>
+
         <app-grouped-risk
             *ngFor="let risks of groupedRisks"
             [risks]="risks"
             [weatherEvent]="risks[0].weather_event">
         </app-grouped-risk>
+      </div>
+
+      <footer class="dashboard-footer">
         <button class="button button-primary"
                 (click)="openModal(weatherEventsModal)">Add Hazard</button>
-      </div>
-      <div class="dashboard-sidebar">
-        <app-city-profile-summary></app-city-profile-summary>
+      </footer>
+    </section>
+
+    <aside class="dashboard-sidebar">
+      <app-city-profile-summary></app-city-profile-summary>
+      <div>
         <div class="plan-review">Review</div>
         <a (click)="downloadPlan()">Download plan (CSV)</a>
       </div>
-    </section>
+    </aside>
+
   </main>
 </div>
 
-<app-modal-template #weatherEventsModal title="Add Hazard">
+<app-modal-template #weatherEventsModal title="Add hazard">
   <app-add-weather-events [formControl]="selectedEventsControl"
                           [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
   <footer class="modal-footer">
