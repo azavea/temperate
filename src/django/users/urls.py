@@ -7,7 +7,8 @@ from users.views import (PlanitHomeView,
                          ActivationView,
                          UserProfileView,
                          PasswordResetInitView,
-                         PasswordResetView)
+                         PasswordResetView,
+                         InviteUserView,)
 
 
 urlpatterns = [
@@ -25,6 +26,7 @@ urlpatterns = [
         name='registration_activate'),
     url(r'^api/new_token/', PlanitHomeView().new_token, name='new_token'),
     url(r'^api/$', PlanitHomeView.as_view(), name='planit_home'),
+    url(r'^invite_user/$', InviteUserView.as_view(), name='invite_user'),
     url(r'^profile/$', UserProfileView.as_view(), name='edit_profile'),
     url(r'', include('registration.backends.hmac.urls')),
 ]

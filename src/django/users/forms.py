@@ -143,3 +143,9 @@ class AddCityForm(forms.Form):
                   self.cleaned_data['email'],
                   [settings.DEFAULT_TO_EMAIL],
                   fail_silently=False)
+
+
+class InviteUserForm(forms.Form):
+    """Form to invite a user to an organization"""
+
+    email = forms.EmailField(help_text=None, required=False)
