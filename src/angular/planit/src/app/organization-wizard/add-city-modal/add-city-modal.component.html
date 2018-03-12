@@ -19,7 +19,7 @@
         <input id="state" class="form-control" [formControl]="cityForm.controls.state" required>
       </div>
       <div class="form-control-container">
-        <label for="notes">Notes</label>
+        <label for="notes">Notes <span class="optional">optional</span></label>
         <textarea id="notes" class="form-control" [formControl]="cityForm.controls.notes"></textarea>
       </div>
       <div *ngIf="error" class="form-control-error">
