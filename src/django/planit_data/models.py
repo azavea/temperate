@@ -214,19 +214,29 @@ class Concern(models.Model):
     tagline_positive = models.CharField(max_length=256, blank=False, null=False)
     tagline_negative = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
+    # If indicator is null, display any set static value + unit with the normal
+    #  positive/negative tagline instead
+    static_value = models.FloatField(blank=True, null=True)
+    static_units = models.CharField(max_length=16, blank=True, default='')
 
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline_positive)
 
     def calculate(self, organization):
-        city_id = organization.location.api_city_id
-        units = self.get_units(organization)
+        # Calculate data via indicator if we have one
+        if self.indicator is not None:
+            city_id = organization.location.api_city_id
+            units = self.get_units(organization)
 
-        start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
-        end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
-        difference = end_avg - start_avg
+            start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
+            end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
+            difference = end_avg - start_avg
 
-        value = difference / start_avg if self.is_relative else difference
+            value = difference / start_avg if self.is_relative else difference
+        # Otherwise use a static value + units
+        else:
+            value = self.static_value if self.static_value else 0
+            units = self.static_units if self.static_units and not self.is_relative else None
         tagline = self.tagline_positive if value >= 0 else self.tagline_negative
 
         return {

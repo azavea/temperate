@@ -117,6 +117,22 @@ class ConcernViewSetTestCase(APITestCase):
                               'units': 'miles'})
         calculate_mock.assert_called_with(self.user.primary_organization)
 
+    def test_concern_detail_static(self):
+        concern = ConcernFactory(
+            indicator=None,
+            tagline_positive='more',
+            tagline_negative='less',
+            static_value=10.0,
+            static_units='F')
+        url = reverse('concern-detail', kwargs={'pk': concern.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertDictEqual(response.data,
+                             {'id': concern.id, 'indicator': None,
+                              'tagline': 'more', 'is_relative': False, 'value': 10.0,
+                              'units': 'F'})
+
     def test_concern_detail_invalid(self):
         url = reverse('concern-detail', kwargs={'pk': 999})
         response = self.client.get(url)
