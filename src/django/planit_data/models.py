@@ -210,7 +210,7 @@ class Concern(models.Model):
     END_YEAR = 2050
     END_SCENARIO = 'RCP85'
 
-    indicator = models.OneToOneField(Indicator, on_delete=CASCADE, null=False)
+    indicator = models.OneToOneField(Indicator, on_delete=CASCADE, blank=True, null=True)
     tagline_positive = models.CharField(max_length=256, blank=False, null=False)
     tagline_negative = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
