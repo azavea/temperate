@@ -3,7 +3,7 @@ import uuid
 
 from django.contrib.gis.db import models
 from django.db import connection, transaction
-from django.db.models import CASCADE
+from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
 from climate_api.utils import IMPERIAL_TO_METRIC
@@ -57,7 +57,7 @@ class WeatherEvent(models.Model):
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     coastal_only = models.BooleanField(default=False)
-    concern = models.ForeignKey('Concern', null=True, blank=True)
+    concern = models.ForeignKey('Concern', on_delete=SET_NULL, null=True, blank=True)
     indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
     community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
     display_class = models.CharField(max_length=128, blank=True, default='')
