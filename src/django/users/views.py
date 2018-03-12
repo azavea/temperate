@@ -101,6 +101,8 @@ class PasswordResetView(JsonFormView):
 
 class ActivationView(BaseActivationView):
     success_url = settings.PLANIT_APP_HOME + '/login?activated=true'
+    failure_url = settings.PLANIT_APP_HOME + '/login?activationFailed=true'
+    already_active_url = settings.PLANIT_APP_HOME + '/login?alreadyActivated=true'
 
     def get(self, *args, **kwargs):
         activation_key = kwargs.get('activation_key')
@@ -111,8 +113,16 @@ class ActivationView(BaseActivationView):
                 url = settings.PLANIT_APP_HOME + '/register?email={}&key={}'.format(
                     user.email, activation_key)
                 return HttpResponseRedirect(url)
+            elif user is None:
+                return HttpResponseRedirect(ActivationView.already_active_url)
 
-        return super().get(*args, **kwargs)
+        # Django Registration redirects on success and renders a template on failure
+        # We want to also redirect on failure, so the user sees a page rendered by Angular
+        response = super().get(*args, **kwargs)
+        if isinstance(response, HttpResponseRedirect):
+            return response
+
+        return HttpResponseRedirect(ActivationView.failure_url)
 
 
 class PlanitHomeView(LoginRequiredMixin, View):

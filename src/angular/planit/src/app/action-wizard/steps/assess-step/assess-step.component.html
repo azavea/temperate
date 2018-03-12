@@ -6,7 +6,11 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <textarea class="form-control" formControlName="name" cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <textarea class="form-control" formControlName="name" #actionName cols="70" rows="4" aria-labelledby="action-title" required></textarea>
+      <div class="form-control-hint form-control-hint-right"
+           [ngClass]="{'form-control-error': textMaxLength - actionName.value.length < 0}">
+        {{ textMaxLength - actionName.value.length }} characters remaining
+      </div>
       <div class="form-control-hint">Unsure of where to begin? <button class="button-link"
               [popover]="actionExamplesPopover"
               [outsideClick]="true"
@@ -16,22 +20,23 @@
       </button></div>
       <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
         <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
+        <span *ngIf="form.controls.name.errors.server">*{{ form.controls.name.errors.server }}</span>
       </div>
     </div>
   </form>
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button-link" 
-            *ngIf="!action?.name" 
+    <button type="button" class="button-link"
+            *ngIf="!action?.name"
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button-link" 
-            *ngIf="!!action?.name" 
+    <button type="button" class="button-link"
+            *ngIf="!!action?.name"
             (click)="finish()">Finish action later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button button-primary" 
-            [disabled]="!form.valid" 
+    <button type="button" class="button button-primary"
+            [disabled]="!form.valid"
             nextStep>Next</button>
   </div>
 </footer>

@@ -39,14 +39,14 @@
 </div>
 
 <app-modal-template #indicatorChartModal
-    title="Viewing indicators related to {{ modalRisk?.weather_event.name }}">
-  <div>
-    <app-force-collapse-chart-container
-        [indicators]="indicators"
-        [city]="city">
-    </app-force-collapse-chart-container>
-    <a class="button-link" (click)="goToIndicators()">See all indicators</a>
-  </div>
+  title="Indicators related to {{ modalRisk?.weather_event.name | lowercase }}">
+  <app-force-collapse-chart-container
+      [indicators]="indicators"
+      [city]="city">
+  </app-force-collapse-chart-container>
+  <footer class="modal-footer">
+    <button class="button button-inverse-dark" (click)="goToIndicators()">See all indicators</button>
+  </footer>
 </app-modal-template>
 
 <ng-template #noRelatedIndicatorsTooltip>

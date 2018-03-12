@@ -1,7 +1,10 @@
 // Typeahead
-
 typeahead-container {
   z-index: $zindex-typeahead;
+  
+  ul.dropdown-menu {
+    width: fit-content;
+  }
 
   .dropdown-menu {
     min-width: 23rem;

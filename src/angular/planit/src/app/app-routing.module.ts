@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
 
+import { UserResolve } from './core/resolvers/user.resolve';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
+import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
-import { UserResolve } from './core/services/user.resolve';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
 import { MarketingComponent } from './marketing/marketing.component';
@@ -16,9 +18,9 @@ import { PricingComponent } from './marketing/pricing.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: 'reset-password/:token', component: MarketingComponent},
   { path: '', component: MarketingComponent, canActivate: [LoggedInAuthGuard] },
   {
     path: 'plan',
@@ -29,8 +31,18 @@ const routes: Routes = [
   { path: 'methodology', component: MethodologyComponent },
   { path: 'pricing', component: PricingComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [LoggedInAuthGuard] },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordPageComponent,
+    canActivate: [LoggedInAuthGuard]
+  },
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
+  {
+    path: 'reset-password/:token',
+    component: ResetPasswordComponent,
+    canActivate: [PasswordResetGuard, LoggedInAuthGuard]
+  },
   {
     path: 'subscription',
     component: ManageSubscriptionComponent,

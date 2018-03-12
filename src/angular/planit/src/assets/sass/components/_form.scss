@@ -71,6 +71,26 @@ input.ng-invalid {
 select {
   box-shadow: none;
   position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: $space-base 0 $space-large;
+  color: inherit;
+  font-size: inherit;
+  font-weight: $font-weight-regular;
+  border: 1px solid $neutral-1;
+  border-radius: $field-border-radius;
+  position: relative;
+  padding-right: 2rem!important; // add space for the arrow combo
+  background: url(../images/arrow-up-down.svg) no-repeat right;
+  background-size: 1.4rem;
+
+  // IE11, use default styling
+  @media all and (-ms-high-contrast:none) {
+    appearance: auto;
+    padding-right: 0.5rem!important;
+    background: none;
+  }
 }
 
 textarea {
@@ -94,17 +114,31 @@ textarea {
   }
 }
 
-typeahead-container {
-  ul.dropdown-menu {
-    width: fit-content;
-  }
-}
-
 .form-control-error, .form-control-hint {
   font-size: $hint-size;
   line-height: 1.35;
+
+  &.form-control-hint-right {
+    float: right;
+  }
 }
 
 .form-control-error {
   color: $error-color;
+}
+
+input[type="number"] {
+  border: 1px solid $neutral-1;
+  border-radius: $field-border-radius;
+  box-shadow: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: $font-weight-regular;
+  font-variant: tabular-nums;
+  padding: $button-padding-vertical;
+
+  &:focus {
+    box-shadow: none;
+    @include button-focus-outline();
+  }
 }

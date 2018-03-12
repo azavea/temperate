@@ -1,117 +1,107 @@
 .action-picker {
-  .modal-header {
-    background-color: $neutral-0;
+  .suggested-actions-cta {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $neutral-1;
+    padding: $space-xlarge;
+  }
 
-    .container {
+  .suggested-actions-overview {
+    display: flex;
+    flex: auto;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    > .recommended {
+      margin-bottom: $space-base;
+      color: $neutral-4;
+      font-size: $text-tiny;
+      text-transform: uppercase;
+    }
+
+    > .title {
+      font-size: $text-medium;
+      font-weight: $font-weight-bold;
+      color: inherit;
+    }
+
+    > .description {
+      font-size: $text-small;
+      color: inherit;
+    }
+  }
+
+  .suggested-actions-button {
+    flex: none;
+    margin-left: $space-xxlarge;
+  }
+
+  .suggested-actions-description {
+    margin-bottom: $space-xlarge;
+  }
+
+  .suggested-action {
+    display: flex;
+    flex-direction: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: $space-large;
+    padding: $space-xlarge;
+    background-color: $neutral-1;
+
+    > .action-main {
+      display: flex;
+      flex: initial;
+      flex-flow: column nowrap;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-right: $space-xlarge;
+
+      > .action-name {
+        margin-bottom: $space-large;
+        font-size: $text-base;
+        font-weight: $font-weight-regular;
+        line-height: 1.5;
+      }
+
+      > .action-source {
+        margin-bottom: $space-xlarge;
+        font-size: $text-tiny;
+        opacity: .7;
+
+        > a {
+          border-bottom-width: 0;
+
+          &:hover {
+            border-bottom-width: 1px;
+          }
+        }
+      }
+
+      > .button {
+        margin-bottom: $space-tiny;
+      }
+    }
+
+    > .action-metadata-list {
+      flex: none;
+      width: 16rem;
       margin: 0;
-      width: 100%;
-    }
+      padding: 0;
+      list-style: none;
+      font-size: $text-tiny;
 
-    .row {
-      background-color: unset;
-    }
-  }
-
-  .modal-body {
-    width: 65%;
-  }
-
-  .modal-footer {
-    button {
-      background-color: $body-font-color;
-      color: $white;
-    }
-  }
-}
-
-.action-picker, .action-picker-prompt, .action-picker-none {
-  .action-picker-content {
-    text-align: center;
-  }
-
-  .action-picker-header {
-    margin: 3rem;
-  }
-
-  .container {
-    margin: 0 2rem 0 2rem;
-    width: unset;
-
-    .suggested-action {
-      border: .1px solid $neutral-2;
-      padding: 15px;
-
-      .action-metadata {
-        max-width: 240px;
+      > .action-metadata-item {
+        margin: $space-small 0;
       }
     }
   }
 
-  h2 {
-    width: 100%;
-  }
-
-  .icon-cancel-circled2 {
-    font-size: 2rem;
-  }
-
-  .modal-header {
-    padding-bottom: 0;
-    padding-top: 0;
-  }
-
   .modal-footer {
-    a {
-      text-decoration: none;
-      color: $brand-primary;
-    }
-
-    border: 0;
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-
+    margin-top: $space-xlarge;
+    text-align: right;
   }
-
-  .row {
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-.action-picker-prompt {
-  .action-picker-body {
-    :hover {
-      background-color: $neutral-1;
-      cursor: pointer;
-    }
-  }
-
-  button {
-    text-align: left;
-    width: max-content;
-    margin-left: -2.5rem;
-    margin-bottom: -3rem;
-  }
-
-  .modal-body {
-    h2, i {
-      color: $brand-primary;
-    }
-
-    i {
-      font-size: 5rem;
-    }
-  }
-}
-
-.action-picker-content.button-modal-close {
-  background-color: transparent;
-  border-radius: 50%;
-  float: right;
-  font-size: 2rem;
-  margin-bottom: -5rem;
-  margin-left: -5rem;
-  padding: 0px;
 }

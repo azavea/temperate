@@ -109,24 +109,24 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
   }
 
   itemBlurred() {
-    const savedName = this.city ? this.getDisplayName(this.city) : null;
-    const formName = this.form.controls.location.value;
+    // Clicking on a suggested option blurs the input, and before `itemSelected` has a chance
+    // to update the value, this will find a mis-match and set an error state. Using a timeout
+    // means `itemSelected` will run first and all will be in order by the time this fires.
+    setTimeout(() => {
+      const savedName = this.city ? this.getDisplayName(this.city) : null;
+      const formName = this.form.controls.location.value;
 
-    if (savedName !== formName) {
-      this.form.controls.location.setValue('');
-      this.city = null;
-      this.noResults = false;
-    }
+      if (formName && savedName !== formName) {
+        this.city = null;
+        this.form.controls.location.setErrors({city: true});
+      }
+    }, 100);
   }
 
-  onNoResults() {
-    this.noResults = true;
-  }
-
-  onKey(e) {
-    if (e.target.value === '') {
-      this.noResults = false;
-    }
+  onNoResults(noResults) {
+    // typeaheadNoResults gets triggered on every change, not just when there are no results,
+    // and passes a boolean for whether there are results or not. So we can just store it.
+    this.noResults = noResults;
   }
 
   getDisplayName(city: ApiCity): string {

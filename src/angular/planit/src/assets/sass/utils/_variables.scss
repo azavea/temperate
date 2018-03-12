@@ -138,7 +138,7 @@ $icon-font-family: temperate;
 
 $heading-line-height: 1.1;
 $heading-font-color: $neutral-5;
-$heading-font-weight: $font-weight-bold;
+$heading-font-weight: $font-weight-regular;
 $heading-font-family: National, Arial, sans-serif;
 $heading-margin-bottom: 1.4rem;
 
@@ -146,7 +146,7 @@ $paragraph-margin: 1.4rem;
 $paragraph-max-width: 60rem;
 
 /* * * *
- * Page 
+ * Page
  *
  * * * */
 $page-template-background: linear-gradient(to top, $neutral-1, $neutral-2);
@@ -179,7 +179,7 @@ $button-font-family: $heading-font-family;
 $button-border-radius: $border-radius;
 // Default button
 $button-padding-vertical: 0.8rem;
-$button-padding-horizontal: 2rem;
+$button-padding-horizontal: 1.8rem;
 // Small button
 $button-padding-vertical-small: $button-padding-vertical*0.55;
 $button-padding-horizontal-small: $button-padding-horizontal*0.75;
@@ -249,15 +249,18 @@ $tooltip-trigger-color-hover: $brand-teal;
  * Modal
  *
  * * * */
-$modal-font-size: $text-tiny;
+$modal-overlay-opacity: 0.9;
 $modal-width: 60rem;
 $modal-width-large: 80rem;
 $modal-width-small: 50rem;
-$modal-heading-padding: 1.5rem;
-$modal-body-padding: 2.5rem;
-$modal-footer-padding: 1.5rem;
+$modal-width-max: 90vw;
+$modal-header-padding: $space-xlarge;
+$modal-heading-padding-top:($modal-header-padding - .4rem);
+$modal-body-padding: $space-xlarge;
+$modal-footer-padding: $space-xlarge;
+$modal-footer-primary-button-min-width: 12rem;
 $modal-border-radius: $border-radius;
-
+$modal-shadow: 0 14px 28px rgba($black, 0.25), 0 10px 10px rgba($black, 0.22);
 
 /* * * *
  * Tables
@@ -310,12 +313,13 @@ $popover-arrow: 8px;
 
 
 /* * * *
- * chart
+ * Chart
  *
  * * * */
 
 $chart-line: $brand-teal;
 $chart-minmax: $chart-line;
+$chart-minmax-outline: 1px solid $neutral-2;
 $chart-trendline: $brand-persimmon;
 $chart-min-bar: $neutral-5;
 $chart-max-bar: $brand-turmeric;
@@ -323,6 +327,10 @@ $chart-axis: $neutral-4;
 $chart-grid: $neutral-1;
 $chart-scrubline: $chart-axis;
 $color-header: $neutral-5;
+$chart-toggle-label-weight: $font-weight-bold;
+$chart-legend-text-size: $text-small;
+$chart-legend-datasets-text-size: $text-tiny;
+$chart-legend-datasets-border-top: 1px solid $neutral-1;
 
 
 /* * * *
@@ -400,7 +408,7 @@ $card-border-radius: $border-radius;
  $concern-outline: $concern-outline-width solid $neutral-1;
  $concern-outline-hover: $concern-outline-width solid $brand-teal-light;
 
- $concern-title-size: $text-small;
+ $concern-title-size: $text-base;
  $concern-title-line-height: 1.25;
  $concern-title-color: $neutral-4;
  $concern-title-color-hover: $brand-black;
@@ -426,7 +434,7 @@ $wizard-title-large-color: $brand-black;
 $wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-regular;
 
-$wizard-adaptive-need-border: 0px 0px 0 3px $white, 
+$wizard-adaptive-need-border: 0px 0px 0 3px $white,
                               0px 0px 0 4px $neutral-2;
 
 $wizard-step-prompt-color: $neutral-4;
@@ -475,3 +483,30 @@ $review-feedback-list-size: $text-base;
 $review-feedback-icon-size: $text-medium;
 $review-feedback-icon-background: $brand-teal-light;
 $review-feedback-row-background: $white;
+
+
+/* * * *
+ * Splash page
+ *
+ * * * */
+$splash-header-background: $brand-primary;
+$splash-title-size: $text-base;
+$splash-title-weight: $font-weight-light;
+$splash-title-color: $white;
+$splash-intro-size: $text-jumbo;
+$splash-intro-weight: $font-weight-light;
+$splash-intro-color: $white;
+$splash-intro-line-height: 1.2;
+$splash-prompt-background: $white;
+$splash-prompt-size: $white;
+$splash-prompt-max-width: 45rem;
+
+/* * * *
+ * Empty states
+ *
+ * * * */
+$empty-state-background: $neutral-1;
+$empty-state-header-color: $brand-black;
+$empty-state-header-size: $text-base;
+$empty-state-text-style: italic;
+$empty-state-text-max-width: 30rem;

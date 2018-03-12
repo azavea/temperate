@@ -36,7 +36,7 @@ export class CommunitySystemsStepComponent
 
   public form: FormGroup;
   public navigationSymbol = '3';
-  public title = 'Community Systems';
+  public title = 'Community systems at risk';
 
   private communitySystems: CommunitySystem[] = [];
 

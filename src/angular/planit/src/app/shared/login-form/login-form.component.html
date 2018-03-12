@@ -1,50 +1,49 @@
-<div class="modal-header">
-  <h1>Log Into Your Account</h1>
-</div>
+<header class="modal-header">
+  <h1 class="modal-title">Log in to Temperate</h1>
+</header>
 <div class="modal-body">
   <form class="form" id="form-login">
     <!-- Email Address/Username -->
-    <div class="required form-group">
-      <label for="email-address">Email Address</label>
+    <div class="form-control-container">
+      <label for="email-address">Email address</label>
       <input class="form-control" id="email-address"
-          [(ngModel)]="username"
+          [(ngModel)]="username" autofocus
           type="email" name="textfield" autocomplete="email" required>
-      <div *ngIf="errors.email" class="alert alert-danger">
-        <div *ngFor="let error of errors.email">
-          <p>{{ error }}</p>
-        </div>
+      <div *ngIf="errors.email" class="form-control-error">
+        <p *ngFor="let error of errors.email">
+          {{ error }}
+        </p>
       </div>
     </div>
 
     <!-- Password -->
-    <div class="required form-group">
+    <div class="form-control-container">
       <label for="password">Password</label>
       <input class="form-control" id="password"
           [(ngModel)]="password" auto
           type="password" name="password" autocomplete="current-password" required>
-      <div *ngIf="errors.password" class="alert alert-danger">
-        <div *ngFor="let error of errors.password">
-          <p>{{ error }}</p>
-        </div>
+      <div *ngIf="errors.password" class="form-control-error">
+        <p *ngFor="let error of errors.password">
+          {{ error }}
+        </p>
       </div>
     </div>
   </form>
-  <div *ngIf="errors.non_field_errors" class="alert alert-danger">
-      <div *ngFor="let error of errors.non_field_errors">
-          <p>{{ error }}</p>
-      </div>
+  <div *ngIf="errors.non_field_errors" class="form-control-error">
+      <p *ngFor="let error of errors.non_field_errors">
+          {{ error }}
+      </p>
   </div>
-  <div *ngIf="emailSent" class="alert">
-    <p>An email with a link to reset your password has been sent to you
-    if the account exists. This link will expire in 24 hours.
-    </p>
-  </div>
-</div>
-<div class="modal-footer">
-  <div class="button-group">
-    <input type="submit" class="button button-primary button-small"
-        (click)="submit()" value="Log In" form="form-login">
-    <input type="submit" class="button button-primary button-small"
-        (click)="forgotPassword()" value="Forgot password" form="form-login">
-  </div>
+  <footer class="modal-footer">
+    <button type="submit" class="button button-primary"
+        (click)="submit()" form="form-login">Log in</button>
+    <div class="secondary-links">
+      <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
+        Forgot password?
+      </a>
+      <a routerLink="/register">
+        Don't have an account?
+      </a>
+    </div>
+  </footer>
 </div>

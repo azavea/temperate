@@ -10,11 +10,13 @@ import { Action } from '../../shared/models/action.model';
 import { Risk } from '../../shared/models/risk.model';
 import { WeatherEvent } from '../../shared/models/weather-event.model';
 import { PlanItApiHttp } from './api-http.service';
+import { UserService } from './user.service';
 
 @Injectable()
 export class RiskService {
 
   constructor(private apiHttp: PlanItApiHttp,
+              private userService: UserService,
               private indicatorService: IndicatorService) {}
 
   private formatRisk(risk: Risk) {
@@ -83,6 +85,9 @@ export class RiskService {
   create(risk: Risk): Observable<Risk> {
     const url = `${environment.apiUrl}/api/risks/`;
     return this.apiHttp.post(url, this.formatRisk(risk)).map(resp => {
+      // Creating a risk can add a new weather event for the user's organization, so we need to
+      // invalidate our cached version to refresh.
+      this.userService.invalidate();
       return new Risk(resp.json());
     });
   }
@@ -90,12 +95,20 @@ export class RiskService {
   update(risk: Risk): Observable<Risk> {
     const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
     return this.apiHttp.put(url, this.formatRisk(risk)).map(resp => {
+      // Updating a risk can change the weather events for the user's organization, so we need to
+      // invalidate our cached version to refresh.
+      this.userService.invalidate();
       return new Risk(resp.json());
     });
   }
 
   delete(risk: Risk) {
     const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
-    return this.apiHttp.delete(url);
+    return this.apiHttp.delete(url).map(resp => {
+      // Deleting a risk can remove a new weather event from the user's organization, so we need to
+      // invalidate our cached version to refresh.
+      this.userService.invalidate();
+      return resp;
+    });
   }
 }

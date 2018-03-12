@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
+import { environment } from '../../../../environments/environment';
 import { Action } from '../../../shared/';
 
 import { ActionService } from '../../../core/services/action.service';
@@ -12,6 +13,7 @@ import { WizardSessionService } from '../../../core/services/wizard-session.serv
 
 import { ActionStepKey } from '../../action-step-key';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
+
 
 interface AssessStepFormModel {
   name: string;
@@ -29,6 +31,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
   public navigationSymbol = '1';
   public title = 'Overview';
   public action: Action;
+  public textMaxLength = environment.actionTextMaxLength;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,

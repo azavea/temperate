@@ -23,7 +23,7 @@ export class AddCityService {
     });
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
-    const url = `${environment.apiUrl}/add_city/`;
+    const url = `${environment.apiUrl}/api/add_city/`;
     return this.apiHttp.post(url, body, options);
   }
 }

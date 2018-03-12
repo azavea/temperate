@@ -8,7 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { OrganizationService } from '../../../../core/services/organization.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
 import {
-  City,
   Organization,
   WizardStepComponent
 } from '../../../../shared/';
@@ -17,7 +16,6 @@ import { PlanStepKey } from '../../plan-step-key';
 import { PlanWizardStepComponent } from '../../plan-wizard-step.component';
 
 interface DueDateStepFormModel {
-  city_name: string;
   plan_due_date: Date;
 }
 
@@ -33,7 +31,6 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
   public navigationSymbol = '1';
   public title = 'Expected finish date';
 
-  public cityName: string;
   public minDate: Date = new Date();
   public planDueDate: Date;
   public suggestedDate: Date;
@@ -55,14 +52,12 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   fromModel(org: Organization): DueDateStepFormModel {
     return {
-      city_name: org.location.properties.name,
       plan_due_date: org.plan_due_date
     };
   }
 
   getFormModel(): DueDateStepFormModel {
     const data: DueDateStepFormModel = {
-      city_name: this.cityName,
       plan_due_date: this.planDueDate
     };
     return data;
@@ -70,8 +65,6 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   setupForm(data: DueDateStepFormModel) {
     this.form = this.fb.group({
-      'city_name': [{value: data.city_name ? data.city_name : '', disabled: true},
-                   [Validators.required]],
       'plan_due_date': [data.plan_due_date ? data.plan_due_date : '',
                        [Validators.required]]
     });

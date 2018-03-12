@@ -57,18 +57,15 @@ class PasswordResetForm(forms.Form):
 
     def is_valid(self):
         valid = super(PasswordResetForm, self).is_valid()
-        if not valid:
-            return False
+
         if self.cleaned_data['user'] is None:
             self.errors['non_field_errors'] = ['Invalid password reset link.']
-            return False
-        if self.cleaned_data['token_data']['expire'] < time():
+        elif self.cleaned_data['token_data']['expire'] < time():
             self.errors['non_field_errors'] = ['Password reset link has expired.']
-            return False
-        if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+        elif valid and self.cleaned_data['password1'] != self.cleaned_data['password2']:
             self.errors['non_field_errors'] = ['Passwords must match.']
-            return False
-        return True
+
+        return valid and not self.errors
 
     def clean(self):
         super(PasswordResetForm, self).clean()

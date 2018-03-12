@@ -34,6 +34,7 @@ import { SharedModule } from './shared/shared.module';
 import { ActionResolve } from './action-steps/resolvers/action-resolve';
 import { SuggestedActionResolve } from './action-steps/resolvers/suggested-action-resolve';
 import { RiskResolve } from './assessment/resolvers/risk-resolve';
+import { UserResolve } from './core/resolvers/user.resolve';
 import { WeatherEventResolve } from './core/resolvers/weather-event.resolve';
 import { AccountCreateService } from './core/services/account-create.service';
 import { ActionCategoryService } from './core/services/action-category.service';
@@ -51,12 +52,12 @@ import { CommunitySystemService } from './core/services/community-system.service
 import { DownloadService } from './core/services/download.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
+import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
-import { UserResolve } from './core/services/user.resolve';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
@@ -72,7 +73,9 @@ import {
   TypeaheadModule
  } from 'ngx-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
+import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     PartnershipsComponent,
     PlanSelectorComponent,
     PricingComponent,
-    RegistrationPageComponent
+    RegistrationPageComponent,
+    ForgotPasswordPageComponent,
+    ResetPasswordComponent
   ],
   imports: [
     // Angular
@@ -141,6 +146,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
     DownloadService,
     LoggedInAuthGuard,
     OrganizationService,
+    PasswordResetGuard,
     PlanAuthGuard,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,

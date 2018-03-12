@@ -36,19 +36,15 @@
   </main>
 </div>
 
-<app-modal-template #weatherEventsModal
-                    [modalOptions]="{ignoreBackdropClick: true, keyboard: false}"
-                    title="Add Hazard">
-  <div class="dashboard-modal-add-hazards">
-    <app-add-weather-events [formControl]="selectedEventsControl"
-                            [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
-    <div class="footer">
-      <button class="button button-secondary"
-              (click)="cancelModal(weatherEventsModal)">Cancel</button>
-      <button class="button button-primary"
-              (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>
-    </div>
-  </div>
+<app-modal-template #weatherEventsModal title="Add Hazard">
+  <app-add-weather-events [formControl]="selectedEventsControl"
+                          [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
+  <footer class="modal-footer">
+    <button class="button button-primary"
+            (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>
+    <button class="button"
+            (click)="cancelModal(weatherEventsModal)">Cancel</button>
+  </footer>
 </app-modal-template>
 
 <app-modal-template #trialWarningModal

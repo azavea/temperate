@@ -1,33 +1,34 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <section class="page-section page-intro">
-      <h1 class="heading">Indicators</h1>
+    <header class="page-header">
+      <h1 class="page-title-large">Indicators</h1>
       <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p>
       <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
-    </section>
+    </header>
+
     <section class="page-section">
-      <h2>Top Concerns</h2>
-      <p>These are the indicators that we think you should be including in your risk assessment. Feel free to add and remove from below – you know your city best.</p>
-      <app-top-concerns class="card card-full" [weatherEvents]="topConcerns"></app-top-concerns>
+      <h2>Top hazards</h2>
+      <app-top-concerns [weatherEvents]="topConcerns"></app-top-concerns>
     </section>
-    <section class="indicator-filters" *ngIf="filters?.length">
-      <div class="filter-header">
-        <h2>Filter indicators</h2>
-        <button class="button-link" (click)="resetAccordion()">Reset</button>
-      </div>
-      <div class="card-container">
-        <button class="button card"
-             [ngClass]="{'active': activeFilter?.name === filter.name}"
-             *ngFor="let filter of filters"
-             (click)="setActiveFilter(filter)">
-          <span class="icon" [ngClass]="filter.name | weatherEventIcon"></span>
-          <h4>{{ filter.name }}</h4>
-        </button>
-      </div>
-    </section>
+    
     <section class="page-section indicators">
-      <h2>All Indicators</h2>
-      <p>Below are all of the indicators for your city.</p>
+      <div class="indicators-header">
+        <h2>Indicators</h2>
+        <div class="indicator-filters" *ngIf="filters?.length">
+          <div class="filter-header">
+            <label for="filter-indicators">Filter by hazard:</label>
+            <div id="filter-indicators" class="button-group">
+              <button class="button button-secondary"
+                   [ngClass]="{'active': activeFilter?.name === filter.name}"
+                   *ngFor="let filter of filters"
+                   (click)="setActiveFilter(filter)">
+                  {{ filter.name }}
+              </button>
+              <button class="button-link reset-button" (click)="resetAccordion()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-container" role="tablist" aria-multiselectable="true">
         <app-collapsible-chart
             *ngFor="let indicator of allIndicators"
