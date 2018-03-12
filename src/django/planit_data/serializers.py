@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from action_steps.models import ActionCategory
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
@@ -89,10 +88,7 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
         many=False,
         source='organization_risk'
     )
-    categories = ActionCategoryField(
-        many=True,
-        queryset=ActionCategory.objects.all()
-    )
+    categories = ActionCategoryField(many=True)
 
     def validate_risk(self, value):
         user_organization = self.context['request'].user.primary_organization
@@ -172,10 +168,7 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
 
 
 class SuggestedActionSerializer(serializers.ModelSerializer):
-    categories = ActionCategoryField(
-        many=True,
-        read_only=True
-    )
+    categories = ActionCategoryField(many=True)
     plan_city = serializers.SerializerMethodField()
     plan_due_date = serializers.SerializerMethodField()
     plan_name = serializers.SerializerMethodField()

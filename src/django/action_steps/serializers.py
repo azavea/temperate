@@ -15,6 +15,7 @@ class ActionCategorySerializer(serializers.ModelSerializer):
 class ActionCategoryField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
     serializer = ActionCategorySerializer
+    queryset = ActionCategory.objects.all()
 
 
 class ActionTypeSerializer(serializers.ModelSerializer):
