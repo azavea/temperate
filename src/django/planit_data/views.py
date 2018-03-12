@@ -106,6 +106,7 @@ class OrganizationRiskView(ModelViewSet):
     serializer_class = OrganizationRiskSerializer
 
     def get_serializer(self, *args, data=None, **kwargs):
+        kwargs['context'] = self.get_serializer_context()
         if data is not None:
             # if 'data' is a QueryDict it must be copied before being modified
             data = data.copy() if isinstance(data, QueryDict) else data
@@ -195,6 +196,7 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
     pagination_class = None
 
     def get_serializer(self, *args, data=None, **kwargs):
+        kwargs['context'] = self.get_serializer_context()
         if data is not None:
             # if 'data' is a QueryDict it must be copied before being modified
             data = data.copy() if isinstance(data, QueryDict) else data

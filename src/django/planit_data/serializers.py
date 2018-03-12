@@ -87,6 +87,12 @@ class RiskPKField(serializers.PrimaryKeyRelatedField):
         )
 
 
+class OrganizationPKField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        user = self.context['request'].user
+        return PlanItOrganization.objects.filter(planituser=user)
+
+
 class OrganizationActionSerializer(serializers.ModelSerializer):
     risk = RiskPKField(
         many=False,
@@ -117,9 +123,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
     action = serializers.SerializerMethodField()
 
-    organization = serializers.PrimaryKeyRelatedField(
+    organization = OrganizationPKField(
         many=False,
-        queryset=PlanItOrganization.objects.all(),
         write_only=True
     )
 
@@ -147,9 +152,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
 
 class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
-    organization = serializers.PrimaryKeyRelatedField(
+    organization = OrganizationPKField(
         many=False,
-        queryset=PlanItOrganization.objects.all(),
         write_only=True
     )
     weather_event = WeatherEventField(
