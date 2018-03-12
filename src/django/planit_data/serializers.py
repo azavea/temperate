@@ -112,14 +112,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     """Serialize organization risks for viewing, with related models.
 
     Only show 1 action for MVP even though Risk:Action is 1:M."""
-    weather_event = WeatherEventField(
-        many=False,
-        queryset=WeatherEvent.objects.all(),
-    )
-    community_system = CommunitySystemField(
-        many=False,
-        queryset=CommunitySystem.objects.all(),
-    )
+    weather_event = WeatherEventField(many=False)
+    community_system = CommunitySystemField(many=False)
 
     action = serializers.SerializerMethodField()
 
