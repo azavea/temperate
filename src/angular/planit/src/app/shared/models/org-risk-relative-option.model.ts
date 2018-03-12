@@ -1,3 +1,6 @@
+// The strings in this enum are equivalent to the available options in our API,
+//  defined at planit_data.models.OrganizationRisk.Relative
+// These strings should only be changed if the options in that class are changed.
 // The adaptive need tooltip box expects these to be declared in ascending severity
 export enum OrgRiskRelativeOption {
   Unsure = 'unsure',
