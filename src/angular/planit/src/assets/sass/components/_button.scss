@@ -234,4 +234,14 @@
     color: inherit;
     background: none;
   }
+
+  &:disabled, &.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    border-radius: $border-radius;
+    @include button-focus-outline();
+  }
 }
