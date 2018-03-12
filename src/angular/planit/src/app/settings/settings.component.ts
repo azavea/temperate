@@ -2,6 +2,7 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
+import { InviteUserService } from '../core/services/invite-user.service';
 import { OrganizationService } from '../core/services/organization.service';
 import { UserService } from '../core/services/user.service';
 import { User } from '../shared';
@@ -21,7 +22,8 @@ export class SettingsComponent implements OnInit {
 
   constructor(private organizationService: OrganizationService,
               private toastr: ToastrService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private inviteUserService: InviteUserService) { }
 
   ngOnInit() {
     this.userService.current().subscribe(user => this.user = user);
@@ -55,5 +57,11 @@ export class SettingsComponent implements OnInit {
     }, () => {
       this.toastr.error('Something went wrong, please try again.');
     });
+  }
+
+  inviteUser(email) {
+    const message = 'Your new colleague will receive an email to join your organization';
+
+    this.save(this.inviteUserService.invite(email), message);
   }
 }
