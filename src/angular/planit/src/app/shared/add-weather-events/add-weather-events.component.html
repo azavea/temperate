@@ -15,8 +15,7 @@
             tooltip="Add to top concerns"
             tooltipPlacement="right"></span>
       <span class="icon icon-primary"
-          [ngClass]="option.display_class"
-          ></span>
+          [ngClass]="option.display_class"></span>
       {{ option.name }}
       <span *ngIf="isReadOnly(option)"
             class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
