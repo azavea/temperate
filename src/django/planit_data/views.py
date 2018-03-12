@@ -1,6 +1,5 @@
 from django.db import transaction
 from django.db.models import Q
-from django.http.request import QueryDict
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -25,6 +24,7 @@ from planit_data.serializers import (
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
+    OrganizationWeatherEventRankSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
     WeatherEventSerializer,
@@ -105,15 +105,12 @@ class OrganizationRiskView(ModelViewSet):
     pagination_class = None
     serializer_class = OrganizationRiskSerializer
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
@@ -179,6 +176,14 @@ class OrganizationActionViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
+    def get_serializer_context(self):
+        # Pass the user's organization to the serializer so it can be saved correctly
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
+
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -195,15 +200,12 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            "organization": self.request.user.primary_organization_id
+        })
+        return context
 
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
@@ -292,7 +294,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         results = self.order_suggestions(risk.community_system, risk.weather_event,
                                          is_coastal, queryset)
 
-        serializer = self.serializer_class(results[:5], many=True)
+        serializer = self.serializer_class(results[:5], many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -305,3 +307,16 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
         return WeatherEvent.objects.all().prefetch_related(
             'indicators'
         ).order_by('name')
+
+class WeatherEventRankView(APIView):
+
+    # Explicit permission classes because we use request.user in the view
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrganizationWeatherEventRankSerializer
+    pagination_class = None
+
+    def get(self, request, *args, **kwargs):
+        """Return ranked risks based on authenticated user's primary org location."""
+        queryset = request.user.primary_organization.weather_events.all().order_by('order')
+        serializer = self.serializer_class(queryset, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
