@@ -77,10 +77,16 @@ class WeatherEventWithConcernSerializer(WeatherEventSerializer):
     concern = ConcernSerializer()
 
 
+class RiskPKField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        organization = self.context['request'].user.primary_organization
+        queryset = OrganizationRisk.objects.filter(organization=organization)
+        return queryset
+
+
 class OrganizationActionSerializer(serializers.ModelSerializer):
-    risk = serializers.PrimaryKeyRelatedField(
+    risk = RiskPKField(
         many=False,
-        queryset=OrganizationRisk.objects.all(),
         source='organization_risk'
     )
     categories = ActionCategoryField(
