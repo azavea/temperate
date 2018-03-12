@@ -1,5 +1,31 @@
 .ldBar {
+  .ldBar-label.ldBar-label-number {
+    margin-top: -0.25rem;
+    line-height: 0; 
+  }
+  
   .ldBar-label.ldBar-label-number::after {
     content: none;
+  }
+}
+
+.progress-circle, .progress-number {
+  font-size: $text-medium;
+  font-weight: $font-weight-light;
+  color: $neutral-3;
+}
+
+.progress-circle {
+  .baseline {
+    stroke-width: 6px;
+    stroke: $neutral-1;
+  }
+
+  .mainline {
+    stroke-width: 6px;
+    stroke: $brand-teal;
+  }
+
+  .ldBar-label {
   }
 }
