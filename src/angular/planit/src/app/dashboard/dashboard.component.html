@@ -12,8 +12,15 @@
         </div>
 
         <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
-          <h4>You haven&rsquo;t started your assessment yet</h4>
-          <p>To get started, you can either <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add hazards</button> that you want to include in your assessment or start considering risks <a routerLink="/assessment/risk/new">from scratch.</a></p>
+          <h4 class="empty-state-header">You haven&rsquo;t started your assessment yet</h4>
+          <p class="empty-state-text">
+            To get started, you can 
+            <button type="button" class="button-link" 
+                    (click)="openModal(weatherEventsModal)">add hazards 
+            </button>
+            that you want to include in your assessment or start considering risks 
+            <a routerLink="/assessment/risk/new">from scratch.</a>
+          </p>
         </div>
 
         <app-grouped-risk
@@ -21,12 +28,12 @@
             [risks]="risks"
             [weatherEvent]="risks[0].weather_event">
         </app-grouped-risk>
-      </div>
 
-      <footer class="dashboard-footer">
-        <button type="button" class="button"
-                (click)="openModal(weatherEventsModal)">Add top hazard</button>
-      </footer>
+        <footer class="dashboard-footer" *ngIf="this.groupedRisks?.length">
+          <button type="button" class="button"
+                  (click)="openModal(weatherEventsModal)">Add top hazard</button>
+        </footer>
+      </div>
     </section>
 
     <aside class="dashboard-sidebar">
@@ -37,8 +44,11 @@
         <div class="aside-block">
           <h3 class="aside-title">Review</h3>
           <p>Review your plan in its entirety or submit a completed plan to ICLEI-USA for review.</p>
-          <a (click)="downloadPlan()">Download plan (CSV)</a>
+          <a href="placeholder">Review your plan</a>
           <div class="aside-footer">
+            <a class="button button-small" 
+               (click)="downloadPlan()"
+               tooltip="Download your plan as a CSV">Download</a>
             <button type="button" class="button button-small">Submit</button>
           </div>
         </div>

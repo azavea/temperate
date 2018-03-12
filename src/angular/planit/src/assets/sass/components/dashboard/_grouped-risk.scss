@@ -1,6 +1,6 @@
-.hazard-header {
+.grouped-risk-header {
   display: flex;
-  background: $white;
+  background: $grouped-risk-header-background;
   padding: $space-large;
   align-items: center;
   justify-content: space-between;
@@ -8,50 +8,55 @@
   border-top-left-radius: $border-radius;
 }
 
-.hazard-priority {
-  margin-right: $space-small;
-}
-
-.hazard-priority-empty {
-  color: $neutral-2;
-  margin-right: $space-small;
-}
-
-.hazard-title {
+.grouped-risk-title {
   margin-bottom: 0;
-  font-size: $text-base;
+  font-size: $grouped-risk-header-title-size;
 }
 
-.hazard-risks-number {
-  font-size: $text-small;
-  color: $neutral-3;
+.grouped-risk-priority {
+  margin-right: $space-small;
+}
+
+.grouped-risk-priority-empty {
+  color: $grouped-risk-priority-empty-color;
+  margin-right: $space-small;
+}
+
+.risks-number {
+  font-size: $grouped-risk-risks-number-size;
+  color: $grouped-risk-risks-number-color;
   font-variant: tabular-nums;
 }
 
-//////////////////////////
 // Grouped risk blocks
-//////////////////////////
-.hazard-summary {
-  background-color: $white;
+.grouped-risk-summary {
+  background-color: $grouped-risk-summary-background;
   padding: 0 $space-tiny $space-tiny;
   border-bottom-right-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
   margin-bottom: $space-xlarge;
 }
 
-.hazard-block {
+.grouped-risk-progress-container {
   display: flex;
-  background: $neutral-0;
+  background: $grouped-risk-progress-container-background;
   padding: $space-medium;
   border-radius: $border-radius;
 
+  .progress-percentage {
+    font-size: $grouped-risk-progress-percentage-size;
+    color: $grouped-risk-progress-percentage-color;
+    font-variant: tabular-nums;
+  }
+
   .progress {
-    height: 8px;
+    height: $grouped-risk-progress-height;
     margin-bottom: 0;
     box-shadow: none;
-    background-color: $neutral-1;
+    background-color: $grouped-risk-progress-background;
 
     .progress-bar {
+      background: $grouped-risk-progress-highlight-background-default;
       box-shadow: none;
     }
   }
@@ -62,51 +67,40 @@
   }
 }
 
-.hazard-block-title {
-  font-size: $text-small;
-  color: $neutral-4;
+.grouped-risk-progress-title {
+  font-size: $grouped-risk-progress-title-size;
+  color: $grouped-risk-progress-title-color;
   margin-bottom: 0;
 }
 
-.progress-percentage {
-  font-size: $text-tiny;
-  color: $neutral-3;
-  font-variant: tabular-nums;
-}
-
-.hazard-action-block {
-  margin-top: $space-tiny;
-  padding-top: $space-large;
-}
-
-.hazard-block-progress {
+.grouped-risk-progress {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   flex: 1 1 auto;
 }
 
-.hazard-summary .button-link {
-  border-bottom: none;
-  color: $brand-primary;
+// When there are no related indicators,
+// don't show the tooltip that says "See related indicators".
+// This is kind of hacky.
+.grouped-risk-header .indicators-trigger-button.disabled {
+  pointer-events: none;
 }
 
-//////////////////////////
-// Change color based on 
-// Assessment or Action steps
-//////////////////////////
-.hazard-assessment-block {
-  .progress {
-    .progress-bar {
-      background: $brand-teal;
-    }
-  }
+.grouped-risk-header .indicators-trigger-button span {
+  color: $grouped-risk-indicator-color;
 }
 
-.hazard-action-block {
+// Action specific styles 
+.grouped-risk-progress-action {
+  margin-top: $space-tiny;
+  padding-top: $space-large;
+}
+
+.grouped-risk-progress-action {
   .progress {
     .progress-bar {
-      background: $brand-positive;
+      background: $grouped-risk-progress-highlight-background-action;
     }
   }
 }

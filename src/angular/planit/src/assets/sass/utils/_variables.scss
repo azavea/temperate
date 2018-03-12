@@ -302,13 +302,13 @@ $popover-padding-vertical: 0.9rem;
 $popover-padding-horizontal: 1.4rem;
 $popover-border-radius: $border-radius;
 $popover-font-size: $font-size-body;
-$popover-heading-font-size: $font-size-body;
+$popover-heading-font-size: $text-medium;
 $popover-font-color: $heading-font-color;
 $popover-background-color: $white;
 $popover-margin: 7px;
 $popover-max-width: 28rem;
 $popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
-$popover-border: 1px solid rgba(48,47,77,.15);
+$popover-border: none;
 $popover-arrow: 8px;
 
 
@@ -502,10 +502,74 @@ $splash-prompt-size: $white;
 $splash-prompt-max-width: 45rem;
 
 /* * * *
+ * Dashboard
+ *
+ * * * */
+$dashboard-header-max-width: 65rem;
+$dashboard-aside-background: $white;
+$dashboard-aside-title-size: $text-base;
+
+
+/* * * *
+ * Grouped Risks
+ *
+ * * * */
+$grouped-risk-header-background: $white;
+$grouped-risk-header-title-size: $text-base;
+$grouped-risk-priority-empty-color: $neutral-2;
+$grouped-risk-risks-number-color: $neutral-3;
+$grouped-risk-risks-number-size: $text-small;
+
+$grouped-risk-summary-background: $white;
+$grouped-risk-progress-container-background: $neutral-0;
+
+$grouped-risk-progress-percentage-size: $text-tiny;
+$grouped-risk-progress-percentage-color: $neutral-3;
+
+$grouped-risk-progress-title-size: $text-small;
+$grouped-risk-progress-title-color: $neutral-4;
+
+$grouped-risk-progress-height: 8px;
+$grouped-risk-progress-background: $neutral-1;
+$grouped-risk-progress-highlight-background-default: $brand-teal;
+$grouped-risk-progress-highlight-background-action: $brand-positive;
+$grouped-risk-indicator-color: $brand-teal;
+
+
+/* * * *
+ * City profile summary
+ *
+ * * * */
+$profile-summary-progress-container-background: $neutral-0;
+
+$profile-summary-progress-overall-size: $text-jumbo;
+$profile-summary-progress-overall-line-height: 2.25;
+$profile-summary-progress-overall-label-weight: $font-weight-light;
+
+$profile-summary-progress-label-color: $brand-black;
+$profile-summary-progress-label-line-height: 1;
+
+$profile-summary-required-done-background: lighten( $brand-positive, 50% );
+$profile-summary-required-done-color: $brand-black;
+$profile-summary-required-done-progress-overall-size: $text-medium;
+
+$profile-summary-circle-label-size: $text-base;
+$profile-summary-circle-label-weight: $font-weight-regular;
+
+$profile-summary-circle-stroke-width: 6px;
+$profile-summary-circle-stroke: $neutral-1;
+$profile-summary-circle-stroke-highlight: $brand-teal;
+
+$profile-summary-finished-icon-color: $brand-positive;
+$profile-summary-finished-icon-size: $text-medium;
+
+
+/* * * *
  * Empty states
  *
  * * * */
 $empty-state-background: $neutral-1;
+$empty-state-background-light: $white;
 $empty-state-header-color: $brand-black;
 $empty-state-header-size: $text-base;
 $empty-state-text-style: italic;

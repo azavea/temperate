@@ -10,26 +10,20 @@ app-dashboard {
   }
 
   .section-header {
-    max-width: 65rem;
+    max-width: $dashboard-header-max-width;
   }
 
-  .hazard-indicators-trigger {
-    button span {
-      color: $brand-teal;
-    }
-  }
-
-  .aside-block-container {
+  .aside-block-container:not(:last-child) {
     margin-bottom: $space-xlarge;
   }
 
   .aside-block {
-    background: $white;
+    background: $dashboard-aside-background;
     padding: $space-xlarge;
   }
 
   .aside-title {
-    font-size: $text-base;
+    font-size: $dashboard-aside-title-size;
   }
 
   .aside-content {
@@ -41,6 +35,14 @@ app-dashboard {
       flex: 1 1 100%;
     }
   }
+
+  .aside-footer {
+    display: flex;
+
+    *:first-child {
+      margin-right: 2px;
+    }
+  }
 }
 
 .dashboard-container {
@@ -50,6 +52,32 @@ app-dashboard {
   margin-right: $space-xlarge;
 }
 
+.dashboard-content {
+  height: 100%;
+}
+
+.dashboard-empty {
+  text-align: center;
+  background: $empty-state-background-light;
+  flex-direction: column;
+  padding: $space-xxlarge $space-xxlarge 0 $space-xxlarge;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+
+  .empty-state-header {
+    font-size: $empty-state-header-size;
+    color: $empty-state-header-color;
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state-text {
+    font-style: $empty-state-text-style;
+    max-width: 50rem;
+    margin: 0 auto;
+  }
+}
+
 .dashboard-sidebar {
   flex: 0 0 30rem;
 }
@@ -57,4 +85,8 @@ app-dashboard {
 .dashboard-no-risks {
   justify-content: center;
   align-items: center;
+}
+
+.dashboard-footer {
+ margin-top: $space-xlarge;
 }

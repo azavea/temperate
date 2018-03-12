@@ -3,29 +3,27 @@
     margin-top: -0.25rem;
     line-height: 0; 
   }
-  
+
   .ldBar-label.ldBar-label-number::after {
     content: none;
   }
 }
 
 .progress-circle, .progress-number {
-  font-size: $text-medium;
-  font-weight: $font-weight-light;
-  color: $neutral-3;
+  color: $profile-summary-progress-label-color;
 }
 
 .progress-circle {
+  font-size: $profile-summary-circle-label-size;
+  font-weight: $profile-summary-circle-label-weight;
+  
   .baseline {
-    stroke-width: 6px;
-    stroke: $neutral-1;
+    stroke-width: $profile-summary-circle-stroke-width;
+    stroke: $profile-summary-circle-stroke;
   }
 
   .mainline {
-    stroke-width: 6px;
-    stroke: $brand-teal;
-  }
-
-  .ldBar-label {
+    stroke-width: $profile-summary-circle-stroke-width;
+    stroke: $profile-summary-circle-stroke-highlight;
   }
 }

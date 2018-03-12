@@ -17,20 +17,16 @@
   <!-- All in progress -->
   <div class="aside-content all-inprogress" *ngIf="!isDone(required) && !isDone(overall)">
     <p>Enter information about your city, including any long-term goals you hope to achieve</p>
-    <div class="profile-progress required-progress">
+    <div class="profile-progress-container required-progress">
       <div class="progress-circle"
            [ldProgressbar]="required.complete"
            [ldProgressbarMax]="required.total"
            ldProgressbarLabelType="number">
       </div>
-      <button class="progress-title button-icon-only"
-          [popover]="requiredMayorsPopover"
-          [outsideClick]="true"
-          container="body"
-          placement="left">Required <span class="icon icon-question-circle"></span></button>
+      <span class="progress-title">Required</span>
     </div>
 
-    <div class="profile-progress overall-progress">
+    <div class="profile-progress-container overall-progress">
       <span class="progress-number">{{ percentage(overall) }}%</span>
       <span class="progress-title">Overall</span>
     </div>
@@ -38,12 +34,12 @@
 
   <!-- Required fields complete -->
   <div class="aside-content overall-inprogress" *ngIf="isDone(required) && !isDone(overall)">
-    <div class="profile-progress required-progress">
+    <div class="profile-progress-container required-progress">
       <span class="icon icon-ok-circled icon-finished-section"></span>
       <span class="progress-title">Required</span>
     </div>
 
-    <div class="profile-progress overall-progress">
+    <div class="profile-progress-container overall-progress">
       <span class="progress-number">{{ percentage(overall) }}%</span>
       <span class="progress-title">Overall</span>
     </div>
@@ -53,13 +49,3 @@
     <a routerLink="/city-profile" class="button button-small">Manage</a>
   </div>
 </div>
-
-<ng-template #requiredMayorsPopover>
-  <div class="required-popover">
-    <h5 class="popover-title">Required for the Global Covenant of Mayors</h5>
-    <div class="popover-content">
-      <p>If you are using Temperate to achieve compliance with the Global Covenant of Mayors, then certain fields are required for your submission.</p>
-      <p>The Global Covenant of Mayors has been designed to encourage best practices in addressing climate change mitigation and adaptation in cities. <a href="https://www.globalcovenantofmayors.org/" target="_blank">Learn more.</a></p>
-    </div>
-  </div>
-</ng-template>

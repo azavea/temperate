@@ -1,31 +1,31 @@
-<div class="hazard-header">
-  <h4 class="hazard-title">
-    <span class="hazard-priority">
+<div class="grouped-risk-header">
+  <h4 class="grouped-risk-title">
+    <span class="grouped-risk-priority">
       <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
                             [potentialImpact]="aggregateNeed.impact"
                             [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
-      <span class="hazard-priority-empty" 
+      <span class="grouped-risk-priority-empty" 
            *ngIf="!isAdaptiveNeedBoxVisible()"
            tooltip="When you assess risks, an aggregate of their adaptive need appears here"
            placement="right">--</span>
     </span>
     {{ weatherEvent.name }}
-    <span class="hazard-risks-number">&bull; {{ risks.length }} risks</span>
+    <span class="risks-number">&bull; {{ risks.length }} risks</span>
   </h4>
 
-  <span class="hazard-indicators-trigger" [tooltip]="noRelatedIndicatorsTooltip"
+  <span class="indicators-trigger" [tooltip]="noRelatedIndicatorsTooltip"
        [isDisabled]="canShowIndicators">
-    <button class="button-icon-only" tooltip="See related indicators" type="button"
+    <button class="indicators-trigger-button button-icon-only" tooltip="See related indicators" type="button"
             [ngClass]="{disabled: !canShowIndicators}"
             (click)="openModal()"><span class="icon icon-indicators"></span></button>
   </span>
 </div>
 
-<div class="hazard-summary">
-  <div class="hazard-assessment-block hazard-block">
-    <div class="hazard-assessment-progress hazard-block-progress">
-      <h5 class="hazard-assessment-title hazard-block-title">Vulnerability assessment</h5>
-      <span class="progress-percentage">{{ percentRisksAssessed() }} %</span>
+<div class="grouped-risk-summary">
+  <div class="grouped-risk-progress-container grouped-risk-progress-assessment">
+    <div class="grouped-risk-progress">
+      <h5 class="grouped-risk-progress-title">Vulnerability assessment</h5>
+      <span class="progress-percentage">{{ percentRisksAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
     </div>
     <a class="button button-small button-primary" 
@@ -34,10 +34,10 @@
   </div>
   
 
-  <div class="hazard-action-block hazard-block" *ngIf="numberOfRisksAssessed() > 0">
-    <div class="hazard-action-progress hazard-block-progress">
-      <h5 class="hazard-action-title hazard-block-title">Action steps</h5>
-      <span class="progress-percentage">{{ percentActionsAssessed() }} %</span>
+  <div class="grouped-risk-progress-container grouped-risk-progress-action" *ngIf="numberOfRisksAssessed() > 0">
+    <div class="grouped-risk-progress">
+      <h5 class="grouped-risk-progress-title">Action steps</h5>
+      <span class="progress-percentage">{{ percentActionsAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
     <a class="button button-small button-positive"

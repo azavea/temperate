@@ -1,10 +1,10 @@
-.profile-progress {
-  background: $neutral-0;
+.profile-progress-container {
+  background: $profile-summary-progress-container-background;
 }
 
 .icon-finished-section {
-  color: $brand-positive;
-  font-size: $text-medium;
+  color: $profile-summary-finished-icon-color;
+  font-size: $profile-summary-finished-icon-size;
 }
 
 .aside-block-container .aside-footer {
@@ -17,9 +17,9 @@
 }
 
 // All in progress
-.all-inprogress .profile-progress {
+.all-inprogress .profile-progress-container {
   flex: 0 1 49%;
-  padding: 1rem $space-medium 1rem;
+  padding: $space-medium $space-medium $space-medium;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,33 +28,35 @@
 
 .all-inprogress .overall-progress {
   .progress-number {
-    font-size: $text-jumbo;
-    line-height: 2.25;
+    font-size: $profile-summary-progress-overall-size;
+    font-weight: $profile-summary-progress-overall-label-weight;
+    line-height: $profile-summary-progress-overall-line-height;
   }
 }
 
 .all-inprogress .progress-title {
-  margin-top: 3rem; 
-  line-height: 1;
+  margin-top: $space-xxlarge; 
+  line-height: $profile-summary-progress-label-line-height;
 }
 
 // Required fields are complete
-.overall-inprogress .profile-progress {
+.overall-inprogress .profile-progress-container {
   flex: 1 1 100%;
   display: flex;
   justify-content: stretch;
   margin-bottom: $space-small;
   padding: $space-small;
+  height: 5rem;
+  align-items: center;
 }
 
 .overall-inprogress .progress-title {
-  line-height: 1;
+  line-height: $profile-summary-progress-label-line-height;
 }
 
 .overall-inprogress .required-progress {
-  background: lighten( $brand-positive, 50% );
-  color: $brand-primary;
-  align-items: center;
+  background: $profile-summary-required-done-background;
+  color: $profile-summary-required-done-color;
 
   .icon {
     margin-right: $space-small;
@@ -63,10 +65,11 @@
 
 .overall-inprogress .overall-progress {
   padding-left: $space-medium;
-  align-items: baseline;
 
   .progress-number {
     margin-right: $space-medium;
+    font-size: $profile-summary-required-done-progress-overall-size;
+    line-height: 0;
   }
 }
 
@@ -78,5 +81,5 @@
 
 .none-inprogress .aside-title {
   margin-bottom: 0;
-  margin-left: -1rem;
+  margin-left: -$space-medium;
 }
