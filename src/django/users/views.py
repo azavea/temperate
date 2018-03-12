@@ -251,6 +251,10 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
+        if self.request.user.primary_organization:
+            return Response('User already has an organization',
+                            status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
