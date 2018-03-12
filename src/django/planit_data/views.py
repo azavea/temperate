@@ -25,9 +25,11 @@ from planit_data.serializers import (
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
     OrganizationWeatherEventRankSerializer,
+    OrganizationWeatherEventWithConcernSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
     WeatherEventSerializer,
+    WeatherEventWithConcernSerializer
 )
 from users.models import GeoRegion, PlanItLocation
 
@@ -207,6 +209,12 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
         })
         return context
 
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return OrganizationWeatherEventWithConcernSerializer
+        else:
+            return OrganizationWeatherEventSerializer
+
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -300,13 +308,20 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
 class WeatherEventViewSet(ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = WeatherEventSerializer
+    serializer_class = WeatherEventWithConcernSerializer
     pagination_class = None
 
     def get_queryset(self):
         return WeatherEvent.objects.all().prefetch_related(
             'indicators'
         ).order_by('name')
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve'):
+            return WeatherEventWithConcernSerializer
+        else:
+            return WeatherEventSerializer
+
 
 class WeatherEventRankView(APIView):
 

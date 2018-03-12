@@ -160,7 +160,10 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
         many=False,
         write_only=True
     )
-    weather_event = WeatherEventWithConcernSerializer()
+    weather_event = WeatherEventField(
+        many=False,
+        queryset=WeatherEvent.objects.all(),
+    )
     order = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -174,6 +177,10 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
                         'and WeatherEvent'
             )
         ]
+
+
+class OrganizationWeatherEventWithConcernSerializer(OrganizationWeatherEventSerializer):
+    weather_event = WeatherEventWithConcernSerializer()
 
 
 class SuggestedActionSerializer(serializers.ModelSerializer):

@@ -324,6 +324,7 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-list')
         response = self.client.post(url, data=payload)
+        print(response.json())
         risk_id = response.json()['id']
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
@@ -423,6 +424,10 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.put(url, data=payload)
+        print(response.json())
+        import ipdb
+        ipdb.set_trace()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         risk_id = response.json()['id']
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
