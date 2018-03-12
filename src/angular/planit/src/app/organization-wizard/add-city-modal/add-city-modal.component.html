@@ -7,7 +7,9 @@
   <form [formGroup]="cityForm"
         (ngSubmit)="changeTemplate(submittedForm)">
     <div class="modal-body">
-      <p>If Temperate doesn't offer your city yet, we can.</p>
+      <p>
+        If you don&rsquo;t see your city listed here, let us know! Please note we can only add US cities at this time.
+      </p>
       <div class="form-control-container">
         <label for="city">City</label>
         <input id="city" type="text" class="form-control" [formControl]="cityForm.controls.city" required autofocus>
@@ -17,7 +19,7 @@
         <input id="state" class="form-control" [formControl]="cityForm.controls.state" required>
       </div>
       <div class="form-control-container">
-        <label for="notes">Notes</label>
+        <label for="notes">Notes <span class="optional">optional</span></label>
         <textarea id="notes" class="form-control" [formControl]="cityForm.controls.notes"></textarea>
       </div>
       <div *ngIf="error" class="form-control-error">
@@ -26,10 +28,10 @@
       <footer class="modal-footer">
         <div class="button-group">
           <button type="submit" class="button button-primary"
-            [disabled]="!cityForm.valid">Submit</button>
+            [disabled]="!cityForm.valid">Send request</button>
           <button type="button"
             class="button button-secondary"
-            aria-label="Close" (click)="modalRef.hide()">Nevermind</button>
+            aria-label="Close" (click)="modalRef.hide()">Cancel</button>
         </div>
       </footer>
     </div>

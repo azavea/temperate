@@ -1,0 +1,79 @@
+app-plan-step-hazards,
+app-plan-step-community-systems {
+.switch-list-container {
+    margin-top: $space-xxlarge;
+  }
+}
+
+app-plan-step-hazards {
+  .concerns-header {
+    .concern-title {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+app-plan-step-due-date {
+  .date-picker-control {
+    max-width: 12rem;
+  }
+}
+
+.splash-container { 
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.splash-container .splash-content {
+  display: flex;
+  height: 100%;
+  padding: 0;
+}
+
+.splash-header, .splash-prompt {
+  flex: 1 1 50%;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4rem;
+}
+
+.splash-header {
+  background-color: $splash-header-background;
+}
+
+.splash-title {
+  font-size: $splash-title-size;
+  font-weight: $splash-title-weight;
+  color: $splash-title-color;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+}
+
+.splash-intro {
+  font-size: $splash-intro-size;
+  font-weight: $splash-intro-weight;
+  color: $splash-intro-color;
+  line-height: $splash-intro-line-height;
+  max-width: 35rem;
+}
+
+.splash-prompt {
+  background: $splash-prompt-background;
+  font-size: $splash-prompt-size;
+  align-items: center;
+  justify-content: center;
+  
+  p {
+    max-width: $splash-prompt-max-width;
+  }
+
+  button {
+    margin-top: $space-large;
+  }
+}

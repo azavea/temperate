@@ -47,8 +47,6 @@
   'components/indicators/model-modal',
   'components/marketing/plan-selector',
   'components/shared/app-chart',
-  'components/shared/add-community-systems',
-  'components/shared/add-weather-events',
   'components/shared/ld-progressbar',
   'components/shared/option-dropdown',
   'components/alert',
@@ -75,9 +73,8 @@
   'components/table',
   'components/tooltip',
   'components/chart',
-  'components/create-plan',
   'components/timeslider',
-  'components/top-concern',
+  'components/top-concerns',
   'components/typeahead',
   'components/app-collapsible-chart',
   'components/va-popover',
@@ -95,3 +92,4 @@
 @import 'pages/vulnerability-assessment';
 @import 'pages/risk-wizard';
 @import 'pages/action-wizard';
+@import 'pages/create-plan';

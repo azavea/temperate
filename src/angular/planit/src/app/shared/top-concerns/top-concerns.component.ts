@@ -6,8 +6,7 @@ import { Concern, WeatherEvent } from '../../shared';
 
 @Component({
   selector: 'app-top-concerns',
-  templateUrl: './top-concerns.component.html',
-  styleUrls: ['./top-concerns.component.scss']
+  templateUrl: './top-concerns.component.html'
 })
 export class TopConcernsComponent {
 

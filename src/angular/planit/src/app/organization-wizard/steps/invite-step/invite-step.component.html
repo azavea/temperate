@@ -3,7 +3,10 @@
 </div>
 
 <div class="step-content" [formGroup]="form">
-  <p>You can invite your colleagues to work on this plan with you. They will receive an email prompting them to join your organization and create a Temperate account. This can also be accomplished later.</p>
+  <p>
+    Add your colleagues&rsquo; email addresses to invite them to work on this plan. 
+    Feel free to do this later.
+  </p>
   <div class="form-control-container">
     <label for="invite">Email</label>
     <app-user-emails formControlName="invites" [errors]="inviteErrors" aria-labelledby="invite-header"></app-user-emails>

@@ -1,10 +1,10 @@
 <div class="loading-wrapper" *ngIf="communitySystems === undefined">
   <div class="loading loading-spinner loading-large loading-primary"></div>
 </div>
-<div class="card-content top-concerns none-selected"
+<div class="card-content top-concerns empty-state"
      *ngIf="communitySystems === undefined || communitySystems.length === 0">
-     <h3>None yet</h3>
-     <p>Choose community systems below that you think should be a top concern for your city.</p>
+     <p class="empty-state-header">None yet</p>
+     <p class="empty-state-text">Choose community systems that you want to focus on in this adaptive plan.</p>
 </div>
 <div class="card-content top-concerns" *ngIf="communitySystems !== undefined">
   <div *ngFor="let communitySystem of communitySystems" class="concern icon"
@@ -15,10 +15,10 @@
                 title="Remove from top concerns"
                 (click)="remove(communitySystem)"><i class="icon-cancel"></i></button>
       </div>
-      <div class="concern-data">
-        <div class="concern-name">
-          {{ communitySystem.name }}
-        </div>
+    </div>
+    <div class="concern-data">
+      <div class="concern-name">
+        {{ communitySystem.name }}
       </div>
     </div>
   </div>

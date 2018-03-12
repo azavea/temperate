@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import {
-  BsDropdownModule,
-  ProgressbarModule,
-  TooltipModule
-} from 'ngx-bootstrap';
-
 import { SharedModule } from '../shared/shared.module';
 
 import { CreatePlanComponent } from './create-plan.component';
