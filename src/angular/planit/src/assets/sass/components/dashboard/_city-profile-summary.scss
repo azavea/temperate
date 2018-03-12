@@ -1,76 +1,82 @@
-app-city-profile-summary {
-
-  background-color: $white;
-  width: 100%;
-  padding: 2rem;
-
-  .icon-positive {
-    color: $brand-positive;
-  }
-
-  .cps-progressbar-wrapper {
-    display: flex;
-    margin-bottom: 2rem;
-
-    & > .cps-progressbar {
-      display: flex;
-      flex: 1;
-      width: 0;
-      margin-right: 10px;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      background-color: $neutral-0;
-      padding: 3rem 0;
-
-      .ldBar {
-        margin-bottom: 1rem;
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  & .required-done {
-    width: 100%;
-    padding: 1rem;
-    background-color: lighten($brand-positive, 40%);
-
-    &.overall {
-      background-color: $neutral-0;
-
-      & > span {
-        font-size: 24px;
-      }
-    }
-  }
-
-  & > a {
-    width: 100%;
-  }
-
+.profile-progress {
+  background: $neutral-0;
 }
 
-// outside component selector because the popover is attached to body
-.required-popover-body {
-  width: 300px;
+.icon-finished-section {
+  color: $brand-positive;
+  font-size: $text-medium;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
+.aside-block-container .aside-footer {
+  flex: 1 0 100%;
 
-    margin: 2rem 0;
-
-    img {
-      height: 50px;
-      margin-right: 1rem;
-    }
-
-    h2 {
-      margin-bottom: 0;
-    }
+  .button {
+    width: 100%;
+    margin-top: $space-xlarge;
   }
+}
+
+// All in progress
+.all-inprogress .profile-progress {
+  flex: 0 1 49%;
+  padding: 1rem $space-medium 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.all-inprogress .overall-progress {
+  .progress-number {
+    font-size: $text-jumbo;
+    line-height: 2.25;
+  }
+}
+
+.all-inprogress .progress-title {
+  margin-top: 3rem; 
+  line-height: 1;
+}
+
+// Required fields are complete
+.overall-inprogress .profile-progress {
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: stretch;
+  margin-bottom: $space-small;
+  padding: $space-small;
+}
+
+.overall-inprogress .progress-title {
+  line-height: 1;
+}
+
+.overall-inprogress .required-progress {
+  background: lighten( $brand-positive, 50% );
+  color: $brand-primary;
+  align-items: center;
+
+  .icon {
+    margin-right: $space-small;
+  }
+}
+
+.overall-inprogress .overall-progress {
+  padding-left: $space-medium;
+  align-items: baseline;
+
+  .progress-number {
+    margin-right: $space-medium;
+  }
+}
+
+// All fields are complete
+.none-inprogress {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.none-inprogress .aside-title {
+  margin-bottom: 0;
+  margin-left: -1rem;
 }

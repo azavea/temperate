@@ -1,42 +1,65 @@
-<h2 (click)="updateSummaries()">
-  City profile
-  <span class="icon icon-ok-circled icon-positive pull-right"
-        *ngIf="isDone(required) && isDone(overall)"></span>
-</h2>
-<p>Enter information about your city, including any long-term goals you hope to achieve</p>
-<div class="cps-progressbar-wrapper" *ngIf="!isDone(required) && !isDone(overall)">
-  <div class="cps-progressbar">
-    <div [ldProgressbar]="required.complete"
-         [ldProgressbarMax]="required.total"
-         ldProgressbarLabelType="number"></div>
-    <h4 class="button-link"
-        [popover]="requiredMayorsPopover"
-        [outsideClick]="true"
-        container="body"
-        placement="left">Required <span class="icon icon-question-circle"></span></h4>
+<div class="aside-block">
+  <!-- All complete -->
+  <div class="aside-content none-inprogress" *ngIf="isDone(required) && isDone(overall)">
+    <h3 class="aside-title" (click)="updateSummaries()">
+      <span class="icon icon-ok-circled icon-finished-section"></span>
+      City profile
+    </h3>
+    <a routerLink="/city-profile" class="button button-small">Manage</a>
   </div>
-  <div class="cps-progressbar">
-    <h1>{{ percentage(overall) }}%</h1>
-    <h4>Overall</h4>
+  
+  <!-- At least partially incomplete -->
+  <h3 class="aside-title" 
+      (click)="updateSummaries()" 
+      *ngIf="!isDone(required) || !isDone(overall)">
+    City profile</h3>
+  
+  <!-- All in progress -->
+  <div class="aside-content all-inprogress" *ngIf="!isDone(required) && !isDone(overall)">
+    <p>Enter information about your city, including any long-term goals you hope to achieve</p>
+    <div class="profile-progress required-progress">
+      <div class="progress-circle"
+           [ldProgressbar]="required.complete"
+           [ldProgressbarMax]="required.total"
+           ldProgressbarLabelType="number">
+      </div>
+      <button class="progress-title button-icon-only"
+          [popover]="requiredMayorsPopover"
+          [outsideClick]="true"
+          container="body"
+          placement="left">Required <span class="icon icon-question-circle"></span></button>
+    </div>
+
+    <div class="profile-progress overall-progress">
+      <span class="progress-number">{{ percentage(overall) }}%</span>
+      <span class="progress-title">Overall</span>
+    </div>
+  </div>
+
+  <!-- Required fields complete -->
+  <div class="aside-content overall-inprogress" *ngIf="isDone(required) && !isDone(overall)">
+    <div class="profile-progress required-progress">
+      <span class="icon icon-ok-circled icon-finished-section"></span>
+      <span class="progress-title">Required</span>
+    </div>
+
+    <div class="profile-progress overall-progress">
+      <span class="progress-number">{{ percentage(overall) }}%</span>
+      <span class="progress-title">Overall</span>
+    </div>
+  </div>
+
+  <div class="aside-footer" *ngIf="!isDone(required) || !isDone(overall)">
+    <a routerLink="/city-profile" class="button button-small">Manage</a>
   </div>
 </div>
-<ng-container *ngIf="isDone(required) && !isDone(overall)">
-  <p class="required-done">
-    <span class="icon icon-ok-circled icon-positive"></span> Required
-  </p>
-  <p class="required-done overall">
-    <span>{{ percentage(overall) }}%</span> Overall
-  </p>
-</ng-container>
-<a routerLink="/city-profile" class="button">Manage</a>
 
 <ng-template #requiredMayorsPopover>
-  <div class="required-popover-body">
-    <div class="header">
-      <img src="/assets/images/compact-of-mayors-logo.png" alt="Logo for the Compact of Mayors">
-      <h2>Required for the Compact of Mayors</h2>
+  <div class="required-popover">
+    <h5 class="popover-title">Required for the Global Covenant of Mayors</h5>
+    <div class="popover-content">
+      <p>If you are using Temperate to achieve compliance with the Global Covenant of Mayors, then certain fields are required for your submission.</p>
+      <p>The Global Covenant of Mayors has been designed to encourage best practices in addressing climate change mitigation and adaptation in cities. <a href="https://www.globalcovenantofmayors.org/" target="_blank">Learn more.</a></p>
     </div>
-    <p>If you are using Temperate to achieve compliance with the Compact of Mayors, then certain fields are required for your submission.</p>
-    <p>The Compact of Mayors has been designed to encourage best practices in addressing climate change mitigation and adaptation in cities. <a href="https://www.globalcovenantofmayors.org/" target="_blank">Learn more.</a></p>
   </div>
 </ng-template>

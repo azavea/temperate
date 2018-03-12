@@ -6,7 +6,8 @@
                             [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
       <span class="hazard-priority-empty" 
            *ngIf="!isAdaptiveNeedBoxVisible()"
-           tooltip="When you assess risks, an aggregate of their priority will appear here.">--</span>
+           tooltip="When you assess risks, an aggregate of their adaptive need appears here"
+           placement="right">--</span>
     </span>
     {{ weatherEvent.name }}
     <span class="hazard-risks-number">&bull; {{ risks.length }} risks</span>
@@ -14,9 +15,9 @@
 
   <span class="hazard-indicators-trigger" [tooltip]="noRelatedIndicatorsTooltip"
        [isDisabled]="canShowIndicators">
-    <button class="button-link" type="button"
+    <button class="button-icon-only" tooltip="See related indicators" type="button"
             [ngClass]="{disabled: !canShowIndicators}"
-            (click)="openModal()"><span class="icon icon-indicators"></span>Related indicators</button>
+            (click)="openModal()"><span class="icon icon-indicators"></span></button>
   </span>
 </div>
 

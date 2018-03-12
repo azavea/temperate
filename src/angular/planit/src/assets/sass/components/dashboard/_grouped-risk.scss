@@ -25,6 +25,7 @@
 .hazard-risks-number {
   font-size: $text-small;
   color: $neutral-3;
+  font-variant: tabular-nums;
 }
 
 //////////////////////////
@@ -35,7 +36,7 @@
   padding: 0 $space-tiny $space-tiny;
   border-bottom-right-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
-  margin-bottom: $space-medium;
+  margin-bottom: $space-xlarge;
 }
 
 .hazard-block {
@@ -70,6 +71,7 @@
 .progress-percentage {
   font-size: $text-tiny;
   color: $neutral-3;
+  font-variant: tabular-nums;
 }
 
 .hazard-action-block {

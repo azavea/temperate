@@ -6,10 +6,40 @@ app-dashboard {
 
   .page-header {
     flex: 1 0 100%;
+    margin-bottom: $space-medium;
   }
 
   .section-header {
     max-width: 65rem;
+  }
+
+  .hazard-indicators-trigger {
+    button span {
+      color: $brand-teal;
+    }
+  }
+
+  .aside-block-container {
+    margin-bottom: $space-xlarge;
+  }
+
+  .aside-block {
+    background: $white;
+    padding: $space-xlarge;
+  }
+
+  .aside-title {
+    font-size: $text-base;
+  }
+
+  .aside-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    p {
+      flex: 1 1 100%;
+    }
   }
 }
 
@@ -17,12 +47,11 @@ app-dashboard {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  margin-right: $space-medium;
+  margin-right: $space-xlarge;
 }
 
 .dashboard-sidebar {
-  flex: 0 0 350px;
-  padding: $space-large;
+  flex: 0 0 30rem;
 }
 
 .dashboard-no-risks {
