@@ -80,7 +80,11 @@ class RiskPKField(serializers.PrimaryKeyRelatedField):
     def get_queryset(self):
         organization = self.context['request'].user.primary_organization
         queryset = OrganizationRisk.objects.filter(organization=organization)
-        return queryset
+        return queryset.select_related(
+            'organization__location',
+            'weather_event',
+            'community_system'
+        )
 
 
 class OrganizationActionSerializer(serializers.ModelSerializer):
