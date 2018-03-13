@@ -163,9 +163,10 @@ yarn start --port 4211
 | --- | --- |
 | `debugserver` | Run the Django debug server |
 | `manage` | Run `manage.py` in the running Django container |
+| `ng` | Run `ng` in the running Angular container |
 | `psql` | Run a `psql` console in the database docker container |
-| `set_host` | Modifies environment variables to allow accessing the development server on a device other than the VM host. |
-| `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency. |
+| `set_host` | Modifies environment variables to allow accessing the development server on a device other than the VM host |
+| `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency |
 
 ### Docker
 
