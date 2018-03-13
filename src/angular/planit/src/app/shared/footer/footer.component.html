@@ -3,13 +3,16 @@
     <a routerLink="/" class="logo"><img src="assets/images/temperate-logo-full-left-neutral.svg" alt="Temperate, by Azavea"></a>
     <div class="nav-buttons">
       <a class="button button-inverse-dark"
+         (click)="resetScroll()"
          routerLink="/methodology"
          routerLinkActive="current">Methodology</a>
       <a class="button button-inverse-dark"
+         (click)="resetScroll()"
          routerLink="/partnerships"
          routerLinkActive="current">Partnerships</a>
       <a class="button button-inverse-dark" href="https://climate.azavea.com">Climate API</a>
       <a class="button button-inverse-dark"
+         (click)="resetScroll()"
          routerLink="/"
          routerLinkActive="current"
          [queryParams]="{ ref: 'footer' }">About</a>
