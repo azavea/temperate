@@ -39,6 +39,7 @@
        [queryParams]="{hazard: weatherEvent?.id}">Assess</a>
   </div>
   
+  <div class="grouped-risk-progress-container grouped-risk-progress-action-empty" *ngIf="numberOfRisksAssessed() === 0"></div>
 
   <div class="grouped-risk-progress-container grouped-risk-progress-action" *ngIf="numberOfRisksAssessed() > 0">
     <div class="grouped-risk-progress">
