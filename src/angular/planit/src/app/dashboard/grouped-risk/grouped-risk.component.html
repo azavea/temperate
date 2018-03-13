@@ -58,5 +58,5 @@
 </app-modal-template>
 
 <ng-template #noRelatedIndicatorsTooltip>
-  No related indicators for {{ modalRisk?.weather_event.name }}
+  No related indicators for {{ modalRisk?.weather_event.name | lowercase }}
 </ng-template>
