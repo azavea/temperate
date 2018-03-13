@@ -21,7 +21,7 @@
        [ngClass]="{'error': hasError(email)}"
        [tooltip]="errors[email]" [isDisabled]="!hasError(email)">
     {{ email }}
-    <button type="button" class="button button-icon-only" aria-label="Close"
+    <button type="button" class="button-icon-only" aria-label="Close"
             (click)="remove(email)" title="Remove">
       <i class="icon-cancel"></i>
     </button>
