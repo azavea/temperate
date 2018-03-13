@@ -73,7 +73,7 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganizationManager(models.Manager):
     def get_queryset(self):
-        # Always grab location with organization, as it's used as part of the org's __str__() mehtod
+        # Always grab location with organization, as it's used as part of the org's __str__() method
         return super().get_queryset().select_related('location')
 
 

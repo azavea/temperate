@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class OneWayPrimaryKeyRelatedField(serializers.RelatedField):
-    """Custom serializer field that uses the pk for assignment serializes the model for get."""
+    """Custom serializer field to use pk for writing but serialize the model for reading."""
 
     def to_representation(self, value):
         serializer = self.serializer(value)
