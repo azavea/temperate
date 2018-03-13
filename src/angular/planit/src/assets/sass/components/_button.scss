@@ -27,6 +27,7 @@
   }
 
   &:disabled, &.disabled {
+    background: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -217,6 +218,7 @@
   }
 
   &:disabled, &.disabled {
+    background: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -236,6 +238,7 @@
   }
 
   &:disabled, &.disabled {
+    color: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
   }
