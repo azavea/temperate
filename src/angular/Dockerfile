@@ -18,6 +18,9 @@ COPY ./planit/yarn.lock /opt/planit/angular/planit/
 RUN yarn install --pure-lockfile \
 	&& yarn cache clean --force
 
+COPY ./ngx-bootstrap-2.0.3.tgz /opt/planit/angular/planit/
+RUN npm install ngx-bootstrap-2.0.3.tgz
+
 COPY ./planit/ /opt/planit/angular/planit
 
 ENTRYPOINT ["yarn"]

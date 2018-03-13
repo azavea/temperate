@@ -33,10 +33,9 @@
     "lodash.some": "^4.5.0",
     "ng2-archwizard": "^2.1.0",
     "ng2-nouislider": "~1.6.2",
-    "ngx-bootstrap": "^2.0.1",
     "ngx-toastr": "6.5.0",
-    "papaparse": "4.3.7",
     "nouislider": "^10.1.0",
+    "papaparse": "4.3.7",
     "rxjs": "^5.4.2",
     "webpack-sources": "^1.0.2",
     "zone.js": "^0.8.14"
