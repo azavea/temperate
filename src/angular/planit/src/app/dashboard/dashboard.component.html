@@ -14,12 +14,8 @@
         <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
           <h4 class="empty-state-header">You haven&rsquo;t started your assessment yet</h4>
           <p class="empty-state-text">
-            To get started, you can 
-            <button type="button" class="button-link" 
-                    (click)="openModal(weatherEventsModal)">add hazards 
-            </button>
-            that you want to include in your assessment or start considering risks 
-            <a routerLink="/assessment/risk/new">from scratch.</a>
+            To get started, <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add some hazards</button> 
+            your city is concerned about.
           </p>
         </div>
 
