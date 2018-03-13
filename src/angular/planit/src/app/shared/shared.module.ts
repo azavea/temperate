@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
-import { BsDropdownModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
+import { BsDropdownModule, TooltipModule, TypeaheadModule, ModalModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -41,6 +41,7 @@ import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { UserEmailsComponent } from './user-emails/user-emails.component';
 import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
+import { DownloadCsvComponent } from './download-csv/download-csv.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { ExpirationModalComponent } from './expiration-modal/expiration-modal.co
     CommonModule,
     ChartsModule,
     FormsModule,
+    ModalModule,
     NouisliderModule,
     PopoverModule,
     RouterModule,
@@ -82,7 +84,8 @@ import { ExpirationModalComponent } from './expiration-modal/expiration-modal.co
     TopConcernsComponent,
     UserDropdownComponent,
     UserEmailsComponent,
-    ExpirationModalComponent
+    ExpirationModalComponent,
+    DownloadCsvComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
@@ -91,6 +94,7 @@ import { ExpirationModalComponent } from './expiration-modal/expiration-modal.co
     ChartComponent,
     CollapsibleChartComponent,
     ConfirmationModalComponent,
+    DownloadCsvComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
