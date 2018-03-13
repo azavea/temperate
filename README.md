@@ -148,14 +148,23 @@ yarn start --port 4211
 
 ### Scripts
 
+#### Scripts to Rule Them All (STRTA)
 | Name | Description |
 | --- | --- |
 | `console` | Login to a running Docker container's shell |
-| `debugserver` | Run the Django debug server |
-| `manage` | Run `manage.py` in the running Django container |
+| `infra` | Deploys and manages AWS infrastructure |
 | `server` | Run `docker-compose up` to start the containers |
 | `setup` | Bring up the VM, then build the Docker containers |
+| `test` | Runs the full suite of linting and tests |
 | `update` | Rebuild the containers with current required dependencies |
+
+#### Project-specific scripts
+| Name | Description |
+| --- | --- |
+| `debugserver` | Run the Django debug server |
+| `manage` | Run `manage.py` in the running Django container |
+| `psql` | Run a `psql` console in the database docker container |
+| `set_host` | Modifies environment variables to allow accessing the development server on a device other than the VM host. |
 | `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency. |
 
 ### Docker
