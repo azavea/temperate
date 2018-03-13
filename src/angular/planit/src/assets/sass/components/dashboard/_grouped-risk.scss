@@ -21,10 +21,7 @@
   display: inline-block;
   width: ($adaptive-need-size)-2px;
   height: ($adaptive-need-size)-2px;
-  background: $grouped-risk-priority-empty-background;
   border: $grouped-risk-priority-empty-border;
-  outline: 1px solid $grouped-risk-header-background;
-  outline-offset: -2px;
   margin-right: $space-small;
 }
 
@@ -50,7 +47,7 @@
 .grouped-risk-progress-container {
   display: flex;
   background: $grouped-risk-progress-container-background;
-  padding: $space-medium;
+  padding: $space-large $space-medium;
   border-radius: $border-radius;
   
   @media all and (min-width:68.750em) {
@@ -101,18 +98,19 @@
 // Action specific styles 
 .grouped-risk-progress-action-empty,
 .grouped-risk-progress-action {
+  margin-top: $space-tiny;
+
   @media all and (min-width:68.750em) {
     margin-left: $space-tiny;
+    margin-top: 0;
   }
 }
 
 .grouped-risk-progress-action-empty {
-  margin-top: $space-tiny;
-  height: 5rem;
+  height: 6.25rem;
 
   @media all and (min-width:68.750em) {
     height: auto;
-    margin-top: 0;
   }
 }
 
