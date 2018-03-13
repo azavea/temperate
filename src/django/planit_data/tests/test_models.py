@@ -58,6 +58,51 @@ class ConcernTestCase(TestCase):
             'value': 8.3,
         })
 
+    def test_relative_concern(self):
+        org = OrganizationFactory()
+        concern = ConcernFactory(is_relative=True)
+
+        # Use a lambda for get_average_value to give different values for the times it is called
+        concern.get_average_value = (lambda organization, scenario, year, units: {
+            # Give one number as the result of calculating the start value
+            concern.START_SCENARIO: 7.8,
+            # Another for the end value
+            concern.END_SCENARIO: 15.6
+        }.get(scenario))
+
+        result = concern.calculate(org)
+
+        self.assertDictEqual(result, {
+            'tagline': concern.tagline_positive,
+            'units': None,
+            'value': 1,
+        })
+
+    @mock.patch('planit_data.models.make_token_api_request')
+    def test_relative_concern_uses_absolute_for_starting_zero(self, api_request_mock):
+        org = OrganizationFactory()
+        concern = ConcernFactory(is_relative=True)
+        indicator_units = mock.Mock()
+        api_request_mock.return_value = {
+            'default_units': indicator_units
+        }
+
+        # Use a lambda for get_average_value to give different values for the times it is called
+        concern.get_average_value = (lambda organization, scenario, year, units: {
+            # Give one number as the result of calculating the start value
+            concern.START_SCENARIO: 0,
+            # Another for the end value
+            concern.END_SCENARIO: 15.6
+        }.get(scenario))
+
+        result = concern.calculate(org)
+
+        self.assertDictEqual(result, {
+            'tagline': concern.tagline_positive,
+            'units': indicator_units,
+            'value': 15.6,
+        })
+
     def test_concern_no_indicator_uses_static_data(self):
         concern = ConcernFactory(
             indicator=None,
