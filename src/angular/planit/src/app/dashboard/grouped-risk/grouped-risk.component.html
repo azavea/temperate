@@ -31,7 +31,7 @@
   <div class="grouped-risk-progress-container grouped-risk-progress-assessment">
     <div class="grouped-risk-progress">
       <h5 class="grouped-risk-progress-title">Vulnerability assessment</h5>
-      <span class="progress-percentage">{{ percentRisksAssessed() }}%</span>
+      <span class="progress-percentage" *ngIf="percentRisksAssessed() > 0">{{ percentRisksAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
     </div>
     <a class="button button-small button-primary" 
@@ -44,7 +44,7 @@
   <div class="grouped-risk-progress-container grouped-risk-progress-action" *ngIf="numberOfRisksAssessed() > 0">
     <div class="grouped-risk-progress">
       <h5 class="grouped-risk-progress-title">Action steps</h5>
-      <span class="progress-percentage">{{ percentActionsAssessed() }}%</span>
+      <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
     <a class="button button-small button-positive"
