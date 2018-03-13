@@ -18,7 +18,13 @@
 }
 
 .grouped-risk-priority-empty {
-  color: $grouped-risk-priority-empty-color;
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  background: $grouped-risk-priority-empty-background;
+  border: $grouped-risk-priority-empty-border;
+  outline: 1px solid $grouped-risk-header-background;
+  outline-offset: -2px;
   margin-right: $space-small;
 }
 

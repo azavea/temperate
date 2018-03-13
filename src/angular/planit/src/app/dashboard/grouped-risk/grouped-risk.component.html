@@ -6,8 +6,9 @@
                             [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
       <span class="grouped-risk-priority-empty" 
            *ngIf="!isAdaptiveNeedBoxVisible()"
-           tooltip="When you assess risks, an aggregate of their adaptive need appears here"
-           placement="right">--</span>
+           tooltip="As you assess your city’s vulnerability to this hazard, the color of 
+                    this square will reflect your city’s adaptive needs"
+           placement="right"></span>
     </span>
     {{ weatherEvent.name }}
     <span class="risks-number">&bull; {{ risks.length }} risks</span>
