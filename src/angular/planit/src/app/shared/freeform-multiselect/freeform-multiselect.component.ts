@@ -22,6 +22,7 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   @Input() public inputId: string = null;
 
   public selected = '';
+  public unsaved = '';
   public availableOptions: Set<string> = new Set();
   public selectedOptions: Set<string> = new Set();
   public isDisabled = false;
@@ -35,7 +36,6 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
     }
   }
 
-  // From the add button, get the value from the model.
   public onAdd() {
     const selected = this.selected.trim();
     this.add(selected);
@@ -52,6 +52,11 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
 
   // From a typeahead selection, use the event value
   public onSelect(event: TypeaheadMatch) {
+    // onEnter and onAdd are saving the raw string as typed, but since this is saving the selected
+    // value, we need to get the raw 'unsaved' value out of the list. This doesn't risk clearing
+    // a value that's supposed to stay, because `unsaved` gets cleared if the text in the
+    // input is already among the selected options.
+    this.selectedOptions.delete(this.unsaved);
     this.add(event.item);
   }
 
@@ -65,12 +70,41 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
     this.availableOptions.delete(this.selected);
     this.onChange(Array.from(this.selectedOptions));
     this.selected = '';
+    this.unsaved = '';
   }
 
   public remove(option: string) {
     this.selectedOptions.delete(option);
     this.availableOptions = this.getAvailableOptions();
     this.onChange(Array.from(this.selectedOptions));
+  }
+
+  /* Preserves values typed but not added by secretly saving them in the selected options list.
+   * The template keeps the unsaved value from showing up in the list below the input, but
+   * since they're added to the list and saved with the onChange callback, they don't disappear
+   * if someone closes the wizard without saving them. Instead they become regular members of
+   * the list.
+   */
+  public onUnsavedChange(event, source) {
+    if (this.unsaved) {
+      this.remove(this.unsaved);
+    }
+
+    const selected = this.selected.trim();
+    if (this.selectedOptions.has(selected)) {
+      // If the typed value is already in the list, neither add nor remove, and don't treat it
+      // as unsaved.
+      this.unsaved = '';
+    } else if (selected) {
+      this.unsaved = selected;
+      // This doesn't use the `add` method because we
+      // 1) don't want to clear `selected` and
+      // 2) don't want to remove a value from the available options until it's explicitly
+      // added, otherwise the suggestion would stop showing up when they haven't actually
+      // selected it yet.
+      this.selectedOptions.add(selected);
+      this.onChange(Array.from(this.selectedOptions));
+    }
   }
 
   public writeValue(selectedOptions: any) {
