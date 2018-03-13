@@ -246,7 +246,9 @@ class Concern(models.Model):
         if self.is_relative and start_avg == 0:
             # If the starting value is 0, abort and retry again as absolute difference
             self.is_relative = False
-            return self.get_calculated_values(organization)
+            val = self.get_calculated_values(organization)
+            self.is_relative = True
+            return val
 
         end_avg = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR, units)
         difference = end_avg - start_avg
