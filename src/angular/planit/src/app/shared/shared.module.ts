@@ -40,6 +40,7 @@ import {
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { UserEmailsComponent } from './user-emails/user-emails.component';
+import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,
-    UserEmailsComponent
+    UserEmailsComponent,
+    ExpirationModalComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
