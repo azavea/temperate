@@ -16,6 +16,7 @@ import {
 import { AddWeatherEventsComponent } from './add-weather-events/add-weather-events.component';
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { FooterComponent } from './footer/footer.component';
 import {
   ForceCollapseChartContainerComponent,
@@ -61,6 +62,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     AddWeatherEventsComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    ConfirmationModalComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
@@ -84,6 +86,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     AddWeatherEventsComponent,
     ChartComponent,
     CollapsibleChartComponent,
+    ConfirmationModalComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,

@@ -2,9 +2,7 @@
   <main class="main-content wizard-container" role="main">
     <header class="wizard-header">
       <h1 class="wizard-title-small">Assess the potential impact of</h1>
-      <h2 class="wizard-title-large">
-          {{ identifyStep?.weather_event?.name || '--' }} <span class="separating-word">on</span> {{ identifyStep?.community_system?.name || '--'  | lowercase }}
-      </h2>
+      <h2 class="wizard-title-large">{{ risk?.title() }}</h2>
     </header>
     <wizard #wizard
             class="custom-steps"
