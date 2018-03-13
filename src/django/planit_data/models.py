@@ -242,10 +242,16 @@ class Concern(models.Model):
 
         start_avg = self.get_average_value(
             organization, self.START_SCENARIO, self.START_YEAR, units)
+
+        if self.is_relative and start_avg == 0:
+            # If the starting value is 0, abort and retry again as absolute difference
+            self.is_relative = False
+            return self.get_calculated_values(organization)
+
         end_avg = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR, units)
         difference = end_avg - start_avg
 
-        if self.is_relative and start_avg != 0:
+        if self.is_relative:
             return difference / start_avg, None
         else:
             return difference, units
@@ -269,6 +275,11 @@ class Concern(models.Model):
         return sum(values) / len(response['data'])
 
     def get_units(self, organization):
+        # If the value is relative, we can use the default unit for calculations
+        # which will save an API call
+        if self.is_relative:
+            return None
+
         # Delayed import to break circular dependency
         from users.models import PlanItOrganization
         response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
