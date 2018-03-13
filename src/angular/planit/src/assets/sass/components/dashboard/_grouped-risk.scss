@@ -80,13 +80,6 @@
   flex: 1 1 auto;
 }
 
-// When there are no related indicators,
-// don't show the tooltip that says "See related indicators".
-// This is kind of hacky.
-.grouped-risk-header .indicators-trigger-button.disabled {
-  pointer-events: none;
-}
-
 .grouped-risk-header .indicators-trigger-button span {
   color: $grouped-risk-indicator-color;
 }

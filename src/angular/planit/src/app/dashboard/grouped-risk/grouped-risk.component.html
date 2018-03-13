@@ -13,11 +13,16 @@
     <span class="risks-number">&bull; {{ risks.length }} risks</span>
   </h4>
 
-  <span class="indicators-trigger" [tooltip]="noRelatedIndicatorsTooltip"
-       [isDisabled]="canShowIndicators">
-    <button class="indicators-trigger-button button-icon-only" tooltip="See related indicators" type="button"
-            [ngClass]="{disabled: !canShowIndicators}"
-            (click)="openModal()"><span class="icon icon-indicators"></span></button>
+  <span class="indicators-trigger"
+        [tooltip]="noRelatedIndicatorsTooltip"
+        *ngIf="!canShowIndicators">
+    <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
+  </span>
+  
+  <span class="indicators-trigger"
+        tooltip="See related indicators"
+        *ngIf="canShowIndicators">
+    <button class="indicators-trigger-button button-icon-only" (click)="openModal()"><span class="icon icon-indicators"></span></button>
   </span>
 </div>
 
