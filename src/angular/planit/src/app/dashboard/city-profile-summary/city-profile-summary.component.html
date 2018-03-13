@@ -12,7 +12,8 @@
   <h3 class="aside-title" 
       (click)="updateSummaries()" 
       *ngIf="!isDone(required) || !isDone(overall)">
-    City profile</h3>
+    City profile
+  </h3>
   
   <!-- All in progress -->
   <div class="aside-content all-inprogress" *ngIf="!isDone(required) && !isDone(overall)">
@@ -45,7 +46,7 @@
     </div>
   </div>
 
-  <div class="aside-footer" *ngIf="!isDone(required) || !isDone(overall)">
+  <footer class="aside-footer" *ngIf="!isDone(required) || !isDone(overall)">
     <a routerLink="/city-profile" class="button button-small">Manage</a>
-  </div>
+  </footer>
 </div>
