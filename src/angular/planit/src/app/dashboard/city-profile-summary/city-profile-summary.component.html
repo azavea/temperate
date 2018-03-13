@@ -1,8 +1,8 @@
 <div class="aside-block">
   <!-- All complete -->
-  <div class="aside-content none-inprogress" *ngIf="isDone(required) && isDone(overall)">
+  <div class="aside-content all-complete" *ngIf="isDone(required) && isDone(overall)">
     <h3 class="aside-title" (click)="updateSummaries()">
-      <span class="icon icon-ok-circled icon-finished-section"></span>
+      <span class="icon icon-ok-circled"></span>
       City profile
     </h3>
     <a routerLink="/city-profile" class="button button-small">Manage</a>
@@ -12,13 +12,16 @@
   <h3 class="aside-title" 
       (click)="updateSummaries()" 
       *ngIf="!isDone(required) || !isDone(overall)">
-    City profile
+      City profile
   </h3>
   
-  <!-- All in progress -->
-  <div class="aside-content all-inprogress" *ngIf="!isDone(required) && !isDone(overall)">
-    <p>Enter information about your city, including any long-term goals you hope to achieve</p>
-    <div class="profile-progress-container required-progress">
+  <div class="aside-content in-progress" *ngIf="!isDone(overall)">
+    <p>
+      Enter information about your city, including any long-term goals you hope to achieve
+    </p>
+
+    <!-- Required in progress -->
+    <div class="profile-progress-container required-progress" *ngIf="!isDone(required) && !isDone(overall)">
       <div class="progress-circle"
            [ldProgressbar]="required.complete"
            [ldProgressbarMax]="required.total"
@@ -26,21 +29,14 @@
       </div>
       <span class="progress-title">Required</span>
     </div>
-
-    <div class="profile-progress-container overall-progress">
-      <span class="progress-number">{{ percentage(overall) }}%</span>
-      <span class="progress-title">Overall</span>
-    </div>
-  </div>
-
-  <!-- Required fields complete -->
-  <div class="aside-content overall-inprogress" *ngIf="isDone(required) && !isDone(overall)">
-    <div class="profile-progress-container required-progress">
-      <span class="icon icon-ok-circled icon-finished-section"></span>
+    
+    <!-- Required is complete -->
+    <div class="profile-progress-container required-finished" *ngIf="isDone(required) && !isDone(overall)">
+      <span class="icon icon-ok-circled"></span>
       <span class="progress-title">Required</span>
     </div>
 
-    <div class="profile-progress-container overall-progress">
+    <div class="profile-progress-container overall-progress" *ngIf="!isDone(overall)">
       <span class="progress-number">{{ percentage(overall) }}%</span>
       <span class="progress-title">Overall</span>
     </div>

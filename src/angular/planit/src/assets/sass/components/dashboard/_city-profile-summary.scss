@@ -2,11 +2,6 @@
   background: $profile-summary-progress-container-background;
 }
 
-.icon-finished-section {
-  color: $profile-summary-finished-icon-color;
-  font-size: $profile-summary-finished-icon-size;
-}
-
 .aside-block-container .aside-footer {
   flex: 1 0 100%;
 
@@ -17,7 +12,7 @@
 }
 
 // All in progress
-.all-inprogress .profile-progress-container {
+.in-progress .profile-progress-container {
   flex: 0 1 49%;
   padding: $space-medium;
   display: flex;
@@ -26,7 +21,7 @@
   justify-content: flex-end;
 }
 
-.all-inprogress .overall-progress {
+.in-progress .overall-progress {
   .progress-number {
     font-size: $profile-summary-progress-overall-size;
     font-weight: $profile-summary-progress-overall-label-weight;
@@ -34,52 +29,39 @@
   }
 }
 
-.all-inprogress .progress-title {
-  margin-top: $space-xxlarge; 
+.in-progress .progress-title {
+  margin-top: $space-xlarge; 
   line-height: $profile-summary-progress-label-line-height;
+}
+
+.in-progress .required-progress .progress-title {
+  margin-top: $space-medium; 
 }
 
 // Required fields are complete
-.overall-inprogress .profile-progress-container {
-  flex: 1 1 100%;
-  display: flex;
-  justify-content: stretch;
-  margin-bottom: $space-small;
-  padding: $space-small;
-  height: 5rem;
-  align-items: center;
-}
-
-.overall-inprogress .progress-title {
-  line-height: $profile-summary-progress-label-line-height;
-}
-
-.overall-inprogress .required-progress {
+.in-progress .required-finished {
   background: $profile-summary-required-done-background;
   color: $profile-summary-required-done-color;
 
   .icon {
-    margin-right: $space-small;
-  }
-}
-
-.overall-inprogress .overall-progress {
-  padding-left: $space-medium;
-
-  .progress-number {
-    margin-right: $space-medium;
-    font-size: $profile-summary-required-done-progress-overall-size;
-    line-height: 0;
+    color: $profile-summary-finished-icon-color;
+    font-size: $profile-summary-required-done-icon-size;
+    line-height: $profile-summary-progress-label-line-height;
   }
 }
 
 // All fields are complete
-.none-inprogress {
+.all-complete {
   flex-wrap: nowrap;
   align-items: center;
 }
 
-.none-inprogress .aside-title {
+.all-complete .icon {
+  color: $profile-summary-finished-icon-color;
+  font-size: $profile-summary-all-complete-icon-size;
+}
+
+.all-complete .aside-title {
   margin-bottom: 0;
   margin-left: -$space-medium;
 }

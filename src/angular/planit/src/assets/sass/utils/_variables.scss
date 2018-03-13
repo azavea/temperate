@@ -544,8 +544,8 @@ $grouped-risk-indicator-color: $brand-teal;
 $profile-summary-progress-container-background: $neutral-0;
 
 $profile-summary-progress-overall-size: $text-jumbo;
-$profile-summary-progress-overall-line-height: 2.25;
 $profile-summary-progress-overall-label-weight: $font-weight-light;
+$profile-summary-progress-overall-line-height: 1.25;
 
 $profile-summary-progress-label-color: $brand-black;
 $profile-summary-progress-label-line-height: 1;
@@ -553,6 +553,7 @@ $profile-summary-progress-label-line-height: 1;
 $profile-summary-required-done-background: lighten( $brand-positive, 50% );
 $profile-summary-required-done-color: $brand-black;
 $profile-summary-required-done-progress-overall-size: $text-medium;
+$profile-summary-required-done-icon-size: $text-jumbo;
 
 $profile-summary-circle-label-size: $text-base;
 $profile-summary-circle-label-weight: $font-weight-regular;
@@ -562,7 +563,7 @@ $profile-summary-circle-stroke: $neutral-1;
 $profile-summary-circle-stroke-highlight: $brand-teal;
 
 $profile-summary-finished-icon-color: $brand-positive;
-$profile-summary-finished-icon-size: $text-medium;
+$profile-summary-all-complete-icon-size: $text-medium;
 
 
 /* * * *
