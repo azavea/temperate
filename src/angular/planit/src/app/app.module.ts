@@ -50,6 +50,7 @@ import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
+import { InviteUserService } from './core/services/invite-user.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
 import { PasswordResetGuard } from './core/services/password-reset.guard';
@@ -144,6 +145,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     CollaboratorService,
     CommunitySystemService,
     DownloadService,
+    InviteUserService,
     LoggedInAuthGuard,
     OrganizationService,
     PasswordResetGuard,

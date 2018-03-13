@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -16,6 +16,8 @@ export class UserEmailsComponent implements ControlValueAccessor {
 
   @Input() public tabindex = 1;
   @Input() public errors: { [key: string]: string} = {};
+
+  @Output() added = new EventEmitter<string>();
 
   public email = '';
   public emails: Set<string> = new Set();
@@ -39,6 +41,7 @@ export class UserEmailsComponent implements ControlValueAccessor {
   public registerOnTouched(fn: any) {}
 
   add() {
+    this.added.emit(this.email);
     this.emails.add(this.email);
     this.email = '';
     this.onChange(Array.from(this.emails));

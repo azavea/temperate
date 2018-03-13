@@ -27,7 +27,7 @@ from rest_framework.viewsets import GenericViewSet
 from users.serializers import AuthTokenSerializer
 
 from users.forms import (UserForm, UserProfileForm, PasswordResetInitForm,
-                         PasswordResetForm, AddCityForm)
+                         PasswordResetForm, AddCityForm, InviteUserForm)
 from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import OrganizationSerializer, UserSerializer, UserOrgSerializer
@@ -285,3 +285,19 @@ class AddCityView(JsonFormView):
     def form_valid(self, form):
         form.cleaned_data['email'] = self.user.email
         form.send_email()
+
+
+class InviteUserView(JsonFormView):
+    permission_classes = (IsAuthenticated,)
+    form_class = InviteUserForm
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        organization = self.request.user.primary_organization
+
+        user = PlanItUser.objects.create_user(email, '', '', primary_organization=organization,
+                                              is_active=False)
+
+        RegistrationView(request=self.request).send_invitation_email(user)
+
+        return Response({'status': 'ok'})
