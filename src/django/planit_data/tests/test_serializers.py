@@ -69,6 +69,11 @@ class ConcernSerializerTestCase(TestCase):
 
 
 class OrganizationRiskSerializerTestCase(TestCase):
+    def setUp(self):
+        self.org = OrganizationFactory()
+        self.request = mock.Mock()
+        self.request.user = UserFactory(primary_organization=self.org)
+
     def test_create_requires_organization(self):
         """Ensure the Serializer raises a validation error if organization missing from data."""
         weather_event = WeatherEventFactory()
@@ -76,7 +81,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
 
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
-                  'community_system': community_system.id})
+                  'community_system': community_system.id},
+            context={"request": self.request})
 
         self.assertFalse(serializer.is_valid())
 
@@ -87,11 +93,11 @@ class OrganizationRiskSerializerTestCase(TestCase):
         This is crucial safety wall for the front end/users since allowing the field to be
         nullable for the suggested actions feature."""
         weather_event = WeatherEventFactory()
-        org = OrganizationFactory()
 
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
-                  'organization': org.id})
+                  'organization': self.org.id},
+            context={"request": self.request})
 
         self.assertFalse(serializer.is_valid())
 
@@ -101,11 +107,11 @@ class OrganizationRiskSerializerTestCase(TestCase):
         This is crucial safety wall for the front end/users since allowing the field to be
         nullable for the suggested actions feature."""
         community_system = CommunitySystemFactory()
-        org = OrganizationFactory()
 
         serializer = OrganizationRiskSerializer(
             data={'community_system': community_system.id,
-                  'organization': org.id})
+                  'organization': self.org.id},
+            context={"request": self.request})
 
         self.assertFalse(serializer.is_valid())
 
@@ -114,12 +120,12 @@ class OrganizationRiskSerializerTestCase(TestCase):
         event and community system"""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
-        org = OrganizationFactory()
 
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
                   'community_system': community_system.id,
-                  'organization': org.id})
+                  'organization': self.org.id},
+            context={"request": self.request})
 
         self.assertTrue(serializer.is_valid())
 

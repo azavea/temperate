@@ -1,24 +1,21 @@
 from urllib.parse import urlencode
 from unittest import mock
 
-from django.contrib.gis.geos import Point
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 from action_steps.models import ActionCategory
-from planit_data.views import WeatherEventRankView, PlanExportView
+from planit_data.views import PlanExportView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
     GeoRegionFactory,
-    OrganizationFactory,
     OrganizationActionFactory,
     OrganizationRiskFactory,
     OrganizationWeatherEventFactory,
-    WeatherEventFactory,
-    WeatherEventRankFactory
+    WeatherEventFactory
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from planit_data.views import SuggestedActionViewSet
@@ -160,14 +157,33 @@ class OrganizationWeatherEventTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, [])
 
+    def test_organization_weather_event_detail(self):
+        organization = self.user.primary_organization
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+
+        url = reverse('organizationweatherevent-detail', kwargs={'pk': org_we.id})
+        response = self.client.get(url)
+
+        self.assertDictEqual(response.json(), {
+            'id': org_we.id,
+            'weather_event': {
+                'id': org_we.weather_event.id,
+                'name': org_we.weather_event.name,
+                'coastal_only': False,
+                'concern': None,
+                'indicators': [],
+                'display_class': ''
+            },
+            'order': org_we.order})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_list_filters_by_organization(self):
         organization = self.user.primary_organization
-        other_organization = OrganizationFactory(name='Other')
         weather_event = WeatherEventFactory()
         org_we = OrganizationWeatherEventFactory(organization=organization,
                                                  weather_event=weather_event)
-        OrganizationWeatherEventFactory(organization=other_organization,
-                                        weather_event=weather_event)
+        # Create another weather event for a different organization
+        OrganizationWeatherEventFactory(weather_event=weather_event)
 
         url = reverse('organizationweatherevent-list')
         response = self.client.get(url)
@@ -194,32 +210,6 @@ class OrganizationWeatherEventTestCase(APITestCase):
         self.assertEqual(org_we.organization, organization)
         self.assertEqual(org_we.weather_event, weather_event)
         self.assertEqual(org_we.order, order)
-
-
-class OrganizationWeatherEventRankViewTestCase(APITestCase):
-
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
-
-    def test_weather_event_rank_list(self):
-        organization = self.user.primary_organization
-        organization.location.point = Point(2, 2)
-
-        # Create a georegion centered around our location's coordinates
-        georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
-
-        org_we = OrganizationWeatherEventFactory(organization=organization)
-        organization.weather_events.add(org_we)
-
-        # Create additional WeatherEventRanks for the same georegion that are not associated
-        WeatherEventRankFactory.create_batch(2, georegion=georegion)
-
-        url = reverse('weather-event-rank-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = WeatherEventRankView.serializer_class([org_we], many=True)
-        self.assertEqual(response.json(), serializer.data)
 
 
 class OrganizationRiskTestCase(APITestCase):
