@@ -90,7 +90,11 @@ class RiskPKField(serializers.PrimaryKeyRelatedField):
 class OrganizationPKField(serializers.PrimaryKeyRelatedField):
     def get_queryset(self):
         user = self.context['request'].user
-        return PlanItOrganization.objects.filter(planituser=user)
+        return PlanItOrganization.objects.filter(
+            users=user
+        ).select_related(
+            'location'
+        )
 
 
 class OrganizationActionSerializer(serializers.ModelSerializer):

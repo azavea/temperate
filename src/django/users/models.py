@@ -71,12 +71,6 @@ class PlanItLocation(models.Model):
             return self.name
 
 
-class PlanItOrganizationManager(models.Manager):
-    def get_queryset(self):
-        # Always grab location with organization, as it's used as part of the org's __str__() method
-        return super().get_queryset().select_related('location')
-
-
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
     DEFAULT_FREE_TRIAL_DAYS = 15
@@ -124,8 +118,6 @@ class PlanItOrganization(models.Model):
     community_systems = models.ManyToManyField('planit_data.CommunitySystem',
                                                blank=True,
                                                related_name='organizations')
-
-    objects = PlanItOrganizationManager()
 
     class Meta:
         unique_together = (("name", "location"),)
