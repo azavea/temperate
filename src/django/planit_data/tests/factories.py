@@ -36,6 +36,8 @@ class ConcernFactory(factory.DjangoModelFactory):
         model = Concern
 
     indicator = factory.SubFactory(IndicatorFactory)
+    tagline_positive = 'more'
+    tagline_negative = 'less'
 
 
 class GeoRegionFactory(factory.DjangoModelFactory):
