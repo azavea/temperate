@@ -1,5 +1,9 @@
-from rest_framework import serializers
+from collections import OrderedDict
 
+from rest_framework import serializers
+from rest_framework.compat import unicode_to_repr
+
+from action_steps.models import ActionCategory
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
@@ -12,6 +16,27 @@ from planit_data.models import (
 )
 from users.models import PlanItOrganization
 from planit.fields import OneWayPrimaryKeyRelatedField
+
+
+class OrganizationDefault(object):
+    """Support using current user's primrary organization as a default.
+    Find current user on context, then use their primary org as the org default.
+
+    Based on DRF `CurrentUserDefault`:
+    http://www.django-rest-framework.org/api-guide/validators/#currentuserdefault
+    """
+    def set_context(self, serializer_field):
+        self.organization = None
+        if serializer_field.context and 'request' in serializer_field.context:
+            user = serializer_field.context['request'].user
+            if hasattr(user, 'primary_organization'):
+                self.organization = user.primary_organization
+
+    def __call__(self):
+        return self.organization
+
+    def __repr__(self):
+        return unicode_to_repr('%s()' % self.__class__.__name__)
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
@@ -105,8 +130,7 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
     categories = ActionCategoryField(many=True)
 
     def validate_risk(self, value):
-        user_organization = self.context['request'].user.primary_organization
-        if value.organization_id != user_organization.id:
+        if value.organization.id != self.context['organization']:
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 
@@ -215,3 +239,12 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
+
+
+class OrganizationWeatherEventRankSerializer(serializers.ModelSerializer):
+    """Serialize weather events by rank."""
+    weather_event = WeatherEventWithConcernSerializer()
+
+    class Meta:
+        model = OrganizationWeatherEvent
+        fields = ('weather_event', 'order',)

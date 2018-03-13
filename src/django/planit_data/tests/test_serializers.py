@@ -1,5 +1,6 @@
 from unittest import mock
 
+from django.db.utils import IntegrityError
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
 
@@ -70,21 +71,28 @@ class ConcernSerializerTestCase(TestCase):
 
 class OrganizationRiskSerializerTestCase(TestCase):
     def setUp(self):
-        self.org = OrganizationFactory()
-        self.request = mock.Mock()
-        self.request.user = UserFactory(primary_organization=self.org)
+        self.user = UserFactory()
+
+        self.request_factory = APIRequestFactory()
+        self.request = self.request_factory.get('/blah/')
+        self.request.user = self.user
 
     def test_create_requires_organization(self):
-        """Ensure the Serializer raises a validation error if organization missing from data."""
+        """Ensure attempting to save fails if organization missing from data."""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
 
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
                   'community_system': community_system.id},
-            context={"request": self.request})
+            context={'request': self.request})
 
-        self.assertFalse(serializer.is_valid())
+        # serializer is fine with missing org, because it looks to context for default
+        self.assertTrue(serializer.is_valid())
+
+        # saving serializer will error without the org, however
+        with self.assertRaises(IntegrityError):
+            serializer.save()
 
     def test_create_requires_community_system(self):
         """Ensure the Serializer raises a validation error if community system is missing
