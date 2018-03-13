@@ -6,9 +6,9 @@ from users.views import (PlanitHomeView,
                          RegistrationView,
                          ActivationView,
                          UserProfileView,
-                         PasswordResetInitView,
+                         InviteUserView,
                          PasswordResetView,
-                         InviteUserView,)
+                         PasswordResetConfirmView)
 
 
 urlpatterns = [
@@ -16,10 +16,10 @@ urlpatterns = [
         RegistrationView.as_view(),
         name='registration_register'),
     url(r'^password_reset/send_email/$',
-        PasswordResetInitView.as_view(),
+        PasswordResetView.as_view(),
         name='password_reset_send_email'),
     url(r'^password_reset/$',
-        PasswordResetView.as_view(),
+        PasswordResetConfirmView.as_view(),
         name='password_reset'),
     url(r'^activate/(?P<activation_key>[-:\w]+)/$',
         ActivationView.as_view(),

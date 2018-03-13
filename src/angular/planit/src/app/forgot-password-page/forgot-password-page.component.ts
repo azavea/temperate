@@ -11,6 +11,7 @@ export class ForgotPasswordPageComponent implements OnInit {
 
   public username = '';
   public emailSent = false;
+  public disabled = false;
   public errors: any = {};
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -27,15 +28,22 @@ export class ForgotPasswordPageComponent implements OnInit {
   }
 
   forgotPassword() {
+    this.disabled = true;
     this.authService.resetPasswordSendEmail(this.username).subscribe(
       response => {
         this.emailSent = true;
+        this.disabled = false;
         this.errors = {};
       },
       error => {
-        this.errors = error.json().errors;
+        this.errors = error.json();
+        this.disabled = false;
       }
     );
+  }
+
+  emailChanged() {
+    this.emailSent = false;
   }
 
 }
