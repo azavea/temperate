@@ -40,9 +40,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
-  private showLink(link: string): boolean {
-    const url = this.router.url;
-    return link !== url && '/create-organization' !== url && '/plan' !== url;
+  private showLink(): boolean {
+    if (this.user && this.user.primary_organization) {
+      if (this.user.primary_organization.plan_setup_complete) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private getCurrentUser() {
