@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+if [[ -n "${PLANIT_DEBUG}" ]]; then
+	set -x
+fi
+
+function usage() {
+	echo -n \
+		 "Usage: $(basename "$0")
+
+    Downloads and ingests the latest version of the strategy database from S3
+"
+}
+
+if [ "${BASH_SOURCE[0]}" = "${0}" ]
+then
+	if [ "${1:-}" = "--help" ]
+	then
+		usage
+	else
+		cities='missy_cities.csv'
+		strategies='missy_strategies_with_weather_events.csv'
+		aws s3 cp "s3://azavea-climate-sandbox/$cities" "src/django/$cities"
+		aws s3 cp "s3://azavea-climate-sandbox/$strategies" "src/django/$strategies"
+		./scripts/manage ingest_missy_dataset "$cities" "$strategies"
+		rm "src/django/$cities"
+		rm "src/django/$strategies"
+	fi
+fi

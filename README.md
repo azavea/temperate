@@ -93,12 +93,10 @@ Temperate draws upon real-world adaptation plan data to help inform and connect 
 
 #### Download the data from s3
 The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
-- Download both CSVs
-- Place them somewhere in the django folder of your local Temperate repo
-- Delete the files when done running the script/Make sure not to commit them
 
 ```bash
-./scripts/manage ingest_missy_dataset <path_to/missy_cities.csv> <path_to/missy_strategies_with_weather_events.csv>
+$ vagrant ssh
+$ ./scripts/ingest_missy_dataset
 ```
 
 Note: Sometimes the script's geocoder fails, in which case you have to run the script several times if you want all the data (~3.1k actions). Re-running the script does not overwrite data.
@@ -162,6 +160,7 @@ yarn start --port 4211
 | Name | Description |
 | --- | --- |
 | `debugserver` | Run the Django debug server |
+| `ingest_missy_dataset` | Wrapper for `scripts/manage ingest_missy_dataset` that also downloads the datasets from S3 |
 | `manage` | Run `manage.py` in the running Django container |
 | `ng` | Run `ng` in the running Angular container |
 | `psql` | Run a `psql` console in the database docker container |
