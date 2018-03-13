@@ -1,9 +1,6 @@
-from collections import OrderedDict
-
 from rest_framework import serializers
 from rest_framework.compat import unicode_to_repr
 
-from action_steps.models import ActionCategory
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
@@ -152,6 +149,7 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     action = serializers.SerializerMethodField()
 
     organization = OrganizationPKField(
+        default=OrganizationDefault(),
         many=False,
         write_only=True
     )
@@ -181,6 +179,7 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
 class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
     organization = OrganizationPKField(
+        default=OrganizationDefault(),
         many=False,
         write_only=True
     )
@@ -239,12 +238,3 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
-
-
-class OrganizationWeatherEventRankSerializer(serializers.ModelSerializer):
-    """Serialize weather events by rank."""
-    weather_event = WeatherEventWithConcernSerializer()
-
-    class Meta:
-        model = OrganizationWeatherEvent
-        fields = ('weather_event', 'order',)

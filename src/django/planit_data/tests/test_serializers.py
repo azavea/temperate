@@ -10,7 +10,7 @@ from planit_data.serializers import (
     OrganizationRiskSerializer,
 )
 from planit_data.tests.factories import CommunitySystemFactory, WeatherEventFactory
-from users.tests.factories import UserFactory, OrganizationFactory
+from users.tests.factories import UserFactory
 
 
 class ConcernSerializerTestCase(TestCase):
@@ -78,10 +78,12 @@ class OrganizationRiskSerializerTestCase(TestCase):
         self.request.user = self.user
 
     def test_create_requires_organization(self):
-        """Ensure attempting to save fails if organization missing from data."""
+        """Ensure attempting to save fails if organization missing."""
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
 
+        # remove organization from request context
+        self.request.user = None
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
                   'community_system': community_system.id},
@@ -103,9 +105,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
         weather_event = WeatherEventFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'weather_event': weather_event.id,
-                  'organization': self.org.id},
-            context={"request": self.request})
+            data={'weather_event': weather_event.id},
+            context={'request': self.request})
 
         self.assertFalse(serializer.is_valid())
 
@@ -117,9 +118,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
         community_system = CommunitySystemFactory()
 
         serializer = OrganizationRiskSerializer(
-            data={'community_system': community_system.id,
-                  'organization': self.org.id},
-            context={"request": self.request})
+            data={'community_system': community_system.id},
+            context={'request': self.request})
 
         self.assertFalse(serializer.is_valid())
 
@@ -131,9 +131,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
 
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
-                  'community_system': community_system.id,
-                  'organization': self.org.id},
-            context={"request": self.request})
+                  'community_system': community_system.id},
+            context={'request': self.request})
 
         self.assertTrue(serializer.is_valid())
 

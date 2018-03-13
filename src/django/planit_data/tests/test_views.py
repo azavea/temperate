@@ -1,14 +1,13 @@
 from urllib.parse import urlencode
 from unittest import mock
 
-from django.contrib.gis.geos import Point
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 
 from action_steps.models import ActionCategory
-from planit_data.views import WeatherEventRankView, PlanExportView
+from planit_data.views import PlanExportView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
@@ -16,8 +15,7 @@ from planit_data.tests.factories import (
     OrganizationActionFactory,
     OrganizationRiskFactory,
     OrganizationWeatherEventFactory,
-    WeatherEventFactory,
-    WeatherEventRankFactory
+    WeatherEventFactory
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from planit_data.views import SuggestedActionViewSet
@@ -224,35 +222,6 @@ class OrganizationWeatherEventTestCase(APITestCase):
         self.assertEqual(org_we.order, order)
 
 
-class OrganizationWeatherEventRankViewTestCase(APITestCase):
-
-    def setUp(self):
-        self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
-
-    def test_weather_event_rank_list(self):
-        organization = self.user.primary_organization
-        organization.location.point = Point(2, 2)
-
-        # Create a georegion centered around our location's coordinates
-        georegion = GeoRegionFactory(bounds=[[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]])
-
-        org_we = OrganizationWeatherEventFactory(organization=organization)
-        organization.weather_events.add(org_we)
-
-        # Create additional WeatherEventRanks for the same georegion that are not associated
-        WeatherEventRankFactory.create_batch(2, georegion=georegion)
-
-        url = reverse('weather-event-rank-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        serializer = WeatherEventRankView.serializer_class([org_we], many=True)
-        self.assertEqual(response.json(), serializer.data)
-
-
 class OrganizationRiskTestCase(APITestCase):
 
     def setUp(self):
@@ -368,8 +337,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-list')
         response = self.client.post(url, data=payload)
-        print(response.json())
-        risk_id = response.json()['id']
+        risk_id = response.json().get('id')
+        self.assertIsNotNone(risk_id)
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
         # Should automatically use the logged in user's primary_organization
@@ -467,7 +436,7 @@ class OrganizationRiskTestCase(APITestCase):
         }
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
-        response = self.client.put(url, data=payload, context={'request': self.request})
+        response = self.client.put(url, data=payload)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         risk_id = response.json()['id']
 
@@ -498,7 +467,7 @@ class OrganizationRiskTestCase(APITestCase):
         }
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
-        response = self.client.put(url, data=payload, context={'request': self.request})
+        response = self.client.put(url, data=payload)
 
         self.assertFalse(org.weather_events.filter(weather_event=original_weather_event).exists())
         self.assertTrue(org.weather_events.filter(weather_event=new_weather_event).exists())
@@ -509,7 +478,7 @@ class OrganizationRiskTestCase(APITestCase):
         org_risk = OrganizationRiskFactory(organization=org)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
-        response = self.client.delete(url, context={'request': self.request})
+        response = self.client.delete(url)
 
         self.assertFalse(org.organizationrisk_set.filter(id=org_risk.id).exists())
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -527,7 +496,7 @@ class OrganizationRiskTestCase(APITestCase):
         )
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
-        response = self.client.delete(url, context={'request': self.request})
+        response = self.client.delete(url)
 
         self.assertFalse(org.weather_events.filter(weather_event=org_risk.weather_event).exists())
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -544,7 +513,7 @@ class OrganizationRiskTestCase(APITestCase):
         }
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
-        response = self.client.put(url, data=payload, context={'request': self.request})
+        response = self.client.put(url, data=payload)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_unique_together_validation(self):
@@ -566,13 +535,13 @@ class OrganizationRiskTestCase(APITestCase):
 
         # First call should successfully create the Risk
         url = reverse('organizationrisk-list')
-        response = self.client.post(url, data=payload, context={'request': self.request})
+        response = self.client.post(url, data=payload)
         self.assertIn('id', response.json())
         self.assertEqual(response.status_code, 201)
 
         # Second call should should raise a validation error with 400 status code
         url = reverse('organizationrisk-list')
-        response = self.client.post(url, data=payload, context={'request': self.request})
+        response = self.client.post(url, data=payload)
         self.assertNotIn('id', response.json())
         self.assertEqual(response.status_code, 400)
 
@@ -590,7 +559,7 @@ class OrganizationActionTestCase(APITestCase):
             organization_risk__organization=self.user.primary_organization)
 
         url = reverse('organizationaction-list')
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -599,7 +568,7 @@ class OrganizationActionTestCase(APITestCase):
         OrganizationActionFactory()
 
         url = reverse('organizationaction-list')
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(len(response.json()), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -609,7 +578,7 @@ class OrganizationActionTestCase(APITestCase):
             organization_risk__organization=self.user.primary_organization)
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertDictEqual(response.json(), {
             'name': '',
@@ -636,7 +605,7 @@ class OrganizationActionTestCase(APITestCase):
             categories=[category])
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(len(response.json()['categories']), 1)
         self.assertDictEqual(response.json()['categories'][0], {
@@ -666,7 +635,7 @@ class OrganizationActionTestCase(APITestCase):
         }
 
         url = reverse('organizationaction-list')
-        response = self.client.post(url, data=payload, context={'request': self.request})
+        response = self.client.post(url, data=payload)
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -696,7 +665,7 @@ class OrganizationActionTestCase(APITestCase):
         }
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
-        response = self.client.put(url, data=payload, context={'request': self.request})
+        response = self.client.put(url, data=payload)
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -725,7 +694,7 @@ class OrganizationActionTestCase(APITestCase):
         }
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
-        response = self.client.put(url, data=payload, context={'request': self.request})
+        response = self.client.put(url, data=payload)
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -752,7 +721,7 @@ class OrganizationActionTestCase(APITestCase):
         }
 
         url = reverse('organizationaction-list')
-        response = self.client.post(url, data=payload, context={'request': self.request})
+        response = self.client.post(url, data=payload)
 
         # Should fail and send back a 4xx error
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -784,7 +753,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         # We should get back the action as a suggestion
         self.assertEqual(len(response.json()), 1)
@@ -798,7 +767,7 @@ class SuggestedActionTestCase(APITestCase):
         )
 
         url = reverse('suggestedaction-detail', kwargs={'pk': action.id})
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         # We should get back the action as a suggestion
 
@@ -827,7 +796,7 @@ class SuggestedActionTestCase(APITestCase):
         )
 
         url = reverse('suggestedaction-detail', kwargs={'pk': action.id})
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -845,7 +814,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
@@ -864,7 +833,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
@@ -884,7 +853,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         # We should not get back any actions
         self.assertEqual(len(response.json()), 0)
@@ -904,7 +873,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -923,7 +892,7 @@ class SuggestedActionTestCase(APITestCase):
         url = reverse('suggestedaction-list') + '?' + urlencode({
             'risk': user_risk.id
         })
-        response = self.client.get(url, context={'request': self.request})
+        response = self.client.get(url)
 
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

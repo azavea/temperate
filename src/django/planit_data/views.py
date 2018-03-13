@@ -24,7 +24,6 @@ from planit_data.serializers import (
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
-    OrganizationWeatherEventRankSerializer,
     OrganizationWeatherEventWithConcernSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
@@ -321,17 +320,3 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
             return WeatherEventWithConcernSerializer
         else:
             return WeatherEventSerializer
-
-
-class WeatherEventRankView(APIView):
-
-    # Explicit permission classes because we use request.user in the view
-    permission_classes = [IsAuthenticated]
-    serializer_class = OrganizationWeatherEventRankSerializer
-    pagination_class = None
-
-    def get(self, request, *args, **kwargs):
-        """Return ranked risks based on authenticated user's primary org location."""
-        queryset = request.user.primary_organization.weather_events.all().order_by('order')
-        serializer = self.serializer_class(queryset, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
