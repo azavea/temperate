@@ -1,0 +1,9 @@
+<app-modal-template #modal [title]="title">
+  <p *ngIf="tagline">{{ tagline }}</p>
+  <footer class="modal-footer">
+    <button class="button"
+            (click)="close(false)">{{ cancelText }}</button>
+    <button class="button button-danger"
+            (click)="close(true)">{{ confirmText }}</button>
+  </footer>
+</app-modal-template>

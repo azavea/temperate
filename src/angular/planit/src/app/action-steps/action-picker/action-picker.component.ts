@@ -17,6 +17,7 @@ export class ActionPickerComponent implements OnInit {
 
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
+  public loading = true;
   public showPrompt = true;
 
   constructor(private location: Location,
@@ -28,7 +29,10 @@ export class ActionPickerComponent implements OnInit {
   suggestedActions: SuggestedAction[] = [];
 
   ngOnInit() {
-    this.suggestedActionService.list(this.risk).subscribe(s => this.suggestedActions = s);
+    this.suggestedActionService.list(this.risk).subscribe(s => {
+      this.suggestedActions = s;
+      this.loading = false;
+    });
   }
 
   closeModal() {

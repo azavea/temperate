@@ -5,6 +5,7 @@
          autocomplete="off"
          [(ngModel)]="selected"
          (typeaheadOnSelect)="onSelect($event)"
+         (change)="onUnsavedChange()"
          [typeahead]="availableOptions"
          [typeaheadMinLength]="1"
          [typeaheadScrollable]="true"
@@ -18,11 +19,13 @@
   <button class="button button-icon" type="button" disabled><i class="icon-plus"></i></button>
 </div>
 <div>
-  <div *ngFor="let option of selectedOptions" class="selected-option">
-    {{ option }}
-    <button type="button" class="button button-icon-only" aria-label="Close"
-            (click)="remove(option)" title="Remove">
-      <i class="icon-cancel"></i>
-    </button>
-  </div>
+  <ng-template ngFor let-option [ngForOf]="selectedOptions">
+    <div *ngIf="option !== unsaved" class="selected-option">
+      {{ option }}
+      <button type="button" class="button-icon-only" aria-label="Close"
+              (click)="remove(option)" title="Remove">
+        <i class="icon-cancel"></i>
+      </button>
+    </div>
+  </ng-template>
 </div>

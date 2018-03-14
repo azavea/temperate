@@ -1,32 +1,92 @@
-// placeholder
 app-dashboard {
-
-  header {
-    margin-bottom: 4rem;
+  .main-content {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  main section {
+  .page-header {
+    flex: 1 0 100%;
+    margin-bottom: $space-medium;
+  }
+
+  .section-header {
+    max-width: $dashboard-header-max-width;
+  }
+
+  .aside-block-container:not(:last-child) {
+    margin-bottom: $space-xlarge;
+  }
+
+  .aside-block {
+    background: $dashboard-aside-background;
+    padding: $space-xlarge;
+  }
+
+  .aside-title {
+    font-size: $dashboard-aside-title-size;
+  }
+
+  .aside-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    p {
+      flex: 1 1 100%;
+    }
+  }
+
+  .aside-footer {
     display: flex;
 
-    .dashboard-main {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      margin-right: 4rem;
-    }
-
-    .dashboard-sidebar {
-      flex: 0 0 350px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-
-      padding: 2rem;
-    }
-
-    .dashboard-no-risks {
-      justify-content: center;
-      align-items: center;
+    *:first-child {
+      margin-right: 2px;
     }
   }
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-right: $space-xlarge;
+}
+
+.dashboard-content {
+  height: 100%;
+}
+
+.dashboard-empty {
+  text-align: center;
+  background: $empty-state-background-light;
+  flex-direction: column;
+  padding: $space-xxlarge $space-xxlarge 0 $space-xxlarge;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+
+  .empty-state-header {
+    font-size: $empty-state-header-size;
+    color: $empty-state-header-color;
+    margin-bottom: $space-medium;
+  }
+
+  .empty-state-text {
+    font-style: $empty-state-text-style;
+    max-width: 50rem;
+    margin: 0 auto;
+  }
+}
+
+.dashboard-sidebar {
+  flex: 0 0 30rem;
+}
+
+.dashboard-no-risks {
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-footer {
+ margin-top: $space-xlarge;
 }

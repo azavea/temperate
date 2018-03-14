@@ -22,6 +22,16 @@
 
         <label>Organization/department</label>
         <app-editable-input [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>
+
+        <div>
+          <p>You can invite your colleagues to work on this plan with you. They will receive an email prompting them to join your organization and create a Temperate account. This can also be accomplished later.</p>
+          <div class="form-control-container">
+            <label for="invite">Email</label>
+            <app-user-emails formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
+            <div class="form-control-error"> </div>
+          </div>
+        </div>
+
       </div>
     </section>
   </main>

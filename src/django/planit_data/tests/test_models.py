@@ -1,12 +1,47 @@
+from unittest import mock
+
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
 from planit_data.models import OrganizationWeatherEvent
-
 from planit_data.tests.factories import (
+    ConcernFactory,
     OrganizationFactory,
     WeatherEventFactory
 )
+
+
+class ConcernTestCase(TestCase):
+
+    def test_concern_no_indicator_uses_static_data(self):
+        concern = ConcernFactory(
+            indicator=None,
+            tagline_positive='more',
+            tagline_negative='less',
+            static_value=10.0,
+            static_units='F')
+        data = concern.calculate(None)
+        self.assertEqual(data, {
+            'value': 10.0,
+            'units': 'F',
+            'tagline': 'more'
+        })
+
+    def test_relative_concern_static_units_none(self):
+        concern = ConcernFactory(
+            indicator=None,
+            is_relative=True,
+            static_units='F')
+        data = concern.calculate(None)
+        self.assertEqual(data['units'], None)
+
+    @mock.patch('planit_data.models.make_token_api_request')
+    def test_concern_no_indicator_skips_api_request(self, api_request_mock):
+        api_request_mock.side_effect = RuntimeError('Static concerns should not make API requests')
+
+        concern = ConcernFactory(indicator=None)
+        org = OrganizationFactory()
+        concern.calculate(org)
 
 
 class OrganizationWeatherEventTestCase(TestCase):

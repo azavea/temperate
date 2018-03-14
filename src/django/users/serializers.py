@@ -1,14 +1,48 @@
 from datetime import date
 
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
 
+from rest_auth.serializers import (
+    PasswordResetSerializer as AuthPasswordResetSerializer,
+    PasswordResetConfirmSerializer as AuthPasswordResetConfirmSerializer
+)
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 from planit_data.models import CommunitySystem
+
+
+class PasswordResetSerializer(AuthPasswordResetSerializer):
+    """
+    Overrides the django-rest-auth password reset serializer to send HTML emails
+    """
+    def get_email_options(self):
+        return {
+            'subject_template_name': 'password_reset_email_subject.txt',
+            'email_template_name': 'password_reset_email.txt',
+            'html_email_template_name': 'password_reset_email.html',
+            'extra_email_context': {
+                'password_reset_url': settings.PASSWORD_RESET_URL
+            }
+        }
+
+
+class PasswordResetConfirmSerializer(AuthPasswordResetConfirmSerializer):
+    """
+    Overrides the django-rest-auth serializer to check token validity before password validity
+
+    We use this to guard against accessing the password reset page with an invalid token
+    """
+
+    def custom_validation(self, attrs):
+        if not default_token_generator.check_token(self.user, attrs['token']):
+            raise ValidationError({'token': ['Invalid value']})
 
 
 class AuthTokenSerializer(serializers.Serializer):

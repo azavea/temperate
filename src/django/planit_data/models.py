@@ -3,7 +3,7 @@ import uuid
 
 from django.contrib.gis.db import models
 from django.db import connection, transaction
-from django.db.models import CASCADE
+from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
 from climate_api.utils import IMPERIAL_TO_METRIC
@@ -57,7 +57,7 @@ class WeatherEvent(models.Model):
     """
     name = models.CharField(max_length=256, unique=True, blank=False, null=False)
     coastal_only = models.BooleanField(default=False)
-    concern = models.ForeignKey('Concern', null=True, blank=True)
+    concern = models.ForeignKey('Concern', on_delete=SET_NULL, null=True, blank=True)
     indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
     community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
     display_class = models.CharField(max_length=128, blank=True, default='')
@@ -210,23 +210,33 @@ class Concern(models.Model):
     END_YEAR = 2050
     END_SCENARIO = 'RCP85'
 
-    indicator = models.OneToOneField(Indicator, on_delete=CASCADE, null=False)
+    indicator = models.OneToOneField(Indicator, on_delete=CASCADE, blank=True, null=True)
     tagline_positive = models.CharField(max_length=256, blank=False, null=False)
     tagline_negative = models.CharField(max_length=256, blank=False, null=False)
     is_relative = models.BooleanField(default=False)
+    # If indicator is null, display any set static value + unit with the normal
+    #  positive/negative tagline instead
+    static_value = models.FloatField(blank=True, null=True)
+    static_units = models.CharField(max_length=16, blank=True, default='')
 
     def __str__(self):
         return '{} - {}'.format(self.indicator, self.tagline_positive)
 
     def calculate(self, organization):
-        city_id = organization.location.api_city_id
-        units = self.get_units(organization)
+        # Calculate data via indicator if we have one
+        if self.indicator is not None:
+            city_id = organization.location.api_city_id
+            units = self.get_units(organization)
 
-        start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
-        end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
-        difference = end_avg - start_avg
+            start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
+            end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
+            difference = end_avg - start_avg
 
-        value = difference / start_avg if self.is_relative else difference
+            value = difference / start_avg if self.is_relative else difference
+        # Otherwise use a static value + units
+        else:
+            value = self.static_value if self.static_value else 0
+            units = self.static_units if self.static_units and not self.is_relative else None
         tagline = self.tagline_positive if value >= 0 else self.tagline_negative
 
         return {

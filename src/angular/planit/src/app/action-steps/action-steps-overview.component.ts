@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
@@ -6,6 +6,9 @@ import { Observable } from 'rxjs/Rx';
 import { ActionService } from '../core/services/action.service';
 import { RiskService } from '../core/services/risk.service';
 import { Action, Risk, WeatherEvent } from '../shared';
+import {
+  ConfirmationModalComponent
+} from '../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'as-overview',
@@ -13,6 +16,7 @@ import { Action, Risk, WeatherEvent } from '../shared';
 })
 
 export class ActionStepsOverviewComponent implements OnInit {
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
 
   public action: Action;
   public risks: Risk[];
@@ -38,8 +42,13 @@ export class ActionStepsOverviewComponent implements OnInit {
   }
 
   deleteAction(action) {
-    this.actionService.delete(action).subscribe(a => {
-      const risk = this.risks.find(r => r.action && r.action.id === action.id);
+    const risk = this.risks.find(r => r.action && r.action.id === action.id);
+    this.confirmDeleteModal.confirm({
+      tagline: `Are you sure you want to delete ${risk.title()}?`,
+      confirmText: 'Delete'
+    }).onErrorResumeNext().switchMap(() => {
+      return this.actionService.delete(action);
+    }).subscribe(a => {
       risk.action = null;
     });
   }

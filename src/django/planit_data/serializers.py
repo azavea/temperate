@@ -1,7 +1,5 @@
-from collections import OrderedDict
 from rest_framework import serializers
 
-from action_steps.models import ActionCategory
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
@@ -13,6 +11,7 @@ from planit_data.models import (
     WeatherEvent,
 )
 from users.models import PlanItOrganization
+from planit.fields import OneWayPrimaryKeyRelatedField
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
@@ -60,44 +59,16 @@ class WeatherEventSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'coastal_only', 'concern', 'indicators', 'display_class')
 
 
-class WeatherEventField(serializers.PrimaryKeyRelatedField):
+class WeatherEventField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
-
-    def to_representation(self, value):
-        pk = super().to_representation(value)
-        try:
-            item = WeatherEvent.objects.get(pk=pk)
-            serializer = WeatherEventSerializer(item)
-            return serializer.data
-        except WeatherEvent.DoesNotExist:
-            return None
-
-    def get_choices(self, cutoff=None):
-        queryset = self.get_queryset()
-        if queryset is None:
-            return {}
-
-        return OrderedDict([(item.id, str(item)) for item in queryset])
+    serializer = WeatherEventSerializer
+    queryset = WeatherEvent.objects.all()
 
 
-class CommunitySystemField(serializers.PrimaryKeyRelatedField):
+class CommunitySystemField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
-
-    def to_representation(self, value):
-        pk = super().to_representation(value)
-        try:
-            item = CommunitySystem.objects.get(pk=pk)
-            serializer = CommunitySystemSerializer(item)
-            return serializer.data
-        except CommunitySystem.DoesNotExist:
-            return None
-
-    def get_choices(self, cutoff=None):
-        queryset = self.get_queryset()
-        if queryset is None:
-            return {}
-
-        return OrderedDict([(item.id, str(item)) for item in queryset])
+    serializer = CommunitySystemSerializer
+    queryset = CommunitySystem.objects.all()
 
 
 class WeatherEventWithConcernSerializer(WeatherEventSerializer):
@@ -105,19 +76,37 @@ class WeatherEventWithConcernSerializer(WeatherEventSerializer):
     concern = ConcernSerializer()
 
 
+class RiskPKField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        organization = self.context['request'].user.primary_organization
+        queryset = OrganizationRisk.objects.filter(organization=organization)
+        return queryset.select_related(
+            'organization__location',
+            'weather_event',
+            'community_system'
+        )
+
+
+class OrganizationPKField(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        user = self.context['request'].user
+        return PlanItOrganization.objects.filter(
+            users=user
+        ).select_related(
+            'location'
+        )
+
+
 class OrganizationActionSerializer(serializers.ModelSerializer):
-    risk = serializers.PrimaryKeyRelatedField(
+    risk = RiskPKField(
         many=False,
-        queryset=OrganizationRisk.objects.all(),
         source='organization_risk'
     )
-    categories = ActionCategoryField(
-        many=True,
-        queryset=ActionCategory.objects.all()
-    )
+    categories = ActionCategoryField(many=True)
 
     def validate_risk(self, value):
-        if value.organization.id != self.context['organization']:
+        user_organization = self.context['request'].user.primary_organization
+        if value.organization_id != user_organization.id:
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 
@@ -133,29 +122,22 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     """Serialize organization risks for viewing, with related models.
 
     Only show 1 action for MVP even though Risk:Action is 1:M."""
-    weather_event = WeatherEventField(
-        many=False,
-        queryset=WeatherEvent.objects.all(),
-    )
-    community_system = CommunitySystemField(
-        many=False,
-        queryset=CommunitySystem.objects.all(),
-    )
+    weather_event = WeatherEventField(many=False)
+    community_system = CommunitySystemField(many=False)
 
     action = serializers.SerializerMethodField()
 
-    organization = serializers.PrimaryKeyRelatedField(
+    organization = OrganizationPKField(
         many=False,
-        queryset=PlanItOrganization.objects.all(),
-        write_only=True)
+        write_only=True
+    )
 
     def get_action(self, obj):
         try:
-            action = obj.organizationaction_set.first()
-            if action:
-                return OrganizationActionSerializer(action).data
-            return None
-        except OrganizationAction.DoesNotExist:
+            # Use slicing ([0]) instead of .first() to use prefetched data
+            action = obj.organizationaction_set.all()[0]
+            return OrganizationActionSerializer(action).data
+        except IndexError:
             return None
 
     class Meta:
@@ -174,9 +156,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
 
 class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
-    organization = serializers.PrimaryKeyRelatedField(
+    organization = OrganizationPKField(
         many=False,
-        queryset=PlanItOrganization.objects.all(),
         write_only=True
     )
     weather_event = WeatherEventField(
@@ -199,10 +180,7 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
 
 
 class SuggestedActionSerializer(serializers.ModelSerializer):
-    categories = ActionCategoryField(
-        many=True,
-        read_only=True
-    )
+    categories = ActionCategoryField(many=True)
     plan_city = serializers.SerializerMethodField()
     plan_due_date = serializers.SerializerMethodField()
     plan_name = serializers.SerializerMethodField()
@@ -233,12 +211,3 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
-
-
-class OrganizationWeatherEventRankSerializer(serializers.ModelSerializer):
-    """Serialize weather events by rank."""
-    weather_event = WeatherEventWithConcernSerializer()
-
-    class Meta:
-        model = OrganizationWeatherEvent
-        fields = ('weather_event', 'order',)

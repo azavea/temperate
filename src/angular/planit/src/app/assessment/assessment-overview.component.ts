@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Rx';
@@ -7,12 +7,17 @@ import { Observable } from 'rxjs/Rx';
 import { ActionService } from '../core/services/action.service';
 import { RiskService } from '../core/services/risk.service';
 import { Action, Risk, WeatherEvent } from '../shared';
+import {
+  ConfirmationModalComponent
+} from '../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'va-overview',
   templateUrl: 'assessment-overview.component.html'
 })
 export class AssessmentOverviewComponent implements OnInit {
+
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
   public risks: Risk[];
   public tooltipText = {
     adaptiveCapacity: 'The ability to respond to change, deal with potential damage, and take ' +
@@ -43,8 +48,13 @@ export class AssessmentOverviewComponent implements OnInit {
   }
 
   deleteRisk(risk: Risk) {
-    this.riskService.delete(risk).subscribe(() => {
-      this.risks = this.risks.filter(r => r.id !== risk.id);
+    this.confirmDeleteModal.confirm({
+      tagline: `Are you sure you want to delete ${risk.title()}?`,
+      confirmText: 'Delete'
+    }).onErrorResumeNext().switchMap(() => {
+      return this.riskService.delete(risk);
+    }).subscribe(() => {
+        this.risks = this.risks.filter(r => r.id !== risk.id);
     });
   }
 

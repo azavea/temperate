@@ -87,7 +87,7 @@ export class LDProgressbarDirective implements AfterViewInit, OnChanges {
     if (this.labelType === LDProgressbarLabelType.Percent) {
       this.ldBar.set(percent);
     } else if (this.labelType === LDProgressbarLabelType.Number) {
-      const label = `${this.value} / ${this.max}`;
+      const label = `${this.value}/${this.max}`;
       this.ldBar.set(percent);
       const labelElement = this.element.nativeElement
         .getElementsByClassName('ldBar-label-number')[0];

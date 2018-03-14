@@ -10,8 +10,8 @@ import { User } from '../models/user.model';
 })
 export class PasswordResetFormComponent {
 
-  public password1 = '';
-  public password2 = '';
+  public new_password1 = '';
+  public new_password2 = '';
 
   public errors: any = {};
 
@@ -20,13 +20,14 @@ export class PasswordResetFormComponent {
               private route: ActivatedRoute) {}
 
   submit() {
+    const uid: string = this.route.snapshot.paramMap.get('uid');
     const token: string = this.route.snapshot.paramMap.get('token');
-    this.authService.resetPassword(token, this.password1, this.password2).subscribe(
+    this.authService.resetPassword(uid, token, this.new_password1, this.new_password2).subscribe(
       (data) => {
         this.router.navigate(['/login'], {queryParams: {reset: true}});
       },
       (errors) => {
-        this.errors = errors.json().errors;
+        this.errors = errors.json();
       }
     );
   }

@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'partnerships', component: PartnershipsComponent },
   { path: 'register', component: RegistrationPageComponent, canActivate: [LoggedInAuthGuard] },
   {
-    path: 'reset-password/:token',
+    path: 'reset-password/:uid/:token',
     component: ResetPasswordComponent,
     canActivate: [PasswordResetGuard, LoggedInAuthGuard]
   },
