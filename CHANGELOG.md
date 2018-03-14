@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.1.0] - 2018-03-08
+## [0.1.2] - 2018-03-14
+### Added
+- User sees confirmation prompt when attempting to delete a Risk or Action
+### Changed
+- Removed remaining lorem ipsum text from homepage
+### Fixed
+- Org and user API endpoint visibility
+- Improved suggested actions workflow when there are no suggested actions to display
+
+## [0.1.1] - 2018-03-11
 ### Changed
 - App now hosted at https://temperate.io instead of https://app.temperate.io
 - Production application no longer restricted to use on Azavea VPN
