@@ -1,0 +1,44 @@
+.pricing-section.pricing-hero {
+  min-height: 42rem;
+  background-color: $neutral-1;
+}
+
+.pricing-hero > .section-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  > .overview {
+    flex: none;
+    max-width: 48%;
+    margin-right: 4%;
+
+    > .superhead {
+      margin-bottom: $space-small;
+      font-size: $text-small;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+    }
+
+    > .heading {
+      margin-bottom: $space-xlarge;
+      font-size: $text-display;
+      font-weight: $font-weight-light;
+    }
+
+    > .description {
+      margin-bottom: $space-xxlarge;
+    }
+
+    > .button {
+      margin-top: $space-xxlarge;
+    }
+  }
+
+  > .image {
+    position: relative;
+    width: auto;
+    height: 100%;
+  }
+}

@@ -1,0 +1,82 @@
+.plan-cards {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-between;
+
+  > .plan-card {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: calc(50% - #{$space-medium});
+    margin-bottom: $space-xlarge;
+    padding: $space-xxlarge;
+    background-color: $white;
+
+    &:hover {
+      box-shadow: $pricing-plan-card-shadow;
+    }
+
+    // &.plan-card-custom {
+    //   background-color: $brand-teal;
+    // }
+
+    > .tier {
+      align-self: center;
+      margin-top: -$space-medium;
+      font-size: $text-small;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    > .icon {
+      align-self: center;
+      margin-bottom: 4rem;
+      padding: $space-large;
+      font-size: $text-jumbo;
+    }
+
+    > .heading {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+      font-size: $text-medium;
+      font-weight: $font-weight-regular;
+    }
+
+    > .heading > .offering {
+      white-space: nowrap;
+    }
+
+    > .heading > .cost {
+      color: $neutral-3;
+      font-size: $text-medium;
+      font-weight: $font-weight-light;
+
+      > .peryear {
+        font-size: $text-tiny;
+      }
+    }
+
+    > .description {
+      margin-bottom: $space-xxlarge;
+    }
+
+    > .button {
+      margin: auto 0 $space-medium;
+    }
+
+    > .value {
+      position: absolute;
+      right: $space-xlarge;
+      bottom: $space-medium;
+      color: $neutral-3;
+      font-size: $text-tiny;
+      text-align: right;
+    }
+  }
+}

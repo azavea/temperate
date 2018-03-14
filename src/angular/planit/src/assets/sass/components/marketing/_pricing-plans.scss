@@ -1,0 +1,24 @@
+.pricing-section.pricing-plans {
+  background-color: $brand-primary;
+  padding-top: $pricing-section-padding-vertical-large;
+  padding-bottom: $pricing-section-padding-vertical-large;
+}
+
+.pricing-plans > .section-content {
+
+  > .heading {
+    @include light-on-dark();
+    max-width: 40rem;
+    margin-bottom: $space-xlarge;
+    color: $white;
+    font-size: $text-display;
+    font-weight: $font-weight-light;
+  }
+
+  > .description {
+    @include light-on-dark();
+    max-width: 40rem;
+    margin-bottom: $space-xxlarge * 2;
+    color: $white;
+  }
+}

@@ -1,0 +1,30 @@
+app-pricing {
+  .main-container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: $neutral-0;
+
+    .main-content {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+.pricing-section {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: $pricing-section-padding-vertical-small $pricing-section-padding-horizontal;
+
+  > .section-content {
+    width: 100%;
+    max-width: $pricing-max-width;
+  }
+}

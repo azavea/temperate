@@ -1,0 +1,41 @@
+.pricing-section.pricing-bottom {
+  padding-top: $pricing-section-padding-vertical-large;
+  padding-bottom: 2 * $pricing-section-padding-vertical-large;
+  background-image: url(../images/pricing/green-water-drop.jpg);
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pricing-bottom > .section-content {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+
+  > .overview {
+    flex: none;
+    max-width: 50%;
+    margin-right: 4%;
+
+    > .heading {
+      @include light-on-dark();
+      margin-bottom: $space-xlarge;
+      color: $white;
+      font-size: $text-display;
+      font-weight: $font-weight-light;
+      text-shadow: $pricing-bottom-text-shadow;
+    }
+
+    > .description {
+      @include light-on-dark();
+      margin-bottom: $space-xxlarge;
+      color: $white;
+      text-shadow: $pricing-bottom-text-shadow;
+    }
+
+    > .button {
+      margin-top: $space-xxlarge;
+    }
+  }
+}

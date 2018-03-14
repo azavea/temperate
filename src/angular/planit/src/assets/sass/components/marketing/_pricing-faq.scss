@@ -1,0 +1,40 @@
+.pricing-section.pricing-faq {
+  padding-top: $pricing-section-padding-vertical-large;
+  padding-bottom: $pricing-section-padding-vertical-large;
+  background-color: $neutral-2;
+}
+
+.pricing-faq > .section-content {
+
+  > .heading {
+    margin-bottom: $space-xxlarge;
+    font-size: $text-display;
+    font-weight: $font-weight-light;
+  }
+
+  > .faq-list {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > .faq {
+      width: calc(50% - #{$space-medium});
+      margin-bottom: $space-xlarge;
+      padding: $space-xxlarge;
+      background-color: $white;
+    }
+
+    > .faq > .question {
+      font-size: $text-medium;
+      font-weight: $font-weight-light;
+    }
+
+    > .faq > .answer {
+
+    }
+  }
+}

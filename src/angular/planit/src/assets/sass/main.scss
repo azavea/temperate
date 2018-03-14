@@ -46,9 +46,16 @@
   'components/dashboard/grouped-risk',
   'components/indicators/model-modal',
   'components/marketing/plan-selector',
+  'components/marketing/pricing-hero',
+  'components/marketing/pricing-features',
+  'components/marketing/pricing-plans',
+  'components/marketing/pricing-other-plans',
+  'components/marketing/pricing-faq',
+  'components/marketing/pricing-bottom',
   'components/shared/app-chart',
   'components/shared/ld-progressbar',
   'components/shared/option-dropdown',
+  'components/shared/plan-cards',
   'components/alert',
   'components/action-steps/action-picker',
   'components/wizard',
@@ -93,3 +100,4 @@
 @import 'pages/risk-wizard';
 @import 'pages/action-wizard';
 @import 'pages/create-plan';
+@import "pages/pricing-page";

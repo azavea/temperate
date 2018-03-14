@@ -1,0 +1,18 @@
+.pricing-section.pricing-other-plans {
+  padding-top: $pricing-section-padding-vertical-large;
+  padding-bottom: $pricing-section-padding-vertical-large;
+}
+
+.pricing-other-plans > .section-content {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  > .heading {
+    margin-bottom: $space-xxlarge * 2;
+    font-size: $text-display;
+    font-weight: $font-weight-light;
+    text-align: center;
+  }
+}

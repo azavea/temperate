@@ -667,3 +667,14 @@ $suggestion-metadata-list-size: $text-tiny;
 $suggestion-toggle-button-fadeaway: linear-gradient(rgba($suggestion-background, 0), $suggestion-background);
 $suggestion-footer-background: $neutral-1;
 $suggestion-footer-border: 2px solid $neutral-0;
+
+/* * * *
+ * Pricing page
+ *
+ * * * */
+$pricing-max-width: 80rem;
+$pricing-section-padding-vertical-small: 4rem;
+$pricing-section-padding-vertical-large: 2 * $pricing-section-padding-vertical-small;
+$pricing-section-padding-horizontal: 2rem;
+$pricing-plan-card-shadow: 2px 2px 20px rgba($black, .22);
+$pricing-bottom-text-shadow: 0 0 8px rgba($black, .67);
