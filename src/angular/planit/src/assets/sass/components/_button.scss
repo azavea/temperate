@@ -28,6 +28,8 @@
 
   &:disabled, &.disabled {
     background: $button-disabled-background;
+    border-color: $button-disabled-background;
+    color: inherit;
     opacity: .5;
     cursor: not-allowed;
   }
