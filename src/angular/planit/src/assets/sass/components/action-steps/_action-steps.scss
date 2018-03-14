@@ -1,47 +1,47 @@
-.action-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: flex-start;
-}
+// .action-card-container {
+//   display: flex;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   justify-content: flex-start;
+// }
 
-.take-action {
-  background-color: $brand-positive;
-  color: $white;
-}
+// .take-action {
+//   background-color: $brand-positive;
+//   color: $white;
+// }
 
-.action-category-card {
-  height: 40px;
-  width: 180px;
-  margin: 3px;
-  background-color: $neutral-1;
-  border: $neutral-2 1px solid;
-  border-radius: 4px;
-  text-align: left;
-  padding-top: 5px;
+// .action-category-card {
+//   height: 40px;
+//   width: 180px;
+//   margin: 3px;
+//   background-color: $neutral-1;
+//   border: $neutral-2 1px solid;
+//   border-radius: 4px;
+//   text-align: left;
+//   padding-top: 5px;
 
-  font-weight: $font-weight-bold;
-  line-height: 1.1rem;
+//   font-weight: $font-weight-bold;
+//   line-height: 1.1rem;
 
-  &.selected {
-    background-color: $neutral-4;
-    color: $white;
-  }
-}
+//   &.selected {
+//     background-color: $neutral-4;
+//     color: $white;
+//   }
+// }
 
-.action-categories {
-  .row {
-    background-color: $white;
-  }
-}
+// .action-categories {
+//   .row {
+//     background-color: $white;
+//   }
+// }
 
-.action-card-financial-block {
-  textarea {
-    width: 100%;
-  }
+// .action-card-financial-block {
+//   textarea {
+//     width: 100%;
+//   }
 
-  background-color: $neutral-1;
-  border: 2px $neutral-2;
-  border-radius: 4px;
-  padding: 3px;
-}
+//   background-color: $neutral-1;
+//   border: 2px $neutral-2;
+//   border-radius: 4px;
+//   padding: 3px;
+// }

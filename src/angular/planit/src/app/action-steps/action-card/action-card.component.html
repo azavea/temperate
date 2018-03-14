@@ -1,32 +1,63 @@
-<div class="card card-full">
-  <div class="button-group" dropdown>
-    <button dropdownToggle type="button" class="button button-primary button-icon dropdown-toggle">
-      <span class="icon-ellipsis-h"></span>
-    </button>
-    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-      <li role="menuitem">
-        <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: 'review'}">View</a>
-      </li>
-      <li role="menuitem">
-        <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
-      </li>
-      <div class="divider"></div>
-      <li class="action-destructive" role="menuitem">
-        <a class="dropdown-item" (click)="deleteAction()">Remove</a>
-      </li>
-    </ul>
-  </div>
-  <div class="action-card-content">
-    <h4>Action</h4>
-    <h3>{{ action.name }}</h3>
-    <h4>Risk</h4>
-    <h3>{{ risk.weather_event.name }} on {{ risk.community_system.name }}</h3>
-    <div *ngIf="action.categories.length" class="categories">
-      <h5>Categories</h5>
-      <i *ngFor="let category of action.categories"
-         class="{{ category.icon }}"
-         tooltip="{{ category.name }}"
-         placement="bottom"></i>
+<div class="card card-full action-card">
+  <header class="card-header">
+    <h3 class="card-title">
+      <span class="risk-priority">
+        <va-adaptive-need-box 
+          [adaptiveCapacity]="risk.adaptive_capacity"
+          [popoverPlacement]="'right'"
+          [potentialImpact]="risk.impact_magnitude">
+        </va-adaptive-need-box>
+      </span>
+      {{ risk.community_system.name }}
+    </h3>
+
+    <div class="button-group" dropdown>
+      <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+        <span class="icon-ellipsis-h"></span>
+      </button>
+
+      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+        <li role="menuitem">
+          <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: 'review'}">View</a>
+        </li>
+        <li role="menuitem">
+          <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
+        </li>
+        <div class="divider"></div>
+        <li class="action-destructive" role="menuitem">
+          <a class="dropdown-item" (click)="deleteAction()">Remove</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="card-content">
+    <div class="action-name">
+      <div class="action-name-title card-content-title">Action:</div>
+      <div class="action-name-value card-content-value">
+        <p *ngFor="let line of actionNameLines">
+          {{ line }}
+        </p>
+      </div>
+    </div>
+
+    <div class="action-details">
+      <div class="detail-container">
+          <div class="detail-title card-content-title">Type of action:</div>
+          <div class="detail-value card-content-value">
+            {{ action.action_type || '--' }}
+          </div>
+      </div>
+
+      <div class="detail-container" *ngIf="action.categories.length">
+        <div class="detail-title card-content-title">Categories:</div>
+        <div class="detail-content categories">
+          <span *ngFor="let category of action.categories"
+             class="icon category-icon {{ category.icon }}"
+             tooltip="{{ category.name }}"
+             placement="bottom"></span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,33 +1,71 @@
-.risk-card, .action-card {
-  height: 275px;
-  width: 310px;
-  margin: 5px;
-  background-color: $neutral-1;
-  border: $neutral-2 1px solid;
-  border-radius: 4px;
-  text-align: center;
-}
+.action-card-unassessed, .action-card {
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.action-card {
-  background-color: $white;
+  .risk-priority {
+    margin-right: $space-medium;
+  }
 
-  .action-card-header {
-    text-align: right;
-    display: inline;
-    float: right;
+  .card-title {
+    margin-bottom: 0;
+    font-size: $text-small;
+    color: $brand-black;
+  }
+
+  .button {
+    flex: 0 0 auto;
   }
 }
 
-.risk-card-content {
-  margin: 30% 5% 5% 5%;
+.action-card-unassessed {
+  .card-header {
+    padding: $space-medium $space-large;
+  }
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    padding: $space-medium;
+  }
 }
 
-.action-card-content {
-  text-align: left;
-  margin: 5%;
+.action-card {
+  .card-header {
+    padding: $space-xlarge $space-xxlarge $space-xlarge $space-large;
+  }
 
-  .categories {
-    font-size: $text-medium;
-    text-align: center;
+  .card-content {
+    background: $neutral-0;
+    margin: 0 $space-tiny;
+    padding: $space-xlarge $space-xlarge $space-xxlarge 4.35rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .action-name {
+    flex: 1 0 70%;
+    margin-right: $space-xlarge;
+  }
+
+  .card-content-title  {
+    font-weight: $font-weight-bold;
+  }
+  .card-content-value {
+    color: $brand-black;
+    font-size: $text-base;
+  }
+
+  .action-details {
+    flex: 1 0 auto;
+
+    .detail-container {
+      margin-bottom: $space-large;
+    }
+
+    .category-icon {
+      font-size: $text-medium;
+      color: $neutral-4;
+    }
   }
 }

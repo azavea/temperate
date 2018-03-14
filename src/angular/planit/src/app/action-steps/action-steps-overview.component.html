@@ -3,6 +3,14 @@
     <header class="page-header">
       <h1 class="page-title-small">Action steps</h1>
       <h2 class="page-title-large" *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h2>
+      <p class="paragraph-intro">
+        Take action to mitigate the potential impact of <strong>{{ weatherEvent?.name | lowercase}}</strong> 
+        on each of the below community systems.
+      </p>
+      <p>
+        Once you have identified and assessed a risk, you can develop an action step 
+        to address it. 
+      </p>
     </header>
 
     <div class="loading-container" *ngIf="risks === undefined">
@@ -11,7 +19,7 @@
 
     <section *ngIf="risks !== undefined">
       <div *ngIf="!isARiskAssessed" class="actions-empty">
-        <h2>You&rsquo;ll need to assess risks before you can take action.</h2>
+        <h3>You&rsquo;ll need to assess risks before you can take action.</h3>
         <p>
           Once you have risks assessed in your Vulnerability Assessment, you can plan to 
           mitigate their impact here.
