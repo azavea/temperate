@@ -91,9 +91,7 @@ To have changes that exist in your Temperate environment's database be written t
 ### Temperate Suggested Actions data
 Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stults for her PhD, needs to be ingested.
 
-#### Download the data from s3
-The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
-
+#### Ingesting the data
 ```bash
 $ vagrant ssh
 $ ./scripts/ingest_missy_dataset
@@ -102,11 +100,12 @@ $ ./scripts/ingest_missy_dataset
 Note: Sometimes the script's geocoder fails, in which case you have to run the script several times if you want all the data (~3.1k actions). Re-running the script does not overwrite data.
 
 #### Export data from source
-It is easier to download the data from s3 (see above). Nevertheless, if you must recreate the CSVs:
+It is easier to download the data using the above script. If you want to update the data on S3, you must recreate the CSVs:
 - Export [the original spreadsheet](https://docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit?usp=sharing) as an excel spreadsheet
 - Open the above in a spreadsheet program (i.e. Excel, LibreOffice)
 - Move each the "Cities" and "Strategies with weather events" tabs to their own sheet
 - Save each sheet in CSV format
+- Update the CSVs on S3, located in the `s3://azavea-climate-sandbox` folder as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 
 ### Using Docker in the VM
 
