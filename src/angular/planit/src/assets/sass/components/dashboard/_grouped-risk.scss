@@ -13,6 +13,14 @@
   font-size: $grouped-risk-header-title-size;
 }
 
+.grouped-risk-priority va-adaptive-need-box {
+  margin-top: $space-tiny;
+}
+
+.grouped-risk-priority-empty {
+  margin-bottom: -$space-tiny;
+}
+
 .grouped-risk-priority {
   margin-right: $space-small;
 }
