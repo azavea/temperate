@@ -14,7 +14,7 @@
         <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
           <h4 class="empty-state-header">You haven&rsquo;t started your assessment yet</h4>
           <p class="empty-state-text">
-            To get started, <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add some hazards</button> 
+            To get started, <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add some hazards</button>
             your city is concerned about.
           </p>
         </div>
@@ -40,9 +40,9 @@
         <div class="aside-block">
           <h3 class="aside-title">Review</h3>
           <p>Review your plan in its entirety or submit a completed plan to ICLEI-USA for review.</p>
-          <a href="placeholder">Review your plan</a>
+          <a routerLink="/review-plan">Review your plan</a>
           <footer class="aside-footer">
-            <a class="button button-small" 
+            <a class="button button-small"
                (click)="downloadPlan()"
                tooltip="Download your plan as a CSV">Download</a>
             <button type="button" class="button button-small">Submit</button>

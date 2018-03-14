@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
+import { AccordionModule, PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -13,11 +13,16 @@ import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
+import { ReviewPlanComponent } from './review-plan/review-plan.component';
+import { AdaptationReviewComponent } from './review-plan/tabs/adaptation-review.component';
+import { CityProfileReviewComponent } from './review-plan/tabs/city-profile-review.component';
+import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    AccordionModule,
     PopoverModule,
     ProgressbarModule,
     TooltipModule,
@@ -25,10 +30,14 @@ import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
     DashboardRoutingModule
   ],
   declarations: [
+    AdaptationReviewComponent,
     CityProfileComponent,
+    CityProfileReviewComponent,
     CityProfileSummaryComponent,
     DashboardComponent,
-    GroupedRiskComponent
+    GroupedRiskComponent,
+    PlanSummaryComponent,
+    ReviewPlanComponent
   ],
   exports: [ ],
   schemas: [ ]

@@ -1,0 +1,25 @@
+<div class="main-container">
+  <main class="main-content" role="main">
+    <header class="page-header">
+      <h1 class="page-title-large">Review</h1>
+      <button class="button">Download CSV</button>
+      <button class="button button-primary">Submit to ICLEI-USA</button>
+    </header>
+    <div>
+      <button class="button button-link"
+              [ngClass]="{active: activeTab === tabs.OVERVIEW}"
+              (click)="activeTab = tabs.OVERVIEW">Plan overview</button>
+      <button class="button button-link"
+              [ngClass]="{active: activeTab === tabs.CITY_PROFILE}"
+              (click)="activeTab = tabs.CITY_PROFILE">City profile</button>
+      <button class="button button-link"
+              [ngClass]="{active: activeTab === tabs.ADAPTATION_PLAN}"
+              (click)="activeTab = tabs.ADAPTATION_PLAN">Adaptation plan</button>
+    </div>
+    <app-plan-summary *ngIf="activeTab === tabs.OVERVIEW"
+                      [org]="organization"></app-plan-summary>
+    <app-city-profile-review *ngIf="activeTab === tabs.CITY_PROFILE"></app-city-profile-review>
+    <app-adaptation-review *ngIf="activeTab === tabs.ADAPTATION_PLAN"
+                           [risks]="risks"></app-adaptation-review>
+  </main>
+</div>

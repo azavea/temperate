@@ -63,6 +63,7 @@ import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
+  AccordionModule,
   BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
@@ -101,6 +102,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FormsModule,
     HttpModule,
     // 3rd party
+    AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
