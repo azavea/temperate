@@ -1,6 +1,6 @@
-<div class="action-card">
-  <div class="action-card-header button-group" dropdown>
-    <button dropdownToggle type="button" class="button button-primary dropdown-toggle">
+<div class="card card-full">
+  <div class="button-group" dropdown>
+    <button dropdownToggle type="button" class="button button-primary button-icon dropdown-toggle">
       <span class="icon-ellipsis-h"></span>
     </button>
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
@@ -10,7 +10,8 @@
       <li role="menuitem">
         <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
       </li>
-      <li role="menuitem">
+      <div class="divider"></div>
+      <li class="action-destructive" role="menuitem">
         <a class="dropdown-item" (click)="deleteAction()">Remove</a>
       </li>
     </ul>
