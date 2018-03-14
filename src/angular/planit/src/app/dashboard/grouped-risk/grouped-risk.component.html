@@ -46,7 +46,7 @@
       <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
-    <a class="button button-small" 
+    <a class="button button-small button-positive" 
        routerLink="/actions"
        [queryParams]="{hazard: weatherEvent?.id}"
        *ngIf="numberOfRisksAssessed() > 0">Take action</a>
