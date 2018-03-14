@@ -189,7 +189,16 @@
 }
 
 .button-icon {
-    padding: $button-padding-vertical;
+  padding: $button-padding-vertical;
+
+  &.button-small {
+    padding: $button-padding-vertical-small;
+  }
+
+  &.button-large {
+    font-size: $text-base;
+    padding: $button-padding-vertical-large;
+  }
 }
 
 .button-floating {
