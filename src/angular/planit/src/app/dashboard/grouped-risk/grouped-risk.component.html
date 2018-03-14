@@ -39,17 +39,19 @@
        [queryParams]="{hazard: weatherEvent?.id}">Assess</a>
   </div>
   
-  <div class="grouped-risk-progress-container grouped-risk-progress-action-empty" *ngIf="numberOfRisksAssessed() === 0"></div>
-
-  <div class="grouped-risk-progress-container grouped-risk-progress-action" *ngIf="numberOfRisksAssessed() > 0">
+  <div class="grouped-risk-progress-container grouped-risk-progress-action" 
+       [ngClass]="(numberOfRisksAssessed() > 0) ? '' : 'grouped-risk-progress-action-empty'">
     <div class="grouped-risk-progress">
       <h5 class="grouped-risk-progress-title">Action steps</h5>
       <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
-    <a class="button button-small button-positive"
+    <a class="button button-small" 
        routerLink="/actions"
-       [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
+       [queryParams]="{hazard: weatherEvent?.id}"
+       *ngIf="numberOfRisksAssessed() > 0">Take action</a>
+    <div class="button button-small" 
+       *ngIf="numberOfRisksAssessed() === 0">Take action</div>
   </div>
 </div>
 

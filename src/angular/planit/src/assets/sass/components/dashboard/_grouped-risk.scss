@@ -55,7 +55,7 @@
 .grouped-risk-progress-container {
   display: flex;
   background: $grouped-risk-progress-container-background;
-  padding: $space-large $space-medium;
+  padding: $space-xlarge $space-large;
   border-radius: $border-radius;
   
   @media all and (min-width:68.750em) {
@@ -115,10 +115,10 @@
 }
 
 .grouped-risk-progress-action-empty {
-  height: 6.25rem;
+  pointer-events: none;
 
-  @media all and (min-width:68.750em) {
-    height: auto;
+  .grouped-risk-progress-title, .button {
+    opacity: 0.25;
   }
 }
 
