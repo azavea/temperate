@@ -27,6 +27,7 @@
   }
 
   &:disabled, &.disabled {
+    background: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -217,6 +218,7 @@
   }
 
   &:disabled, &.disabled {
+    background: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
   }
@@ -233,5 +235,16 @@
   &:active {
     color: inherit;
     background: none;
+  }
+
+  &:disabled, &.disabled {
+    color: $button-disabled-background;
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    border-radius: $border-radius;
+    @include button-focus-outline();
   }
 }

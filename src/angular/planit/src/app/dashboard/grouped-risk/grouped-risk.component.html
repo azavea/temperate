@@ -1,41 +1,58 @@
-<div class="header">
-  <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
-                        [potentialImpact]="aggregateNeed.impact"
-                        [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
-  <h4>
-    {{ weatherEvent.name }} &bull;
-    <span>{{ risks.length }} risks</span>
+<div class="grouped-risk-header">
+  <h4 class="grouped-risk-title">
+    <span class="grouped-risk-priority">
+      <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
+                            [potentialImpact]="aggregateNeed.impact"
+                            [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
+      <span class="grouped-risk-priority-empty" 
+           *ngIf="!isAdaptiveNeedBoxVisible()"
+           tooltip="As you assess your city’s vulnerability to this hazard, the color of 
+                    this square will reflect your city’s adaptive needs"
+           placement="right"></span>
+    </span>
+    {{ weatherEvent.name }}
+    <span class="risks-number">&bull; {{ risks.length }} risks</span>
   </h4>
-  <div [tooltip]="noRelatedIndicatorsTooltip"
-       [isDisabled]="canShowIndicators">
-    <button class="button-link"
-            [ngClass]="{disabled: !canShowIndicators}"
-            (click)="openModal()">See Related Indicators</button>
-  </div>
+
+  <span class="indicators-trigger"
+        [tooltip]="noRelatedIndicatorsTooltip"
+        *ngIf="!canShowIndicators">
+    <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
+  </span>
+  
+  <span class="indicators-trigger"
+        tooltip="See related indicators"
+        *ngIf="canShowIndicators">
+    <button class="indicators-trigger-button button-icon-only" (click)="openModal()"><span class="icon icon-indicators"></span></button>
+  </span>
 </div>
-<div class="block-assessment">
-  <div class="summary">
-    <div class="summary-title">
-      <h4>Assessment</h4>
-      <span>{{ percentRisksAssessed() }} %</span>
+
+<div class="grouped-risk-summary">
+  <div class="grouped-risk-progress-container grouped-risk-progress-assessment">
+    <div class="grouped-risk-progress">
+      <h5 class="grouped-risk-progress-title">Vulnerability assessment</h5>
+      <span class="progress-percentage" *ngIf="percentRisksAssessed() > 0">{{ percentRisksAssessed() }}%</span>
+      <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
     </div>
-    <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
+    <a class="button button-small button-primary" 
+       routerLink="/assessment"
+       [queryParams]="{hazard: weatherEvent?.id}">Assess</a>
   </div>
-  <a class="button button-primary"
-     routerLink="/assessment"
-     [queryParams]="{hazard: weatherEvent?.id}" >Assess</a>
-</div>
-<div class="block-assessment" *ngIf="numberOfRisksAssessed() > 0">
-  <div class="summary">
-    <div class="summary-title">
-      <h4>Action steps</h4>
-      <span>{{ percentActionsAssessed() }} %</span>
+  
+  <div class="grouped-risk-progress-container grouped-risk-progress-action" 
+       [ngClass]="(numberOfRisksAssessed() > 0) ? '' : 'grouped-risk-progress-action-empty'">
+    <div class="grouped-risk-progress">
+      <h5 class="grouped-risk-progress-title">Action steps</h5>
+      <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
+      <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
-    <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
+    <a class="button button-small button-positive" 
+       routerLink="/actions"
+       [queryParams]="{hazard: weatherEvent?.id}"
+       *ngIf="numberOfRisksAssessed() > 0">Take action</a>
+    <div class="button button-small" 
+       *ngIf="numberOfRisksAssessed() === 0">Take action</div>
   </div>
-  <a class="button button-positive"
-     routerLink="/actions"
-     [queryParams]="{hazard: weatherEvent?.id}">Take action</a>
 </div>
 
 <app-modal-template #indicatorChartModal
@@ -50,5 +67,5 @@
 </app-modal-template>
 
 <ng-template #noRelatedIndicatorsTooltip>
-  No related indicators for {{ modalRisk?.weather_event.name }}
+  No related indicators for {{ modalRisk?.weather_event.name | lowercase }}
 </ng-template>

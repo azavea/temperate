@@ -22,7 +22,7 @@
   <ng-template ngFor let-option [ngForOf]="selectedOptions">
     <div *ngIf="option !== unsaved" class="selected-option">
       {{ option }}
-      <button type="button" class="button button-icon-only" aria-label="Close"
+      <button type="button" class="button-icon-only" aria-label="Close"
               (click)="remove(option)" title="Remove">
         <i class="icon-cancel"></i>
       </button>

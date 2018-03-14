@@ -1,52 +1,131 @@
-app-grouped-risk {
+.grouped-risk-header {
   display: flex;
-  flex-direction: column;
+  background: $grouped-risk-header-background;
+  padding: $space-large;
+  align-items: center;
+  justify-content: space-between;
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+}
 
-  margin-bottom: 4rem;
+.grouped-risk-title {
+  margin-bottom: 0;
+  font-size: $grouped-risk-header-title-size;
+}
 
-  .header {
+.grouped-risk-priority va-adaptive-need-box {
+  margin-top: $space-tiny;
+}
+
+.grouped-risk-priority-empty {
+  margin-bottom: -$space-tiny;
+}
+
+.grouped-risk-priority {
+  margin-right: $space-small;
+}
+
+.grouped-risk-priority-empty {
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  border: $grouped-risk-priority-empty-border;
+  margin-right: $space-small;
+}
+
+.risks-number {
+  font-size: $grouped-risk-risks-number-size;
+  color: $grouped-risk-risks-number-color;
+  font-variant: tabular-nums;
+}
+
+// Grouped risk blocks
+.grouped-risk-summary {
+  background-color: $grouped-risk-summary-background;
+  padding: 0 $space-tiny $space-tiny;
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  margin-bottom: $space-xlarge;
+
+  @media all and (min-width:68.750em) {
     display: flex;
-    align-items: center;
+  }
+}
 
-    background-color: $neutral-2;
-    padding: 1rem;
+.grouped-risk-progress-container {
+  display: flex;
+  background: $grouped-risk-progress-container-background;
+  padding: $space-xlarge $space-large;
+  border-radius: $border-radius;
+  
+  @media all and (min-width:68.750em) {
+    flex: 0 1 50%;
+  }
 
-    h4 {
-      font-weight: $font-weight-bold;
-      margin: 0 1rem;
-      padding: 0;
+  .progress-percentage {
+    font-size: $grouped-risk-progress-percentage-size;
+    color: $grouped-risk-progress-percentage-color;
+    font-variant: tabular-nums;
+  }
 
-      & > span {
-        font-weight: $font-weight-regular;
-      }
-    }
+  .progress {
+    height: $grouped-risk-progress-height;
+    margin-bottom: 0;
+    box-shadow: none;
+    background-color: $grouped-risk-progress-background;
 
-    & :last-child {
-      margin-left: auto;
+    .progress-bar {
+      background: $grouped-risk-progress-highlight-background-default;
+      box-shadow: none;
     }
   }
 
-  .block-assessment {
-    display: flex;
-    padding: 2rem;
+  .button {
+    flex: 0 0 12rem;
+    margin-left: $space-large;
+  }
+}
 
-    & > .summary {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding-right: 2rem;
+.grouped-risk-progress-title {
+  font-size: $grouped-risk-progress-title-size;
+  color: $grouped-risk-progress-title-color;
+  margin-bottom: 0;
+}
 
-      & > .summary-title {
-        display: flex;
-        justify-content: space-between;
+.grouped-risk-progress {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex: 1 1 auto;
+}
 
-        margin-bottom: 2rem;
-      }
-    }
+.grouped-risk-header .indicators-trigger-button {
+  color: $grouped-risk-indicator-color;
+}
 
-    & > a {
-      flex: 0 0 200px;
-      align-self: center;
+// Action specific styles 
+.grouped-risk-progress-action-empty,
+.grouped-risk-progress-action {
+  margin-top: $space-tiny;
+
+  @media all and (min-width:68.750em) {
+    margin-left: $space-tiny;
+    margin-top: 0;
+  }
+}
+
+.grouped-risk-progress-action-empty {
+  pointer-events: none;
+
+  .grouped-risk-progress-title, .button {
+    opacity: 0.25;
+  }
+}
+
+.grouped-risk-progress-action {
+  .progress {
+    .progress-bar {
+      background: $grouped-risk-progress-highlight-background-action;
     }
   }
 }

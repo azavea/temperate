@@ -1,5 +1,29 @@
 .ldBar {
+  .ldBar-label.ldBar-label-number {
+    margin-top: -0.25rem;
+    line-height: 0; 
+  }
+
   .ldBar-label.ldBar-label-number::after {
     content: none;
+  }
+}
+
+.progress-circle, .progress-number {
+  color: $profile-summary-progress-label-color;
+}
+
+.progress-circle {
+  font-size: $profile-summary-circle-label-size;
+  font-weight: $profile-summary-circle-label-weight;
+  
+  .baseline {
+    stroke-width: $profile-summary-circle-stroke-width;
+    stroke: $profile-summary-circle-stroke;
+  }
+
+  .mainline {
+    stroke-width: $profile-summary-circle-stroke-width;
+    stroke: $profile-summary-circle-stroke-highlight;
   }
 }

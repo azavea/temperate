@@ -1,76 +1,67 @@
-app-city-profile-summary {
-
-  background-color: $white;
-  width: 100%;
-  padding: 2rem;
-
-  .icon-positive {
-    color: $brand-positive;
-  }
-
-  .cps-progressbar-wrapper {
-    display: flex;
-    margin-bottom: 2rem;
-
-    & > .cps-progressbar {
-      display: flex;
-      flex: 1;
-      width: 0;
-      margin-right: 10px;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      background-color: $neutral-0;
-      padding: 3rem 0;
-
-      .ldBar {
-        margin-bottom: 1rem;
-      }
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  & .required-done {
-    width: 100%;
-    padding: 1rem;
-    background-color: lighten($brand-positive, 40%);
-
-    &.overall {
-      background-color: $neutral-0;
-
-      & > span {
-        font-size: 24px;
-      }
-    }
-  }
-
-  & > a {
-    width: 100%;
-  }
-
+.profile-progress-container {
+  background: $profile-summary-progress-container-background;
 }
 
-// outside component selector because the popover is attached to body
-.required-popover-body {
-  width: 300px;
+.aside-block-container .aside-footer {
+  flex: 1 0 100%;
 
-  .header {
-    display: flex;
-    align-items: center;
-
-    margin: 2rem 0;
-
-    img {
-      height: 50px;
-      margin-right: 1rem;
-    }
-
-    h2 {
-      margin-bottom: 0;
-    }
+  .button {
+    width: 100%;
+    margin-top: $space-xlarge;
   }
+}
+
+// All in progress
+.in-progress .profile-progress-container {
+  flex: 0 1 49%;
+  padding: $space-medium;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.in-progress .overall-progress {
+  .progress-number {
+    font-size: $profile-summary-progress-overall-size;
+    font-weight: $profile-summary-progress-overall-label-weight;
+    line-height: $profile-summary-progress-overall-line-height;
+  }
+}
+
+.in-progress .progress-title {
+  margin-top: $space-xlarge; 
+  line-height: $profile-summary-progress-label-line-height;
+}
+
+.in-progress .required-progress .progress-title {
+  margin-top: $space-medium; 
+}
+
+// Required fields are complete
+.in-progress .required-finished {
+  background: $profile-summary-required-done-background;
+  color: $profile-summary-required-done-color;
+
+  .icon {
+    color: $profile-summary-finished-icon-color;
+    font-size: $profile-summary-required-done-icon-size;
+    line-height: $profile-summary-progress-label-line-height;
+  }
+}
+
+// All fields are complete
+.all-complete {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.all-complete .icon {
+  color: $profile-summary-finished-icon-color;
+  font-size: $profile-summary-all-complete-icon-size;
+}
+
+.all-complete .aside-title {
+  margin-bottom: 0;
+  margin-left: -$space-medium;
 }
