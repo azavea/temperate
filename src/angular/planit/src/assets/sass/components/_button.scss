@@ -32,6 +32,7 @@
     color: inherit;
     opacity: .5;
     cursor: not-allowed;
+    pointer-events: none;
   }
 
   &.current {
@@ -223,6 +224,7 @@
     background: $button-disabled-background;
     opacity: .5;
     cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
