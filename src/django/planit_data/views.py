@@ -125,6 +125,7 @@ class OrganizationRiskView(ModelViewSet):
         ).prefetch_related(
             'organizationaction_set',
             'organizationaction_set__categories',
+            'weather_event__concern',
             'weather_event__indicators',
         )
 
@@ -221,6 +222,7 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
         ).select_related(
             'weather_event'
         ).prefetch_related(
+            'weather_event__concern',
             'weather_event__indicators'
         )
 
@@ -312,6 +314,7 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return WeatherEvent.objects.all().prefetch_related(
+            'concern',
             'indicators'
         ).order_by('name')
 
