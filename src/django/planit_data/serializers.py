@@ -73,12 +73,15 @@ class ConcernSerializer(serializers.ModelSerializer):
         fields = ('id', 'indicator', 'is_relative',)
 
 
+class ConcernField(OneWayPrimaryKeyRelatedField):
+    """Custom serializer field that accepts the pk and returns the related model."""
+    serializer = ConcernSerializer
+    queryset = Concern.objects.all()
+
+
 class WeatherEventSerializer(serializers.ModelSerializer):
     """Serialize weather events with only keys for related fields."""
-    concern = serializers.PrimaryKeyRelatedField(
-        many=False,
-        queryset=Concern.objects.all()
-    )
+    concern = ConcernField()
     indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     class Meta:
@@ -96,11 +99,6 @@ class CommunitySystemField(OneWayPrimaryKeyRelatedField):
     """Custom serializer field that accepts the pk and returns the related model."""
     serializer = CommunitySystemSerializer
     queryset = CommunitySystem.objects.all()
-
-
-class WeatherEventWithConcernSerializer(WeatherEventSerializer):
-    """Serialize weather events, with related concerns."""
-    concern = ConcernSerializer()
 
 
 class RiskPKField(serializers.PrimaryKeyRelatedField):
@@ -206,10 +204,6 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
                         'and WeatherEvent'
             )
         ]
-
-
-class OrganizationWeatherEventWithConcernSerializer(OrganizationWeatherEventSerializer):
-    weather_event = WeatherEventWithConcernSerializer()
 
 
 class SuggestedActionSerializer(serializers.ModelSerializer):
