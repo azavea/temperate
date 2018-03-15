@@ -26,15 +26,10 @@ export class Action {
   }
 
   /**
-   * An action is considered assessed if a few key editable properties have been filled out
+   * An action is considered assessed if it has a name
    */
   public isAssessed() {
-    return !!this.name &&
-           !!this.risk &&
-           !!this.action_goal &&
-           !!this.action_type &&
-           !!this.improvements_adaptive_capacity &&
-           !!this.improvements_impacts;
+    return !!this.name && !!this.risk;
   }
 
   /**
