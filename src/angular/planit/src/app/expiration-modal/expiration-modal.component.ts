@@ -12,13 +12,17 @@ import { OrgSubscriptionOptions, User } from '../shared';
 export class ExpirationModalComponent implements OnInit {
   @ViewChild('expirationModal') expirationModal: ModalDirective;
   public isModalShown = true;
-  public user: User;
+  private user: User;
+  public subscription: string;
   public options = OrgSubscriptionOptions;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.current().subscribe(u => this.user = u);
+    this.userService.current().subscribe(u => {
+      this.user = u;
+      this.subscription = this.options.get(u.primary_organization.subscription).label;
+    });
     this.showModal();
   }
 
