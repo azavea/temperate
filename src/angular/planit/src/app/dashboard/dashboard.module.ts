@@ -16,7 +16,6 @@ import { DashboardComponent } from './dashboard.component';
 import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
 import { ReviewPlanComponent } from './review-plan/review-plan.component';
 import { AdaptationReviewComponent } from './review-plan/tabs/adaptation-review.component';
-import { CityProfileReviewComponent } from './review-plan/tabs/city-profile-review.component';
 import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component';
 
 @NgModule({
@@ -34,7 +33,6 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
   declarations: [
     AdaptationReviewComponent,
     CityProfileComponent,
-    CityProfileReviewComponent,
     CityProfileSummaryComponent,
     DashboardComponent,
     GroupedRiskComponent,
