@@ -48,7 +48,8 @@ router.register(r'concern', planit_data_views.ConcernViewSet, base_name='concern
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
-    url(r'^api/export-plan/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
+    url(r'^api/plan/export/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
+    url(r'^api/plan/submit/', planit_data_views.PlanSubmitView.as_view(), name='submit-plan'),
 
     url(r'^admin/', admin.site.urls),
 

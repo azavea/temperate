@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   downloadPlan() {
-    const url = `${environment.apiUrl}/api/export-plan/`;
+    const url = `${environment.apiUrl}/api/plan/export/`;
     const filename = 'adaptation_plan';
 
     this.downloadService.downloadCSV(url, filename);

@@ -1,5 +1,11 @@
+from tempfile import TemporaryFile
+
+from django.conf import settings
+from django.core.mail import EmailMessage
 from django.db import transaction
 from django.db.models import Q
+from django.utils import timezone
+from django.utils.text import slugify
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -7,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
-from djqscsv import render_to_csv_response
+from djqscsv import render_to_csv_response, write_csv
 
 from planit_data.models import (
     CommunitySystem,
@@ -31,14 +37,15 @@ from planit_data.serializers import (
 from users.models import GeoRegion, PlanItLocation
 
 
-class PlanExportView(APIView):
-    """Exports a user's risks and actions for their primary organization
-    in the form of a CSV.
-    """
+class PlanView(APIView):
     permission_classes = [IsAuthenticated]
 
     # Mapping of field names to column headers. The keys are also used
     # to restrict which fields are returned in the query.
+
+    # organizationaction is a M2M which is fine. Risks with multiple actions will just
+    # represent multiple rows in the output for each combination of risk + action, with risk data
+    # duplicated.
     FIELD_MAPPING = {
         'organization_risk__weather_event__name': 'Hazard',
         'organization_risk__community_system__name': 'Community System',
@@ -61,10 +68,9 @@ class PlanExportView(APIView):
         'funding': 'Action Funding',
     }
 
-    def get(self, request):
-        user_org = request.user.primary_organization
-        data = OrganizationAction.objects.filter(
-            organization_risk__organization=user_org
+    def get_data_for_organization(self, org):
+        return OrganizationAction.objects.filter(
+            organization_risk__organization=org
         ).prefetch_related(
             'organization_risk',
             'organization_risk__weather_event',
@@ -73,12 +79,48 @@ class PlanExportView(APIView):
             *self.FIELD_MAPPING.keys()
         )
 
+
+class PlanExportView(PlanView):
+    """ Exports a user's risks and actions for their primary organization as a CSV. """
+
+    def get(self, request):
+        user_org = request.user.primary_organization
+        data = self.get_data_for_organization(user_org)
         return render_to_csv_response(
             data,
             filename='adaptation_plan',
             append_datestamp=True,
             field_header_map=self.FIELD_MAPPING,
         )
+
+
+class PlanSubmitView(PlanView):
+    """ Submits a user's current plan to ICLEI via email with a CSV attachment. """
+
+    def post(self, request, *args, **kwargs):
+        user_org = request.user.primary_organization
+        data = self.get_data_for_organization(user_org)
+        with TemporaryFile() as fp:
+            write_csv(data, fp)
+            fp.seek(0)
+
+            due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
+            email = EmailMessage(
+                'Temperate Plan submission for {}'.format(user_org.name),
+                'Temperate plan for {} due {} submitted by {} at {}'.format(
+                    user_org.name,
+                    due_date,
+                    request.user.email,
+                    timezone.now().isoformat()
+                ),
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.PLAN_SUBMISSION_EMAIL],
+                [request.user.email]
+            )
+            filename = '{}_adaptation_plan_{}.csv'.format(slugify(user_org.name), due_date)
+            email.attach(filename, fp.read(), 'text/csv')
+            email.send()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):

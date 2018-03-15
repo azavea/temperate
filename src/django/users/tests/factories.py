@@ -33,6 +33,7 @@ class OrganizationFactory(factory.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'Test Organization {}'.format(n))
     location = factory.SubFactory(LocationFactory)
     created_at = datetime(2018, 1, 1, tzinfo=timezone.utc)
+    plan_due_date = datetime(2050, 1, 1, tzinfo=timezone.utc)
     subscription = PlanItOrganization.Subscription.FREE_TRIAL
     subscription_end_date = datetime(2018, 1, 14, tzinfo=timezone.utc)
 

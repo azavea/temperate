@@ -219,13 +219,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email Settings
 if ENVIRONMENT == 'Development':
-    EMAIL_BACKEND = 'dbes.backends.EmailBackend'
+    # TODO: Revert before merge
+    # EMAIL_BACKEND = 'dbes.backends.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
 SUPPORT_EMAIL = 'support@temperate.io'
 DEFAULT_TO_EMAIL = SUPPORT_EMAIL
+PLAN_SUBMISSION_EMAIL = 'temperate@iclei.org' if ENVIRONMENT == 'Production' else SUPPORT_EMAIL
 
 
 # Django-Registration
