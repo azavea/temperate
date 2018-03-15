@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
 
+import { DownloadService } from '../../core/services/download.service';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import { Organization, Risk } from '../../shared';
 import { AccordionReviewState } from './tabs/adaptation-accordion-state.service';
+
+import { environment } from '../../../environments/environment';
 
 enum ReviewPlanTabs {
   OVERVIEW,
@@ -28,6 +31,7 @@ export class ReviewPlanComponent implements OnInit {
   private orgSubscription: Subscription;
 
   constructor(private accordionState: AccordionReviewState,
+              private downloadService: DownloadService,
               private riskService: RiskService,
               private userService: UserService) { }
 
@@ -35,6 +39,13 @@ export class ReviewPlanComponent implements OnInit {
     this.userService.current().subscribe(user => this.organization = user.primary_organization);
     this.riskService.groupByWeatherEvent().subscribe(riskMap => this.sortAndSetRisks(riskMap));
     this.accordionState.isOpen = {};
+  }
+
+  public downloadPlan() {
+    const url = `${environment.apiUrl}/api/export-plan/`;
+    const filename = 'adaptation_plan';
+
+    this.downloadService.downloadCSV(url, filename);
   }
 
   private sortAndSetRisks(riskMap: Map<string, Risk[]>) {
