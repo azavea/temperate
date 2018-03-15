@@ -91,24 +91,21 @@ To have changes that exist in your Temperate environment's database be written t
 ### Temperate Suggested Actions data
 Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stults for her PhD, needs to be ingested.
 
-#### Download the data from s3
-The data is available for download in the `/azavea-climate-sandbox` folder in s3 as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
-- Download both CSVs
-- Place them somewhere in the django folder of your local Temperate repo
-- Delete the files when done running the script/Make sure not to commit them
-
+#### Ingesting the data
 ```bash
-./scripts/manage ingest_missy_dataset <path_to/missy_cities.csv> <path_to/missy_strategies_with_weather_events.csv>
+$ vagrant ssh
+$ ./scripts/ingest_missy_dataset
 ```
 
 Note: Sometimes the script's geocoder fails, in which case you have to run the script several times if you want all the data (~3.1k actions). Re-running the script does not overwrite data.
 
 #### Export data from source
-It is easier to download the data from s3 (see above). Nevertheless, if you must recreate the CSVs:
+It is easier to download the data using the above script. If you want to update the data on S3, you must recreate the CSVs:
 - Export [the original spreadsheet](https://docs.google.com/spreadsheets/d/1ryNBsNDQ7Nc7mIpIZl0PLbT4kLzMd3yKW6LFz3xsYAI/edit?usp=sharing) as an excel spreadsheet
 - Open the above in a spreadsheet program (i.e. Excel, LibreOffice)
 - Move each the "Cities" and "Strategies with weather events" tabs to their own sheet
 - Save each sheet in CSV format
+- Update the CSVs on S3, located in the `s3://azavea-climate-sandbox` folder as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 
 ### Using Docker in the VM
 
@@ -148,15 +145,26 @@ yarn start --port 4211
 
 ### Scripts
 
+#### Scripts to Rule Them All (STRTA)
 | Name | Description |
 | --- | --- |
 | `console` | Login to a running Docker container's shell |
-| `debugserver` | Run the Django debug server |
-| `manage` | Run `manage.py` in the running Django container |
+| `infra` | Deploys and manages AWS infrastructure |
 | `server` | Run `docker-compose up` to start the containers |
 | `setup` | Bring up the VM, then build the Docker containers |
+| `test` | Runs the full suite of linting and tests |
 | `update` | Rebuild the containers with current required dependencies |
-| `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency. |
+
+#### Project-specific scripts
+| Name | Description |
+| --- | --- |
+| `debugserver` | Run the Django debug server |
+| `ingest_missy_dataset` | Wrapper for `scripts/manage ingest_missy_dataset` that also downloads the datasets from S3 |
+| `manage` | Run `manage.py` in the running Django container |
+| `ng` | Run `ng` in the running Angular container |
+| `psql` | Run a `psql` console in the database docker container |
+| `set_host` | Modifies environment variables to allow accessing the development server on a device other than the VM host |
+| `yarn` | Run `yarn` in the running Angular container. Use `yarn add ITEM` to add a new JS dependency |
 
 ### Docker
 
