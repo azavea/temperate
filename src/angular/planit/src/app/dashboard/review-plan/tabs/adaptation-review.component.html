@@ -1,7 +1,9 @@
 <div *ngFor="let group of groupedRisks">
   <h2>{{ group[0] }}</h2>
   <accordion>
-    <accordion-group class="page-content" *ngFor="let risk of group[1]">
+    <accordion-group class="page-content"
+                     *ngFor="let risk of group[1]"
+                     [(isOpen)]="accordionState.isOpen[risk.id]">
       <div accordion-heading>
         <h3>
           <va-adaptive-need-box [potentialImpact]="risk.impact_magnitude"

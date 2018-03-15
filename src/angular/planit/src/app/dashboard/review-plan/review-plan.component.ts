@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Rx';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import { Organization, Risk } from '../../shared';
+import { AccordionReviewState } from './tabs/adaptation-accordion-state.service';
 
 enum ReviewPlanTabs {
   OVERVIEW,
@@ -14,7 +15,8 @@ enum ReviewPlanTabs {
 
 @Component({
   selector: 'app-review-plan',
-  templateUrl: 'review-plan.component.html'
+  templateUrl: 'review-plan.component.html',
+  providers: [AccordionReviewState]
 })
 export class ReviewPlanComponent implements OnInit {
 
@@ -25,12 +27,14 @@ export class ReviewPlanComponent implements OnInit {
 
   private orgSubscription: Subscription;
 
-  constructor(private riskService: RiskService,
+  constructor(private accordionState: AccordionReviewState,
+              private riskService: RiskService,
               private userService: UserService) { }
 
   ngOnInit() {
     this.userService.current().subscribe(user => this.organization = user.primary_organization);
     this.riskService.groupByWeatherEvent().subscribe(riskMap => this.sortAndSetRisks(riskMap));
+    this.accordionState.isOpen = {};
   }
 
   private sortAndSetRisks(riskMap: Map<string, Risk[]>) {

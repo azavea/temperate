@@ -11,6 +11,7 @@ import {
   OrgRiskRelativeOption,
   Risk
 } from '../../../shared';
+import { AccordionReviewState } from './adaptation-accordion-state.service';
 
 @Component({
   selector: 'app-adaptation-review',
@@ -22,7 +23,7 @@ export class AdaptationReviewComponent implements OnChanges {
 
   public groupedRisks: Array<any>;
 
-  constructor() { }
+  constructor(public accordionState: AccordionReviewState) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.risks && changes.risks.currentValue) {
