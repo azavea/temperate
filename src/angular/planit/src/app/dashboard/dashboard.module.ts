@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AccordionModule, PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -26,6 +27,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
     PopoverModule,
     ProgressbarModule,
     TooltipModule,
+    ToastrModule,
     SharedModule,
     DashboardRoutingModule
   ],

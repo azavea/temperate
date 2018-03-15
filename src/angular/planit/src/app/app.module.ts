@@ -55,6 +55,7 @@ import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service'
 import { OrganizationService } from './core/services/organization.service';
 import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PlanService } from './core/services/plan.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
@@ -152,6 +153,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     OrganizationService,
     PasswordResetGuard,
     PlanAuthGuard,
+    PlanService,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
     RiskResolve,

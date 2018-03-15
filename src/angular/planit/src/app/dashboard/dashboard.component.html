@@ -43,7 +43,7 @@
           <a routerLink="/review-plan">Review your plan</a>
           <footer class="aside-footer">
             <a class="button button-small"
-               (click)="downloadPlan()"
+               (click)="planService.export()"
                tooltip="Download your plan as a CSV">Download</a>
             <button type="button" class="button button-small">Submit</button>
           </footer>
