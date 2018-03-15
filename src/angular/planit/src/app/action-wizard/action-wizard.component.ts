@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -51,7 +52,8 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
               private riskService: RiskService,
               private communitySystemService: CommunitySystemService,
               private weatherEventService: WeatherEventService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private location: Location) { }
 
   ngOnInit() {
     if (!this.action) {
@@ -92,6 +94,13 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
     });
 
     this.session.setData(this.action);
+
+    // Update the URL with the action id once the action is saved
+    this.session.data
+      .first(action => action.id !== undefined)
+      .subscribe((action) => {
+        this.location.replaceState(`/actions/action/${action.id}`);
+      });
   }
 
   // this.wizard.navigation and this.wizard.model are not available until this hook
