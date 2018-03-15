@@ -1,0 +1,21 @@
+<div *ngIf="isModalShown" class="modal" bsModal #expirationModal="bs-modal" [config]="{backdrop: 'static', show: true}">
+  <div class="modal-content expiration-modal">
+    <header class="modal-header">
+      <h1 class="modal-title">Your {{options.get(user.primary_organization.subscription)?.label | lowercase }} has ended</h1>
+    </header>
+
+    <div class="modal-body">
+      <p>
+        We hope that you have liked using Temperate so far. Upgrade to continue building on the work you've accomplished!
+      </p>
+      <footer class="modal-footer">
+        <div class="button-group">
+          <button class="button button-primary" routerLink="/subscription">Upgrade</button>
+          <app-download-csv>
+            Download your progress in a CSV
+          </app-download-csv>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

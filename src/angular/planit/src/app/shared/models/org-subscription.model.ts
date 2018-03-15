@@ -34,7 +34,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Basic, {
     name: OrgSubscription.Basic,
-    label: 'Basic',
+    label: 'Basic subscription',
     yearlyCost: 1500,
     header: 'App only',
     // tslint:disable-next-line:max-line-length
@@ -45,7 +45,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Review, {
     name: OrgSubscription.Review,
-    label: 'Review',
+    label: 'Review subscription',
     yearlyCost: 1750,
     header: 'App and 2 hrs consulting',
     // tslint:disable-next-line:max-line-length
@@ -56,7 +56,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Insights, {
     name: OrgSubscription.Insights,
-    label: 'Insights',
+    label: 'Insights subscription',
     yearlyCost: 2800,
     header: 'App and 10 hrs consulting',
     // tslint:disable-next-line:max-line-length
@@ -67,7 +67,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Guidance, {
     name: OrgSubscription.Guidance,
-    label: 'Guidance',
+    label: 'Guidance subscription',
     yearlyCost: 4200,
     header: 'App and 20 hrs consulting',
     // tslint:disable-next-line:max-line-length
@@ -78,7 +78,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Custom, {
     name: OrgSubscription.Custom,
-    label: 'Custom',
+    label: 'Custom subscription',
     yearlyCost: 10000,
     header: 'Custom',
     // tslint:disable-next-line:max-line-length
@@ -89,7 +89,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Hourly, {
     name: OrgSubscription.Hourly,
-    label: 'Pay as you go',
+    label: 'Pay as you go subscription',
     yearlyCost: 1500,
     header: 'Pay as you go consulting',
     // tslint:disable-next-line:max-line-length

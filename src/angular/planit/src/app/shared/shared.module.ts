@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
-import { BsDropdownModule, TooltipModule, TypeaheadModule, ModalModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -17,6 +17,7 @@ import { AddWeatherEventsComponent } from './add-weather-events/add-weather-even
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { DownloadCsvComponent } from './download-csv/download-csv.component';
 import { FooterComponent } from './footer/footer.component';
 import {
   ForceCollapseChartContainerComponent,
@@ -40,8 +41,6 @@ import {
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { UserEmailsComponent } from './user-emails/user-emails.component';
-import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
-import { DownloadCsvComponent } from './download-csv/download-csv.component';
 
 
 @NgModule({
@@ -84,7 +83,6 @@ import { DownloadCsvComponent } from './download-csv/download-csv.component';
     TopConcernsComponent,
     UserDropdownComponent,
     UserEmailsComponent,
-    ExpirationModalComponent,
     DownloadCsvComponent
   ],
   exports: [

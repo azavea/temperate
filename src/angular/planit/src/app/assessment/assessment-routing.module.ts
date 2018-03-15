@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ExpirationGuard } from '../core/services/expiration-guard.service';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
 
 import { WeatherEventResolve } from '../core/resolvers/weather-event.resolve';
@@ -14,21 +15,21 @@ const routes: Routes = [
   {
     path: 'assessment',
     component: AssessmentOverviewComponent,
-    canActivate: [PlanAuthGuard],
+    canActivate: [ExpirationGuard, PlanAuthGuard],
     resolve: {
       weatherEvent: WeatherEventResolve
     }
   }, {
     path: 'assessment/risk/new',
     component: EditRiskComponent,
-    canActivate: [PlanAuthGuard, PreviousRouteGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard, PreviousRouteGuard]
   }, {
     path: 'assessment/risk/:id',
     component: EditRiskComponent,
     resolve: {
       risk: RiskResolve
     },
-    canActivate: [PlanAuthGuard, PreviousRouteGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard, PreviousRouteGuard]
   }
 ];
 
