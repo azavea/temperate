@@ -61,16 +61,6 @@ $neutral-5: #363630;
 
 $border-color: $neutral-1;
 
-// TODO Revisit these
-$adaptive-need-size: 20px;
-$adaptive-need-empty-color: $neutral-3;
-
-$adaptive-need-high: $brand-danger;
-$adaptive-need-mod-high: #f75824;
-$adaptive-need-mod: #fa8530;
-$adaptive-need-mod-low: #f7a526;
-$adaptive-need-low: $brand-warning;
-
 $dark-grey-background: darken(grey, 25%);
 $light-grey-background: lighten(grey, 25%);
 
@@ -301,8 +291,8 @@ $alert-font-color: $white;
  * Popover
  *
  * * * */
-$popover-padding-vertical: 0.9rem;
-$popover-padding-horizontal: 1.4rem;
+$popover-padding-vertical: $space-xlarge;
+$popover-padding-horizontal: $space-xxlarge;
 $popover-border-radius: $border-radius;
 $popover-font-size: $font-size-body;
 $popover-heading-font-size: $text-medium;
@@ -310,7 +300,7 @@ $popover-font-color: $heading-font-color;
 $popover-background-color: $white;
 $popover-margin: 7px;
 $popover-max-width: 28rem;
-$popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
+$popover-box-shadow: 0 0 20px rgba($neutral-5, 30%);
 $popover-border: none;
 $popover-arrow: 8px;
 
@@ -578,3 +568,31 @@ $empty-state-header-color: $brand-black;
 $empty-state-header-size: $text-base;
 $empty-state-text-style: italic;
 $empty-state-text-max-width: 30rem;
+
+
+/* * * *
+ * Adaptive Need
+ *
+ * * * */
+$adaptive-need-popover-max-width: 60rem;
+$adaptive-need-popover-title-size: $text-large;
+$adaptive-need-popover-title-line-height: 1.15;
+$adaptive-need-size: 20px;
+$adaptive-need-empty-color: $neutral-3;
+
+$adaptive-need-table-label-size: $text-tiny;
+$adaptive-need-table-label-weight: $font-weight-regular;
+$adaptive-need-table-label-color: $neutral-3;
+
+$adaptive-need-table-label-arrow-background: $neutral-2;
+$adaptive-need-table-label-arrow-thickness: 1px;
+$adaptive-need-table-label-arrow-shaft-length: 9.5rem;
+$adaptive-need-table-label-arrow-end-length: 1rem;
+
+$adaptive-need-table-cell-size: 3.5rem;
+
+$adaptive-need-high: #ed3814;
+$adaptive-need-mod-high: $brand-danger;
+$adaptive-need-mod: #fa8530;
+$adaptive-need-mod-low: #f7a526;
+$adaptive-need-low: $brand-warning;
