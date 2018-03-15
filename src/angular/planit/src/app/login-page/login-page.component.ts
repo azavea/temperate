@@ -13,6 +13,8 @@ export class LoginPageComponent implements OnInit {
   public reset = false;
   public resetExpired = false;
 
+  public hostname = window.location.hostname;
+
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router) {}
 

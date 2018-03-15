@@ -16,6 +16,8 @@ export class LoginFormComponent {
 
   public errors: any = {};
 
+  public hostname = window.location.hostname;
+
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
   constructor(private authService: AuthService, private router: Router) {
