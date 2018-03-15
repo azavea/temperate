@@ -74,14 +74,14 @@ class ConcernViewSetTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
-        self.assertDictEqual(
-            dict(response.data['results'][0]),
-            {'id': concern.id,
-             'indicator': concern.indicator.name,
-             'tagline': 'more',
-             'is_relative': True,
-             'value': 5.3,
-             'units': 'farthing'})
+        self.assertDictEqual(response.json()['results'][0], {
+            'id': concern.id,
+            'indicator': concern.indicator.name,
+            'tagline': 'more',
+            'is_relative': True,
+            'value': 5.3,
+            'units': 'farthing'
+        })
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 401 Unauthorized response."""
@@ -107,11 +107,15 @@ class ConcernViewSetTestCase(APITestCase):
         url = reverse('concern-detail', kwargs={'pk': concern.id})
         response = self.client.get(url)
 
+        self.assertDictEqual(response.json(), {
+            'id': concern.id,
+            'indicator': concern.indicator.name,
+            'tagline': 'more',
+            'is_relative': True,
+            'value': 5.3,
+            'units': 'miles'
+        })
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertDictEqual(response.data,
-                             {'id': concern.id, 'indicator': concern.indicator.name,
-                              'tagline': 'more', 'is_relative': True, 'value': 5.3,
-                              'units': 'miles'})
         calculate_mock.assert_called_with(self.user.primary_organization)
 
     def test_concern_detail_static(self):
