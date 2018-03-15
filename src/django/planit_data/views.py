@@ -106,13 +106,6 @@ class OrganizationRiskView(ModelViewSet):
     pagination_class = None
     serializer_class = OrganizationRiskSerializer
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({
-            "organization": self.request.user.primary_organization_id
-        })
-        return context
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(
@@ -178,14 +171,6 @@ class OrganizationActionViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_serializer_context(self):
-        # Pass the user's organization to the serializer so it can be saved correctly
-        context = super().get_serializer_context()
-        context.update({
-            "organization": self.request.user.primary_organization_id
-        })
-        return context
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -201,13 +186,6 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
     serializer_class = OrganizationWeatherEventSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({
-            "organization": self.request.user.primary_organization_id
-        })
-        return context
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):

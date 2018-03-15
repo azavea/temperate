@@ -15,6 +15,19 @@ from users.models import PlanItOrganization
 from planit.fields import OneWayPrimaryKeyRelatedField
 
 
+def get_org_from_context(context):
+    """Get current user's primarary organization from the request context.
+
+    Used when serializing data filtered to current user's organization.
+    """
+    if not context or 'request' not in context:
+        raise ValueError("Missing required 'request' context variable")
+    if not context['request'].user or not context['request'].user.is_authenticated:
+        raise ValueError("Requires authenticated user")
+    user = context['request'].user
+    return user.primary_organization if hasattr(user, 'primary_organization') else None
+
+
 class OrganizationDefault(object):
     """Support using current user's primrary organization as a default.
     Find current user on context, then use their primary org as the org default.
@@ -23,11 +36,7 @@ class OrganizationDefault(object):
     http://www.django-rest-framework.org/api-guide/validators/#currentuserdefault
     """
     def set_context(self, serializer_field):
-        self.organization = None
-        if serializer_field.context and 'request' in serializer_field.context:
-            user = serializer_field.context['request'].user
-            if hasattr(user, 'primary_organization'):
-                self.organization = user.primary_organization
+        self.organization = get_org_from_context(serializer_field.context)
 
     def __call__(self):
         return self.organization
@@ -52,11 +61,7 @@ class ConcernSerializer(serializers.ModelSerializer):
     )
 
     def to_representation(self, obj):
-        if 'request' not in self.context:
-            raise ValueError("Missing required 'request' context variable")
-        if not self.context['request'].user.is_authenticated:
-            raise ValueError("Requires authenticated user")
-        organization = self.context['request'].user.primary_organization
+        organization = get_org_from_context(self.context)
 
         data = super().to_representation(obj)
         data.update(obj.calculate(organization))
@@ -100,7 +105,7 @@ class WeatherEventWithConcernSerializer(WeatherEventSerializer):
 
 class RiskPKField(serializers.PrimaryKeyRelatedField):
     def get_queryset(self):
-        organization = self.context['request'].user.primary_organization
+        organization = get_org_from_context(self.context)
         queryset = OrganizationRisk.objects.filter(organization=organization)
         return queryset.select_related(
             'organization__location',
@@ -127,7 +132,8 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
     categories = ActionCategoryField(many=True)
 
     def validate_risk(self, value):
-        if value.organization.id != self.context['organization']:
+        organization = get_org_from_context(self.context)
+        if not organization or value.organization.id != organization.id:
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 

@@ -82,8 +82,8 @@ class OrganizationRiskSerializerTestCase(TestCase):
         weather_event = WeatherEventFactory()
         community_system = CommunitySystemFactory()
 
-        # remove organization from request context
-        self.request.user = None
+        # unset primary organization for user
+        self.request.user.primary_organization = None
         serializer = OrganizationRiskSerializer(
             data={'weather_event': weather_event.id,
                   'community_system': community_system.id},
