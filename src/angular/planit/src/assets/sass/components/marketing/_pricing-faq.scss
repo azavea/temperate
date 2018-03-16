@@ -5,11 +5,21 @@
 }
 
 .pricing-faq > .section-content {
+  @media screen and (max-width: $pricing-breakpoint) {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
   > .heading {
-    margin-bottom: $space-xxlarge;
+    margin-bottom: $space-xxlarge * 2;
     font-size: $text-display;
     font-weight: $font-weight-light;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      text-align: center;
+    }
   }
 
   > .faq-list {
@@ -21,8 +31,15 @@
     padding: 0;
     list-style: none;
 
+    @media screen and (max-width: $pricing-breakpoint) {
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
     > .faq {
       width: calc(50% - #{$space-medium});
+      min-width: $pricing-card-min-width;
       margin-bottom: $space-xlarge;
       padding: $space-xxlarge;
       background-color: $white;

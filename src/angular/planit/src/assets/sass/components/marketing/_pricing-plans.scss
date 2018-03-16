@@ -5,6 +5,12 @@
 }
 
 .pricing-plans > .section-content {
+  @media screen and (max-width: $pricing-breakpoint) {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
   > .heading {
     @include light-on-dark();
@@ -13,6 +19,10 @@
     color: $white;
     font-size: $text-display;
     font-weight: $font-weight-light;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      text-align: center;
+    }
   }
 
   > .description {
@@ -20,5 +30,9 @@
     max-width: 40rem;
     margin-bottom: $space-xxlarge * 2;
     color: $white;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      text-align: center;
+    }
   }
 }

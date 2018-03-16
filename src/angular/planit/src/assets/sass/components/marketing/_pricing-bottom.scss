@@ -9,14 +9,25 @@
 
 .pricing-bottom > .section-content {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @media screen and (max-width: $pricing-breakpoint) {
+    align-items: center;
+  }
 
   > .overview {
+    display: flex;
     flex: none;
-    max-width: 50%;
-    margin-right: 4%;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: $pricing-headline-max-width;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      align-items: center;
+    }
 
     > .heading {
       @include light-on-dark();
@@ -25,6 +36,10 @@
       font-size: $text-display;
       font-weight: $font-weight-light;
       text-shadow: $pricing-bottom-text-shadow;
+
+      @media screen and (max-width: $pricing-breakpoint) {
+        text-align: center;
+      }
     }
 
     > .description {
@@ -32,6 +47,10 @@
       margin-bottom: $space-xxlarge;
       color: $white;
       text-shadow: $pricing-bottom-text-shadow;
+
+      @media screen and (max-width: $pricing-breakpoint) {
+        text-align: center;
+      }
     }
 
     > .button {

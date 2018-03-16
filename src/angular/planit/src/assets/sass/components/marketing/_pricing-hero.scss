@@ -5,14 +5,27 @@
 
 .pricing-hero > .section-content {
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
 
+  @media screen and (max-width: $pricing-breakpoint) {
+    flex-flow: column nowrap;
+  }
+
   > .overview {
     flex: none;
-    max-width: 48%;
+    max-width: $pricing-headline-max-width;
     margin-right: 4%;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: flex-start;
+      margin-right: 0;
+      text-align: center;
+    }
 
     > .superhead {
       margin-bottom: $space-small;
@@ -40,5 +53,9 @@
     position: relative;
     width: auto;
     height: 100%;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      display: none;
+    }
   }
 }

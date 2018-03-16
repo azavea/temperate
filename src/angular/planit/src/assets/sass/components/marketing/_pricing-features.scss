@@ -22,15 +22,16 @@
 
   > .features {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     align-items: center;
     justify-content: center;
+    align-content: space-between;
     list-style: none;
     margin: 0;
     padding: 0;
 
     > .feature {
-      margin: 0 $space-xxlarge;
+      margin: $space-large $space-xxlarge $space-xxlarge;
     }
   }
 }

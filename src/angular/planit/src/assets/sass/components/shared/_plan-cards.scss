@@ -4,6 +4,12 @@
   align-items: stretch;
   justify-content: space-between;
 
+  @media screen and (max-width: $pricing-breakpoint) {
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
   > .plan-card {
     position: relative;
     display: flex;
@@ -11,6 +17,7 @@
     align-items: stretch;
     justify-content: flex-start;
     width: calc(50% - #{$space-medium});
+    min-width: $pricing-card-min-width;
     margin-bottom: $space-xlarge;
     padding: $space-xxlarge;
     background-color: $white;
