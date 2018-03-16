@@ -3,11 +3,13 @@
     <header class="wizard-header">
       <h1 class="wizard-title-small">Take action on</h1>
       <h2 class="wizard-title-large" *ngIf="namedRisk">
+        <span class="wizard-risk-priority">
           <va-adaptive-need-box
             [adaptiveCapacity]="namedRisk.risk.adaptive_capacity"
             [popoverPlacement]="'right'"
             [potentialImpact]="namedRisk.risk.impact_magnitude">
           </va-adaptive-need-box>
+        </span>
         {{ namedRisk.name }}
       </h2>
     </header>

@@ -427,9 +427,6 @@ $wizard-title-large-color: $brand-black;
 $wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-regular;
 
-$wizard-adaptive-need-border: 0px 0px 0 3px $white,
-                              0px 0px 0 4px $neutral-2;
-
 $wizard-step-prompt-color: $neutral-4;
 $wizard-step-prompt-size: $text-small;
 
@@ -579,6 +576,10 @@ $adaptive-need-popover-title-size: $text-large;
 $adaptive-need-popover-title-line-height: 1.15;
 $adaptive-need-size: 20px;
 $adaptive-need-empty-color: $neutral-3;
+
+$adaptive-need-wizard-size: 26px;
+$adaptive-need-wizard-empty-size: 24px;
+$adaptive-need-wizard-empty-border-color: $neutral-3;
 
 $adaptive-need-table-label-size: $text-tiny;
 $adaptive-need-table-label-weight: $font-weight-regular;
