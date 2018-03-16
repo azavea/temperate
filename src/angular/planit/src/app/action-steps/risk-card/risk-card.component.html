@@ -13,6 +13,8 @@
   
     <span class="take-action-container"
           tooltip="You need to assess this risk first"
+          placement="top"
+          container="body"
           *ngIf="!risk.isAssessed()">
     <button class="take-action button button-positive button-small disabled" disabled>Take action</button> 
     </span>

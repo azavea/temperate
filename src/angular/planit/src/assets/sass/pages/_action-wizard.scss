@@ -11,7 +11,7 @@ app-action-wizard {
       width: $adaptive-need-wizard-size;
       height: $adaptive-need-wizard-size;
       overflow: visible;
-      vertical-align: unset;
+      vertical-align: baseline;
 
       .adaptive-need-box-empty {
         border-color: $adaptive-need-wizard-empty-border-color;
