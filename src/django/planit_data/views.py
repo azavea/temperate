@@ -271,9 +271,9 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset)
+                                         is_coastal, queryset)[:5]
 
-        serializer = self.get_serializer(queryset, results[:5], many=True)
+        serializer = self.get_serializer(results, data=results, many=True)
         serializer.is_valid()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
