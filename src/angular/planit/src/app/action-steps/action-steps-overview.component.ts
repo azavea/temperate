@@ -44,8 +44,8 @@ export class ActionStepsOverviewComponent implements OnInit {
   deleteAction(action) {
     const risk = this.risks.find(r => r.action && r.action.id === action.id);
     this.confirmDeleteModal.confirm({
-      tagline: `Are you sure you want to delete ${risk.title()}?`,
-      confirmText: 'Delete'
+      tagline: `Are you sure you want to remove ${risk.title()}?`,
+      confirmText: 'Remove'
     }).onErrorResumeNext().switchMap(() => {
       return this.actionService.delete(action);
     }).subscribe(a => {
