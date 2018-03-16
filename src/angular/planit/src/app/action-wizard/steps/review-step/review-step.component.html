@@ -68,6 +68,11 @@
       <span class="answer-label">Visibility to other cities: </span>
       {{ action.visibility | titlecase }}
     </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.implementation_notes}">
+      <span class="answer-label">Notes: </span>
+      <span class="review-description">{{ action.implementation_notes || '--' }}</span>
+    </div>
   </section>
 
   <section class="review-section">
