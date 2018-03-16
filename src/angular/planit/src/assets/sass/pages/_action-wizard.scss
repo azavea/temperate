@@ -9,3 +9,21 @@ app-action-wizard {
     margin-right: $space-large;
   }
 }
+
+.example-list {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+
+  .example-list-item {
+    margin-bottom: $space-xlarge;
+  }
+
+  .example-title {
+    font-size: $text-tiny;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    color: $neutral-4;
+    margin-bottom: $space-small;
+  }
+}
