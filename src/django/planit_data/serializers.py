@@ -20,12 +20,8 @@ def get_org_from_context(context):
 
     Used when serializing data filtered to current user's organization.
     """
-    if not context or 'request' not in context:
-        raise ValueError("Missing required 'request' context variable")
-    if not context['request'].user or not context['request'].user.is_authenticated:
-        raise ValueError("Requires authenticated user")
     user = context['request'].user
-    return user.primary_organization if hasattr(user, 'primary_organization') else None
+    return user.primary_organization
 
 
 class OrganizationDefault(object):

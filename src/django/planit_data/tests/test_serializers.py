@@ -37,7 +37,7 @@ class ConcernSerializerTestCase(TestCase):
         }
 
         serializer = ConcernSerializer(self.concern)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(KeyError):
             serializer.data
 
     @mock.patch('planit_data.models.Concern.calculate')
