@@ -604,6 +604,7 @@ $adaptive-need-low: $brand-warning;
  * * * */
 $action-card-title-size: $text-small;
 $action-card-title-color: $black;
+$action-card-title-height: 10rem;
 $action-card-background: $neutral-0;
 
 $action-card-content-title-weight: $font-weight-bold;
@@ -612,4 +613,23 @@ $action-card-content-value-color: $neutral-4;
 
 $action-toggle-button-background: $action-card-background;
 $action-toggle-button-color-hover: $brand-teal;
-$action-toggle-button-fadeaway: linear-gradient(rgba($action-card-background,0), $action-card-background);
+$action-toggle-button-fadeaway: linear-gradient(rgba($action-card-background, 0), $action-card-background);
+
+$suggestion-cta-background: $neutral-1;
+$suggestion-cta-recommended-color: $neutral-4;
+$suggestion-cta-recommended-size: $text-tiny;
+$suggestion-cta-title-size: $text-medium;
+$suggestion-cta-title-weight: $font-weight-bold;
+$suggestion-cta-description-size: $text-small;
+$suggestion-cta-description-size: $text-small;
+
+$suggestion-background: $neutral-1;
+$suggestion-title-size: $text-base;
+$suggestion-title-weight: $font-weight-regular;
+$suggestion-title-line-height: 1.5;
+$suggestion-title-height: 12rem;
+$suggestion-source-size: $text-tiny;
+$suggestion-metadata-list-size: $text-tiny;
+$suggestion-toggle-button-fadeaway: linear-gradient(rgba($suggestion-background, 0), $suggestion-background);
+$suggestion-toggle-button-background: $suggestion-background;
+$suggestion-toggle-button-color-hover: $brand-teal;

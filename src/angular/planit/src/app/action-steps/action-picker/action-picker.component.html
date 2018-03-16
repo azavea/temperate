@@ -65,7 +65,24 @@
     <p class="suggested-actions-description">Actions below were chosen for you based on your region and the selected hazard and/or community system.</p>
     <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="action-main">
-        <h2 class="action-name">{{suggestion.name}}</h2>
+        <div class="action-name-container"
+            [ngClass]="{'suggestion-closed': !isOpen}">
+            <h2 class="action-name">
+              {{suggestion.name}}
+            </h2>
+            <button type="button" 
+                    class="button-icon-only toggle-button toggle-button-more"
+                    (click)="suggestionToggled()"
+                    *ngIf="!isOpen">
+              <span>
+                Show more
+              </span>
+            </button>
+            <button type="button" 
+                  class="button-link toggle-button toggle-button-less"
+                  (click)="suggestionToggled()"
+                  *ngIf="isOpen">Show less</button>
+        </div>
         <p *ngIf="suggestion.plan_name && !suggestion.plan_hyperlink" class="action-source">
           Source: {{ suggestion.plan_name }}
         </p>

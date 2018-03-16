@@ -13,8 +13,9 @@ import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../s
 })
 export class ActionPickerComponent implements OnInit {
 
+  @Input() isOpen: boolean;
   @Input() risk: Risk;
-
+  @Output() toggled: EventEmitter<boolean> = new EventEmitter();
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
   public loading = true;
@@ -51,5 +52,10 @@ export class ActionPickerComponent implements OnInit {
     // change URL to wizard path without risk or suggested action IDs and push to browser history
     this.location.go('/actions/action/new/');
     this.closeModal();
+  }
+
+  suggestionToggled() {
+    this.isOpen = !this.isOpen;
+    this.toggled.emit(this.isOpen);
   }
 }

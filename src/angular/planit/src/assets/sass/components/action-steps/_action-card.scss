@@ -104,7 +104,7 @@
   }
 
   .card-content {
-    max-height: 10rem;
+    max-height: $action-card-title-height;
     padding-right: 4.35rem;
 
     &:after {
