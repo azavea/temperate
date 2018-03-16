@@ -1,5 +1,7 @@
 <div class="input-group" *ngIf="!isDisabled">
-  <input class="form-control" placeholder="Type to search. Add new item by clicking the +"
+  <input #typeahead=bs-typeahead
+         class="form-control"
+         placeholder="Type to search. Add new item by clicking the +"
          (keyup.enter)="onEnter()"
          [attr.id]="inputId"
          autocomplete="off"
@@ -7,7 +9,7 @@
          (typeaheadOnSelect)="onSelect($event)"
          (change)="onUnsavedChange()"
          [typeahead]="availableOptions"
-         [typeaheadMinLength]="1"
+         [typeaheadMinLength]="0"
          [typeaheadScrollable]="true"
          [typeaheadOptionsInScrollableView]="5"
          [typeaheadOptionsLimit]="100"

@@ -1,6 +1,14 @@
 import * as some from 'lodash.some';
 
-import { Component, Input, OnChanges, SimpleChanges, forwardRef } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  forwardRef
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
@@ -20,6 +28,7 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
 
   @Input() public options: string[] = [];
   @Input() public inputId: string = null;
+  @ViewChild('typeahead') typeahead;
 
   public selected = '';
   public unsaved = '';
@@ -46,8 +55,11 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
   // and clear the input.
   public onEnter() {
     setTimeout(() => {
-      this.onAdd(); }
-    , 100);
+      this.onAdd();
+      // Typeahead doesn't hide its list when we reset the 'selected' variable
+      // after freeform entry, so we need to explicitly hide
+      this.typeahead.hide();
+    }, 100);
   }
 
   // From a typeahead selection, use the event value

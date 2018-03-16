@@ -1,9 +1,9 @@
 <div class="step-header">
   <h3 class="step-title">Details</h3>
   <p>
-    Please add some context to this action. You might include what type of work it 
-    entails, if it fits into one or more of the city&rsquo;s larger adaptation goals, 
-    and the other people, departments, organizations, and stakeholders you&rsquo;ll 
+    Please add some context to this action. You might include what type of work it
+    entails, if it fits into one or more of the city&rsquo;s larger adaptation goals,
+    and the other people, departments, organizations, and stakeholders you&rsquo;ll
     need to work with to make it happen.
   </p>
 </div>
@@ -57,18 +57,18 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button-link"   
+    <button type="button" class="button-link"
             *ngIf="!action?.name"
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button-link"  
+    <button type="button" class="button-link"
             *ngIf="!!action?.name"
             (click)="finish()">Finish action later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button"   
+    <button type="button" class="button"
             nextStep>Skip step</button>
-    <button type="button" class="button button-primary"   
-            [disabled]="!form.valid" 
+    <button type="button" class="button button-primary"
+            [disabled]="!form.valid"
             nextStep>Next</button>
   </div>
 </footer>

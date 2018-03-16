@@ -3,7 +3,7 @@ from unittest import mock
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
-from planit_data.models import OrganizationWeatherEvent
+from planit_data.models import Concern, OrganizationWeatherEvent
 from planit_data.tests.factories import (
     ConcernFactory,
     OrganizationFactory,
@@ -12,6 +12,96 @@ from planit_data.tests.factories import (
 
 
 class ConcernTestCase(TestCase):
+    @mock.patch('planit_data.models.make_indicator_api_request')
+    def test_get_average_value(self, api_indicator_mock):
+        org = OrganizationFactory()
+        api_indicator_mock.return_value = {
+            'data': {
+                '2050': {'avg': 10},
+                '2051': {'avg': 17}
+            }}
+
+        concern = mock.Mock()
+        concern.ERA_LENGTH = 10
+
+        scenario = 'historical'
+        result = Concern.get_average_value(concern, org, scenario, 1990, 'in')
+
+        self.assertEqual(result, 13.5)
+        api_indicator_mock.assert_called_with(
+            concern.indicator,
+            org.location.api_city_id,
+            scenario,
+            params={
+                'years': [range(1990, 2000)],
+                'units': 'in'
+            })
+
+    def test_calculate(self):
+        org = OrganizationFactory()
+        concern = ConcernFactory()
+
+        # Use a lambda for get_average_value to give different values for the times it is called
+        concern.get_average_value = (lambda organization, scenario, year, units: {
+            # Give one number as the result of calculating the start value
+            concern.START_SCENARIO: 7.3,
+            # Another for the end value
+            concern.END_SCENARIO: 15.6
+        }.get(scenario))
+        concern.get_units = mock.Mock()
+
+        result = concern.calculate(org)
+
+        self.assertDictEqual(result, {
+            'tagline': concern.tagline_positive,
+            'units': concern.get_units.return_value,
+            'value': 8.3,
+        })
+
+    def test_relative_concern(self):
+        org = OrganizationFactory()
+        concern = ConcernFactory(is_relative=True)
+
+        # Use a lambda for get_average_value to give different values for the times it is called
+        concern.get_average_value = (lambda organization, scenario, year, units: {
+            # Give one number as the result of calculating the start value
+            concern.START_SCENARIO: 7.8,
+            # Another for the end value
+            concern.END_SCENARIO: 15.6
+        }.get(scenario))
+
+        result = concern.calculate(org)
+
+        self.assertDictEqual(result, {
+            'tagline': concern.tagline_positive,
+            'units': None,
+            'value': 1,
+        })
+
+    @mock.patch('planit_data.models.make_token_api_request')
+    def test_relative_concern_uses_absolute_for_starting_zero(self, api_request_mock):
+        org = OrganizationFactory()
+        concern = ConcernFactory(is_relative=True)
+        indicator_units = mock.Mock()
+        api_request_mock.return_value = {
+            'default_units': indicator_units
+        }
+
+        # Use a lambda for get_average_value to give different values for the times it is called
+        concern.get_average_value = (lambda organization, scenario, year, units: {
+            # Give one number as the result of calculating the start value
+            concern.START_SCENARIO: 0,
+            # Another for the end value
+            concern.END_SCENARIO: 15.6
+        }.get(scenario))
+
+        result = concern.calculate(org)
+
+        self.assertDictEqual(result, {
+            'tagline': concern.tagline_positive,
+            'units': indicator_units,
+            'value': 15.6,
+        })
 
     def test_concern_no_indicator_uses_static_data(self):
         concern = ConcernFactory(

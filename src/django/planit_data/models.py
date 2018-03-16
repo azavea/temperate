@@ -225,18 +225,10 @@ class Concern(models.Model):
     def calculate(self, organization):
         # Calculate data via indicator if we have one
         if self.indicator is not None:
-            city_id = organization.location.api_city_id
-            units = self.get_units(organization)
-
-            start_avg = self.get_average_value(city_id, self.START_SCENARIO, self.START_YEAR, units)
-            end_avg = self.get_average_value(city_id, self.END_SCENARIO, self.END_YEAR, units)
-            difference = end_avg - start_avg
-
-            value = difference / start_avg if self.is_relative else difference
+            value, units = self.get_calculated_values(organization)
         # Otherwise use a static value + units
         else:
-            value = self.static_value if self.static_value else 0
-            units = self.static_units if self.static_units and not self.is_relative else None
+            value, units = self.get_static_values()
         tagline = self.tagline_positive if value >= 0 else self.tagline_negative
 
         return {
@@ -245,7 +237,35 @@ class Concern(models.Model):
             'units': units,
         }
 
-    def get_average_value(self, city_id, scenario, start_year, units=None):
+    def get_calculated_values(self, organization):
+        units = self.get_units(organization)
+
+        start_avg = self.get_average_value(
+            organization, self.START_SCENARIO, self.START_YEAR, units)
+
+        if self.is_relative and start_avg == 0:
+            # If the starting value is 0, abort and retry again as absolute difference
+            try:
+                self.is_relative = False
+                return self.get_calculated_values(organization)
+            finally:
+                self.is_relative = True
+
+        end_avg = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR, units)
+        difference = end_avg - start_avg
+
+        if self.is_relative:
+            return difference / start_avg, None
+        else:
+            return difference, units
+
+    def get_static_values(self):
+        value = self.static_value if self.static_value else 0
+        units = self.static_units if self.static_units and not self.is_relative else None
+        return value, units
+
+    def get_average_value(self, organization, scenario, start_year, units=None):
+        city_id = organization.location.api_city_id
         year_range = range(start_year, start_year + self.ERA_LENGTH)
         params = {'years': [year_range]}
         if units is not None:

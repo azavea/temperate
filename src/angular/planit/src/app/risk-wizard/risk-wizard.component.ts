@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { AfterViewChecked,
          ChangeDetectorRef,
          Component,
@@ -39,7 +40,8 @@ export class RiskWizardComponent implements OnInit, AfterViewChecked {
 
   constructor(private session: WizardSessionService<Risk>,
     private changeDetector: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute) {}
+    private activatedRoute: ActivatedRoute,
+    private location: Location) {}
 
   ngAfterViewChecked() {
     this.changeDetector.detectChanges();
@@ -53,6 +55,14 @@ export class RiskWizardComponent implements OnInit, AfterViewChecked {
       });
     }
     this.session.setData(this.risk);
+
+    // Update the URL with the risk id once the risk is saved
+    this.session.data
+      .first(risk => risk.id !== undefined)
+      .subscribe((risk) => {
+        this.location.replaceState(`/assessment/risk/${risk.id}`);
+      });
+
 
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.startingStep = params['goToStep'] || 0;
