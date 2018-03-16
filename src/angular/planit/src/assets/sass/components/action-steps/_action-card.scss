@@ -12,8 +12,8 @@
 
   .card-title {
     margin-bottom: 0;
-    font-size: $text-small;
-    color: $brand-black;
+    font-size: $action-card-title-size;
+    color: $action-card-title-color;
   }
 
   .button {
@@ -22,6 +22,8 @@
 }
 
 .action-card-unassessed {
+  padding: 0 $space-tiny;
+
   .card-header {
     padding: $space-medium $space-large;
   }
@@ -36,11 +38,11 @@
   padding: 0 $space-tiny $space-tiny $space-tiny;
 
   .card-header {
-    padding: $space-xlarge $space-xxlarge $space-xlarge $space-large;
+    padding: $space-xlarge $space-large $space-xlarge $space-large;
   }
 
   .card-content {
-    background: $neutral-0;
+    background: $action-card-background;
     padding: $space-xlarge $space-xlarge $space-xxlarge 4.35rem;
     display: flex;
     justify-content: space-between;
@@ -54,9 +56,9 @@
   }
 
   .card-content-title  {
+    font-weight: $action-card-content-title-weight;
     height: auto;
     opacity: 1;
-    font-weight: $font-weight-bold;
   }
 
   .card-content-value {
@@ -65,15 +67,15 @@
   }
 
   .action-details {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
 
     .detail-container {
       margin-bottom: $space-large;
     }
 
     .category-icon {
-      font-size: $text-medium;
-      color: $neutral-4;
+      font-size: $action-card-content-value-size;
+      color: $action-card-content-value-color;
     }
   }
 }
@@ -90,14 +92,14 @@
 
     span {
       display: inline-block;
-      background: $neutral-0;
+      background: $action-toggle-button-background;
       padding: $space-small;
       border-radius: $button-border-radius $button-border-radius 0 0;
       margin: 0 auto;
     }
 
     &:hover {
-      color: $brand-teal;
+      color: $action-toggle-button-color-hover;
     }
   }
 
@@ -113,7 +115,7 @@
       bottom: 0;
       left: 0;
       height: 4rem;
-      background: linear-gradient(rgba($neutral-0,0), $neutral-0);
+      background: $action-toggle-button-fadeaway;
     }
   }
 

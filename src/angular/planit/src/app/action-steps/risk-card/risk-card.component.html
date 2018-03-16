@@ -1,7 +1,7 @@
 <div class="card card-full action-card-unassessed">
   <header class="card-header">
     <h3 class="card-title">
-      <span class="risk-priority">
+      <span class="action-priority">
         <va-adaptive-need-box 
           [adaptiveCapacity]="risk.adaptive_capacity"
           [popoverPlacement]="'right'"
@@ -11,11 +11,15 @@
       {{ risk.community_system.name }}
     </h3>
   
+    <span class="take-action-container"
+          tooltip="You need to assess this risk first"
+          *ngIf="!risk.isAssessed()">
+    <button class="take-action button button-positive button-small disabled" disabled>Take action</button> 
+    </span>
+
     <button class="take-action button button-positive button-small"
-            tooltip="You need to assess this risk first"
-            [isDisabled]="risk.isAssessed()"
-            [ngClass]="{disabled: !risk.isAssessed()}"
-            (click)="openModal(actionPicker)">Take action</button>
+            (click)="openModal(actionPicker)"
+            *ngIf="risk.isAssessed()">Take action</button> 
   </header>
 </div>
 

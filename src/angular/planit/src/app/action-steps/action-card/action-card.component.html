@@ -55,10 +55,10 @@
     </div>
 
     <div class="action-details" *ngIf="isOpen">
-      <div class="detail-container">
+      <div class="detail-container" *ngIf="action.action_type.length">
           <div class="detail-title card-content-title">Type of action</div>
           <div class="detail-value card-content-value">
-            {{ action.action_type || '--' }}
+            {{ action.action_type }}
           </div>
       </div>
 

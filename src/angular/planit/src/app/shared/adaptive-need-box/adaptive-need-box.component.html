@@ -54,7 +54,8 @@
                 placement="{{ popoverPlacement || 'right'}}"
                 container="body"
                 containerClass="va-popover popover-two-column"
-                triggers="click"
+                triggers="mouseenter:mouseleave"
       *ngIf="(potentialImpactBin !== undefined &&
              adaptiveCapacityBin !== undefined)">&nbsp;</span>
-<span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
+<span class="adaptive-need-box-empty" 
+      *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined"></span>
