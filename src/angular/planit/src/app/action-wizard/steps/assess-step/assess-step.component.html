@@ -19,7 +19,7 @@
         See examples
       </button></div>
       <div class="form-control-error" *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched)">
-        <span *ngIf="form.controls.name.errors.required">Please write what action you intend to undertake.</span>
+        <span *ngIf="form.controls.name.errors.required">Please describe the action you intend to undertake.</span>
         <span *ngIf="form.controls.name.errors.server">*{{ form.controls.name.errors.server }}</span>
       </div>
     </div>
