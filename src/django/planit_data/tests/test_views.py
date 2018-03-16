@@ -178,6 +178,24 @@ class OrganizationWeatherEventTestCase(APITestCase):
             'order': org_we.order})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_include_related_concerns(self):
+        organization = self.user.primary_organization
+
+        # add a concern to the related weather event
+        concern = ConcernFactory(
+            tagline_positive='more',
+            tagline_negative='less',
+            is_relative=True)
+
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+        org_we.weather_event.concern = concern
+        org_we.weather_event.save()
+
+        url = reverse('organizationweatherevent-detail', kwargs={'pk': org_we.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_list_filters_by_organization(self):
         organization = self.user.primary_organization
         weather_event = WeatherEventFactory()
