@@ -16,5 +16,4 @@ export class PricingComponent {
 
   public customPlan = OrgSubscriptionOptions.get(OrgSubscription.Custom);
   public supportEmail = environment.supportEmail;
-  public hostname = window.location.hostname;
 }
