@@ -4,7 +4,7 @@ from unittest import mock
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APITestCase
 
 from action_steps.models import ActionCategory
 from planit_data.views import PlanExportView
@@ -27,9 +27,6 @@ class PlanExportViewTestCase(TestCase):
         self.user = UserFactory()
         self.factory = RequestFactory()
         self.user = UserFactory()
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_csv_contains_correct_columns(self):
         # Users need to belong to an organization to export a plan
@@ -53,9 +50,6 @@ class ConcernViewSetTestCase(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_concern_list_empty(self):
         url = reverse('concern-list')
@@ -156,9 +150,6 @@ class OrganizationWeatherEventTestCase(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_list_empty(self):
         url = reverse('organizationweatherevent-list')
@@ -227,9 +218,6 @@ class OrganizationRiskTestCase(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_list_organization_risks(self):
         """Ensure that users see risks for their organization."""
@@ -550,9 +538,6 @@ class OrganizationActionTestCase(APITestCase):
     def setUp(self):
         self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_list_organization_actions(self):
         OrganizationActionFactory(
@@ -734,10 +719,6 @@ class SuggestedActionTestCase(APITestCase):
         self.user = UserFactory(
             primary_organization__location__coords=self.georegion.geom.point_on_surface)
         self.client.force_authenticate(user=self.user)
-
-        self.request_factory = APIRequestFactory()
-        self.request = self.request_factory.get('/blah/')
-        self.request.user = self.user
 
     def test_see_public_actions(self):
         action = OrganizationActionFactory(
