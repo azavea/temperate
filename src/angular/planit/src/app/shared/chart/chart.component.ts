@@ -62,7 +62,8 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     description: ''
   };
   public dateRange: number[] = [this.firstYear, this.lastYear];
-  public noChartMessage = 'Loading...';
+  public requestErrorCount = 0;
+  public error: any;
 
   public sliderConfig: any = {
     behaviour: 'drag',
@@ -107,7 +108,6 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 
   updateChart(extraParams: IndicatorQueryParams) {
     this.cancelDataRequest();
-    this.noChartMessage = 'Loading...';
     this.chartData = [];
     this.rawChartData = [];
 
@@ -128,18 +128,10 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     };
 
     this.dateRange = [this.firstYear, this.lastYear]; // reset time slider range
-    const future = this.indicatorService.getData(queryOpts).catch(error => {
-      console.error('future data query error:');
-      this.handleChartApiError(error);
-      return Observable.throw(error);
-    });
+    const future = this.indicatorService.getData(queryOpts);
 
     queryOpts.scenario = this.historicalScenario;
-    const historical = this.indicatorService.getData(queryOpts).catch(error => {
-      console.error('historical data query error:');
-      this.handleChartApiError(error);
-      return Observable.throw(error);
-    });
+    const historical = this.indicatorService.getData(queryOpts);
 
     this.dataSubscription = Observable.forkJoin(
       historical,
@@ -149,8 +141,8 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
       this.processedData = this.chartService.convertChartData(data);
       this.chartData = cloneDeep(this.processedData);
     }, error => {
-      console.error('data subscribe caught error:');
-      console.error(error);
+      this.requestErrorCount += 1;
+      this.error = error;
     });
   }
 
@@ -174,16 +166,6 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   private cancelDataRequest() {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
-    }
-  }
-
-  private handleChartApiError(error: Response) {
-    console.error(error);
-    // TODO: treat error as an array once this is fixed:
-    // https://github.com/azavea/climate-change-api/issues/791
-    const errorJson = error ? error.json() : 'Unknown error querying Climate API';
-    if (errorJson.error) {
-      this.noChartMessage = errorJson.error;
     }
   }
 }
