@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.3] - 2018-03-16
+### Changed
+- Hide register links on production
+### Fixed
+- Improved behavior of ngx-bootstrap typeahead controls when interacting with keyboard
+
 ## [0.1.2] - 2018-03-14
 ### Added
 - User sees confirmation prompt when attempting to delete a Risk or Action
