@@ -41,7 +41,7 @@
       <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
         Forgot password?
       </a>
-      <a routerLink="/register">
+      <a *ngIf="hostname !== 'temperate.io'" routerLink="/register">
         Don't have an account?
       </a>
     </div>
