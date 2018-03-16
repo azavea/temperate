@@ -1,6 +1,5 @@
 from django.db import transaction
 from django.db.models import Q
-from django.http.request import QueryDict
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -27,7 +26,7 @@ from planit_data.serializers import (
     OrganizationWeatherEventSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
-    WeatherEventSerializer,
+    WeatherEventSerializer
 )
 from users.models import GeoRegion, PlanItLocation
 
@@ -105,16 +104,6 @@ class OrganizationRiskView(ModelViewSet):
     pagination_class = None
     serializer_class = OrganizationRiskSerializer
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(
@@ -127,6 +116,7 @@ class OrganizationRiskView(ModelViewSet):
         ).prefetch_related(
             'organizationaction_set',
             'organizationaction_set__categories',
+            'weather_event__concern',
             'weather_event__indicators',
         )
 
@@ -195,16 +185,6 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -212,6 +192,7 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
         ).select_related(
             'weather_event'
         ).prefetch_related(
+            'weather_event__concern',
             'weather_event__indicators'
         )
 
@@ -290,9 +271,10 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset)
+                                         is_coastal, queryset)[:5]
 
-        serializer = self.serializer_class(results[:5], many=True)
+        serializer = self.get_serializer(results, data=results, many=True)
+        serializer.is_valid()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -303,5 +285,6 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return WeatherEvent.objects.all().prefetch_related(
+            'concern',
             'indicators'
         ).order_by('name')

@@ -10,7 +10,7 @@ import { OrganizationService } from '../core/services/organization.service';
 import { RiskService } from '../core/services/risk.service';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
-import { OrgWeatherEvent, Organization, Risk, User, WeatherEvent } from '../shared/';
+import { Organization, Risk, User, WeatherEvent } from '../shared/';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
 import { environment } from '../../environments/environment';

@@ -26,6 +26,7 @@ class PlanExportViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.factory = RequestFactory()
+        self.user = UserFactory()
 
     def test_csv_contains_correct_columns(self):
         # Users need to belong to an organization to export a plan
@@ -181,6 +182,26 @@ class OrganizationWeatherEventTestCase(APITestCase):
             'order': org_we.order})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_include_related_concerns(self):
+        organization = self.user.primary_organization
+
+        # add a concern to the related weather event
+        # indicator must be `None` to avoid `ValueError: No CC API token.`
+        concern = ConcernFactory(
+            indicator=None,
+            tagline_positive='more',
+            tagline_negative='less',
+            is_relative=True)
+
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+        org_we.weather_event.concern = concern
+        org_we.weather_event.save()
+
+        url = reverse('organizationweatherevent-detail', kwargs={'pk': org_we.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     def test_list_filters_by_organization(self):
         organization = self.user.primary_organization
         weather_event = WeatherEventFactory()
@@ -328,7 +349,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-list')
         response = self.client.post(url, data=payload)
-        risk_id = response.json()['id']
+        risk_id = response.json().get('id')
+        self.assertIsNotNone(risk_id)
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
         # Should automatically use the logged in user's primary_organization
@@ -427,6 +449,7 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.put(url, data=payload)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         risk_id = response.json()['id']
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)

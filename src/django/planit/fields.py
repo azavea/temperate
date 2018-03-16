@@ -6,7 +6,7 @@ class OneWayPrimaryKeyRelatedField(serializers.RelatedField):
     """Custom serializer field to use pk for writing but serialize the model for reading."""
 
     def to_representation(self, value):
-        serializer = self.serializer(value)
+        serializer = self.serializer(value, context=self.context)
         return serializer.data
 
     def to_internal_value(self, pk):

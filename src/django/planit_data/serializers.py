@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.compat import unicode_to_repr
 
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
@@ -12,6 +13,32 @@ from planit_data.models import (
 )
 from users.models import PlanItOrganization
 from planit.fields import OneWayPrimaryKeyRelatedField
+
+
+def get_org_from_context(context):
+    """Get current user's primarary organization from the request context.
+
+    Used when serializing data filtered to current user's organization.
+    """
+    user = context['request'].user
+    return user.primary_organization
+
+
+class OrganizationDefault(object):
+    """Support using current user's primrary organization as a default.
+    Find current user on context, then use their primary org as the org default.
+
+    Based on DRF `CurrentUserDefault`:
+    http://www.django-rest-framework.org/api-guide/validators/#currentuserdefault
+    """
+    def set_context(self, serializer_field):
+        self.organization = get_org_from_context(serializer_field.context)
+
+    def __call__(self):
+        return self.organization
+
+    def __repr__(self):
+        return unicode_to_repr('%s()' % self.__class__.__name__)
 
 
 class CommunitySystemSerializer(serializers.ModelSerializer):
@@ -30,11 +57,7 @@ class ConcernSerializer(serializers.ModelSerializer):
     )
 
     def to_representation(self, obj):
-        if 'request' not in self.context:
-            raise ValueError("Missing required 'request' context variable")
-        if not self.context['request'].user.is_authenticated:
-            raise ValueError("Requires authenticated user")
-        organization = self.context['request'].user.primary_organization
+        organization = get_org_from_context(self.context)
 
         data = super().to_representation(obj)
         data.update(obj.calculate(organization))
@@ -46,12 +69,15 @@ class ConcernSerializer(serializers.ModelSerializer):
         fields = ('id', 'indicator', 'is_relative',)
 
 
+class ConcernField(OneWayPrimaryKeyRelatedField):
+    """Custom serializer field that accepts the pk and returns the related model."""
+    serializer = ConcernSerializer
+    queryset = Concern.objects.all()
+
+
 class WeatherEventSerializer(serializers.ModelSerializer):
     """Serialize weather events with only keys for related fields."""
-    concern = serializers.PrimaryKeyRelatedField(
-        many=False,
-        queryset=Concern.objects.all()
-    )
+    concern = ConcernField()
     indicators = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     class Meta:
@@ -71,14 +97,9 @@ class CommunitySystemField(OneWayPrimaryKeyRelatedField):
     queryset = CommunitySystem.objects.all()
 
 
-class WeatherEventWithConcernSerializer(WeatherEventSerializer):
-    """Serialize weather events, with related concerns."""
-    concern = ConcernSerializer()
-
-
 class RiskPKField(serializers.PrimaryKeyRelatedField):
     def get_queryset(self):
-        organization = self.context['request'].user.primary_organization
+        organization = get_org_from_context(self.context)
         queryset = OrganizationRisk.objects.filter(organization=organization)
         return queryset.select_related(
             'organization__location',
@@ -105,8 +126,8 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
     categories = ActionCategoryField(many=True)
 
     def validate_risk(self, value):
-        user_organization = self.context['request'].user.primary_organization
-        if value.organization_id != user_organization.id:
+        organization = get_org_from_context(self.context)
+        if not organization or value.organization.id != organization.id:
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 
@@ -128,6 +149,7 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
     action = serializers.SerializerMethodField()
 
     organization = OrganizationPKField(
+        default=OrganizationDefault(),
         many=False,
         write_only=True
     )
@@ -157,6 +179,7 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
 
 class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
     organization = OrganizationPKField(
+        default=OrganizationDefault(),
         many=False,
         write_only=True
     )

@@ -80,7 +80,6 @@
 }
 
 .concern-data {
-  color: $white;
   position: absolute;
   right: 1rem;
   bottom: 1rem;
@@ -88,7 +87,7 @@
   z-index: 2;
 }
 
-.concern-stats{
+.concern-stats {
   .stat {
     display: flex;
     align-items: flex-end;
@@ -115,12 +114,12 @@
   }
 
   .number {
-    font-size: $text-jumbo;
+    font-size: $concern-title-size;
   }
 
   .unit {
     line-height: 1.2;
-    font-size: $text-large;
+    font-size: $concern-title-size;
   }
 }
 
