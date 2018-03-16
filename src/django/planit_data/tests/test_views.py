@@ -182,7 +182,9 @@ class OrganizationWeatherEventTestCase(APITestCase):
         organization = self.user.primary_organization
 
         # add a concern to the related weather event
+        # indicator must be `None` to avoid `ValueError: No CC API token.`
         concern = ConcernFactory(
+            indicator=None,
             tagline_positive='more',
             tagline_negative='less',
             is_relative=True)
