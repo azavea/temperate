@@ -24,8 +24,7 @@
     }
 
     td.selected {
-      box-shadow: 0 0 0 1px rgba($white,80%),
-                  0 0 10px 3px rgba($white,80%);
+      box-shadow: 0 0 0 2px rgba($white,80%);
       z-index: ($zindex-modal)-1px;
       position: relative;
     }
@@ -132,6 +131,14 @@ va-adaptive-need-box {
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0; 
   }
+}
+
+.adaptive-need-box-empty {
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  border: $grouped-risk-priority-empty-border;
+  margin-right: $space-small;
 }
 
 .adaptive-need-box, 

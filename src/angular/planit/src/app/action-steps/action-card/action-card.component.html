@@ -1,7 +1,8 @@
-<div class="card card-full action-card">
+<div class="card card-full action-card"
+     [ngClass]="{'action-card-closed': !isOpen}">
   <header class="card-header">
     <h3 class="card-title">
-      <span class="risk-priority">
+      <span class="action-priority">
         <va-adaptive-need-box 
           [adaptiveCapacity]="risk.adaptive_capacity"
           [popoverPlacement]="'right'"
@@ -32,25 +33,37 @@
   </header>
 
   <div class="card-content">
+    <button type="button" 
+            class="button-icon-only toggle-button toggle-button-more"
+            (click)="actionCardToggled()"
+            *ngIf="!isOpen">
+      <span>
+        Show more
+      </span>
+    </button>
     <div class="action-name">
-      <div class="action-name-title card-content-title">Action:</div>
+      <div class="action-name-title card-content-title">Action</div>
       <div class="action-name-value card-content-value">
         <p *ngFor="let line of actionNameLines">
           {{ line }}
         </p>
       </div>
+      <button type="button" 
+              class="button-link toggle-button toggle-button-less"
+              (click)="actionCardToggled()"
+              *ngIf="isOpen">Show less</button>
     </div>
 
-    <div class="action-details">
+    <div class="action-details" *ngIf="isOpen">
       <div class="detail-container">
-          <div class="detail-title card-content-title">Type of action:</div>
+          <div class="detail-title card-content-title">Type of action</div>
           <div class="detail-value card-content-value">
             {{ action.action_type || '--' }}
           </div>
       </div>
 
       <div class="detail-container" *ngIf="action.categories.length">
-        <div class="detail-title card-content-title">Categories:</div>
+        <div class="detail-title card-content-title">Categories</div>
         <div class="detail-content categories">
           <span *ngFor="let category of action.categories"
              class="icon category-icon {{ category.icon }}"

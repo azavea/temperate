@@ -15,9 +15,11 @@ import { Action, Risk } from '../../shared';
 })
 export class ActionCardComponent implements OnInit, OnChanges {
 
+  @Input() isOpen: boolean;
   @Input() risk: Risk;
   @Input() action: Action;
   @Output() delete = new EventEmitter<Action>();
+  @Output() toggled: EventEmitter<boolean> = new EventEmitter();
   public actionNameLines = [];
 
   constructor() { }
@@ -40,5 +42,10 @@ export class ActionCardComponent implements OnInit, OnChanges {
     } else {
       this.actionNameLines = [];
     }
+  }
+
+  actionCardToggled() {
+    this.isOpen = !this.isOpen;
+    this.toggled.emit(this.isOpen);
   }
 }

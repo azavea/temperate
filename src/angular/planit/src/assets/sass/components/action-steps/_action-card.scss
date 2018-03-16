@@ -1,10 +1,12 @@
-.action-card-unassessed, .action-card {
+.card.action-card-unassessed, .card.action-card {
+  margin-bottom: $space-medium;
+
   .card-header {
     display: flex;
     justify-content: space-between;
   }
 
-  .risk-priority {
+  .action-priority {
     margin-right: $space-medium;
   }
 
@@ -31,16 +33,19 @@
 }
 
 .action-card {
+  padding: 0 $space-tiny $space-tiny $space-tiny;
+
   .card-header {
     padding: $space-xlarge $space-xxlarge $space-xlarge $space-large;
   }
 
   .card-content {
     background: $neutral-0;
-    margin: 0 $space-tiny;
     padding: $space-xlarge $space-xlarge $space-xxlarge 4.35rem;
     display: flex;
     justify-content: space-between;
+    overflow: hidden;
+    position: relative;
   }
 
   .action-name {
@@ -49,8 +54,11 @@
   }
 
   .card-content-title  {
+    height: auto;
+    opacity: 1;
     font-weight: $font-weight-bold;
   }
+
   .card-content-value {
     color: $brand-black;
     font-size: $text-base;
@@ -67,5 +75,54 @@
       font-size: $text-medium;
       color: $neutral-4;
     }
+  }
+}
+
+.action-card-closed {
+  .toggle-button-more {
+    text-align: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+
+    span {
+      display: inline-block;
+      background: $neutral-0;
+      padding: $space-small;
+      border-radius: $button-border-radius $button-border-radius 0 0;
+      margin: 0 auto;
+    }
+
+    &:hover {
+      color: $brand-teal;
+    }
+  }
+
+  .card-content {
+    max-height: 10rem;
+    padding-right: 4.35rem;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 4rem;
+      background: linear-gradient(rgba($neutral-0,0), $neutral-0);
+    }
+  }
+
+  .card-content-title {
+    height: 0;
+    opacity: 0;
+  }
+
+  .action-name {
+    flex: 1 0 100%;
   }
 }
