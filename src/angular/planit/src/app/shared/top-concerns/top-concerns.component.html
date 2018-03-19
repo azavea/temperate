@@ -9,27 +9,29 @@
 <div class="top-concerns" *ngIf="weatherEvents !== undefined">
   <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}"
         [ngClass]="{'pre-selected':isReadOnly(weatherEvent)}">
-    <div class="concern-content">
-    <span *ngIf="isReadOnly(weatherEvent)"
-          class="icon icon-lock" title="This hazard can't be removed from your top concerns"></span>
-      <div class="concern-options" *ngIf="!isReadOnly(weatherEvent)">
-        <button class="button button-danger button-small button-icon"
-                title="Remove from top concerns"
-                (click)="remove(weatherEvent)"><i class="icon-cancel"></i></button>
-      </div>
+    <div class="concern-actions">
+      <span *ngIf="isReadOnly(weatherEvent)"
+          class="icon icon-lock"
+          title="This hazard cannot be removed"></span>
+      <button *ngIf="!isReadOnly(weatherEvent)"
+        class="button button-danger button-small button-icon"
+        title="Remove from top concerns"
+        (click)="remove(weatherEvent)"><i class="icon-cancel"></i></button>
     </div>
     <div class="concern-data">
       <div class="concern-name">
         {{ weatherEvent.name }}
       </div>
       <div class="concern-stats" *ngIf="hasConcern(weatherEvent)">
-        <div class="stat">
-          <div class="number">{{ format(weatherEvent.concern) }}</div>
-          <div class="unit" *ngIf="hasUnits(weatherEvent.concern)">
-            {{ units(weatherEvent.concern) }}
-          </div>
-        </div>
-        <div class="stat-description">{{ weatherEvent.concern.tagline }}</div>
+        <span class="number">
+          {{ format(weatherEvent.concern) }}
+        </span>
+        <span class="unit" *ngIf="hasUnits(weatherEvent.concern)">
+          {{ units(weatherEvent.concern) }}
+        </span>
+        <span class="description">
+          {{ weatherEvent.concern.tagline }}
+        </span>
       </div>
     </div>
   </div>

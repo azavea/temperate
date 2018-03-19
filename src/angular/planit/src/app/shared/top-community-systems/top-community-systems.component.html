@@ -6,20 +6,17 @@
      <p class="empty-state-header">None yet</p>
      <p class="empty-state-text">Choose community systems that you want to focus on in this adaptive plan.</p>
 </div>
-<div class="card-content top-concerns" *ngIf="communitySystems !== undefined">
-  <div *ngFor="let communitySystem of communitySystems" class="concern icon"
+<div class="top-concerns" *ngIf="communitySystems !== undefined">
+  <div *ngFor="let communitySystem of communitySystems" class="concern"
         [ngClass]="communitySystem.display_class">
-    <div class="concern-content">
-      <div class="concern-options">
-        <button class="button button-danger button-small button-icon"
-                title="Remove from top concerns"
-                (click)="remove(communitySystem)"><i class="icon-cancel"></i></button>
-      </div>
+    <div class="concern-actions">
+      <button class="button button-danger button-small button-icon"
+              title="Remove"
+              (click)="remove(communitySystem)"><i class="icon-cancel"></i></button>
     </div>
     <div class="concern-data">
       <div class="concern-name">
         {{ communitySystem.name }}
       </div>
     </div>
-  </div>
 </div>
