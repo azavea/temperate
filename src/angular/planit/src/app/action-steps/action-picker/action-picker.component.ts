@@ -13,13 +13,12 @@ import { Action, AdaptiveNeedBoxComponent, Risk, SuggestedAction } from '../../s
 })
 export class ActionPickerComponent implements OnInit {
 
-  @Input() isOpen: boolean;
   @Input() risk: Risk;
-  @Output() toggled: EventEmitter<boolean> = new EventEmitter();
   @Output() closed: EventEmitter<string> = new EventEmitter();
 
   public loading = true;
   public showPrompt = true;
+  public isOpen = false;
 
   constructor(private location: Location,
               private actionService: ActionService,
@@ -54,8 +53,7 @@ export class ActionPickerComponent implements OnInit {
     this.closeModal();
   }
 
-  suggestionToggled() {
+  private suggestionToggled() {
     this.isOpen = !this.isOpen;
-    this.toggled.emit(this.isOpen);
   }
 }

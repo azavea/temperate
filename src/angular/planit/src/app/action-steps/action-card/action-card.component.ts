@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output
 } from '@angular/core';
@@ -13,22 +12,17 @@ import { Action, Risk } from '../../shared';
   selector: 'as-action-card',
   templateUrl: './action-card.component.html'
 })
-export class ActionCardComponent implements OnInit, OnChanges {
+export class ActionCardComponent implements OnInit {
 
-  @Input() isOpen: boolean;
   @Input() risk: Risk;
   @Input() action: Action;
   @Output() delete = new EventEmitter<Action>();
-  @Output() toggled: EventEmitter<boolean> = new EventEmitter();
   public actionNameLines = [];
+  public isOpen = false;
 
   constructor() { }
 
   ngOnInit() {
-    this.parseActionName();
-  }
-
-  ngOnChanges() {
     this.parseActionName();
   }
 
@@ -44,8 +38,7 @@ export class ActionCardComponent implements OnInit, OnChanges {
     }
   }
 
-  actionCardToggled() {
+  private actionCardToggled() {
     this.isOpen = !this.isOpen;
-    this.toggled.emit(this.isOpen);
   }
 }

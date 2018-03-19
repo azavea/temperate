@@ -1,8 +1,8 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <header class="page-header">
+    <header class="page-header" *ngIf="weatherEvent?.name">
       <h1 class="page-title-small">Action steps</h1>
-      <h2 class="page-title-large" *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h2>
+      <h2 class="page-title-large">{{ weatherEvent?.name }}</h2>
       <p class="paragraph-intro">
         Take action to mitigate the potential impact of <strong>{{ weatherEvent?.name | lowercase}}</strong> 
         on each of the community systems below.
