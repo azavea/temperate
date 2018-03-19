@@ -576,6 +576,23 @@ $adaptive-need-popover-title-size: $text-large;
 $adaptive-need-popover-title-line-height: 1.15;
 $adaptive-need-size: 20px;
 $adaptive-need-empty-color: $neutral-3;
+$adaptive-need-unsure-border: 1px solid $neutral-2;
+$adaptive-need-unsure-color: repeating-linear-gradient(
+                             -45deg,
+                             $neutral-2, 
+                             $neutral-2 1px, 
+                             transparent 2px,
+                             $neutral-2 4px, 
+                             transparent 5px,
+                             $neutral-2 7px, 
+                             transparent 8px,
+                             $neutral-2 10px, 
+                             transparent 11px, 
+                             $neutral-2 13px, 
+                             transparent 14px,
+                             $neutral-2 16px, 
+                             transparent 17px,
+                             transparent 18px);
 
 $adaptive-need-wizard-size: 26px;
 $adaptive-need-wizard-empty-size: 24px;

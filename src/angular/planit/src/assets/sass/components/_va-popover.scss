@@ -158,12 +158,26 @@ va-adaptive-need-box {
   }
 }
 
+// Either Potential Impact or Adaptive Capacity 
+// was left unanswered in the Risk Assessment wizard
 .adaptive-need-box-empty {
   display: inline-block;
   width: ($adaptive-need-size)-2px;
   height: ($adaptive-need-size)-2px;
   border: $grouped-risk-priority-empty-border;
   margin-right: $space-small;
+}
+
+// "Unsure" was answered for either Potential Impact or
+// Adaptive Capacity in the Risk Assessment wizard
+.adaptive-need-box-unsure {
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  border: $adaptive-need-unsure-border;
+  background: $adaptive-need-unsure-color;
+  margin-right: $space-small;
+  border-radius: $border-radius;
 }
 
 .adaptive-need-box, 
