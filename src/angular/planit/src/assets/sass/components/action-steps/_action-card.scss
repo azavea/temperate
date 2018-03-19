@@ -66,6 +66,10 @@
     flex: 1 1 100%;
   }
 
+  .card-title {
+    font-weight: $action-card-title-complete-weight;
+  }
+
   .action-name {
     flex: 1 0 70%;
     margin-right: $space-xlarge;
