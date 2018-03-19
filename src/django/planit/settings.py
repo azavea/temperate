@@ -219,9 +219,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Email Settings
 if ENVIRONMENT == 'Development':
-    # TODO: Revert before merge
-    # EMAIL_BACKEND = 'dbes.backends.EmailBackend'
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_BACKEND = 'dbes.backends.EmailBackend'
+    # If you want to verify that attachments are added to outgoing messages switch to console
+    # backend, attachment info not provided by dbes:
+    #   https://github.com/EliotBerriot/django-dbes/issues/4
+    # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 
