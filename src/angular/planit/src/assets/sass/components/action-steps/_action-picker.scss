@@ -45,11 +45,10 @@
 
   .suggested-action {
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row wrap;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: $space-large;
-    padding: $space-xlarge;
+    margin-bottom: $space-xxlarge;
     background-color: $suggestion-background;
 
     .action-main {
@@ -58,6 +57,8 @@
       flex-flow: column nowrap;
       align-items: flex-start;
       justify-content: flex-start;
+      flex: 1 1 70%;
+      padding: $space-xlarge 0 $space-xlarge $space-xlarge;
       margin-right: $space-xlarge;
 
       .action-name {
@@ -67,20 +68,6 @@
         line-height: $suggestion-title-line-height;
       }
 
-      .action-source {
-        margin-bottom: $space-xlarge;
-        font-size: $suggestion-source-size;
-        opacity: .7;
-
-        a {
-          border-bottom-width: 0;
-
-          &:hover {
-            border-bottom-width: 1px;
-          }
-        }
-      }
-
       .button {
         margin-top: $space-large;
         margin-bottom: $space-tiny;
@@ -88,10 +75,10 @@
     }
 
     > .action-metadata-list {
-      flex: none;
+      flex: 1 1 auto;
       width: 16rem;
       margin: 0;
-      padding: 0;
+      padding: $space-xlarge $space-xlarge 0 0;
       list-style: none;
       font-size: $suggestion-metadata-list-size;
 
@@ -105,6 +92,10 @@
     margin-top: $space-xlarge;
     text-align: right;
   }
+}
+
+.toggle-button {
+  margin-bottom: $space-medium;
 }
 
 .action-name-container {
@@ -123,25 +114,25 @@
       height: 10rem;
       background: $suggestion-toggle-button-fadeaway;
     }
+  }
+}
 
-    .toggle-button-more {
-      text-align: left;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      z-index: 99;
-      width: 100%;
+.suggested-action-footer {
+  border-top: $suggestion-footer-border;
+  background: $suggestion-footer-background;
+  flex: 1 0 100%;
+  padding: $space-medium $space-xlarge;
 
-      span {
-        display: inline-block;
-        background: $suggestion-toggle-button-background;
-        padding: $space-medium $space-large $space-small 0;
-        border-radius: $button-border-radius $button-border-radius 0 0;
-        margin: 0 auto;
-      }
+  .action-source {
+    font-size: $suggestion-source-size;
+    margin-bottom: 0;
+    opacity: .7;
+
+    a {
+      border-bottom-width: 0;
 
       &:hover {
-        color: $suggestion-toggle-button-color-hover;
+        border-bottom-width: 1px;
       }
     }
   }

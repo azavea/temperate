@@ -71,24 +71,16 @@
               {{suggestion.name}}
             </h2>
             <button type="button" 
-                    class="button-icon-only toggle-button toggle-button-more"
-                    (click)="suggestionToggled()"
-                    *ngIf="!isOpen">
-              <span>
-                Show more
-              </span>
-            </button>
-            <button type="button" 
                   class="button-link toggle-button toggle-button-less"
                   (click)="suggestionToggled()"
                   *ngIf="isOpen">Show less</button>
         </div>
-        <p *ngIf="suggestion.plan_name && !suggestion.plan_hyperlink" class="action-source">
-          Source: {{ suggestion.plan_name }}
-        </p>
-        <p *ngIf="suggestion.plan_name && suggestion.plan_hyperlink" class="action-source">
-          Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
-        </p>
+        <button type="button" 
+                class="button-link toggle-button toggle-button-more"
+                (click)="suggestionToggled()"
+                *ngIf="!isOpen">
+            Show more
+        </button>
         <button class="button button-primary"
                 (click)="goToWizard(suggestion)">Choose and customize</button>
       </div>
@@ -104,6 +96,14 @@
            placement="bottom"></i>
         </li>
       </ul>
+      <footer class="suggested-action-footer" *ngIf="suggestion.plan_name">
+        <p *ngIf="!suggestion.plan_hyperlink" class="action-source">
+          Source: {{ suggestion.plan_name }}
+        </p>
+        <p *ngIf="suggestion.plan_hyperlink" class="action-source">
+          Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+        </p>
+      </footer>
     </div>
     <div class="modal-footer">
       <button class="button-link" (click)="goToWizard()">No thanks. I&rsquo;ll start from scratch.</button>
