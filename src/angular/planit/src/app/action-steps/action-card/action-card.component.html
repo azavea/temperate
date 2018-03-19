@@ -1,6 +1,10 @@
 <div class="card card-full action-card"
-     [ngClass]="{'action-card-closed': !isOpen}">
-  <header class="card-header">
+      tooltip="Click for details"
+      placement="top"
+      container="body"
+      [ngClass]="{'action-card-closed': !isOpen}">
+  <header class="card-header" 
+     (click)="actionCardToggled()">
     <h3 class="card-title">
       <span class="action-priority">
         <va-adaptive-need-box 
@@ -11,36 +15,29 @@
       </span>
       {{ risk.community_system.name }}
     </h3>
-
-    <div class="button-group" dropdown>
-      <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
-        <span class="icon-ellipsis-h"></span>
-      </button>
-
-      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-        <li role="menuitem">
-          <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: 'review'}">View</a>
-        </li>
-        <li role="menuitem">
-          <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
-        </li>
-        <div class="divider"></div>
-        <li class="action-destructive" role="menuitem">
-          <a class="dropdown-item" (click)="deleteAction()">Remove</a>
-        </li>
-      </ul>
-    </div>
+    <div class="action-peek" *ngIf="!isOpen">{{ action.name }}</div>
   </header>
-
-  <div class="card-content">
-    <button type="button" 
-            class="button-icon-only toggle-button toggle-button-more"
-            (click)="actionCardToggled()"
-            *ngIf="!isOpen">
-      <span>
-        Show more
-      </span>
+  
+  <div class="button-group more-button" dropdown>
+    <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+      <span class="icon-ellipsis-h"></span>
     </button>
+
+    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+      <li role="menuitem">
+        <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: 'review'}">View</a>
+      </li>
+      <li role="menuitem">
+        <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
+      </li>
+      <div class="divider"></div>
+      <li class="action-destructive" role="menuitem">
+        <a class="dropdown-item" (click)="deleteAction()">Remove</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card-content" *ngIf="isOpen">
     <div class="action-name">
       <div class="action-name-title card-content-title">Action</div>
       <div class="action-name-value card-content-value">
@@ -48,13 +45,9 @@
           {{ line }}
         </p>
       </div>
-      <button type="button" 
-              class="button-link toggle-button toggle-button-less"
-              (click)="actionCardToggled()"
-              *ngIf="isOpen">Show less</button>
     </div>
 
-    <div class="action-details" *ngIf="isOpen">
+    <div class="action-details">
       <div class="detail-container" *ngIf="action.action_type.length">
           <div class="detail-title card-content-title">Type of action</div>
           <div class="detail-value card-content-value">

@@ -1,9 +1,13 @@
-.card.action-card-unassessed, .card.action-card {
+.action-card-unassessed, .action-card {
   margin-bottom: $space-medium;
 
   .card-header {
     display: flex;
-    justify-content: space-between;
+    align-items: baseline;
+
+    @media all and (-ms-high-contrast:none) {
+      align-items: center;
+    }
   }
 
   .action-priority {
@@ -22,10 +26,11 @@
 }
 
 .action-card-unassessed {
-  padding: 0 $space-tiny;
+  justify-content: space-between;
 
   .card-header {
     padding: $space-medium $space-large;
+    justify-content: space-between;
   }
   .card-content {
     display: flex;
@@ -35,19 +40,30 @@
 }
 
 .action-card {
-  padding: 0 $space-tiny $space-tiny;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
 
   .card-header {
-    padding: $space-xlarge $space-large;
+    padding: 1.7rem $space-large 1.6rem;
+    flex: 1 1 90%;
+    cursor: pointer;
+  }
+
+  .more-button {
+    flex: 0 0 auto;
+    padding: 0 $space-large;
   }
 
   .card-content {
     background: $action-card-background;
     padding: $space-xlarge $space-xlarge $space-xxlarge 4.35rem;
+    margin: 0 $space-tiny $space-tiny;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     overflow: hidden;
     position: relative;
+    flex: 1 1 100%;
   }
 
   .action-name {
@@ -57,8 +73,6 @@
 
   .card-content-title  {
     font-weight: $action-card-content-title-weight;
-    height: auto;
-    opacity: 1;
   }
 
   .card-content-value {
@@ -81,50 +95,35 @@
 }
 
 .action-card-closed {
-  .toggle-button-more {
-    text-align: center;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 99;
-    width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
 
-    span {
-      display: inline-block;
-      background: $action-toggle-button-background;
-      padding: $space-small;
-      border-radius: $button-border-radius $button-border-radius 0 0;
-      margin: 0 auto;
+  .card-header {
+    padding: 1.4rem $space-large 1.8rem;
+    justify-content: flex-start;
+    flex: 1 1 100%;
+    overflow: hidden;
+
+    .card-title, .button-group {
+      flex: 0 0 auto;
     }
 
-    &:hover {
-      color: $action-toggle-button-color-hover;
-    }
-  }
-
-  .card-content {
-    max-height: $action-card-title-height;
-    padding-right: 4.35rem;
-
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 4rem;
-      background: $action-toggle-button-fadeaway;
+    .action-peek {
+      color: $neutral-4;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 0 0 $space-xlarge;
     }
   }
 
-  .card-content-title {
-    height: 0;
-    opacity: 0;
+  &:hover {
+    box-shadow: 0 0 8px 2px rgba($neutral-3, 0.4);
   }
 
-  .action-name {
-    flex: 1 0 100%;
+  &:active {
+    @include button-focus-outline();
   }
 }
