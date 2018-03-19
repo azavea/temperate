@@ -23,14 +23,13 @@ export class DashboardComponent implements OnInit {
 
   public groupedRisks: any[];
   public selectedEventsControl = new FormControl([]);
+  public trialDaysRemaining: number;
 
   private organization: Organization;
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
 
-  @ViewChild('trialWarningModal')
-  private trialWarningModal: ModalTemplateComponent;
-  public trialDaysRemaining: number;
+  @ViewChild('trialWarningModal') private trialWarningModal: ModalTemplateComponent;
 
   constructor(private cache: CacheService,
               private organizationService: OrganizationService,

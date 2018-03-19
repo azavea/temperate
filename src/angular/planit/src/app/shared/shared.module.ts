@@ -33,6 +33,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
+import { SubmitPlanButtonComponent } from './submit-plan-button/submit-plan-button.component';
 import {
   TopCommunitySystemsComponent
 } from './top-community-systems/top-community-systems.component';
@@ -75,6 +76,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,
@@ -99,6 +101,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,

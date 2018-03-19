@@ -3,7 +3,9 @@
     <header class="page-header">
       <h1 class="page-title-large">Review</h1>
       <button class="button" (click)="planService.export()">Download CSV</button>
-      <button class="button button-primary" (click)="submitPlan()">Submit to ICLEI-USA</button>
+      <app-submit-plan-button class="button button-primary">
+        Submit to ICLEI-USA
+      </app-submit-plan-button>
     </header>
     <div>
       <button class="button button-link"
@@ -19,5 +21,3 @@
                            [risks]="risks"></app-adaptation-review>
   </main>
 </div>
-
-<app-confirmation-modal #confirmSubmitModal></app-confirmation-modal>
