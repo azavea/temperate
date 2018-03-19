@@ -2,8 +2,9 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
+import { PlanService } from '../core/services/plan.service';
 import { UserService } from '../core/services/user.service';
-import { OrgSubscriptionOptions, User } from '../shared';
+import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } from '../shared';
 
 @Component({
   selector: 'app-expiration-modal',
@@ -13,15 +14,16 @@ export class ExpirationModalComponent implements OnInit {
   @ViewChild('expirationModal') expirationModal: ModalDirective;
   public isModalShown = true;
   private user: User;
-  public subscription: string;
+  public subscription: OrgSubscriptionPlan;
   public options = OrgSubscriptionOptions;
 
-  constructor(private userService: UserService) { }
+  constructor(private planService: PlanService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.userService.current().subscribe(u => {
       this.user = u;
-      this.subscription = this.options.get(u.primary_organization.subscription).label;
+      this.subscription = this.options.get(u.primary_organization.subscription);
     });
     this.showModal();
   }

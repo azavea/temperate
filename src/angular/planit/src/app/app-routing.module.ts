@@ -26,7 +26,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 const routes: Routes = [
   { path: '', component: MarketingComponent, canActivate: [LoggedInAuthGuard] },
   { path: 'faq', component: FaqComponent },
-  { path: 'expired', component: ExpirationModalComponent, canActivate: [ExpirationGuard] },
+  { path: 'expired',
+    component: ExpirationModalComponent,
+    canActivate: [ExpirationGuard, PlanAuthGuard]
+  },
   {
     path: 'plan',
     component: CreatePlanComponent,

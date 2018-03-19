@@ -16,7 +16,7 @@ export class ExpirationGuard implements CanActivate {
   // When applied, an app route is only available to authenticated users whose org
   // subscription is active else they are sent to the expired page
   // Valid users hitting the expired page will reroute to the dashboard
-  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
     const loggedIn = this.authService.isAuthenticated();
     if (loggedIn) {
       return this.userService.current().map(user => {
@@ -29,19 +29,16 @@ export class ExpirationGuard implements CanActivate {
             } else {
               return true;
             }
-          } else if (route.url[0].path !== 'expired') {
-            return true;
-          } else {
-            this.router.navigate(['/']);
-            return false;
           }
-        } else {
-          return true;
         }
+        if (route.url[0].path === 'expired') {
+          this.router.navigate(['/']);
+          return false;
+        }
+        return true;
       }).first();
     } else {
-      this.router.navigate(['/']);
-      return Observable.from([false]);
+      return true;
     }
   }
 }

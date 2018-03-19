@@ -2,7 +2,7 @@
   <div class="plan-card"
       [ngClass]="{active: activePlan && activePlan.name === plan.name}"
       *ngFor="let plan of visiblePlans">
-    <h4 class="header">{{ plan.label }}</h4>
+    <h4 class="header">{{ plan.nickName }}</h4>
     <span class="icon" [ngClass]="plan.iconClass"></span>
     <div>
       <span>{{ plan.header }} <span *ngIf="plan.yearlyValue">*</span></span>

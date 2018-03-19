@@ -17,7 +17,6 @@ import { AddWeatherEventsComponent } from './add-weather-events/add-weather-even
 import { ChartComponent } from './chart/chart.component';
 import { CollapsibleChartComponent } from './collapsible-chart/collapsible-chart.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
-import { DownloadCsvComponent } from './download-csv/download-csv.component';
 import { FooterComponent } from './footer/footer.component';
 import {
   ForceCollapseChartContainerComponent,
@@ -82,8 +81,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,
-    UserEmailsComponent,
-    DownloadCsvComponent
+    UserEmailsComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
@@ -92,7 +90,6 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ChartComponent,
     CollapsibleChartComponent,
     ConfirmationModalComponent,
-    DownloadCsvComponent,
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,

@@ -1,8 +1,8 @@
-<div *ngIf="isModalShown" class="modal" bsModal #expirationModal="bs-modal" [config]="{backdrop: 'static', show: true}">
+<div *ngIf="isModalShown" class="modal" bsModal #expirationModal="bs-modal" [config]="{backdrop: 'static', show: true, keyboard: false}">
   <div class="modal-content expiration-modal">
     <header class="modal-header">
-      <h1 class="modal-title" *ngIf="subscription === 'Free trial'">Your {{ subscription | lowercase }} has ended</h1>
-      <h1 class="modal-title" *ngIf="subscription !== 'Free trial'">Your {{ subscription }} has ended</h1>
+      <h1 class="modal-title" *ngIf="subscription.name === options.FreeTrial">Your {{ subscription.fullName | lowercase }} has ended</h1>
+      <h1 class="modal-title" *ngIf="subscription.name !== options.FreeTrial">Your {{ subscription.fullName }} has ended</h1>
     </header>
 
     <div class="modal-body">
@@ -15,9 +15,7 @@
       <footer class="modal-footer">
         <div class="button-group">
           <button class="button button-primary" routerLink="/subscription">Upgrade</button>
-          <app-download-csv class="download-link">
-            Download your progress in a CSV
-          </app-download-csv>
+          <a class="download-link" (click)="planService.export()">Download your progress in a CSV</a>
         </div>
       </footer>
     </div>

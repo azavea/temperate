@@ -9,7 +9,9 @@ import { DashboardComponent } from './dashboard.component';
 import { ReviewPlanComponent } from './review-plan/review-plan.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent, canActivate: [ExpirationGuard, PlanAuthGuard],
+  { path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [ExpirationGuard, PlanAuthGuard],
     resolve: {user: UserResolve} },
   {
     path: 'city-profile',
