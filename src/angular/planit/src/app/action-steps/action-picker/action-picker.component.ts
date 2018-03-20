@@ -53,7 +53,7 @@ export class ActionPickerComponent implements OnInit {
     this.closeModal();
   }
 
-  private suggestionToggled() {
+  public suggestionToggled() {
     this.isOpen = !this.isOpen;
   }
 }

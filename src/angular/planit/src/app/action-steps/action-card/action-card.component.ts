@@ -38,7 +38,7 @@ export class ActionCardComponent implements OnInit {
     }
   }
 
-  private actionCardToggled() {
+  public actionCardToggled() {
     this.isOpen = !this.isOpen;
   }
 }
