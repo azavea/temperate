@@ -18,7 +18,7 @@ export class WeatherEventService {
   }
 
   get(weatherEventId: number): Observable<WeatherEvent> {
-    const url = `${environment.apiUrl}/api/weather-event/${weatherEventId}`;
+    const url = `${environment.apiUrl}/api/weather-event/${weatherEventId}/`;
     return this.apiHttp.get(url)
       .map(resp => resp.json() as WeatherEvent);
   }
