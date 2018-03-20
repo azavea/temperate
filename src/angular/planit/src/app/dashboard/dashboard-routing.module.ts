@@ -5,6 +5,7 @@ import { UserResolve } from '../core/resolvers/user.resolve';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
 import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardComponent } from './dashboard.component';
+import { ReviewPlanComponent } from './review-plan/review-plan.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [PlanAuthGuard],
@@ -12,6 +13,11 @@ const routes: Routes = [
   {
     path: 'city-profile',
     component: CityProfileComponent,
+    canActivate: [PlanAuthGuard]
+  },
+  {
+    path: 'review-plan',
+    component: ReviewPlanComponent,
     canActivate: [PlanAuthGuard]
   }
 ];

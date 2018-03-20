@@ -1,0 +1,109 @@
+<div *ngFor="let group of groupedRisks">
+  <h2>{{ group[0] }}</h2>
+  <accordion>
+    <accordion-group class="page-content"
+                     *ngFor="let risk of group[1]"
+                     [(isOpen)]="accordionState.isOpen[risk.id]">
+      <div accordion-heading>
+        <h3>
+          <va-adaptive-need-box [potentialImpact]="risk.impact_magnitude"
+                                [adaptiveCapacity]="risk.adaptive_capacity"></va-adaptive-need-box>
+          {{ risk.title() }}
+        </h3>
+      </div>
+
+      <div>
+        <h3>Vulnerability assessment</h3>
+        <div>
+          <p>
+            <span>Hazard: </span>
+            <span class="icon" [ngClass]="risk.weather_event?.display_class"></span>
+            {{ risk?.weather_event?.name }}
+          </p>
+          <p>
+            <span>Community system at risk: </span>
+            <span class="icon" [ngClass]="risk.community_system?.display_class"></span>
+            {{ risk?.community_system?.name }}
+          </p>
+          <p>
+            <span>Probability of hazard occurring: </span>
+            {{ getRelativeChanceOptionText(risk.probability) || '--' }}
+          </p>
+          <p>
+            <span>Frequency over the next five years: </span>
+            {{ getDirectionalFrequencyOptionText(risk.frequency) || '--' }}
+          </p>
+          <p>
+            <span>Intensity over the next five years: </span>
+            {{ getDirectionalIntensityOptionText(risk.intensity) || '--' }}
+          </p>
+          <p>
+            <span>Potential impact on this community system: </span>
+            {{ getRelativeImpactOptionText(risk.impact_magnitude) || '--' }}
+          </p>
+          <p>
+            <span>Description of potential impact: </span>
+            {{ risk.impact_description || '--' }}
+          </p>
+          <p>
+            <span>Your city's adaptive capacity: </span>
+            {{ getAdaptiveCapacityOptionText(risk.adaptive_capacity) || '--' }}
+          </p>
+          <p>
+            <span>Description of adaptive capacity: </span>
+            {{ risk.adaptive_capacity_description || '--' }}
+          </p>
+          <p>
+            <span>Related adaptive values: </span>
+            {{ risk.related_adaptive_values.join(', ') || '--' }}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="risk.action">
+        <h3>Action step</h3>
+        <div>
+          <p>
+            <span>Description of action: </span>
+            {{ risk.action?.name }}
+          </p>
+          <p>
+            <span>Type of action: </span>
+            {{ risk.action?.action_type || '--' }}
+          </p>
+          <p>
+            <span>Action goal: </span>
+            {{ risk.action?.action_goal || '--' }}
+          </p>
+          <p>
+            <span>Implementation details: </span>
+            {{ risk.action?.implementation_details || '--' }}
+          </p>
+          <p>
+            <span>Visibility to other cities: </span>
+            {{ risk.action?.visibility | titlecase }}
+          </p>
+          <p>
+            <span>Effect on your city's adaptive capacity: </span>
+            {{ risk.action?.improvements_adaptive_capacity || '--' }}
+          </p>
+          <p>
+            <span>Reduction in this risk's potential impacts: </span>
+            {{ risk.action?.improvements_impacts || '--' }}
+          </p>
+          <p>
+            <span>Departments to collaborate with: </span>
+            {{ risk.action?.collaborators.join(', ') || '--' }}
+          </p>
+          <p>
+            <span>Selected categories: </span>
+            {{ getActionCategoriesAsCSV(risk.action) || '--' }}
+          </p>
+          <p>
+            <span>Funding description: </span>
+            {{ risk.action?.funding || '--' }}
+          </p>
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+</div>

@@ -55,6 +55,7 @@ import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service'
 import { OrganizationService } from './core/services/organization.service';
 import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PlanService } from './core/services/plan.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
@@ -63,6 +64,7 @@ import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
+  AccordionModule,
   BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
@@ -101,6 +103,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FormsModule,
     HttpModule,
     // 3rd party
+    AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -150,6 +153,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     OrganizationService,
     PasswordResetGuard,
     PlanAuthGuard,
+    PlanService,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
     RiskResolve,

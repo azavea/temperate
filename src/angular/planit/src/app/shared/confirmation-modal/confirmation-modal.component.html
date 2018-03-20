@@ -3,7 +3,8 @@
   <footer class="modal-footer">
     <button class="button"
             (click)="close(false)">{{ cancelText }}</button>
-    <button class="button button-danger"
+    <button class="button"
+            [ngClass]="confirmButtonClass"
             (click)="close(true)">{{ confirmText }}</button>
   </footer>
 </app-modal-template>

@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { CacheService } from '../core/services/cache.service';
-import { DownloadService } from '../core/services/download.service';
 import { OrganizationService } from '../core/services/organization.service';
+import { PlanService } from '../core/services/plan.service';
 import { RiskService } from '../core/services/risk.service';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
@@ -23,19 +23,18 @@ export class DashboardComponent implements OnInit {
 
   public groupedRisks: any[];
   public selectedEventsControl = new FormControl([]);
+  public trialDaysRemaining: number;
 
   private organization: Organization;
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
 
-  @ViewChild('trialWarningModal')
-  private trialWarningModal: ModalTemplateComponent;
-  public trialDaysRemaining: number;
+  @ViewChild('trialWarningModal') private trialWarningModal: ModalTemplateComponent;
 
-  constructor(private downloadService: DownloadService,
-              private cache: CacheService,
+  constructor(private cache: CacheService,
               private organizationService: OrganizationService,
               private userService: UserService,
+              public planService: PlanService,
               private riskService: RiskService,
               private route: ActivatedRoute,
               private router: Router,
@@ -64,13 +63,6 @@ export class DashboardComponent implements OnInit {
   cancelModal(modal: ModalTemplateComponent) {
     this.setSelectedEvents(this.weatherEventIdsAtLastSave);
     modal.close();
-  }
-
-  downloadPlan() {
-    const url = `${environment.apiUrl}/api/export-plan/`;
-    const filename = 'adaptation_plan';
-
-    this.downloadService.downloadCSV(url, filename);
   }
 
   openModal(modal: ModalTemplateComponent) {

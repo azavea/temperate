@@ -1,6 +1,8 @@
 from urllib.parse import urlencode
 from unittest import mock
 
+from django.conf import settings
+from django.core import mail
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
@@ -32,7 +34,7 @@ class PlanExportViewTestCase(TestCase):
         # Users need to belong to an organization to export a plan
         OrganizationRiskFactory(organization=self.user.primary_organization)
 
-        request = self.factory.get('/export-plan/')
+        request = self.factory.get('/plan/export/')
         request.user = self.user
 
         response = PlanExportView.as_view()(request)
@@ -44,6 +46,27 @@ class PlanExportViewTestCase(TestCase):
         cleaned_headers = [h.strip() for h in headers]
 
         self.assertEqual(cleaned_headers, list(PlanExportView.FIELD_MAPPING.values()))
+
+
+class PlanSubmitViewTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+    def test_submit_email_sent_with_attachment(self):
+        url = reverse('submit-plan')
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
+        BCC_EMAIL = [self.user.email]
+        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
+        self.assertEqual(len(message.attachments), 1)
+        filename, content, mimetype = message.attachments[0]
+        self.assertIn('.csv', filename)
+        self.assertGreater(len(content), 0)
+        self.assertEqual(mimetype, 'text/csv')
 
 
 class ConcernViewSetTestCase(APITestCase):
@@ -781,7 +804,7 @@ class SuggestedActionTestCase(APITestCase):
             'name': action.name,
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
-            'plan_due_date': None,
+            'plan_due_date': '2050-01-01',
             'plan_name': '',
             'plan_hyperlink': '',
             'action_goal': '',
