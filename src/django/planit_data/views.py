@@ -1,7 +1,6 @@
 from tempfile import TemporaryFile
 
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
@@ -34,7 +33,8 @@ from planit_data.serializers import (
     SuggestedActionSerializer,
     WeatherEventSerializer
 )
-from users.models import GeoRegion, PlanItLocation
+from planit_data.utils import send_html_email
+from users.models import GeoRegion, PlanItLocation, PlanItUser
 
 
 class PlanView(APIView):
@@ -47,34 +47,37 @@ class PlanView(APIView):
     # represent multiple rows in the output for each combination of risk + action, with risk data
     # duplicated.
     FIELD_MAPPING = {
-        'organization_risk__weather_event__name': 'Hazard',
-        'organization_risk__community_system__name': 'Community System',
-        'organization_risk__probability': 'Risk Probability',
-        'organization_risk__frequency': 'Risk Frequency',
-        'organization_risk__intensity': 'Risk Intensity',
-        'organization_risk__impact_magnitude': 'Risk Impact Magnitude',
-        'organization_risk__impact_description': 'Risk Impact Description',
-        'organization_risk__adaptive_capacity': 'Risk Adaptive Capacity',
-        'organization_risk__related_adaptive_values': 'Risk Related Adaptive Values',
-        'organization_risk__adaptive_capacity_description': 'Risk Adaptive Capacity Description',
-        'name': 'Action Name',
-        'action_type': 'Action Type',
-        'action_goal': 'Action Goal',
-        'implementation_details': 'Action Implementation Details',
-        'implementation_notes': 'Action Implementation Notes',
-        'improvements_adaptive_capacity': 'Action Adaptive Capacity',
-        'improvements_impacts': 'Action Improvements Impacts',
-        'collaborators': 'Action Collaborators',
-        'funding': 'Action Funding',
+        'weather_event__name': 'Hazard',
+        'community_system__name': 'Community System',
+        'probability': 'Risk Probability',
+        'frequency': 'Risk Frequency',
+        'intensity': 'Risk Intensity',
+        'impact_magnitude': 'Risk Impact Magnitude',
+        'impact_description': 'Risk Impact Description',
+        'adaptive_capacity': 'Risk Adaptive Capacity',
+        'related_adaptive_values': 'Risk Related Adaptive Values',
+        'adaptive_capacity_description': 'Risk Adaptive Capacity Description',
+        'organizationaction__name': 'Action Name',
+        'organizationaction__action_type': 'Action Type',
+        'organizationaction__action_goal': 'Action Goal',
+        'organizationaction__implementation_details': 'Action Implementation Details',
+        'organizationaction__implementation_notes': 'Action Implementation Notes',
+        'organizationaction__improvements_adaptive_capacity': 'Action Adaptive Capacity',
+        'organizationaction__improvements_impacts': 'Action Improvements Impacts',
+        'organizationaction__collaborators': 'Action Collaborators',
+        'organizationaction__funding': 'Action Funding',
     }
 
     def get_data_for_organization(self, org):
-        return OrganizationAction.objects.filter(
-            organization_risk__organization=org
+        return OrganizationRisk.objects.filter(
+            organization=org
         ).prefetch_related(
-            'organization_risk',
-            'organization_risk__weather_event',
-            'organization_risk__community_system',
+            'organizationaction',
+            'weather_event',
+            'community_system',
+        ).order_by(
+            'weather_event__name',
+            'community_system__name',
         ).values(
             *self.FIELD_MAPPING.keys()
         )
@@ -104,22 +107,31 @@ class PlanSubmitView(PlanView):
             write_csv(data, fp)
             fp.seek(0)
 
+            # Create email context
+            template_path = 'email/submit_plan_email'
             due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
-            email = EmailMessage(
-                'Temperate Plan submission for {}'.format(user_org.name),
-                'Temperate plan for {} due {} submitted by {} at {}'.format(
-                    user_org.name,
-                    due_date,
-                    request.user.email,
-                    timezone.now().isoformat()
-                ),
+            org_user_emails = list(PlanItUser.objects.filter(primary_organization=user_org)
+                                                     .values_list('email', flat=True))
+            context = {
+                'date_due': due_date,
+                'date_submitted': timezone.now(),
+                'organization_name': user_org.name,
+                'user_email': request.user.email,
+            }
+
+            # Create attachment
+            attachment_filename = ('{}_adaptation_plan_{}.csv'
+                                   .format(slugify(user_org.name), due_date))
+            plan_attachment = (attachment_filename, fp.read(), 'text/csv',)
+
+            send_html_email(
+                template_path,
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.PLAN_SUBMISSION_EMAIL],
-                [request.user.email]
+                context=context,
+                bcc=org_user_emails,
+                attachments=[plan_attachment]
             )
-            filename = '{}_adaptation_plan_{}.csv'.format(slugify(user_org.name), due_date)
-            email.attach(filename, fp.read(), 'text/csv')
-            email.send()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 

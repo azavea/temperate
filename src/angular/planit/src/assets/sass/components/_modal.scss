@@ -113,3 +113,10 @@
     }
   }
 }
+
+// Ensure the app-modal-template element never takes up space in the DOM
+// Since the app-modal-template uses container: body, this shouldn't
+//  ever affect modal content
+app-modal-template {
+  display: none;
+}

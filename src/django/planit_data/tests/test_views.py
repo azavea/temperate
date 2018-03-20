@@ -21,6 +21,7 @@ from planit_data.tests.factories import (
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from planit_data.views import SuggestedActionViewSet
+from users.models import PlanItUser
 from users.tests.factories import UserFactory
 
 
@@ -67,6 +68,23 @@ class PlanSubmitViewTestCase(APITestCase):
         self.assertIn('.csv', filename)
         self.assertGreater(len(content), 0)
         self.assertEqual(mimetype, 'text/csv')
+
+    def test_submit_email_sent_to_all_users_in_org(self):
+
+        organization = self.user.primary_organization
+        # Create a second user so there are multiple users in the org
+        UserFactory(primary_organization=organization)
+
+        url = reverse('submit-plan')
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(mail.outbox), 1)
+
+        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
+        BCC_EMAIL = list(PlanItUser.objects.filter(primary_organization=organization)
+                                           .values_list('email', flat=True))
+        message = mail.outbox[0]
+        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
 
 
 class ConcernViewSetTestCase(APITestCase):
