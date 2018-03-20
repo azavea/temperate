@@ -66,6 +66,11 @@ class WeatherEvent(models.Model):
         return self.name
 
 
+class IndicatorManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
+
+
 class Indicator(models.Model):
     """A derived aggregate computation that provides some form of climate insight.
 
@@ -76,8 +81,13 @@ class Indicator(models.Model):
     label = models.CharField(max_length=512, blank=False, null=False)
     description = models.TextField(blank=True, null=False, default='')
 
+    objects = IndicatorManager()
+
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return (self.name,)
 
 
 class DefaultRisk(models.Model):

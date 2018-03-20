@@ -3,90 +3,126 @@
     "model": "planit_data.concern",
     "pk": 11,
     "fields": {
-        "indicator": 1,
+        "indicator": [
+            "accumulated_freezing_degree_days"
+        ],
         "tagline_positive": "thicker ice",
         "tagline_negative": "thinner ice",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 12,
     "fields": {
-        "indicator": 13,
+        "indicator": [
+            "heating_degree_days"
+        ],
         "tagline_positive": "more extremely cold days",
         "tagline_negative": "fewer extremely cold days",
-        "is_relative": false
+        "is_relative": false,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 13,
     "fields": {
-        "indicator": 12,
+        "indicator": [
+            "heat_wave_incidents"
+        ],
         "tagline_positive": "more heat waves",
         "tagline_negative": "fewer heat waves",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 14,
     "fields": {
-        "indicator": 4,
+        "indicator": [
+            "cooling_degree_days"
+        ],
         "tagline_positive": "more cooling degree days per year",
         "tagline_negative": "fewer cooling degree days per year",
-        "is_relative": false
+        "is_relative": false,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 15,
     "fields": {
-        "indicator": 6,
+        "indicator": [
+            "dry_spells"
+        ],
         "tagline_positive": "more drought",
         "tagline_negative": "less drought",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 16,
     "fields": {
-        "indicator": 14,
+        "indicator": [
+            "max_consecutive_dry_days"
+        ],
         "tagline_positive": "more dry days",
         "tagline_negative": "fewer dry days",
-        "is_relative": false
+        "is_relative": false,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 18,
     "fields": {
-        "indicator": 10,
+        "indicator": [
+            "frost_days"
+        ],
         "tagline_positive": "more freezing days",
         "tagline_negative": "fewer freezing days",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 21,
     "fields": {
-        "indicator": 23,
+        "indicator": [
+            "total_precipitation"
+        ],
         "tagline_positive": "more rain/snow",
         "tagline_negative": "less rain/snow",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 },
 {
     "model": "planit_data.concern",
     "pk": 22,
     "fields": {
-        "indicator": 9,
+        "indicator": [
+            "extreme_precipitation_events"
+        ],
         "tagline_positive": "more flooding",
         "tagline_negative": "less_flooding",
-        "is_relative": true
+        "is_relative": true,
+        "static_value": null,
+        "static_units": ""
     }
 }
 ]
