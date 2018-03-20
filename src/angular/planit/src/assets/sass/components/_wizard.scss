@@ -110,6 +110,10 @@
     padding: $space-medium $space-medium 0 $space-medium;
     position: relative;
 
+    .review-description {
+      white-space: pre-wrap;
+    }
+
     &:last-child {
       padding-bottom: $space-medium;
     }
