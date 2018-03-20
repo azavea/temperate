@@ -1,34 +1,6 @@
 [
 {
     "model": "planit_data.concern",
-    "pk": 11,
-    "fields": {
-        "indicator": [
-            "accumulated_freezing_degree_days"
-        ],
-        "tagline_positive": "thicker ice",
-        "tagline_negative": "thinner ice",
-        "is_relative": true,
-        "static_value": null,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 12,
-    "fields": {
-        "indicator": [
-            "heating_degree_days"
-        ],
-        "tagline_positive": "more extremely cold days",
-        "tagline_negative": "fewer extremely cold days",
-        "is_relative": false,
-        "static_value": null,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
     "pk": 13,
     "fields": {
         "indicator": [
@@ -36,20 +8,6 @@
         ],
         "tagline_positive": "more heat waves",
         "tagline_negative": "fewer heat waves",
-        "is_relative": true,
-        "static_value": null,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 14,
-    "fields": {
-        "indicator": [
-            "cooling_degree_days"
-        ],
-        "tagline_positive": "more cooling degree days per year",
-        "tagline_negative": "fewer cooling degree days per year",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
@@ -62,9 +20,9 @@
         "indicator": [
             "dry_spells"
         ],
-        "tagline_positive": "more drought",
-        "tagline_negative": "less drought",
-        "is_relative": true,
+        "tagline_positive": "more dry spells",
+        "tagline_negative": "fewer dry spells",
+        "is_relative": false,
         "static_value": null,
         "static_units": ""
     }
@@ -76,37 +34,9 @@
         "indicator": [
             "max_consecutive_dry_days"
         ],
-        "tagline_positive": "more dry days",
-        "tagline_negative": "fewer dry days",
+        "tagline_positive": "longer dry spells",
+        "tagline_negative": "shorter dry spells",
         "is_relative": false,
-        "static_value": null,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 18,
-    "fields": {
-        "indicator": [
-            "frost_days"
-        ],
-        "tagline_positive": "more freezing days",
-        "tagline_negative": "fewer freezing days",
-        "is_relative": true,
-        "static_value": null,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 21,
-    "fields": {
-        "indicator": [
-            "total_precipitation"
-        ],
-        "tagline_positive": "more rain/snow",
-        "tagline_negative": "less rain/snow",
-        "is_relative": true,
         "static_value": null,
         "static_units": ""
     }
@@ -118,10 +48,74 @@
         "indicator": [
             "extreme_precipitation_events"
         ],
-        "tagline_positive": "more flooding",
-        "tagline_negative": "less_flooding",
-        "is_relative": true,
+        "tagline_positive": "more intense storms",
+        "tagline_negative": "fewer intense storms",
+        "is_relative": false,
         "static_value": null,
+        "static_units": ""
+    }
+},
+{
+    "model": "planit_data.concern",
+    "pk": 24,
+    "fields": {
+        "indicator": null,
+        "tagline_positive": "higher ocean levels",
+        "tagline_negative": "lower ocean levels",
+        "is_relative": false,
+        "static_value": 2.3,
+        "static_units": "ft"
+    }
+},
+{
+    "model": "planit_data.concern",
+    "pk": 25,
+    "fields": {
+        "indicator": [
+            "extreme_cold_events"
+        ],
+        "tagline_positive": "more extreme cold events",
+        "tagline_negative": "fewer extreme cold events",
+        "is_relative": false,
+        "static_value": null,
+        "static_units": ""
+    }
+},
+{
+    "model": "planit_data.concern",
+    "pk": 26,
+    "fields": {
+        "indicator": [
+            "max_high_temperature"
+        ],
+        "tagline_positive": "above current hottest day",
+        "tagline_negative": "below current hottest day",
+        "is_relative": false,
+        "static_value": null,
+        "static_units": ""
+    }
+},
+{
+    "model": "planit_data.concern",
+    "pk": 27,
+    "fields": {
+        "indicator": null,
+        "tagline_positive": "more atmospheric CO2",
+        "tagline_negative": "less atmospheric CO2",
+        "is_relative": true,
+        "static_value": 123.0,
+        "static_units": ""
+    }
+},
+{
+    "model": "planit_data.concern",
+    "pk": 28,
+    "fields": {
+        "indicator": null,
+        "tagline_positive": "more oceanic CO2",
+        "tagline_negative": "less oceanic CO2",
+        "is_relative": true,
+        "static_value": 123.0,
         "static_units": ""
     }
 }
