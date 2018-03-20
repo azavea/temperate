@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
   public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
+  public groupedView = true;
 
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
@@ -83,6 +84,14 @@ export class DashboardComponent implements OnInit {
       .finally(() => this.getGroupedRisks())
       .subscribe(results => this.handleAPISave(results));
     modal.close();
+  }
+
+  showGroupedView() {
+    this.groupedView = true;
+  }
+
+  showAllView() {
+    this.groupedView = false;
   }
 
   get weatherEventsAtLastSave() {

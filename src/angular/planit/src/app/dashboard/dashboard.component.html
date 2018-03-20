@@ -3,6 +3,15 @@
     <header class="page-header">
       <h1 class="page-title-small">Your Adaptive Plan</h1>
       <h2 class="page-title-large">Dashboard</h2>
+      <div>
+        View
+        <a (click)="showGroupedView()" class="active">
+          <i class="icon icon-planning"></i>
+        </a>
+        <a (click)="showAllView()">
+          <i class="icon icon-planning"></i>
+        </a>
+      </div>
     </header>
 
     <section class="dashboard-container">
@@ -19,11 +28,13 @@
           </p>
         </div>
 
-        <app-grouped-risk
-            *ngFor="let risks of groupedRisks"
-            [risks]="risks"
-            [weatherEvent]="risks[0].weather_event">
-        </app-grouped-risk>
+        <ng-container *ngIf="groupedView">
+          <app-grouped-risk
+              *ngFor="let risks of groupedRisks"
+              [risks]="risks"
+              [weatherEvent]="risks[0].weather_event">
+          </app-grouped-risk>
+        </ng-container>
 
         <footer class="dashboard-footer" *ngIf="this.groupedRisks?.length">
           <button type="button" class="button"

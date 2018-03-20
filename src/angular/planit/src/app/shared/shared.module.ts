@@ -44,6 +44,7 @@ import {
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { UserEmailsComponent } from './user-emails/user-emails.component';
+import { AssessmentOverviewTableComponent } from './assessment-overview-table/assessment-overview-table.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     TopConcernsComponent,
     UserDropdownComponent,
     UserEmailsComponent,
+    AssessmentOverviewTableComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
