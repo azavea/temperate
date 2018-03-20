@@ -1,0 +1,4 @@
+Temperate plan for {{ organization_name }}
+    due {{ date_due }}
+    submitted by {{ user_email }}
+    at {{ date_submitted }}

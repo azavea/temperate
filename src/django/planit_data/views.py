@@ -1,7 +1,6 @@
 from tempfile import TemporaryFile
 
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.db import transaction
 from django.db.models import Q
 from django.utils import timezone
@@ -34,6 +33,7 @@ from planit_data.serializers import (
     SuggestedActionSerializer,
     WeatherEventSerializer
 )
+from planit_data.utils import send_html_email
 from users.models import GeoRegion, PlanItLocation, PlanItUser
 
 
@@ -107,24 +107,31 @@ class PlanSubmitView(PlanView):
             write_csv(data, fp)
             fp.seek(0)
 
+            # Create email context
+            template_path = 'email/submit_plan_email'
             due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
             org_user_emails = list(PlanItUser.objects.filter(primary_organization=user_org)
                                                      .values_list('email', flat=True))
-            email = EmailMessage(
-                'Temperate Plan submission for {}'.format(user_org.name),
-                'Temperate plan for {} due {} submitted by {} at {}'.format(
-                    user_org.name,
-                    due_date,
-                    request.user.email,
-                    timezone.now().isoformat()
-                ),
+            context = {
+                'date_due': due_date,
+                'date_submitted': timezone.now(),
+                'organization_name': user_org.name,
+                'user_email': request.user.email,
+            }
+
+            # Create attachment
+            attachment_filename = ('{}_adaptation_plan_{}.csv'
+                                   .format(slugify(user_org.name), due_date))
+            plan_attachment = (attachment_filename, fp.read(), 'text/csv',)
+
+            send_html_email(
+                template_path,
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.PLAN_SUBMISSION_EMAIL],
-                org_user_emails
+                context=context,
+                bcc=org_user_emails,
+                attachments=[plan_attachment]
             )
-            filename = '{}_adaptation_plan_{}.csv'.format(slugify(user_org.name), due_date)
-            email.attach(filename, fp.read(), 'text/csv')
-            email.send()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
