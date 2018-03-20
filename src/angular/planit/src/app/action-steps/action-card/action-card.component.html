@@ -1,5 +1,5 @@
 <div class="card card-full action-card"
-      tooltip="Click for details"
+      [tooltip]="!isOpen ? 'Click for details' : null"
       placement="top"
       container="body"
       [ngClass]="{'action-card-closed': !isOpen}">
