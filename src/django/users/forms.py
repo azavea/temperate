@@ -1,11 +1,10 @@
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.mail import send_mail
 
-
-from users.models import PlanItOrganization, PlanItUser
 from registration.forms import RegistrationFormUniqueEmail
+from users.models import PlanItOrganization, PlanItUser
+from users.utils import send_html_email
 
 
 class UserForm(RegistrationFormUniqueEmail):
@@ -60,20 +59,22 @@ class UserProfileForm(UserValidationMixin, forms.ModelForm):
 class AddCityForm(forms.Form):
     """Form to email us a request to add a city."""
 
-    email = forms.EmailField(help_text=None, required=False)
     city = forms.CharField(max_length=100, required=True)
     state = forms.CharField(max_length=30, required=True)
     notes = forms.CharField(max_length=280, required=False)
 
-    def send_email(self):
-        message = 'City, State: {}, {}. {}'.format(self.cleaned_data['city'],
-                                                   self.cleaned_data['state'],
-                                                   self.cleaned_data['notes'])
-        send_mail('Add my city to Temperate please',
-                  message,
-                  self.cleaned_data['email'],
-                  [settings.DEFAULT_TO_EMAIL],
-                  fail_silently=False)
+    def send_email(self, user):
+        context = {
+            'user': user,
+            'city': self.cleaned_data['city'],
+            'state': self.cleaned_data['state'],
+            'notes': self.cleaned_data['notes']
+        }
+        send_html_email('request_add_city_email',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [settings.DEFAULT_TO_EMAIL],
+                        context=context,
+                        reply_to=[user.email])
 
 
 class InviteUserForm(forms.Form):

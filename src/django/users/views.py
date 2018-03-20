@@ -275,12 +275,10 @@ class AddCityView(JsonFormView):
     form_class = AddCityForm
 
     def post(self, request, *args, **kwargs):
-        self.user = request.user
+        form = self.form_class(request.data)
+        if form.is_valid():
+            form.send_email(request.user)
         return super(AddCityView, self).post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        form.cleaned_data['email'] = self.user.email
-        form.send_email()
 
 
 class InviteUserView(JsonFormView):

@@ -7,11 +7,9 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
-from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.template.loader import render_to_string
 from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
@@ -25,6 +23,8 @@ from planit_data.models import (
     WeatherEventRank,
 )
 from planit_data.utils import apportion_counts
+
+from users.utils import send_html_email
 
 
 logger = logging.getLogger(__name__)
@@ -333,27 +333,15 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         }
         self.email_user('registration_complete_email', context)
 
-    def email_user(self, template_prefix, context={}, from_email=settings.DEFAULT_FROM_EMAIL):
+    def email_user(self, template_prefix, context={}, from_email=settings.DEFAULT_FROM_EMAIL,
+                   **kwargs):
         """Send an email to this user.
 
         Required method on user for use of django-registration.
         Signature modified here to support multi-part HTML email.
         Only used by django-registration to send activation email, which we override.
-
-        `template_prefix` is the path and start of file name for the three email templates.
-        For example, the template_prefix 'greetings/hello_world' would look for an email
-        subject template at 'users/templates/greetings/hello_world_subject.txt',
-        a text email template at 'users/templates/greetings/hello_world.txt', and
-        an HTML email template at 'users/templates/greetings/hello_world_subject.html'.
         """
-        subject = render_to_string(template_prefix + "_subject.txt", context)
-        # Force subject to a single line to avoid header-injection issues.
-        subject = ''.join(subject.splitlines())
-        message_text = render_to_string(template_prefix + ".txt", context)
-        message_html = render_to_string(template_prefix + ".html", context)
-        msg = EmailMultiAlternatives(subject, message_text, from_email, [self.email])
-        msg.attach_alternative(message_html, "text/html")
-        msg.send()
+        send_html_email(template_prefix, from_email, [self.email], context=context, **kwargs)
 
     # All methods below copied from Django's AbstractUser
     def clean(self):
