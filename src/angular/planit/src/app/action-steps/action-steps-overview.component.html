@@ -13,6 +13,23 @@
       <div class="loading loading-spinner loading-large loading-primary"></div>
     </div>
 
+    <alert type="success" dismissible="true" *ngIf="showFirstActionMessage">
+      <h3 class="alert-heading">Good work!</h3>
+      <p>
+        Continue creating actions for the risks below or go back to your
+        <a class="alert-link" routerLink="/dashboard">dashboard</a> to work
+        on another hazard.
+      </p>
+    </alert>
+    <alert type="success" dismissible="true" *ngIf="showActionsCompleteMessage">
+        <h3 class="alert-heading">Great!</h3>
+        <p>
+          You've taken action on all of the risks here!
+          Go back to your <a class="alert-link" routerLink="/dashboard">dashboard</a>
+          to keep working.
+        </p>
+    </alert>
+
     <section *ngIf="risks !== undefined">
       <div *ngIf="!isARiskAssessed" class="actions-empty">
         <h3>You&rsquo;ll need to assess risks before you can take action.</h3>
@@ -41,3 +58,11 @@
 </div>
 
 <app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>
+
+<app-modal-template #reviewYourPlanModal title="Great job!">
+    <!-- Tempy image -->
+    You&rsquo;re all done with your adaptation plan!
+    <footer class="modal-footer">
+      <a class="button" routerLink="/review-plan" (click)="this.reviewYourPlanModal.close()">Review your plan</a>
+    </footer>
+</app-modal-template>
