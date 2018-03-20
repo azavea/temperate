@@ -34,7 +34,7 @@ from planit_data.serializers import (
     SuggestedActionSerializer,
     WeatherEventSerializer
 )
-from users.models import GeoRegion, PlanItLocation
+from users.models import GeoRegion, PlanItLocation, PlanItUser
 
 
 class PlanView(APIView):
@@ -108,6 +108,8 @@ class PlanSubmitView(PlanView):
             fp.seek(0)
 
             due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
+            org_user_emails = list(PlanItUser.objects.filter(primary_organization=user_org)
+                                                     .values_list('email', flat=True))
             email = EmailMessage(
                 'Temperate Plan submission for {}'.format(user_org.name),
                 'Temperate plan for {} due {} submitted by {} at {}'.format(
@@ -118,7 +120,7 @@ class PlanSubmitView(PlanView):
                 ),
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.PLAN_SUBMISSION_EMAIL],
-                [request.user.email]
+                org_user_emails
             )
             filename = '{}_adaptation_plan_{}.csv'.format(slugify(user_org.name), due_date)
             email.attach(filename, fp.read(), 'text/csv')
