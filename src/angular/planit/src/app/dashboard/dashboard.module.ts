@@ -12,6 +12,7 @@ import {
 import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from '../shared/shared.module';
+import { AssessmentModule } from '../assessment/assessment.module';
 
 import {
   CityProfileSummaryComponent
@@ -27,16 +28,18 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
 @NgModule({
   imports: [
     CommonModule,
+    AssessmentModule,
+    DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     AccordionModule,
     PopoverModule,
     ProgressbarModule,
+    TabsModule,
     TooltipModule,
     ToastrModule,
     TypeaheadModule,
     SharedModule,
-    DashboardRoutingModule
   ],
   declarations: [
     AdaptationReviewComponent,

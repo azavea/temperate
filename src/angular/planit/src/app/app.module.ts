@@ -76,6 +76,7 @@ import {
   ModalModule,
   PopoverModule,
   ProgressbarModule,
+  TabsModule,
   TooltipModule,
   TypeaheadModule
  } from 'ngx-bootstrap';
@@ -120,6 +121,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     OrganizationWizardModule,
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
+    TabsModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-center',

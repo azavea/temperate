@@ -8,7 +8,10 @@
   <thead>
     <tr>
       <th scope="col" class="hidden-header">Adaptive need</th>
-      <th scope="col">Community system at risk
+      <th scope="col" *ngIf="!showFullTitle">Community system at risk
+        <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.communitySystem"></i>
+      </th>
+      <th scope="col" *ngIf="showFullTitle">Risk
         <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
       </th>
       <th scope="col">Potential impact
@@ -30,15 +33,16 @@
           [potentialImpact]="risk.impact_magnitude">
         </va-adaptive-need-box>
       </td>
-      <th scope="row">
+      <td scope="row" *ngIf="showFullTitle">
         <va-risk-popover [risk]="risk"></va-risk-popover>
-      </th>
+      </td>
+      <td *ngIf="!showFullTitle">{{ risk.community_system.name }}</td>
       <td>{{ risk.getImpactMagnitudeLabel() || '--' }}</td>
       <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
       <td>
         <button class="button button-primary va-status-button"
                 *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
-                [routerLink]="['risk', risk.id]">Assess</button>
+                [routerLink]="'/assessment/risk/' + risk.id">Assess</button>
         <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
                      [max]="risk.getTotalRequiredPropCount()"
                      [value]="risk.getCompletedRequiredPropCount()"></progressbar>
@@ -50,10 +54,10 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" [routerLink]="['risk', risk.id]" [queryParams]="{goToStep:4}">View</a>
+              <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">View</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" disabled [routerLink]="['risk', risk.id]">Edit</a>
+              <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
             </li>
             <div class="divider"></div>
             <li class="action-destructive" role="menuitem">

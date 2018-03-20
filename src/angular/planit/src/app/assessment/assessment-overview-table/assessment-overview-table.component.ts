@@ -2,19 +2,20 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { RiskService } from '../../core/services/risk.service';
 
-import { Action, Risk } from '..';
+import { Action, Risk } from '../../shared';
 import {
   ConfirmationModalComponent
-} from '../confirmation-modal/confirmation-modal.component';
+} from '../../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
-  selector: 'app-assessment-overview-table',
+  selector: 'va-assessment-overview-table',
   templateUrl: './assessment-overview-table.component.html'
 })
 export class AssessmentOverviewTableComponent implements OnInit {
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
   @Input() risks: Risk[];
+  @Input() showFullTitle = false;
 
   public tooltipText = {
     adaptiveCapacity: 'The ability to respond to change, deal with potential damage, and take ' +
@@ -24,7 +25,8 @@ export class AssessmentOverviewTableComponent implements OnInit {
                       'impacts.',
     potentialImpact: 'The degree to which the risk will affect the city overall.',
     risk: 'A potential future climate hazard and the social, civic, economic, or ecological ' +
-          'system that may be affected.'
+          'system that may be affected.',
+    communitySystem: 'Add content for this tooltip.'
   };
   constructor(private riskService: RiskService) { }
 

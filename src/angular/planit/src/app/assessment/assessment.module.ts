@@ -12,6 +12,9 @@ import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 import { SharedModule } from '../shared/shared.module';
 
 import { AssessmentOverviewComponent } from './assessment-overview.component';
+import {
+  AssessmentOverviewTableComponent
+} from './assessment-overview-table/assessment-overview-table.component';
 import { AssessmentRoutingModule } from './assessment-routing.module';
 import { EditRiskComponent } from './edit-risk/edit-risk.component';
 import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
@@ -30,8 +33,13 @@ import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
   ],
   declarations: [
     AssessmentOverviewComponent,
+    AssessmentOverviewTableComponent,
     EditRiskComponent,
-    RiskPopoverComponent
+    RiskPopoverComponent,
+  ],
+  exports: [
+    AssessmentOverviewTableComponent,
+    RiskPopoverComponent,
   ]
 })
 export class AssessmentModule { }

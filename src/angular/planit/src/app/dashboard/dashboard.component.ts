@@ -20,6 +20,7 @@ import { ModalTemplateComponent } from '../shared/modal-template/modal-template.
 export class DashboardComponent implements OnInit {
 
   public groupedRisks: any[];
+  public risks: Risk[];
   public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
@@ -86,14 +87,6 @@ export class DashboardComponent implements OnInit {
     modal.close();
   }
 
-  showGroupedView() {
-    this.groupedView = true;
-  }
-
-  showAllView() {
-    this.groupedView = false;
-  }
-
   get weatherEventsAtLastSave() {
     if (this.weatherEvents) {
       return this.weatherEvents.filter(e => this.weatherEventIdsAtLastSave.includes(e.id));
@@ -105,6 +98,7 @@ export class DashboardComponent implements OnInit {
     this.groupedRisks = undefined;
     this.riskService.groupByWeatherEvent().subscribe(r => {
       this.groupedRisks = Array.from(r.values());
+      this.risks = [].concat.apply([], this.groupedRisks);
     });
   }
 
