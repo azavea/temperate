@@ -8,6 +8,7 @@ import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service'
 import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { CreatePlanComponent } from './create-plan/create-plan.component';
+import { FaqComponent } from './faq/faq.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-password-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageSubscriptionComponent } from './marketing/manage-subscription.component';
@@ -22,6 +23,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 const routes: Routes = [
   { path: '', component: MarketingComponent, canActivate: [LoggedInAuthGuard] },
+  { path: 'faq', component: FaqComponent },
   {
     path: 'plan',
     component: CreatePlanComponent,

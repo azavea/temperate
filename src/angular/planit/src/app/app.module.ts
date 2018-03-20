@@ -26,6 +26,7 @@ import { AssessmentModule } from './assessment/assessment.module';
 import { CoreModule } from './core/core.module';
 import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { FaqComponent } from './faq/faq.component';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
 import { SettingsModule } from './settings/settings.module';
@@ -83,8 +84,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 @NgModule({
   declarations: [
     AppComponent,
-    ManageSubscriptionComponent,
+    FaqComponent,
+    ForgotPasswordPageComponent,
     LoginPageComponent,
+    ManageSubscriptionComponent,
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent,
@@ -92,7 +95,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlanSelectorComponent,
     PricingComponent,
     RegistrationPageComponent,
-    ForgotPasswordPageComponent,
     ResetPasswordComponent
   ],
   imports: [
