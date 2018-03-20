@@ -22,9 +22,7 @@ from planit_data.models import (
     OrganizationWeatherEvent,
     WeatherEventRank,
 )
-from planit_data.utils import apportion_counts
-
-from users.utils import send_html_email
+from planit_data.utils import apportion_counts, send_html_email
 
 
 logger = logging.getLogger(__name__)

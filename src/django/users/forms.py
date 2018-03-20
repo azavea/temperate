@@ -3,8 +3,9 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 
 from registration.forms import RegistrationFormUniqueEmail
+
+from planit_data.utils import send_html_email
 from users.models import PlanItOrganization, PlanItUser
-from users.utils import send_html_email
 
 
 class UserForm(RegistrationFormUniqueEmail):
