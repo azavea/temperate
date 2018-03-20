@@ -47,34 +47,37 @@ class PlanView(APIView):
     # represent multiple rows in the output for each combination of risk + action, with risk data
     # duplicated.
     FIELD_MAPPING = {
-        'organization_risk__weather_event__name': 'Hazard',
-        'organization_risk__community_system__name': 'Community System',
-        'organization_risk__probability': 'Risk Probability',
-        'organization_risk__frequency': 'Risk Frequency',
-        'organization_risk__intensity': 'Risk Intensity',
-        'organization_risk__impact_magnitude': 'Risk Impact Magnitude',
-        'organization_risk__impact_description': 'Risk Impact Description',
-        'organization_risk__adaptive_capacity': 'Risk Adaptive Capacity',
-        'organization_risk__related_adaptive_values': 'Risk Related Adaptive Values',
-        'organization_risk__adaptive_capacity_description': 'Risk Adaptive Capacity Description',
-        'name': 'Action Name',
-        'action_type': 'Action Type',
-        'action_goal': 'Action Goal',
-        'implementation_details': 'Action Implementation Details',
-        'implementation_notes': 'Action Implementation Notes',
-        'improvements_adaptive_capacity': 'Action Adaptive Capacity',
-        'improvements_impacts': 'Action Improvements Impacts',
-        'collaborators': 'Action Collaborators',
-        'funding': 'Action Funding',
+        'weather_event__name': 'Hazard',
+        'community_system__name': 'Community System',
+        'probability': 'Risk Probability',
+        'frequency': 'Risk Frequency',
+        'intensity': 'Risk Intensity',
+        'impact_magnitude': 'Risk Impact Magnitude',
+        'impact_description': 'Risk Impact Description',
+        'adaptive_capacity': 'Risk Adaptive Capacity',
+        'related_adaptive_values': 'Risk Related Adaptive Values',
+        'adaptive_capacity_description': 'Risk Adaptive Capacity Description',
+        'organizationaction__name': 'Action Name',
+        'organizationaction__action_type': 'Action Type',
+        'organizationaction__action_goal': 'Action Goal',
+        'organizationaction__implementation_details': 'Action Implementation Details',
+        'organizationaction__implementation_notes': 'Action Implementation Notes',
+        'organizationaction__improvements_adaptive_capacity': 'Action Adaptive Capacity',
+        'organizationaction__improvements_impacts': 'Action Improvements Impacts',
+        'organizationaction__collaborators': 'Action Collaborators',
+        'organizationaction__funding': 'Action Funding',
     }
 
     def get_data_for_organization(self, org):
-        return OrganizationAction.objects.filter(
-            organization_risk__organization=org
+        return OrganizationRisk.objects.filter(
+            organization=org
         ).prefetch_related(
-            'organization_risk',
-            'organization_risk__weather_event',
-            'organization_risk__community_system',
+            'organizationaction',
+            'weather_event',
+            'community_system',
+        ).order_by(
+            'weather_event__name',
+            'community_system__name',
         ).values(
             *self.FIELD_MAPPING.keys()
         )
