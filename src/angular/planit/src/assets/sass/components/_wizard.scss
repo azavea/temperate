@@ -4,7 +4,7 @@
   flex-wrap: wrap;
 
   wizard {
-    flex: 1 1 auto;
+    flex: 1 1 100%; // for IE11
   }
 
   &.wizard-no-nav {
@@ -109,6 +109,10 @@
     background-color: $review-item-background;
     padding: $space-medium $space-medium 0 $space-medium;
     position: relative;
+
+    .review-description {
+      white-space: pre-wrap;
+    }
 
     &:last-child {
       padding-bottom: $space-medium;

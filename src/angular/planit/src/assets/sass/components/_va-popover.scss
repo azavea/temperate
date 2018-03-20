@@ -1,30 +1,22 @@
 .va-popover {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-between;
-  width: 100%;
+  max-width: $adaptive-need-popover-max-width!important;
 
-  &.container-fluid {
-    height: fit-content;
+  .popover-title {
+    font-size: $adaptive-need-popover-title-size;
+    line-height: $adaptive-need-popover-title-line-height;
   }
 
-  .adaptive-need-table {
-    order: 2;
-    flex: 1;
-    margin-left: 2rem;
+  .adaptive-need-table-container {
+    flex: 0 0 auto;
 
-    table {
+    .adaptive-need-table {
       border-spacing: 0px;
       border-collapse: collapse;
     }
 
     td {
-      width: 33px;
-      height: 33px;
-
-      &:last-child {
-        padding-left: 3px;
-      }
+      width: $adaptive-need-table-cell-size;
+      height: $adaptive-need-table-cell-size;
     }
 
     th {
@@ -32,88 +24,118 @@
     }
 
     td.selected {
-      border: 1px $black solid;
-    }
-
-    .arrow-over, .arrow-down {
+      box-shadow: 0 0 0 2px rgba($white,80%);
+      z-index: $zindex-modal - 1;
       position: relative;
+      
+      // IE11
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        outline: 2px solid rgba($white,80%);
+      }
+    }
 
-      > div {
-        border: 0.5px solid $neutral-3;
-        margin: auto;
+    .table-label {
+      color: $adaptive-need-table-label-color;
+      font-weight: $adaptive-need-table-label-weight;
+      font-size: $adaptive-need-table-label-size;
+    }
+    
+    .table-header-vertical {
+      max-width: 1rem;
+    }
 
-        &:before, &:after {
-          content: '';
-          height: 0;
-          border: 0.5px solid $neutral-3;
-          width: 10px;
-          position: absolute;
+    .table-header-vertical span {
+      transform: rotate(270deg) 
+                 translateX(-40px);
+      white-space: nowrap;
+      display: block;
+    }
+
+    .arrow-shaft, .arrow-end {
+      position: relative;
+    }
+
+    .arrow-shaft:after,
+    .arrow-end:before,
+    .arrow-end:after {
+      content: "";
+      display: block;
+      position: absolute;
+      background: $adaptive-need-table-label-arrow-background;
+    }
+
+    .table-horizontal-label {
+      &.arrow-shaft:after {
+        right: -10rem;
+        top: 50%;
+        width: $adaptive-need-table-label-arrow-shaft-length;
+        height: $adaptive-need-table-label-arrow-thickness;
+        
+        // IE11
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          top: 2rem;
+        }
+      }
+      
+      &.arrow-end:before,
+      &.arrow-end:after {
+        width: $adaptive-need-table-label-arrow-thickness;
+        height: $adaptive-need-table-label-arrow-end-length;
+        left: -$adaptive-need-table-label-arrow-end-length;
+      }
+
+      &.arrow-end:after {
+        top: 1rem;
+        transform: rotate(-45deg);
+        
+        // IE11
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          top: 1.2rem;
+        }
+      }
+
+      &.arrow-end:before {
+        bottom: 0.8rem;
+        transform: rotate(45deg);
+        
+        // IE11
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          top: 1.95rem;
         }
       }
     }
 
-    .arrow-over {
-      padding-left: 5px;
+    .table-vertical-label {
+      padding-left: 1rem;
 
-      > div {
-        height: 0;
-        width: 100%;
-
-        &:before, &:after {
-          right: -1px;
-        }
-        &:before {
-          transform: rotate(45deg);
-          bottom: 19px;
-        }
-        &:after {
-          transform: rotate(135deg);
-          bottom: 13px;
+      &.arrow-shaft:after {
+        bottom: -10rem;
+        right: 40%;
+        width: $adaptive-need-table-label-arrow-thickness;
+        height: $adaptive-need-table-label-arrow-shaft-length;
+        
+        // IE11
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+          bottom: -11.5rem;
         }
       }
-    }
-
-    .arrow-down {
-      > div {
-        height: 100%;
-        width: 0;
-
-        &:before, &:after {
-          bottom: 4px;
-        }
-        &:before {
-          transform: rotate(135deg);
-          right: 8px;
-        }
-        &:after {
-          transform: rotate(225deg);
-          right: 15px;
-        }
+      
+      &.arrow-end:before,
+      &.arrow-end:after {
+        width: $adaptive-need-table-label-arrow-end-length;
+        height: $adaptive-need-table-label-arrow-thickness;
+        top: -$adaptive-need-table-label-arrow-end-length;
       }
-    }
-  }
 
-  .chart-left {
-    transform: rotate(270deg);
-    transform-origin: left bottom 0;
-    float: left;
-    position: absolute;
-    padding-left: 3rem;
-    font-weight: $font-weight-bold;
-    bottom: 43px;
-  }
+      &.arrow-end:after {
+        right: 0.6rem;
+        transform: rotate(-45deg);
+      }
 
-  .row {
-    background: $white;
-  }
-
-  .va-popover-description {
-    order: 1;
-    flex: 1;
-    padding-left: 4rem;
-
-    .va-popover-title {
-      font-size: 2.5rem;
+      &.arrow-end:before {
+        left: 1.15rem;
+        transform: rotate(45deg);
+      }
     }
   }
 }
@@ -134,6 +156,28 @@ va-adaptive-need-box {
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0; 
   }
+}
+
+// Either Potential Impact or Adaptive Capacity 
+// was left unanswered in the Risk Assessment wizard
+.adaptive-need-box-empty {
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  border: $grouped-risk-priority-empty-border;
+  margin-right: $space-small;
+}
+
+// "Unsure" was answered for either Potential Impact or
+// Adaptive Capacity in the Risk Assessment wizard
+.adaptive-need-box-unsure {
+  display: inline-block;
+  width: ($adaptive-need-size)-2px;
+  height: ($adaptive-need-size)-2px;
+  border: $adaptive-need-unsure-border;
+  background: $adaptive-need-unsure-color;
+  margin-right: $space-small;
+  border-radius: $border-radius;
 }
 
 .adaptive-need-box, 

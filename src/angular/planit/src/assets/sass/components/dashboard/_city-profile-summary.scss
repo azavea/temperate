@@ -19,6 +19,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  
+  // IE11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    padding: 1rem 0;
+  }
 }
 
 .in-progress .overall-progress {

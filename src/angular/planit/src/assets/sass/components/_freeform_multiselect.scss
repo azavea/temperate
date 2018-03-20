@@ -9,6 +9,7 @@ app-freeform-multiselect, .multiselect {
     color: $multiselect-pill-color;
     border-radius: 30px;
     padding: 4px 12px 6px 12px;
+    margin: $space-tiny 0;
 
     &:not(:last-child) {
       margin-right: $space-medium;

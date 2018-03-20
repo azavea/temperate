@@ -3,12 +3,12 @@
 
   <div class="review-feedback warning" *ngIf="!action.isComplete()">
     <p class="review-feedback-header">This is a good start!</p>
-    <p>You've filled out the most important parts of your action. There are still a few details that would be helpful to fill out, however. These fields are marked as &ldquo;recommended&rdquo;.</p>
+    <p>You&rsquo;ve filled out the most important parts of your action. There are still a few details that would be helpful to fill out, however. These fields are marked as &ldquo;recommended&rdquo;.</p>
   </div>
 
   <div class="review-feedback success" *ngIf="action.isComplete()">
     <p class="review-feedback-header">This looks great!</p>
-    <p>You've developed a well-considered action that addresses this risk. Next steps:</p>
+    <p>You&rsquo;ve developed a well-considered action that addresses this risk. Next steps:</p>
     <ul class="feedback-steps">
       <li>
         <span class="icon icon-edit"></span>
@@ -67,6 +67,11 @@
     <div class="review-item">
       <span class="answer-label">Visibility to other cities: </span>
       {{ action.visibility | titlecase }}
+    </div>
+    <div class="review-item"
+         [ngClass]="{warning: !action.implementation_notes}">
+      <span class="answer-label">Notes: </span>
+      <span class="review-description">{{ action.implementation_notes || '--' }}</span>
     </div>
   </section>
 
