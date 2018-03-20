@@ -9,5 +9,6 @@ export const environment = {
   // an absolute URL for the Django application
   apiUrl: 'http://localhost:8100',
   heapID: '2972517413',
-  actionTextMaxLength: 1024
+  actionTextMaxLength: 1024,
+  supportEmail: 'support@temperate.io'
 };

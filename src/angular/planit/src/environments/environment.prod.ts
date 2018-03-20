@@ -4,5 +4,6 @@ export const environment = {
   // as both the Django app and the Angular app are on the same host
   apiUrl: '',
   heapID: '2827494035',
-  actionTextMaxLength: 1024
+  actionTextMaxLength: 1024,
+  supportEmail: 'support@temperate.io'
 };

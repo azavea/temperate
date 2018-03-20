@@ -29,7 +29,7 @@ import {
 } from 'climate-change-components';
 
 import * as cloneDeep from 'lodash.clonedeep';
-
+import { environment } from '../../../environments/environment';
 /*
  * Chart component
  * Container for each individual chart
@@ -62,6 +62,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     description: ''
   };
   public dateRange: number[] = [this.firstYear, this.lastYear];
+  public supportEmail = environment.supportEmail;
   public requestErrorCount = 0;
   public error: any;
 
@@ -144,6 +145,12 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
       this.requestErrorCount += 1;
       this.error = error;
     });
+  }
+
+  retryDataLoad() {
+    // clear errors only on retry
+    this.error = undefined;
+    this.updateChart(this.extraParams);
   }
 
   sliceChartData(newRange: number[]) {

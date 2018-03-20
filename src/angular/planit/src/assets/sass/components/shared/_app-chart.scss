@@ -87,6 +87,10 @@ app-chart {
     font-size: $text-base;
     font-weight: $font-weight-regular;
     background: $loading-background-color;
+
+    .retry-button {
+      margin-left: 40%;
+    }
   }
 
   .chart-options {

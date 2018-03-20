@@ -2,10 +2,11 @@
     <div class="chart-message" *ngIf="!(chartData && chartData.length)">
         <div *ngIf="!error">Loading...</div>
         <div *ngIf="!!error">
-            <button class="button button-primary"
-                    *ngIf="requestErrorCount > 0 && requestErrorCount <= 2"
-                    (click)="updateChart(extraParams)">Retry</button>
-            <div *ngIf="requestErrorCount > 2">Sorry -- we seem to be having a problem.</div>
+            <div *ngIf="requestErrorCount > 0 && requestErrorCount <= 2">
+                <p>Oops -- loading the indicator data failed.</p>
+                <button class="button button-primary retry-button" (click)="retryDataLoad()">Retry</button>
+            </div>
+            <div *ngIf="requestErrorCount > 2">Sorry -- we seem to be having a problem. Please try again later or <a href="mailto:{{ supportEmail }}">email us</a>.</div>
         </div>
     </div>
     <div class="chart-graphic" *ngIf="chartData && chartData.length">
