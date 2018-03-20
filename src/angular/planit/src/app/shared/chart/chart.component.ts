@@ -28,8 +28,9 @@ import {
   TimeAggParam
 } from 'climate-change-components';
 
-import * as cloneDeep from 'lodash.clonedeep';
 import { environment } from '../../../environments/environment';
+
+import * as cloneDeep from 'lodash.clonedeep';
 /*
  * Chart component
  * Container for each individual chart
@@ -62,9 +63,9 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     description: ''
   };
   public dateRange: number[] = [this.firstYear, this.lastYear];
-  public supportEmail = environment.supportEmail;
   public requestErrorCount = 0;
   public error: any;
+  public supportEmail = environment.supportEmail;
 
   public sliderConfig: any = {
     behaviour: 'drag',

@@ -10,6 +10,8 @@ import {
 } from '../shared';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
+import { environment } from '../../environments/environment';
+
 enum SubscriptionModalStep {
   Select,
   Review
@@ -31,6 +33,7 @@ export class ManageSubscriptionComponent implements OnInit {
   public selectedPlan: OrgSubscriptionPlan;
   public url: string;
   public user: User;
+  public supportEmail = environment.supportEmail;
 
   constructor(private organizationService: OrganizationService,
               private userService: UserService) { }
