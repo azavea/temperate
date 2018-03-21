@@ -217,7 +217,7 @@ class Concern(models.Model):
     ERA_LENGTH = 10
     START_YEAR = 1990
     START_SCENARIO = 'historical'
-    END_YEAR = 2050
+    END_YEAR = 2025
     END_SCENARIO = 'RCP85'
 
     indicator = models.OneToOneField(Indicator, on_delete=CASCADE, blank=True, null=True)
