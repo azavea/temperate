@@ -594,18 +594,18 @@ $adaptive-need-empty-color: $neutral-3;
 $adaptive-need-unsure-border: 1px solid $neutral-2;
 $adaptive-need-unsure-color: repeating-linear-gradient(
                              -45deg,
-                             $neutral-2, 
-                             $neutral-2 1px, 
+                             $neutral-2,
+                             $neutral-2 1px,
                              transparent 2px,
-                             $neutral-2 4px, 
+                             $neutral-2 4px,
                              transparent 5px,
-                             $neutral-2 7px, 
+                             $neutral-2 7px,
                              transparent 8px,
-                             $neutral-2 10px, 
-                             transparent 11px, 
-                             $neutral-2 13px, 
+                             $neutral-2 10px,
+                             transparent 11px,
+                             $neutral-2 13px,
                              transparent 14px,
-                             $neutral-2 16px, 
+                             $neutral-2 16px,
                              transparent 17px,
                              transparent 18px);
 
@@ -700,8 +700,10 @@ $pricing-max-width: 80rem;
 $pricing-section-padding-vertical-small: 4rem;
 $pricing-section-padding-vertical-large: 2 * $pricing-section-padding-vertical-small;
 $pricing-section-padding-horizontal: 2rem;
+$pricing-headline-min-width: 33rem;
 $pricing-headline-max-width: 39rem;
 $pricing-card-min-width: 39rem;
+$pricing-card-min-width-narrow: 36rem;
 $pricing-plan-card-shadow: 2px 2px 20px rgba($black, .22);
 $pricing-bottom-text-shadow: 0 0 8px rgba($black, .67);
 $pricing-breakpoint: 55rem;

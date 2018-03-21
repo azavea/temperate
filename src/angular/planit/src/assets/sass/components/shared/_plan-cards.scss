@@ -8,6 +8,7 @@
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
+    padding: 0 $space-xlarge;
   }
 
   > .plan-card {
@@ -21,14 +22,18 @@
     margin-bottom: $space-xlarge;
     padding: $space-xxlarge;
     background-color: $white;
+    box-shadow: $pricing-plan-card-shadow;
+    transition: transform 25ms;
 
-    &:hover {
-      box-shadow: $pricing-plan-card-shadow;
+    @media screen and (max-width: $pricing-breakpoint) {
+      min-width: $pricing-card-min-width-narrow;
+      margin-bottom: $space-xxlarge;
+      padding: $space-xlarge;
     }
 
-    // &.plan-card-custom {
-    //   background-color: $brand-teal;
-    // }
+    &:hover {
+      transform: scale(1.02);
+    }
 
     > .tier {
       align-self: center;
