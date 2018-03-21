@@ -1,47 +1,171 @@
-#marketing .container-hero {
-  background-size: cover;
-  background-position: center;
+.marketing-hero {
+  padding: 0;
+  margin: 0 auto;
 
-  p {
-    font-size: $text-base;
-    line-height: $body-line-height;
+  .section-content {
+    display: flex;
+    flex-direction: column-reverse;
+    max-width: $marketing-hero-max-width;
+    
+    @media all and (min-width: 75.000em) {
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+  }
+
+  .overview {
+    padding: $space-xxlarge $space-xlarge;
+    margin: 0 auto;
+    max-width: $marketing-overview-max-width;
+
+    @media all and (min-width: 48.250em) {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      padding: $space-xxlarge 0;
+      justify-content: center;
+    }
+
+    @media all and (min-width: 81.250em) {
+      padding: $space-xxlarge 0;
+    }
+
+    .heading {
+      font-size: $marketing-hero-heading-size;
+      font-weight: $marketing-hero-heading-weight;
+    }
+
+    .description {
+      font-size: $marketing-hero-description-size;
+      margin-bottom: $space-xxlarge;
+    }
+
+    .button {
+      margin-bottom: $space-medium;
+      width: $marketing-hero-button-width;
+    }
+
+    .secondary-text {
+      font-style: $marketing-hero-secondary-font-style;
+    }
+  }
+
+  .marketing-hero-image {
+    background: $marketing-image-background-color url("../images/marketing/city.jpg") no-repeat center;
+    background-size: cover;
+    width: 100%;
+    height: 15rem;
+
+    @media all and (min-width: 75.000em) {
+      width: 50%;
+      height: 80vh;
+      max-height: 85rem;
+      min-height: 50rem;
+      margin-bottom: -8rem;
+    }
   }
 }
 
-.illustration-fullwidth {
-  max-width: 80rem;
-  margin: 0 auto;
+.section-data {
+  background: $marketing-dark-background;
+  text-align: center;
+  padding: 4rem $space-xlarge;
+
+  @media all and (min-width: 48.250em) {
+    padding: 8rem $space-xxlarge 16rem;
+  }
+
+  @media all and (min-width: 75.000em) {
+    padding: 16rem $space-xxlarge;
+  }
+
+  .section-content {
+    max-width: none;
+  }
+
+  .image-container {
+    max-width: $marketing-data-section-image-max-width;
+    margin: 0 auto;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  .overview {
+    max-width: $marketing-overview-max-width;
+    margin: $space-xlarge auto 0;
+  }
 }
-.illustration-row {
+
+.section-build-plan {
   display: flex;
-  justify-content: center;
-  align-content: stretch;
-}
-.figure-third {
-  flex: 1 1 auto;
-}
-.figure-full {
-  flex: 3 1 auto;
-}
+  justify-content: space-between;
+  padding: $space-xlarge;
 
-.helper-arrow {
-  font-size: $text-base;
-  font-weight: $font-weight-bold;
-  position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: $white;
+  @media all and (min-width: 48.250em) {
+    padding: 0 $space-xxlarge 8rem;
+  }
 
-  &:after {
-    content: "";
-    position: absolute;
-    display: block;
-    margin-top: 0.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 5rem;
-    width: 1px;
-    background-color: $neutral-2;
+  .section-content {
+    @media all and (min-width: 48.250em) {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+
+  .overview {
+    margin: 0 auto;
+    max-width: $marketing-overview-max-width;
+
+    @media all and (min-width: 48.250em) {
+      max-width: $marketing-overview-small-max-width;
+      margin: -8rem $space-xxlarge 0 0;
+    }
+
+    .image {
+      width: 100%;
+      margin-bottom: $space-large;
+      border: 1px solid $neutral-1;
+    }
+  }
+
+  .feature-list {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    margin: $space-xxlarge auto 0;
+    max-width: $marketing-overview-max-width;
+
+    @media all and (min-width: 48.250em) {
+      margin-top: 0;
+      max-width: none;
+      display: block;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      margin: 0 0 $space-xxlarge;
+
+      @media all and (min-width: 48.250em) {
+        margin: $space-xxlarge 0;
+      }
+    }
+
+    .image {
+      width: $marketing-feature-image-width;
+      height: auto;
+      margin-right: $space-large;
+    }
+
+    .description {
+      color: $marketing-feature-description-color;
+      max-width: $marketing-feature-description-max-width;
+    }
   }
 }

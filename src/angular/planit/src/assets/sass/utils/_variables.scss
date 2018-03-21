@@ -669,6 +669,30 @@ $suggestion-footer-background: $neutral-1;
 $suggestion-footer-border: 2px solid $neutral-0;
 
 /* * * *
+ * Marketing page
+ *
+ * * * */
+$marketing-hero-max-width: 150rem;
+$marketing-hero-heading-size: $text-display;
+$marketing-hero-heading-weight: $font-weight-light;
+$marketing-hero-description-size: $text-base;
+$marketing-hero-button-width: 20rem;
+$marketing-hero-secondary-font-style: italic;
+$marketing-overview-max-width: 50rem;
+$marketing-overview-small-max-width: 39rem;
+
+$marketing-image-background-color: $neutral-2;
+// Should we have mobile/desktop sizes here?
+$marketing-dark-background: $neutral-1;
+$marketing-data-section-image-max-width: 110rem;
+
+$marketing-feature-image-width: 8rem;
+$marketing-feature-description-color: $neutral-3;
+$marketing-feature-description-max-width: 20rem;
+
+
+
+/* * * *
  * Pricing page
  *
  * * * */

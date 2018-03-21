@@ -1,55 +1,83 @@
-<main class="main-content" role="main">
-  <section class="container-hero container-fullheight">
-    <div class="container-content hero-content light-content">
-      <h1 class="heading text-jumbo">Your companion for planning a brighter future</h1>
-      <p>Temperate guides you through creating a climate adaptation plan for your city from start to finish.</p>
-      <button class="contact-iclei button button-primary button-large"
-              *ngIf="hostname !== 'temperate.io'"
-              routerLink="/register">Create an Account</button>
-    </div>
-    <div class="helper-arrow">What is this?</div>
-  </section>
-  <section class="container-standard">
-    <div class="container-content">
-      <h2 class="heading">Climate Change Data for your Community</h2>
-      <p class="paragraph-intro">Temperate gives you access to more data, identifies major risks to your region, assists you in anticipating the impacts of climate change on your community, and lets you come away with a robust first draft of an adaptation plan. It goes beyond the presentation of generic information by tailoring the projected risk factors to your specific city or town.</p><p>Unlike other applications that simply give you the data and expect you to know how to translate that into a plan, as a registered Temperate member, you will have access to experts to help you find the right information, understand the impacts of climate change on your community, and create an adaptation plan for you to share with other stakeholders.</p>
-    </div>
-  </section>
-  <section class="container-standard">
-    <div class="container-content">
-      <h2 class="heading">Think through the impacts</h2>
-      <p class="paragraph-intro">Digesting the data is just the first step in the process. Temperate will guide you through the next steps, which include conducting a vulnerability assessment and planning for action.</p>
-    </div>
-    <div class="illustration-fullwidth">
-      <div class="illustration-row">
-        <figure id="figure-1" class="illustration figure-third">
-          <span class="icon icon-indicators-1"></span>
-          <figcaption>Access dependable projection data</figcaption>
-        </figure>
-        <figure id="figure-2" class="illustration figure-third">
-          <span class="icon icon-advocacy"></span>
-          <figcaption>Collaborate with your team</figcaption>
-        </figure>
-        <figure id="figure-3" class="illustration figure-third">
-          <span class="icon icon-edit"></span>
-          <figcaption>Create and export an assessment</figcaption>
-        </figure>
+<div class="main-container main-container-full">
+  <main class="main-content" role="main">
+    <section class="marketing-hero">
+      <div class="section-content">
+        <div class="overview">
+          <h1 class="heading">Your companion for planning a brighter future</h1>
+          <p class="description">
+            Temperate guides you through creating a climate adaptation plan for your city from 
+            start to finish.
+          </p>
+          <button class="button button-positive button-large"
+                  *ngIf="hostname !== 'temperate.io'"
+                  routerLink="/register">Try for free</button>
+          <p class="secondary-text">
+            Already have an account? <a routerLink="/login">Log in</a>
+          </p>
+        </div>
+        <div class="image marketing-hero-image" role="img" aria-label="Photograph of East Side of Midtown Manhattan in New York City, with an overcast sky and the Chrysler building in view and cars and yellow taxis passing. All framed by large, healthy trees"></div>
       </div>
-      <div class="illustration-row">
-        <figure id="figure-4" class="illustration figure-full">
-          <span class="icon icon-plus"></span>
-          <figcaption>receive support from ICLEI every step of the way</figcaption>
-        </figure>
+    </section>
+
+    <section class="section-data">
+      <div class="section-content">
+        <div class="image-container">
+          <img src="/assets/images/marketing/browser_inapp.png" class="image browser-image" alt="Three overlapping browser illustrations highlighting areas of the Temperate app, including: A descriptive chart detailing the calculation of a risk's adaptive need, a modal with suggested actions to undertake, and a page with interactive charts">
+        </div>
+        <div class="overview">
+          <h2 class="heading">Dependable data specific to your city</h2>
+          <p>
+            Temperate goes beyond presenting pages of generic graphs. We create easy to understand projection charts customized to your city and the risks you selected.
+          </p>
+        </div>
       </div>
-    </div>
-  </section>
-  <section class="container-standard container-cta">
-    <div class="container-content light-content">
-      <h2 class="heading">Get expert guidance</h2>
-      <p class="paragraph-intro">As a registered member, you’ll have on-demand access to a adaptation planner at ICLEI. With more than 25 years of experience helping local governments adopt sustainable practices, ICLEI staff will assist you in building your adaptation plan.</p>
-      <button class="contact-iclei button button-primary button-large"
-              *ngIf="hostname !== 'temperate.io'"
-              routerLink="/register">Create an account</button>
-    </div>
-  </section>
-</main>
+    </section>
+
+    <section class="section-build-plan">
+      <div class="section-content">
+        <div class="overview">
+          <img src="/assets/images/marketing/coast.jpg" class="image" alt="Road by California cliffs on a sunny day, with waves crashing up against the shore" />
+          <h2 class="heading">Help building a comprehensive plan at every step</h2>
+          <p>
+            Planning for climate change is complex. Registered Temperate members have access to adaptation experts who can help you create an adaptation plan that meets your individual needs.
+          </p>
+          <p>
+            With access to hundreds of existing strategies, regularly updated trustworthy data, and support from our partners at ICLEI-USA, your custom adaptation plan will be ready to share with stakeholders in no time.
+          </p>
+        </div>
+        <ul class="feature-list">
+          <li class="feature">
+            <img src="/assets/images/marketing/illustration_risks.svg" class="image" alt="Icons depicting heat wave and hurricane hazards">
+            <p class="description">Explore potential risks</p>
+          </li>
+          <li class="feature">
+            <img src="/assets/images/marketing/illustration_assessment.svg" class="image" alt="A clipboard holding a report">
+            <p class="description">Create a comprehensive vulnerability assessment</p>
+          </li>
+          <li class="feature">
+            <img src="/assets/images/marketing/illustration_collaborate.svg" class="image" alt="Icon of a person with a plus sign">
+            <p class="description">Collaborate with your team and engage stakeholders</p>
+          </li>
+          <li class="feature">
+            <img src="/assets/images/marketing/illustration_actions.svg" class="image" alt="Icon of a globe">
+            <p class="description">Access strategies from other cities</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-cta">
+      <div class="section-content">
+        <div class="overview">
+          <h2 class="heading">Start building your plan</h2>
+          <p class="description">
+            Try Temperate for free for 15 days with no fees or credit card required. Get started on building your adaptation plan while exploring the software. Questions? <a href="mailto:support@temperate.io">Contact us</a> or check out our <a routerLink="/faq">FAQ page.</a>
+          </p>
+        </div>
+        <button class="contact-iclei button button-primary"
+                *ngIf="hostname !== 'temperate.io'"
+                routerLink="/register">Create an account</button>
+      </div>
+    </section>
+  </main>
+</div>
