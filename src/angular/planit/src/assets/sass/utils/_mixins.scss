@@ -54,7 +54,6 @@
   }
 }
 
-
 @mixin button-focus-outline() {
   box-shadow: 0 0 0 2px rgba($brand-secondary, 0.5);
   outline: 0;
@@ -63,4 +62,34 @@
 @mixin light-on-dark() {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin compact-concern() {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  width: 32%;
+  min-height: 10rem;
+  padding-top: $space-large;
+  padding-bottom: $space-large;
+  padding-left: 7rem;
+  background-position: 1.5rem center;
+  background-size: 4.5rem;
+  pointer-events: none;
+
+  .concern-data {
+    align-items: flex-start;
+    justify-content: center;
+
+    .concern-name {
+      margin-top: -$space-small;
+      text-align: left;
+    }
+
+    .concern-stats {
+      margin-top: $space-tiny;
+      text-align: left;
+    }
+  }
 }

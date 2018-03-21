@@ -1,125 +1,100 @@
 .top-concerns {
   display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-}
-
-.concern-name {
-  color: $concern-title-color;
-  font-size: $concern-title-size;
-  text-align: center;
-  line-height: $concern-title-line-height;
-  height: 5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 .concern {
-  background-color: $white;
+  position: relative;
+  flex: none;
+  width: 24%;
+  min-width: 18rem;
+  min-height: 17.8rem;
+  margin: 0 1% 1% 0;
   border: $concern-border;
   border-radius: $border-radius;
-  flex: 0 0 24%;
-  margin: 0.5%;
-  position: relative;
+  padding: 11rem $space-medium $space-xlarge;
+  background-color: $white;
+  background-repeat: no-repeat;
+  background-position: center $space-xlarge;
+  background-size: 8.4rem;
   outline: $concern-outline;
-  outline-offset: -($concern-outline-width+1px);
+  outline-offset: -($concern-outline-width + 1px);
 
-  &:last-child {
-    margin-right: 0;
+  &::before {
+    display: none;
+    content: '';
   }
 
-  &:before {
-    content: "";
-    display: block;
-    padding-top: 100%;
-  }
-
-  .concern-content {
-    width: 100%;
+  .concern-actions {
     position: absolute;
-    top: 0; right: 0; bottom: 5.5rem; right: 0;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 50%;
+    top: $space-base;
+    right: $space-base;
+
+    .icon-lock {
+      color: $concern-readonly-icon-color;
+      font-size: $text-base;
+      pointer-events: none;
+    }
+
+    .button {
+      opacity: 0;
+      transition: opacity .25s;
+    }
   }
 
-  .icon-lock {
-    color: $concern-readonly-icon-color;
-    font-size: $text-base;
-    position: absolute;
-    top: $space-medium;
-    right: $space-medium;
+  .concern-data {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+
+    .concern-name {
+      color: $concern-title-color;
+      font-size: $concern-title-size;
+      line-height: $concern-title-line-height;
+      text-align: center;
+    }
+
+    .concern-stats {
+      margin-top: $space-tiny;
+      color: $concern-stats-color;
+      font-size: $concern-stats-size;
+      line-height: $concern-stats-line-height;
+      text-align: center;
+    }
   }
 
   &:hover:not(.pre-selected) {
     border: $concern-border-hover;
-    box-shadow: 0px 0px 20px rgba($neutral-4, 0.5);
+    box-shadow: 0 0 20px rgba($neutral-4, 0.5);
     outline: $concern-outline-hover;
 
-    .concern-options {
+    .concern-actions .button {
       opacity: 1;
-      z-index: 9999;
-      pointer-events: all;
-      cursor: pointer;
     }
 
     .concern-name {
       color: $concern-title-color-hover;
     }
   }
-}
 
-.concern-options {
-  position: absolute;
-  right:  $space-medium;
-  top:  $space-medium;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .25s;
-}
-
-.concern-data {
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 2;
-}
-
-.concern-stats {
-  .stat {
-    display: flex;
-    align-items: flex-end;
-    line-height: 1;
-
-    .forward-slash {
-      line-height: 2;
-    }
-
-    .button {
-      color: $white;
-      padding: 0.5rem;
-
-      &:hover, &.hover,
-      &:active, &.active, {
-        color: $brand-primary;
-      }
-
-      &:focus, &.focus {
-        color: $neutral-1;
-        outline: 0;
-      }
-    }
+  @media screen and (max-width: 80rem) {
+    width: 32%;
   }
 
-  .number {
-    font-size: $concern-title-size;
+  @media screen and (max-width: 64rem) {
+    width: 49%;
   }
 
-  .unit {
-    line-height: 1.2;
-    font-size: $concern-title-size;
+  @media screen and (max-width: 38rem) {
+    @include compact-concern();
+    width: 100%;
+    margin-right: 0;
+    padding-left: 8rem;
+    background-position: 2rem center;
   }
 }
 
@@ -150,209 +125,209 @@
   ///////////////////////
   // Hazards
   ///////////////////////
-  &.icon-air-borne-disease .concern-content {
+  &.icon-air-borne-disease {
     background-image: url(../images/hazards/air-borne-disease.svg);
   }
-  &.icon-atmospheric-co2-concentrations .concern-content {
+  &.icon-atmospheric-co2-concentrations {
     background-image: url(../images/hazards/atmospheric-co2-concentrations.svg);
   }
-  &.icon-avalanche .concern-content {
+  &.icon-avalanche {
     background-image: url(../images/hazards/avalanche.svg);
   }
-  &.icon-changed-seasonal-patterns .concern-content {
+  &.icon-changed-seasonal-patterns {
     background-image: url(../images/hazards/changed-seasonal-patterns.svg);
   }
-  &.icon-changed-seasonal-patterns .concern-content {
+  &.icon-changed-seasonal-patterns {
     background-image: url(../images/hazards/changed-seasonal-patterns.svg);
   }
-  &.icon-coastal-flood .concern-content {
+  &.icon-coastal-flood {
     background-image: url(../images/hazards/coastal-flood.svg);
   }
-  &.icon-cold-wave .concern-content {
+  &.icon-cold-wave {
     background-image: url(../images/hazards/cold-wave.svg);
   }
-  &.icon-drought .concern-content {
+  &.icon-drought {
     background-image: url(../images/hazards/drought.svg);
   }
-  &.icon-extratropical-storm .concern-content {
+  &.icon-extratropical-storm {
     background-image: url(../images/hazards/extratropical-storm.svg);
   }
-  &.icon-extreme-cold-days .concern-content {
+  &.icon-extreme-cold-days {
     background-image: url(../images/hazards/extreme-cold-days.svg);
   }
-  &.icon-extreme-hot-days .concern-content {
+  &.icon-extreme-hot-days {
     background-image: url(../images/hazards/extreme-hot-days.svg);
   }
-  &.icon-extreme-winter-conditions .concern-content {
+  &.icon-extreme-winter-conditions {
     background-image: url(../images/hazards/extreme-winter-conditions.svg);
   }
-  &.icon-flash-flood .concern-content {
+  &.icon-flash-flood {
     background-image: url(../images/hazards/flash-and-surface-flood.svg);
   }
-  &.icon-fog .concern-content {
+  &.icon-fog {
     background-image: url(../images/hazards/fog.svg);
   }
-  &.icon-forest-fire .concern-content {
+  &.icon-forest-fire {
     background-image: url(../images/hazards/forest-fire.svg);
   }
-  &.icon-groundwater-flood .concern-content {
+  &.icon-groundwater-flood {
     background-image: url(../images/hazards/groundwater-flood.svg);
   }
-  &.icon-hail .concern-content {
+  &.icon-hail {
     background-image: url(../images/hazards/hail.svg);
   }
-  &.icon-heat-wave .concern-content {
+  &.icon-heat-wave {
     background-image: url(../images/hazards/heat-wave.svg);
   }
-  &.icon-heavy-snow .concern-content {
+  &.icon-heavy-snow {
     background-image: url(../images/hazards/heavy-snow.svg);
   }
-  &.icon-hurricane .concern-content {
+  &.icon-hurricane {
     background-image: url(../images/hazards/hurricane.svg);
   }
-  &.icon-insect-infestation .concern-content {
+  &.icon-insect-infestation {
     background-image: url(../images/hazards/insect-infestation.svg);
   }
-  &.icon-landslide .concern-content {
+  &.icon-landslide {
     background-image: url(../images/hazards/landslide.svg);
   }
-  &.icon-lightning-thunderstorm .concern-content {
+  &.icon-lightning-thunderstorm {
     background-image: url(../images/hazards/lightning-and-thunderstorms.svg);
   }
-  &.icon-monsoon .concern-content {
+  &.icon-monsoon {
     background-image: url(../images/hazards/monsoon.svg);
   }
-  &.icon-ocean-acidification .concern-content {
+  &.icon-ocean-acidification {
     background-image: url(../images/hazards/ocean-acidification.svg);
   }
-  &.icon-permanent-inundation .concern-content {
+  &.icon-permanent-inundation {
     background-image: url(../images/hazards/permanent-inundation.svg);
   }
-  &.icon-rain-storm .concern-content {
+  &.icon-rain-storm {
     background-image: url(../images/hazards/rain-storm.svg);
   }
-  &.icon-reduced-snowpack .concern-content {
+  &.icon-reduced-snowpack {
     background-image: url(../images/hazards/reduced-snowpack.svg);
   }
-  &.icon-river-flood .concern-content {
+  &.icon-river-flood {
     background-image: url(../images/hazards/river-flood.svg);
   }
-  &.icon-rockfall .concern-content {
+  &.icon-rockfall {
     background-image: url(../images/hazards/rockfall.svg);
   }
-  &.icon-salt-water-intrusion .concern-content {
+  &.icon-salt-water-intrusion {
     background-image: url(../images/hazards/salt-water-intrusion.svg);
   }
-  &.icon-severe-wind .concern-content {
+  &.icon-severe-wind {
     background-image: url(../images/hazards/severe-wind.svg);
   }
-  &.icon-storm-surge .concern-content {
+  &.icon-storm-surge {
     background-image: url(../images/hazards/storm-surge.svg);
   }
-  &.icon-subsidence .concern-content {
+  &.icon-subsidence {
     background-image: url(../images/hazards/subsidence.svg);
   }
-  &.icon-tornado .concern-content {
+  &.icon-tornado {
     background-image: url(../images/hazards/tornado.svg);
   }
-  &.icon-tropical-storm .concern-content {
+  &.icon-tropical-storm {
     background-image: url(../images/hazards/tropical-storm.svg);
   }
-  &.icon-vector-borne-disease .concern-content {
+  &.icon-vector-borne-disease {
     background-image: url(../images/hazards/vector-borne-disease.svg);
   }
-  &.icon-water-borne-disease .concern-content {
+  &.icon-water-borne-disease {
     background-image: url(../images/hazards/water-borne-disease.svg);
   }
-  &.icon-wildfires .concern-content {
+  &.icon-wildfires {
     background-image: url(../images/hazards/wildfires.svg);
   }
 
   ///////////////////////
   // Community systems
   ///////////////////////
-  &.icon-agriculture .concern-content {
+  &.icon-agriculture {
     background-image: url(../images/community-system/agriculture.svg);
   }
-  &.icon-business-continuity .concern-content {
+  &.icon-business-continuity {
     background-image: url(../images/community-system/business-continuity.svg);
   }
-  &.icon-community-and-culture .concern-content {
+  &.icon-community-and-culture {
     background-image: url(../images/community-system/community-and-culture.svg);
   }
-  &.icon-ecological-function .concern-content {
+  &.icon-ecological-function {
     background-image: url(../images/community-system/ecological-function.svg);
   }
-  &.icon-emergency-management .concern-content {
+  &.icon-emergency-management {
     background-image: url(../images/community-system/emergency-management.svg);
   }
-  &.icon-emergency-services .concern-content {
+  &.icon-emergency-services {
     background-image: url(../images/community-system/emergency-services.svg);
   }
-  &.icon-emotional-and-mental-health .concern-content {
+  &.icon-emotional-and-mental-health {
     background-image: url(../images/community-system/emotional-and-mental-well-being.svg);
   }
-  &.icon-employment-and-job-access .concern-content {
+  &.icon-employment-and-job-access {
     background-image: url(../images/community-system/employment-and-job-access.svg);
   }
-  &.icon-energy .concern-content {
+  &.icon-energy {
     background-image: url(../images/categories/energy.svg);
   }
-  &.icon-energy-delivery .concern-content {
+  &.icon-energy-delivery {
     background-image: url(../images/community-system/energy-delivery.svg);
   }
-  &.icon-fisheries .concern-content {
+  &.icon-fisheries {
     background-image: url(../images/community-system/fishery.svg);
   }
-  &.icon-forestry .concern-content {
+  &.icon-forestry {
     background-image: url(../images/community-system/forestry.svg);
   }
-  &.icon-food-supply .concern-content {
+  &.icon-food-supply {
     background-image: url(../images/community-system/food-supply.svg);
   }
-  &.icon-government-continuity .concern-content {
+  &.icon-government-continuity {
     background-image: url(../images/community-system/government-continuity.svg);
   }
-  &.icon-housing-access .concern-content {
+  &.icon-housing-access {
     background-image: url(../images/community-system/housing-access.svg);
   }
-  &.icon-industrial-operations .concern-content {
+  &.icon-industrial-operations {
     background-image: url(../images/community-system/industrial-operations.svg);
   }
-  &.icon-industrial .concern-content {
+  &.icon-industrial {
     background-image: url(../images/community-system/industrial.svg);
   }
-  &.icon-internet-and-communications .concern-content {
+  &.icon-internet-and-communications {
     background-image: url(../images/community-system/internet-and-communications.svg);
   }
-  &.icon-law-and-order .concern-content {
+  &.icon-law-and-order {
     background-image: url(../images/community-system/law-and-order.svg);
   }
-  &.icon-public-health .concern-content {
+  &.icon-public-health {
     background-image: url(../images/community-system/public-health.svg);
   }
-  &.icon-public-safety .concern-content {
+  &.icon-public-safety {
     background-image: url(../images/community-system/public-safety.svg);
   }
-  &.icon-quality-of-life .concern-content {
+  &.icon-quality-of-life {
     background-image: url(../images/community-system/quality-of-life.svg);
   }
-  &.icon-recreation .concern-content {
+  &.icon-recreation {
     background-image: url(../images/community-system/recreation.svg);
   }
-  &.icon-tourism .concern-content {
+  &.icon-tourism {
     background-image: url(../images/community-system/tourism.svg);
   }
-  &.icon-transportation .concern-content {
+  &.icon-transportation {
     background-image: url(../images/community-system/transportation.svg);
   }
-  &.icon-waste-management .concern-content {
+  &.icon-waste-management {
     background-image: url(../images/community-system/waste-management.svg);
   }
-  &.icon-wastewater-storm-management .concern-content {
+  &.icon-wastewater-storm-management {
     background-image: url(../images/community-system/wastewater-and-storm-management.svg);
   }
-  &.icon-water-supply .concern-content {
+  &.icon-water-supply {
     background-image: url(../images/community-system/water-supply.svg);
   }
 }
