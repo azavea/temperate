@@ -1,11 +1,14 @@
 .marketing-hero {
   padding: 0;
   margin: 0 auto;
+  position: relative;
 
   .section-content {
-    display: flex;
-    flex-direction: column-reverse;
-    max-width: $marketing-hero-max-width;
+    @media all and (min-width: 41.750em) {
+      display: flex;
+      flex-direction: column;
+      max-width: $marketing-hero-max-width;
+    }
     
     @media all and (min-width: 75.000em) {
       align-items: center;
@@ -17,14 +20,25 @@
   .overview {
     padding: $space-xxlarge $space-xlarge;
     margin: 0 auto;
-    max-width: $marketing-overview-max-width;
+
+    @media all and (min-width: 41.750em) {
+      max-width: 35rem;
+      margin: unset;
+      background-color: $marketing-background-color;
+      z-index: 1;
+    }
 
     @media all and (min-width: 48.250em) {
       align-items: flex-start;
       display: flex;
       flex-direction: column;
+    }
+
+    @media all and (min-width: 75.000em) {
+      background-color: transparent;
       padding: $space-xxlarge 0;
       justify-content: center;
+      max-width: 45rem;
     }
 
     @media all and (min-width: 81.250em) {
@@ -54,10 +68,33 @@
   .marketing-hero-image {
     background: $marketing-image-background-color url("../images/marketing/city.jpg") no-repeat center;
     background-size: cover;
-    width: 100%;
-    height: 15rem;
+    width: auto;
+    max-width: 100%;
+    margin: 0 $space-xlarge;
+
+    &:after {
+      content: "";
+      display: block;
+      padding-bottom: 75%;
+    }
+
+    @media all and (min-width: 41.750em) {
+      min-height: 20rem;
+      width: 60%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      &:after { 
+        display: none;
+      }
+    }
 
     @media all and (min-width: 75.000em) {
+      position: relative;
+      top: auto;
+      right: auto;
       width: 50%;
       height: 80vh;
       max-height: 85rem;
