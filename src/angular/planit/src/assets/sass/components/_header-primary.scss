@@ -48,8 +48,8 @@
 }
 
 .banner {
-  background-color: $brand-primary;
-  color: $neutral-0;
+  background-color: $brand-warning;
+  color: $black;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,16 +57,6 @@
 
   @media (max-width: 37.5rem) {
     font-size: $text-tiny;
-  }
-
-  .button-link {
-    color: $white;
-
-    &:active,
-    &:focus,
-    &:hover {
-      color: $neutral-2;
-    }
   }
 
   .button {
