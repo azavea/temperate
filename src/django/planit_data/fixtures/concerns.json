@@ -6,8 +6,8 @@
         "indicator": [
             "heat_wave_incidents"
         ],
-        "tagline_positive": "more heat waves",
-        "tagline_negative": "fewer heat waves",
+        "tagline_positive": "more heat waves each year",
+        "tagline_negative": "fewer heat waves each year",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
@@ -20,8 +20,8 @@
         "indicator": [
             "dry_spells"
         ],
-        "tagline_positive": "more dry spells",
-        "tagline_negative": "fewer dry spells",
+        "tagline_positive": "more dry spells each year",
+        "tagline_negative": "fewer dry spells each year",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
@@ -48,8 +48,8 @@
         "indicator": [
             "extreme_precipitation_events"
         ],
-        "tagline_positive": "more intense storms",
-        "tagline_negative": "fewer intense storms",
+        "tagline_positive": "more intense storms each year",
+        "tagline_negative": "fewer intense storms each year",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
@@ -74,8 +74,8 @@
         "indicator": [
             "extreme_cold_events"
         ],
-        "tagline_positive": "more extreme cold events",
-        "tagline_negative": "fewer extreme cold events",
+        "tagline_positive": "more extreme cold events each year",
+        "tagline_negative": "fewer extreme cold events each year",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
