@@ -23,7 +23,7 @@
     padding: $space-xxlarge;
     background-color: $white;
     box-shadow: $pricing-plan-card-shadow;
-    transition: transform 25ms;
+    transition: transform 0.25s;
 
     @media screen and (max-width: $pricing-breakpoint) {
       min-width: $pricing-card-min-width-narrow;
@@ -33,6 +33,7 @@
 
     &:hover {
       transform: scale(1.02);
+      box-shadow: $pricing-plan-card-shadow-hover;
     }
 
     > .tier {
