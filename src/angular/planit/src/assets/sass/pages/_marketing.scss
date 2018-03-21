@@ -9,7 +9,7 @@
       flex-direction: column;
       max-width: $marketing-hero-max-width;
     }
-    
+
     @media all and (min-width: 75.000em) {
       align-items: center;
       flex-direction: row;
@@ -18,12 +18,17 @@
   }
 
   .overview {
-    padding: $space-xxlarge $space-xlarge;
+    flex: auto;
+    padding: $space-xlarge;
     margin: 0 auto;
+    max-width: 47rem;
 
     @media all and (min-width: 41.750em) {
-      max-width: 35rem;
+      min-width: 35rem;
+      width: 47rem;
+      max-width: 47rem;
       margin: unset;
+      padding: $space-xxlarge;
       background-color: $marketing-background-color;
       z-index: 1;
     }
@@ -38,7 +43,6 @@
       background-color: transparent;
       padding: $space-xxlarge 0;
       justify-content: center;
-      max-width: 45rem;
     }
 
     @media all and (min-width: 81.250em) {
@@ -67,6 +71,7 @@
 
   .marketing-hero-image {
     @media all and (min-width: 41.750em) {
+      flex: initial;
       background: $marketing-image-background-color url("../images/marketing/city.jpg") no-repeat center;
       background-size: cover;
       min-height: 20rem;
@@ -76,7 +81,7 @@
       right: 0;
       bottom: 0;
 
-      &:after { 
+      &:after {
         display: none;
       }
     }
