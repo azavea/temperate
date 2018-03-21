@@ -11,8 +11,9 @@ import {
 } from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 
-import { SharedModule } from '../shared/shared.module';
+import { ActionStepsModule } from '../action-steps/action-steps.module';
 import { AssessmentModule } from '../assessment/assessment.module';
+import { SharedModule } from '../shared/shared.module';
 
 import {
   CityProfileSummaryComponent
@@ -28,6 +29,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
 @NgModule({
   imports: [
     CommonModule,
+    ActionStepsModule,
     AssessmentModule,
     DashboardRoutingModule,
     ReactiveFormsModule,

@@ -94,6 +94,10 @@ export class DashboardComponent implements OnInit {
     return [];
   }
 
+  get areAnyRisksAssessed(): boolean {
+    return Risk.areAnyRisksAssessed(this.risks);
+  }
+
   private getGroupedRisks() {
     this.groupedRisks = undefined;
     this.riskService.groupByWeatherEvent().subscribe(r => {

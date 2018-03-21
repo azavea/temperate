@@ -6,8 +6,13 @@
       <as-action-card *ngIf="risk.action"
                       [action]="risk.action"
                       [risk]="risk"
+                      [showFullTitle]="showFullTitle"
                       (delete)="deleteAction($event)"></as-action-card>
-      <as-risk-card *ngIf="!risk.action" [risk]="risk"></as-risk-card>
+      <as-risk-card *ngIf="!risk.action"
+                    [risk]="risk"
+                    [showFullTitle]="showFullTitle"></as-risk-card>
     </ng-container>
   </div>
 </div>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

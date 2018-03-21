@@ -14,6 +14,7 @@ export class ActionCardContainerComponent implements OnInit {
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
 
   @Input() public risks: Risk[];
+  @Input() public showFullTitle = false;
 
   constructor(private actionService: ActionService) { }
 

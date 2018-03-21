@@ -43,10 +43,10 @@ export class ActionPickerComponent implements OnInit {
   goToWizard(suggestion?: SuggestedAction) {
     // route to wizard, passing risk ID in URL, and suggestion if given, without changing URL
     if (suggestion) {
-      this.router.navigate(['action/new', this.risk.id, suggestion.id],
+      this.router.navigate(['/actions/action/new', this.risk.id, suggestion.id],
                            {relativeTo: this.route, skipLocationChange: true});
     } else {
-      this.router.navigate(['action/new', this.risk.id],
+      this.router.navigate(['/actions/action/new', this.risk.id],
                            {relativeTo: this.route, skipLocationChange: true});
     }
     // change URL to wizard path without risk or suggested action IDs and push to browser history

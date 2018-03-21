@@ -13,7 +13,7 @@
           [potentialImpact]="risk.impact_magnitude">
         </va-adaptive-need-box>
       </span>
-      {{ risk.community_system.name }}
+      {{ showFullTitle ? risk.title() : risk.community_system.name }}
     </h3>
     <div class="action-peek" *ngIf="!isOpen">{{ action.name }}</div>
   </header>
@@ -28,10 +28,10 @@
 
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
       <li role="menuitem">
-        <a class="dropdown-item" [routerLink]="['action', action.id]" [queryParams]="{step: 'review'}">View</a>
+        <a class="dropdown-item" [routerLink]="'/actions/action/' + action.id" [queryParams]="{step: 'review'}">View</a>
       </li>
       <li role="menuitem">
-        <a class="dropdown-item" [routerLink]="['action', action.id]">Edit</a>
+        <a class="dropdown-item" [routerLink]="'/actions/action/' + action.id">Edit</a>
       </li>
       <div class="divider"></div>
       <li class="action-destructive" role="menuitem">

@@ -36,14 +36,16 @@ import { ActionCardContainerComponent } from './action-card-container/action-car
     ActionWizardModule,
     AssessmentModule
   ],
-  exports: [],
   declarations: [
+    ActionCardContainerComponent,
     ActionPickerComponent,
     ActionStepsOverviewComponent,
     ActionCardComponent,
     EditActionComponent,
     RiskCardComponent,
-    ActionCardContainerComponent
+  ],
+  exports: [
+    ActionCardContainerComponent,
   ],
   providers: [],
 })
