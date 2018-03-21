@@ -1,6 +1,9 @@
-.pricing-section.pricing-faq {
+.pricing-faq {
   padding-top: $pricing-section-padding-vertical-large;
   padding-bottom: $pricing-section-padding-vertical-large;
+}
+
+.pricing-section.pricing-faq {
   background-color: $neutral-2;
 }
 
@@ -48,10 +51,6 @@
     > .faq > .question {
       font-size: $text-medium;
       font-weight: $font-weight-light;
-    }
-
-    > .faq > .answer {
-
     }
   }
 }
