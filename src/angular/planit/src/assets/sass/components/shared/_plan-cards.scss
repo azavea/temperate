@@ -89,11 +89,13 @@
 
     > .recommended {
       position: absolute;
-      left: $space-xxlarge;
-      bottom: $space-medium;
-      color: $brand-persimmon;
+      top: 0;
+      right: 0;
+      padding: 0 $space-medium $space-small $space-large;
+      border-radius: 0 0 0 $border-radius;
+      color: $black;
+      background: $brand-leaf;
       font-size: $text-tiny;
-      font-weight: $font-weight-bold;
       text-align: left;
       text-transform: uppercase;
     }
