@@ -27,7 +27,7 @@
     </alert>
 
     <section *ngIf="risks !== undefined">
-      <div *ngIf="!isARiskAssessed" class="actions-empty">
+      <div *ngIf="!areAnyRisksAssessed" class="actions-empty">
         <h3>You&rsquo;ll need to assess risks before you can take action.</h3>
         <p>
           Once you have risks assessed in your Vulnerability Assessment, you can plan to
@@ -35,20 +35,8 @@
         </p>
         <a class="button" routerLink="/assessment">Assess risks</a>
       </div>
-
-      <div *ngIf="isARiskAssessed" class="actions-available">
-        <div class="card-container">
-          <!-- Show risks in the order they return, so that a risk always shows at the same
-               position. This helps consistency for users. -->
-          <ng-container *ngFor="let risk of risks">
-            <as-action-card *ngIf="risk.action"
-                            [action]="risk.action"
-                            [risk]="risk"
-                            (delete)="deleteAction($event)"></as-action-card>
-            <as-risk-card *ngIf="!risk.action" [risk]="risk"></as-risk-card>
-          </ng-container>
-        </div>
-      </div>
+      <as-action-card-container [risks]="risks" *ngIf="areAnyRisksAssessed">
+      </as-action-card-container>
     </section>
   </main>
 </div>

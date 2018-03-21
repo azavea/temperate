@@ -26,6 +26,10 @@ export class Risk {
   intensity?: OrgRiskDirectionalOption;
   probability?: OrgRiskRelativeOption;
 
+  static areAnyRisksAssessed(risks: Risk[]): boolean {
+    return !!risks.find(risk => risk.isAssessed());
+  }
+
   constructor(object: any) {
     Object.assign(this, object);
     if (object.community_system) {
