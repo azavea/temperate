@@ -63,7 +63,7 @@
         "tagline_positive": "higher ocean levels",
         "tagline_negative": "lower ocean levels",
         "is_relative": false,
-        "static_value": 2.3,
+        "static_value": 0.6,
         "static_units": "ft"
     }
 },
