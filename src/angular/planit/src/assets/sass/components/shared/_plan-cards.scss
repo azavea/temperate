@@ -38,24 +38,20 @@
     > .tier {
       align-self: center;
       margin-top: -$space-medium;
+      margin-bottom: $space-xxlarge;
       font-size: $text-small;
       font-weight: $font-weight-bold;
       text-transform: uppercase;
       text-align: center;
     }
 
-    > .icon {
-      align-self: center;
-      margin-bottom: 4rem;
-      padding: $space-large;
-      font-size: $text-jumbo;
-    }
-
     > .heading {
+      position: relative;
       display: flex;
       flex-flow: row nowrap;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: $space-xxlarge;
       font-size: $text-medium;
       font-weight: $font-weight-regular;
     }
@@ -65,7 +61,7 @@
     }
 
     > .heading > .cost {
-      color: $neutral-3;
+      color: $neutral-4;
       font-size: $text-medium;
       font-weight: $font-weight-light;
 
@@ -84,11 +80,22 @@
 
     > .value {
       position: absolute;
-      right: $space-xlarge;
+      right: $space-xxlarge;
       bottom: $space-medium;
       color: $neutral-3;
       font-size: $text-tiny;
       text-align: right;
+    }
+
+    > .recommended {
+      position: absolute;
+      left: $space-xxlarge;
+      bottom: $space-medium;
+      color: $brand-persimmon;
+      font-size: $text-tiny;
+      font-weight: $font-weight-bold;
+      text-align: left;
+      text-transform: uppercase;
     }
   }
 }
