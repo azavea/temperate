@@ -3,7 +3,6 @@
 
   .main-content {
     flex: 0 1 $content-max-width;
-    padding: 2rem 4rem;
     // width: 0; is for d3.js charts to respond on resize.
     // refer to: https://stackoverflow.com/questions/7985021/css-flexbox-issue-why-is-the-width-of-my-flexchildren-affected-by-their-content
     width: 0;
@@ -14,6 +13,31 @@
       padding: $space-large $space-xxlarge;
       max-width: $content-max-width;
     }
+  }
+}
+
+.main-container-full {
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  background-color: $neutral-0;
+
+  .main-content {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .heading {
+    font-size: $text-large;
+    font-weight: $font-weight-light;
+  }
+
+  .section-content {
+    margin: 0 auto;
+    max-width: 80rem;
+    width: 100%;
   }
 }
   
