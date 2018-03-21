@@ -94,29 +94,5 @@
         "static_value": null,
         "static_units": ""
     }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 27,
-    "fields": {
-        "indicator": null,
-        "tagline_positive": "more atmospheric CO2",
-        "tagline_negative": "less atmospheric CO2",
-        "is_relative": true,
-        "static_value": 123.0,
-        "static_units": ""
-    }
-},
-{
-    "model": "planit_data.concern",
-    "pk": 28,
-    "fields": {
-        "indicator": null,
-        "tagline_positive": "more oceanic CO2",
-        "tagline_negative": "less oceanic CO2",
-        "is_relative": true,
-        "static_value": 123.0,
-        "static_units": ""
-    }
 }
 ]

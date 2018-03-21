@@ -290,7 +290,7 @@
     "fields": {
         "name": "Ocean acidification",
         "coastal_only": true,
-        "concern": 28,
+        "concern": null,
         "display_class": "icon-ocean-acidification",
         "indicators": []
     }
@@ -571,7 +571,7 @@
     "fields": {
         "name": "Atmospheric CO2 concentrations",
         "coastal_only": false,
-        "concern": 27,
+        "concern": null,
         "display_class": "icon-atmospheric-co2-concentrations",
         "indicators": []
     }
