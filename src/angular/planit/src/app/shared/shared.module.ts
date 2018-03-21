@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
-import { BsDropdownModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -51,6 +51,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     CommonModule,
     ChartsModule,
     FormsModule,
+    ModalModule,
     NouisliderModule,
     PopoverModule,
     RouterModule,

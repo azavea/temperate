@@ -1,0 +1,23 @@
+<div *ngIf="isModalShown" class="modal" bsModal #expirationModal="bs-modal" [config]="{backdrop: 'static', show: true, keyboard: false}">
+  <div class="modal-content expiration-modal">
+    <header class="modal-header">
+      <h1 class="modal-title" *ngIf="subscription.name === options.FreeTrial">Your {{ subscription.fullName | lowercase }} has ended</h1>
+      <h1 class="modal-title" *ngIf="subscription.name !== options.FreeTrial">Your {{ subscription.fullName }} has ended</h1>
+    </header>
+
+    <div class="modal-body">
+      <p *ngIf="subscription === 'Free trial'">
+        We hope that you have liked using Temperate so far. Upgrade to continue building on the work you&rsquo;ve accomplished!
+      </p>
+      <p *ngIf="subscription !== 'Free trial'">
+        We hope you&rsquo;ve liked using Temperate so far. To continue building on the work you&rsquo;ve accomplished, request another invoice on the Manage Subscriptions page.
+      </p>
+      <footer class="modal-footer">
+        <div class="button-group">
+          <button class="button button-primary" routerLink="/subscription">Upgrade</button>
+          <a class="download-link" (click)="planService.export()">Download your progress in a CSV</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>

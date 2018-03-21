@@ -26,6 +26,7 @@ import { AssessmentModule } from './assessment/assessment.module';
 import { CoreModule } from './core/core.module';
 import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
 import { FaqComponent } from './faq/faq.component';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
@@ -51,6 +52,7 @@ import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
+import { ExpirationGuard } from './core/services/expiration-guard.service';
 import { InviteUserService } from './core/services/invite-user.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
@@ -84,8 +86,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 @NgModule({
   declarations: [
     AppComponent,
+    ExpirationModalComponent,
     FaqComponent,
     ForgotPasswordPageComponent,
+    ManageSubscriptionComponent,
     LoginPageComponent,
     ManageSubscriptionComponent,
     MarketingComponent,
@@ -150,6 +154,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     CollaboratorService,
     CommunitySystemService,
     DownloadService,
+    ExpirationGuard,
     InviteUserService,
     LoggedInAuthGuard,
     OrganizationService,

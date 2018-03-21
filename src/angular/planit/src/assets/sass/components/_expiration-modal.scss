@@ -1,0 +1,14 @@
+.expiration-modal {
+  text-align: center;
+
+  .button-group {
+    flex-flow: column;
+    width: 100%;
+
+    .download-link {
+      margin-top: $space-xxlarge;
+      border-bottom: 1px solid $brand-teal;
+      cursor: pointer;
+    }
+  }
+}
