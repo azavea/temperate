@@ -29,24 +29,7 @@ app-indicators {
   }
 
   .top-concerns .concern {
-    width: 32%;
-    padding-top: $space-large;
-    padding-bottom: $space-large;
-    padding-left: 7rem;
-    background-position: $space-large $space-large;
-    background-size: 4.5rem;
-    pointer-events: none;
-
-    .concern-data {
-      .concern-name {
-        text-align: left;
-      }
-
-      .concern-stats {
-        margin-top: $space-tiny;
-        text-align: left;
-      }
-    }
+    @include compact-concern();
 
     @media screen and (max-width: 50rem) {
       width: 49%;

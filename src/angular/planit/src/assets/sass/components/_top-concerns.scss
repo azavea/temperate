@@ -3,89 +3,98 @@
   flex-flow: row wrap;
   align-items: stretch;
   justify-content: flex-start;
+}
 
-  .concern {
-    position: relative;
-    flex: none;
-    width: 24%;
-    min-width: 18rem;
-    min-height: 7.6rem;
-    margin: 0 1% 1% 0;
-    border: $concern-border;
-    border-radius: $border-radius;
-    padding: 11rem $space-medium $space-medium;
-    background-color: $white;
-    background-repeat: no-repeat;
-    background-position: center $space-large;
-    background-size: 8.4rem;
-    outline: $concern-outline;
-    outline-offset: -($concern-outline-width + 1px);
+.concern {
+  position: relative;
+  flex: none;
+  width: 24%;
+  min-width: 18rem;
+  min-height: 17.8rem;
+  margin: 0 1% 1% 0;
+  border: $concern-border;
+  border-radius: $border-radius;
+  padding: 11rem $space-medium $space-xlarge;
+  background-color: $white;
+  background-repeat: no-repeat;
+  background-position: center $space-xlarge;
+  background-size: 8.4rem;
+  outline: $concern-outline;
+  outline-offset: -($concern-outline-width + 1px);
 
-    &::before {
-      display: none;
-      content: '';
+  &::before {
+    display: none;
+    content: '';
+  }
+
+  .concern-actions {
+    position: absolute;
+    top: $space-base;
+    right: $space-base;
+
+    .icon-lock {
+      color: $concern-readonly-icon-color;
+      font-size: $text-base;
+      pointer-events: none;
     }
 
-    .concern-actions {
-      position: absolute;
-      top: $space-base;
-      right: $space-base;
+    .button {
+      opacity: 0;
+      transition: opacity .25s;
+    }
+  }
 
-      .icon-lock {
-        color: $concern-readonly-icon-color;
-        font-size: $text-base;
-        pointer-events: none;
-      }
+  .concern-data {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
 
-      .button {
-        opacity: 0;
-        transition: opacity .25s;
-      }
+    .concern-name {
+      color: $concern-title-color;
+      font-size: $concern-title-size;
+      line-height: $concern-title-line-height;
+      text-align: center;
     }
 
-    .concern-data {
-      .concern-name {
-        color: $concern-title-color;
-        font-size: $concern-title-size;
-        line-height: $concern-title-line-height;
-        text-align: center;
-      }
+    .concern-stats {
+      margin-top: $space-tiny;
+      color: $concern-stats-color;
+      font-size: $concern-stats-size;
+      line-height: $concern-stats-line-height;
+      text-align: center;
+    }
+  }
 
-      .concern-stats {
-        margin-top: $space-tiny;
-        color: $concern-stats-color;
-        font-size: $concern-stats-size;
-        line-height: $concern-stats-line-height;
-        text-align: center;
-      }
+  &:hover:not(.pre-selected) {
+    border: $concern-border-hover;
+    box-shadow: 0 0 20px rgba($neutral-4, 0.5);
+    outline: $concern-outline-hover;
+
+    .concern-actions .button {
+      opacity: 1;
     }
 
-    &:hover:not(.pre-selected) {
-      border: $concern-border-hover;
-      box-shadow: 0px 0px 20px rgba($neutral-4, 0.5);
-      outline: $concern-outline-hover;
-
-      .concern-actions .button {
-        opacity: 1;
-      }
-
-      .concern-name {
-        color: $concern-title-color-hover;
-      }
+    .concern-name {
+      color: $concern-title-color-hover;
     }
+  }
 
-    @media screen and (max-width: 80rem) {
-      width: 32%;
-    }
+  @media screen and (max-width: 80rem) {
+    width: 32%;
+  }
 
-    @media screen and (max-width: 64rem) {
-      width: 49%;
-    }
+  @media screen and (max-width: 64rem) {
+    width: 49%;
+  }
 
-    @media screen and (max-width: 48rem) {
-      width: 100%;
-      margin-right: 0;
-    }
+  @media screen and (max-width: 38rem) {
+    @include compact-concern();
+    width: 100%;
+    margin-right: 0;
+    padding-left: 8rem;
+    background-position: 2rem center;
   }
 }
 

@@ -23,15 +23,11 @@
         {{ weatherEvent.name }}
       </div>
       <div class="concern-stats" *ngIf="hasConcern(weatherEvent)">
-        <span class="number">
-          {{ format(weatherEvent.concern) }}
-        </span>
-        <span class="unit" *ngIf="hasUnits(weatherEvent.concern)">
+        {{ format(weatherEvent.concern) }}
+        <ng-template [ngIf]="hasUnits(weatherEvent.concern)">
           {{ units(weatherEvent.concern) }}
-        </span>
-        <span class="description">
-          {{ weatherEvent.concern.tagline }}
-        </span>
+        </ng-template>
+        {{ weatherEvent.concern.tagline }}
       </div>
     </div>
   </div>
