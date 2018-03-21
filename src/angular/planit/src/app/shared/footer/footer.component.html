@@ -10,16 +10,18 @@
          (click)="resetScroll()"
          routerLink="/partnerships"
          routerLinkActive="current">Partnerships</a>
-      <a class="button button-inverse-dark" href="https://climate.azavea.com">Climate API</a>
+      <a class="button button-inverse-dark"
+         href="https://climate.azavea.com">Climate API</a>
+      <a class="button button-inverse-dark"
+         *ngIf="authService.isAuthenticated()"
+         (click)="resetScroll()"
+         routerLink="/faq"
+         routerLinkActive="current">FAQ</a>
       <a class="button button-inverse-dark"
          (click)="resetScroll()"
          routerLink="/"
          routerLinkActive="current"
          [queryParams]="{ ref: 'footer' }">About</a>
-      <a class="button button-inverse-dark"
-         (click)="resetScroll()"
-         routerLink="/faq"
-         routerLinkActive="current">FAQs</a>
     </div>
   </nav>
   <div class="fine-print">
