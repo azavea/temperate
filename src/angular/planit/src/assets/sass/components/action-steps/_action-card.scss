@@ -43,11 +43,16 @@
   width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: center;
 
   .card-header {
     padding: 1.7rem $space-large 1.6rem;
-    flex: 1 1 90%;
+    flex: 1 1 auto;
     cursor: pointer;
+  }
+
+  .progress {
+    flex: 0 0 10rem;
   }
 
   .more-button {
