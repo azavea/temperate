@@ -55,6 +55,9 @@
               <button class="button button-primary va-status-button"
                       *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
                       [routerLink]="['risk', risk.id]">Assess</button>
+              <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
+                           [max]="risk.getTotalRequiredPropCount()"
+                           [value]="risk.getCompletedRequiredPropCount()"></progressbar>
             </td>
             <td>
               <div class="button-group" dropdown>

@@ -47,6 +47,29 @@ export class Risk {
     return some(this.getAssessmentPropsAsBools());
   }
 
+  public getCompletedRequiredPropCount() {
+    return this.getPropsAsBools().filter(prop => prop).length;
+  }
+
+  public getTotalRequiredPropCount() {
+    return this.getPropsAsBools().length;
+  }
+
+  private getPropsAsBools(): boolean[] {
+    return [
+      !!this.weather_event,
+      !!this.community_system,
+      !!this.impact_magnitude,
+      !!this.impact_description,
+      !!this.adaptive_capacity,
+      !!this.related_adaptive_values,
+      !!this.adaptive_capacity_description,
+      !!this.frequency,
+      !!this.intensity,
+      !!this.probability
+    ];
+  }
+
   private getAssessmentPropsAsBools(): boolean[] {
     return [
       !!this.probability,
