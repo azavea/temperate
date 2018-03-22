@@ -68,18 +68,6 @@
     font-variant: tabular-nums;
   }
 
-  .progress {
-    height: $grouped-risk-progress-height;
-    margin-bottom: 0;
-    box-shadow: none;
-    background-color: $grouped-risk-progress-background;
-
-    .progress-bar {
-      background: $grouped-risk-progress-highlight-background-default;
-      box-shadow: none;
-    }
-  }
-
   .button {
     flex: 0 0 12rem;
     margin-left: $space-large;
@@ -119,13 +107,5 @@
 
   .grouped-risk-progress-title, .button {
     opacity: 0.25;
-  }
-}
-
-.grouped-risk-progress-action {
-  .progress {
-    .progress-bar {
-      background: $grouped-risk-progress-highlight-background-action;
-    }
   }
 }

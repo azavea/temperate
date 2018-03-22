@@ -47,7 +47,7 @@
     <div class="grouped-risk-progress">
       <h5 class="grouped-risk-progress-title">Action steps</h5>
       <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
-      <progressbar [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
+      <progressbar class="progress-bar-action" [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
     <a class="button button-small button-positive" 
        routerLink="/actions"
