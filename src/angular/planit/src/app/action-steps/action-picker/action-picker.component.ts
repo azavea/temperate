@@ -18,7 +18,8 @@ export class ActionPickerComponent implements OnInit {
 
   public loading = true;
   public showPrompt = true;
-  public isOpen = false;
+
+  private showMore = {};
 
   constructor(private location: Location,
               private actionService: ActionService,
@@ -53,7 +54,11 @@ export class ActionPickerComponent implements OnInit {
     this.closeModal();
   }
 
-  public suggestionToggled() {
-    this.isOpen = !this.isOpen;
+  isOpen(action: Action) {
+    return this.showMore[action.id];
+  }
+
+  toggleMore(action: Action) {
+    this.showMore[action.id] = !this.showMore[action.id];
   }
 }

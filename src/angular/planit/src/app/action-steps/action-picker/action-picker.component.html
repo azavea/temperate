@@ -66,19 +66,19 @@
     <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="action-main">
         <div class="action-name-container"
-            [ngClass]="{'suggestion-closed': !isOpen}">
+            [ngClass]="{'suggestion-closed': !isOpen(suggestion)}">
             <h2 class="action-name">
               {{suggestion.name}}
             </h2>
-            <button type="button" 
+            <button type="button"
                   class="button-link toggle-button toggle-button-less"
-                  (click)="suggestionToggled()"
-                  *ngIf="isOpen">Show less</button>
+                  (click)="toggleMore(suggestion)"
+                  *ngIf="isOpen(suggestion)">Show less</button>
         </div>
-        <button type="button" 
+        <button type="button"
                 class="button-link toggle-button toggle-button-more"
-                (click)="suggestionToggled()"
-                *ngIf="!isOpen">
+                (click)="toggleMore(suggestion)"
+                *ngIf="!isOpen(suggestion)">
             Show more
         </button>
         <button class="button button-primary"
