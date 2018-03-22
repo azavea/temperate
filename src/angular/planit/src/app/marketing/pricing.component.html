@@ -41,16 +41,12 @@
           <div class="plan-card">
             <h4 class="heading">{{ hourlyPlan.header }}</h4>
             <p class="description">{{ hourlyPlan.description }}</p>
-            <button class="button button-primary"
-              [disabled]="org?.subscription_pending"
-              *ngIf="!activePlan">Contact us</button>
+            <button class="button button-primary">Contact us</button>
           </div>
           <div class="plan-card plan-card-custom">
             <h4 class="heading">{{ customPlan.header }}</h4>
             <p class="description">{{ customPlan.description }}</p>
-            <button class="button button-positive"
-              [disabled]="org?.subscription_pending"
-              *ngIf="!activePlan">Contact us</button>
+            <button class="button button-positive">Contact us</button>
           </div>
         </div>
       </div>
