@@ -1,3 +1,5 @@
+import * as every from 'lodash.every';
+
 import { ActionCategory } from './action-category.model';
 import { Risk } from './risk.model';
 
@@ -36,16 +38,30 @@ export class Action {
    * An action is considered complete if all of its editable properties have been filled out
    */
   public isComplete() {
-    return !!this.name &&
-           !!this.risk &&
-           !!this.action_goal &&
-           !!this.action_type &&
-           !!this.implementation_details &&
-           !!this.visibility &&
-           !!this.improvements_adaptive_capacity &&
-           !!this.improvements_impacts &&
-           !!this.collaborators &&
-           !!this.categories &&
-           !!this.funding;
+    return every(this.getPropsAsBools());
+  }
+
+  public getCompletedPropCount() {
+    return this.getPropsAsBools().filter(prop => prop).length;
+  }
+
+  public getTotalPropCount() {
+    return this.getPropsAsBools().length;
+  }
+
+  private getPropsAsBools() {
+    return [
+      !!this.name,
+      !!this.risk,
+      !!this.action_goal,
+      !!this.action_type,
+      !!this.implementation_details,
+      !!this.visibility,
+      !!this.improvements_adaptive_capacity,
+      !!this.improvements_impacts,
+      !!this.collaborators,
+      !!this.categories,
+      !!this.funding
+    ];
   }
 }

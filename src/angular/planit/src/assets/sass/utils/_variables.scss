@@ -335,6 +335,21 @@ $card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
 
 
+ /* * * *
+ * Progress bars
+ *
+ * * * */
+$progress-bar-height: 8px;
+$progress-border-radius: $progress-bar-height;
+$progress-bar-background: $neutral-1;
+$progress-bar-color: $white;
+$progress-bar-font-size: $text-tiny;
+$progress-bar-line-height: 1;
+$progress-bar-highlight-background-default: $brand-teal;
+$progress-bar-highlight-background-action: $brand-positive;
+
+
+
 /* * * *
  * Animations
  *
@@ -523,10 +538,6 @@ $grouped-risk-progress-percentage-color: $neutral-3;
 $grouped-risk-progress-title-size: $text-small;
 $grouped-risk-progress-title-color: $neutral-4;
 
-$grouped-risk-progress-height: 8px;
-$grouped-risk-progress-background: $neutral-1;
-$grouped-risk-progress-highlight-background-default: $brand-teal;
-$grouped-risk-progress-highlight-background-action: $brand-positive;
 $grouped-risk-indicator-color: $brand-teal;
 
 

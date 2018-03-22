@@ -17,6 +17,9 @@
     </h3>
     <div class="action-peek" *ngIf="!isOpen">{{ action.name }}</div>
   </header>
+  <progressbar class="progress-bar-action"
+               [max]="action.getTotalPropCount()"
+               [value]="action.getCompletedPropCount()"></progressbar>
   
   <div class="button-group more-button" dropdown>
     <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
