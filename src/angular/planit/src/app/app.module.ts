@@ -120,7 +120,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     OrganizationWizardModule,
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
     // Local
