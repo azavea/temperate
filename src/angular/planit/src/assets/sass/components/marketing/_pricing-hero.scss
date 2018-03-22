@@ -15,7 +15,11 @@
   }
 
   > .overview {
+    display: flex;
     flex: initial;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
     min-width: $pricing-headline-min-width;
     max-width: $pricing-headline-max-width;
     margin-right: 4%;
@@ -43,12 +47,30 @@
     }
 
     > .description {
-      margin-bottom: $space-xxlarge;
+      margin-bottom: $space-xlarge;
     }
 
-    > .button {
-      margin-top: $space-xxlarge;
+    > .cta {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: center;
+      justify-content: flex-start;
+      min-width: $marketing-hero-button-width;
+
+      > .button {
+        margin-top: $space-xxlarge;
+        min-width: $marketing-hero-button-width;
+        white-space: nowrap;
+      }
+
+      > .secondary-text {
+        margin-top: $space-large;
+        font-style: $marketing-hero-secondary-font-style;
+        text-align: center;
+      }
+
     }
+
   }
 
   > .image {

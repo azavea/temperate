@@ -10,7 +10,12 @@
             assessing hazards, access personalized indicator charts, and apply our
             strategy database to your city’s top concerns.
           </p>
-          <a href="#plans-section" class="button button-positive button-large">Sign up for free</a>
+          <div class="cta">
+            <button class="button button-positive button-large"
+                    *ngIf="hostname !== 'temperate.io'"
+                    routerLink="/register">Try free for 15 days</button>
+            <div class="secondary-text">or select a package below</div>
+          </div>
         </div>
         <img class="image" src="assets/images/pricing/hero.png" alt="">
       </div>
@@ -41,9 +46,9 @@
         <p class="description">
           All Temperate packages give you full access to every feature. Need the
           support of adaptation experts? Most of our packages give you access to
-          our partners at ICLEI-USA. You can upgrade or cancel your Temperate package 
-          at any time. If the below packages don't suit your needs, 
-          <a href="mailto:{{ supportEmail }}">contact us</a> so we can figure out 
+          our partners at ICLEI-USA. You can upgrade or cancel your Temperate package
+          at any time. If the below packages don't suit your needs,
+          <a href="mailto:{{ supportEmail }}">contact us</a> so we can figure out
           what works for you.
         </p>
         <app-plan-selector></app-plan-selector>
@@ -78,7 +83,9 @@
             We don’t need to tell you how difficult it is to plan for climate
             change. Let Temperate help guide you through the process.
           </p>
-          <a href="#plans-section" class="button button-primary button-large">Try for free</a>
+          <button class="button button-positive button-large"
+                  *ngIf="hostname !== 'temperate.io'"
+                  routerLink="/register">Try free for 15 days</button>
         </div>
       </div>
     </section>

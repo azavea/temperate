@@ -49,7 +49,7 @@
       margin-bottom: $space-xxlarge;
       color: $white;
       text-shadow: $pricing-bottom-text-shadow;
-      
+
       a {
         color: $white;
         border-color: rgba($white, 0.5);
@@ -66,6 +66,7 @@
 
     .button {
       margin-top: $space-xxlarge;
+      min-width: $marketing-hero-button-width;
     }
   }
 }
