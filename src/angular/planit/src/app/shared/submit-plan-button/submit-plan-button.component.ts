@@ -18,6 +18,7 @@ export class SubmitPlanButtonComponent {
               private planService: PlanService) { }
 
   @HostListener('click')
+  @HostListener('keyup.enter')
   public submitPlan() {
     this.confirmSubmitModal.confirm({
       title: 'Submit your plan',
