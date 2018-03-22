@@ -68,7 +68,8 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   }
 
   finish() {
-    this.router.navigate(['actions'], {'queryParams': {'hazard': this.risk.weather_event.id}});
+    this.router.navigate(['actions'], {'queryParams':
+      {'hazard': this.risk.weather_event.id, 'fromWizard': true }});
   }
 
   getFormModel() {

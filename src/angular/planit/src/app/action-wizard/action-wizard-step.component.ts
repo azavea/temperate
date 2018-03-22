@@ -33,15 +33,20 @@ export abstract class ActionWizardStepComponent<FormModel>
     // but we're not going in any direction when exiting
     this.save(undefined).then(() => {
       this.action = this.session.getData();
-      this.cancel();
+      this.cancel(true);
     });
   }
 
-  cancel() {
+  cancel(fromFinish?: boolean) {
     if (this.action.risk) {
       this.riskService.get(this.action.risk).subscribe(r => {
-        this.router.navigate(['actions'],
-          {'queryParams': {'hazard': r.weather_event.id}});
+        const queryParams = {'queryParams': {'hazard': r.weather_event.id}};
+
+        if (fromFinish) {
+          queryParams['queryParams']['fromWizard'] = true;
+        }
+
+        this.router.navigate(['actions'], queryParams);
       });
     } else {
       this.router.navigate(['/actions']);

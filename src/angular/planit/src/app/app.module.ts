@@ -68,6 +68,7 @@ import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
   AccordionModule,
+  AlertModule,
   BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
@@ -110,6 +111,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     HttpModule,
     // 3rd party
     AccordionModule.forRoot(),
+    AlertModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
