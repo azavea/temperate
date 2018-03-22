@@ -1,12 +1,5 @@
 // Alert
 
-.alert {
-  padding: $alert-padding-vertical $alert-padding-horizontal;
-  border-radius: $alert-border-radius;
-  border: 2px solid transparent;
-  font-size: $alert-font-size;
-}
-
 @include generate-alert();
 
 @include generate-alert(-primary, $brand-primary);
@@ -22,4 +15,29 @@
 .alert-heading {
   font-size: $alert-heading-font-size;
   font-weight: $alert-heading-font-weight;
+}
+
+.alert {
+  margin-bottom: $space-xlarge;
+  padding: $alert-padding-vertical $alert-padding-horizontal;
+  border-radius: $alert-border-radius;
+  border: 2px solid transparent;
+  font-size: $alert-font-size;
+
+  p {
+    color: inherit;
+  }
+
+  a {
+    border-bottom-color: rgba($black, .8) !important;
+  }
+
+  &.alert-primary {
+    color: $white;
+
+    a {
+      color: $white;
+      border-bottom-color: rgba($white, .8) !important;
+    }
+  }
 }

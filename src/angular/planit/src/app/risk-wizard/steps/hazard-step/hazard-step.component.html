@@ -1,7 +1,7 @@
-<div class="step-header">  
-  <p *ngIf="isDisabled" class="alert alert-warning">
+<div class="step-header">
+  <div *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
-  </p>
+  </div>
   <h3 class="step-title">Hazard</h3>
   <p *ngIf="!isDisabled">
     How will <strong>{{ risk.weather_event.name | lowercase }}</strong> change over time?
@@ -53,18 +53,18 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button-link" 
-            *ngIf="!risk?.id" 
+    <button type="button" class="button-link"
+            *ngIf="!risk?.id"
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button-link" 
-            *ngIf="risk?.id" 
+    <button type="button" class="button-link"
+            *ngIf="risk?.id"
             (click)="finish()">Finish assessment later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button" 
+    <button type="button" class="button"
             nextStep>Skip step</button>
-    <button type="button" class="button button-primary" 
-            [disabled]="form.invalid || !isStepComplete()" 
+    <button type="button" class="button button-primary"
+            [disabled]="form.invalid || !isStepComplete()"
             nextStep>Next</button>
   </div>
 </footer>
