@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,6 +17,7 @@ export class SubmitPlanButtonComponent {
   constructor(private toastr: ToastrService,
               private planService: PlanService) { }
 
+  @HostListener('click')
   public submitPlan() {
     this.confirmSubmitModal.confirm({
       title: 'Submit your plan',
