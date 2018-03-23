@@ -40,7 +40,7 @@
       <td>{{ risk.getImpactMagnitudeLabel() || '--' }}</td>
       <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
       <td>
-        <button class="button button-primary va-status-button"
+        <button class="button button-small button-primary va-status-button"
                 *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
                 [routerLink]="'/assessment/risk/' + risk.id">Assess</button>
         <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
@@ -49,7 +49,7 @@
       </td>
       <td>
         <div class="button-group" dropdown>
-          <button dropdownToggle type="button" class="button button-icon dropdown-toggle">
+          <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
             <span class="icon-ellipsis-h"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">

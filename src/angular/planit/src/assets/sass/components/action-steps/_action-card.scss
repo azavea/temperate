@@ -106,12 +106,11 @@
 .action-card-closed {
   justify-content: space-between;
   flex-direction: row;
-  flex-wrap: nowrap;
 
   .card-header {
     padding: 1.4rem $space-large 1.8rem;
     justify-content: flex-start;
-    flex: 1 1 100%;
+    flex: 1 1 50%;
     overflow: hidden;
 
     .card-title, .button-group {

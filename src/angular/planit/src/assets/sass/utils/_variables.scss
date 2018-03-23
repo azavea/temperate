@@ -523,6 +523,8 @@ $splash-prompt-max-width: 45rem;
 $dashboard-header-max-width: 65rem;
 $dashboard-aside-background: $white;
 $dashboard-aside-title-size: $text-base;
+$dashboard-view-tab-color-active: $brand-teal;
+$dashboard-view-tabs-height: 3.4rem;
 
 
 /* * * *
@@ -746,3 +748,16 @@ $panel-label-font-size: $text-base;
 $panel-label-color: $neutral-4;
 $panel-toggle-color-hover: $brand-black;
 $panel-toggle-background-hover: $brand-teal-v-light;
+
+
+/* * * *
+ * Tabs
+ *
+ * * * */
+$tab-header-background: darken($gray, 10%);
+$tab-border: 2px solid $tab-header-background;
+$tab-background: $gray;
+$tab-color: $neutral-4;
+$tab-color-hover: $black;
+$tab-color-active: $black;
+$tab-background-active: $white;

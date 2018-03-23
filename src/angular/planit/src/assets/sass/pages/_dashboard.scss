@@ -6,7 +6,11 @@ app-dashboard {
 
   .page-header {
     flex: 1 0 100%;
-    margin-bottom: $space-medium;
+    margin-bottom: 0;
+  }
+
+  .page-title-large {
+    margin-bottom: 0;
   }
 
   .section-header {
@@ -20,6 +24,7 @@ app-dashboard {
   .aside-block {
     background: $dashboard-aside-background;
     padding: $space-xlarge;
+    border-radius: $border-radius;
   }
 
   .aside-title {
@@ -48,12 +53,14 @@ app-dashboard {
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 1 1;
   margin-right: $space-xlarge;
 }
 
 .dashboard-content {
   height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .dashboard-empty {
@@ -64,6 +71,8 @@ app-dashboard {
   display: flex;
   height: 100%;
   justify-content: center;
+  align-items: center;
+  margin-top: $dashboard-view-tabs-height;
 
   .empty-state-header {
     font-size: $empty-state-header-size;
@@ -74,19 +83,15 @@ app-dashboard {
   .empty-state-text {
     font-style: $empty-state-text-style;
     max-width: 50rem;
-    margin: 0 auto;
   }
 }
 
 .dashboard-sidebar {
   flex: 0 0 30rem;
+  margin-top: $dashboard-view-tabs-height;
 }
 
 .dashboard-no-risks {
   justify-content: center;
   align-items: center;
-}
-
-.dashboard-footer {
-  margin-top: $space-xlarge;
 }
