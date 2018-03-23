@@ -25,12 +25,14 @@
   border-radius: $alert-border-radius;
   border: 2px solid transparent;
   font-size: $alert-font-size;
+  text-align: center;
 
   p {
     color: inherit;
   }
 
   a {
+    color: inherit !important;
     border-bottom-color: rgba($black, .8) !important;
   }
 
