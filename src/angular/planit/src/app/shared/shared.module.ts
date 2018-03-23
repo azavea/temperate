@@ -34,6 +34,9 @@ import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import { PasswordValidatorDirective } from './password-validator/password-validator.directive';
+import {
+  PasswordValidatorPopoverComponent
+} from './password-validator-popover/password-validator-popover.component';
 import { SubmitPlanButtonComponent } from './submit-plan-button/submit-plan-button.component';
 import {
   TopCommunitySystemsComponent
@@ -79,6 +82,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     OptionDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
+    PasswordValidatorPopoverComponent,
     SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
@@ -105,6 +109,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     OptionDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
+    PasswordValidatorPopoverComponent,
     SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
