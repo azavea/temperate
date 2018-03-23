@@ -12,6 +12,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
+from annoying.fields import AutoOneToOneField
+from bitfield import BitField
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
@@ -103,6 +105,7 @@ class PlanItOrganization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,
                                     default=Subscription.FREE_TRIAL)
@@ -354,3 +357,39 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         """Return the short name for the user."""
         return self.first_name
+
+
+class CityProfile(models.Model):
+
+    organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    about_economic_sector = models.CharField(max_length=64, blank=True, default='')
+    about_operational_budget_usd = models.IntegerField(blank=True, null=True)
+    about_adaptation_status = models.CharField(max_length=64, blank=True, default='')
+    about_commitment_status = models.CharField(max_length=64, blank=True, default='')
+    about_mitigation_status = models.CharField(max_length=64, blank=True, default='')
+    about_sustainability_description = models.TextField(blank=True, default='')
+    about_sustainability_progress = models.TextField(blank=True, default='')
+    about_master_planning = models.TextField(blank=True, default='')
+
+    assessment_status = models.CharField(max_length=32, blank=True, default='')
+    assessment_hazards_considered = models.CharField(max_length=32, blank=True, default='')
+    assessment_assets_considered = models.CharField(max_length=32, blank=True, default='')
+    assessment_populations_identified = models.CharField(max_length=32, blank=True, default='')
+
+    plan_status = models.CharField(max_length=32, blank=True, default='')
+    plan_type = models.CharField(max_length=32, blank=True, default='')
+
+    action_status = models.CharField(max_length=32, blank=True, default='')
+    action_prioritized_description = models.TextField(blank=True, default='')
+    # default=0 explicitly sets all flags to false
+    action_prioritized = BitField(flags=(
+        ('cost_benefit', 'Benefit-cost analysis',),
+        ('cost_effectiveness', 'Cost-effectiveness',),
+        ('multiple_criteria', 'Multiple-criteria decision analysis',),
+        ('consensus', 'Stakeholder consensus decision-making',),
+        ('experiment', 'Experiment and observe',),
+    ), default=0)
