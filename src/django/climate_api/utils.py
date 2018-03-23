@@ -2,9 +2,6 @@ from itertools import cycle, islice
 from django.conf import settings
 
 
-IMPERIAL_TO_METRIC = {'F': 'C', 'in/day': 'mm/day', 'in': 'mm'}
-
-
 def get_api_url(route):
     base_url = settings.CCAPI_HOST
     return "{}/{}".format(base_url, route)

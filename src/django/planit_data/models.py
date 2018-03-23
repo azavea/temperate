@@ -6,8 +6,7 @@ from django.db import connection, transaction
 from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
-from climate_api.utils import IMPERIAL_TO_METRIC
-from climate_api.wrapper import make_indicator_api_request, make_token_api_request
+from climate_api.wrapper import make_indicator_api_request
 from action_steps.models import ActionCategory
 
 logger = logging.getLogger(__name__)
@@ -249,10 +248,8 @@ class Concern(models.Model):
         }
 
     def get_calculated_values(self, organization):
-        units = self.get_units(organization)
-
-        start_avg = self.get_average_value(
-            organization, self.START_SCENARIO, self.START_YEAR, units)
+        start_avg, start_units = self.get_average_value(
+            organization, self.START_SCENARIO, self.START_YEAR)
 
         if self.is_relative and start_avg == 0:
             # If the starting value is 0, abort and retry again as absolute difference
@@ -262,49 +259,31 @@ class Concern(models.Model):
             finally:
                 self.is_relative = True
 
-        end_avg = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR, units)
+        end_avg, end_units = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR)
+        assert(start_units == end_units)
         difference = end_avg - start_avg
 
         if self.is_relative:
             return difference / start_avg, None
         else:
-            return difference, units
+            return difference, start_units
 
     def get_static_values(self):
         value = self.static_value if self.static_value else 0
         units = self.static_units if self.static_units and not self.is_relative else None
         return value, units
 
-    def get_average_value(self, organization, scenario, start_year, units=None):
+    def get_average_value(self, organization, scenario, start_year):
         city_id = organization.location.api_city_id
         year_range = range(start_year, start_year + self.ERA_LENGTH)
         params = {'years': [year_range]}
-        if units is not None:
-            params['units'] = units
 
         response = make_indicator_api_request(self.indicator, city_id, scenario,
                                               params=params)
 
-        values = (result['avg'] for result in response['data'].values())
-        return sum(values) / len(response['data'])
-
-    def get_units(self, organization):
-        # If the value is relative, we can use the default unit for calculations
-        # which will save an API call
-        if self.is_relative:
-            return None
-
-        # Delayed import to break circular dependency
-        from users.models import PlanItOrganization
-        response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
-        default_units = response['default_units']
-
-        # The API default units are either Imperial or don't need to be converted
-        if default_units not in IMPERIAL_TO_METRIC:
-            return default_units
-        if organization.units == PlanItOrganization.IMPERIAL:
-            return default_units
-        return IMPERIAL_TO_METRIC[default_units]
+        values = response['data'].values()
+        average = sum(v['avg'] for v in values) / len(values)
+        return average, response['units']
 
 
 class RelatedAdaptiveValue(models.Model):

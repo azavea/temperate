@@ -15,59 +15,62 @@ class ConcernTestCase(TestCase):
     @mock.patch('planit_data.models.make_indicator_api_request')
     def test_get_average_value(self, api_indicator_mock):
         org = OrganizationFactory()
+        indicator_units = mock.Mock()
         api_indicator_mock.return_value = {
             'data': {
                 '2050': {'avg': 10},
                 '2051': {'avg': 17}
-            }}
+            },
+            'units': indicator_units}
 
         concern = mock.Mock()
         concern.ERA_LENGTH = 10
 
         scenario = 'historical'
-        result = Concern.get_average_value(concern, org, scenario, 1990, 'in')
+        result_value, result_units = Concern.get_average_value(concern, org, scenario, 1990)
 
-        self.assertEqual(result, 13.5)
+        self.assertEqual(result_value, 13.5)
+        self.assertEqual(result_units, indicator_units)
         api_indicator_mock.assert_called_with(
             concern.indicator,
             org.location.api_city_id,
             scenario,
             params={
-                'years': [range(1990, 2000)],
-                'units': 'in'
+                'years': [range(1990, 2000)]
             })
 
     def test_calculate(self):
         org = OrganizationFactory()
         concern = ConcernFactory()
+        indicator_units = mock.Mock()
 
         # Use a lambda for get_average_value to give different values for the times it is called
-        concern.get_average_value = (lambda organization, scenario, year, units: {
+        concern.get_average_value = (lambda organization, scenario, year: {
             # Give one number as the result of calculating the start value
-            concern.START_SCENARIO: 7.3,
+            concern.START_SCENARIO: (7.3, indicator_units),
             # Another for the end value
-            concern.END_SCENARIO: 15.6
+            concern.END_SCENARIO: (15.6, indicator_units),
         }.get(scenario))
-        concern.get_units = mock.Mock()
 
         result = concern.calculate(org)
 
         self.assertDictEqual(result, {
             'tagline': concern.tagline_positive,
-            'units': concern.get_units.return_value,
+            'units': indicator_units,
             'value': 8.3,
         })
 
     def test_relative_concern(self):
         org = OrganizationFactory()
         concern = ConcernFactory(is_relative=True)
+        indicator_units = mock.Mock()
 
         # Use a lambda for get_average_value to give different values for the times it is called
-        concern.get_average_value = (lambda organization, scenario, year, units: {
+        concern.get_average_value = (lambda organization, scenario, year: {
             # Give one number as the result of calculating the start value
-            concern.START_SCENARIO: 7.8,
+            concern.START_SCENARIO: (7.8, indicator_units),
             # Another for the end value
-            concern.END_SCENARIO: 15.6
+            concern.END_SCENARIO: (15.6, indicator_units)
         }.get(scenario))
 
         result = concern.calculate(org)
@@ -78,21 +81,17 @@ class ConcernTestCase(TestCase):
             'value': 1,
         })
 
-    @mock.patch('planit_data.models.make_token_api_request')
-    def test_relative_concern_uses_absolute_for_starting_zero(self, api_request_mock):
+    def test_relative_concern_uses_absolute_for_starting_zero(self):
         org = OrganizationFactory()
         concern = ConcernFactory(is_relative=True)
         indicator_units = mock.Mock()
-        api_request_mock.return_value = {
-            'default_units': indicator_units
-        }
 
         # Use a lambda for get_average_value to give different values for the times it is called
-        concern.get_average_value = (lambda organization, scenario, year, units: {
+        concern.get_average_value = (lambda organization, scenario, year: {
             # Give one number as the result of calculating the start value
-            concern.START_SCENARIO: 0,
+            concern.START_SCENARIO: (0, indicator_units),
             # Another for the end value
-            concern.END_SCENARIO: 15.6
+            concern.END_SCENARIO: (15.6, indicator_units)
         }.get(scenario))
 
         result = concern.calculate(org)
@@ -125,7 +124,7 @@ class ConcernTestCase(TestCase):
         data = concern.calculate(None)
         self.assertEqual(data['units'], None)
 
-    @mock.patch('planit_data.models.make_token_api_request')
+    @mock.patch('planit_data.models.make_indicator_api_request')
     def test_concern_no_indicator_skips_api_request(self, api_request_mock):
         api_request_mock.side_effect = RuntimeError('Static concerns should not make API requests')
 
