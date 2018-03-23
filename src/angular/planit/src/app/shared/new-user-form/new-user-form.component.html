@@ -49,21 +49,30 @@
     <!-- Password -->
     <div class="form-control-container">
       <label for="password">Password</label>
-      <input class="form-control"
-             type="password"
-             required
-             autocomplete="new-password"
-             [(ngModel)]="model.password"
-             [appPasswordValidator]="[model.first_name, model.last_name, model.email]"
-             #popover="bs-popover"
-             [popover]="passwordPopover"
-             placement="bottom"
-             triggers=""
-             (focus)="popover.show()"
-             (blur)="popover.hide()"
-             #password="ngModel"
-             id="password"
-             name="password">
+      <div class="input-group">
+        <input class="form-control"
+               [type]="passwordVisible ? 'input' : 'password'"
+               required
+               autocomplete="new-password"
+               [(ngModel)]="model.password"
+               [appPasswordValidator]="[model.first_name, model.last_name, model.email]"
+               #popover="bs-popover"
+               [popover]="passwordPopover"
+               placement="bottom"
+               triggers=""
+               (focus)="popover.show()"
+               (blur)="popover.hide()"
+               #password="ngModel"
+               id="password"
+               name="password">
+        <div class="button-group">
+          <button type="button" class="button-icon-only"
+                  (click)="passwordVisible = !passwordVisible">
+            <i class="icon icon-eye" *ngIf="!passwordVisible"></i>
+            <i class="icon icon-eye-slash" *ngIf="passwordVisible"></i>
+          </button>
+        </div>
+      </div>
       <div *ngIf="errors.password" class="form-control-error">
         <p *ngFor="let error of errors.password">
           {{ error }}
