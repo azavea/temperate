@@ -50,7 +50,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     name: OrgSubscription.Review,
     nickName: 'Review',
     fullName: 'Review subscription',
-    yearlyCost: 1800,
+    yearlyCost: 1790,
     header: '+ 2 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Backup for planners who have a good handle on adaptation planning. You will have a direct line to an ICLEI-USA expert, who will be available to review your plan.',
@@ -62,7 +62,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     name: OrgSubscription.Insights,
     nickName: 'Insights',
     fullName: 'Insights subscription',
-    yearlyCost: 3000,
+    yearlyCost: 2900,
     header: '+ 10 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Need help interpreting data? Suggestions for what risks are most vital for your city to assess? The insights package is great for cities who want a little more support and guidance as they create their adaptation plan.',
@@ -74,7 +74,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     name: OrgSubscription.Guidance,
     nickName: 'Guidance',
     fullName: 'Guidance subscription',
-    yearlyCost: 4500,
+    yearlyCost: 4200,
     header: '+ 20 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your city\'s changing climate!',
