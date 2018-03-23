@@ -2,10 +2,11 @@ import factory
 
 from django.contrib.gis.geos import MultiPolygon, Polygon
 
-from users.tests.factories import OrganizationFactory
+from users.tests.factories import OrganizationFactory, LocationFactory
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    ConcernValue,
     DefaultRisk,
     GeoRegion,
     Indicator,
@@ -38,6 +39,16 @@ class ConcernFactory(factory.DjangoModelFactory):
     indicator = factory.SubFactory(IndicatorFactory)
     tagline_positive = 'more'
     tagline_negative = 'less'
+
+
+class ConcernValueFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = ConcernValue
+
+    concern = factory.SubFactory(ConcernFactory)
+    location = factory.SubFactory(LocationFactory)
+    value = 0.13
+    units = None
 
 
 class GeoRegionFactory(factory.DjangoModelFactory):
