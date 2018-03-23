@@ -2,7 +2,7 @@ from tempfile import TemporaryFile
 
 from django.conf import settings
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, prefetch_related_objects
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -144,6 +144,13 @@ class ConcernViewSet(ReadOnlyModelViewSet):
             'indicator'
         ).order_by('id')
 
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
+
 
 class CommunitySystemViewSet(ReadOnlyModelViewSet):
     queryset = CommunitySystem.objects.all().order_by('name')
@@ -173,6 +180,13 @@ class OrganizationRiskView(ModelViewSet):
             'weather_event__concern',
             'weather_event__indicators',
         )
+
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
 
     @transaction.atomic
     def create(self, request):
@@ -230,6 +244,13 @@ class OrganizationActionViewSet(ModelViewSet):
         ).prefetch_related(
             'categories'
         )
+
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
 
 
 class OrganizationWeatherEventViewSet(ModelViewSet):

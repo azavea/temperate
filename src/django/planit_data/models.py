@@ -265,11 +265,9 @@ class ConcernValueManager(models.Manager):
 
     def for_location(self, concern, location):
         try:
-            return self.get_queryset().get(
-                concern=concern,
-                location=location
-            )
-        except ConcernValue.DoesNotExist:
+            return next(value for value in location.concernvalue_set.all()
+                        if value.concern_id == concern.id)
+        except StopIteration:
             return self.create_concern_value(concern, location)
 
     def create_concern_value(self, concern, location):
@@ -284,10 +282,7 @@ class ConcernValueManager(models.Manager):
         except IntegrityError:
             # Try to load the offending row. If this fails somehow, we want the exception to
             # bubble up.
-            return self.get_queryset().get(
-                concern=concern,
-                location=location
-            )
+            return location.concernvalue_set.get(concern=concern)
 
     def calculate_change(self, concern, location):
         start_avg, start_units = self.get_average_value(
