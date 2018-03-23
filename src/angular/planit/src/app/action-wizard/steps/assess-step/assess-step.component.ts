@@ -63,7 +63,7 @@ export class AssessStepComponent extends ActionWizardStepComponent<AssessStepFor
 
   // return false if user is creating a new action and has nothing typed in
   shouldSave(): boolean {
-    return !!this.action.id || (this.form.valid && !!this.form.controls.name.value);
+    return this.form.valid && !!this.form.controls.name.value;
   }
 
   setupForm(data: AssessStepFormModel) {

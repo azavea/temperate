@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ActionCategoryService } from '../../../core/services/action-category.service';
 import { ActionService } from '../../../core/services/action.service';
@@ -17,7 +18,7 @@ import { ActionWizardStepComponent } from '../../action-wizard-step.component';
   templateUrl: './category-step.component.html'
 })
 export class CategoryStepComponent extends ActionWizardStepComponent<ActionCategory[]>
-                                   implements OnInit {
+                                   implements OnInit, OnDestroy {
 
   @Input() risk: Risk;
 
@@ -27,6 +28,7 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
 
   public action: Action;
   public actionCategories: ActionCategory[] = [];
+  private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
@@ -45,6 +47,16 @@ export class CategoryStepComponent extends ActionWizardStepComponent<ActionCateg
       this.actionCategories = categories;
       this.setupForm(this.fromModel(this.session.getData() || new Action({})));
     });
+
+    this.setDisabled(this.action);
+    this.sessionSubscription = this.session.data.subscribe(action => {
+      this.action = action;
+      this.setDisabled(action);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   // toggle button selections on click

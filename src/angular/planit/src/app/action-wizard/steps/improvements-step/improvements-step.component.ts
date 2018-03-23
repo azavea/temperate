@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
@@ -26,7 +27,7 @@ interface ImprovementsStepFormModel {
 })
 export class ImprovementsStepComponent
           extends ActionWizardStepComponent<ImprovementsStepFormModel>
-          implements OnInit {
+          implements OnInit, OnDestroy {
 
   @Input() risk: Risk;
 
@@ -35,6 +36,7 @@ export class ImprovementsStepComponent
   public navigationSymbol = '3';
   public title = 'Outcomes';
   public collaboratorValues: string[];
+  private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
@@ -56,6 +58,16 @@ export class ImprovementsStepComponent
       // Create a list of collaborator suggestions to display to the user
       this.collaboratorValues = collaborators.map(c => c.name);
     });
+
+    this.setDisabled(this.action);
+    this.sessionSubscription = this.session.data.subscribe(action => {
+      this.action = action;
+      this.setDisabled(action);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   getFormModel(): ImprovementsStepFormModel {

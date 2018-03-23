@@ -12,6 +12,8 @@ import { Action, WizardStepComponent } from '../shared/';
 export abstract class ActionWizardStepComponent<FormModel>
   extends WizardStepComponent<Action, FormModel> implements OnInit {
 
+  public isDisabled = false;
+
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected riskService: RiskService,
@@ -26,6 +28,22 @@ export abstract class ActionWizardStepComponent<FormModel>
     return !model.id ?
       this.actionService.create(model) :
       this.actionService.update(model);
+  }
+
+  setDisabled(action: Action) {
+    this.isDisabled = (action.name === '');
+
+    if (this.form) {
+      if (this.isDisabled) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    }
+  }
+
+  shouldSave() {
+    return !this.isDisabled;
   }
 
   finish() {

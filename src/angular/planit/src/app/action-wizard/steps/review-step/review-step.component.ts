@@ -58,8 +58,10 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
 
     this.riskService.get(this.action.risk).subscribe(r => this.risk = r);
 
-    this.sessionSubscription = this.session.data.subscribe(a => {
-      this.action = a;
+    this.setDisabled(this.action);
+    this.sessionSubscription = this.session.data.subscribe(action => {
+      this.action = action;
+      this.setDisabled(action);
     });
   }
 
