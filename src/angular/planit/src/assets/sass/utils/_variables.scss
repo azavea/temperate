@@ -594,18 +594,18 @@ $adaptive-need-empty-color: $neutral-3;
 $adaptive-need-unsure-border: 1px solid $neutral-2;
 $adaptive-need-unsure-color: repeating-linear-gradient(
                              -45deg,
-                             $neutral-2, 
-                             $neutral-2 1px, 
+                             $neutral-2,
+                             $neutral-2 1px,
                              transparent 2px,
-                             $neutral-2 4px, 
+                             $neutral-2 4px,
                              transparent 5px,
-                             $neutral-2 7px, 
+                             $neutral-2 7px,
                              transparent 8px,
-                             $neutral-2 10px, 
-                             transparent 11px, 
-                             $neutral-2 13px, 
+                             $neutral-2 10px,
+                             transparent 11px,
+                             $neutral-2 13px,
                              transparent 14px,
-                             $neutral-2 16px, 
+                             $neutral-2 16px,
                              transparent 17px,
                              transparent 18px);
 
@@ -667,3 +667,46 @@ $suggestion-metadata-list-size: $text-tiny;
 $suggestion-toggle-button-fadeaway: linear-gradient(rgba($suggestion-background, 0), $suggestion-background);
 $suggestion-footer-background: $neutral-1;
 $suggestion-footer-border: 2px solid $neutral-0;
+
+/* * * *
+ * Marketing page
+ *
+ * * * */
+$marketing-background-color: $neutral-0;
+$marketing-hero-max-width: 150rem;
+$marketing-hero-heading-size: $text-display;
+$marketing-hero-heading-weight: $font-weight-light;
+$marketing-hero-description-size: $text-base;
+$marketing-hero-button-width: 20rem;
+$marketing-hero-secondary-font-style: italic;
+$marketing-overview-max-width: 50rem;
+$marketing-overview-small-max-width: 39rem;
+
+$marketing-image-background-color: $neutral-2;
+// Should we have mobile/desktop sizes here?
+$marketing-dark-background: $neutral-1;
+$marketing-data-section-image-max-width: 110rem;
+
+$marketing-feature-image-width: 8rem;
+$marketing-feature-description-max-width: 20rem;
+
+
+
+/* * * *
+ * Pricing page
+ *
+ * * * */
+$pricing-max-width: 80rem;
+$pricing-section-padding-vertical-small: 4rem;
+$pricing-section-padding-vertical-large: 2 * $pricing-section-padding-vertical-small;
+$pricing-section-padding-horizontal: 2rem;
+$pricing-headline-min-width: 33rem;
+$pricing-headline-max-width: 39rem;
+$pricing-card-min-width: 39rem;
+$pricing-card-min-width-narrow: 36rem;
+$pricing-plan-tier-header-border: 1px solid $neutral-1;
+$pricing-plan-card-shadow: 2px 2px 20px rgba($black, .22);
+$pricing-plan-card-shadow-hover: 2px 2px 30px rgba($black, .66);
+$pricing-bottom-text-shadow: 0 0 8px rgba($black, .67);
+$pricing-breakpoint: 55rem;
+$pricing-breakpoint-hero: 40rem;

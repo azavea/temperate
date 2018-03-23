@@ -1,18 +1,23 @@
-<div class="plan-card-container">
+<div class="plan-cards">
   <div class="plan-card"
       [ngClass]="{active: activePlan && activePlan.name === plan.name}"
       *ngFor="let plan of visiblePlans">
-    <h4 class="header">{{ plan.nickName }}</h4>
-    <span class="icon" [ngClass]="plan.iconClass"></span>
-    <div>
-      <span>{{ plan.header }} <span *ngIf="plan.yearlyValue">*</span></span>
-      <span>${{ plan.yearlyCost | number }} / year</span>
-    </div>
-    <p>{{ plan.description }}</p>
-    <button class="button"
-            [disabled]="org?.subscription_pending"
-            (click)="planSelected(plan)"
-            *ngIf="activePlan && plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
-    <span *ngIf="plan.yearlyValue">*${{ plan.yearlyValue | number }} value</span>
+    <h4 class="tier">{{ plan.nickName }}</h4>
+    <h5 class="heading">
+      <span class="offering">{{ plan.header }}&thinsp;</span>
+      <span class="cost">${{ plan.yearlyCost | number }}<span class="peryear">/year</span></span>
+    </h5>
+    <p class="description">{{ plan.description }}</p>
+    <button class="button button-primary"
+      [disabled]="org?.subscription_pending"
+      (click)="planSelected(plan)"
+      *ngIf="activePlan && plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
+    <button class="button button-primary"
+      [disabled]="org?.subscription_pending"
+      (click)="planSelected(plan)"
+      *ngIf="!activePlan">Select package</button>
+    <div class="recommended"
+         *ngIf="(!activePlan || activePlan.name === 'free_trial') && (plan.nickName | lowercase) === 'insights'"
+         >Recommended</div>
   </div>
 </div>

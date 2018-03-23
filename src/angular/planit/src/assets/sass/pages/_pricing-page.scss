@@ -1,0 +1,13 @@
+.pricing-section {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: $pricing-section-padding-vertical-small $pricing-section-padding-horizontal;
+
+  > .section-content {
+    width: 100%;
+    max-width: $pricing-max-width;
+  }
+}
