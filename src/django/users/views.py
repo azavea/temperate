@@ -22,6 +22,8 @@ from rest_auth.views import (
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import detail_route
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
@@ -34,6 +36,7 @@ from users.models import PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import (
     AuthTokenSerializer,
+    CityProfileSerializer,
     OrganizationSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
@@ -265,6 +268,25 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @detail_route(methods=['GET', 'PUT'],
+                  serializer_class=CityProfileSerializer,
+                  url_name='city-profile',
+                  url_path='city-profile')
+    def city_profile(self, request, pk=None, *args, **kwargs):
+        organization = get_object_or_404(self.model_class, pk=pk)
+        city_profile = organization.city_profile
+        if city_profile.organization.id != self.request.user.primary_organization.id:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
+            serializer = CityProfileSerializer(city_profile)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = CityProfileSerializer(city_profile, data=self.request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
 
     def get_queryset(self):
         return self.request.user.organizations.all()
