@@ -22,7 +22,7 @@
 /* * * *
  * Generate Alerts
  * * * */
-@mixin generate-alert($name:'', $color:#666) {
+@mixin generate-alert($name:'', $color:$neutral-2) {
   .alert#{$name} {
     @if $alert-ghost-style {
       border-color: $color;

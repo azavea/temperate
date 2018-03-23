@@ -1,12 +1,5 @@
 // Alert
 
-.alert {
-  padding: $alert-padding-vertical $alert-padding-horizontal;
-  border-radius: $alert-border-radius;
-  border: 2px solid transparent;
-  font-size: $alert-font-size;
-}
-
 @include generate-alert();
 
 @include generate-alert(-primary, $brand-primary);
@@ -19,7 +12,36 @@
 
 @include generate-alert(-positive, $brand-positive);
 
+@include generate-alert(-success, $brand-positive);
+
 .alert-heading {
   font-size: $alert-heading-font-size;
   font-weight: $alert-heading-font-weight;
+}
+
+.alert {
+  margin-bottom: $space-xlarge;
+  padding: $alert-padding-vertical $alert-padding-horizontal;
+  border-radius: $alert-border-radius;
+  border: 2px solid transparent;
+  font-size: $alert-font-size;
+  text-align: center;
+
+  p {
+    color: inherit;
+  }
+
+  a {
+    color: inherit !important;
+    border-bottom-color: rgba($black, .8) !important;
+  }
+
+  &.alert-primary {
+    color: $alert-font-color-primary;
+
+    a {
+      color: $alert-font-color-primary;
+      border-bottom-color: rgba($alert-font-color-primary, .8) !important;
+    }
+  }
 }
