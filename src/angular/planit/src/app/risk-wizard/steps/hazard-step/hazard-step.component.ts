@@ -64,6 +64,10 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
 
   private sessionSubscription: Subscription;
 
+  public probabilityTooltipText = `Viewing related indicators helps you think through probability
+    and frequency. If there are no available data for this hazard, you may want to consult the
+    National Climate Assessment, States At Risk, or use the help icon to contact ICLEI-USA.`;
+
   constructor(protected session: WizardSessionService<Risk>,
               protected riskService: RiskService,
               protected toastr: ToastrService,
