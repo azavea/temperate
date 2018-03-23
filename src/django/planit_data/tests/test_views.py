@@ -114,8 +114,8 @@ class ConcernViewSetTestCase(APITestCase):
         url = reverse('concern-list')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 1)
+        self.assertIn('results', response.json())
+        self.assertEqual(len(response.json()['results']), 1)
         self.assertDictEqual(response.json()['results'][0], {
             'id': concern.id,
             'indicator': concern.indicator.name,
@@ -124,6 +124,7 @@ class ConcernViewSetTestCase(APITestCase):
             'value': 5.3,
             'units': 'farthing'
         })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 401 Unauthorized response."""
@@ -269,14 +270,15 @@ class OrganizationWeatherEventTestCase(APITestCase):
 
         url = reverse('organizationweatherevent-list')
         response = self.client.post(url, data=payload)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        org_we_id = response.json()['id']
-        order = response.json()['order']
 
+        self.assertIn('id', response.json())
+        org_we_id = response.json()['id']
         org_we = OrganizationWeatherEvent.objects.get(id=org_we_id)
         self.assertEqual(org_we.organization, organization)
         self.assertEqual(org_we.weather_event, weather_event)
-        self.assertEqual(org_we.order, order)
+        self.assertIn('order', response.json())
+        self.assertEqual(org_we.order, response.json()['order'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class OrganizationRiskTestCase(APITestCase):
@@ -344,11 +346,13 @@ class OrganizationRiskTestCase(APITestCase):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
         actions = OrganizationActionFactory.create_batch(3, organization_risk=org_risk)
 
-        action_ids = [a.id.hex for a in actions]
+        action_ids = [str(a.id) for a in actions]
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
-        self.assertIn(response.json()['action']['id'].replace('-', ''), action_ids)
+        self.assertIn('action', response.json())
+        self.assertIn('id', response.json()['action'])
+        self.assertIn(response.json()['action']['id'], action_ids)
 
     def test_organization_risk_action_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
@@ -356,6 +360,7 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
+        self.assertIn('action', response.json())
         self.assertDictEqual(response.json()['action'], {
             'name': '',
             'action_goal': '',
@@ -492,7 +497,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.put(url, data=payload)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertIn('id', response.json())
         risk_id = response.json()['id']
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
@@ -659,6 +665,7 @@ class OrganizationActionTestCase(APITestCase):
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.get(url)
 
+        self.assertIn('categories', response.json())
         self.assertEqual(len(response.json()['categories']), 1)
         self.assertDictEqual(response.json()['categories'][0], {
             'description': '',
@@ -688,6 +695,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-list')
         response = self.client.post(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -718,6 +727,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.put(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -747,6 +758,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.put(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
