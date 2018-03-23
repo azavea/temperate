@@ -1,10 +1,17 @@
 #toast-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+
   .toast {
+    width: auto !important;
+    max-width: 500px;
     border-radius: 0 0 2px 2px;
     background-position: 16px center;
     background-size: 18px;
-    box-shadow: 0 0 14px rgba($black, .28);
     color: $black;
+    box-shadow: 0 0 14px rgba($black, .28);
 
     /* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/info-circle.svg */
     &.toast-info {
