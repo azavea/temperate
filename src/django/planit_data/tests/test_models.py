@@ -217,7 +217,8 @@ class ConcernValueTestCase(TestCase):
             location.api_city_id,
             scenario,
             params={
-                'years': [range(1990, 2000)]
+                'years': [range(1990, 2000)],
+                'dataset': 'LOCA'
             })
 
 

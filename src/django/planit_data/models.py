@@ -314,7 +314,10 @@ class ConcernValueManager(models.Manager):
     def get_average_value(self, concern, location, scenario, start_year):
         city_id = location.api_city_id
         year_range = range(start_year, start_year + self.ERA_LENGTH)
-        params = {'years': [year_range]}
+        params = {
+            'years': [year_range],
+            'dataset': 'LOCA'
+        }
 
         response = make_indicator_api_request(concern.indicator, city_id, scenario,
                                               params=params)
