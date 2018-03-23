@@ -47,7 +47,7 @@
         "coastal_only": false,
         "concern": 13,
         "display_class": "icon-heat-wave",
-        "description": "Persistent hot weather 5 degrees Celsius above normal for 5 days",
+        "description": "A period of at least 5 days where the temperature is at least 5 Celsius degrees above normal",
         "indicators": [
             [
                 "average_high_temperature"
@@ -190,7 +190,7 @@
         "coastal_only": false,
         "concern": 26,
         "display_class": "icon-extreme-hot-days",
-        "description": "Days that are 5 degrees above normal",
+        "description": "Days that are 5 degrees Celsius above normal",
         "indicators": [
             [
                 "average_high_temperature"
@@ -304,7 +304,7 @@
         "coastal_only": true,
         "concern": null,
         "display_class": "icon-ocean-acidification",
-        "description": "Lowering of ocean water pH value as a result of increased concentrations of CO2 resulting in the formation of carbonic acid",
+        "description": "Lowering of ocean water pH value as a result of increased concentrations of CO\u2082 resulting in the formation of carbonic acid",
         "indicators": []
     }
 },
