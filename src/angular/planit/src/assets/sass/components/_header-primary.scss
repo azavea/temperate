@@ -48,19 +48,19 @@
 }
 
 .banner {
-  background-color: $brand-warning;
-  color: $black;
+  background-color: $upgrade-banner-background;
+  color: $upgrade-banner-font-color;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: $space-medium $space-xlarge;
+  justify-content: center;
+  padding: $space-base $space-xxlarge;
 
   @media (max-width: 37.5rem) {
     font-size: $text-tiny;
   }
 
   .button {
-    margin-left: $space-xlarge;
+    margin-left: $space-xxlarge;
   }
 }
 

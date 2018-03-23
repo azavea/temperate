@@ -37,6 +37,7 @@ $brand-black: #032a1d;
 $brand-leaf: #85c005;
 $brand-turmeric: #f2c706;
 $brand-persimmon: #ed5c14;
+$brand-lavender: #8186d9;
 
 $brand-teal-v-light: #d3eae9;
 $brand-teal-light: #a8ddda;
@@ -285,6 +286,7 @@ $alert-font-size: $font-size-body;
 $alert-heading-font-size: $font-size-body;
 $alert-heading-font-weight: $heading-font-weight;
 $alert-font-color: $black;
+$alert-font-color-primary: $white;
 
 
 /* * * *
@@ -710,3 +712,11 @@ $pricing-plan-card-shadow-hover: 2px 2px 30px rgba($black, .66);
 $pricing-bottom-text-shadow: 0 0 8px rgba($black, .67);
 $pricing-breakpoint: 55rem;
 $pricing-breakpoint-hero: 40rem;
+
+
+/* * * *
+ * Upgrade banner
+ *
+ * * * */
+$upgrade-banner-background: $brand-lavender;
+$upgrade-banner-font-color: $black;

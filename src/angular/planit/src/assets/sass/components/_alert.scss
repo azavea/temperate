@@ -35,11 +35,11 @@
   }
 
   &.alert-primary {
-    color: $white;
+    color: $alert-font-color-primary;
 
     a {
-      color: $white;
-      border-bottom-color: rgba($white, .8) !important;
+      color: $alert-font-color-primary;
+      border-bottom-color: rgba($alert-font-color-primary, .8) !important;
     }
   }
 }
