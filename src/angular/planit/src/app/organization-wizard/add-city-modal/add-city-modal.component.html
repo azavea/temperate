@@ -48,7 +48,7 @@
     </button>
   </header>
   <div class="modal-body">
-    We'll get back to you as soon as possible. In the meantime, check out our <a routerLink="/methodology">resources page.</a>
+    We'll get back to you as soon as possible. In the meantime, check out our <a routerLink="/methodology" (click)="modalRef.hide()">methodology page</a>.
     <footer class="modal-footer">
       <button class="button button-primary" (click)="modalRef.hide()">Okay</button>
     </footer>
