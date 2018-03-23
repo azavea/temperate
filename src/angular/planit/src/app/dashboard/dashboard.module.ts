@@ -37,7 +37,6 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
     AccordionModule,
     PopoverModule,
     ProgressbarModule,
-    TabsModule,
     TooltipModule,
     ToastrModule,
     TypeaheadModule,

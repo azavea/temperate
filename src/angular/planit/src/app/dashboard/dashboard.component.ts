@@ -13,6 +13,16 @@ import { WeatherEventService } from '../core/services/weather-event.service';
 import { Organization, Risk, User, WeatherEvent } from '../shared/';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
+enum ViewTabs {
+  Grouped,
+  All
+}
+
+enum AllViewTabs {
+  Assessment,
+  ActionSteps
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html'
@@ -24,7 +34,11 @@ export class DashboardComponent implements OnInit {
   public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
-  public groupedView = true;
+
+  public viewTab = ViewTabs.Grouped;
+  public viewTabs = ViewTabs;
+  public allViewTab = AllViewTabs.Assessment;
+  public allViewTabs = AllViewTabs;
 
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];

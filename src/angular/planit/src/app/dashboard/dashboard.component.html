@@ -20,35 +20,51 @@
         </div>
 
         <ng-container *ngIf="this.groupedRisks !== undefined">
-          <span class="dashboard-view">View</span>
-          <tabset class="dashboard-view-tabs">
-            <tab>
-              <ng-template tabHeading>
-                <i class="icon icon-th-list"></i>
-              </ng-template>
-              <app-grouped-risk
-                  *ngFor="let risks of groupedRisks"
-                  [risks]="risks"
-                  [weatherEvent]="risks[0].weather_event">
-              </app-grouped-risk>
-            </tab>
-            <tab>
-              <ng-template tabHeading>
-                <i class="icon icon-list-alt"></i>
-              </ng-template>
-              <tabset>
-                <tab heading="Assessment">
-                  <button class="button" routerLink="/assessment/risk/new">Add new risk</button>
-                  <va-assessment-overview-table [risks]="risks" [showFullTitle]="true">
-                  </va-assessment-overview-table>
-                </tab>
-                <tab heading="Action Steps" *ngIf="areAnyRisksAssessed">
-                  <as-action-card-container [risks]="risks" [showFullTitle]="true">
-                  </as-action-card-container>
-                </tab>
-              </tabset>
-            </tab>
-          </tabset>
+          <div>
+            View
+            <button class="button button-link"
+                    [ngClass]="{active: viewTab === viewTabs.Grouped}"
+                    (click)="viewTab = viewTabs.Grouped">
+              <i class="icon icon-th-list"></i>
+            </button>
+            <button class="button button-link"
+                    [ngClass]="{active: viewTab === viewTabs.All}"
+                    (click)="viewTab = viewTabs.All">
+              <i class="icon icon-list-alt"></i>
+            </button>
+          </div>
+          <ng-container *ngIf="viewTab === viewTabs.Grouped">
+            <app-grouped-risk
+                *ngFor="let risks of groupedRisks"
+                [risks]="risks"
+                [weatherEvent]="risks[0].weather_event">
+            </app-grouped-risk>
+          </ng-container>
+          <ng-container *ngIf="viewTab === viewTabs.All">
+            <div>
+              <button class="button button-link"
+                      [ngClass]="{active: allViewTab === allViewTabs.Assessment}"
+                      (click)="allViewTab = allViewTabs.Assessment">
+                Assessment
+              </button>
+              <button *ngIf="areAnyRisksAssessed"
+                      class="button button-link"
+                      [ngClass]="{active: allViewTab === allViewTabs.ActionSteps}"
+                      (click)="allViewTab = allViewTabs.ActionSteps">
+                Action Steps
+              </button>
+            </div>
+            <ng-container *ngIf="allViewTab === allViewTabs.Assessment">
+              <button class="button" routerLink="/assessment/risk/new">Add new risk</button>
+              <va-assessment-overview-table [risks]="risks" [showFullTitle]="true">
+              </va-assessment-overview-table>
+            </ng-container>
+
+            <as-action-card-container *ngIf="allViewTab === allViewTabs.ActionSteps"
+                                      [risks]="risks"
+                                      [showFullTitle]="true">
+            </as-action-card-container>
+          </ng-container>
         </ng-container>
 
         <footer class="dashboard-footer" *ngIf="this.groupedRisks?.length">
