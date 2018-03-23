@@ -7,4 +7,5 @@ export class WeatherEvent {
   concern?: Concern;
   indicators?: string[];
   display_class: string;
+  description: string;
 }
