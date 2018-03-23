@@ -202,32 +202,23 @@ class UserSerializer(serializers.ModelSerializer):
                                                         required=False,
                                                         slug_field='name')
 
-    password1 = serializers.CharField(write_only=True, required=True, allow_blank=False,
-                                      style={'input_type': 'password'})
-    password2 = serializers.CharField(write_only=True, required=True, allow_blank=False,
-                                      style={'input_type': 'password'})
+    password = serializers.CharField(write_only=True, required=True, allow_blank=False,
+                                     style={'input_type': 'password'})
 
     class Meta:
         model = PlanItUser
         fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password1', 'password2',)
+                  'primary_organization', 'password',)
 
     def validate(self, data):
-        if 'password1' in data and 'password2' in data:
-            # check passwords match
-            if data['password1'] != data['password2']:
-                raise serializers.ValidationError('Passwords do not match.')
-            if (('primary_organization' in data and
-                 data['primary_organization'] not in data['organizations'])):
-                raise serializers.ValidationError(
-                    "Primary Organization must be one of the user's Organizations"
-                )
+        if (('primary_organization' in data and
+             data['primary_organization'] not in data['organizations'])):
+            raise serializers.ValidationError(
+                "Primary Organization must be one of the user's Organizations"
+            )
+        if 'password' in data:
             # run built-in password validators; will raise ValidationError if it fails
-            validate_password(data['password1'])
-            # return cleaned data with a single password
-            data['password'] = data['password1']
-            data.pop('password1')
-            data.pop('password2')
+            validate_password(data['password'])
         return data
 
     def update(self, instance, validated_data):
