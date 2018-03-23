@@ -2,7 +2,7 @@ import logging
 import uuid
 
 from django.contrib.gis.db import models
-from django.db import connection, transaction
+from django.db import connection, transaction, IntegrityError
 from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
@@ -265,14 +265,24 @@ class ConcernValueManager(models.Manager):
                 location=location
             )
         except ConcernValue.DoesNotExist:
-            value, units = self.calculate_change(concern, location)
+            return self.create_concern_value(concern, location)
 
-        return ConcernValue.objects.create(
-            concern=concern,
-            location=location,
-            value=value,
-            units=units
-        )
+    def create_concern_value(self, concern, location):
+        value, units = self.calculate_change(concern, location)
+        try:
+            return ConcernValue.objects.create(
+                concern=concern,
+                location=location,
+                value=value,
+                units=units
+            )
+        except IntegrityError:
+            # Try to load the offending row. If this fails somehow, we want the exception to
+            # bubble up.
+            return self.get_queryset().get(
+                concern=concern,
+                location=location
+            )
 
     def calculate_change(self, concern, location):
         start_avg, start_units = self.get_average_value(
