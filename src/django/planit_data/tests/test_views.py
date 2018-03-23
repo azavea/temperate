@@ -218,7 +218,8 @@ class OrganizationWeatherEventTestCase(APITestCase):
                 'coastal_only': False,
                 'concern': None,
                 'indicators': [],
-                'display_class': ''
+                'display_class': '',
+                'description': ''
             },
             'order': org_we.order})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -332,6 +333,7 @@ class OrganizationRiskTestCase(APITestCase):
                 'coastal_only': False,
                 'concern': None,
                 'display_class': '',
+                'description': '',
                 'id': org_risk.weather_event.id,
                 'indicators': [],
                 'name': org_risk.weather_event.name
