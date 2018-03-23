@@ -249,6 +249,11 @@ class Concern(models.Model):
         units = self.static_units if self.static_units and not self.is_relative else None
         return value, units
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Clear any potentially invalidated ConcernValue objects
+        ConcernValue.objects.filter(concern=self).delete()
+
 
 class ConcernValueManager(models.Manager):
     # Evaluate Concerns by averaging start and end values over a decade
