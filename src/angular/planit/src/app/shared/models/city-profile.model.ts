@@ -48,4 +48,42 @@ export class CityProfile {
   action_status = '';
   action_prioritized: ActionPrioritized;
   action_prioritized_description = '';
+
+  public getCompletedPropCount(requiredOnly = false) {
+    const props = requiredOnly ? this.getRequiredPropsAsBools() : this.getAllPropsAsBools();
+    return props.filter(prop => prop).length;
+  }
+
+  public getTotalPropCount(requiredOnly = false) {
+    const props = requiredOnly ? this.getRequiredPropsAsBools() : this.getAllPropsAsBools();
+    return props.length;
+  }
+
+  private getRequiredPropsAsBools() {
+    return [
+      !!this.about_economic_sector,
+      typeof this.about_operational_budget_usd === 'number',
+      !!this.assessment_status,
+      !!this.plan_status,
+      !!this.action_status
+    ];
+  }
+
+  private getAllPropsAsBools() {
+    return this.getRequiredPropsAsBools().concat([
+      !!this.about_adaptation_status,
+      !!this.about_commitment_status,
+      !!this.about_mitigation_status,
+      !!this.about_sustainability_description,
+      !!this.about_sustainability_progress,
+      !!this.about_master_planning,
+      !!this.assessment_hazards_considered,
+      !!this.assessment_assets_considered,
+      !!this.assessment_populations_identified,
+      !!this.plan_type,
+      !!this.action_prioritized_description
+      // We don't include action_prioritized because its valid for all the boxes to be unchecked,
+      // so this prop is effectively always "filled out"
+    ]);
+  }
 }
