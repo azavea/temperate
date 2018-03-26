@@ -16,7 +16,7 @@ export class CityProfileComponent implements OnInit {
   public isOpen = {};
   public sections = CityProfileSection;
 
-  // related data
+  // Properties to store field choices
   public sectors: string[] = [];
 
   constructor(private cityProfileService: CityProfileService,

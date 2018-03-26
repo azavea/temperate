@@ -360,7 +360,12 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
 
 class CityProfile(models.Model):
+    """
 
+    If its necessary to add a new choices class here and surface the options via the API,
+    be sure to add a new `list_route` to users.views.CityProfileOptionsViewSet.
+
+    """
     class EconomicSector(object):
         CHOICES = (
             ('Mining', 'Mining',),

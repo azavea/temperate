@@ -29,6 +29,8 @@ export class CityProfileService {
     });
   }
 
+  // BEGIN list methods for all available city profile option endpoints
+
   listEconomicSectors() {
     const url = `${environment.apiUrl}/api/city-profile-options/economic-sectors/`;
     return this.apiHttp.get(url).map(response => response.json() as CityProfileOption[]);
@@ -43,4 +45,6 @@ export class CityProfileService {
     const url = `${environment.apiUrl}/api/city-profile-options/section-status/`;
     return this.apiHttp.get(url).map(response => response.json() as CityProfileOption[]);
   }
+
+  // END list methods for all available city profile option endpoints
 }

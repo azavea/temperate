@@ -293,6 +293,7 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
 
 class CityProfileOptionsViewSet(ViewSet):
+    """Expose CityProfile field choices classes via API endpoint."""
 
     permission_classes = (IsAuthenticated,)
 
