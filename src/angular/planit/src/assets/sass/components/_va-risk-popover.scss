@@ -1,7 +1,35 @@
-va-risk-popover {
-  display: inline-block;
-  width: 90%;
+.va-risk-popover-trigger {
+  position: relative;
+  cursor: pointer;
+
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: $space-medium;
+    height: 2px;
+    border-radius: 3px;
+    background: $brand-teal;
+    opacity: 0.25;
+    z-index: 0;
+    transition: opacity 0.15s;
+  }
+
+
+  &:hover, &:focus {
+    &:after {
+      opacity: 1;
+    }
+  }
 }
-.popover {
-  max-width: 50rem;
+
+.va-risk-popover {
+  .indicators-list {
+    padding-left: $space-xlarge;
+  }
+
+  .indicators-list-item:not(:last-child) {
+    margin-bottom: $space-small;
+  }
 }
