@@ -1,5 +1,6 @@
 // Tooltip, Bootstrap
-.tooltip-trigger {
+.tooltip-trigger,
+.icon-question-circle {
   color: $tooltip-trigger-color;
 
   &:focus, &.focus {
@@ -29,6 +30,7 @@
   word-wrap: normal;
   font-size: $tooltip-font-size;
   opacity: 0;
+  @include light-on-dark();
 
   &.in {
     opacity: 1;
@@ -96,6 +98,10 @@
   background-color: $tooltip-background;
   border-radius: $border-radius;
   box-shadow: $tooltip-shadow;
+}
+
+.tooltip-wide .tooltip-inner {
+  max-width: $tooltip-wide-max-width;
 }
 
 .tooltip-arrow {

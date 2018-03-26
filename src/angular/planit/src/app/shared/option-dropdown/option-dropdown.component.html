@@ -2,7 +2,7 @@
   <button dropdownToggle type="button" class="button dropdown-toggle" 
           [attr.id]="buttonId"
           [ngClass]="{active: options.get(control.value)}">
-    {{ options.get(control.value) ? options.get(control.value)?.label: defaultLabel }}<i class="icon icon-chevron-down"></i>
+    {{ options.get(control.value) ? options.get(control.value)?.label: defaultLabel }}<span class="icon icon-chevron-down"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li role="menuitem"

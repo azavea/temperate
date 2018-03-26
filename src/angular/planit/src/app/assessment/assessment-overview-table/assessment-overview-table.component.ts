@@ -27,7 +27,8 @@ export class AssessmentOverviewTableComponent implements OnInit {
     potentialImpact: 'The degree to which the risk will affect the city overall.',
     risk: 'A potential future climate hazard and the social, civic, economic, or ecological ' +
           'system that may be affected.',
-    communitySystem: 'Add content for this tooltip.'
+    communitySystem: 'The social, civic, economic, or ecological system that may be affected ' +
+                     'by a potential future climate hazard'
   };
   constructor(private riskService: RiskService) { }
 

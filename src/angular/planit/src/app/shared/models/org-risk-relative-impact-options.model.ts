@@ -9,31 +9,31 @@ export const OrgRiskRelativeImpactOptions =
   }],
   [OrgRiskRelativeOption.Low, {
     label: 'Low',
-    description: 'you expect that the hazard will not affect the operation of critical assets' +
+    description: 'You expect that the hazard will not affect the operation of critical assets' +
     ' and services across the city, is very unlikely to result in death or injury, but' +
     ' may cause minor economic disruption.'
   }],
   [OrgRiskRelativeOption.ModeratelyLow, {
     label: 'Moderately low',
-    description: 'you expect that the hazard may somewhat affect the operation of' +
+    description: 'You expect that the hazard may somewhat affect the operation of' +
     ' critical assets and services across the city, is unlikely to result in death or injury, but' +
     ' may cause moderate economic disruption.'
   }],
   [OrgRiskRelativeOption.Moderate, {
     label: 'Moderate',
-    description: 'you expect that the hazard may moderately affect the operation of some' +
+    description: 'You expect that the hazard may moderately affect the operation of some' +
     ' critical assets and services across the city, is unlikely to result in death or injury, but' +
     ' may cause moderate economic disruption.'
   }],
   [OrgRiskRelativeOption.ModeratelyHigh, {
     label: 'Moderately high',
-    description: 'you expect that the hazard may significantly affect the operation of some' +
+    description: 'You expect that the hazard may significantly affect the operation of some' +
     ' critical assets and services across the city, and may result in the death or injury of a' +
     ' number of people and/or major economic disruption.'
   }],
   [OrgRiskRelativeOption.High, {
     label: 'High',
-    description: 'you expect that the hazard may significantly affect the operation of a majority' +
+    description: 'You expect that the hazard may significantly affect the operation of a majority' +
     ' of critical assets and services across the city, and may result in the death or injury of a' +
     ' significant number of people and/or extreme economic disruption.'
   }]
