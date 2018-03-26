@@ -10,6 +10,7 @@ import COMMON_PASSWORDS from './common-passwords';
   providers: [{provide: NG_VALIDATORS, useExisting: PasswordValidatorDirective, multi: true}]
 })
 export class PasswordValidatorDirective implements Validator {
+  // tslint:disable-next-line:no-input-rename
   @Input('appPasswordValidator') disallowed: string[];
 
   static common(control) {
