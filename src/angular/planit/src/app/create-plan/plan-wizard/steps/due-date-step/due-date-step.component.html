@@ -17,7 +17,7 @@
              bsDatepicker [(ngModel)]="planDueDate"
              [minDate]="minDate"
              [bsConfig]="{ containerClass: 'theme-default', showWeekNumbers: false }">
-      <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && (form.controls.plan_due_date.dirty || form.controls.plan_due_date.touched)">
+      <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && form.controls.plan_due_date.dirty">
         <span *ngIf="form.controls.plan_due_date.errors.required">Enter the date that you and your team expect to finish this plan. Don&rsquo;t worry, you can change this later</span>
         <div *ngIf="form.controls.plan_due_date.errors.bsDate">
           <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
