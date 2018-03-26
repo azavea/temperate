@@ -19,7 +19,7 @@
           </p>
         </div>
 
-        <ng-container *ngIf="this.groupedRisks !== undefined">
+        <ng-container *ngIf="this.groupedRisks !== undefined && this.groupedRisks?.length !== 0">
           <header class="nav-tabs dashboard-view-tabs">
             <span class="nav-tabs-label">View:</span>
             <button class="button-icon-only tab-item"
@@ -66,7 +66,7 @@
               <va-assessment-overview-table [risks]="risks" [showFullTitle]="true">
               </va-assessment-overview-table>
             </div>
-            
+
             <div class="tab-content tab-actions" *ngIf="allViewTab === allViewTabs.ActionSteps">
               <as-action-card-container [risks]="risks"
                                         [showFullTitle]="true">
