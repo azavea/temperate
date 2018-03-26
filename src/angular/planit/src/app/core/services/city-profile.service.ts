@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CityProfile, CityProfileSummary, Organization } from '../../shared/';
+import { CityProfile, CityProfileOption, CityProfileSummary, Organization } from '../../shared/';
 import { PlanItApiHttp } from './api-http.service';
 
 import { environment } from '../../../environments/environment';
@@ -27,5 +27,20 @@ export class CityProfileService {
       const data = response.json();
       return new CityProfile(data);
     });
+  }
+
+  listEconomicSectors() {
+    const url = `${environment.apiUrl}/api/city-profile-options/economic-sectors/`;
+    return this.apiHttp.get(url).map(response => response.json() as CityProfileOption[]);
+  }
+
+  listCommitmentStatuses() {
+    const url = `${environment.apiUrl}/api/city-profile-options/commitment-status/`;
+    return this.apiHttp.get(url).map(response => response.json() as CityProfileOption[]);
+  }
+
+  listSectionStatuses() {
+    const url = `${environment.apiUrl}/api/city-profile-options/section-status/`;
+    return this.apiHttp.get(url).map(response => response.json() as CityProfileOption[]);
   }
 }

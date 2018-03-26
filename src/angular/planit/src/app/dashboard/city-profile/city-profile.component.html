@@ -11,7 +11,10 @@
           <span class="pull-right icon" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           <span class="pull-right label label-danger">2 Required</span>
         </h3>
-        Economic sector: <input type="text" [(ngModel)]="cityProfile.about_economic_sector">
+        Economic sector: <input type="text"
+                                [(ngModel)]="cityProfile.about_economic_sector"
+                                [typeahead]="sectors"
+                                typeaheadMinLength="0">
       </accordion-group>
     </accordion>
 

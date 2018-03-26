@@ -6,6 +6,11 @@ export interface ActionPrioritized {
   multiple_criteria: boolean;
 }
 
+export interface CityProfileOption {
+  name: string;
+  label: string;
+}
+
 export enum CityProfileSection {
   About,
   Assessment,
