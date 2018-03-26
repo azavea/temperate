@@ -361,29 +361,85 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
 class CityProfile(models.Model):
 
+    class EconomicSector(object):
+        CHOICES = (
+            ('Mining', 'Mining',),
+            ('Construction', 'Construction',),
+            ('Manufacturing', 'Manufacturing',),
+            ('Utilities', 'Utilities',),
+            ('Wholesale trade', 'Wholesale trade',),
+            ('Retail trade', 'Retail trade',),
+            ('Transportation and warehousing', 'Transportation and warehousing',),
+            ('Information', 'Information',),
+            ('Financial activities', 'Financial activities',),
+            ('Professional and business services', 'Professional and business services',),
+            ('Educational services', 'Educational services',),
+            ('Healthcare and social assistance', 'Healthcare and social assistance',),
+            ('Leisure and hospitality', 'Leisure and hospitality',),
+            ('Agriculture', 'Agriculture',),
+            ('Forestry', 'Forestry',),
+            ('Fishing and hunting', 'Fishing and hunting',),
+            ('Other', 'Other',),
+        )
+
+    class CommitmentStatus(object):
+        EXISTS = 'exists'
+        IN_PROGRESS = 'inprogress'
+        DOES_NOT_EXIST = 'doesnotexist'
+        NO_PLANS = 'noplanstoundertake'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (EXISTS, 'Currently exists',),
+            (IN_PROGRESS, 'In progress',),
+            (DOES_NOT_EXIST, 'Does not exist, but intend to undertake',),
+            (NO_PLANS, 'Does not exist, no plans to undertake',),
+            (DO_NOT_KNOW, 'Do not know',),
+        )
+
+    class SectionStatus(object):
+        YES = 'yes'
+        NOT_YET = 'notyet'
+        IN_PROGRESS = 'inprogress'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (YES, 'Yes',),
+            (NOT_YET, 'Not yet',),
+            (IN_PROGRESS, 'It\'s in progress',),
+            (DO_NOT_KNOW, 'I don\'t know',),
+        )
+
     organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    about_economic_sector = models.CharField(max_length=64, blank=True, default='')
-    about_operational_budget_usd = models.IntegerField(blank=True, null=True)
-    about_adaptation_status = models.CharField(max_length=64, blank=True, default='')
-    about_commitment_status = models.CharField(max_length=64, blank=True, default='')
-    about_mitigation_status = models.CharField(max_length=64, blank=True, default='')
+    about_economic_sector = models.CharField(max_length=256, choices=EconomicSector.CHOICES,
+                                             blank=True, default='')
+    about_operational_budget_usd = models.PositiveIntegerField(blank=True, null=True)
+    about_adaptation_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
+    about_commitment_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
+    about_mitigation_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
     about_sustainability_description = models.TextField(blank=True, default='')
     about_sustainability_progress = models.TextField(blank=True, default='')
     about_master_planning = models.TextField(blank=True, default='')
 
-    assessment_status = models.CharField(max_length=32, blank=True, default='')
+    assessment_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+                                         blank=True, default='')
     assessment_hazards_considered = models.CharField(max_length=32, blank=True, default='')
     assessment_assets_considered = models.CharField(max_length=32, blank=True, default='')
     assessment_populations_identified = models.CharField(max_length=32, blank=True, default='')
 
-    plan_status = models.CharField(max_length=32, blank=True, default='')
+    plan_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+                                   blank=True, default='')
     plan_type = models.CharField(max_length=32, blank=True, default='')
 
-    action_status = models.CharField(max_length=32, blank=True, default='')
+    action_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+                                     blank=True, default='')
     action_prioritized_description = models.TextField(blank=True, default='')
     # default=0 explicitly sets all flags to false
     action_prioritized = BitField(flags=(
