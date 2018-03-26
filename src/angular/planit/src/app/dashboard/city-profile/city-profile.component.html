@@ -1,5 +1,20 @@
 <div class="main-container">
-  <main class="main-content" role="main">
+  <main class="main-content city-profile" role="main">
     <h1>City Profile</h1>
+    <h2>Information about your city and its past achievements as well as any long-term goals you hope to achieve.</h2>
+    <h3>These questions can be answered at any point in the process of developing your plan.</h3>
+
+    <accordion *ngIf="cityProfile">
+      <accordion-group [(isOpen)]="isOpen[sections.About]">
+        <h3 accordion-heading>
+          About your city
+          <span class="pull-right icon" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
+          <span class="pull-right label label-danger">2 Required</span>
+        </h3>
+        Economic sector: <input type="text" [(ngModel)]="cityProfile.about_economic_sector">
+      </accordion-group>
+    </accordion>
+
+    <button class="button button-primary" (click)="save()">Save</button>
   </main>
 </div>

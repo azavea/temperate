@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AccordionModule, PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
@@ -22,6 +22,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     AccordionModule,
     PopoverModule,
     ProgressbarModule,
