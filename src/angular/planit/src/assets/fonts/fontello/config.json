@@ -1655,6 +1655,12 @@
       ]
     },
     {
+      "uid": "422e07e5afb80258a9c4ed1706498f8a",
+      "css": "circle-empty",
+      "code": 59645,
+      "src": "fontawesome"
+    },
+    {
       "uid": "aaafc57606711978ce1817857229d8eb",
       "css": "plus",
       "code": 59500,
