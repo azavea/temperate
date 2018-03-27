@@ -10,3 +10,15 @@
   color: $brand-positive;
   font-size: $text-display;
 }
+
+app-manage-subscription {
+  app-plan-selector {
+    .plan-cards {
+      .plan-card {
+        &:hover {
+          box-shadow: $pricing-plan-card-shadow;
+        }
+      }
+    }
+  }
+}

@@ -8,14 +8,19 @@
       <span class="cost">${{ plan.yearlyCost | number }}<span class="peryear">/year</span></span>
     </h5>
     <p class="description">{{ plan.description }}</p>
-    <button class="button button-primary"
+    <button class="button"
+      [ngClass]="{'button-primary': isUpgrade(plan) }"
       [disabled]="org?.subscription_pending"
       (click)="planSelected(plan)"
       *ngIf="activePlan && plan.name !== activePlan.name">{{ isUpgrade(plan) ? 'Upgrade' : 'Downgrade' }}</button>
     <button class="button button-primary"
+      disabled
+      *ngIf="activePlan && activePlan.name === plan.name">{{  org.subscription_pending ? 'Subscription pending...' : 'Signed up' }}</button>
+    <button class="button button-primary"
       [disabled]="org?.subscription_pending"
       (click)="planSelected(plan)"
       *ngIf="!activePlan">Select package</button>
+    <div class="current" *ngIf="activePlan && plan.name === activePlan.name && !org.subscription_pending">Current plan</div>
     <div class="recommended"
          *ngIf="(!activePlan || activePlan.name === 'free_trial') && (plan.nickName | lowercase) === 'insights'"
          >Recommended</div>

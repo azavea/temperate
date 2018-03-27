@@ -35,6 +35,13 @@
       transform: scale(1.01);
     }
 
+    &.active {
+      &:hover {
+        box-shadow: $pricing-plan-card-shadow;
+        transform: none;
+      }
+    }
+
     > .tier {
       align-self: center;
       margin-top: -$space-medium;
@@ -90,13 +97,25 @@
       text-align: left;
       text-transform: uppercase;
     }
+
+    > .current {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 $space-medium $space-small $space-large;
+      border-radius: 0 0 0 $border-radius;
+      color: $black;
+      background: $brand-leaf;
+      font-size: $text-tiny;
+      text-align: left;
+      text-transform: uppercase;
+    }
   }
 }
 
 app-plan-selector {
   .plan-cards {
     .plan-card {
-
       &:hover {
         box-shadow: $pricing-plan-card-shadow-hover;
       }
