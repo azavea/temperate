@@ -16,7 +16,7 @@
         <h2>Indicators</h2>
         <div class="indicator-filters" *ngIf="filters?.length">
           <div class="filter-header">
-            <label for="filter-indicators">Filter by hazard:</label>
+            <label for="filter-indicators">Filter by your selected hazards:</label>
             <div id="filter-indicators" class="button-group">
               <button class="button button-secondary"
                    [ngClass]="{'active': activeFilter?.name === filter.name}"
@@ -24,14 +24,14 @@
                    (click)="setActiveFilter(filter)">
                   {{ filter.name }}
               </button>
-              <button class="button-link reset-button" (click)="resetAccordion()">Reset</button>
+              <button class="button-link reset-button" (click)="resetFilter()">Reset</button>
             </div>
           </div>
         </div>
       </div>
       <div class="card-container" role="tablist" aria-multiselectable="true">
         <app-collapsible-chart
-            *ngFor="let indicator of allIndicators"
+            *ngFor="let indicator of filteredIndicators"
             [isOpen]="accordionState[indicator.name]"
             [indicator]="indicator"
             [city]="city"
