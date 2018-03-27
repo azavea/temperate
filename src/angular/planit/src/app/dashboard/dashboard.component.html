@@ -20,59 +20,44 @@
         </div>
 
         <ng-container *ngIf="this.risks !== undefined && this.risks?.length !== 0">
-          <header class="nav-tabs dashboard-view-tabs">
-            <span class="nav-tabs-label">View:</span>
-            <button class="button-icon-only tab-item"
+          <div class="nav-tabs">
+            <button class="button-tab tab-item"
                     [ngClass]="{active: viewTab === viewTabs.Grouped}"
-                    (click)="viewTab = viewTabs.Grouped"
-                    tooltip="Risks grouped by hazard"
-                    placement="top">
-              <i class="icon icon-th-list"></i>
+                    (click)="viewTab = viewTabs.Grouped">
+              Hazards
             </button>
-            <button class="button-icon-only tab-item"
-                    [ngClass]="{active: viewTab === viewTabs.All}"
-                    (click)="viewTab = viewTabs.All"
-                    tooltip="All risks"
-                    placement="top">
-              <i class="icon icon-list-alt"></i>
+            <button class="button-tab tab-item"
+                    [ngClass]="{active: viewTab === viewTabs.Assessment}"
+                    (click)="viewTab = viewTabs.Assessment">
+              Vulnerability assessment
             </button>
-          </header>
+            <button *ngIf="areAnyRisksAssessed"
+                    class="button-tab tab-item"
+                    [ngClass]="{active: viewTab === viewTabs.ActionSteps}"
+                    (click)="viewTab = viewTabs.ActionSteps">
+              Action steps
+            </button>
+          </div>
 
-          <ng-container *ngIf="viewTab === viewTabs.Grouped">
+          <div class="tab-content tab-hazards" *ngIf="viewTab === viewTabs.Grouped">
             <app-grouped-risk
                 *ngFor="let risks of groupedRisks"
                 [risks]="risks"
                 [weatherEvent]="risks[0].weather_event">
             </app-grouped-risk>
-          </ng-container>
+          </div>
 
-          <ng-container *ngIf="viewTab === viewTabs.All">
-            <div class="nav-tabs">
-              <button class="button-tab tab-item"
-                      [ngClass]="{active: allViewTab === allViewTabs.Assessment}"
-                      (click)="allViewTab = allViewTabs.Assessment">
-                Vulnerability assessment
-              </button>
-              <button *ngIf="areAnyRisksAssessed"
-                      class="button-tab tab-item"
-                      [ngClass]="{active: allViewTab === allViewTabs.ActionSteps}"
-                      (click)="allViewTab = allViewTabs.ActionSteps">
-                Action steps
-              </button>
-            </div>
+          <div class="tab-content tab-assessment" *ngIf="viewTab === viewTabs.Assessment">
+            <button class="button button-small" routerLink="/assessment/risk/new">Add new risk</button>
+            <va-assessment-overview-table [(risks)]="risks" [showFullTitle]="true">
+            </va-assessment-overview-table>
+          </div>
 
-            <div class="tab-content tab-assessment" *ngIf="allViewTab === allViewTabs.Assessment">
-              <button class="button button-small" routerLink="/assessment/risk/new">Add new risk</button>
-              <va-assessment-overview-table [(risks)]="risks" [showFullTitle]="true">
-              </va-assessment-overview-table>
-            </div>
-
-            <div class="tab-content tab-actions" *ngIf="allViewTab === allViewTabs.ActionSteps">
-              <as-action-card-container [(risks)]="risks"
-                                        [showFullTitle]="true">
-              </as-action-card-container>
-            </div>
-          </ng-container>
+          <div class="tab-content tab-actions" *ngIf="viewTab === viewTabs.ActionSteps">
+            <as-action-card-container [(risks)]="risks"
+                                      [showFullTitle]="true">
+            </as-action-card-container>
+          </div>
         </ng-container>
 
         <footer class="dashboard-footer" *ngIf="this.risks?.length">

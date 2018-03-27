@@ -15,10 +15,6 @@ import { ModalTemplateComponent } from '../shared/modal-template/modal-template.
 
 enum ViewTabs {
   Grouped,
-  All
-}
-
-enum AllViewTabs {
   Assessment,
   ActionSteps
 }
@@ -36,8 +32,6 @@ export class DashboardComponent implements OnInit {
 
   public viewTab = ViewTabs.Grouped;
   public viewTabs = ViewTabs;
-  public allViewTab = AllViewTabs.Assessment;
-  public allViewTabs = AllViewTabs;
 
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
