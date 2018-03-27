@@ -378,30 +378,34 @@ $progress-bar-highlight-background-action: $brand-positive;
  * - Add Category component
  *
  * * * */
- $switch-border-radius: $border-radius;
- $switch-title-size: $text-base;
- $switch-title-color: $brand-black;
+$switch-border-radius: $border-radius;
+$switch-title-size: $text-base;
+$switch-title-color: $brand-black;
 
- $switch-background: $neutral-0;
- $switch-background-hover: $brand-teal-v-light;
- $switch-background-selected: $brand-teal-v-light;
- $switch-border: 1px solid $neutral-1;
- $switch-border-hover: 1px solid $brand-teal-light;
- $switch-border-selected: 3px solid $brand-teal-light;
+$switch-description-size: $text-small;
+$switch-description-color: $neutral-4;
+$switch-description-line-height: 1.25;
 
- $switch-status-icon-size: $text-base;
+$switch-background: $neutral-0;
+$switch-background-hover: $brand-teal-v-light;
+$switch-background-selected: $brand-teal-v-light;
+$switch-border: 1px solid $neutral-1;
+$switch-border-hover: 1px solid $brand-teal-light;
+$switch-border-selected: 3px solid $brand-teal-light;
 
- $switch-unchecked-icon-color: $neutral-2;
- $switch-unchecked-icon-color-hover: $brand-teal;
- $switch-checked-icon-color: $brand-teal;
- $switch-checked-icon-color-hover: $brand-danger;
+$switch-status-icon-size: $text-base;
 
- $switch-primary-icon-color: $brand-black;
- $switch-primary-icon-size: $text-large;
+$switch-unchecked-icon-color: $neutral-2;
+$switch-unchecked-icon-color-hover: $brand-teal;
+$switch-checked-icon-color: $brand-teal;
+$switch-checked-icon-color-hover: $brand-danger;
 
- $switch-readonly-icon-color: $neutral-2;
- $switch-readonly-icon-color-selected: $neutral-4;
- $switch-readonly-icon-size: $text-small;
+$switch-primary-icon-color: $brand-black;
+$switch-primary-icon-size: $text-large;
+
+$switch-readonly-icon-color: $neutral-2;
+$switch-readonly-icon-color-selected: $neutral-4;
+$switch-readonly-icon-size: $text-small;
 
 
 /* * * *

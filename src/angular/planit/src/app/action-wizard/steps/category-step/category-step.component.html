@@ -12,14 +12,17 @@
         [ngClass]="{selected: category.selected}"
           *ngFor="let category of actionCategories"
           (click)="selectActionCategory(category)">
-        <span *ngIf="category.selected"
-          class="icon icon-status"></span>
-        <span *ngIf="!category.selected"
-              class="icon icon-status"
-              tooltip="Add category"
-              tooltipPlacement="right"></span>
-          <span class="icon icon-primary {{ category.icon }}"></span>
-        {{ category.name }}
+      <span *ngIf="category.selected"
+        class="icon icon-status"></span>
+      <span *ngIf="!category.selected"
+            class="icon icon-status"
+            tooltip="Add category"
+            tooltipPlacement="right"></span>
+        <span class="icon icon-primary {{ category.icon }}"></span>
+      <div class="switch-header">
+        <h4 class="switch-title">{{ category.name }}</h4>
+        <p class="switch-description">{{ category.description }}</p>
+      </div>
     </button>
   </div>
 </div>
