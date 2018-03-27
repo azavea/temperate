@@ -74,8 +74,10 @@ class OrganizationRiskAdmin(admin.ModelAdmin):
 
 @admin.register(OrganizationAction)
 class OrganizationActionAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'name')
+    list_display = ('__str__', 'name', 'visibility')
+    list_editable = ('visibility',)
     list_filter = (OrganizationTypeActionFilter,
+                   'visibility',
                    'organization_risk__weather_event',
                    'organization_risk__community_system')
     list_select_related = ('organization_risk',
