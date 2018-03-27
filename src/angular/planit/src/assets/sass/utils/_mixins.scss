@@ -35,6 +35,16 @@
   }
 }
 
+/* * * *
+ * Generate Badges
+ * * * */
+@mixin generate-badge($name:'', $color:$neutral-2) {
+  .badge#{$name} {
+    background-color: $color;
+    color: $badge-font-color;
+  }
+}
+
 // TODO: Add style for a close/X button to be placed on right side of alert.
 
 /* * * *

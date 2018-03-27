@@ -1,0 +1,41 @@
+.panel-title {
+  width: 100%;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+
+    .badge {
+      margin-left: auto;
+      margin-right: $space-medium;
+    }
+  }
+  // Toggles the accordion and contains card header content
+  .accordion-toggle {
+    -webkit-appearance: none;
+    cursor: pointer;
+    box-shadow: none;
+    border: none;
+    padding: $space-large $space-small $space-large $space-large;
+    width: 100%;
+
+    &:hover, &:active, &:hover:focus {
+      color: $panel-toggle-color-hover;
+      background: $panel-toggle-background-hover;
+      
+      .panel-label {
+        color: $panel-toggle-color-hover;
+      }
+    }
+  }
+}
+
+.panel-label {
+  color: $panel-label-color;
+  font-size: $panel-label-font-size;
+  margin-bottom: 0;
+}
+
+.panel-collapse {
+  padding: $space-large 0 $space-xxlarge;
+}

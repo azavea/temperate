@@ -1,0 +1,36 @@
+// Badge
+
+@include generate-badge();
+
+@include generate-badge(-primary, $brand-primary);
+
+@include generate-badge(-secondary, $brand-secondary);
+
+@include generate-badge(-danger, $brand-danger);
+
+@include generate-badge(-warning, $brand-warning);
+
+@include generate-badge(-positive, $brand-positive);
+
+@include generate-badge(-success, $brand-positive);
+
+.badge {
+  padding: $badge-padding-vertical $badge-padding-horizontal;
+  border-radius: $badge-border-radius;
+  border: 2px solid transparent;
+  font-size: $badge-font-size;
+  text-align: center;
+
+  p {
+    color: inherit;
+  }
+
+  a {
+    color: inherit !important;
+    border-bottom-color: rgba($black, .8) !important;
+  }
+
+  &.badge-primary {
+    color: $badge-font-color-primary;
+  }
+}

@@ -1,22 +1,32 @@
 <div class="main-container">
   <main class="main-content city-profile" role="main">
-    <h1>City Profile</h1>
-    <h2>Information about your city and its past achievements as well as any long-term goals you hope to achieve.</h2>
-    <h3>These questions can be answered at any point in the process of developing your plan.</h3>
+    <header class="page-header">
+      <h1 class="page-title-large">City Profile</h1>
+      <p class="paragraph-intro">Include information about your city and its past achievements as well as any long-term goals you hope to achieve.</p>
+      <p>These questions can be answered at any point in the process of developing your plan.</p>
+    </header>
 
-    <accordion *ngIf="cityProfile">
-      <accordion-group [(isOpen)]="isOpen[sections.About]">
-        <h3 accordion-heading>
-          About your city
-          <span class="pull-right icon" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
-          <span class="pull-right label label-danger">2 Required</span>
-        </h3>
-        Economic sector: <input type="text"
-                                [(ngModel)]="cityProfile.about_economic_sector"
-                                [typeahead]="sectors"
-                                typeaheadMinLength="0">
-      </accordion-group>
-    </accordion>
+    <section class="page-section">
+      <accordion *ngIf="cityProfile">
+        <accordion-group [(isOpen)]="isOpen[sections.About]">
+          <header accordion-heading>
+            <h2 class="panel-label">About your city</h2>
+            <span class="badge badge-danger">2 required</span>
+            <span class="icon icon-accordion" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
+          </header>
+          <div class="form-control-container">
+            <label for="economic-sector">
+              Economic sector
+            </label>
+            <input id="economic-sector" class="form-control"
+                   type="text"
+                   [(ngModel)]="cityProfile.about_economic_sector"
+                   [typeahead]="sectors"
+                   typeaheadMinLength="0">
+          </div>
+        </accordion-group>
+      </accordion>
+    </section>
 
     <button class="button button-primary" (click)="save()">Save</button>
   </main>
