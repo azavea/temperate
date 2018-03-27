@@ -40,6 +40,7 @@
           </div>
 
           <div class="tab-content tab-hazards" *ngIf="viewTab === viewTabs.Grouped">
+          <button type="button" class="button button-small" (click)="openModal(weatherEventsModal)">Add a hazard</button>
             <app-grouped-risk
                 *ngFor="let risks of groupedRisks"
                 [risks]="risks"
@@ -59,11 +60,6 @@
             </as-action-card-container>
           </div>
         </ng-container>
-
-        <footer class="dashboard-footer" *ngIf="this.risks?.length">
-          <button type="button" class="button"
-                  (click)="openModal(weatherEventsModal)">Add a hazard</button>
-        </footer>
       </div>
     </section>
 
