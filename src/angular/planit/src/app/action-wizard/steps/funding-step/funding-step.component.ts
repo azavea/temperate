@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
@@ -20,7 +21,7 @@ interface FundingStepFormModel {
   templateUrl: './funding-step.component.html'
 })
 export class FundingStepComponent extends ActionWizardStepComponent<FundingStepFormModel>
-                                  implements OnInit {
+                                  implements OnInit, OnDestroy {
 
   @Input() risk: Risk;
 
@@ -29,6 +30,7 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
   public key = ActionStepKey.Funding;
   public navigationSymbol = '5';
   public title = 'Funding';
+  private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
@@ -43,6 +45,16 @@ export class FundingStepComponent extends ActionWizardStepComponent<FundingStepF
     super.ngOnInit();
     this.action = this.session.getData();
     this.setupForm(this.fromModel(this.action));
+
+    this.setDisabled(this.action);
+    this.sessionSubscription = this.session.data.subscribe(action => {
+      this.action = action;
+      this.setDisabled(action);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   getFormModel(): FundingStepFormModel {

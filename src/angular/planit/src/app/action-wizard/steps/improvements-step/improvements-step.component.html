@@ -1,4 +1,7 @@
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must give this action a name to complete this step.
+  </p>
   <h3 class="step-title">Outcomes</h3>
   <p>Assuming the implementation of this action is successful, what are the outcomes you hope to achieve?</p>
 </div>
