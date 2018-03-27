@@ -114,7 +114,9 @@ export class DashboardComponent implements OnInit {
   get groupedRisks() {
     if (this.risks === undefined) return undefined;
 
-    return Array.from(RiskService.groupByWeatherEvent(this.risks).values());
+    const groupedRisks = RiskService.groupByWeatherEvent(this.risks);
+    const names = Array.from(groupedRisks.keys()).sort();
+    return Array.from(names.map(name => groupedRisks.get(name)));
   }
 
   getRisks() {
