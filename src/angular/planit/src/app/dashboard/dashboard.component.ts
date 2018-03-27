@@ -29,7 +29,6 @@ enum AllViewTabs {
 })
 export class DashboardComponent implements OnInit {
 
-  public groupedRisks: any[];
   public risks: Risk[];
   public organization: Organization;
   public selectedEventsControl = new FormControl([]);
@@ -55,7 +54,7 @@ export class DashboardComponent implements OnInit {
               private weatherEventService: WeatherEventService) { }
 
   ngOnInit() {
-    this.getGroupedRisks();
+    this.getRisks();
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
       this.setSelectedEvents(this.organization.weather_events);
@@ -92,11 +91,11 @@ export class DashboardComponent implements OnInit {
 
   saveWeatherEventsModal(modal: ModalTemplateComponent) {
     // Trigger spinner display so that it's shown for both the save queries and the
-    //  grouped risks requery
-    this.groupedRisks = undefined;
+    // risks requery
+    this.risks = undefined;
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
     this.saveEventsToAPI(selectedEvents)
-      .finally(() => this.getGroupedRisks())
+      .finally(() => this.getRisks())
       .subscribe(results => this.handleAPISave(results));
     modal.close();
   }
@@ -112,12 +111,15 @@ export class DashboardComponent implements OnInit {
     return Risk.areAnyRisksAssessed(this.risks);
   }
 
-  private getGroupedRisks() {
-    this.groupedRisks = undefined;
-    this.riskService.groupByWeatherEvent().subscribe(r => {
-      this.groupedRisks = Array.from(r.values());
-      this.risks = [].concat.apply([], this.groupedRisks);
-    });
+  get groupedRisks() {
+    if (this.risks === undefined) return undefined;
+
+    return Array.from(RiskService.groupByWeatherEvent(this.risks).values());
+  }
+
+  getRisks() {
+    this.risks = undefined;
+    this.riskService.list().subscribe(risks => this.risks = risks);
   }
 
   private setSelectedEvents(eventIds: number[]) {

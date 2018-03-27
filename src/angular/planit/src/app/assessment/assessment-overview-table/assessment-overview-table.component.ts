@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { RiskService } from '../../core/services/risk.service';
 
@@ -15,6 +15,7 @@ export class AssessmentOverviewTableComponent implements OnInit {
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
   @Input() risks: Risk[];
+  @Output() risksChange = new EventEmitter<Risk[]>();
   @Input() showFullTitle = false;
 
   public tooltipText = {
@@ -40,7 +41,8 @@ export class AssessmentOverviewTableComponent implements OnInit {
     }).onErrorResumeNext().switchMap(() => {
       return this.riskService.delete(risk);
     }).subscribe(() => {
-        this.risks = this.risks.filter(r => r.id !== risk.id);
+      this.risks = this.risks.filter(r => r.id !== risk.id);
+      this.risksChange.emit(this.risks);
     });
   }
 

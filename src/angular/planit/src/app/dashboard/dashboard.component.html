@@ -7,11 +7,11 @@
 
     <section class="dashboard-container">
       <div class="dashboard-content">
-        <div class="dashboard-loader loading-wrapper" *ngIf="this.groupedRisks === undefined">
+        <div class="dashboard-loader loading-wrapper" *ngIf="this.risks === undefined">
           <div class="loading loading-spinner loading-large loading-primary"></div>
         </div>
 
-        <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
+        <div class="dashboard-empty" *ngIf="this.risks?.length === 0">
           <h4 class="empty-state-header">You haven&rsquo;t started your assessment yet</h4>
           <p class="empty-state-text">
             To get started, <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add some hazards</button>
@@ -19,7 +19,7 @@
           </p>
         </div>
 
-        <ng-container *ngIf="this.groupedRisks !== undefined && this.groupedRisks?.length !== 0">
+        <ng-container *ngIf="this.risks !== undefined && this.risks?.length !== 0">
           <header class="nav-tabs dashboard-view-tabs">
             <span class="nav-tabs-label">View:</span>
             <button class="button-icon-only tab-item"
@@ -63,19 +63,19 @@
 
             <div class="tab-content tab-assessment" *ngIf="allViewTab === allViewTabs.Assessment">
               <button class="button button-small" routerLink="/assessment/risk/new">Add new risk</button>
-              <va-assessment-overview-table [risks]="risks" [showFullTitle]="true">
+              <va-assessment-overview-table [(risks)]="risks" [showFullTitle]="true">
               </va-assessment-overview-table>
             </div>
 
             <div class="tab-content tab-actions" *ngIf="allViewTab === allViewTabs.ActionSteps">
-              <as-action-card-container [risks]="risks"
+              <as-action-card-container [(risks)]="risks"
                                         [showFullTitle]="true">
               </as-action-card-container>
             </div>
           </ng-container>
         </ng-container>
 
-        <footer class="dashboard-footer" *ngIf="this.groupedRisks?.length">
+        <footer class="dashboard-footer" *ngIf="this.risks?.length">
           <button type="button" class="button"
                   (click)="openModal(weatherEventsModal)">Add a hazard</button>
         </footer>

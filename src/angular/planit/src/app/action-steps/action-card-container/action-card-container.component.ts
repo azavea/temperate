@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 import { ActionService } from '../../core/services/action.service';
 import { Action, Risk } from '../../shared';
@@ -14,6 +14,7 @@ export class ActionCardContainerComponent implements OnInit {
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
 
   @Input() public risks: Risk[];
+  @Output() public risksChange = new EventEmitter<Risk[]>();
   @Input() public showFullTitle = false;
 
   constructor(private actionService: ActionService) { }
@@ -30,6 +31,7 @@ export class ActionCardContainerComponent implements OnInit {
       return this.actionService.delete(action);
     }).subscribe(a => {
       risk.action = null;
+      this.risksChange.emit(this.risks);
     });
   }
 
