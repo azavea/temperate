@@ -48,22 +48,31 @@
 
     <!-- Password -->
     <div class="form-control-container">
-      <label for="password1">Password</label>
-      <input class="form-control" type="password" required autocomplete="new-password"
-        [(ngModel)]="model.password1" #password1="ngModel" id="password1" name="password1">
-      <div *ngIf="errors.password1" class="form-control-error">
-        <p *ngFor="let error of errors.password1">
-          {{ error }}
-        </p>
+      <label for="password">Password</label>
+      <div class="input-group">
+        <input class="form-control"
+               [type]="passwordVisible ? 'input' : 'password'"
+               required
+               autocomplete="new-password"
+               [(ngModel)]="model.password"
+               [appPasswordValidator]="[model.first_name, model.last_name, model.email]"
+               #popover="bs-popover"
+               [popover]="passwordPopover"
+               placement="bottom"
+               triggers=""
+               (focus)="popover.show()"
+               (blur)="popover.hide()"
+               #password="ngModel"
+               id="password"
+               name="password">
+        <button type="button" class="button-icon-only"
+                (click)="passwordVisible = !passwordVisible">
+          <span class="icon icon-eye" *ngIf="!passwordVisible"></span>
+          <span class="icon icon-eye-slash" *ngIf="passwordVisible"></span>
+        </button>
       </div>
-    </div>
-
-    <div class="form-control-container">
-      <label for="password2">Confirm password</label>
-      <input class="form-control" type="password" required autocomplete="new-password"
-        [(ngModel)]="model.password2" #password2="ngModel" id="password2" name="password2">
-      <div *ngIf="errors.password2" class="form-control-error">
-        <p *ngFor="let error of errors.password2">
+      <div *ngIf="errors.password" class="form-control-error">
+        <p *ngFor="let error of errors.password">
           {{ error }}
         </p>
       </div>
@@ -74,6 +83,12 @@
         {{ error }}
       </p>
     </div>
+
+    <!-- Note this must be inside the <form> to use the password template reference -->
+    <ng-template #passwordPopover>
+      <app-password-validator-popover [control]="password">
+      </app-password-validator-popover>
+    </ng-template>
   </form>
   <footer *ngIf="!submitted" class="modal-footer">
     <div class="button-group">
