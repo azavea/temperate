@@ -9,11 +9,12 @@
   </div>
 </ng-template>
 
-<div class="va-risk" #popover="bs-popover" [popover]="riskPopoverTemplate"
-  container="body"
-  outsideClick="true"
-  popoverTitle="{{ risk.weather_event.name }} on {{ risk.community_system.name }}"
-  placement="right">{{ risk.title() }}
+<div class="va-risk" #popover="bs-popover"
+     [popover]="indicators !== undefined && indicators.length > 0 ? riskPopoverTemplate : null"
+     container="body"
+     outsideClick="true"
+     popoverTitle="{{ risk.weather_event.name }} on {{ risk.community_system.name }}"
+     placement="right">{{ risk.title() }}
 </div>
 
 <app-modal-template #indicatorModal
