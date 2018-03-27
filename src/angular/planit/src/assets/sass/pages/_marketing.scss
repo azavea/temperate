@@ -52,11 +52,19 @@
     .heading {
       font-size: $marketing-hero-heading-size;
       font-weight: $marketing-hero-heading-weight;
+
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
     }
 
     .description {
       font-size: $marketing-hero-description-size;
       margin-bottom: $space-xxlarge;
+      
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
     }
 
     .button {
