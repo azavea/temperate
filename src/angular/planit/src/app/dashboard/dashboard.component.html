@@ -43,9 +43,9 @@
           <p>Review your plan in its entirety or submit a completed plan to ICLEI-USA for review.</p>
           <a routerLink="/review-plan">Review your plan</a>
           <footer class="aside-footer">
-            <a class="button button-small"
+            <button class="button button-small"
                (click)="planService.export()"
-               tooltip="Download your plan as a CSV">Download</a>
+               tooltip="Download your plan as a CSV">Download</button>
             <app-submit-plan-button tabindex="0" class="button button-small">
               Submit
             </app-submit-plan-button>
