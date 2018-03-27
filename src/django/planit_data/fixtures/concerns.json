@@ -34,8 +34,8 @@
         "indicator": [
             "max_consecutive_dry_days"
         ],
-        "tagline_positive": "longer dry spells",
-        "tagline_negative": "shorter dry spells",
+        "tagline_positive": "more days in the longest yearly dry spell",
+        "tagline_negative": "fewer days in the longest yearly dry spell",
         "is_relative": false,
         "static_value": null,
         "static_units": ""
