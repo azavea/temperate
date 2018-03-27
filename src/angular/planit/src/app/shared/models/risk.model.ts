@@ -60,7 +60,7 @@ export class Risk {
     return this.getPropsAsBools().length;
   }
 
-  public getAdaptiveCapacityLabel(opt: OrgRiskRelativeOption) {
+  public getAdaptiveCapacityLabel() {
     if (!this.adaptive_capacity) { return undefined; }
     return OrgRiskAdaptiveCapacityOptions.get(this.adaptive_capacity).label;
   }
