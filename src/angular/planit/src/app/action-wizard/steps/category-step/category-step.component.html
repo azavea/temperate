@@ -14,12 +14,17 @@
           (click)="selectActionCategory(category)">
         <span *ngIf="category.selected"
           class="icon icon-status"></span>
-        <span *ngIf="!category.selected"
-              class="icon icon-status"
-              tooltip="Add category"
-              tooltipPlacement="right"></span>
-          <span class="icon icon-primary {{ category.icon }}"></span>
-        {{ category.name }}
+        <h2>
+          <span *ngIf="!category.selected"
+                class="icon icon-status"
+                tooltip="Add category"
+                tooltipPlacement="right"></span>
+            <span class="icon icon-primary {{ category.icon }}"></span>
+          {{ category.name }}
+        </h2>
+        <p>
+          {{ category.description }}
+        </p>
     </button>
   </div>
 </div>
