@@ -719,6 +719,21 @@ $pricing-breakpoint-hero: 40rem;
 
 
 /* * * *
+ * Manage Subscriptions page
+ *
+ * * * */
+$subscription-modal-title-color: $brand-positive;
+$subscription-modal-title-size: $text-display;
+
+$subscription-notice-background: $white;
+$subscription-notice-border: 1px solid $neutral-1;
+$subscription-notice-border-left: 4px solid $brand-positive;
+
+$subscription-notice-heading-size: $text-base;
+$subscription-notice-heading-weight: $font-weight-bold;
+
+
+/* * * *
  * Upgrade banner
  *
  * * * */

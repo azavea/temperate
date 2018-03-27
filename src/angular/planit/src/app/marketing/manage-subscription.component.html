@@ -4,7 +4,7 @@
     You have a subscription change pending. Further changes are disabled.
   </div>
   <main class="main-content" role="main">
-    <section class="manage-subscription-hero pricing-section">
+    <section class="manage-subscription-hero">
       <div class="section-content">
         <div class="overview">
           <h1 class="page-title-large">Manage Subscription</h1>
@@ -14,35 +14,36 @@
             figure out what works for you.
           </p>
         </div>
+      
+        <div class="current plan-notice" *ngIf="user?.primary_organization.isFreeTrial() && !user?.primary_organization?.subscription_pending">
+          <h3 class="heading">Free trial</h3>
+          <div class="description">
+            Your 15-day free trial ends on
+            {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
+          </div>
+        </div>
+        
+        <div class="current plan-notice" *ngIf="!user?.primary_organization.isFreeTrial()">
+          <div class="description" *ngIf="!user?.primary_organization?.subscription_pending">
+            Your <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> subscription ends on
+            {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
+          </div>
+          <div class="description" *ngIf="user?.primary_organization?.subscription_pending">
+            Your purchase of the <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> package is pending review.
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="pricing-section">
+    <section>
       <div class="section-content">
-        <div class="current" *ngIf="user?.primary_organization.isFreeTrial() && !user?.primary_organization?.subscription_pending">
-          <h3 class="heading">Free trial</h3>
-          <p>
-            Your 15-day free trial ends on
-            {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
-          </p>
-        </div>
-
-        <div class="current" *ngIf="!user?.primary_organization.isFreeTrial()">
-          <p *ngIf="!user?.primary_organization?.subscription_pending">
-            Your <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> package ends on
-            {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
-          </p>
-          <p *ngIf="user?.primary_organization?.subscription_pending">
-            Your <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> package purchase is pending review.
-          </p>
-        </div>
-
+        <h3 class="heading">Select a package</h3>
         <app-plan-selector [org]="user?.primary_organization"
                            (selected)="selectPlan($event)"></app-plan-selector>
       </div>
     </section>
     
-    <section class="pricing-other-plans pricing-section">
+    <section class="section-extra-plans">
       <div class="section-content">
         <h3 class="heading">Not seeing what you need above?</h3>
         <div class="plan-cards">

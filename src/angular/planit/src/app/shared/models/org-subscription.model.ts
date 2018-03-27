@@ -29,7 +29,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 0,
     header: 'Free trial',
     // tslint:disable-next-line:max-line-length
-    description: 'New users who signup automatically receive a 15 day free trial.',
+    description: 'New users who sign up automatically receive a 15-day free trial.',
     iconClass: 'icon-question',
     visible: false,
     yearlyValue: null
