@@ -41,6 +41,10 @@ export class Action {
     return every(this.getPropsAsBools());
   }
 
+  public getActionCategoriesAsCSV(): string | undefined {
+    return this.categories.map(c => c.name).join(', ');
+  }
+
   public getCompletedPropCount() {
     return this.getPropsAsBools().filter(prop => prop).length;
   }
