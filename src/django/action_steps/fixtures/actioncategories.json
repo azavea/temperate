@@ -86,7 +86,7 @@
     "fields": {
         "name": "New guideline",
         "icon": "icon-plus",
-        "description": ""
+        "description": "Introduces new general advice for citizens, governmental bodies, or service providers."
     }
 },
 {
@@ -185,7 +185,7 @@
     "fields": {
         "name": "Create new standard",
         "icon": "icon-plus",
-        "description": ""
+        "description": "Introduces new compliance measures designed to improve resilience."
     }
 }
 ]
