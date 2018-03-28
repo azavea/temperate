@@ -81,4 +81,8 @@ export class ManageSubscriptionComponent implements OnInit {
       );
     });
   }
+
+  getSubscription(plan) {
+    return OrgSubscriptionOptions.get(plan);
+  }
 }

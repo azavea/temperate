@@ -3,7 +3,7 @@
     <section class="manage-subscription-hero">
       <div class="section-content">
         <div class="overview">
-          <h1 class="page-title-large">Manage Subscription</h1>
+          <h1 class="page-title-large">Manage subscription</h1>
           <p class="paragraph-intro">
             You can upgrade or cancel your Temperate package at any time. If the below packages 
             don't suit your needs, <a href="mailto:{{ supportEmail }}">contact us</a> so we can 
@@ -21,11 +21,11 @@
         
         <div class="current plan-notice" *ngIf="!user?.primary_organization.isFreeTrial()">
           <div class="description" *ngIf="!user?.primary_organization?.subscription_pending">
-            Your <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> subscription ends on
+            Your <strong>{{ getSubscription(user?.primary_organization?.subscription).nickName }}</strong> subscription ends on
             {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
           </div>
           <div class="description" *ngIf="user?.primary_organization?.subscription_pending">
-            Your purchase of the <strong>{{ user?.primary_organization?.subscription | titlecase }}</strong> package is pending review.
+            Your purchase of the <strong>{{ getSubscription(user?.primary_organization?.subscription).nickName }}</strong> package is pending review.
           </div>
         </div>
       </div>
