@@ -49,8 +49,8 @@
             <th scope="row">
               <va-risk-popover [risk]="risk"></va-risk-popover>
             </th>
-            <td>{{ risk.impact_magnitude }}</td>
-            <td>{{ risk.adaptive_capacity }}</td>
+            <td>{{ risk.getImpactMagnitudeLabel() || '--' }}</td>
+            <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
             <td>
               <button class="button button-primary va-status-button"
                       *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"

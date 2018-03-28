@@ -8,14 +8,7 @@ import { Subscription } from 'rxjs/Rx';
 import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import {
-  Action,
-  OrgRiskDirectionalFrequencyOptions,
-  OrgRiskDirectionalIntensityOptions,
-  OrgRiskRelativeChanceOptions,
-  OrgRiskRelativeImpactOptions,
-  Risk
-} from '../../../shared';
+import { Action, Risk } from '../../../shared';
 import { ActionVisibility } from '../../../shared/models/action.model';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
@@ -36,10 +29,6 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   public action: Action;
   public risk: Risk;
 
-  public frequencyOptions = OrgRiskDirectionalFrequencyOptions;
-  public intensityOptions = OrgRiskDirectionalIntensityOptions;
-  public chanceOptions = OrgRiskRelativeChanceOptions;
-  public impactOptions = OrgRiskRelativeImpactOptions;
   public visibilityOptions = ActionVisibility;
 
   private sessionSubscription: Subscription;

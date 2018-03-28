@@ -3,7 +3,12 @@ import * as some from 'lodash.some';
 
 import { Action } from './action.model';
 import { CommunitySystem } from './community-system.model';
+import { OrgRiskAdaptiveCapacityOptions } from './org-risk-adaptive-capacity-options.model';
+import { OrgRiskDirectionalFrequencyOptions } from './org-risk-directional-frequency-options.model';
+import { OrgRiskDirectionalIntensityOptions } from './org-risk-directional-intensity-options.model';
 import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
+import { OrgRiskRelativeChanceOptions } from './org-risk-relative-chance-options.model';
+import { OrgRiskRelativeImpactOptions } from './org-risk-relative-impact-options.model';
 import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
 import { WeatherEvent } from './weather-event.model';
 
@@ -53,6 +58,31 @@ export class Risk {
 
   public getTotalRequiredPropCount() {
     return this.getPropsAsBools().length;
+  }
+
+  public getAdaptiveCapacityLabel() {
+    if (!this.adaptive_capacity) { return undefined; }
+    return OrgRiskAdaptiveCapacityOptions.get(this.adaptive_capacity).label;
+  }
+
+  public getProbabilityLabel() {
+    if (!this.probability) { return undefined; }
+    return OrgRiskRelativeChanceOptions.get(this.probability).label;
+  }
+
+  public getFrequencyLabel() {
+    if (!this.frequency) { return undefined; }
+    return OrgRiskDirectionalFrequencyOptions.get(this.frequency).label;
+  }
+
+  public getIntensityLabel() {
+    if (!this.intensity) { return undefined; }
+    return OrgRiskDirectionalIntensityOptions.get(this.intensity).label;
+  }
+
+  public getImpactMagnitudeLabel() {
+    if (!this.impact_magnitude) { return undefined; }
+    return OrgRiskRelativeImpactOptions.get(this.impact_magnitude).label;
   }
 
   private getPropsAsBools(): boolean[] {

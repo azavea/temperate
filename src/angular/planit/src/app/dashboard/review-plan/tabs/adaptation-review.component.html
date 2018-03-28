@@ -27,19 +27,19 @@
           </p>
           <p>
             <span>Probability of hazard occurring: </span>
-            {{ getRelativeChanceOptionText(risk.probability) || '--' }}
+            {{ risk.getProbabilityLabel() || '--' }}
           </p>
           <p>
             <span>Frequency over the next five years: </span>
-            {{ getDirectionalFrequencyOptionText(risk.frequency) || '--' }}
+            {{ risk.getFrequencyLabel() || '--' }}
           </p>
           <p>
             <span>Intensity over the next five years: </span>
-            {{ getDirectionalIntensityOptionText(risk.intensity) || '--' }}
+            {{ risk.getIntensityLabel() || '--' }}
           </p>
           <p>
             <span>Potential impact on this community system: </span>
-            {{ getRelativeImpactOptionText(risk.impact_magnitude) || '--' }}
+            {{ risk.getImpactMagnitudeLabel() || '--' }}
           </p>
           <p>
             <span>Description of potential impact: </span>
@@ -47,7 +47,7 @@
           </p>
           <p>
             <span>Your city's adaptive capacity: </span>
-            {{ getAdaptiveCapacityOptionText(risk.adaptive_capacity) || '--' }}
+            {{ risk.getAdaptiveCapacityLabel() || '--' }}
           </p>
           <p>
             <span>Description of adaptive capacity: </span>
@@ -96,7 +96,7 @@
           </p>
           <p>
             <span>Selected categories: </span>
-            {{ getActionCategoriesAsCSV(risk.action) || '--' }}
+            {{ risk.action?.getActionCategoriesAsCSV() || '--' }}
           </p>
           <p>
             <span>Funding description: </span>
