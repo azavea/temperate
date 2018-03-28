@@ -14,17 +14,15 @@
     <section class="page-section indicators">
       <div class="indicators-header">
         <h2>Indicators</h2>
-        <div class="indicator-filters" *ngIf="filters?.length">
+        <div class="indicator-filters" *ngIf="filters?.size">
           <div class="filter-header">
             <label for="filter-indicators">Filter by your selected hazards:</label>
             <div id="filter-indicators" class="button-group">
-              <button class="button button-secondary"
-                   [ngClass]="{'active': activeFilter?.name === filter.name}"
-                   *ngFor="let filter of filters"
-                   (click)="setActiveFilter(filter)">
-                  {{ filter.name }}
-              </button>
-              <button class="button-link reset-button" (click)="resetFilter()">Reset</button>
+              <app-option-dropdown
+                [control]="form.controls['filter']"
+                buttonId="filters"
+                [options]="filters">
+              </app-option-dropdown>
             </div>
           </div>
         </div>
