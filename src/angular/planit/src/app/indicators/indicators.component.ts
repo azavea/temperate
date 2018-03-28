@@ -74,7 +74,7 @@ export class IndicatorsComponent implements OnInit {
   }
 
   private setupFilters(weatherEvents: WeatherEvent[]) {
-    this.filters.set(null, { label: 'No filter' , description: '' });
+    this.filters.set(null, { label: 'Filter by hazard...' , description: '' });
 
     weatherEvents.forEach((weatherEvent) => {
       if (weatherEvent.indicators && weatherEvent.indicators.length) {

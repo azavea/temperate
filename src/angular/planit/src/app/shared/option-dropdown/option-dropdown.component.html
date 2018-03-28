@@ -7,7 +7,7 @@
         *ngFor="let opt of optionsKeys"
         [ngClass]="{active: opt === control.value}">
       <a class="dropdown-item" (click)="setOption(opt)">
-        <span class="dropdown-label">{{ options.get(opt)?.label }}</span>
+        <span [ngClass]="{'dropdown-label-only': !options.get(opt)?.description, 'dropdown-label': options.get(opt)?.description}">{{ options.get(opt)?.label }}</span>
         <span class="dropdown-description" *ngIf="options.get(opt)?.description">{{ options.get(opt)?.description }}</span>
       </a>
     </li>
