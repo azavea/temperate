@@ -54,10 +54,10 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">View</a>
+              <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
+              <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">Review</a>
             </li>
             <div class="divider"></div>
             <li class="action-destructive" role="menuitem">
