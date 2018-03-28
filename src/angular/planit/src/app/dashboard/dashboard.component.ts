@@ -26,6 +26,7 @@ enum ViewTabs {
 export class DashboardComponent implements OnInit {
 
   public risks: Risk[];
+  public groupedRisks: Risk[][];
   public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
@@ -67,6 +68,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onRisksChanged() {
+    this.groupedRisks = this.getGroupedRisks();
+  }
+
   cancelModal(modal: ModalTemplateComponent) {
     this.setSelectedEvents(this.weatherEventIdsAtLastSave);
     modal.close();
@@ -105,7 +110,15 @@ export class DashboardComponent implements OnInit {
     return Risk.areAnyRisksAssessed(this.risks);
   }
 
-  get groupedRisks() {
+  getRisks() {
+    this.risks = undefined;
+    this.riskService.list().subscribe(risks => {
+      this.risks = risks;
+      this.groupedRisks = this.getGroupedRisks();
+    });
+  }
+
+  private getGroupedRisks(): Risk[][] {
     if (this.risks === undefined) {
       return undefined;
     }
@@ -113,11 +126,6 @@ export class DashboardComponent implements OnInit {
     const groupedRisks = RiskService.groupByWeatherEvent(this.risks);
     const names = Array.from(groupedRisks.keys()).sort();
     return Array.from(names.map(name => groupedRisks.get(name)));
-  }
-
-  getRisks() {
-    this.risks = undefined;
-    this.riskService.list().subscribe(risks => this.risks = risks);
   }
 
   private setSelectedEvents(eventIds: number[]) {

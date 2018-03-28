@@ -14,7 +14,7 @@
       </p>
     </section>
     <section>
-      <va-assessment-overview-table [risks]="risks"></va-assessment-overview-table>
+      <va-assessment-overview-table [(risks)]="risks"></va-assessment-overview-table>
       <button class="button" routerLink="risk/new">Add new risk</button>
       <button class="button button-positive"
               *ngIf="risks?.length && getAssessedRisks().length >= 1"

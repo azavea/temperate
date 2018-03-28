@@ -60,13 +60,15 @@
           </div>
 
           <div class="tab-content tab-assessment" *ngIf="viewTab === viewTabs.Assessment">
-            <va-assessment-overview-table [(risks)]="risks" 
+            <va-assessment-overview-table [(risks)]="risks"
+                                          (risksChange)="onRisksChanged()"
                                           [showFullTitle]="true">
             </va-assessment-overview-table>
           </div>
 
           <div class="tab-content tab-actions" *ngIf="viewTab === viewTabs.ActionSteps">
             <as-action-card-container [(risks)]="risks"
+                                      (risksChange)="onRisksChanged()"
                                       [showFullTitle]="true">
             </as-action-card-container>
           </div>
