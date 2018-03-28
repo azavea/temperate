@@ -35,12 +35,6 @@
     tr:first-child td:first-child {
       border-top-right-radius: $border-radius;
     }
-
-    .hidden-header {
-      color: transparent;
-      font-size: 1px;
-      pointer-events: none;
-    }
   }
 
   tbody {
@@ -107,5 +101,13 @@
         float: left;
       }
     }
+  }
+}
+
+table {
+  .hidden-header {
+    color: transparent;
+    font-size: 1px;
+    pointer-events: none;
   }
 }

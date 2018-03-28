@@ -27,6 +27,8 @@
     "bootstrap-sass": "^3.3.7",
     "climate-change-components": "0.2.13",
     "core-js": "^2.4.1",
+    "difflib": "^0.2.4",
+    "inert-polyfill": "^0.2.5",
     "lodash.clonedeep": "^4.5.0",
     "lodash.every": "^4.5.0",
     "lodash.isequal": "^4.5.0",

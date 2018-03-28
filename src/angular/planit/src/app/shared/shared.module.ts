@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
-import { BsDropdownModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
@@ -34,6 +34,11 @@ import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import {
+  PasswordValidatorPopoverComponent
+} from './password-validator-popover/password-validator-popover.component';
+import { PasswordValidatorDirective } from './password-validator/password-validator.directive';
+import { SubmitPlanButtonComponent } from './submit-plan-button/submit-plan-button.component';
+import {
   TopCommunitySystemsComponent
 } from './top-community-systems/top-community-systems.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
@@ -50,6 +55,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     CommonModule,
     ChartsModule,
     FormsModule,
+    ModalModule,
     NouisliderModule,
     PopoverModule,
     RouterModule,
@@ -75,10 +81,13 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    PasswordValidatorDirective,
+    PasswordValidatorPopoverComponent,
+    SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,
-    UserEmailsComponent
+    UserEmailsComponent,
   ],
   exports: [
     AdaptiveNeedBoxComponent,
@@ -99,6 +108,9 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     PasswordResetFormComponent,
+    PasswordValidatorDirective,
+    PasswordValidatorPopoverComponent,
+    SubmitPlanButtonComponent,
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,

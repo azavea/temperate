@@ -5,21 +5,18 @@
         Your Temperate account is now active. Log in to get started.
       </div>
       <div *ngIf="alreadyActivated" class="alert alert-positive">
-        Your Temperate account has already been activated. Log in to get started.
-        <p>
-          If you cannot log in, you can <a routerLink="/forgot-password">click here to reset your password</a>.
-        </p>
+        <strong>Your Temperate account is already activated.</strong>
+        Trouble logging in? <a routerLink="/forgot-password">Reset your password</a>
       </div>
       <div *ngIf="activationFailed" class="alert alert-warning">
-        <p>Account activation failed.</p>
-        You may not have copied the entire URL into your web browser, or the activation link may have expired. Please try again<span *ngIf="hostname !== 'temperate.io'">, or <a routerLink="/register">register for an account</a></span>.
+        <strong>Account activation failed.</strong>
+        <span *ngIf="hostname !== 'temperate.io'">Has your activation link expired? <a routerLink="/register">Sign up again</a></span>
       </div>
       <div *ngIf="reset" class="alert alert-positive">
         Your Temperate password was reset. Log in to get started.
       </div>
       <div *ngIf="resetExpired" class="alert alert-warning">
-        Sorry, your password reset link has expired.
-        <a routerLink="/forgot-password">Click here</a> to get another link sent to you.
+        Sorry, your password reset link has expired. <a routerLink="/forgot-password">Resend link</a>
       </div>
       <app-login-form></app-login-form>
     </div>

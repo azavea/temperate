@@ -1,12 +1,28 @@
-<div class="risk-card">
-  <div class="risk-card-content">
-    <h3>{{ risk.weather_event.name }} on {{ risk.community_system.name }}</h3>
-    <button class="take-action button"
-            tooltip="You need to assess this risk first"
-            [isDisabled]="risk.isAssessed()"
-            [ngClass]="{disabled: !risk.isAssessed()}"
-            (click)="openModal(actionPicker)">Take action</button>
-  </div>
+<div class="card card-full action-card-unassessed">
+  <header class="card-header">
+    <h3 class="card-title">
+      <span class="action-priority">
+        <va-adaptive-need-box 
+          [adaptiveCapacity]="risk.adaptive_capacity"
+          [popoverPlacement]="'right'"
+          [potentialImpact]="risk.impact_magnitude">
+        </va-adaptive-need-box>
+      </span>
+      {{ risk.community_system.name }}
+    </h3>
+  
+    <span class="take-action-container"
+          tooltip="You need to assess this risk first"
+          placement="top"
+          container="body"
+          *ngIf="!risk.isAssessed()">
+    <button class="take-action button button-positive button-small disabled" disabled>Take action</button> 
+    </span>
+
+    <button class="take-action button button-positive button-small"
+            (click)="openModal(actionPicker)"
+            *ngIf="risk.isAssessed()">Take action</button> 
+  </header>
 </div>
 
 <!-- action prompt template -->

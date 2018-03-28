@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ActionTypeService } from '../../../core/services/action-type.service';
 import { ActionService } from '../../../core/services/action.service';
@@ -25,7 +26,7 @@ interface ActionDetailsFormModel {
   templateUrl: './implementation-step.component.html'
 })
 export class ImplementationStepComponent
-  extends ActionWizardStepComponent<ActionDetailsFormModel> implements OnInit {
+  extends ActionWizardStepComponent<ActionDetailsFormModel> implements OnInit, OnDestroy {
 
   @Input() risk: Risk;
 
@@ -38,6 +39,7 @@ export class ImplementationStepComponent
     shareWithCities: 'Public actions can be adapted by other organizations ' +
                      'for their own vulnerability assessments'
   };
+  private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
@@ -55,6 +57,16 @@ export class ImplementationStepComponent
     this.setupForm(this.fromModel(this.action));
 
     this.actionTypeService.nameList().subscribe(data => this.actionTypes = data);
+
+    this.setDisabled(this.action);
+    this.sessionSubscription = this.session.data.subscribe(action => {
+      this.action = action;
+      this.setDisabled(action);
+    });
+  }
+
+  ngOnDestroy() {
+    this.sessionSubscription.unsubscribe();
   }
 
   public fromModel(model: Action) {

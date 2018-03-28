@@ -71,5 +71,25 @@
     .icon-readonly {
       color: $switch-readonly-icon-color-selected;
     }
+
+    .switch-description {
+
+    }
   }
+}
+
+.switch-header {
+  text-align: left;
+  padding: $space-medium 0;
+}
+
+.switch-title {
+  margin-bottom: 0;
+}
+
+.switch-description {
+  font-size: $switch-description-size;
+  line-height: $switch-description-line-height;
+  color: $switch-description-color;
+  margin-bottom: 0;
 }

@@ -1,10 +1,13 @@
-<div class="step-header">  
-  <p *ngIf="isDisabled" class="alert alert-warning">
+<div class="step-header">
+  <div *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to complete this step.
-  </p>
+  </div>
   <h3 class="step-title">Hazard</h3>
   <p *ngIf="!isDisabled">
     How will <strong>{{ risk.weather_event.name | lowercase }}</strong> change over time?
+    <span class="icon icon-question-circle"
+          tooltip="{{ probabilityTooltipText }}">
+    </span>
   </p>
 </div>
 
@@ -18,11 +21,11 @@
   <form [formGroup]="form">
     <div class="form-control-container">
       <label for="probability">Probability of this hazard occurring</label>
-        <app-option-dropdown buttonId="probability"
-                             [control]="form.controls['probability']"
-                             [options]="relativeOptions"
-                             [disabled]="isDisabled">
-        </app-option-dropdown>
+      <app-option-dropdown buttonId="probability"
+                           [control]="form.controls['probability']"
+                           [options]="relativeOptions"
+                           [disabled]="isDisabled">
+      </app-option-dropdown>
     </div>
     <div class="form-control-container">
       <label>How often do you expect this hazard to occur in the next five years?</label>
@@ -53,18 +56,18 @@
 
 <footer class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button-link" 
-            *ngIf="!risk?.id" 
+    <button type="button" class="button-link"
+            *ngIf="!risk?.id"
             (click)="cancel()">Cancel</button>
-    <button type="button" class="button-link" 
-            *ngIf="risk?.id" 
+    <button type="button" class="button-link"
+            *ngIf="risk?.id"
             (click)="finish()">Finish assessment later</button>
   </div>
   <div class="step-footer-navigation">
-    <button type="button" class="button" 
+    <button type="button" class="button"
             nextStep>Skip step</button>
-    <button type="button" class="button button-primary" 
-            [disabled]="form.invalid || !isStepComplete()" 
+    <button type="button" class="button button-primary"
+            [disabled]="form.invalid || !isStepComplete()"
             nextStep>Next</button>
   </div>
 </footer>

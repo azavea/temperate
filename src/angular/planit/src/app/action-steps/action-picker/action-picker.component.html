@@ -18,14 +18,14 @@
       <div class="suggested-actions-overview">
         <div class="recommended">Recommended</div>
         <h2 class="title">Begin with suggested actions</h2>
-        <p class="description">We&apos;ve gathered actions that some cities have undertaken over the years and will recommend some for you to start with.</p>
+        <p class="description">We&rsquo;ve gathered actions that some cities have undertaken over the years and will recommend some for you to start with.</p>
       </div>
       <button *ngIf="!loading" class="button button-positive suggested-actions-button" (click)="showPrompt = false">
         Get started
       </button>
     </div>
     <footer class="modal-footer">
-      <button class="button-link" (click)="goToWizard()">No thanks. I&apos;ll start from scratch.</button>
+      <button class="button-link" (click)="goToWizard()">No thanks. I&rsquo;ll start from scratch.</button>
     </footer>
   </div>
 </div>
@@ -42,7 +42,7 @@
   </header>
   <div class="modal-body">
     <p class="no-suggested-actions">
-      Sorry, we couldn&apos;t find any actions that matched this risk.
+      Sorry, we couldn&rsquo;t find any actions that matched this risk.
       You can still develop a custom action step that addresses this risk.
     </p>
     <footer class="modal-footer">
@@ -65,13 +65,22 @@
     <p class="suggested-actions-description">Actions below were chosen for you based on your region and the selected hazard and/or community system.</p>
     <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="action-main">
-        <h2 class="action-name">{{suggestion.name}}</h2>
-        <p *ngIf="suggestion.plan_name && !suggestion.plan_hyperlink" class="action-source">
-          Source: {{ suggestion.plan_name }}
-        </p>
-        <p *ngIf="suggestion.plan_name && suggestion.plan_hyperlink" class="action-source">
-          Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
-        </p>
+        <div class="action-name-container"
+            [ngClass]="{'suggestion-closed': !isOpen(suggestion)}">
+            <h2 class="action-name">
+              {{suggestion.name}}
+            </h2>
+            <button type="button"
+                  class="button-link toggle-button toggle-button-less"
+                  (click)="toggleMore(suggestion)"
+                  *ngIf="isOpen(suggestion)">Show less</button>
+        </div>
+        <button type="button"
+                class="button-link toggle-button toggle-button-more"
+                (click)="toggleMore(suggestion)"
+                *ngIf="!isOpen(suggestion)">
+            Show more
+        </button>
         <button class="button button-primary"
                 (click)="goToWizard(suggestion)">Choose and customize</button>
       </div>
@@ -87,9 +96,17 @@
            placement="bottom"></i>
         </li>
       </ul>
+      <footer class="suggested-action-footer" *ngIf="suggestion.plan_name">
+        <p *ngIf="!suggestion.plan_hyperlink" class="action-source">
+          Source: {{ suggestion.plan_name }}
+        </p>
+        <p *ngIf="suggestion.plan_hyperlink" class="action-source">
+          Source: <a href="{{ suggestion.plan_hyperlink }}" target="_blank">{{ suggestion.plan_name }}</a>
+        </p>
+      </footer>
     </div>
     <div class="modal-footer">
-      <button class="button-link" (click)="goToWizard()">No thanks. I&apos;ll start from scratch.</button>
+      <button class="button-link" (click)="goToWizard()">No thanks. I&rsquo;ll start from scratch.</button>
     </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { WeatherEventResolve } from '../core/resolvers/weather-event.resolve';
+import { ExpirationGuard } from '../core/services/expiration-guard.service';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
 import { EditActionComponent } from './edit-action/edit-action.component';
@@ -12,18 +13,18 @@ const routes: Routes = [
   {
     path: 'actions',
     component: ActionStepsOverviewComponent,
-    canActivate: [PlanAuthGuard],
+    canActivate: [ExpirationGuard, PlanAuthGuard],
     resolve: {
       weatherEvent: WeatherEventResolve
     }
   }, {
     path: 'actions/action/new',
     component: EditActionComponent,
-    canActivate: [PlanAuthGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard]
   }, {
     path: 'actions/action/new/:riskid',
     component: EditActionComponent,
-    canActivate: [PlanAuthGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard]
   },
   {
     path: 'actions/action/new/:riskid/:suggestedid',
@@ -31,7 +32,7 @@ const routes: Routes = [
     resolve: {
       suggestedAction: SuggestedActionResolve
     },
-    canActivate: [PlanAuthGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard]
   },
   {
     path: 'actions/action/:id',
@@ -39,7 +40,7 @@ const routes: Routes = [
     resolve: {
       action: ActionResolve
     },
-    canActivate: [PlanAuthGuard]
+    canActivate: [ExpirationGuard, PlanAuthGuard]
   }
 ];
 

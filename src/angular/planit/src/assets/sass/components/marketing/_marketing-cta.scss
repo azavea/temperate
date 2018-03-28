@@ -1,0 +1,80 @@
+.pricing-section.pricing-bottom,
+.section-cta {
+  padding-top: $pricing-section-padding-vertical-large;
+  padding-bottom: $pricing-section-padding-vertical-large;
+  background-image: url(../images/pricing/treetops.jpg);
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pricing-bottom .section-content,
+.section-cta .section-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  @media screen and (max-width: $pricing-breakpoint) {
+    align-items: center;
+  }
+
+  .overview {
+    display: flex;
+    flex: none;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: $pricing-headline-max-width;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      align-items: center;
+    }
+
+    .heading {
+      @include light-on-dark();
+      margin-bottom: $space-xlarge;
+      color: $white;
+      font-size: $text-display;
+      font-weight: $font-weight-light;
+      text-shadow: $pricing-bottom-text-shadow;
+
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
+
+      @media screen and (max-width: $pricing-breakpoint) {
+        text-align: center;
+      }
+    }
+
+    .description {
+      @include light-on-dark();
+      margin-bottom: $space-xxlarge;
+      color: $white;
+      text-shadow: $pricing-bottom-text-shadow;
+
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
+
+      a {
+        color: $white;
+        border-color: rgba($white, 0.5);
+
+        &:hover {
+          border-color: rgba($white, 1);
+        }
+      }
+
+      @media screen and (max-width: $pricing-breakpoint) {
+        text-align: center;
+      }
+    }
+
+    .button {
+      margin-top: $space-xxlarge;
+      min-width: $marketing-hero-button-width;
+    }
+  }
+}

@@ -220,12 +220,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # Email Settings
 if ENVIRONMENT == 'Development':
     EMAIL_BACKEND = 'dbes.backends.EmailBackend'
+    # If you want to verify that attachments are added to outgoing messages switch to console
+    # backend, attachment info not provided by dbes:
+    #   https://github.com/EliotBerriot/django-dbes/issues/4
+    # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
 SUPPORT_EMAIL = 'support@temperate.io'
 DEFAULT_TO_EMAIL = SUPPORT_EMAIL
+PLAN_SUBMISSION_EMAIL = 'temperate@iclei.org' if ENVIRONMENT == 'Production' else SUPPORT_EMAIL
 
 
 # Django-Registration

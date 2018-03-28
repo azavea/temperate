@@ -1,4 +1,7 @@
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must give this action a name to complete this step.
+  </p>
   <h3 class="step-title">Categories</h3>
   <p>
     Group your actions into categories so you can identify similarities at a
@@ -7,19 +10,22 @@
 </div>
 
 <div class="step-content">
-  <div class="switch-list container action-card-container action-categories">
+  <div class="switch-list" [style.pointer-events]="isDisabled ? 'none' : 'auto'">
     <button class="switch-item"
         [ngClass]="{selected: category.selected}"
           *ngFor="let category of actionCategories"
           (click)="selectActionCategory(category)">
-        <span *ngIf="category.selected"
-          class="icon icon-status"></span>
-        <span *ngIf="!category.selected"
-              class="icon icon-status"
-              tooltip="Add category"
-              tooltipPlacement="right"></span>
-          <span class="icon icon-primary {{ category.icon }}"></span>
-        {{ category.name }}
+      <span *ngIf="category.selected"
+        class="icon icon-status"></span>
+      <span *ngIf="!category.selected"
+            class="icon icon-status"
+            tooltip="Add category"
+            tooltipPlacement="right"></span>
+        <span class="icon icon-primary {{ category.icon }}"></span>
+      <div class="switch-header">
+        <h4 class="switch-title">{{ category.name }}</h4>
+        <p class="switch-description">{{ category.description }}</p>
+      </div>
     </button>
   </div>
 </div>

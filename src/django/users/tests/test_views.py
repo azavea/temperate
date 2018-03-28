@@ -29,8 +29,7 @@ class UserCreationApiTestCase(APITestCase):
             'email': 'test@azavea.com',
             'first_name': 'Test',
             'last_name': 'User',
-            'password1': 'sooperseekrit',
-            'password2': 'sooperseekrit'
+            'password': 'sooperseekrit'
         }
 
         url = reverse('planituser-list')
@@ -55,8 +54,7 @@ class UserCreationApiTestCase(APITestCase):
             'email': 'test@azavea.com',
             'first_name': 'Test',
             'last_name': 'User',
-            'password1': 'sooperseekrit',
-            'password2': 'sooperseekrit'
+            'password': 'sooperseekrit'
         }
 
         # Use API to create user account
@@ -70,31 +68,15 @@ class UserCreationApiTestCase(APITestCase):
 
         # check user can authenticate with password
         authenticated = self.client.login(username=user_data['email'],
-                                          password=user_data['password1'])
+                                          password=user_data['password'])
         self.assertTrue(authenticated)
-
-    def test_user_passwords_must_match(self):
-        user_data = {
-            'email': 'test@azavea.com',
-            'first_name': 'Test',
-            'last_name': 'User',
-            'password1': 'sooperseekrit',
-            'password2': 'sewperseekrit'
-        }
-
-        url = reverse('planituser-list')
-        response = self.client.post(url, user_data, format='json')
-        self.assertEqual(response.status_code, 400)
-        result = response.json()
-        self.assertEqual(result['non_field_errors'][0], 'Passwords do not match.')
 
     def test_password_validators_run(self):
         user_data = {
             'email': 'test@azavea.com',
             'first_name': 'Test',
             'last_name': 'User',
-            'password1': '2short',
-            'password2': '2short'
+            'password': '2short'
         }
 
         url = reverse('planituser-list')
@@ -109,8 +91,7 @@ class UserCreationApiTestCase(APITestCase):
             'email': 'test@azavea.com',
             'first_name': '',
             'last_name': None,
-            'password1': '',
-            'password2': ''
+            'password': ''
         }
 
         url = reverse('planituser-list')
@@ -120,8 +101,7 @@ class UserCreationApiTestCase(APITestCase):
 
         self.assertEqual(result['first_name'][0], 'This field may not be blank.')
         self.assertEqual(result['last_name'][0], 'This field may not be null.')
-        self.assertEqual(result['password1'][0], 'This field may not be blank.')
-        self.assertEqual(result['password2'][0], 'This field may not be blank.')
+        self.assertEqual(result['password'][0], 'This field may not be blank.')
 
     def test_get_authenticated_user(self):
         user = PlanItUser.objects.create_user(

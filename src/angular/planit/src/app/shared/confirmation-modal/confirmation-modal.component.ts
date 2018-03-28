@@ -14,6 +14,7 @@ export interface ConfirmModalConfig {
   title?: string;
   tagline?: string;
   cancelText?: string;
+  confirmButtonClass?: string;
   confirmText?: string;
 }
 
@@ -26,6 +27,7 @@ export class ConfirmationModalComponent implements OnDestroy {
   @ViewChild('modal') modal: ModalTemplateComponent;
 
   public cancelText: string;
+  public confirmButtonClass: string;
   public confirmText: string;
   public title: string;
   public tagline: string;
@@ -35,6 +37,7 @@ export class ConfirmationModalComponent implements OnDestroy {
     title: 'Are you sure?',
     tagline: undefined,
     cancelText: 'Cancel',
+    confirmButtonClass: 'button-danger',
     confirmText: 'Continue'
   };
 
@@ -67,6 +70,7 @@ export class ConfirmationModalComponent implements OnDestroy {
     this.title = options.title;
     this.tagline = options.tagline;
     this.cancelText = options.cancelText;
+    this.confirmButtonClass = options.confirmButtonClass;
     this.confirmText = options.confirmText;
     this.modal.open();
     return this._confirm.asObservable();

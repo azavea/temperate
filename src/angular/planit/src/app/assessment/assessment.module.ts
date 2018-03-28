@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { PopoverModule } from 'ngx-bootstrap/popover';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import {
+  BsDropdownModule,
+  PopoverModule,
+  ProgressbarModule,
+  TooltipModule
+} from 'ngx-bootstrap';
 
 import { RiskWizardComponent, RiskWizardModule } from '../risk-wizard/';
 import { SharedModule } from '../shared/shared.module';
@@ -22,6 +25,7 @@ import { RiskPopoverComponent } from './risk-popover/risk-popover.component';
     AssessmentRoutingModule,
     BsDropdownModule,
     PopoverModule,
+    ProgressbarModule,
     TooltipModule
   ],
   declarations: [

@@ -7,12 +7,23 @@
         "coastal_only": false,
         "concern": 15,
         "display_class": "icon-drought",
+        "description": "Persistent lack of rainfall over one or more seasons leading to the depletion of surface and groundwater reservoirs",
         "indicators": [
-            6,
-            14,
-            21,
-            22,
-            23
+            [
+                "dry_spells"
+            ],
+            [
+                "max_consecutive_dry_days"
+            ],
+            [
+                "percentile_precipitation"
+            ],
+            [
+                "precipitation_threshold"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -24,6 +35,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-lightning-thunderstorm",
+        "description": "Short duration weather events with potential for destructive winds and high precipitation rates",
         "indicators": []
     }
 },
@@ -35,13 +47,26 @@
         "coastal_only": false,
         "concern": 13,
         "display_class": "icon-heat-wave",
+        "description": "A period of at least 5 days where the temperature is at least 5 Celsius degrees above normal",
         "indicators": [
-            2,
-            4,
-            8,
-            11,
-            12,
-            15
+            [
+                "average_high_temperature"
+            ],
+            [
+                "cooling_degree_days"
+            ],
+            [
+                "extreme_heat_events"
+            ],
+            [
+                "heat_wave_duration_index"
+            ],
+            [
+                "heat_wave_incidents"
+            ],
+            [
+                "max_high_temperature"
+            ]
         ]
     }
 },
@@ -51,11 +76,19 @@
     "fields": {
         "name": "Groundwater flooding",
         "coastal_only": false,
-        "concern": null,
+        "concern": 22,
         "display_class": "icon-groundwater-flood",
+        "description": "Flooding of underground structures as a result of high water tables",
         "indicators": [
-            9,
-            22
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "precipitation_threshold"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -65,18 +98,40 @@
     "fields": {
         "name": "Extreme cold days",
         "coastal_only": false,
-        "concern": 12,
+        "concern": 25,
         "display_class": "icon-extreme-cold-days",
+        "description": "Uncharacteristically cold events such as those associated with \"polar vortex\" meander",
         "indicators": [
-            1,
-            3,
-            4,
-            10,
-            11,
-            12,
-            17,
-            18,
-            20
+            [
+                "accumulated_freezing_degree_days"
+            ],
+            [
+                "average_low_temperature"
+            ],
+            [
+                "cooling_degree_days"
+            ],
+            [
+                "extreme_cold_events"
+            ],
+            [
+                "frost_days"
+            ],
+            [
+                "heat_wave_duration_index"
+            ],
+            [
+                "heat_wave_incidents"
+            ],
+            [
+                "min_low_temperature"
+            ],
+            [
+                "min_temperature_threshold"
+            ],
+            [
+                "percentile_low_temperature"
+            ]
         ]
     }
 },
@@ -86,11 +141,16 @@
     "fields": {
         "name": "Coastal flooding",
         "coastal_only": true,
-        "concern": null,
+        "concern": 24,
         "display_class": "icon-coastal-flood",
+        "description": "Flooding of areas adjacent to large water bodies or oceans as a result of sea-level rise",
         "indicators": [
-            9,
-            22
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "precipitation_threshold"
+            ]
         ]
     }
 },
@@ -102,8 +162,11 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-hurricane",
+        "description": "Large storm systems capable of prolonged destructive winds over a large area and exceptional precipitation amounts",
         "indicators": [
-            9
+            [
+                "extreme_precipitation_events"
+            ]
         ]
     }
 },
@@ -113,8 +176,9 @@
     "fields": {
         "name": "Saltwater intrusion",
         "coastal_only": false,
-        "concern": null,
+        "concern": 24,
         "display_class": "icon-salt-water-intrusion",
+        "description": "Movement of saline water into freshwater aquifers as the result of sea level rise",
         "indicators": []
     }
 },
@@ -124,15 +188,28 @@
     "fields": {
         "name": "Extreme hot days",
         "coastal_only": false,
-        "concern": 14,
+        "concern": 26,
         "display_class": "icon-extreme-hot-days",
+        "description": "Days that are 5 degrees Celsius above normal",
         "indicators": [
-            2,
-            4,
-            5,
-            8,
-            15,
-            16
+            [
+                "average_high_temperature"
+            ],
+            [
+                "cooling_degree_days"
+            ],
+            [
+                "diurnal_temperature_range"
+            ],
+            [
+                "extreme_heat_events"
+            ],
+            [
+                "max_high_temperature"
+            ],
+            [
+                "max_temperature_threshold"
+            ]
         ]
     }
 },
@@ -144,6 +221,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-subsidence",
+        "description": "Slumping or sinking of land due to the movement of subsurface material",
         "indicators": []
     }
 },
@@ -153,17 +231,34 @@
     "fields": {
         "name": "Wildfires",
         "coastal_only": false,
-        "concern": null,
+        "concern": 16,
         "display_class": "icon-wildfires",
+        "description": "Wildfire in grassland, scrubland or other non-forested area",
         "indicators": [
-            2,
-            6,
-            8,
-            11,
-            12,
-            14,
-            15,
-            23
+            [
+                "average_high_temperature"
+            ],
+            [
+                "dry_spells"
+            ],
+            [
+                "extreme_heat_events"
+            ],
+            [
+                "heat_wave_duration_index"
+            ],
+            [
+                "heat_wave_incidents"
+            ],
+            [
+                "max_consecutive_dry_days"
+            ],
+            [
+                "max_high_temperature"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -173,16 +268,31 @@
     "fields": {
         "name": "Reduced snowpack",
         "coastal_only": false,
-        "concern": 18,
+        "concern": null,
         "display_class": "icon-reduced-snowpack",
+        "description": "Drought or temperature driven changes that reduce water reservoirs in the form of high elevation snow and ice",
         "indicators": [
-            1,
-            3,
-            10,
-            17,
-            18,
-            21,
-            23
+            [
+                "accumulated_freezing_degree_days"
+            ],
+            [
+                "average_low_temperature"
+            ],
+            [
+                "frost_days"
+            ],
+            [
+                "min_low_temperature"
+            ],
+            [
+                "min_temperature_threshold"
+            ],
+            [
+                "percentile_precipitation"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -194,6 +304,7 @@
         "coastal_only": true,
         "concern": null,
         "display_class": "icon-ocean-acidification",
+        "description": "Lowering of ocean water pH value as a result of increased concentrations of CO\u2082 resulting in the formation of carbonic acid",
         "indicators": []
     }
 },
@@ -205,10 +316,17 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-changed-seasonal-patterns",
+        "description": "Alteration of predictable weather patterns relied upon for agriculture, tourism, and natural resource industries",
         "indicators": [
-            2,
-            3,
-            23
+            [
+                "average_high_temperature"
+            ],
+            [
+                "average_low_temperature"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -218,12 +336,22 @@
     "fields": {
         "name": "Landslides",
         "coastal_only": false,
-        "concern": null,
+        "concern": 22,
         "display_class": "icon-landslide",
+        "description": "Movement of rock, soil, and debris down a slope",
         "indicators": [
-            6,
-            9,
-            14
+            [
+                "dry_spells"
+            ],
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "max_consecutive_dry_days"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -233,11 +361,16 @@
     "fields": {
         "name": "River flooding",
         "coastal_only": false,
-        "concern": null,
+        "concern": 22,
         "display_class": "icon-river-flood",
+        "description": "Flooding of areas adjacent to riverine channels caused by local or upstream precipitation events",
         "indicators": [
-            9,
-            22
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "precipitation_threshold"
+            ]
         ]
     }
 },
@@ -249,8 +382,11 @@
         "coastal_only": true,
         "concern": null,
         "display_class": "icon-storm-surge",
+        "description": "Flooding of areas adjacent to large water bodies or oceans as a result of water pushed onshore by storm activity",
         "indicators": [
-            9
+            [
+                "extreme_precipitation_events"
+            ]
         ]
     }
 },
@@ -260,12 +396,19 @@
     "fields": {
         "name": "Rain storms",
         "coastal_only": false,
-        "concern": 21,
+        "concern": 22,
         "display_class": "icon-rain-storm",
+        "description": "Extreme precipitation event without substantial wind",
         "indicators": [
-            9,
-            22,
-            23
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "precipitation_threshold"
+            ],
+            [
+                "total_precipitation"
+            ]
         ]
     }
 },
@@ -277,11 +420,20 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-extreme-winter-conditions",
+        "description": "Freezing rain or ice accumulation",
         "indicators": [
-            1,
-            3,
-            10,
-            17
+            [
+                "accumulated_freezing_degree_days"
+            ],
+            [
+                "average_low_temperature"
+            ],
+            [
+                "frost_days"
+            ],
+            [
+                "min_low_temperature"
+            ]
         ]
     }
 },
@@ -293,6 +445,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-heavy-snow",
+        "description": "Significant quantities of snow capable of disrupting transportation systems",
         "indicators": []
     }
 },
@@ -302,8 +455,9 @@
     "fields": {
         "name": "Cold wave",
         "coastal_only": false,
-        "concern": 11,
+        "concern": null,
         "display_class": "icon-cold-wave",
+        "description": "Long duration cold weather, such as those associated with \"polar vortex\" meander",
         "indicators": []
     }
 },
@@ -315,6 +469,7 @@
         "coastal_only": false,
         "concern": 16,
         "display_class": "icon-forest-fire",
+        "description": "Wildfire in heavily wooded areas with mature tree cover",
         "indicators": []
     }
 },
@@ -326,9 +481,14 @@
         "coastal_only": false,
         "concern": 22,
         "display_class": "icon-flash-flood",
+        "description": "Sudden flood caused by inability of land to absorb intense precipitation",
         "indicators": [
-            9,
-            22
+            [
+                "extreme_precipitation_events"
+            ],
+            [
+                "precipitation_threshold"
+            ]
         ]
     }
 },
@@ -340,6 +500,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-monsoon",
+        "description": "Persistent long duration precipitation events",
         "indicators": []
     }
 },
@@ -351,6 +512,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-hail",
+        "description": "Damaging frozen precipitation associated with high intensity rain events",
         "indicators": []
     }
 },
@@ -362,6 +524,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-severe-wind",
+        "description": "Strong winds capable of propety damage, dust storms and other hazards",
         "indicators": []
     }
 },
@@ -373,6 +536,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-tornado",
+        "description": "Local destructive wind vortex characterized by a funnel cloud",
         "indicators": []
     }
 },
@@ -384,8 +548,11 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-tropical-storm",
+        "description": "Large storm systems created by convective heat originiating in tropical latitudes",
         "indicators": [
-            9
+            [
+                "extreme_precipitation_events"
+            ]
         ]
     }
 },
@@ -397,8 +564,11 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-extratropical-storm",
+        "description": "Large storm systems driven by temperature gradients across frontal systems that form in mid-latitudes.  Nor'easters are a type of extratropical storm",
         "indicators": [
-            9
+            [
+                "extreme_precipitation_events"
+            ]
         ]
     }
 },
@@ -410,6 +580,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-fog",
+        "description": "Near-surface suspended water vapor capable of disrupting transportation systems due to low visibility",
         "indicators": []
     }
 },
@@ -419,8 +590,9 @@
     "fields": {
         "name": "Permanent inundation",
         "coastal_only": true,
-        "concern": null,
+        "concern": 24,
         "display_class": "icon-permanent-inundation",
+        "description": "Permanent flooding of land",
         "indicators": []
     }
 },
@@ -432,6 +604,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-atmospheric-co2-concentrations",
+        "description": "",
         "indicators": []
     }
 },
@@ -443,6 +616,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-avalanche",
+        "description": "Flow of snow down a slope",
         "indicators": []
     }
 },
@@ -454,6 +628,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-rockfall",
+        "description": "Fragments of rock detached from vertical or near vertical cliffs",
         "indicators": []
     }
 },
@@ -465,6 +640,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-water-borne-disease",
+        "description": "Disease and other health threats caused by increases in pathogens or toxic algae in surface waters",
         "indicators": []
     }
 },
@@ -476,6 +652,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-air-borne-disease",
+        "description": "Health impacts caused by increased levels of respiratory stressors such as pollen, mold, ground-level ozone, and dust particles",
         "indicators": []
     }
 },
@@ -487,6 +664,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-vector-borne-disease",
+        "description": "Disease caused by increased number and range of pathogen carrying insects and animal hosts",
         "indicators": []
     }
 },
@@ -498,6 +676,7 @@
         "coastal_only": false,
         "concern": null,
         "display_class": "icon-insect-infestation",
+        "description": "New arrival or increase in numbers of destructive and other nuisance insects such as termites, pine beetles, fire ants, killer bees, etc.",
         "indicators": []
     }
 }

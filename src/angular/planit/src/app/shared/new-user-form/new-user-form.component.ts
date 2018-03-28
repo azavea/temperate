@@ -15,6 +15,7 @@ export class NewUserFormComponent implements OnInit {
   public activated = false;
   public errors: any[] = [];
   public emailDisabled = false;
+  public passwordVisible = false;
 
   private activationKey: string;
 

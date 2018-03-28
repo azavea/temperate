@@ -1,0 +1,27 @@
+.pricing-section {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: $pricing-section-padding-vertical-small $pricing-section-padding-horizontal;
+
+  .overview {
+    .description {
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
+    }
+  }
+
+  > .section-content {
+    width: 100%;
+    max-width: $pricing-max-width;
+
+    .plan-cards {
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -17,12 +17,28 @@ export class ActionCardComponent implements OnInit {
   @Input() risk: Risk;
   @Input() action: Action;
   @Output() delete = new EventEmitter<Action>();
+  public actionNameLines = [];
+  public isOpen = false;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.parseActionName();
+  }
 
   public deleteAction() {
     this.delete.emit(this.action);
+  }
+
+  private parseActionName() {
+    if (this.action.name) {
+       this.actionNameLines  = this.action.name.split('\n').filter(line => line !== '');
+    } else {
+      this.actionNameLines = [];
+    }
+  }
+
+  public actionCardToggled() {
+    this.isOpen = !this.isOpen;
   }
 }

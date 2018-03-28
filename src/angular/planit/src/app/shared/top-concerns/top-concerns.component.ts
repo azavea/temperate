@@ -33,7 +33,7 @@ export class TopConcernsComponent {
   }
 
   hasUnits(concern: Concern): boolean {
-    return concern.units !== 'count';
+    return concern.units !== 'count' && concern.units !== 'days';
   }
 
   isReadOnly(weatherEvent: WeatherEvent) {

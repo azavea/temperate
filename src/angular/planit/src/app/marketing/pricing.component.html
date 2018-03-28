@@ -1,22 +1,71 @@
-<div class="main-container">
+<div class="main-container main-container-full">
   <main class="main-content" role="main">
-    <h1>Pricing</h1>
-    <div>
-      <div>
-        <p>You can upgrade or cancel your Temperate package at any time. If the below packages don't suit your needs, <a href="mailto:support@temperate.io">contact us</a> so we can figure out what works for you.</p>
+    <section class="pricing-hero pricing-section">
+      <div class="section-content">
+        <div class="overview">
+          <h1 class="superhead">Pricing</h1>
+          <h2 class="heading">Start planning for free</h2>
+          <p class="description">
+            Explore Temperate for free for 15 days. Set up an adaptation plan, begin
+            assessing hazards, access personalized indicator charts, and apply our
+            strategy database to your city’s top concerns.
+          </p>
+          <div class="cta">
+            <button class="button button-positive button-large"
+                    *ngIf="hostname !== 'temperate.io'"
+                    routerLink="/register">Try free for 15 days</button>
+            <div class="secondary-text">or select a package below</div>
+          </div>
+        </div>
+        <img srcset="/assets/images/pricing/hero.png 1x, /assets/images/pricing/hero@2x.png 2x"
+             class="image" 
+             src="assets/images/pricing/hero.png" alt="Screenshot of the a Temperate user's dashboard, detailing their progress on assessing and creating actions for Coastal flooding, Reduced snowpack, flash / surface flooding and extreme hot day risks. All have varying levels of completion.">
       </div>
-    </div>
-    <app-plan-selector></app-plan-selector>
-    <div>
-      <h2>Not seeing what you need above?</h2>
-      <div>
-        <h4>{{ hourlyPlan.header }}</h4>
-        <p>{{ hourlyPlan.description }}</p>
+    </section>
+    <section class="pricing-plans pricing-section" id="plans-section">
+      <div class="section-content">
+        <h3 class="heading">Packages to suit your planning experience</h3>
+        <p class="description">
+          All Temperate packages give you full access to every feature. Need the
+          support of adaptation experts? Most of our packages give you access to
+          our partners at ICLEI-USA. You can upgrade or cancel your Temperate package
+          at any time. If the below packages don't suit your needs,
+          <a href="mailto:{{ supportEmail }}">contact us</a> so we can figure out
+          what works for you.
+        </p>
+        <app-plan-selector></app-plan-selector>
       </div>
-      <div>
-        <h4>{{ customPlan.header }}</h4>
-        <p>{{ customPlan.description }}</p>
+    </section>
+    <section class="pricing-other-plans pricing-section">
+      <div class="section-content">
+        <h3 class="heading">Not seeing what you need above?</h3>
+        <div class="plan-cards">
+          <div class="plan-card">
+            <h4 class="heading">{{ hourlyPlan.header }}</h4>
+            <p class="description">{{ hourlyPlan.description }}</p>
+            <a href="mailto:{{ supportEmail }}" class="button button-primary">Contact us</a>
+          </div>
+          <div class="plan-card plan-card-custom">
+            <h4 class="heading">{{ customPlan.header }}</h4>
+            <p class="description">{{ customPlan.description }}</p>
+            <a href="mailto:{{ supportEmail }}" class="button button-positive">Contact us</a>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+    <section class="pricing-bottom pricing-section">
+      <div class="section-content">
+        <div class="overview">
+          <h2 class="heading">Start planning for the future now</h2>
+          <p class="description">
+            We don’t need to tell you how difficult it is to plan for climate
+            change. Let Temperate help guide you through the process.
+          </p>
+          <button class="button button-positive button-large"
+                  *ngIf="hostname !== 'temperate.io'"
+                  routerLink="/register">Try free for 15 days</button>
+        </div>
+      </div>
+    </section>
   </main>
 </div>

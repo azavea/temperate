@@ -4,8 +4,38 @@ app-action-wizard {
     align-items: center;
   }
 
-  va-adaptive-need-box {
-    box-shadow: $wizard-adaptive-need-border;
+  .wizard-risk-priority {
     margin-right: $space-large;
+
+    va-adaptive-need-box {
+      width: $adaptive-need-wizard-size;
+      height: $adaptive-need-wizard-size;
+      overflow: visible;
+      vertical-align: baseline;
+
+      .adaptive-need-box-empty {
+        border-color: $adaptive-need-wizard-empty-border-color;
+        width: $adaptive-need-wizard-empty-size;
+        height: $adaptive-need-wizard-empty-size;
+      }
+    }
+  }
+}
+
+.example-list {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+
+  .example-list-item {
+    margin-bottom: $space-xlarge;
+  }
+
+  .example-title {
+    font-size: $text-tiny;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    color: $neutral-4;
+    margin-bottom: $space-small;
   }
 }

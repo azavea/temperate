@@ -2,12 +2,11 @@ import logging
 import uuid
 
 from django.contrib.gis.db import models
-from django.db import connection, transaction
+from django.db import connection, transaction, IntegrityError
 from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
-from climate_api.utils import IMPERIAL_TO_METRIC
-from climate_api.wrapper import make_indicator_api_request, make_token_api_request
+from climate_api.wrapper import make_indicator_api_request
 from action_steps.models import ActionCategory
 
 logger = logging.getLogger(__name__)
@@ -61,9 +60,15 @@ class WeatherEvent(models.Model):
     indicators = models.ManyToManyField('Indicator', related_name='weather_events', blank=True)
     community_systems = models.ManyToManyField('CommunitySystem', through='DefaultRisk')
     display_class = models.CharField(max_length=128, blank=True, default='')
+    description = models.TextField(blank=True, null=False, default='')
 
     def __str__(self):
         return self.name
+
+
+class IndicatorManager(models.Manager):
+    def get_by_natural_key(self, name):
+        return self.get(name=name)
 
 
 class Indicator(models.Model):
@@ -76,8 +81,13 @@ class Indicator(models.Model):
     label = models.CharField(max_length=512, blank=False, null=False)
     description = models.TextField(blank=True, null=False, default='')
 
+    objects = IndicatorManager()
+
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return (self.name,)
 
 
 class DefaultRisk(models.Model):
@@ -203,13 +213,6 @@ class Concern(models.Model):
     meaningful result like "3.4 more inches of rain/snow/sleet per year".
     """
 
-    # Evaluate Concerns by averaging start and end values over a decade
-    ERA_LENGTH = 10
-    START_YEAR = 1990
-    START_SCENARIO = 'historical'
-    END_YEAR = 2050
-    END_SCENARIO = 'RCP85'
-
     indicator = models.OneToOneField(Indicator, on_delete=CASCADE, blank=True, null=True)
     tagline_positive = models.CharField(max_length=256, blank=False, null=False)
     tagline_negative = models.CharField(max_length=256, blank=False, null=False)
@@ -238,62 +241,97 @@ class Concern(models.Model):
         }
 
     def get_calculated_values(self, organization):
-        units = self.get_units(organization)
-
-        start_avg = self.get_average_value(
-            organization, self.START_SCENARIO, self.START_YEAR, units)
-
-        if self.is_relative and start_avg == 0:
-            # If the starting value is 0, abort and retry again as absolute difference
-            try:
-                self.is_relative = False
-                return self.get_calculated_values(organization)
-            finally:
-                self.is_relative = True
-
-        end_avg = self.get_average_value(organization, self.END_SCENARIO, self.END_YEAR, units)
-        difference = end_avg - start_avg
-
-        if self.is_relative:
-            return difference / start_avg, None
-        else:
-            return difference, units
+        result = ConcernValue.objects.for_location(self, organization.location)
+        return result.value, result.units
 
     def get_static_values(self):
         value = self.static_value if self.static_value else 0
         units = self.static_units if self.static_units and not self.is_relative else None
         return value, units
 
-    def get_average_value(self, organization, scenario, start_year, units=None):
-        city_id = organization.location.api_city_id
-        year_range = range(start_year, start_year + self.ERA_LENGTH)
-        params = {'years': [year_range]}
-        if units is not None:
-            params['units'] = units
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Clear any potentially invalidated ConcernValue objects
+        ConcernValue.objects.filter(concern=self).delete()
 
-        response = make_indicator_api_request(self.indicator, city_id, scenario,
+
+class ConcernValueManager(models.Manager):
+    # Evaluate Concerns by averaging start and end values over a decade
+    ERA_LENGTH = 10
+    START_YEAR = 1990
+    START_SCENARIO = 'historical'
+    END_YEAR = 2025
+    END_SCENARIO = 'RCP85'
+
+    def for_location(self, concern, location):
+        try:
+            return next(value for value in location.concernvalue_set.all()
+                        if value.concern_id == concern.id)
+        except StopIteration:
+            return self.create_concern_value(concern, location)
+
+    def create_concern_value(self, concern, location):
+        value, units = self.calculate_change(concern, location)
+        try:
+            return ConcernValue.objects.create(
+                concern=concern,
+                location=location,
+                value=value,
+                units=units
+            )
+        except IntegrityError:
+            # Try to load the offending row. If this fails somehow, we want the exception to
+            # bubble up.
+            return location.concernvalue_set.get(concern=concern)
+
+    def calculate_change(self, concern, location):
+        start_avg, start_units = self.get_average_value(
+            concern, location, self.START_SCENARIO, self.START_YEAR)
+
+        if concern.is_relative and start_avg == 0:
+            # If the starting value is 0, abort and retry again as absolute difference
+            try:
+                concern.is_relative = False
+                return self.calculate_change(concern, location)
+            finally:
+                concern.is_relative = True
+
+        end_avg, end_units = self.get_average_value(
+            concern, location, self.END_SCENARIO, self.END_YEAR)
+        assert(start_units == end_units)
+        difference = end_avg - start_avg
+
+        if concern.is_relative:
+            return difference / start_avg, None
+        else:
+            return difference, start_units
+
+    def get_average_value(self, concern, location, scenario, start_year):
+        city_id = location.api_city_id
+        year_range = range(start_year, start_year + self.ERA_LENGTH)
+        params = {
+            'years': [year_range],
+            'dataset': 'LOCA'
+        }
+
+        response = make_indicator_api_request(concern.indicator, city_id, scenario,
                                               params=params)
 
-        values = (result['avg'] for result in response['data'].values())
-        return sum(values) / len(response['data'])
+        values = [v['avg'] for v in response['data'].values()]
+        average = sum(values) / len(values)
+        return average, response['units']
 
-    def get_units(self, organization):
-        # If the value is relative, we can use the default unit for calculations
-        # which will save an API call
-        if self.is_relative:
-            return None
 
-        # Delayed import to break circular dependency
-        from users.models import PlanItOrganization
-        response = make_token_api_request('api/indicator/{}/'.format(self.indicator))
-        default_units = response['default_units']
+class ConcernValue(models.Model):
+    concern = models.ForeignKey(Concern)
+    location = models.ForeignKey('users.PlanItLocation')
+    value = models.FloatField()
+    units = models.CharField(max_length=32, null=True)
 
-        # The API default units are either Imperial or don't need to be converted
-        if default_units not in IMPERIAL_TO_METRIC:
-            return default_units
-        if organization.units == PlanItOrganization.IMPERIAL:
-            return default_units
-        return IMPERIAL_TO_METRIC[default_units]
+    objects = ConcernValueManager()
+
+    class Meta:
+        unique_together = [('concern', 'location')]
 
 
 class RelatedAdaptiveValue(models.Model):

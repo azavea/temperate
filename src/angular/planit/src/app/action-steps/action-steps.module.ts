@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import {
+  AlertModule,
   BsDropdownModule,
   ProgressbarModule,
   TooltipModule
@@ -24,6 +25,7 @@ import { RiskCardComponent } from './risk-card/risk-card.component';
 
 @NgModule({
   imports: [
+    AlertModule,
     CommonModule,
     ProgressbarModule,
     BsDropdownModule,

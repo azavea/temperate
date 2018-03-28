@@ -45,18 +45,23 @@
   'components/dashboard/city-profile-summary',
   'components/dashboard/grouped-risk',
   'components/indicators/model-modal',
-  'components/marketing/plan-selector',
+  'components/marketing/pricing-hero',
+  'components/marketing/pricing-plans',
+  'components/marketing/pricing-other-plans',
+  'components/marketing/faq',
+  'components/marketing/marketing-cta',
   'components/shared/app-chart',
   'components/shared/ld-progressbar',
   'components/shared/option-dropdown',
+  'components/shared/plan-cards',
   'components/alert',
   'components/action-steps/action-picker',
-  'components/action-steps/action-steps',
-  'components/action-steps/action-card',
   'components/wizard',
   'components/button',
   'components/card',
+  'components/action-steps/action-card',
   'components/dropdown',
+  'components/expiration-modal',
   'components/form',
   'components/freeform_multiselect',
   'components/grid',
@@ -66,6 +71,7 @@
   'components/loading',
   'components/modal',
   'components/popover',
+  'components/password-popover',
   'components/progressbar',
   'components/slider',
   'components/switch',
@@ -78,7 +84,8 @@
   'components/typeahead',
   'components/app-collapsible-chart',
   'components/va-popover',
-  'components/va-risk-popover';
+  'components/va-risk-popover',
+  'components/toast';
 
 /* * * *
  * Page specific styling
@@ -93,3 +100,4 @@
 @import 'pages/risk-wizard';
 @import 'pages/action-wizard';
 @import 'pages/create-plan';
+@import "pages/pricing-page";

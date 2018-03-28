@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, Inject, Renderer } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 
+import { BsModalService } from 'ngx-bootstrap/modal';
+
 import { environment } from '../environments/environment';
 
 @Component({
@@ -10,7 +12,9 @@ import { environment } from '../environments/environment';
 })
 
 export class AppComponent implements AfterViewInit {
-  constructor(@Inject(DOCUMENT) private document: any, private renderer: Renderer) {}
+  constructor(@Inject(DOCUMENT) private document: any,
+              private renderer: Renderer,
+              private modalService: BsModalService) {}
 
 
   ngAfterViewInit(): void {
@@ -34,5 +38,9 @@ export class AppComponent implements AfterViewInit {
     elem.type = 'text/javascript';
     elem.async = true;
     elem.innerHTML = heapSnippet;
+  }
+
+  public modalOpen() {
+    return this.modalService.getModalsCount() > 0 ? '' : null;
   }
 }

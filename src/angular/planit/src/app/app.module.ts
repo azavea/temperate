@@ -26,6 +26,8 @@ import { AssessmentModule } from './assessment/assessment.module';
 import { CoreModule } from './core/core.module';
 import { CreatePlanModule } from './create-plan/create-plan.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
+import { FaqComponent } from './faq/faq.component';
 import { IndicatorsModule } from './indicators/indicators.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
 import { SettingsModule } from './settings/settings.module';
@@ -50,11 +52,13 @@ import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
+import { ExpirationGuard } from './core/services/expiration-guard.service';
 import { InviteUserService } from './core/services/invite-user.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
 import { PasswordResetGuard } from './core/services/password-reset.guard';
 import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
+import { PlanService } from './core/services/plan.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
 import { RiskService } from './core/services/risk.service';
@@ -63,6 +67,8 @@ import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
 import {
+  AccordionModule,
+  AlertModule,
   BsDatepickerModule,
   BsDropdownModule,
   ButtonsModule,
@@ -81,8 +87,12 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 @NgModule({
   declarations: [
     AppComponent,
+    ExpirationModalComponent,
+    FaqComponent,
+    ForgotPasswordPageComponent,
     ManageSubscriptionComponent,
     LoginPageComponent,
+    ManageSubscriptionComponent,
     MarketingComponent,
     MethodologyComponent,
     PageNotFoundComponent,
@@ -90,7 +100,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlanSelectorComponent,
     PricingComponent,
     RegistrationPageComponent,
-    ForgotPasswordPageComponent,
     ResetPasswordComponent
   ],
   imports: [
@@ -101,6 +110,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     FormsModule,
     HttpModule,
     // 3rd party
+    AccordionModule.forRoot(),
+    AlertModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -109,7 +120,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     OrganizationWizardModule,
     PopoverModule.forRoot(),
     ProgressbarModule.forRoot(),
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }),
     TooltipModule.forRoot(),
     TypeaheadModule.forRoot(),
     // Local
@@ -145,11 +160,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     CollaboratorService,
     CommunitySystemService,
     DownloadService,
+    ExpirationGuard,
     InviteUserService,
     LoggedInAuthGuard,
     OrganizationService,
     PasswordResetGuard,
     PlanAuthGuard,
+    PlanService,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
     RiskResolve,

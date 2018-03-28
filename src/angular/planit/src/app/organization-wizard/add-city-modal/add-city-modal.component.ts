@@ -8,6 +8,8 @@ import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../shared/models/user.model';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-add-city-modal',
   templateUrl: './add-city-modal.component.html'
@@ -50,8 +52,8 @@ export class AddCityModalComponent implements OnInit {
         this.openModal(template);
       },
       error => {
-        this.error = ['There was an error submitting your request. Check your form is correct ' +
-                      'and try again or email support@temperate.io directly.'];
+        this.error = [`There was an error submitting your request. Check your form is correct ` +
+                      `and try again or email ${environment.supportEmail} directly.`];
       }
     );
   }

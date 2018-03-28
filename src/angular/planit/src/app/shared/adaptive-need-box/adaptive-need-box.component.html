@@ -1,41 +1,51 @@
 <ng-template #popoverTemplate>
-  <div class="row">
-    <div class="va-popover-description col-5">
-      <p class="va-popover-title">How is <strong>adaptive need</strong> calculated?</p>
-      <p>
-        Averaging the values entered for Potential Impact and Adaptive Capacity, Adaptive Need is
-        an illustration of relative priority, from yellow (lowest priority) to deep red
-        (highest priority).
-      </p>
-    </div>
-    <div class="adaptive-need-table col-6">
-      <span class="chart-left">Potential Impact</span>
-      <table cellpadding="2">
-        <thead>
-          <tr>
-            <th colspan="5">Adaptive Capacity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let potentialImpactIndex of [4, 3, 2, 1, 0]">
-            <td *ngFor="let adaptiveCapacityIndex of [4, 3, 2, 1, 0]"
-                class="adaptive-capacity-box ac-{{ adaptiveCapacityIndex }} pi-{{ potentialImpactIndex }}"
-              [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
-                && adaptiveCapacityIndex == adaptiveCapacityBin}">
-              &nbsp;
-            </td>
-            <td *ngIf="potentialImpactIndex == 4">High</td>
-            <td *ngIf="potentialImpactIndex == 3" rowspan="3" class="arrow-down"><div></div></td>
-            <td *ngIf="potentialImpactIndex == 0">Low</td>
-          </tr>
-          <tr>
-            <td>High</td>
-            <td colspan="3" class="arrow-over"><div></div></td>
-            <td>Low</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="popover-row">
+    <p class="popover-title">How is <strong>adaptive need</strong> calculated?</p>
+    <p>
+      Averaging the values entered for potential impact and adaptive capacity, adaptive need is
+      an illustration of relative priority, from yellow (lowest priority) to deep red
+      (highest priority).
+    </p>
+  </div>
+
+  <div class="popover-row adaptive-need-table-container">
+    <table class="adaptive-need-table">
+      <thead>
+        <tr>
+          <td></td>
+          <th scope="colgroup" colspan="5">Adaptive capacity</th>
+          <td></td>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td></td>
+          <th scope="col" class="table-label arrow-shaft table-horizontal-label">High</th>
+          <th scope="col" class="hidden-header">Medium high</th>
+          <th scope="col" class="hidden-header">Medium</th>
+          <th scope="col" class="hidden-header">Medium low</th>
+          <th scope="col" class="table-label arrow-end table-horizontal-label">Low</th>
+          <td></td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <th scope="rowgroup" rowspan="6" class="table-header-vertical"><span>Potential impact</span></th>
+        <tr *ngFor="let potentialImpactIndex of [4, 3, 2, 1, 0]">
+          <td *ngFor="let adaptiveCapacityIndex of [4, 3, 2, 1, 0]"
+              class="adaptive-capacity-box ac-{{ adaptiveCapacityIndex }} pi-{{ potentialImpactIndex }}"
+            [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
+              && adaptiveCapacityIndex == adaptiveCapacityBin}">
+            &nbsp;
+          </td>
+          <td *ngIf="potentialImpactIndex == null"></td>
+          <th *ngIf="potentialImpactIndex == 4" scope="row" class="table-label arrow-shaft table-vertical-label">High</th>
+          <th *ngIf="potentialImpactIndex == 3" scope="row" class="hidden-header">Medium high</th>
+          <th *ngIf="potentialImpactIndex == 2" scope="row" class="hidden-header">Medium</th>
+          <td *ngIf="potentialImpactIndex == 1" scope="row" class="hidden-header">Medium low</td>
+          <th *ngIf="potentialImpactIndex == 0" scope="row" class="table-label arrow-end table-vertical-label">Low</th>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </ng-template>
 
@@ -43,8 +53,17 @@
       [popover]="popoverTemplate"
                 placement="{{ popoverPlacement || 'right'}}"
                 container="body"
-                containerClass="va-popover container-fluid"
+                containerClass="va-popover popover-two-column"
                 triggers="mouseenter:mouseleave"
       *ngIf="(potentialImpactBin !== undefined &&
              adaptiveCapacityBin !== undefined)">&nbsp;</span>
-<span *ngIf="potentialImpactBin === undefined || adaptiveCapacityBin === undefined">--</span>
+<span class="adaptive-need-box-empty" 
+      tooltip="You haven’t assessed this risk yet"
+      placement="right"
+      container="body"
+      *ngIf="!potentialImpact || !adaptiveCapacity">&nbsp;</span>
+<span class="adaptive-need-box-unsure" 
+      tooltip="You answered unsure on the potential impact or adaptive capacity step of the vulnerability assessment wizard"
+      placement="right"
+      container="body"
+      *ngIf="potentialImpact === 'unsure' || adaptiveCapacity === 'unsure' && !!potentialImpact && !!adaptiveCapacity">&nbsp;</span>

@@ -12,6 +12,8 @@ import { Action, WizardStepComponent } from '../shared/';
 export abstract class ActionWizardStepComponent<FormModel>
   extends WizardStepComponent<Action, FormModel> implements OnInit {
 
+  public isDisabled = false;
+
   constructor(protected session: WizardSessionService<Action>,
               protected actionService: ActionService,
               protected riskService: RiskService,
@@ -28,20 +30,41 @@ export abstract class ActionWizardStepComponent<FormModel>
       this.actionService.update(model);
   }
 
+  setDisabled(action: Action) {
+    this.isDisabled = (action.name === '');
+
+    if (this.form) {
+      if (this.isDisabled) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    }
+  }
+
+  shouldSave() {
+    return !this.isDisabled;
+  }
+
   finish() {
     // ng2-archwizard save() takes a direction, like forward or back,
     // but we're not going in any direction when exiting
     this.save(undefined).then(() => {
       this.action = this.session.getData();
-      this.cancel();
+      this.cancel(true);
     });
   }
 
-  cancel() {
+  cancel(fromFinish?: boolean) {
     if (this.action.risk) {
       this.riskService.get(this.action.risk).subscribe(r => {
-        this.router.navigate(['actions'],
-          {'queryParams': {'hazard': r.weather_event.id}});
+        const queryParams = {'queryParams': {'hazard': r.weather_event.id}};
+
+        if (fromFinish) {
+          queryParams['queryParams']['fromWizard'] = true;
+        }
+
+        this.router.navigate(['actions'], queryParams);
       });
     } else {
       this.router.navigate(['/actions']);

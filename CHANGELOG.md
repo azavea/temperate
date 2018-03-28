@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.4] - 2018-03-28
+### Added
+- Show basic, relevant indicator data for Top Concerns
+- Unstyled review plan page
+- New marketing page
+### Changed
+- Updated fixtures:
+  - ActionCategory
+  - Concern
+  - WeatherEvent
+### Fixed
+- Miscellaneous bugs
+- Improved user workflow for the action steps
+
 ## [0.1.3] - 2018-03-16
 ### Changed
 - Hide register links on production

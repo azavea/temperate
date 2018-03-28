@@ -6,13 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
-import {
-  OrgRiskDirectionalFrequencyOptions,
-  OrgRiskDirectionalIntensityOptions,
-  OrgRiskRelativeChanceOptions,
-  OrgRiskRelativeImpactOptions,
-  Risk
-} from '../../../shared/';
+import { Risk } from '../../../shared/';
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
@@ -32,11 +26,6 @@ export class ReviewStepComponent extends RiskWizardStepComponent<any>
 
   public risk: Risk;
   public key: RiskStepKey = RiskStepKey.Review;
-
-  public frequencyOptions = OrgRiskDirectionalFrequencyOptions;
-  public intensityOptions = OrgRiskDirectionalIntensityOptions;
-  public chanceOptions = OrgRiskRelativeChanceOptions;
-  public impactOptions = OrgRiskRelativeImpactOptions;
 
   private sessionSubscription: Subscription;
 

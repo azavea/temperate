@@ -1,0 +1,8 @@
+<div class="page-content">
+  <h3>About your city</h3>
+  <section class="page-section">
+    <p>Finish date: {{ org?.subscription_end_date | date: 'longDate' }}</p>
+    <p>Organization name: {{ org?.name }}</p>
+    <p>City: {{ org?.location?.properties.name }}</p>
+  </section>
+</div>

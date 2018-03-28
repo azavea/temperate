@@ -4,7 +4,7 @@
     flex-flow: row nowrap;
     align-items: center;
     justify-content: space-between;
-    background-color: $neutral-1;
+    background-color: $suggestion-cta-background;
     padding: $space-xlarge;
   }
 
@@ -17,19 +17,19 @@
 
     > .recommended {
       margin-bottom: $space-base;
-      color: $neutral-4;
-      font-size: $text-tiny;
+      color: $suggestion-cta-recommended-color;
+      font-size: $suggestion-cta-recommended-size;
       text-transform: uppercase;
     }
 
     > .title {
-      font-size: $text-medium;
-      font-weight: $font-weight-bold;
+      font-size: $suggestion-cta-title-size;
+      font-weight: $suggestion-cta-title-weight;
       color: inherit;
     }
 
     > .description {
-      font-size: $text-small;
+      font-size: $suggestion-cta-description-size;
       color: inherit;
     }
   }
@@ -45,54 +45,42 @@
 
   .suggested-action {
     display: flex;
-    flex-direction: row nowrap;
+    flex-flow: row wrap;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: $space-large;
-    padding: $space-xlarge;
-    background-color: $neutral-1;
+    margin-bottom: $space-xxlarge;
+    background-color: $suggestion-background;
 
-    > .action-main {
+    .action-main {
       display: flex;
       flex: initial;
       flex-flow: column nowrap;
       align-items: flex-start;
       justify-content: flex-start;
+      flex: 1 1 70%;
+      padding: $space-xlarge 0 $space-xlarge $space-xlarge;
       margin-right: $space-xlarge;
 
-      > .action-name {
-        margin-bottom: $space-large;
-        font-size: $text-base;
-        font-weight: $font-weight-regular;
-        line-height: 1.5;
+      .action-name {
+        margin-bottom: $space-medium;
+        font-size: $suggestion-title-size;
+        font-weight: $suggestion-title-weight;
+        line-height: $suggestion-title-line-height;
       }
 
-      > .action-source {
-        margin-bottom: $space-xlarge;
-        font-size: $text-tiny;
-        opacity: .7;
-
-        > a {
-          border-bottom-width: 0;
-
-          &:hover {
-            border-bottom-width: 1px;
-          }
-        }
-      }
-
-      > .button {
+      .button {
+        margin-top: $space-large;
         margin-bottom: $space-tiny;
       }
     }
 
     > .action-metadata-list {
-      flex: none;
+      flex: 1 1 auto;
       width: 16rem;
       margin: 0;
-      padding: 0;
+      padding: $space-xlarge $space-xlarge 0 0;
       list-style: none;
-      font-size: $text-tiny;
+      font-size: $suggestion-metadata-list-size;
 
       > .action-metadata-item {
         margin: $space-small 0;
@@ -103,5 +91,49 @@
   .modal-footer {
     margin-top: $space-xlarge;
     text-align: right;
+  }
+}
+
+.toggle-button {
+  margin-bottom: $space-medium;
+}
+
+.action-name-container {
+  &.suggestion-closed {
+    position: relative;
+    max-height: $suggestion-title-height;
+    overflow: hidden;
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 10rem;
+      background: $suggestion-toggle-button-fadeaway;
+    }
+  }
+}
+
+.suggested-action-footer {
+  border-top: $suggestion-footer-border;
+  background: $suggestion-footer-background;
+  flex: 1 0 100%;
+  padding: $space-medium $space-xlarge;
+
+  .action-source {
+    font-size: $suggestion-source-size;
+    margin-bottom: 0;
+    opacity: .7;
+
+    a {
+      border-bottom-width: 0;
+
+      &:hover {
+        border-bottom-width: 1px;
+      }
+    }
   }
 }

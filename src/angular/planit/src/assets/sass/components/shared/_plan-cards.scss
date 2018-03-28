@@ -1,0 +1,110 @@
+.plan-cards {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-between;
+
+  @media screen and (max-width: $pricing-breakpoint) {
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 $space-xlarge;
+  }
+
+  > .plan-card {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: calc(50% - #{$space-medium});
+    min-width: $pricing-card-min-width;
+    margin-bottom: $space-xlarge;
+    padding: $space-xxlarge;
+    background-color: $white;
+    box-shadow: $pricing-plan-card-shadow;
+    transition: transform 0.1s;
+
+    @media screen and (max-width: $pricing-breakpoint) {
+      min-width: $pricing-card-min-width-narrow;
+      margin-bottom: $space-xxlarge;
+      padding: $space-xlarge;
+    }
+
+    &:hover {
+      transform: scale(1.01);
+    }
+
+    > .tier {
+      align-self: center;
+      margin-top: -$space-medium;
+      margin-bottom: $space-large;
+      font-size: $text-small;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    > .heading {
+      position: relative;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: $space-xxlarge;
+      font-size: $text-medium;
+      font-weight: $font-weight-regular;
+    }
+
+    > .heading > .offering {
+      white-space: nowrap;
+    }
+
+    > .heading > .cost {
+      color: $neutral-4;
+      font-size: $text-medium;
+      font-weight: $font-weight-light;
+
+      > .peryear {
+        font-size: $text-tiny;
+      }
+    }
+
+    > .description {
+      margin-bottom: $space-xxlarge;
+    }
+
+    > .button {
+      margin: auto 0 0;
+    }
+
+    > .recommended {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 $space-medium $space-small $space-large;
+      border-radius: 0 0 0 $border-radius;
+      color: $black;
+      background: $brand-leaf;
+      font-size: $text-tiny;
+      text-align: left;
+      text-transform: uppercase;
+    }
+  }
+}
+
+app-plan-selector {
+  .plan-cards {
+    .plan-card {
+
+      &:hover {
+        box-shadow: $pricing-plan-card-shadow-hover;
+      }
+
+      > .heading {
+        padding-top: $space-xxlarge;
+        border-top: $pricing-plan-tier-header-border;
+      }
+    }
+  }
+}

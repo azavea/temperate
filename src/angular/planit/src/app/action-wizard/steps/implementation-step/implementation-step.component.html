@@ -1,4 +1,7 @@
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must give this action a name to complete this step.
+  </p>
   <h3 class="step-title">Details</h3>
   <p>
     Please add some context to this action. You might include what type of work it
@@ -37,11 +40,13 @@
       </label>
       <div id="share" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
         <button class="button button-primary" role="radio"
+                [disabled]="isDisabled"
                 [ngClass]="{active: !form.controls['isPublic'].value}"
                 (click)="updateIsPublic(false)">
           Keep private
         </button>
         <button class="button button-primary" role="radio"
+                [disabled]="isDisabled"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
           Make public

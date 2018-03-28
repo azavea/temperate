@@ -11,7 +11,8 @@ export enum OrgSubscription {
 
 export interface OrgSubscriptionPlan {
   name: OrgSubscription;
-  label: string;
+  nickName: string;
+  fullName: string;
   yearlyCost: number;
   header: string;
   description: string;
@@ -23,7 +24,8 @@ export interface OrgSubscriptionPlan {
 export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPlan>([
   [OrgSubscription.FreeTrial, {
     name: OrgSubscription.FreeTrial,
-    label: 'Free trial',
+    nickName: 'Free trial',
+    fullName: 'Free trial',
     yearlyCost: 0,
     header: 'Free trial',
     // tslint:disable-next-line:max-line-length
@@ -34,7 +36,8 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Basic, {
     name: OrgSubscription.Basic,
-    label: 'Basic',
+    nickName: 'Basic',
+    fullName: 'Basic subscription',
     yearlyCost: 1500,
     header: 'App only',
     // tslint:disable-next-line:max-line-length
@@ -45,9 +48,10 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Review, {
     name: OrgSubscription.Review,
-    label: 'Review',
-    yearlyCost: 1750,
-    header: 'App and 2 hrs consulting',
+    nickName: 'Review',
+    fullName: 'Review subscription',
+    yearlyCost: 1790,
+    header: '+ 2 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Backup for planners who have a good handle on adaptation planning. You will have a direct line to an ICLEI-USA expert, who will be available to review your plan.',
     iconClass: 'icon-question',
@@ -56,9 +60,10 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Insights, {
     name: OrgSubscription.Insights,
-    label: 'Insights',
-    yearlyCost: 2800,
-    header: 'App and 10 hrs consulting',
+    nickName: 'Insights',
+    fullName: 'Insights subscription',
+    yearlyCost: 2900,
+    header: '+ 10 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Need help interpreting data? Suggestions for what risks are most vital for your city to assess? The insights package is great for cities who want a little more support and guidance as they create their adaptation plan.',
     iconClass: 'icon-question',
@@ -67,9 +72,10 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Guidance, {
     name: OrgSubscription.Guidance,
-    label: 'Guidance',
+    nickName: 'Guidance',
+    fullName: 'Guidance subscription',
     yearlyCost: 4200,
-    header: 'App and 20 hrs consulting',
+    header: '+ 20 hrs consulting',
     // tslint:disable-next-line:max-line-length
     description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your city\'s changing climate!',
     iconClass: 'icon-question',
@@ -78,7 +84,8 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Custom, {
     name: OrgSubscription.Custom,
-    label: 'Custom',
+    nickName: 'Custom',
+    fullName: 'Custom subscription',
     yearlyCost: 10000,
     header: 'Custom',
     // tslint:disable-next-line:max-line-length
@@ -89,7 +96,8 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
   }],
   [OrgSubscription.Hourly, {
     name: OrgSubscription.Hourly,
-    label: 'Pay as you go',
+    nickName: 'Pay as you go',
+    fullName: 'Pay as you go subscription',
     yearlyCost: 1500,
     header: 'Pay as you go consulting',
     // tslint:disable-next-line:max-line-length

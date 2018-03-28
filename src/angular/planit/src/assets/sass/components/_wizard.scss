@@ -4,7 +4,7 @@
   flex-wrap: wrap;
 
   wizard {
-    flex: 1 1 auto;
+    flex: 1 1 100%; // for IE11
   }
 
   &.wizard-no-nav {
@@ -104,11 +104,15 @@
     font-weight: $review-header-weight;
     margin-bottom: $space-small;
   }
-  
+
   .review-item {
     background-color: $review-item-background;
     padding: $space-medium $space-medium 0 $space-medium;
     position: relative;
+
+    .review-description {
+      white-space: pre-wrap;
+    }
 
     &:last-child {
       padding-bottom: $space-medium;
@@ -163,7 +167,7 @@
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
-    
+
     li {
       display: flex;
       background: $review-feedback-row-background;
@@ -191,16 +195,16 @@ wizard-navigation-bar {
   .steps-indicator {
     padding: 0!important;
 
-    li {    
+    li {
       margin: $space-medium 0!important;
       padding-bottom: 0!important;
       align-self: flex-start;
-      
+
       &:hover {
         div {
           a {
             .step-indicator-number {
-              box-shadow: $wizard-step-number-ring; 
+              box-shadow: $wizard-step-number-ring;
             }
             .step-indicator-title {
               color: $wizard-step-link-color-hover;
@@ -243,7 +247,7 @@ wizard-navigation-bar {
       .step-indicator-number {
         background-color: $wizard-step-number-background-current;
         border-color: $wizard-step-number-background-current;
-        box-shadow: $wizard-step-number-ring-current; 
+        box-shadow: $wizard-step-number-ring-current;
         color: $wizard-step-number-color-special;
         @include light-on-dark();
       }

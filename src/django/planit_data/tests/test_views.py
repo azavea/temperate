@@ -1,6 +1,8 @@
 from urllib.parse import urlencode
 from unittest import mock
 
+from django.conf import settings
+from django.core import mail
 from django.urls import reverse
 from django.test import TestCase, RequestFactory
 from rest_framework import status
@@ -19,6 +21,7 @@ from planit_data.tests.factories import (
 )
 from planit_data.models import OrganizationAction, OrganizationRisk, OrganizationWeatherEvent
 from planit_data.views import SuggestedActionViewSet
+from users.models import PlanItUser
 from users.tests.factories import UserFactory
 
 
@@ -26,12 +29,13 @@ class PlanExportViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.factory = RequestFactory()
+        self.user = UserFactory()
 
     def test_csv_contains_correct_columns(self):
         # Users need to belong to an organization to export a plan
         OrganizationRiskFactory(organization=self.user.primary_organization)
 
-        request = self.factory.get('/export-plan/')
+        request = self.factory.get('/plan/export/')
         request.user = self.user
 
         response = PlanExportView.as_view()(request)
@@ -43,6 +47,44 @@ class PlanExportViewTestCase(TestCase):
         cleaned_headers = [h.strip() for h in headers]
 
         self.assertEqual(cleaned_headers, list(PlanExportView.FIELD_MAPPING.values()))
+
+
+class PlanSubmitViewTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+
+    def test_submit_email_sent_with_attachment(self):
+        url = reverse('submit-plan')
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
+        BCC_EMAIL = [self.user.email]
+        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
+        self.assertEqual(len(message.attachments), 1)
+        filename, content, mimetype = message.attachments[0]
+        self.assertIn('.csv', filename)
+        self.assertGreater(len(content), 0)
+        self.assertEqual(mimetype, 'text/csv')
+
+    def test_submit_email_sent_to_all_users_in_org(self):
+
+        organization = self.user.primary_organization
+        # Create a second user so there are multiple users in the org
+        UserFactory(primary_organization=organization)
+
+        url = reverse('submit-plan')
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(mail.outbox), 1)
+
+        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
+        BCC_EMAIL = list(PlanItUser.objects.filter(primary_organization=organization)
+                                           .values_list('email', flat=True))
+        message = mail.outbox[0]
+        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
 
 
 class ConcernViewSetTestCase(APITestCase):
@@ -72,8 +114,8 @@ class ConcernViewSetTestCase(APITestCase):
         url = reverse('concern-list')
         response = self.client.get(url)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 1)
+        self.assertIn('results', response.json())
+        self.assertEqual(len(response.json()['results']), 1)
         self.assertDictEqual(response.json()['results'][0], {
             'id': concern.id,
             'indicator': concern.indicator.name,
@@ -82,6 +124,7 @@ class ConcernViewSetTestCase(APITestCase):
             'value': 5.3,
             'units': 'farthing'
         })
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_concern_list_nonauth(self):
         """Ensure that unauthenticated users receive a 401 Unauthorized response."""
@@ -176,9 +219,30 @@ class OrganizationWeatherEventTestCase(APITestCase):
                 'coastal_only': False,
                 'concern': None,
                 'indicators': [],
-                'display_class': ''
+                'display_class': '',
+                'description': ''
             },
             'order': org_we.order})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_include_related_concerns(self):
+        organization = self.user.primary_organization
+
+        # add a concern to the related weather event
+        # indicator must be `None` to avoid `ValueError: No CC API token.`
+        concern = ConcernFactory(
+            indicator=None,
+            tagline_positive='more',
+            tagline_negative='less',
+            is_relative=True)
+
+        org_we = OrganizationWeatherEventFactory(organization=organization)
+        org_we.weather_event.concern = concern
+        org_we.weather_event.save()
+
+        url = reverse('organizationweatherevent-detail', kwargs={'pk': org_we.id})
+        response = self.client.get(url)
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_list_filters_by_organization(self):
@@ -206,14 +270,15 @@ class OrganizationWeatherEventTestCase(APITestCase):
 
         url = reverse('organizationweatherevent-list')
         response = self.client.post(url, data=payload)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        org_we_id = response.json()['id']
-        order = response.json()['order']
 
+        self.assertIn('id', response.json())
+        org_we_id = response.json()['id']
         org_we = OrganizationWeatherEvent.objects.get(id=org_we_id)
         self.assertEqual(org_we.organization, organization)
         self.assertEqual(org_we.weather_event, weather_event)
-        self.assertEqual(org_we.order, order)
+        self.assertIn('order', response.json())
+        self.assertEqual(org_we.order, response.json()['order'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class OrganizationRiskTestCase(APITestCase):
@@ -270,6 +335,7 @@ class OrganizationRiskTestCase(APITestCase):
                 'coastal_only': False,
                 'concern': None,
                 'display_class': '',
+                'description': '',
                 'id': org_risk.weather_event.id,
                 'indicators': [],
                 'name': org_risk.weather_event.name
@@ -280,11 +346,13 @@ class OrganizationRiskTestCase(APITestCase):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
         actions = OrganizationActionFactory.create_batch(3, organization_risk=org_risk)
 
-        action_ids = [a.id.hex for a in actions]
+        action_ids = [str(a.id) for a in actions]
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
-        self.assertIn(response.json()['action']['id'].replace('-', ''), action_ids)
+        self.assertIn('action', response.json())
+        self.assertIn('id', response.json()['action'])
+        self.assertIn(response.json()['action']['id'], action_ids)
 
     def test_organization_risk_action_detail(self):
         org_risk = OrganizationRiskFactory(organization=self.user.primary_organization)
@@ -292,6 +360,7 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.get(url)
+        self.assertIn('action', response.json())
         self.assertDictEqual(response.json()['action'], {
             'name': '',
             'action_goal': '',
@@ -328,7 +397,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-list')
         response = self.client.post(url, data=payload)
-        risk_id = response.json()['id']
+        risk_id = response.json().get('id')
+        self.assertIsNotNone(risk_id)
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
         # Should automatically use the logged in user's primary_organization
@@ -427,6 +497,8 @@ class OrganizationRiskTestCase(APITestCase):
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.put(url, data=payload)
+
+        self.assertIn('id', response.json())
         risk_id = response.json()['id']
 
         organization_risk = OrganizationRisk.objects.get(id=risk_id)
@@ -593,6 +665,7 @@ class OrganizationActionTestCase(APITestCase):
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.get(url)
 
+        self.assertIn('categories', response.json())
         self.assertEqual(len(response.json()['categories']), 1)
         self.assertDictEqual(response.json()['categories'][0], {
             'description': '',
@@ -622,6 +695,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-list')
         response = self.client.post(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -652,6 +727,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.put(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -681,6 +758,8 @@ class OrganizationActionTestCase(APITestCase):
 
         url = reverse('organizationaction-detail', kwargs={'pk': action.id})
         response = self.client.put(url, data=payload)
+
+        self.assertIn('id', response.json())
         action_id = response.json()['id']
 
         org_action = OrganizationAction.objects.get(id=action_id)
@@ -758,7 +837,7 @@ class SuggestedActionTestCase(APITestCase):
             'name': action.name,
             'categories': [],
             'plan_city': str(action.organization_risk.organization.location),
-            'plan_due_date': None,
+            'plan_due_date': '2050-01-01',
             'plan_name': '',
             'plan_hyperlink': '',
             'action_goal': '',

@@ -1,6 +1,10 @@
+from tempfile import TemporaryFile
+
+from django.conf import settings
 from django.db import transaction
-from django.db.models import Q
-from django.http.request import QueryDict
+from django.db.models import Q, prefetch_related_objects
+from django.utils import timezone
+from django.utils.text import slugify
 
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
@@ -8,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
-from djqscsv import render_to_csv_response
+from djqscsv import render_to_csv_response, write_csv
 
 from planit_data.models import (
     CommunitySystem,
@@ -27,59 +31,108 @@ from planit_data.serializers import (
     OrganizationWeatherEventSerializer,
     RelatedAdaptiveValueSerializer,
     SuggestedActionSerializer,
-    WeatherEventSerializer,
+    WeatherEventSerializer
 )
-from users.models import GeoRegion, PlanItLocation
+from planit_data.utils import send_html_email
+from users.models import GeoRegion, PlanItLocation, PlanItUser
 
 
-class PlanExportView(APIView):
-    """Exports a user's risks and actions for their primary organization
-    in the form of a CSV.
-    """
+class PlanView(APIView):
     permission_classes = [IsAuthenticated]
 
     # Mapping of field names to column headers. The keys are also used
     # to restrict which fields are returned in the query.
+
+    # organizationaction is a M2M which is fine. Risks with multiple actions will just
+    # represent multiple rows in the output for each combination of risk + action, with risk data
+    # duplicated.
     FIELD_MAPPING = {
-        'organization_risk__weather_event__name': 'Hazard',
-        'organization_risk__community_system__name': 'Community System',
-        'organization_risk__probability': 'Risk Probability',
-        'organization_risk__frequency': 'Risk Frequency',
-        'organization_risk__intensity': 'Risk Intensity',
-        'organization_risk__impact_magnitude': 'Risk Impact Magnitude',
-        'organization_risk__impact_description': 'Risk Impact Description',
-        'organization_risk__adaptive_capacity': 'Risk Adaptive Capacity',
-        'organization_risk__related_adaptive_values': 'Risk Related Adaptive Values',
-        'organization_risk__adaptive_capacity_description': 'Risk Adaptive Capacity Description',
-        'name': 'Action Name',
-        'action_type': 'Action Type',
-        'action_goal': 'Action Goal',
-        'implementation_details': 'Action Implementation Details',
-        'implementation_notes': 'Action Implementation Notes',
-        'improvements_adaptive_capacity': 'Action Adaptive Capacity',
-        'improvements_impacts': 'Action Improvements Impacts',
-        'collaborators': 'Action Collaborators',
-        'funding': 'Action Funding',
+        'weather_event__name': 'Hazard',
+        'community_system__name': 'Community System',
+        'probability': 'Risk Probability',
+        'frequency': 'Risk Frequency',
+        'intensity': 'Risk Intensity',
+        'impact_magnitude': 'Risk Impact Magnitude',
+        'impact_description': 'Risk Impact Description',
+        'adaptive_capacity': 'Risk Adaptive Capacity',
+        'related_adaptive_values': 'Risk Related Adaptive Values',
+        'adaptive_capacity_description': 'Risk Adaptive Capacity Description',
+        'organizationaction__name': 'Action Name',
+        'organizationaction__action_type': 'Action Type',
+        'organizationaction__action_goal': 'Action Goal',
+        'organizationaction__implementation_details': 'Action Implementation Details',
+        'organizationaction__implementation_notes': 'Action Implementation Notes',
+        'organizationaction__improvements_adaptive_capacity': 'Action Adaptive Capacity',
+        'organizationaction__improvements_impacts': 'Action Improvements Impacts',
+        'organizationaction__collaborators': 'Action Collaborators',
+        'organizationaction__funding': 'Action Funding',
     }
 
-    def get(self, request):
-        user_org = request.user.primary_organization
-        data = OrganizationAction.objects.filter(
-            organization_risk__organization=user_org
+    def get_data_for_organization(self, org):
+        return OrganizationRisk.objects.filter(
+            organization=org
         ).prefetch_related(
-            'organization_risk',
-            'organization_risk__weather_event',
-            'organization_risk__community_system',
+            'organizationaction',
+            'weather_event',
+            'community_system',
+        ).order_by(
+            'weather_event__name',
+            'community_system__name',
         ).values(
             *self.FIELD_MAPPING.keys()
         )
 
+
+class PlanExportView(PlanView):
+    """ Exports a user's risks and actions for their primary organization as a CSV. """
+
+    def get(self, request):
+        user_org = request.user.primary_organization
+        data = self.get_data_for_organization(user_org)
         return render_to_csv_response(
             data,
             filename='adaptation_plan',
             append_datestamp=True,
             field_header_map=self.FIELD_MAPPING,
         )
+
+
+class PlanSubmitView(PlanView):
+    """ Submits a user's current plan to ICLEI via email with a CSV attachment. """
+
+    def post(self, request, *args, **kwargs):
+        user_org = request.user.primary_organization
+        data = self.get_data_for_organization(user_org)
+        with TemporaryFile() as fp:
+            write_csv(data, fp)
+            fp.seek(0)
+
+            # Create email context
+            template_path = 'email/submit_plan_email'
+            due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
+            org_user_emails = list(PlanItUser.objects.filter(primary_organization=user_org)
+                                                     .values_list('email', flat=True))
+            context = {
+                'date_due': due_date,
+                'date_submitted': timezone.now(),
+                'organization_name': user_org.name,
+                'user_email': request.user.email,
+            }
+
+            # Create attachment
+            attachment_filename = ('{}_adaptation_plan_{}.csv'
+                                   .format(slugify(user_org.name), due_date))
+            plan_attachment = (attachment_filename, fp.read(), 'text/csv',)
+
+            send_html_email(
+                template_path,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.PLAN_SUBMISSION_EMAIL],
+                context=context,
+                bcc=org_user_emails,
+                attachments=[plan_attachment]
+            )
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
 class ConcernViewSet(ReadOnlyModelViewSet):
@@ -90,6 +143,13 @@ class ConcernViewSet(ReadOnlyModelViewSet):
         return Concern.objects.all().select_related(
             'indicator'
         ).order_by('id')
+
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
 
 
 class CommunitySystemViewSet(ReadOnlyModelViewSet):
@@ -105,16 +165,6 @@ class OrganizationRiskView(ModelViewSet):
     pagination_class = None
     serializer_class = OrganizationRiskSerializer
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return OrganizationRisk.objects.filter(
@@ -127,8 +177,16 @@ class OrganizationRiskView(ModelViewSet):
         ).prefetch_related(
             'organizationaction_set',
             'organizationaction_set__categories',
+            'weather_event__concern',
             'weather_event__indicators',
         )
+
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
 
     @transaction.atomic
     def create(self, request):
@@ -187,6 +245,13 @@ class OrganizationActionViewSet(ModelViewSet):
             'categories'
         )
 
+    def list(self, request, *args, **kwargs):
+        prefetch_related_objects(
+            [request.user],
+            'primary_organization__location__concernvalue_set'
+        )
+        return super().list(request, *args, **kwargs)
+
 
 class OrganizationWeatherEventViewSet(ModelViewSet):
 
@@ -195,16 +260,6 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
-    def get_serializer(self, *args, data=None, **kwargs):
-        kwargs['context'] = self.get_serializer_context()
-        if data is not None:
-            # if 'data' is a QueryDict it must be copied before being modified
-            data = data.copy() if isinstance(data, QueryDict) else data
-            data['organization'] = self.request.user.primary_organization_id
-            return self.serializer_class(*args, data=data, **kwargs)
-
-        return self.serializer_class(*args, **kwargs)
-
     def get_queryset(self):
         org_id = self.request.user.primary_organization_id
         return self.model_class.objects.filter(
@@ -212,6 +267,7 @@ class OrganizationWeatherEventViewSet(ModelViewSet):
         ).select_related(
             'weather_event'
         ).prefetch_related(
+            'weather_event__concern',
             'weather_event__indicators'
         )
 
@@ -290,9 +346,10 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset)
+                                         is_coastal, queryset)[:5]
 
-        serializer = self.serializer_class(results[:5], many=True)
+        serializer = self.get_serializer(results, data=results, many=True)
+        serializer.is_valid()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -303,5 +360,6 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return WeatherEvent.objects.all().prefetch_related(
+            'concern',
             'indicators'
         ).order_by('name')

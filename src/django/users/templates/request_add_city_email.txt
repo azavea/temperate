@@ -1,0 +1,12 @@
+{% load i18n %}
+Hi,
+
+{{ user.first_name }} {{ user.last_name }} would like to have {{ city }}, {{ state }} added to Temperate!
+
+You can contact them here:
+
+{{ user.email }}
+
+Here are their notes:
+
+{{ notes }}

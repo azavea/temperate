@@ -49,6 +49,10 @@ export class Organization {
     return (hasFreeTrial || hasCustomPlan);
   }
 
+  public isExpired(): boolean {
+    return this.trialMillisRemaining() <= 0;
+  }
+
   private trialMillisRemaining() {
     if (!this.subscription_end_date) {
       return 0;

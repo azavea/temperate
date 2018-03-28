@@ -1,7 +1,7 @@
 <div class="step-header">
-  <p *ngIf="isDisabled" class="alert alert-warning">
+  <div *ngIf="isDisabled" class="alert alert-warning">
     You must match a hazard to a community system to save this risk.
-  </p>
+  </div>
   <h3 class="step-title">Review</h3>
 </div>
 
@@ -28,15 +28,15 @@
     </div>
     <div class="review-item">
       <span class="answer-label">Probability of hazard occurring: </span>
-      {{ chanceOptions.get(risk.probability)?.label || "--" }}
+      {{ risk?.getProbabilityLabel() || "--" }}
     </div>
     <div class="review-item">
       <span class="answer-label">Frequency over the next five years: </span>
-      {{ frequencyOptions.get(risk.frequency)?.label || "--" }}
+      {{ risk?.getFrequencyLabel() || "--" }}
     </div>
     <div class="review-item">
       <span class="answer-label">Intensity over the next five years: </span>
-      {{ intensityOptions.get(risk.intensity)?.label || "--" }}
+      {{ risk?.getIntensityLabel() || "--" }}
     </div>
   </section>
 
@@ -47,7 +47,7 @@
     </div>
     <div class="review-item">
       <span class="answer-label">Potential impact on this community system: </span>
-      {{ impactOptions.get(risk.impact_magnitude)?.label || "--" }}
+      {{ risk?.getImpactMagnitudeLabel() || "--" }}
     </div>
     <div class="review-item">
       <span class="answer-label">Description: </span>
@@ -62,7 +62,7 @@
     </div>
     <div class="review-item">
       <span class="answer-label">Your city's adaptive capacity: </span>
-      {{ chanceOptions.get(risk.adaptive_capacity)?.label || "--" }}
+      {{ risk?.getAdaptiveCapacityLabel() || "--" }}
     </div>
     <div class="review-item">
       <span class="answer-label">Description:</span>

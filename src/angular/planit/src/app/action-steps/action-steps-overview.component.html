@@ -1,22 +1,43 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <section>
-      <h2 class="heading">Adaptation Actions</h2>
-      <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
-    </section>
-    <section class="display-flex flex-vertical" *ngIf="risks === undefined">
-      <div class="loading-wrapper">
-        <div class="loading loading-spinner loading-large loading-primary"></div>
-      </div>
-    </section>
+    <header class="page-header" *ngIf="weatherEvent?.name">
+      <h1 class="page-title-small">Action steps</h1>
+      <h2 class="page-title-large">{{ weatherEvent?.name }}</h2>
+      <p class="paragraph-intro">
+        Take action to mitigate the potential impact of <strong>{{ weatherEvent?.name | lowercase}}</strong>
+        on each of the community systems below.
+      </p>
+    </header>
+
+    <div class="loading-container" *ngIf="risks === undefined">
+      <div class="loading loading-spinner loading-large loading-primary"></div>
+    </div>
+
+    <alert type="success" *ngIf="showFirstActionMessage">
+      <strong>Great work!</strong>
+      Take further action on the risks below. Or
+      <a class="alert-link" routerLink="/dashboard">return to the dashboard</a>
+      to work on a different hazard.
+    </alert>
+    <alert type="success" *ngIf="showActionsCompleteMessage">
+      <strong>Great work!</strong>
+      You’ve completed this hazard’s risks.
+      <a class="alert-link" routerLink="/dashboard">Return to the dashboard</a>
+      to work on another hazard.
+    </alert>
+
     <section *ngIf="risks !== undefined">
       <div *ngIf="!isARiskAssessed" class="actions-empty">
-        <h2>You'll need to assess risks before you can take action.</h2>
-        <p>Once you have risks assessed in your Vulnerability Assessment, you can plan to mitigate their impact here.</p>
-        <a class="button" routerLink="/assessment">Assess Risks</a>
+        <h3>You&rsquo;ll need to assess risks before you can take action.</h3>
+        <p>
+          Once you have risks assessed in your Vulnerability Assessment, you can plan to
+          mitigate their impact here.
+        </p>
+        <a class="button" routerLink="/assessment">Assess risks</a>
       </div>
+
       <div *ngIf="isARiskAssessed" class="actions-available">
-        <div class="action-card-container">
+        <div class="card-container">
           <!-- Show risks in the order they return, so that a risk always shows at the same
                position. This helps consistency for users. -->
           <ng-container *ngFor="let risk of risks">
@@ -33,3 +54,11 @@
 </div>
 
 <app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>
+
+<app-modal-template #reviewYourPlanModal title="Great job!">
+    <!-- Tempy image -->
+    You&rsquo;re all done with your adaptation plan!
+    <footer class="modal-footer">
+      <a class="button" routerLink="/review-plan" (click)="this.reviewYourPlanModal.close()">Review your plan</a>
+    </footer>
+</app-modal-template>

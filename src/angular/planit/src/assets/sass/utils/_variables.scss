@@ -37,6 +37,7 @@ $brand-black: #032a1d;
 $brand-leaf: #85c005;
 $brand-turmeric: #f2c706;
 $brand-persimmon: #ed5c14;
+$brand-lavender: #8186d9;
 
 $brand-teal-v-light: #d3eae9;
 $brand-teal-light: #a8ddda;
@@ -61,16 +62,6 @@ $neutral-5: #363630;
 
 $border-color: $neutral-1;
 
-// TODO Revisit these
-$adaptive-need-size: 20px;
-$adaptive-need-empty-color: $neutral-3;
-
-$adaptive-need-high: $brand-danger;
-$adaptive-need-mod-high: #f75824;
-$adaptive-need-mod: #fa8530;
-$adaptive-need-mod-low: #f7a526;
-$adaptive-need-low: $brand-warning;
-
 $dark-grey-background: darken(grey, 25%);
 $light-grey-background: lighten(grey, 25%);
 
@@ -90,6 +81,7 @@ $space-xlarge: 2rem;
 $space-xxlarge: 3rem;
 $main-background: $neutral-1;
 $content-max-width: 125rem;
+$content-max-width-small: 92rem;
 
 
 /* * * *
@@ -289,19 +281,20 @@ $table-caption-border-color: $brand-positive;
 $alert-padding-vertical: 1.4rem;
 $alert-padding-horizontal: 1.8rem;
 $alert-border-radius: $border-radius;
-$alert-ghost-style: true;
+$alert-ghost-style: false;
 $alert-font-size: $font-size-body;
 $alert-heading-font-size: $font-size-body;
 $alert-heading-font-weight: $heading-font-weight;
-$alert-font-color: $white;
+$alert-font-color: $black;
+$alert-font-color-primary: $white;
 
 
 /* * * *
  * Popover
  *
  * * * */
-$popover-padding-vertical: 0.9rem;
-$popover-padding-horizontal: 1.4rem;
+$popover-padding-vertical: $space-xlarge;
+$popover-padding-horizontal: $space-xxlarge;
 $popover-border-radius: $border-radius;
 $popover-font-size: $font-size-body;
 $popover-heading-font-size: $text-medium;
@@ -309,7 +302,7 @@ $popover-font-color: $heading-font-color;
 $popover-background-color: $white;
 $popover-margin: 7px;
 $popover-max-width: 28rem;
-$popover-box-shadow: 2px 2px 20px rgba(48,47,77,.09);
+$popover-box-shadow: 0 0 20px rgba($neutral-5, 0.4);
 $popover-border: none;
 $popover-arrow: 8px;
 
@@ -344,6 +337,21 @@ $card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
 
 
+ /* * * *
+ * Progress bars
+ *
+ * * * */
+$progress-bar-height: 8px;
+$progress-border-radius: $progress-bar-height;
+$progress-bar-background: $neutral-1;
+$progress-bar-color: $white;
+$progress-bar-font-size: $text-tiny;
+$progress-bar-line-height: 1;
+$progress-bar-highlight-background-default: $brand-teal;
+$progress-bar-highlight-background-action: $brand-positive;
+
+
+
 /* * * *
  * Animations
  *
@@ -370,30 +378,34 @@ $card-border-radius: $border-radius;
  * - Add Category component
  *
  * * * */
- $switch-border-radius: $border-radius;
- $switch-title-size: $text-base;
- $switch-title-color: $brand-black;
+$switch-border-radius: $border-radius;
+$switch-title-size: $text-base;
+$switch-title-color: $brand-black;
 
- $switch-background: $neutral-0;
- $switch-background-hover: $brand-teal-v-light;
- $switch-background-selected: $brand-teal-v-light;
- $switch-border: 1px solid $neutral-1;
- $switch-border-hover: 1px solid $brand-teal-light;
- $switch-border-selected: 3px solid $brand-teal-light;
+$switch-description-size: $text-small;
+$switch-description-color: $neutral-4;
+$switch-description-line-height: 1.25;
 
- $switch-status-icon-size: $text-base;
+$switch-background: $neutral-0;
+$switch-background-hover: $brand-teal-v-light;
+$switch-background-selected: $brand-teal-v-light;
+$switch-border: 1px solid $neutral-1;
+$switch-border-hover: 1px solid $brand-teal-light;
+$switch-border-selected: 3px solid $brand-teal-light;
 
- $switch-unchecked-icon-color: $neutral-2;
- $switch-unchecked-icon-color-hover: $brand-teal;
- $switch-checked-icon-color: $brand-teal;
- $switch-checked-icon-color-hover: $brand-danger;
+$switch-status-icon-size: $text-base;
 
- $switch-primary-icon-color: $brand-black;
- $switch-primary-icon-size: $text-large;
+$switch-unchecked-icon-color: $neutral-2;
+$switch-unchecked-icon-color-hover: $brand-teal;
+$switch-checked-icon-color: $brand-teal;
+$switch-checked-icon-color-hover: $brand-danger;
 
- $switch-readonly-icon-color: $neutral-2;
- $switch-readonly-icon-color-selected: $neutral-4;
- $switch-readonly-icon-size: $text-small;
+$switch-primary-icon-color: $brand-black;
+$switch-primary-icon-size: $text-large;
+
+$switch-readonly-icon-color: $neutral-2;
+$switch-readonly-icon-color-selected: $neutral-4;
+$switch-readonly-icon-size: $text-small;
 
 
 /* * * *
@@ -415,6 +427,10 @@ $card-border-radius: $border-radius;
  $concern-title-color: $neutral-4;
  $concern-title-color-hover: $brand-black;
 
+ $concern-stats-size: $text-small;
+ $concern-stats-color: $neutral-3;
+ $concern-stats-line-height: 1.2;
+
  $concern-readonly-icon-color: $neutral-2;
 
 
@@ -435,9 +451,6 @@ $wizard-title-small-weight: $font-weight-regular;
 $wizard-title-large-color: $brand-black;
 $wizard-title-large-size: $text-display;
 $wizard-title-large-weight: $font-weight-regular;
-
-$wizard-adaptive-need-border: 0px 0px 0 3px $white,
-                              0px 0px 0 4px $neutral-2;
 
 $wizard-step-prompt-color: $neutral-4;
 $wizard-step-prompt-size: $text-small;
@@ -531,10 +544,6 @@ $grouped-risk-progress-percentage-color: $neutral-3;
 $grouped-risk-progress-title-size: $text-small;
 $grouped-risk-progress-title-color: $neutral-4;
 
-$grouped-risk-progress-height: 8px;
-$grouped-risk-progress-background: $neutral-1;
-$grouped-risk-progress-highlight-background-default: $brand-teal;
-$grouped-risk-progress-highlight-background-action: $brand-positive;
 $grouped-risk-indicator-color: $brand-teal;
 
 
@@ -577,3 +586,141 @@ $empty-state-header-color: $brand-black;
 $empty-state-header-size: $text-base;
 $empty-state-text-style: italic;
 $empty-state-text-max-width: 30rem;
+
+
+/* * * *
+ * Adaptive Need
+ *
+ * * * */
+$adaptive-need-popover-max-width: 60rem;
+$adaptive-need-popover-title-size: $text-large;
+$adaptive-need-popover-title-line-height: 1.15;
+$adaptive-need-size: 20px;
+$adaptive-need-empty-color: $neutral-3;
+$adaptive-need-unsure-border: 1px solid $neutral-2;
+$adaptive-need-unsure-color: repeating-linear-gradient(
+                             -45deg,
+                             $neutral-2,
+                             $neutral-2 1px,
+                             transparent 2px,
+                             $neutral-2 4px,
+                             transparent 5px,
+                             $neutral-2 7px,
+                             transparent 8px,
+                             $neutral-2 10px,
+                             transparent 11px,
+                             $neutral-2 13px,
+                             transparent 14px,
+                             $neutral-2 16px,
+                             transparent 17px,
+                             transparent 18px);
+
+$adaptive-need-wizard-size: 26px;
+$adaptive-need-wizard-empty-size: 24px;
+$adaptive-need-wizard-empty-border-color: $neutral-3;
+
+$adaptive-need-table-label-size: $text-tiny;
+$adaptive-need-table-label-weight: $font-weight-regular;
+$adaptive-need-table-label-color: $neutral-3;
+
+$adaptive-need-table-label-arrow-background: $neutral-2;
+$adaptive-need-table-label-arrow-thickness: 1px;
+$adaptive-need-table-label-arrow-shaft-length: 9.5rem;
+$adaptive-need-table-label-arrow-end-length: 1rem;
+
+$adaptive-need-table-cell-size: 3.5rem;
+
+$adaptive-need-high: #ed3814;
+$adaptive-need-mod-high: $brand-danger;
+$adaptive-need-mod: #fa8530;
+$adaptive-need-mod-low: #f7a526;
+$adaptive-need-low: $brand-warning;
+
+
+/* * * *
+ * Action card
+ *
+ * * * */
+$action-card-title-size: $text-small;
+$action-card-title-complete-weight: $font-weight-bold;
+$action-card-title-color: $black;
+$action-card-title-height: 10rem;
+$action-card-background: $neutral-0;
+
+$action-card-content-title-weight: $font-weight-bold;
+$action-card-content-value-size: $text-medium;
+$action-card-content-value-color: $neutral-4;
+
+$action-toggle-button-background: $action-card-background;
+$action-toggle-button-color-hover: $brand-teal;
+$action-toggle-button-fadeaway: linear-gradient(rgba($action-card-background, 0), $action-card-background);
+
+$suggestion-cta-background: $neutral-1;
+$suggestion-cta-recommended-color: $neutral-4;
+$suggestion-cta-recommended-size: $text-tiny;
+$suggestion-cta-title-size: $text-medium;
+$suggestion-cta-title-weight: $font-weight-bold;
+$suggestion-cta-description-size: $text-small;
+$suggestion-cta-description-size: $text-small;
+
+$suggestion-background: $neutral-1;
+$suggestion-title-size: $text-base;
+$suggestion-title-weight: $font-weight-regular;
+$suggestion-title-line-height: 1.5;
+$suggestion-title-height: 12rem;
+$suggestion-source-size: $text-tiny;
+$suggestion-metadata-list-size: $text-tiny;
+$suggestion-toggle-button-fadeaway: linear-gradient(rgba($suggestion-background, 0), $suggestion-background);
+$suggestion-footer-background: $neutral-1;
+$suggestion-footer-border: 2px solid $neutral-0;
+
+/* * * *
+ * Marketing page
+ *
+ * * * */
+$marketing-background-color: $neutral-0;
+$marketing-hero-max-width: 150rem;
+$marketing-hero-heading-size: $text-display;
+$marketing-hero-heading-weight: $font-weight-light;
+$marketing-hero-description-size: $text-base;
+$marketing-hero-button-width: 20rem;
+$marketing-hero-secondary-font-style: italic;
+$marketing-overview-max-width: 50rem;
+$marketing-overview-small-max-width: 39rem;
+
+$marketing-image-background-color: $neutral-2;
+// Should we have mobile/desktop sizes here?
+$marketing-dark-background: $neutral-1;
+$marketing-data-section-image-max-width: 110rem;
+
+$marketing-feature-image-width: 8rem;
+$marketing-feature-description-max-width: 20rem;
+
+
+
+/* * * *
+ * Pricing page
+ *
+ * * * */
+$pricing-max-width: 80rem;
+$pricing-section-padding-vertical-small: 4rem;
+$pricing-section-padding-vertical-large: 2 * $pricing-section-padding-vertical-small;
+$pricing-section-padding-horizontal: 2rem;
+$pricing-headline-min-width: 33rem;
+$pricing-headline-max-width: 39rem;
+$pricing-card-min-width: 39rem;
+$pricing-card-min-width-narrow: 36rem;
+$pricing-plan-tier-header-border: 1px solid $neutral-1;
+$pricing-plan-card-shadow: 2px 2px 20px rgba($black, .22);
+$pricing-plan-card-shadow-hover: 2px 2px 30px rgba($black, .66);
+$pricing-bottom-text-shadow: 0 0 8px rgba($black, .67);
+$pricing-breakpoint: 55rem;
+$pricing-breakpoint-hero: 40rem;
+
+
+/* * * *
+ * Upgrade banner
+ *
+ * * * */
+$upgrade-banner-background: $brand-lavender;
+$upgrade-banner-font-color: $black;

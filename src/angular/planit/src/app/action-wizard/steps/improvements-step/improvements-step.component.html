@@ -1,4 +1,7 @@
 <div class="step-header">
+  <p *ngIf="isDisabled" class="alert alert-warning">
+    You must give this action a name to complete this step.
+  </p>
   <h3 class="step-title">Outcomes</h3>
   <p>Assuming the implementation of this action is successful, what are the outcomes you hope to achieve?</p>
 </div>
@@ -6,12 +9,12 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="form-control-container">
-      <label for="adaptive-capacity-effect">How will this action step improve your city's adaptive capacity?</label>
-      <textarea id="adaptive-capacity-effect" formControlName="improvements_adaptive_capacity"></textarea>
-    </div>
-    <div class="form-control-container">
       <label for="impact-reduction">How will this action step reduce the potential impact of this risk?</label>
       <textarea id="impact-reduction" formControlName="improvements_impacts"></textarea>
+    </div>
+    <div class="form-control-container">
+      <label for="adaptive-capacity-effect">How will this action step improve your city&rsquo;s adaptive capacity?</label>
+      <textarea id="adaptive-capacity-effect" formControlName="improvements_adaptive_capacity"></textarea>
     </div>
     <div class="form-control-container">
       <label for="collaborators">
