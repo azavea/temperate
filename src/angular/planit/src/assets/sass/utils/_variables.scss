@@ -724,3 +724,25 @@ $pricing-breakpoint-hero: 40rem;
  * * * */
 $upgrade-banner-background: $brand-lavender;
 $upgrade-banner-font-color: $black;
+
+
+/* * * *
+ * Badges
+ *
+ * * * */
+$badge-font-color: $black;
+$badge-font-size: $text-tiny;
+$badge-font-color-primary: $white;
+$badge-padding-vertical: 0;
+$badge-padding-horizontal: $space-medium;
+$badge-border-radius: $space-small;
+
+
+/* * * *
+ * Panels
+ * - City profile
+ * * * */
+$panel-label-font-size: $text-base;
+$panel-label-color: $neutral-4;
+$panel-toggle-color-hover: $brand-black;
+$panel-toggle-background-hover: $brand-teal-v-light;

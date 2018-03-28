@@ -14,7 +14,8 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
-from users.models import PlanItLocation, PlanItOrganization, PlanItUser
+from users.models import CityProfile, PlanItLocation, PlanItOrganization, PlanItUser
+from users.serializer_fields import BitField
 from planit_data.models import CommunitySystem
 
 
@@ -183,7 +184,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         fields = ('id', 'created_at', 'name', 'location', 'units', 'invites',
                   'subscription', 'subscription_end_date', 'subscription_pending',
                   'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
-                  'community_systems', 'weather_events')
+                  'community_systems', 'weather_events',)
         read_only_fields = ('subscription_end_date', 'subscription_pending',)
 
 
@@ -231,3 +232,13 @@ class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""
 
     primary_organization = OrganizationSerializer()
+
+
+class CityProfileSerializer(serializers.ModelSerializer):
+
+    action_prioritized = BitField()
+
+    class Meta:
+        model = CityProfile
+        fields = '__all__'
+        read_only_fields = ('organization',)

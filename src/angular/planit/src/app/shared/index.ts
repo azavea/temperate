@@ -4,6 +4,12 @@ export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 export { City, CityProperties } from './models/city.model';
+export {
+  ActionPrioritized,
+  CityProfile,
+  CityProfileOption,
+  CityProfileSection
+} from './models/city-profile.model';
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';

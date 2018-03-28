@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AccordionModule, PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
+import {
+  AccordionModule,
+  PopoverModule,
+  ProgressbarModule,
+  TooltipModule,
+  TypeaheadModule
+} from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule } from '../shared/shared.module';
@@ -22,11 +28,13 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     AccordionModule,
     PopoverModule,
     ProgressbarModule,
     TooltipModule,
     ToastrModule,
+    TypeaheadModule,
     SharedModule,
     DashboardRoutingModule
   ],

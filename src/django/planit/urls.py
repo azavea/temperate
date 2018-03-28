@@ -23,12 +23,19 @@ from rest_framework import routers
 from climate_api.views import ClimateAPIProxyView
 import action_steps.views as action_steps_views
 import planit_data.views as planit_data_views
-from users.views import (CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet,
-                         AddCityView)
+from users.views import (
+    AddCityView,
+    CityProfileOptionsViewSet,
+    CurrentUserView,
+    PlanitObtainAuthToken,
+    OrganizationViewSet,
+    UserViewSet,
+)
 
 router = routers.DefaultRouter()
 router.register(r'action-categories', action_steps_views.ActionCategoryViewSet)
 router.register(r'action-types', action_steps_views.ActionTypeViewSet)
+router.register(r'city-profile-options', CityProfileOptionsViewSet, base_name='cityprofileoptions')
 router.register(r'collaborators', action_steps_views.CollaboratorViewSet)
 router.register(r'community-system', planit_data_views.CommunitySystemViewSet)
 router.register(r'organizations', OrganizationViewSet, base_name='planitorganization')

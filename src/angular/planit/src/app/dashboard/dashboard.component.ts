@@ -20,10 +20,10 @@ import { ModalTemplateComponent } from '../shared/modal-template/modal-template.
 export class DashboardComponent implements OnInit {
 
   public groupedRisks: any[];
+  public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
 
-  private organization: Organization;
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
 

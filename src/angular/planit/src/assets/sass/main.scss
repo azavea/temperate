@@ -85,12 +85,15 @@
   'components/app-collapsible-chart',
   'components/va-popover',
   'components/va-risk-popover',
-  'components/toast';
+  'components/toast',
+  'components/badge',
+  'components/panel';
 
 /* * * *
  * Page specific styling
  * * * */
 @import 'pages/action-steps';
+@import 'pages/city-profile';
 @import 'pages/create-org';
 @import 'pages/dashboard';
 @import 'pages/indicators';
