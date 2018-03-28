@@ -46,9 +46,9 @@
   padding: 0 $space-tiny $space-tiny;
   border-bottom-right-radius: $border-radius;
   border-bottom-left-radius: $border-radius;
-  margin-bottom: $space-xlarge;
+  margin-bottom: $space-medium;
 
-  @media all and (min-width:68.750em) {
+  @media all and (min-width: 70.000em) {
     display: flex;
   }
 }
@@ -59,7 +59,7 @@
   padding: $space-xlarge $space-large;
   border-radius: $border-radius;
   
-  @media all and (min-width:68.750em) {
+  @media all and (min-width: 70.000em) {
     flex: 0 1 50%;
   }
 
@@ -97,7 +97,7 @@
 .grouped-risk-progress-action {
   margin-top: $space-tiny;
 
-  @media all and (min-width:68.750em) {
+  @media all and (min-width: 70.000em) {
     margin-left: $space-tiny;
     margin-top: 0;
   }

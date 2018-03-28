@@ -6,15 +6,14 @@ app-dashboard {
 
   .page-header {
     flex: 1 0 100%;
-    margin-bottom: 0;
-  }
-
-  .page-title-large {
-    margin-bottom: 0;
   }
 
   .section-header {
     max-width: $dashboard-header-max-width;
+  }
+
+  .dashboard-container {
+    min-width: 0;
   }
 
   .aside-block-container:not(:last-child) {
@@ -48,6 +47,43 @@ app-dashboard {
       margin-right: 2px;
     }
   }
+  
+  .nav-tabs {
+    display: flex;
+  }
+
+  .nav-tabs .button-icon-only,
+  .nav-tabs .button {
+    margin-left: auto;
+    margin-right: $space-small;
+    align-self: center;
+  }
+
+  .tab-content {
+    padding-bottom: 0;
+  }
+  
+  .tab-assessment {
+    padding-bottom: $space-medium;
+  }
+
+  .va-summary-table {
+    min-width: auto!important;
+    margin-bottom: 0;
+
+    thead {
+      th:nth-child(2) {
+        width: 40%;
+      }
+      
+      // Hack so that the help icon doesn't get its own line
+      @media all and (min-width: 68.125em) and (max-width: 75.188em) {
+        th:nth-child(3), th:nth-child(4) {
+          padding-right: 3.5rem;
+        }
+      }
+    }
+  }
 }
 
 .dashboard-container {
@@ -72,7 +108,6 @@ app-dashboard {
   height: 100%;
   justify-content: center;
   align-items: center;
-  margin-top: $dashboard-view-tabs-height;
 
   .empty-state-header {
     font-size: $empty-state-header-size;
@@ -88,7 +123,6 @@ app-dashboard {
 
 .dashboard-sidebar {
   flex: 0 0 30rem;
-  margin-top: $dashboard-view-tabs-height;
 }
 
 .dashboard-no-risks {

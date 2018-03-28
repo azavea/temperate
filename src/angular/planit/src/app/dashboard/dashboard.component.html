@@ -24,7 +24,7 @@
             <button class="button-tab tab-item"
                     [ngClass]="{active: viewTab === viewTabs.Grouped}"
                     (click)="viewTab = viewTabs.Grouped">
-              Hazards
+              Overview
             </button>
             <button class="button-tab tab-item"
                     [ngClass]="{active: viewTab === viewTabs.Assessment}"
@@ -37,10 +37,21 @@
                     (click)="viewTab = viewTabs.ActionSteps">
               Action steps
             </button>
+            <button type="button" 
+                    class="button button-small button-inverse-dark button-icon-left" 
+                    (click)="openModal(weatherEventsModal)"
+                     *ngIf="viewTab === viewTabs.Grouped">
+              <span class="icon icon-plus-square"></span>
+              Add a hazard</button>
+            <button type=button 
+                    class="button button-small button-inverse-dark button-icon-left" 
+                    routerLink="/assessment/risk/new"
+                    *ngIf="viewTab === viewTabs.Assessment">
+              <span class="icon icon-plus-square"></span>
+              Add a risk</button>
           </div>
 
           <div class="tab-content tab-hazards" *ngIf="viewTab === viewTabs.Grouped">
-          <button type="button" class="button button-small" (click)="openModal(weatherEventsModal)">Add a hazard</button>
             <app-grouped-risk
                 *ngFor="let risks of groupedRisks"
                 [risks]="risks"
@@ -49,8 +60,8 @@
           </div>
 
           <div class="tab-content tab-assessment" *ngIf="viewTab === viewTabs.Assessment">
-            <button class="button button-small" routerLink="/assessment/risk/new">Add new risk</button>
-            <va-assessment-overview-table [(risks)]="risks" [showFullTitle]="true">
+            <va-assessment-overview-table [(risks)]="risks" 
+                                          [showFullTitle]="true">
             </va-assessment-overview-table>
           </div>
 
