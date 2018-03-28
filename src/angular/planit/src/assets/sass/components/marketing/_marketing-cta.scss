@@ -39,6 +39,10 @@
       font-weight: $font-weight-light;
       text-shadow: $pricing-bottom-text-shadow;
 
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
+
       @media screen and (max-width: $pricing-breakpoint) {
         text-align: center;
       }
@@ -49,6 +53,10 @@
       margin-bottom: $space-xxlarge;
       color: $white;
       text-shadow: $pricing-bottom-text-shadow;
+
+      @media all and (-ms-high-contrast:none) {
+        width: 100%;
+      }
 
       a {
         color: $white;

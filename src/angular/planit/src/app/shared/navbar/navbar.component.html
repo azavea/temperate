@@ -1,5 +1,5 @@
 <header class="header-primary" role="banner">
-  <a *ngIf="authService.isAuthenticated()" routerLink="/" class="logo"><img src="assets/images/temperate-mark-white.svg" alt="Temperate, by Azavea"></a>
+  <a *ngIf="authService.isAuthenticated()" routerLink="/" class="logo logo-mark"><img src="assets/images/temperate-mark-white.svg" alt="Temperate, by Azavea"></a>
   <a *ngIf="!authService.isAuthenticated()" routerLink="/" class="logo"><img src="assets/images/temperate-logo-white.svg" alt="Temperate, by Azavea"></a>
   <div class="nav-buttons" *ngIf="authService.isAuthenticated()">
     <a class="button button-inverse-light"

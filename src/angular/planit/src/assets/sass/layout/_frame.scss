@@ -17,12 +17,12 @@
 }
 
 .main-container-full {
-  flex-flow: column nowrap;
   align-items: stretch;
   justify-content: flex-start;
   background-color: $marketing-background-color;
 
   .main-content {
+    flex: 1;
     display: block;
     width: 100%;
     max-width: 100%;
