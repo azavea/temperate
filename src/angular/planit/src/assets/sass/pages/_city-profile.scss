@@ -1,5 +1,11 @@
 app-city-profile {
   .main-container .main-content {
     max-width: 92rem;
+
+    .profile-required:after {
+      margin-left: 0.4rem;
+      content: '*';
+      color: $brand-danger;
+    }
   }
 }
