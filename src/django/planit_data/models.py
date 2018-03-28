@@ -175,10 +175,12 @@ class OrganizationAction(models.Model):
 
     class Visibility:
         PUBLIC = 'public'
+        REQUEST_PUBLIC = 'request'
         PRIVATE = 'private'
 
         CHOICES = (
             (PUBLIC, 'Public'),
+            (REQUEST_PUBLIC, 'Requested Public'),
             (PRIVATE, 'Private'),
         )
 
