@@ -4,3 +4,5 @@
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
 {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
+
+If you're having trouble with this link or can't log in, please contact {{ support_email }} for assistance.

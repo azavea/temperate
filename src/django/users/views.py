@@ -73,6 +73,7 @@ class RegistrationView(BaseRegistrationView):
         context = self.get_email_context(activation_key)
         context.update({
             'user': user,
+            'support_email': settings.SUPPORT_EMAIL,
         })
         user.email_user(template, context)
 

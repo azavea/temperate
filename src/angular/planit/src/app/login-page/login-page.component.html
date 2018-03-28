@@ -9,8 +9,8 @@
         Trouble logging in? <a routerLink="/forgot-password">Reset your password</a>
       </div>
       <div *ngIf="activationFailed" class="alert alert-warning">
-        <strong>Account activation failed.</strong>
-        <span *ngIf="hostname !== 'temperate.io'">Has your activation link expired? <a routerLink="/register">Sign up again</a></span>
+        <strong>Account activation failed.</strong><br>
+        <div>If you're having trouble or can't log in, please contact <a href="mailto:support@temperate.io">support@temperate.io</a> for assistance.</div>
       </div>
       <div *ngIf="reset" class="alert alert-positive">
         Your Temperate password was reset. Log in to get started.
