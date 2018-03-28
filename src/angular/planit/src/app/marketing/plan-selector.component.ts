@@ -35,12 +35,6 @@ export class PlanSelectorComponent implements OnInit {
     return this.availablePlans.filter(p => p.visible);
   }
 
-  public isUpgrade(plan: OrgSubscriptionPlan) {
-    // return true if the passed plan is an upgrade from the active one
-    //  A plan is an upgrade if the yearly cost is higher
-    return plan.yearlyCost > this.activePlan.yearlyCost;
-  }
-
   public planSelected(plan: OrgSubscriptionPlan) {
     this.selected.emit(plan);
   }

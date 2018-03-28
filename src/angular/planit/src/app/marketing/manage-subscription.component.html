@@ -43,30 +43,38 @@
       <div class="section-content">
         <h3 class="heading">Not seeing what you need above?</h3>
         <div class="plan-cards">
+
           <div class="plan-card" [ngClass]="{active: hourlyPlan.name === user?.primary_organization?.subscription}">
             <h4 class="heading">{{ hourlyPlan.header }}</h4>
             <p class="description">{{ hourlyPlan.description }}</p>
+
             <button class="button button-primary"
                     [disabled]="user?.primary_organization?.subscription_pending"
                     (click)="selectPlan(hourlyPlan)"
                     *ngIf="hourlyPlan.name !== user?.primary_organization?.subscription">Contact us</button>
+
             <button class="button button-primary"
                     disabled
                     *ngIf="hourlyPlan.name === user?.primary_organization?.subscription">
-                    {{ user.primary_organization.subscription_pending ? 'Subscription pending...' : 'Signed up' }}</button>
+                    {{ user.primary_organization.subscription_pending ? 'Subscription pending...' : 'Selected' }}</button>
+
             <div class="current" *ngIf="hourlyPlan.name === user?.primary_organization?.subscription && !user.primary_organization.subscription_pending">Current plan</div>
           </div>
+
           <div class="plan-card" [ngClass]="{active: customPlan.name === user?.primary_organization?.subscription}">
             <h4 class="heading">{{ customPlan.header }}</h4>
             <p class="description">{{ customPlan.description }}</p>
+
             <button class="button button-positive"
                     [disabled]="user?.primary_organization?.subscription_pending"
                     (click)="selectPlan(customPlan)"
                     *ngIf="customPlan.name !== user?.primary_organization?.subscription">Contact us</button>
+
             <button class="button button-primary"
                     disabled
                     *ngIf="customPlan.name === user?.primary_organization?.subscription">
-                    {{ user.primary_organization.subscription_pending ? 'Subscription pending...' : 'Signed up' }}</button>
+                    {{ user.primary_organization.subscription_pending ? 'Subscription pending...' : 'Selected' }}</button>
+
             <div class="current" *ngIf="customPlan.name === user?.primary_organization?.subscription && !user.primary_organization.subscription_pending">Current plan</div>
           </div>
         </div>
