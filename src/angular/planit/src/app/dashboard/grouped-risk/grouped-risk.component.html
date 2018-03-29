@@ -4,9 +4,9 @@
       <va-adaptive-need-box *ngIf="isAdaptiveNeedBoxVisible()"
                             [potentialImpact]="aggregateNeed.impact"
                             [adaptiveCapacity]="aggregateNeed.capacity"></va-adaptive-need-box>
-      <span class="grouped-risk-priority-empty" 
+      <span class="grouped-risk-priority-empty"
            *ngIf="!isAdaptiveNeedBoxVisible()"
-           tooltip="As you assess your city’s vulnerability to this hazard, the color of 
+           tooltip="As you assess your city’s vulnerability to this hazard, the color of
                     this square will reflect your city’s adaptive needs"
            placement="right"></span>
     </span>
@@ -16,13 +16,13 @@
 
   <span class="indicators-trigger"
         container="body"
-        [tooltip]="noRelatedIndicatorsTooltip"
+        tooltip="No related indicators for {{ modalRisk?.weather_event.name | lowercase }}"
         *ngIf="!canShowIndicators">
     <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
   </span>
-  
+
   <span class="indicators-trigger"
-        tooltip="See related indicators"
+        tooltip="See climate data for {{city?.properties?.name}}"
         placement="top"
         container="body"
         *ngIf="canShowIndicators">
@@ -37,38 +37,34 @@
       <span class="progress-percentage" *ngIf="percentRisksAssessed() > 0">{{ percentRisksAssessed() }}%</span>
       <progressbar [max]="risks.length" [value]="numberOfRisksAssessed()"></progressbar>
     </div>
-    <a class="button button-small button-primary" 
+    <a class="button button-small button-primary"
        routerLink="/assessment"
        [queryParams]="{hazard: weatherEvent?.id}">Assess</a>
   </div>
-  
-  <div class="grouped-risk-progress-container grouped-risk-progress-action" 
+
+  <div class="grouped-risk-progress-container grouped-risk-progress-action"
        [ngClass]="(numberOfRisksAssessed() > 0) ? '' : 'grouped-risk-progress-action-empty'">
     <div class="grouped-risk-progress">
       <h5 class="grouped-risk-progress-title">Action steps</h5>
       <span class="progress-percentage" *ngIf="percentActionsAssessed() > 0">{{ percentActionsAssessed() }}%</span>
       <progressbar class="progress-bar-action" [max]="risks.length" [value]="numberOfActionsAssessed()"></progressbar>
     </div>
-    <a class="button button-small button-positive" 
+    <a class="button button-small button-positive"
        routerLink="/actions"
        [queryParams]="{hazard: weatherEvent?.id}"
        *ngIf="numberOfRisksAssessed() > 0">Take action</a>
-    <div class="button button-small" 
+    <div class="button button-small"
        *ngIf="numberOfRisksAssessed() === 0">Take action</div>
   </div>
 </div>
 
 <app-modal-template #indicatorChartModal
-  title="Indicators related to {{ modalRisk?.weather_event.name | lowercase }}">
+  title="Climate data related to {{ modalRisk?.weather_event.name | lowercase }}">
   <app-force-collapse-chart-container
       [indicators]="indicators"
       [city]="city">
   </app-force-collapse-chart-container>
   <footer class="modal-footer">
-    <button class="button button-inverse-dark" (click)="goToIndicators()">See all indicators</button>
+    <button class="button button-inverse-dark" (click)="goToIndicators()">See all climate data</button>
   </footer>
 </app-modal-template>
-
-<ng-template #noRelatedIndicatorsTooltip>
-  No related indicators for {{ modalRisk?.weather_event.name | lowercase }}
-</ng-template>

@@ -33,7 +33,7 @@
     </div>
     <div class="form-control-container">
       <label for="share">
-        Visibility to other cities
+        Visibility to other cities using Temperate
         <span class="icon icon-question-circle"
               tooltip="{{ tooltipText.shareWithCities }}">
         </span>
@@ -49,7 +49,7 @@
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
-          Make public
+          Share as suggested action
         </button>
       </div>
     </div>

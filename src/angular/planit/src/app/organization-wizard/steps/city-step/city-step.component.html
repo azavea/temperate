@@ -5,6 +5,9 @@
 <div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label>City</label>
+    <p>
+      Search for the city you'd like to create a vulnerability assessment and climate adaptation plan for. All climate change data displayed will be specific to the city you select.
+    </p>
     <input class="form-control"
             formControlName="location"
             autocomplete="off"
@@ -28,7 +31,7 @@
         </div>
       </div>
       <div *ngIf="!noResults">
-        Please note that we only have US cities at this time. 
+        Please note that we only have US cities at this time.
         <app-add-city-modal>Not seeing yours?</app-add-city-modal>
       </div>
     </div>
