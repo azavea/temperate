@@ -43,9 +43,7 @@ app-manage-subscription {
   .plan-notice {
     padding: $space-large $space-large $space-large $space-xlarge;
     background: $subscription-notice-background;
-    border-top: $subscription-notice-border;
-    border-right: $subscription-notice-border;
-    border-bottom: $subscription-notice-border;
+    border: $subscription-notice-border;
     border-left: $subscription-notice-border-left;
     border-radius: $border-radius;
     width: fit-content;

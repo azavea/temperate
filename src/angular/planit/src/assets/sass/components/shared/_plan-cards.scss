@@ -102,12 +102,16 @@
       }
     }
 
-    > .button {
+    > .button, .button-container {
       margin: auto 0 0;
 
       @media all and (min-width: 35.500rem) and (max-width: 55rem) {
         margin: 0 0 auto 2rem;
       }
+    }
+
+    > .button-container .button {
+      width: 100%;
     }
 
     > .recommended, .plan-tag {

@@ -8,11 +8,22 @@
       <span class="cost">${{ plan.yearlyCost | number }}<span class="peryear">/year</span></span>
     </h5>
     <p class="description">{{ plan.description }}</p>
+    
+    <span class="button-container"
+          tooltip="Further changes disabled while subscription pending"
+          placement="top"
+          container="body"
+          *ngIf="org?.subscription_pending">
+      <button class="button button-primary" disabled>
+        Select package
+      </button>
+    </span>
 
     <button class="button button-primary"
-      [disabled]="plan.name === activePlan.name || org?.subscription_pending"
-      (click)="planSelected(plan)">
-      {{ activePlan && plan.name === activePlan.name && !org?.subscription_pending ? 'Selected' : 'Select package' }}</button>
+            [disabled]="plan.name === activePlan.name"
+            (click)="planSelected(plan)"
+            *ngIf="!org?.subscription_pending">
+      {{ activePlan && plan.name === activePlan.name ? 'Selected' : 'Select package' }}</button>
 
     <div class="plan-tag" 
          [ngClass]="{'positive': !org.subscription_pending}" 

@@ -48,10 +48,22 @@
             <h4 class="heading">{{ hourlyPlan.header }}</h4>
             <p class="description">{{ hourlyPlan.description }}</p>
             
+            <span class="button-container"
+                  tooltip="Further changes disabled while subscription pending"
+                  placement="top"
+                  container="body"
+                  *ngIf="user?.primary_organization?.subscription_pending">
+              <button class="button button-primary" disabled>
+                Contact us
+              </button>
+            </span>
+
             <button class="button button-primary"
-                    [disabled]="user?.primary_organization?.subscription_pending || hourlyPlan.name === user?.primary_organization?.subscription"
-                    (click)="selectPlan(hourlyPlan)">
-                    {{ hourlyPlan.name === user?.primary_organization?.subscription && !user?.primary_organization?.subscription_pending ? 'Selected' : 'Contact us' }}</button>
+                    [disabled]="hourlyPlan.name === user?.primary_organization?.subscription"
+                    (click)="selectPlan(hourlyPlan)"
+                    *ngIf="!user?.primary_organization?.subscription_pending">
+              {{ hourlyPlan.name === user?.primary_organization?.subscription ? 'Selected' : 'Contact us' }}
+            </button>
 
             <div class="plan-tag" 
                  [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}" 
@@ -63,11 +75,22 @@
             <h4 class="heading">{{ customPlan.header }}</h4>
             <p class="description">{{ customPlan.description }}</p>
             
+            <span class="button-container"
+                  tooltip="Further changes disabled while subscription pending"
+                  placement="top"
+                  container="body"
+                  *ngIf="user?.primary_organization?.subscription_pending">
+              <button class="button button-positive" disabled>
+                Contact us
+              </button>
+            </span>
 
             <button class="button button-positive"
-                    [disabled]="user?.primary_organization?.subscription_pending || customPlan.name === user?.primary_organization?.subscription"
-                    (click)="selectPlan(customPlan)">
-                    {{ customPlan.name === user?.primary_organization?.subscription && !user?.primary_organization?.subscription_pending ? 'Selected' : 'Contact us' }}</button>
+                    [disabled]="customPlan.name === user?.primary_organization?.subscription"
+                    (click)="selectPlan(customPlan)"
+                    *ngIf="!user?.primary_organization?.subscription_pending">
+              {{ customPlan.name === user?.primary_organization?.subscription ? 'Selected' : 'Contact us' }}
+            </button>
 
             <div class="plan-tag" 
                  [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}" 
