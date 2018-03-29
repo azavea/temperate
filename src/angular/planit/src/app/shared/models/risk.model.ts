@@ -63,11 +63,11 @@ export class Risk {
     return this.community_system.name < other.community_system.name ? -1 : 1;
   }
 
-  public getCompletedRequiredPropCount() {
+  public getCompletedPropCount() {
     return this.getPropsAsBools().filter(prop => prop).length;
   }
 
-  public getTotalRequiredPropCount() {
+  public getTotalPropCount() {
     return this.getPropsAsBools().length;
   }
 
@@ -97,17 +97,17 @@ export class Risk {
   }
 
   private getPropsAsBools(): boolean[] {
+    // Do not include weather_event and community_system. They are required, but cannot be left
+    //  blank in the wizards, so we omit them from progressbar completion
     return [
-      !!this.weather_event,
-      !!this.community_system,
+      !!this.frequency,
+      !!this.intensity,
+      !!this.probability,
       !!this.impact_magnitude,
       !!this.impact_description,
       !!this.adaptive_capacity,
-      !!this.related_adaptive_values,
       !!this.adaptive_capacity_description,
-      !!this.frequency,
-      !!this.intensity,
-      !!this.probability
+      !!this.related_adaptive_values
     ];
   }
 
