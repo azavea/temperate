@@ -14,7 +14,7 @@
          [typeaheadOptionsInScrollableView]="5"
          [typeaheadOptionsLimit]="100"
          [container]="'body'">
-  <button class="button button-icon" type="button" (click)="onAdd()"><i class="icon-plus"></i></button>
+  <button class="button button-icon" type="button" [disabled]="!selected.length" (click)="onAdd()"><i class="icon-plus"></i></button>
 </div>
 <div class="input-group" *ngIf="isDisabled">
   <input class="form-control" placeholder="Type to search. Add new item by clicking the +" disabled [attr.id]="inputId">
