@@ -1,19 +1,18 @@
 {% load premailer %}
 {% premailer %}
 <html>
-    <style type="text/css">
-        h1 { border:1px solid black }
-        p { color:red;}
-    </style>
-    <h1>
-    You've been invited to join the Temperate organization {{ user.primary_organization.name }} in {{ user.primary_organization.location }}.
-    </h1>
+    <p>Hello there!</p>
+    <p>You’ve been invited to join Temperate, your city’s climate adaptation planning companion.</p>
 
-    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">https://{{ site.domain }}{% url 'registration_activate' activation_key %}</a>
+    <p>
+        <strong>Organization:</strong> {{ user.primary_organization.name }}
+        <br/>
+        <strong>Location:</strong> {{ user.primary_organization.location }}
+    </p>
 
-    <br />
-    <em>
-        Link is valid for {{ expiration_days }} days.
-    </em></p>
+    <p>Accept this invitation via the link below. The link expires in {{ expiration_days }} days.</p>
+    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">Sign up for Temperate</a>
+    <p>&nbsp;</p>
+    <p>Thanks!</p>
 </html>
 {% endpremailer %}
