@@ -16,13 +16,13 @@
 
   <span class="indicators-trigger"
         container="body"
-        tooltip="No related indicators for {{ modalRisk?.weather_event.name | lowercase }}"
+        tooltip="No related climate data"
         *ngIf="!canShowIndicators">
     <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
   </span>
 
   <span class="indicators-trigger"
-        tooltip="See climate data for {{city?.properties?.name}}"
+        tooltip="See related climate data"
         placement="top"
         container="body"
         *ngIf="canShowIndicators">

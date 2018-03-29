@@ -35,10 +35,6 @@ export class ImplementationStepComponent
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
   public title = 'Details';
-  public tooltipText = {
-    shareWithCities: 'Public actions can be adapted by other organizations ' +
-                     'for their own vulnerability assessments'
-  };
   private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,

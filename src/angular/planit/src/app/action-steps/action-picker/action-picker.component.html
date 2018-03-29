@@ -62,7 +62,9 @@
     </button>
   </div>
   <div class="modal-body" *ngIf="!loading">
-    <p class="suggested-actions-description">Here are some actions that cities in your region facing similar challenges have chosen to undertake. If your city might want to enact one of the suggestions, click Choose and Customize to tailor the action to your city's needs.</p>
+    <p class="suggested-actions-description">
+      When faced with similar challenges, cities in your region have chosen to undertake the following actions
+    </p>
     <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="action-main">
         <div class="action-name-container"
