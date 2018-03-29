@@ -6,11 +6,14 @@ app-dashboard {
 
   .page-header {
     flex: 1 0 100%;
-    margin-bottom: $space-medium;
   }
 
   .section-header {
     max-width: $dashboard-header-max-width;
+  }
+
+  .dashboard-container {
+    min-width: 0;
   }
 
   .aside-block-container:not(:last-child) {
@@ -20,6 +23,7 @@ app-dashboard {
   .aside-block {
     background: $dashboard-aside-background;
     padding: $space-xlarge;
+    border-radius: $border-radius;
   }
 
   .aside-title {
@@ -43,17 +47,56 @@ app-dashboard {
       margin-right: 2px;
     }
   }
+  
+  .nav-tabs {
+    display: flex;
+  }
+
+  .nav-tabs .button-icon-only,
+  .nav-tabs .button {
+    margin-left: auto;
+    margin-right: $space-small;
+    align-self: center;
+  }
+
+  .tab-content {
+    padding-bottom: 0;
+  }
+  
+  .tab-assessment {
+    padding-bottom: $space-medium;
+  }
+
+  .va-summary-table {
+    min-width: auto!important;
+    margin-bottom: 0;
+
+    thead {
+      th:nth-child(2) {
+        width: 40%;
+      }
+      
+      // Hack so that the help icon doesn't get its own line
+      @media all and (min-width: 68.125em) and (max-width: 75.188em) {
+        th:nth-child(3), th:nth-child(4) {
+          padding-right: 3.5rem;
+        }
+      }
+    }
+  }
 }
 
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 1 1;
   margin-right: $space-xlarge;
 }
 
 .dashboard-content {
   height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .dashboard-empty {
@@ -64,6 +107,7 @@ app-dashboard {
   display: flex;
   height: 100%;
   justify-content: center;
+  align-items: center;
 
   .empty-state-header {
     font-size: $empty-state-header-size;
@@ -74,7 +118,6 @@ app-dashboard {
   .empty-state-text {
     font-style: $empty-state-text-style;
     max-width: 50rem;
-    margin: 0 auto;
   }
 }
 
@@ -85,8 +128,4 @@ app-dashboard {
 .dashboard-no-risks {
   justify-content: center;
   align-items: center;
-}
-
-.dashboard-footer {
- margin-top: $space-xlarge;
 }

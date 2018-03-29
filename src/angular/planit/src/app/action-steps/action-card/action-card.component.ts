@@ -16,6 +16,8 @@ export class ActionCardComponent implements OnInit {
 
   @Input() risk: Risk;
   @Input() action: Action;
+  @Input() showFullTitle = false;
+
   @Output() delete = new EventEmitter<Action>();
   public actionNameLines = [];
   public isOpen = false;

@@ -26,6 +26,10 @@ export class Risk {
   intensity?: OrgRiskDirectionalOption;
   probability?: OrgRiskRelativeOption;
 
+  static areAnyRisksAssessed(risks: Risk[]): boolean {
+    return !!risks.find(risk => risk.isAssessed());
+  }
+
   constructor(object: any) {
     Object.assign(this, object);
     if (object.community_system) {
@@ -50,6 +54,13 @@ export class Risk {
 
   isPartiallyAssessed(): boolean {
     return some(this.getAssessmentPropsAsBools());
+  }
+
+  compare(other: Risk): number {
+    if (this.weather_event.name !== other.weather_event.name) {
+      return this.weather_event.name < other.weather_event.name ? -1 : 1;
+    }
+    return this.community_system.name < other.community_system.name ? -1 : 1;
   }
 
   public getCompletedRequiredPropCount() {

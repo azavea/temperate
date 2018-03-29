@@ -7,11 +7,11 @@
 
     <section class="dashboard-container">
       <div class="dashboard-content">
-        <div class="dashboard-loader loading-wrapper" *ngIf="this.groupedRisks === undefined">
+        <div class="dashboard-loader loading-wrapper" *ngIf="this.risks === undefined">
           <div class="loading loading-spinner loading-large loading-primary"></div>
         </div>
 
-        <div class="dashboard-empty" *ngIf="this.groupedRisks?.length === 0">
+        <div class="dashboard-empty" *ngIf="this.risks?.length === 0">
           <h4 class="empty-state-header">You haven&rsquo;t started your assessment yet</h4>
           <p class="empty-state-text">
             To get started, <button type="button" class="button-link" (click)="openModal(weatherEventsModal)">add some hazards</button>
@@ -19,16 +19,60 @@
           </p>
         </div>
 
-        <app-grouped-risk
-            *ngFor="let risks of groupedRisks"
-            [risks]="risks"
-            [weatherEvent]="risks[0].weather_event">
-        </app-grouped-risk>
+        <ng-container *ngIf="this.risks !== undefined && this.risks?.length !== 0">
+          <div class="nav-tabs">
+            <button class="button-tab tab-item"
+                    [ngClass]="{active: viewTab === viewTabs.Grouped}"
+                    (click)="viewTab = viewTabs.Grouped">
+              Overview
+            </button>
+            <button class="button-tab tab-item"
+                    [ngClass]="{active: viewTab === viewTabs.Assessment}"
+                    (click)="viewTab = viewTabs.Assessment">
+              Vulnerability assessment
+            </button>
+            <button *ngIf="areAnyRisksAssessed"
+                    class="button-tab tab-item"
+                    [ngClass]="{active: viewTab === viewTabs.ActionSteps}"
+                    (click)="viewTab = viewTabs.ActionSteps">
+              Action steps
+            </button>
+            <button type="button" 
+                    class="button button-small button-inverse-dark button-icon-left" 
+                    (click)="openModal(weatherEventsModal)"
+                     *ngIf="viewTab === viewTabs.Grouped">
+              <span class="icon icon-plus-square"></span>
+              Add a hazard</button>
+            <button type=button 
+                    class="button button-small button-inverse-dark button-icon-left" 
+                    routerLink="/assessment/risk/new"
+                    *ngIf="viewTab === viewTabs.Assessment">
+              <span class="icon icon-plus-square"></span>
+              Add a risk</button>
+          </div>
 
-        <footer class="dashboard-footer" *ngIf="this.groupedRisks?.length">
-          <button type="button" class="button"
-                  (click)="openModal(weatherEventsModal)">Add a hazard</button>
-        </footer>
+          <div class="tab-content tab-hazards" *ngIf="viewTab === viewTabs.Grouped">
+            <app-grouped-risk
+                *ngFor="let risks of groupedRisks"
+                [risks]="risks"
+                [weatherEvent]="risks[0].weather_event">
+            </app-grouped-risk>
+          </div>
+
+          <div class="tab-content tab-assessment" *ngIf="viewTab === viewTabs.Assessment">
+            <va-assessment-overview-table [(risks)]="risks"
+                                          (risksChange)="onRisksChanged()"
+                                          [showFullTitle]="true">
+            </va-assessment-overview-table>
+          </div>
+
+          <div class="tab-content tab-actions" *ngIf="viewTab === viewTabs.ActionSteps">
+            <as-action-card-container [(risks)]="risks"
+                                      (risksChange)="onRisksChanged()"
+                                      [showFullTitle]="true">
+            </as-action-card-container>
+          </div>
+        </ng-container>
       </div>
     </section>
 

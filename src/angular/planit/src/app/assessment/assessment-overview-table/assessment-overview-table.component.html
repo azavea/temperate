@@ -1,0 +1,73 @@
+<div class="loading-wrapper" *ngIf="risks === undefined">
+  <div class="loading loading-spinner loading-large loading-primary"></div>
+</div>
+<div *ngIf="risks?.length === 0">
+  <h2>No risks available</h2>
+</div>
+<table class="table va-summary-table" *ngIf="risks?.length">
+  <thead>
+    <tr>
+      <th scope="col" class="hidden-header">Adaptive need</th>
+      <th scope="col" *ngIf="!showFullTitle">Community system at risk
+        <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.communitySystem"></i>
+      </th>
+      <th scope="col" *ngIf="showFullTitle">Risk
+        <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></span>
+      </th>
+      <th scope="col">Potential impact
+        <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></span>
+      </th>
+      <th scope="col">Adaptive capacity
+        <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></span>
+      </th>
+      <th scope="col" class="hidden-header">Status</th>
+      <th scope="col" class="hidden-header">More</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let risk of risks">
+      <td>
+        <va-adaptive-need-box
+          [adaptiveCapacity]="risk.adaptive_capacity"
+          [popoverPlacement]="'right'"
+          [potentialImpact]="risk.impact_magnitude">
+        </va-adaptive-need-box>
+      </td>
+      <td scope="row" *ngIf="showFullTitle">
+        <va-risk-popover [risk]="risk"></va-risk-popover>
+      </td>
+      <td *ngIf="!showFullTitle">{{ risk.community_system.name }}</td>
+      <td>{{ risk.getImpactMagnitudeLabel() || '--' }}</td>
+      <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
+      <td>
+        <button class="button button-small button-primary va-status-button"
+                *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
+                [routerLink]="'/assessment/risk/' + risk.id">Assess</button>
+        <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
+                     [max]="risk.getTotalRequiredPropCount()"
+                     [value]="risk.getCompletedRequiredPropCount()"></progressbar>
+      </td>
+      <td>
+        <div class="button-group" dropdown>
+          <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+            <span class="icon-ellipsis-h"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">Review</a>
+            </li>
+            <div class="divider"></div>
+            <li class="action-destructive" role="menuitem">
+              <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

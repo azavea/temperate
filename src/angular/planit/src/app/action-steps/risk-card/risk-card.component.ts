@@ -16,6 +16,7 @@ import { Risk } from '../../shared';
 export class RiskCardComponent implements OnInit {
 
   @Input() risk: Risk;
+  @Input() showFullTitle = false;
 
   public modalRef: BsModalRef;
 

@@ -1,0 +1,15 @@
+.dashboard-view-tabs {
+  align-self: flex-end;
+  justify-content: center;
+  margin-bottom: $space-medium;
+  background: transparent;
+
+  .button {
+    margin: $space-small;
+  }
+
+  .active {
+    color: $dashboard-view-tab-color-active;
+  }
+}
+

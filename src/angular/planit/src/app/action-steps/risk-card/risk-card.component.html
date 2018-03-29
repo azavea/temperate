@@ -8,15 +8,15 @@
           [potentialImpact]="risk.impact_magnitude">
         </va-adaptive-need-box>
       </span>
-      {{ risk.community_system.name }}
+      {{ showFullTitle ? risk.title() : risk.community_system.name }}
     </h3>
-  
+
     <span class="take-action-container"
           tooltip="You need to assess this risk first"
           placement="top"
           container="body"
           *ngIf="!risk.isAssessed()">
-    <button class="take-action button button-positive button-small disabled" disabled>Take action</button> 
+    <button class="take-action button button-positive button-small disabled" disabled>Take action</button>
     </span>
 
     <button class="take-action button button-positive button-small"

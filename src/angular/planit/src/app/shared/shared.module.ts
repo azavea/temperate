@@ -87,7 +87,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     TopCommunitySystemsComponent,
     TopConcernsComponent,
     UserDropdownComponent,
-    UserEmailsComponent,
+    UserEmailsComponent
   ],
   exports: [
     AdaptiveNeedBoxComponent,
