@@ -1,5 +1,5 @@
 <div class="loading-wrapper" *ngIf="!(weatherEvents?.length > 0) && (areConcernsCalculated < 2)">
-  <div class="loading loading-spinner loading-large loading-primary"></div>
+  <div class="loading loading-spinner loading-small loading-primary"></div>
 </div>
 <div class="card-content top-concerns empty-state"
      *ngIf="!(weatherEvents?.length > 0) && (areConcernsCalculated >= 2)">
