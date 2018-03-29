@@ -10,15 +10,15 @@
     <p class="description">{{ plan.description }}</p>
 
     <button class="button button-primary"
-      [disabled]="org?.subscription_pending"
-      (click)="planSelected(plan)"
-      *ngIf="plan.name !== activePlan.name">Select package</button>
+      [disabled]="plan.name === activePlan.name || org?.subscription_pending"
+      (click)="planSelected(plan)">
+      {{ activePlan && plan.name === activePlan.name && !org?.subscription_pending ? 'Selected' : 'Select package' }}</button>
 
-    <button class="button button-primary"
-      disabled
-      *ngIf="activePlan && activePlan.name === plan.name">{{  org.subscription_pending ? 'Subscription pending...' : 'Selected' }}</button>
-      
-    <div class="current" *ngIf="activePlan && plan.name === activePlan.name && !org.subscription_pending">Current plan</div>
+    <div class="plan-tag" 
+         [ngClass]="{'positive': !org.subscription_pending}" 
+         *ngIf="activePlan && plan.name === activePlan.name">
+         {{ org.subscription_pending ? 'Pending' : 'Current plan' }}</div>
+
     <div class="recommended"
          *ngIf="(!activePlan || activePlan.name === 'free_trial') && (plan.nickName | lowercase) === 'insights'"
          >Recommended</div>

@@ -37,7 +37,8 @@
     &:hover {
       transform: scale(1.01);
     }
-
+    
+    // If this is the selected plan, no hover state
     &.active {
       &:hover {
         box-shadow: $pricing-plan-card-shadow;
@@ -109,30 +110,24 @@
       }
     }
 
-    > .recommended {
+    > .recommended, .plan-tag {
       position: absolute;
       top: 0;
       right: 0;
       padding: 0 $space-medium $space-small $space-large;
       border-radius: 0 0 0 $border-radius;
       color: $black;
-      background: $brand-leaf;
       font-size: $text-tiny;
       text-align: left;
       text-transform: uppercase;
     }
 
-    > .current {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0 $space-medium $space-small $space-large;
-      border-radius: 0 0 0 $border-radius;
-      color: $black;
+    > .plan-tag {
+      background: $neutral-2;
+    }
+
+    > .recommended, .positive {
       background: $brand-leaf;
-      font-size: $text-tiny;
-      text-align: left;
-      text-transform: uppercase;
     }
   }
 }
@@ -151,6 +146,17 @@ app-plan-selector {
         @media all and (min-width: 55rem) {
           padding-top: $space-xxlarge;
         }
+      }
+    }
+  }
+}    
+// If subscription is pending, no hover states
+.subscription-pending {
+  .plan-cards {
+    .plan-card {
+      &:hover {
+        box-shadow: $pricing-plan-card-shadow;
+        transform: none;
       }
     }
   }
