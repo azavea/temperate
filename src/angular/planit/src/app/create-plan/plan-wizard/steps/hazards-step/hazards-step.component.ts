@@ -48,12 +48,12 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
   ngOnInit() {
     super.ngOnInit();
     this.organization = this.session.getData();
+    this.setupForm(this.fromModel(this.organization));
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
       const orgWeatherEvents = this.getOrganizationEvents(this.organization);
       this.form.controls.selectedEvents.setValue(orgWeatherEvents);
     });
-    this.setupForm(this.fromModel(this.organization));
   }
 
   getFormModel(): HazardsFormModel {
