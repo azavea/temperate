@@ -60,6 +60,7 @@ export class Action {
       !!this.action_goal,
       !!this.action_type,
       !!this.implementation_details,
+      !!this.implementation_notes,
       !!this.visibility,
       !!this.improvements_adaptive_capacity,
       !!this.improvements_impacts,
