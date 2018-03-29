@@ -4,10 +4,13 @@
       <h1 class="page-title-large">City Profile</h1>
       <p class="paragraph-intro">Include information about your city and its past achievements as well as any long-term goals you hope to achieve.</p>
       <p>These questions can be answered at any point in the process of developing your plan.</p>
+      <button class="button button-primary" (click)="save()">Save changes</button>
     </header>
 
     <section class="page-section">
       <accordion *ngIf="cityProfile">
+
+        <!-- START About section -->
         <accordion-group [(isOpen)]="isOpen[sections.About]">
           <header accordion-heading>
             <h2 class="panel-label">About your city</h2>
@@ -15,19 +18,84 @@
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
           <div class="form-control-container">
-            <label for="economic-sector">
-              Economic sector
+            <label for="economic-sector" class="profile-required">
+              What is your main economic sector?
             </label>
-            <input id="economic-sector" class="form-control"
-                   type="text"
-                   [(ngModel)]="cityProfile.about_economic_sector"
-                   [typeahead]="sectors"
-                   typeaheadMinLength="0">
+            <select class="form-control" [(ngModel)]="cityProfile.about_economic_sector">
+              <option [value]="''">---</option>
+              <option *ngFor="let sector of sectors" [value]="sector">{{ sector }}</option>
+            </select>
+          </div>
+          <div class="form-control-container">
+            <label for="operational-budget" class="profile-required">
+              What is your operational budget (USD)?
+            </label>
+            <input id="operational-budget" class="form-control"
+                   type="number"
+                   min="0"
+                   [(ngModel)]="cityProfile.about_operational_budget_usd">
+            <div *ngIf="errors.about_operational_budget_usd" class="form-control-error">
+              <p *ngFor="let error of errors.about_operational_budget_usd">{{ error }}</p>
+            </div>
+          </div>
+          <div class="form-control-container">
+            <label for="adaptation-status">
+              What is the status of your adaptation or resilience commitment?
+            </label>
+            <select id="adaptation-status"
+                    class="form-control"
+                    [(ngModel)]="cityProfile.about_adaptation_status">
+              <option [value]="''">---</option>
+              <option *ngFor="let opt of commitments" [value]="opt.name">{{ opt.label }}</option>
+            </select>
+          </div>
+          <div class="form-control-container">
+            <label for="commitment-status">
+              What is the status of your commitment to climate change mitigation?
+            </label>
+            <select id="commitment-status"
+                    class="form-control"
+                    [(ngModel)]="cityProfile.about_commitment_status">
+              <option [value]="''">---</option>
+              <option *ngFor="let opt of commitments" [value]="opt.name">{{ opt.label }}</option>
+            </select>
+          </div>
+          <div class="form-control-container">
+            <label for="mitigation-status">
+              What is the status of your climate change mitigation plan?
+            </label>
+            <select id="mitigation-status"
+                    class="form-control"
+                    [(ngModel)]="cityProfile.about_mitigation_status">
+              <option [value]="''">---</option>
+              <option *ngFor="let opt of commitments" [value]="opt.name">{{ opt.label }}</option>
+            </select>
+          </div>
+          <div class="form-control-container">
+            <label for="sustainability-description">
+              Describe the sustainability goal of your city
+            </label>
+            <textarea id="sustainability-description" class="form-control" rows="6"
+                   [(ngModel)]="cityProfile.about_sustainability_description"></textarea>
+          </div>
+          <div class="form-control-container">
+            <label for="sustainability-progress">
+              Describe your city's progress on meeting the goal above
+            </label>
+            <textarea id="sustainability-progress" class="form-control" rows="6"
+                   [(ngModel)]="cityProfile.about_sustainability_progress"></textarea>
+          </div>
+          <div class="form-control-container">
+            <label for="master-planning">
+              Describe the extent to which adaptation planning has been incorporated into master planning
+            </label>
+            <textarea id="master-planning" class="form-control" rows="6"
+                   [(ngModel)]="cityProfile.about_master_planning"></textarea>
           </div>
         </accordion-group>
+        <!-- END About section -->
+
       </accordion>
     </section>
-
-    <button class="button button-primary" (click)="save()">Save</button>
   </main>
 </div>
