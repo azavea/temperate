@@ -1,7 +1,10 @@
-You've been invited to join the Temperate organization {{ user.primary_organization.name }} in {{ user.primary_organization.location }}.
+Hello there!
 
-Register for an account at {{ site.name }}:
+You’ve been invited to join Temperate, your city’s climate adaptation planning companion.
+
+Organization: {{ user.primary_organization.name }}
+Location: {{ user.primary_organization.location }}
+
+Accept this invitation via the link below. The link expires in {{ expiration_days }} days.
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
-
-Link is valid for {{ expiration_days }} days.
