@@ -142,4 +142,8 @@ export class DashboardComponent implements OnInit {
     this.organization.weather_events = events.map(e => e.id);
     return this.organizationService.update(this.organization);
   }
+
+  public resetScroll() {
+    window.scrollTo(0, 0);
+  }
 }
