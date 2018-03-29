@@ -6,6 +6,24 @@ app-dashboard {
 
   .page-header {
     flex: 1 0 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: $space-medium;
+  }
+
+  .page-title-small {
+    flex: 1 0 100%;
+  }
+
+  .organization-details {
+    color: $dashboard-org-details-color;
+    font-weight: $dashboard-org-details-weight;
+
+    .separator {
+      color: $dashboard-org-details-separator-color;
+    }
   }
 
   .section-header {

@@ -3,6 +3,11 @@
     <header class="page-header">
       <h1 class="page-title-small">{{ organization?.plan_due_date | date: 'yyyy' }} Adaptive Plan</h1>
       <h2 class="page-title-large">Dashboard</h2>
+      <div class="organization-details">
+        {{ organization?.location?.properties?.name || 'Your city' }}
+        <span class="separator"> • </span>
+        {{ organization?.name || 'Your organization' }}
+      </div>
     </header>
 
     <section class="dashboard-container">
