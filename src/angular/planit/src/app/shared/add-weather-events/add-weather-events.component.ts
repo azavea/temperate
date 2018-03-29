@@ -20,8 +20,8 @@ export class AddWeatherEventsComponent implements OnInit, ControlValueAccessor {
 
   @Input() public readOnlyEvents: WeatherEvent[] = [];
 
-  public selectedEvents: WeatherEvent[];
-  public weatherEvents: WeatherEvent[];
+  public selectedEvents: WeatherEvent[] = undefined;
+  public weatherEvents: WeatherEvent[] = undefined;
 
   private onChange = (_: any) => { };
 
