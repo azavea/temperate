@@ -66,8 +66,4 @@ export class TopConcernsComponent implements OnChanges {
       return '%';
     }
   }
-
-  public hasWeatherEvents(): boolean {
-    return this.readOnlyEvents.length > 0 || this.weatherEvents.length > 0;
-  }
 }

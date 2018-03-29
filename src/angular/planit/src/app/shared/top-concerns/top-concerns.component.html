@@ -1,12 +1,12 @@
-<div class="loading-wrapper" *ngIf="!hasWeatherEvents() && areConcernsCalculated < 2">
+<div class="loading-wrapper" *ngIf="!weatherEvents?.length > 0 && areConcernsCalculated < 2">
   <div class="loading loading-spinner loading-large loading-primary"></div>
 </div>
 <div class="card-content top-concerns empty-state"
-     *ngIf="!hasWeatherEvents() && areConcernsCalculated >= 2">
+     *ngIf="!weatherEvents?.length > 0 && areConcernsCalculated >= 2">
      <p class="empty-state-header">None yet</p>
      <p class="empty-state-text">Choose hazards that you believe are your city&rsquo;s top concerns.</p>
 </div>
-<div class="top-concerns" *ngIf="hasWeatherEvents()">
+<div class="top-concerns">
   <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}"
         [ngClass]="{'pre-selected':isReadOnly(weatherEvent)}">
     <div class="concern-actions">
