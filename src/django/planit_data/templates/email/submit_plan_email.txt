@@ -1,4 +1,5 @@
-Temperate plan for {{ organization_name }}
-    due {{ date_due }}
-    submitted by {{ user_email }}
-    at {{ date_submitted }}
+Temperate climate adaptation plan for {{ organization_name }}
+
+Due: {{ date_due }}
+Submitted by: {{ user_email }}
+Date submitted: {{ date_submitted }}
