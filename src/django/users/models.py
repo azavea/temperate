@@ -364,7 +364,7 @@ class CityProfile(models.Model):
     """
 
     If its necessary to add a new choices class here and surface the options via the API,
-    be sure to add a new `list_route` to users.views.CityProfileOptionsViewSet.
+    be sure to add a new property to the data returned by users.views.CityProfileOptionsView.
 
     """
     class EconomicSector(object):
@@ -412,8 +412,8 @@ class CityProfile(models.Model):
         CHOICES = (
             (YES, 'Yes',),
             (NOT_YET, 'Not yet',),
-            (IN_PROGRESS, 'It\'s in progress',),
-            (DO_NOT_KNOW, 'I don\'t know',),
+            (IN_PROGRESS, 'It’s in progress',),
+            (DO_NOT_KNOW, 'I don’t know',),
         )
 
     organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')

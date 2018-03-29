@@ -33,11 +33,9 @@ export class CityProfileComponent implements OnInit {
       return this.cityProfileService.get(user.primary_organization);
     }).subscribe(p => this.cityProfile = p);
 
-    this.cityProfileService.listEconomicSectors().subscribe(s => {
-      this.sectors = s.map(option => option.name);
-    });
-    this.cityProfileService.listCommitmentStatuses().subscribe(commitments => {
-      this.commitments = commitments;
+    this.cityProfileService.listOptions().subscribe(options => {
+      this.sectors = options['economic-status'].map(option => option.name);
+      this.commitments = options['commitment-status'];
     });
   }
 

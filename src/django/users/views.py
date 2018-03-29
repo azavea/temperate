@@ -22,13 +22,13 @@ from rest_auth.views import (
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import detail_route, list_route
+from rest_framework.decorators import detail_route
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet, ViewSet
+from rest_framework.viewsets import GenericViewSet
 
 
 from users.forms import AddCityForm, InviteUserForm, UserForm, UserProfileForm
@@ -293,26 +293,21 @@ class OrganizationViewSet(mixins.CreateModelMixin,
         return self.request.user.organizations.all()
 
 
-class CityProfileOptionsViewSet(ViewSet):
+class CityProfileOptionsView(APIView):
     """Expose CityProfile field choices classes via API endpoint."""
 
     permission_classes = (IsAuthenticated,)
 
     def _list_choices_model(self, choices_model):
-        data = [{'name': key, 'label': value} for key, value in choices_model.CHOICES]
+        return [{'name': key, 'label': value} for key, value in choices_model.CHOICES]
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'commitment-status': self._list_choices_model(CityProfile.CommitmentStatus),
+            'economic-sectors': self._list_choices_model(CityProfile.EconomicSector),
+            'section-status': self._list_choices_model(CityProfile.SectionStatus),
+        }
         return Response(data)
-
-    @list_route(methods=['GET'], url_path='commitment-status')
-    def _list_commitment_status(self, *args, **kwargs):
-        return self._list_choices_model(CityProfile.CommitmentStatus)
-
-    @list_route(methods=['GET'], url_path='economic-sectors')
-    def _list_economic_sectors(self, *args, **kwargs):
-        return self._list_choices_model(CityProfile.EconomicSector)
-
-    @list_route(methods=['GET'], url_path='section-status')
-    def _list_section_status(self, *args, **kwargs):
-        return self._list_choices_model(CityProfile.SectionStatus)
 
 
 class AddCityView(JsonFormView):
