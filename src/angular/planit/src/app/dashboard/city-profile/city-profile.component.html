@@ -95,7 +95,100 @@
         </accordion-group>
         <!-- END About section -->
 
+        <!-- START Assessments section -->
+        <accordion-group [(isOpen)]="isOpen[sections.Assessments]">
+          <header accordion-heading>
+            <h2 class="panel-label">Assessments</h2>
+            <span class="badge badge-danger">1 required</span>
+            <span class="icon icon-accordion" [ngClass]="isOpen[sections.Assessments] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
+          </header>
+          <div class="form-control-container">
+            <label for="assessment-status" class="profile-required">
+              Has your city already begun a vulnerability assessment?
+            </label>
+            <div id="assessment-status" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
+              <button class="button button-primary" role="radio"
+                      [ngClass]="{active: cityProfile.assessment_status === opt.name}"
+                      *ngFor="let opt of assessmentStatusOptions"
+                      (click)="cityProfile.assessment_status = opt.name">
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+
+          <div class="profile-subgroup" *ngIf="cityProfile.assessment_status === 'yes'">
+            <div class="form-control-container">
+              <label for="hazards-considered">
+                What
+                &nbsp;
+                <span class="button-link" [popover]="climateHazardsPopover"
+                      popoverTitle="Climate hazards" placement="right" triggers="mouseenter:mouseleave">
+                  climate hazards
+                </span>
+                &nbsp;
+                did you assess?
+              </label>
+              <app-radio-button-group id="climate-hazards" [options]="hazardOptions"
+                                      [(option)]="cityProfile.assessment_hazards_considered">
+              </app-radio-button-group>
+            </div>
+            <div class="form-control-container">
+              <label for="critical-assets">
+                What
+                &nbsp;
+                <span class="button-link" [popover]="criticalAssetsPopover"
+                      popoverTitle="Critical assets" placement="right" triggers="mouseenter:mouseleave">
+                  critical assets
+                </span>
+                &nbsp;
+                did you consider?
+              </label>
+              <app-radio-button-group id="critical-assets" [options]="numberOptions"
+                                      [(option)]="cityProfile.assessment_assets_considered">
+              </app-radio-button-group>
+            </div>
+            <div class="form-control-container">
+              <label for="vulnerable-populations">
+                What
+                &nbsp;
+                <span class="button-link" [popover]="vulnerablePopulationsPopover"
+                      popoverTitle="Vulnerable populations" placement="right" triggers="mouseenter:mouseleave">
+                  vulnerable populations
+                </span>
+                &nbsp;
+                did you consider?
+              </label>
+              <app-radio-button-group id="vulnerable-populations" [options]="numberOptions"
+                                      [(option)]="cityProfile.assessment_populations_considered">
+              </app-radio-button-group>
+            </div>
+          </div>
+        </accordion-group>
+        <!-- END Assessments section -->
+
       </accordion>
     </section>
   </main>
 </div>
+
+<ng-template #climateHazardsPopover>
+  Dangerous climate-related physical events that may cause loss of life,
+  injury, or other health impacts, as well as damage and loss to property,
+  infrastructure, livelihoods, service provision, ecosystems, and environmental resources
+</ng-template>
+
+<ng-template #criticalAssetsPopover>
+  Assets, systems and services that are essential to the functioning of a society and economy
+</ng-template>
+
+<ng-template #vulnerablePopulationsPopover>
+  <p>
+    These include individuals or groups of people who are less able than the general population
+    to anticipate, cope with, resist and recover from the impacts of disasters.
+  </p>
+  <p>
+    Vulnerable populations may be described by race or ethnicity, culture, socio-economic status,
+    geography, gender, disability, and age, or other characteristics, and may be disproportionally
+    likely to be affected by climate hazards
+  </p>
+</ng-template>

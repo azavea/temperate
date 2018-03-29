@@ -303,6 +303,10 @@ class CityProfileOptionsView(APIView):
 
     def get(self, request, *args, **kwargs):
         data = {
+            'assessment-section-status': self._list_choices_model(
+                CityProfile.AssessmentSectionStatus),
+            'assessed-hazards': self._list_choices_model(CityProfile.AssessedHazards),
+            'assessment-numbers': self._list_choices_model(CityProfile.AssessmentNumbers),
             'commitment-status': self._list_choices_model(CityProfile.CommitmentStatus),
             'economic-sectors': self._list_choices_model(CityProfile.EconomicSector),
             'section-status': self._list_choices_model(CityProfile.SectionStatus),

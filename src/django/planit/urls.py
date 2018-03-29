@@ -35,7 +35,6 @@ from users.views import (
 router = routers.DefaultRouter()
 router.register(r'action-categories', action_steps_views.ActionCategoryViewSet)
 router.register(r'action-types', action_steps_views.ActionTypeViewSet)
-router.register(r'city-profile-options', CityProfileOptionsView, base_name='cityprofileoptions')
 router.register(r'collaborators', action_steps_views.CollaboratorViewSet)
 router.register(r'community-system', planit_data_views.CommunitySystemViewSet)
 router.register(r'organizations', OrganizationViewSet, base_name='planitorganization')
@@ -57,6 +56,7 @@ urlpatterns = [
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
     url(r'^api/plan/export/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
     url(r'^api/plan/submit/', planit_data_views.PlanSubmitView.as_view(), name='submit-plan'),
+    url(r'^api/city-profile-options/', CityProfileOptionsView.as_view(), name='cityprofileoptions'),
 
     url(r'^admin/', admin.site.urls),
 

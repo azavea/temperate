@@ -367,7 +367,7 @@ class CityProfile(models.Model):
     be sure to add a new property to the data returned by users.views.CityProfileOptionsView.
 
     """
-    class EconomicSector(object):
+    class EconomicSector:
         CHOICES = (
             ('Mining', 'Mining',),
             ('Construction', 'Construction',),
@@ -388,7 +388,7 @@ class CityProfile(models.Model):
             ('Other', 'Other',),
         )
 
-    class CommitmentStatus(object):
+    class CommitmentStatus:
         EXISTS = 'exists'
         IN_PROGRESS = 'inprogress'
         DOES_NOT_EXIST = 'doesnotexist'
@@ -403,7 +403,7 @@ class CityProfile(models.Model):
             (DO_NOT_KNOW, 'Do not know',),
         )
 
-    class SectionStatus(object):
+    class SectionStatus:
         YES = 'yes'
         NOT_YET = 'notyet'
         IN_PROGRESS = 'inprogress'
@@ -414,6 +414,43 @@ class CityProfile(models.Model):
             (NOT_YET, 'Not yet',),
             (IN_PROGRESS, 'It’s in progress',),
             (DO_NOT_KNOW, 'I don’t know',),
+        )
+
+    class AssessmentSectionStatus:
+        YES = 'yes'
+        NO = 'no'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (YES, 'Yes',),
+            (NO, 'Not yet',),
+            (DO_NOT_KNOW, 'I Don’t know',),
+        )
+
+    class AssessedHazards:
+        NONE = 'none'
+        AT_LEAST_ONE = 'oneormore'
+        MULTIPLE = 'multiple'
+        MULTIPLE_AND_EFFECTS = 'multipleandeffects'
+
+        CHOICES = (
+            (NONE, 'None'),
+            (AT_LEAST_ONE, 'At least one'),
+            (MULTIPLE, 'Multiple hazards and their effect on our city'),
+            (MULTIPLE_AND_EFFECTS, 'Multiple hazards, including how they might affect one another'),
+        )
+
+    class AssessmentNumbers:
+        NONE = 'none'
+        SOME = 'some'
+        ALL = 'all'
+        ALL_PLUS = 'allplus'
+
+        CHOICES = (
+            (NONE, 'None'),
+            (SOME, 'Some'),
+            (ALL, 'All'),
+            (ALL_PLUS, 'All, including their interdependencies'),
         )
 
     organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
@@ -434,11 +471,16 @@ class CityProfile(models.Model):
     about_sustainability_progress = models.TextField(blank=True, default='')
     about_master_planning = models.TextField(blank=True, default='')
 
-    assessment_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+    assessment_status = models.CharField(max_length=128, choices=AssessmentSectionStatus.CHOICES,
                                          blank=True, default='')
-    assessment_hazards_considered = models.CharField(max_length=32, blank=True, default='')
-    assessment_assets_considered = models.CharField(max_length=32, blank=True, default='')
-    assessment_populations_identified = models.CharField(max_length=32, blank=True, default='')
+    assessment_hazards_considered = models.CharField(max_length=32, choices=AssessedHazards.CHOICES,
+                                                     blank=True, default='')
+    assessment_assets_considered = models.CharField(max_length=32,
+                                                    choices=AssessmentNumbers.CHOICES,
+                                                    blank=True, default='')
+    assessment_populations_identified = models.CharField(max_length=32,
+                                                         choices=AssessmentNumbers.CHOICES,
+                                                         blank=True, default='')
 
     plan_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
                                    blank=True, default='')

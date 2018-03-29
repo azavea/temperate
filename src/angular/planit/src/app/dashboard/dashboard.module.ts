@@ -22,6 +22,7 @@ import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
+import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
 import { ReviewPlanComponent } from './review-plan/review-plan.component';
 import { AdaptationReviewComponent } from './review-plan/tabs/adaptation-review.component';
 import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component';
@@ -49,6 +50,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
     DashboardComponent,
     GroupedRiskComponent,
     PlanSummaryComponent,
+    RadioButtonGroupComponent,
     ReviewPlanComponent
   ],
   exports: [ ],
