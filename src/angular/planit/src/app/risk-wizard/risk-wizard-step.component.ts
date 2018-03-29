@@ -41,11 +41,11 @@ export abstract class RiskWizardStepComponent<FormModel>
 
 
   finish() {
-    this.save().then((succeeded) => {
-      if (succeeded) {
-        const risk = this.session.getData();
+    this.save().then(() => {
+      const risk = this.session.getData();
+      if (risk && risk.weather_event) {
         this.router.navigate(['assessment'],
-          {'queryParams': {'hazard': risk.weather_event.id}});
+                             {'queryParams': {'hazard': risk.weather_event.id}});
       } else {
         this.cancel();
       }
