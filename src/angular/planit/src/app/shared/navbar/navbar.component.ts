@@ -69,4 +69,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.isFreeTrial = false;
     }
   }
+
+  public isManageSubscriptionPage() {
+    return this.router.url === '/subscription';
+  }
 }

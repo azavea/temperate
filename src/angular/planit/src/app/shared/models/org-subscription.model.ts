@@ -29,7 +29,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 0,
     header: 'Free trial',
     // tslint:disable-next-line:max-line-length
-    description: 'New users who signup automatically receive a 15 day free trial.',
+    description: 'New users who sign up automatically receive a 15-day free trial.',
     iconClass: 'icon-question',
     visible: false,
     yearlyValue: null
@@ -65,7 +65,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 2900,
     header: '+ 10 hrs consulting',
     // tslint:disable-next-line:max-line-length
-    description: 'Need help interpreting data? Suggestions for what risks are most vital for your city to assess? The insights package is great for cities who want a little more support and guidance as they create their adaptation plan.',
+    description: 'Need help interpreting data? Suggestions for what risks are most vital for your city to assess? The Insights package is great for cities who want a little more support and guidance as they create their adaptation plan.',
     iconClass: 'icon-question',
     visible: true,
     yearlyValue: 1500
@@ -77,7 +77,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 4200,
     header: '+ 20 hrs consulting',
     // tslint:disable-next-line:max-line-length
-    description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your city\'s changing climate!',
+    description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your city’s changing climate!',
     iconClass: 'icon-question',
     visible: true,
     yearlyValue: 3000
@@ -89,7 +89,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 10000,
     header: 'Custom',
     // tslint:disable-next-line:max-line-length
-    description: 'Need custom assistance from ICLEI-USA? We\'re happy to work with you to create a plan that fits your needs.',
+    description: 'Need custom assistance from ICLEI-USA? We’re happy to work with you to create a package that fits your needs.',
     iconClass: '',
     visible: false,
     yearlyValue: null
@@ -101,7 +101,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 1500,
     header: 'Pay as you go consulting',
     // tslint:disable-next-line:max-line-length
-    description: 'Start with a basic package and guidance from ICLEI-USA only when you need it. Your conversations will be billed at $150/hr.',
+    description: 'Start with a basic package and get guidance from ICLEI-USA only when you need it. Your conversations will be billed at $150/hr.',
     iconClass: '',
     visible: false,
     yearlyValue: null

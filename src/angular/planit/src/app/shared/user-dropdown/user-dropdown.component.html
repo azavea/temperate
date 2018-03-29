@@ -12,7 +12,7 @@
     </li>
     <li role="separator" class="divider"></li>
     <li *ngIf="organization?.id" role="menuitem">
-      <a routerLink="/subscription">Upgrade your plan</a>
+      <a routerLink="/subscription">{{ user?.primary_organization.isFreeTrial() ? 'Upgrade your plan' : 'Manage subscription' }}</a>
     </li>
     <li role="separator" class="divider"></li>
     <li role="menuitem">
