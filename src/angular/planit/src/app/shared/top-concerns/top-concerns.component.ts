@@ -67,8 +67,7 @@ export class TopConcernsComponent implements OnChanges {
     }
   }
 
-  isLoaded(): boolean {
-    // TODO: Rename to hasWeatherEvents or something
+  public hasWeatherEvents(): boolean {
     return this.readOnlyEvents.length > 0 || this.weatherEvents.length > 0;
   }
 }
