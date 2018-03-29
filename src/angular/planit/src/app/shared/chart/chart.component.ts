@@ -143,7 +143,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
       this.rawChartData = data;
       this.processedData = this.chartService.convertChartData(data);
       if (this.processedData[0]) {
-        this.sliceChartData(this.dateRange);
+        this.sliceChartData();
       }
     }, error => {
       this.requestErrorCount += 1;
@@ -157,9 +157,11 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     this.updateChart(this.extraParams);
   }
 
-  sliceChartData(newRange: number[]) {
+  sliceChartData(newRange?: number[]) {
     this.chartData = cloneDeep(this.processedData); // to trigger change detection
-    this.dateRange = newRange;
+    if (newRange) {
+      this.dateRange = newRange;
+    }
     const startYear = this.dateRange[0];
     const endYear = this.dateRange[1];
     this.chartData[0]['data'] = this.chartData[0]['data'].filter(obj => {
@@ -178,5 +180,11 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
+  }
+
+  public expandYearRange() {
+    this.dateRange[1] = 2100;
+    this.maskSlider = false;
+    this.sliceChartData();
   }
 }
