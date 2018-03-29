@@ -7,9 +7,9 @@
   <form [formGroup]="form">
     <div class="concerns-header">
       <h3 class="concern-title">We recommend selecting 3–6 hazards</h3>
-      <p class="concern-explanation">The hazards below have been <b>pre-selected</b> based on {{ organization?.location?.properties?.name || 'your city' }}'s location. All calculations shown here use the average of the projections for the years 2025-2035. See the <a routerLink="/methodology">Methodology</a> page for more info.
+      <p class="concern-explanation">The hazards below have been <strong>pre-selected</strong> based on {{ organization?.location?.properties?.name || 'your city' }}&rsquo;s location. Calculations use the average of the projections for the years 2025&ndash;2035. See the <a routerLink="/methodology">Methodology</a> page for more information.
       </p>
-      <p>Click the "X" to remove any hazards that you don't think belong in your assessment.</p>
+      <p>Click the &ldquo;x&rdquo; to remove any hazards that you don&rsquo;t think belong in your assessment.</p>
     </div>
     <app-add-weather-events formControlName="selectedEvents"></app-add-weather-events>
   </form>
