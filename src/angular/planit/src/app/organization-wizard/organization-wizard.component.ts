@@ -9,7 +9,6 @@ import { WizardSessionService } from '../core/services/wizard-session.service';
 import { Organization, User } from '../shared/';
 
 import { CityStepComponent } from './steps/city-step/city-step.component';
-import { ConfirmStepComponent } from './steps/confirm-step/confirm-step.component';
 import { InviteStepComponent } from './steps/invite-step/invite-step.component';
 
 @Component({
@@ -22,7 +21,6 @@ export class OrganizationWizardComponent implements OnInit {
   @ViewChild(WizardComponent) public wizard: WizardComponent;
   @ViewChild(CityStepComponent) public identifyStep: CityStepComponent;
   @ViewChild(InviteStepComponent) public inviteStep: InviteStepComponent;
-  @ViewChild(ConfirmStepComponent) public confirmStep: ConfirmStepComponent;
 
   public form: FormGroup;
   public user: User;

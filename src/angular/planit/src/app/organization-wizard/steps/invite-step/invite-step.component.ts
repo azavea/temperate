@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { WizardComponent } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
@@ -29,7 +30,8 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
 
   constructor(protected session: WizardSessionService<Organization>,
               protected organizationService: OrganizationService,
-              protected toastr: ToastrService) {
+              protected toastr: ToastrService,
+              private router: Router) {
     super(session, organizationService, toastr);
   }
 
@@ -56,7 +58,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
   confirm() {
     this.save(undefined).then((success) => {
       if (success) {
-        this.wizard.navigation.goToStep(2);
+        this.router.navigate(['/plan']);
       } else {
         const controls = this.form.controls;
         if (controls.location.invalid || controls.name.invalid) {

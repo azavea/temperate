@@ -4,7 +4,7 @@
 
 <div class="step-content" [formGroup]="form">
   <p>
-    Add your colleagues&rsquo; email addresses to invite them to work on this plan. 
+    Add your colleagues&rsquo; email addresses to invite them to work on this plan.
     Feel free to do this later.
   </p>
   <div class="form-control-container">
@@ -20,7 +20,7 @@
 
 <div class="step-footer">
   <div class="step-footer-exit">
-    <button type="button" class="button" 
+    <button type="button" class="button"
             previousStep>Previous</button>
   </div>
   <div class="step-footer-navigation">
@@ -30,7 +30,7 @@
       <span *ngIf="!shouldSkip()">
         Send {{ form.controls.invites.value.length }}
         {{ form.controls.invites.value.length === 1 ? 'invite' : 'invites' }}
-        and continue
+        and finish
       </span>
       <span *ngIf="shouldSkip()">
         Skip
