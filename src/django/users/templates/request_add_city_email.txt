@@ -1,11 +1,8 @@
-{% load i18n %}
-Hi,
+Hello there!
 
-{{ user.first_name }} {{ user.last_name }} would like to have {{ city }}, {{ state }} added to Temperate!
+{{ user.first_name }} {{ user.last_name }} would like to have {{ city }}, {{ state }} added to Temperate.
 
-You can contact them here:
-
-{{ user.email }}
+You can contact them at {{ user.email }}
 
 Here are their notes:
 
