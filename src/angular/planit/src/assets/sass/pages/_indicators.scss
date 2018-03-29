@@ -3,28 +3,25 @@ app-indicators {
     max-width: 92rem;
   }
 
-  .indicator-filters {
-    margin-bottom: $space-large;
+  .top-concerns.empty-state {
+    background: $white;
+  }
+  
+  .indicators-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $space-medium;
 
-    .button-group {
-      flex-wrap: wrap;
-
-      .button {
-        margin-bottom: $space-tiny;
-        flex: 0 0 auto;
-      }
+    > h2 {
+      margin-bottom: 0;
     }
+  }
 
-    .filter-header {
-      margin-bottom: 0.35rem;
-
-      label {
-        margin-right: $space-medium;
-      }
-
-      .reset-button {
-        margin-left: $space-large;
-      }
+  .filter-container {
+    .dropdown-menu {
+      right: 0;
+      left: auto;
     }
   }
 
