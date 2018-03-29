@@ -1,25 +1,11 @@
 .va-risk-popover-trigger {
-  position: relative;
-  cursor: pointer;
-
-  &:after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: $space-medium;
-    height: 2px;
-    border-radius: 3px;
-    background: $brand-teal;
-    opacity: 0.25;
-    z-index: 0;
-    transition: opacity 0.15s;
+  .icon {
+    color: $brand-teal;
   }
 
-
   &:hover, &:focus {
-    &:after {
-      opacity: 1;
+    .icon {
+      color: darken($brand-teal, 10);
     }
   }
 }
