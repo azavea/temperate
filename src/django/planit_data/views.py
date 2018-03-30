@@ -109,6 +109,7 @@ class PlanSubmitView(PlanView):
 
             # Create email context
             template_path = 'email/submit_plan_email'
+            user_template_path = 'email/submit_plan_user_email'
             due_date = user_org.plan_due_date.isoformat() if user_org.plan_due_date else '--'
             org_user_emails = list(PlanItUser.objects.filter(primary_organization=user_org)
                                                      .values_list('email', flat=True))
@@ -129,7 +130,14 @@ class PlanSubmitView(PlanView):
                 settings.DEFAULT_FROM_EMAIL,
                 [settings.PLAN_SUBMISSION_EMAIL],
                 context=context,
-                bcc=org_user_emails,
+                attachments=[plan_attachment]
+            )
+
+            send_html_email(
+                user_template_path,
+                settings.DEFAULT_FROM_EMAIL,
+                org_user_emails,
+                context=context,
                 attachments=[plan_attachment]
             )
         return Response(None, status=status.HTTP_204_NO_CONTENT)

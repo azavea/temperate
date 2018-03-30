@@ -58,13 +58,11 @@ class PlanSubmitViewTestCase(APITestCase):
         url = reverse('submit-plan')
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(len(mail.outbox), 1)
-        message = mail.outbox[0]
-        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
-        BCC_EMAIL = [self.user.email]
-        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
-        self.assertEqual(len(message.attachments), 1)
-        filename, content, mimetype = message.attachments[0]
+        self.assertEqual(len(mail.outbox), 2)
+        first_message = mail.outbox[0]
+        self.assertListEqual(first_message.recipients(), [settings.PLAN_SUBMISSION_EMAIL])
+        self.assertEqual(len(first_message.attachments), 1)
+        filename, content, mimetype = first_message.attachments[0]
         self.assertIn('.csv', filename)
         self.assertGreater(len(content), 0)
         self.assertEqual(mimetype, 'text/csv')
@@ -78,13 +76,15 @@ class PlanSubmitViewTestCase(APITestCase):
         url = reverse('submit-plan')
         response = self.client.post(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(mail.outbox), 2)
 
-        TO_EMAIL = [settings.PLAN_SUBMISSION_EMAIL]
-        BCC_EMAIL = list(PlanItUser.objects.filter(primary_organization=organization)
-                                           .values_list('email', flat=True))
-        message = mail.outbox[0]
-        self.assertListEqual(message.recipients(), TO_EMAIL + BCC_EMAIL)
+        to_email = [settings.PLAN_SUBMISSION_EMAIL]
+        user_email = list(PlanItUser.objects.filter(primary_organization=organization)
+                                            .values_list('email', flat=True))
+        first_message = mail.outbox[0]
+        second_message = mail.outbox[1]
+        self.assertListEqual(first_message.recipients(), to_email)
+        self.assertListEqual(second_message.recipients(), user_email)
 
 
 class ConcernViewSetTestCase(APITestCase):
