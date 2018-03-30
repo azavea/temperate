@@ -9,7 +9,7 @@ import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Action, Risk } from '../../../shared';
-import { ActionVisibility } from '../../../shared/models/action.model';
+import { ActionVisibilityOption } from '../../../shared/models/action-visibility-option.model';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
 import { ActionStepKey } from '../../action-step-key';
@@ -29,7 +29,7 @@ export class ReviewStepComponent extends ActionWizardStepComponent<any>
   public action: Action;
   public risk: Risk;
 
-  public visibilityOptions = ActionVisibility;
+  public visibilityOptions = ActionVisibilityOption;
 
   private sessionSubscription: Subscription;
 

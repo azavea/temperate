@@ -1,12 +1,9 @@
 import * as every from 'lodash.every';
 
 import { ActionCategory } from './action-category.model';
+import { ActionVisibilityOption } from './action-visibility-option.model';
+import { ActionVisibilityOptions } from './action-visibility-options.model';
 import { Risk } from './risk.model';
-
-export enum ActionVisibility {
-  Public = 'public',
-  Private = 'private'
-}
 
 export class Action {
   id?: string;
@@ -15,7 +12,7 @@ export class Action {
   action_type = '';
   action_goal = '';
   implementation_details = '';
-  visibility: ActionVisibility = ActionVisibility.Private;
+  visibility: ActionVisibilityOption = ActionVisibilityOption.Private;
   implementation_notes = '';
   improvements_adaptive_capacity = '';
   improvements_impacts = '';
@@ -68,5 +65,10 @@ export class Action {
       !!this.categories,
       !!this.funding
     ];
+  }
+
+  public getVisibilityLabel() {
+    if (!this.visibility) { return undefined; }
+    return ActionVisibilityOptions.get(this.visibility).label;
   }
 }

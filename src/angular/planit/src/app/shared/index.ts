@@ -1,7 +1,8 @@
 export { ConfirmModalConfig } from './confirmation-modal/confirmation-modal.component';
-export { Action, ActionVisibility } from './models/action.model';
+export { Action } from './models/action.model';
 export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
+export { ActionVisibilityOption } from './models/action-visibility-option.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 export { City, CityProperties } from './models/city.model';
 export {
