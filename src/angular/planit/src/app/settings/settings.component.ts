@@ -1,5 +1,5 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -29,7 +29,7 @@ export class SettingsComponent implements OnInit {
               private userService: UserService,
               private inviteUserService: InviteUserService) {
     this.form = this.fb.group({
-      'plan_due_date': null,
+      'plan_due_date': [null, Validators.required],
       'invites': []
     });
   }
@@ -51,7 +51,13 @@ export class SettingsComponent implements OnInit {
   }
 
   dueDateSave(date: Date) {
+    if (!date) { return; }
+    // User entered invalid date in input
+    if (isNaN(date.getTime())) { return; }
+    // Sometimes the datepicker fires the change method, but the date hasn't actually changed
+    // Seems to happen mostly during control init
     if (date.getTime() === this.user.primary_organization.plan_due_date.getTime()) { return; }
+    if (date.getTime() < this.minDate.getTime()) { return; }
 
     this.user.primary_organization.plan_due_date = date;
     this.organizationSave();
