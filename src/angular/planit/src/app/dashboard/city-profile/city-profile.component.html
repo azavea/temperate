@@ -17,7 +17,7 @@
             <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.About)">
               {{ cityProfile.getSectionRequiredCount(sections.About) }} required
             </span>
-            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.About)"
+            <span class="icon icon-ok-circled completed" *ngIf="cityProfile.sectionCompleted(sections.About)"
                   tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
@@ -106,7 +106,7 @@
             <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.Assessment)">
               {{ cityProfile.getSectionRequiredCount(sections.Assessment) }} required
             </span>
-            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.Assessment)"
+            <span class="icon icon-ok-circled completed" *ngIf="cityProfile.sectionCompleted(sections.Assessment)"
                   tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.Assessments] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
@@ -181,7 +181,7 @@
             <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.Plan)">
               {{ cityProfile.getSectionRequiredCount(sections.Plan) }} required
             </span>
-            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.Plan)"
+            <span class="icon icon-ok-circled completed" *ngIf="cityProfile.sectionCompleted(sections.Plan)"
                   tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.Plan] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
@@ -218,7 +218,7 @@
             <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.Action)">
               {{ cityProfile.getSectionRequiredCount(sections.Action) }} required
             </span>
-            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.Action)"
+            <span class="icon icon-ok-circled completed" *ngIf="cityProfile.sectionCompleted(sections.Action)"
                   tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.Action] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
