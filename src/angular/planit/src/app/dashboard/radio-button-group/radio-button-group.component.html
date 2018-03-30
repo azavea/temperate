@@ -1,7 +1,7 @@
 <div [id]="id" class="form-control-container" role="radiogroup">
   <div class="radio-button-item" *ngFor="let opt of options; index as i"
        (keyup.enter)="setOption(opt)" (click)="setOption(opt)" tabindex="0">
-    <span class="icon icon-ok-circled" *ngIf="opt.name === option"></span>
+    <span class="icon icon-circle" *ngIf="opt.name === option"></span>
     <span class="icon icon-circle-empty" *ngIf="opt.name !== option"></span>
     {{ opt.label }}
   </div>
