@@ -2,7 +2,7 @@
 {% premailer %}
 <html>
     <p>Hello there!</p>
-    <p>You’ve been invited to join Temperate, your city’s climate adaptation planning companion.</p>
+    <p>You’ve been invited to join <a href="https://temperate.io">Temperate</a>, your city’s climate adaptation planning companion.</p>
 
     <p>
         <strong>Organization:</strong> {{ user.primary_organization.name }}
@@ -12,7 +12,5 @@
 
     <p>Accept your invitation via the link below. The link expires in {{ expiration_days }} days.</p>
     <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">Sign up for Temperate</a>
-    <p>&nbsp;</p>
-    <p>Thanks!</p>
 </html>
 {% endpremailer %}
