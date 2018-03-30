@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Headers, RequestOptions } from '@angular/http';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable, Subject } from 'rxjs/Rx';
