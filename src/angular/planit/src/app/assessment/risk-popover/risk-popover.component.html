@@ -10,10 +10,10 @@
   </ul>
 </ng-template>
 
-<div class="va-risk va-risk-popover-trigger" *ngIf="indicators !== undefined && indicators.length > 0">
+<div class="va-risk va-risk-popover-trigger" *ngIf="indicators !== undefined && indicators?.length > 0">
   {{ risk.title() }}&nbsp;
-  <button class="button-icon-only indicators-trigger-button" 
-          #popover="bs-popover" 
+  <button class="button-icon-only indicators-trigger-button"
+          #popover="bs-popover"
           [popover]="riskPopoverTemplate"
           container="body"
           outsideClick="true"
@@ -26,7 +26,7 @@
   </button>
 </div>
 
-<div class="va-risk" 
+<div class="va-risk"
      *ngIf="indicators.length === 0">
   {{ risk.title() }}
 </div>
