@@ -5,13 +5,13 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
 import { ToastrService } from 'ngx-toastr';
 
 import {
+  Location,
   OrgRiskDirectionalFrequencyOptions,
   OrgRiskDirectionalIntensityOptions,
   OrgRiskDirectionalOption,
@@ -56,7 +56,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public directionalFrequencyOptionsKeys = Array.from(OrgRiskDirectionalFrequencyOptions.keys());
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
-  public city: City;
+  public city: Location;
   public indicators: Indicator[] = [];
 
   @ViewChild('indicatorChartModal')

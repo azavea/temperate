@@ -6,7 +6,7 @@ import { Indicator } from 'climate-change-components';
 import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
 import {
-  City,
+  Location,
   OrgRiskRelativeOption,
   Risk,
   WeatherEvent,
@@ -35,7 +35,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
-  public city: City;
+  public city: Location;
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
 

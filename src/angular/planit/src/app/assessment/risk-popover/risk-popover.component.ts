@@ -9,8 +9,8 @@ import {
 
 import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-chart.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
+import { Location } from '../../shared/models/location.model';
 import { Risk } from '../../shared/models/risk.model';
-import { City } from '../../shared/models/city.model';
 
 import { CityService } from '../../core/services/city.service';
 
@@ -23,7 +23,7 @@ export class RiskPopoverComponent implements OnInit {
 
   public indicators: Indicator[];
   public selectedIndicator: Indicator;
-  public city: City;
+  public city: Location;
 
   @ViewChild('indicatorModal')
   private indicatorModal: ModalTemplateComponent;

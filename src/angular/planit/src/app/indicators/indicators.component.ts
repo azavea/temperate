@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
@@ -10,7 +9,7 @@ import {
 import { CityService } from '../core/services/city.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
-import { WeatherEvent } from '../shared';
+import { Location, WeatherEvent } from '../shared';
 
 import { CollapsibleChartComponent } from '../shared/collapsible-chart/collapsible-chart.component';
 
@@ -28,7 +27,7 @@ export class IndicatorsComponent implements OnInit {
   public accordionState: AccordionState = {};
   public allIndicators: Indicator[];
   public filteredIndicators: Indicator[];
-  public city: City;
+  public city: Location;
   public filters = new Map();
   public topConcerns: WeatherEvent[];
 

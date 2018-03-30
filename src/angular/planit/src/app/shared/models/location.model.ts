@@ -1,15 +1,15 @@
 import { Point } from 'geojson';
 
-export class CityProperties {
+export class LocationProperties {
   name: string;
   admin: string;
   api_city_id: string;
 }
 
-export class City {
+export class Location {
   type: string;
   geometry: Point;
-  properties: CityProperties;
+  properties: LocationProperties;
 
   constructor(object: Object) {
     Object.assign(this, object);
