@@ -1,0 +1,37 @@
+.login-page .container-standard {
+  padding: 6rem $space-xlarge 0;
+}
+
+.login-page .form .form-control-container {
+  max-width: none;
+
+  .form-control {
+    max-width: none;
+  }
+
+  .form-control-error {
+    text-align: left;
+  }
+}
+
+.login-page .modal-body {
+  max-width: 46rem;
+  margin: auto auto 3rem;
+  background: $neutral-0;
+  border-radius: $border-radius;
+  padding: $space-xxlarge;
+}
+
+.login-page .modal-footer {
+  flex-flow: column nowrap;
+  align-items: stretch;
+
+  .secondary-links {
+    margin-left: 0;
+    margin-top: $space-xlarge;
+
+    a {
+      margin-left: 0;
+    }
+  }
+} 
