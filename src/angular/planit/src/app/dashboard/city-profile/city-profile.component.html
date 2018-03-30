@@ -198,7 +198,6 @@
               </button>
             </div>
           </div>
-
           <div class="profile-subgroup" *ngIf="cityProfile.plan_status === sectionStatuses.Yes">
             <div class="form-control-container">
               <label for="plan-type">
@@ -212,6 +211,49 @@
         </accordion-group>
         <!-- END Plans section -->
 
+        <!-- START Adaptation Actions section -->
+        <accordion-group [(isOpen)]="isOpen[sections.Action]">
+          <header accordion-heading>
+            <h2 class="panel-label">Adaptation actions</h2>
+            <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.Action)">
+              {{ cityProfile.getSectionRequiredCount(sections.Action) }} required
+            </span>
+            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.Action)"
+                  tooltip="All required fields completed"></span>
+            <span class="icon icon-accordion" [ngClass]="isOpen[sections.Action] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
+          </header>
+          <div class="form-control-container">
+            <label for="action-status" class="profile-required">
+              Has your city identified specific adaptation actions?
+            </label>
+            <div id="action-status" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
+              <button class="button button-primary" role="radio"
+                      [ngClass]="{active: cityProfile.action_status === opt.name}"
+                      *ngFor="let opt of sectionStatusOptions"
+                      (click)="cityProfile.action_status = opt.name">
+                {{ opt.label }}
+              </button>
+            </div>
+          </div>
+          <div class="profile-subgroup" *ngIf="cityProfile.action_status === sectionStatuses.Yes || cityProfile.action_status === sectionStatuses.InProgress">
+            <div class="form-control-container">
+              <label for="actions-prioritized">
+                How did you select and prioritize actions?
+              </label>
+              <app-checkbox-group [id]="'actions-prioritized'" [options]="actionPriorities"
+                                  [(selected)]="cityProfile.action_prioritized">
+              </app-checkbox-group>
+            </div>
+            <div class="form-control-container">
+              <label for="action-progress">
+                Describe your city's progress in undertaking these actions
+              </label>
+              <textarea id="action-progress" class="form-control" rows="6"
+                     [(ngModel)]="cityProfile.action_prioritized_description"></textarea>
+            </div>
+          </div>
+        </accordion-group>
+        <!-- END Adaptation Actions section -->
 
       </accordion>
     </section>

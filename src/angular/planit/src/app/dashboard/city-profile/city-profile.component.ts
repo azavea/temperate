@@ -32,6 +32,7 @@ export class CityProfileComponent implements OnInit {
   public numberOptions: CityProfileOption[] = [];
   public sectionStatusOptions: CityProfileOption[] = [];
   public planTypes: CityProfileOption[] = [];
+  public actionPriorities: CityProfileOption[] = [];
   public sectors: string[] = [];
 
   constructor(private cityProfileService: CityProfileService,
@@ -52,6 +53,7 @@ export class CityProfileComponent implements OnInit {
       this.hazardOptions = options['assessed-hazards'];
       this.numberOptions = options['assessment-numbers'];
       this.planTypes = options['plan-types'];
+      this.actionPriorities = options['action-priorities'];
     });
   }
 
