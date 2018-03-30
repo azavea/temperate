@@ -18,6 +18,14 @@ export enum CityProfileSection {
   Action
 }
 
+export enum CityProfileSectionStatus {
+  Yes = 'yes',
+  No = 'no',
+  NotYet = 'notyet',
+  InProgress = 'inprogress',
+  DontKnow = 'donotknow'
+}
+
 export class CityProfile {
   private _default_action_prioritized: ActionPrioritized = {
     consensus: false,
@@ -44,13 +52,13 @@ export class CityProfile {
   about_sustainability_description = '';
   about_sustainability_progress = '';
   about_master_planning = '';
-  assessment_status = '';
+  assessment_status: CityProfileSectionStatus;
   assessment_hazards_considered = '';
   assessment_assets_considered = '';
   assessment_populations_identified = '';
-  plan_status = '';
+  plan_status: CityProfileSectionStatus;
   plan_type = '';
-  action_status = '';
+  action_status: CityProfileSectionStatus;
   action_prioritized: ActionPrioritized;
   action_prioritized_description = '';
 

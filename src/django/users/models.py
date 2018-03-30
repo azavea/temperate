@@ -453,6 +453,21 @@ class CityProfile(models.Model):
             (ALL_PLUS, 'All, including their interdependencies'),
         )
 
+    class PlanType:
+        STANDALONE = 'standalone'
+        GENERAL = 'general'
+        SECTOR = 'sector'
+        COMBINED = 'combined'
+        NONE_OF_THE_ABOVE = 'none'
+
+        CHOICES = (
+            (STANDALONE, 'Standalone adaptation plan'),
+            (GENERAL, 'Included in a general city plan'),
+            (SECTOR, 'Included in a city sector plan'),
+            (COMBINED, 'Addressed in a combined adaptation and mitigation climate action plan'),
+            (NONE_OF_THE_ABOVE, 'None of these'),
+        )
+
     organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -484,7 +499,7 @@ class CityProfile(models.Model):
 
     plan_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
                                    blank=True, default='')
-    plan_type = models.CharField(max_length=32, blank=True, default='')
+    plan_type = models.CharField(max_length=32, choices=PlanType.CHOICES, blank=True, default='')
 
     action_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
                                      blank=True, default='')

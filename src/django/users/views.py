@@ -309,6 +309,7 @@ class CityProfileOptionsView(APIView):
             'assessment-numbers': self._list_choices_model(CityProfile.AssessmentNumbers),
             'commitment-status': self._list_choices_model(CityProfile.CommitmentStatus),
             'economic-sectors': self._list_choices_model(CityProfile.EconomicSector),
+            'plan-types': self._list_choices_model(CityProfile.PlanType),
             'section-status': self._list_choices_model(CityProfile.SectionStatus),
         }
         return Response(data)

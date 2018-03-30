@@ -8,7 +8,8 @@ export {
   ActionPrioritized,
   CityProfile,
   CityProfileOption,
-  CityProfileSection
+  CityProfileSection,
+  CityProfileSectionStatus
 } from './models/city-profile.model';
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
