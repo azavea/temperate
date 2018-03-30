@@ -24,7 +24,7 @@
         Get started
       </button>
     </div>
-    <footer class="modal-footer">
+    <footer class="modal-footer" *ngIf="!loading">
       <button class="button-link" (click)="goToWizard()">No thanks. I&rsquo;ll start from scratch.</button>
     </footer>
   </div>

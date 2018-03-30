@@ -1,5 +1,26 @@
 // Loading
 
+.loading-splash {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+
+  .loading-logo {
+    width: 6.4rem;
+    height: 6.4rem;
+  }
+
+  .loading-heading {
+    margin-top: $space-xlarge;
+    color: $neutral-3;
+    font: $text-base;
+    text-align: center;
+  }
+}
+
 .loading-wrapper {
   display: flex;
   flex-flow: column nowrap;

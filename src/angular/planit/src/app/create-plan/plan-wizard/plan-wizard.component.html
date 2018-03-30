@@ -50,9 +50,13 @@
     </wizard>
   </main>
 </div>
-<div *ngIf="wizardComplete" class="wizard-done">
-  <div class="loading-wrapper">
-    <div class="loading loading-spinner loading-large"></div>
-  </div>
-  <h2>Setting up your plan</h2>
+<div *ngIf="wizardComplete" class="main-container">
+  <main class="main-content wizard-done-container" role="main">
+    <header class="wizard-header">
+      <h1 class="wizard-title-large">Setting up your plan</h1>
+    </header>
+    <div class="loading-wrapper">
+      <div class="loading loading-spinner loading-large"></div>
+    </div>
+  </main>
 </div>

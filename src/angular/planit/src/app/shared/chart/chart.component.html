@@ -1,6 +1,8 @@
 <div class="chart-body">
     <div class="chart-message" *ngIf="!(chartData && chartData.length)">
-        <div *ngIf="!error">Loading...</div>
+        <div class="loading-wrapper" *ngIf="!error">
+          <div class="loading loading-spinner loading-large"></div>
+        </div>
         <div *ngIf="!!error">
             <div *ngIf="requestErrorCount > 0 && requestErrorCount <= 2">
                 <p>Oops – loading the indicator data failed.</p>
