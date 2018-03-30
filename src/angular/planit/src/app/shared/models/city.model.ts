@@ -6,8 +6,17 @@ export class CityProperties {
   api_city_id: string;
 }
 
-export interface City {
+export class City {
   type: string;
   geometry: Point;
   properties: CityProperties;
+
+  constructor(object: Object) {
+    Object.assign(this, object);
+  }
+
+  public getFullName(): string {
+    if (!this.properties) { return undefined; }
+    return `${this.properties.name}, ${this.properties.admin}`;
+  }
 }

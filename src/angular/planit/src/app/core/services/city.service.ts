@@ -4,8 +4,9 @@ import { Observable } from 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
 
-import { City } from 'climate-change-components';
+import { City as ApiCity } from 'climate-change-components';
 
+import { City } from '../../shared';
 import { PlanItApiHttp } from './api-http.service';
 import { CacheService } from './cache.service';
 import { UserService } from './user.service';
@@ -29,7 +30,7 @@ export class CityService {
         this.apiHttp.get(url).subscribe(resp => {
           const json = resp.json();
           if (json) {
-            city = json;
+            city = new City(json);
             this.cache.set(CacheService.CORE_CITYSERVICE_CURRENT, city);
             observer.next(city);
             observer.complete();

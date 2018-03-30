@@ -3,7 +3,6 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PopoverDirective } from 'ngx-bootstrap/popover';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
@@ -11,6 +10,7 @@ import {
 import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-chart.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 import { Risk } from '../../shared/models/risk.model';
+import { City } from '../../shared/models/city.model';
 
 import { CityService } from '../../core/services/city.service';
 

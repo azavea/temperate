@@ -1,11 +1,12 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { City, Indicator } from 'climate-change-components';
+import { Indicator } from 'climate-change-components';
 
 import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
 import {
+  City,
   OrgRiskRelativeOption,
   Risk,
   WeatherEvent,

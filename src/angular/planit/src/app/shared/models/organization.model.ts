@@ -29,6 +29,9 @@ export class Organization {
     if (this.subscription_end_date && typeof this.subscription_end_date === 'string') {
       this.subscription_end_date = new Date(this.subscription_end_date);
     }
+    if (this.location) {
+      this.location = new City(this.location);
+    }
   }
 
   public hasPlan(): boolean {
