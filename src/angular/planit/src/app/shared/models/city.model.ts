@@ -1,7 +1,8 @@
 import { Point } from 'geojson';
 
-export interface CityProperties {
+export class CityProperties {
   name: string;
+  admin: string;
   api_city_id: string;
 }
 

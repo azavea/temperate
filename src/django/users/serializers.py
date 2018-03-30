@@ -77,8 +77,8 @@ class LocationSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = PlanItLocation
         geo_field = 'point'
-        fields = ('name', 'api_city_id',)
-        read_only_fields = ('name', 'point',)
+        fields = ('name', 'admin', 'api_city_id',)
+        read_only_fields = ('name', 'admin', 'point',)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
