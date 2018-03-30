@@ -4,6 +4,9 @@
 <div class="switch-list-container">
   <div class="switch-list">
     <h3>Add additional hazards</h3>
+    <div class="loading-wrapper" *ngIf="!weatherEvents">
+      <div class="loading loading-spinner loading-small loading-primary"></div>
+    </div>
     <button class="switch-item"
         [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
         *ngFor="let option of weatherEvents"
@@ -18,8 +21,7 @@
           [ngClass]="option.display_class"></span>
       {{ option.name }}
       <span class="icon icon-question-circle" *ngIf="option.description"
-              tooltip="{{ option.description }}">
-        </span>
+              tooltip="{{ option.description }}"></span>
       <span *ngIf="isReadOnly(option)"
             class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
     </button>

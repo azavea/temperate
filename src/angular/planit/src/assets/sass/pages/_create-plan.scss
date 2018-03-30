@@ -1,8 +1,12 @@
 app-plan-step-hazards,
 app-plan-step-community-systems,
 app-add-weather-events {
-.switch-list-container {
+  .switch-list-container {
     margin-top: $space-xxlarge;
+
+    .loading-wrapper {
+      align-self: left;
+    }
   }
 }
 

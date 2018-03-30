@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 import { WeatherEventService } from '../../core/services/weather-event.service';
 import { Concern, WeatherEvent } from '../../shared';
@@ -8,12 +8,18 @@ import { Concern, WeatherEvent } from '../../shared';
   selector: 'app-top-concerns',
   templateUrl: './top-concerns.component.html'
 })
-export class TopConcernsComponent {
+export class TopConcernsComponent implements OnChanges {
 
   @Input() weatherEvents: WeatherEvent[];
   @Input() readOnlyEvents: WeatherEvent[];
 
   @Output() removed = new EventEmitter<WeatherEvent>();
+
+  public areConcernsCalculated = 0; // Input data not yet received during component initialization
+
+  ngOnChanges() {
+    this.areConcernsCalculated += 1;
+  }
 
   format(concern: Concern): string {
     if (!concern.is_relative) {
