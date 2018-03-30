@@ -100,7 +100,8 @@ export class ImplementationStepComponent
     model.action_type = data.action_type;
     model.implementation_details = data.implementation_details;
     model.implementation_notes = data.notes;
-    model.visibility = data.isPublic ? ActionVisibilityOption.Public : ActionVisibilityOption.Private;
+    model.visibility = (data.isPublic ? ActionVisibilityOption.Public :
+                        ActionVisibilityOption.Private);
     return model;
   }
 
