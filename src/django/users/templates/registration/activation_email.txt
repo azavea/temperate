@@ -7,4 +7,4 @@ Click the link below to confirm your email address and activate your account. Th
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
 
-If you’ve any trouble activating your account, contact {{ support_email }} for assistance.
+If you have any trouble activating your account, contact {{ support_email }} for assistance.
