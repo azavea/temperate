@@ -15,6 +15,7 @@ import { ActionStepsModule } from '../action-steps/action-steps.module';
 import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
+import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 import {
   CityProfileSummaryComponent
 } from './city-profile-summary/city-profile-summary.component';
@@ -26,7 +27,6 @@ import { RadioButtonGroupComponent } from './radio-button-group/radio-button-gro
 import { ReviewPlanComponent } from './review-plan/review-plan.component';
 import { AdaptationReviewComponent } from './review-plan/tabs/adaptation-review.component';
 import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component';
-import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
 
 @NgModule({
   imports: [
