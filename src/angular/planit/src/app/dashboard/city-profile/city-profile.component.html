@@ -124,7 +124,7 @@
             </div>
           </div>
 
-          <div class="profile-subgroup" *ngIf="cityProfile.assessment_status === 'yes'">
+          <div class="profile-subgroup" *ngIf="cityProfile.assessment_status === sectionStatuses.Yes">
             <div class="form-control-container">
               <label for="hazards-considered">
                 What
@@ -199,7 +199,7 @@
             </div>
           </div>
 
-          <div class="profile-subgroup" *ngIf="cityProfile.plan_status === 'yes'">
+          <div class="profile-subgroup" *ngIf="cityProfile.plan_status === sectionStatuses.Yes">
             <div class="form-control-container">
               <label for="plan-type">
                 What type of plan was it?

@@ -6,7 +6,12 @@ import { Subscription } from 'rxjs/Rx';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { UserService } from '../../core/services/user.service';
-import { CityProfile, CityProfileOption, CityProfileSection } from '../../shared';
+import {
+  CityProfile,
+  CityProfileOption,
+  CityProfileSection,
+  CityProfileSectionStatus,
+} from '../../shared';
 
 @Component({
   selector: 'app-city-profile',
@@ -18,6 +23,7 @@ export class CityProfileComponent implements OnInit {
   public errors: any = {};
   public isOpen = {};
   public sections = CityProfileSection;
+  public sectionStatuses = CityProfileSectionStatus;
 
   // Properties to store field choices
   public commitments: CityProfileOption[] = [];
