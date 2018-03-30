@@ -12,8 +12,7 @@
              formControlName="plan_due_date"
              type="text"
              placeholder="mm/dd/yyyy"
-             #dp="bsDatepicker"
-             bsDatepicker [(ngModel)]="planDueDate"
+             bsDatepicker
              [minDate]="minDate"
              [bsConfig]="{ containerClass: 'theme-default', showWeekNumbers: false }">
       <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && form.controls.plan_due_date.dirty">
