@@ -8,7 +8,7 @@
     </header>
 
     <section class="page-section">
-      <accordion *ngIf="cityProfile">
+      <accordion *ngIf="cityProfile" [closeOthers]="true">
 
         <!-- START About section -->
         <accordion-group [(isOpen)]="isOpen[sections.About]">
