@@ -14,7 +14,11 @@
         <accordion-group [(isOpen)]="isOpen[sections.About]">
           <header accordion-heading>
             <h2 class="panel-label">About your city</h2>
-            <span class="badge badge-danger">2 required</span>
+            <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.About)">
+              {{ cityProfile.getSectionRequiredCount(sections.About) }} required
+            </span>
+            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.About)"
+                  tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.About] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
           <div class="form-control-container">
@@ -99,7 +103,11 @@
         <accordion-group [(isOpen)]="isOpen[sections.Assessments]">
           <header accordion-heading>
             <h2 class="panel-label">Assessments</h2>
-            <span class="badge badge-danger">1 required</span>
+            <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.Assessment)">
+              {{ cityProfile.getSectionRequiredCount(sections.Assessment) }} required
+            </span>
+            <span class="icon icon-check-square completed" *ngIf="cityProfile.sectionCompleted(sections.Assessment)"
+                  tooltip="All required fields completed"></span>
             <span class="icon icon-accordion" [ngClass]="isOpen[sections.Assessments] ? 'icon-chevron-down' : 'icon-chevron-right'"></span>
           </header>
           <div class="form-control-container">

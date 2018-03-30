@@ -11,4 +11,9 @@ app-city-profile {
   .radio-button-item {
     cursor: pointer;
   }
+  .panel-title header > .icon.completed {
+    margin-left: auto;
+    margin-right: $space-medium;
+    color: $brand-positive;
+  }
 }
