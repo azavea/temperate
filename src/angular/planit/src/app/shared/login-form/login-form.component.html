@@ -40,7 +40,8 @@
     <div class="secondary-links">
       <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
         Forgot password?
-      </a> &bull;
+      </a>
+      <div class="separator">&bull;</div>
       <a *ngIf="hostname !== 'temperate.io'" routerLink="/register">
         Create an account
       </a>
