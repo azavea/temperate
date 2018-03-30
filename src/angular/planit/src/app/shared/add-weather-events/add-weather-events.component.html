@@ -19,9 +19,10 @@
             tooltipPlacement="right"></span>
       <span class="icon icon-primary"
           [ngClass]="option.display_class"></span>
-      {{ option.name }}
-      <span class="icon icon-question-circle" *ngIf="option.description"
-              tooltip="{{ option.description }}"></span>
+      <div class="switch-header">
+        <h4 class="switch-title">{{ option.name }}</h4>
+        <p class="switch-description" *ngIf="option.description">{{ option.description }}</p>
+      </div>
       <span *ngIf="isReadOnly(option)"
             class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
     </button>
