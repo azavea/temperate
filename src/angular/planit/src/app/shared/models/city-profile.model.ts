@@ -64,14 +64,17 @@ export class CityProfile {
     return props.length;
   }
 
+  public getSectionRequiredCount(section: CityProfileSection) {
+    const props = this.getRequiredSectionPropsAsBools().get(section);
+    return props.filter(prop => !prop).length;
+  }
+
+  public sectionCompleted(section: CityProfileSection) {
+    return 0 === this.getSectionRequiredCount(section);
+  }
+
   private getRequiredPropsAsBools() {
-    return [
-      !!this.about_economic_sector,
-      typeof this.about_operational_budget_usd === 'number',
-      !!this.assessment_status,
-      !!this.plan_status,
-      !!this.action_status
-    ];
+    return [].concat.apply([], Array.from(this.getRequiredSectionPropsAsBools().values()));
   }
 
   private getAllPropsAsBools() {
@@ -90,5 +93,23 @@ export class CityProfile {
       // We don't include action_prioritized because its valid for all the boxes to be unchecked,
       // so this prop is effectively always "filled out"
     ]);
+  }
+
+  private getRequiredSectionPropsAsBools() {
+    const data = new Map<CityProfileSection, boolean[]>();
+    data.set(CityProfileSection.About, [
+      !!this.about_economic_sector,
+      typeof this.about_operational_budget_usd === 'number',
+    ]);
+    data.set(CityProfileSection.Assessment, [
+      !!this.assessment_status,
+    ]);
+    data.set(CityProfileSection.Plan, [
+      !!this.plan_status,
+    ]);
+    data.set(CityProfileSection.Action, [
+      !!this.action_status
+    ]);
+    return data;
   }
 }

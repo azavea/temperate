@@ -21,6 +21,9 @@ export class CityProfileComponent implements OnInit {
 
   // Properties to store field choices
   public commitments: CityProfileOption[] = [];
+  public assessmentStatusOptions: CityProfileOption[] = [];
+  public hazardOptions: CityProfileOption[] = [];
+  public numberOptions: CityProfileOption[] = [];
   public sectors: string[] = [];
 
   constructor(private cityProfileService: CityProfileService,
@@ -33,11 +36,12 @@ export class CityProfileComponent implements OnInit {
       return this.cityProfileService.get(user.primary_organization);
     }).subscribe(p => this.cityProfile = p);
 
-    this.cityProfileService.listEconomicSectors().subscribe(s => {
-      this.sectors = s.map(option => option.name);
-    });
-    this.cityProfileService.listCommitmentStatuses().subscribe(commitments => {
-      this.commitments = commitments;
+    this.cityProfileService.listOptions().subscribe(options => {
+      this.sectors = options['economic-sectors'].map(option => option.name);
+      this.commitments = options['commitment-status'];
+      this.assessmentStatusOptions = options['assessment-section-status'];
+      this.hazardOptions = options['assessed-hazards'];
+      this.numberOptions = options['assessment-numbers'];
     });
   }
 
