@@ -80,7 +80,7 @@
           </p>
           <p>
             <span>Share with other Temperate users: </span>
-            {{ risk.action?.visibility | titlecase }}
+            {{ risk.action?.getVisibilityLabel() }}
           </p>
           <p>
             <span>Effect on your city's adaptive capacity: </span>
