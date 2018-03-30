@@ -1,23 +1,23 @@
+ <div *ngIf="activated" class="alert alert-positive">
+  Your Temperate account is now active. Log in to get started.
+</div>
+<div *ngIf="alreadyActivated" class="alert alert-positive">
+  <strong>Your Temperate account is already activated.</strong>
+  Trouble logging in? <a routerLink="/forgot-password">Reset your password</a>
+</div>
+<div *ngIf="activationFailed" class="alert alert-warning">
+  <strong>Account activation failed.</strong><br>
+  <div>If you&rsquo;re having trouble or can&rsquo;t log in, please contact <a href="mailto:support@temperate.io">support@temperate.io</a> for assistance.</div>
+</div>
+<div *ngIf="reset" class="alert alert-positive">
+  Your Temperate password was reset. Log in to get started.
+</div>
+<div *ngIf="resetExpired" class="alert alert-warning">
+  Sorry, your password reset link has expired. <a routerLink="/forgot-password">Resend link</a>
+</div>
 <main class="main-content login-page" role="main">
   <section class="container-standard">
     <div class="container-content">
-      <div *ngIf="activated" class="alert alert-positive">
-        Your Temperate account is now active. Log in to get started.
-      </div>
-      <div *ngIf="alreadyActivated" class="alert alert-positive">
-        <strong>Your Temperate account is already activated.</strong>
-        Trouble logging in? <a routerLink="/forgot-password">Reset your password</a>
-      </div>
-      <div *ngIf="activationFailed" class="alert alert-warning">
-        <strong>Account activation failed.</strong><br>
-        <div>If you're having trouble or can't log in, please contact <a href="mailto:support@temperate.io">support@temperate.io</a> for assistance.</div>
-      </div>
-      <div *ngIf="reset" class="alert alert-positive">
-        Your Temperate password was reset. Log in to get started.
-      </div>
-      <div *ngIf="resetExpired" class="alert alert-warning">
-        Sorry, your password reset link has expired. <a routerLink="/forgot-password">Resend link</a>
-      </div>
       <app-login-form></app-login-form>
     </div>
   </section>

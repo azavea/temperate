@@ -3,10 +3,10 @@
 </header>
 <header *ngIf="submitted" class="modal-header">
   <h1 *ngIf="activated" class="modal-title">Your account has been activated</h1>
-  <h1 *ngIf="!activated" class="modal-title">We’ve emailed you an activation link</h1>
+  <h2 *ngIf="!activated" class="modal-title">We’ve emailed you an activation link</h2>
 </header>
 <div *ngIf="submitted" class="modal-body">
-  <p *ngIf="!activated">Check your inbox at {{ model.email }} and follow the instruction to activate your account.</p>
+  <p *ngIf="!activated">Check your inbox at <strong>{{ model.email }}</strong> and follow the instructions to activate your account.</p>
   <p *ngIf="activated"><a routerLink="/login">Log in</a> to get started.</p>
 </div>
 <div *ngIf="!submitted" class="modal-body">
@@ -16,10 +16,10 @@
       <label for="first_name">First name</label>
       <input class="form-control" type="text" required autofocus autocomplete="given-name"
         [(ngModel)]="model.first_name" #first_name="ngModel" id="first_name" name="first_name">
-      <div *ngIf="errors.first_name" class="form-control-error">
-        <p *ngFor="let error of errors.first_name">
+      <div class="form-control-error" *ngIf="errors.first_name">
+        <span *ngFor="let error of errors.first_name">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
 
@@ -28,10 +28,10 @@
       <label for="last_name">Last name</label>
       <input class="form-control" type="text" required autocomplete="family-name"
         [(ngModel)]="model.last_name" #last_name="ngModel" id="last_name" name="last_name">
-        <div *ngIf="errors.last_name" class="form-control-error">
-        <p *ngFor="let error of errors.last_name">
+      <div class="form-control-error" *ngIf="errors.last_name">
+        <span *ngFor="let error of errors.last_name">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
 
@@ -41,10 +41,10 @@
       <input class="form-control" type="email" required autocomplete="email"
         [(ngModel)]="model.email" #email="ngModel" id="email" name="email"
         [disabled]="emailDisabled">
-      <div *ngIf="errors.email" class="form-control-error">
-        <p *ngFor="let error of errors.email">
+      <div class="form-control-error" *ngIf="errors.email">
+        <span *ngFor="let error of errors.email">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
 
@@ -61,6 +61,7 @@
                #popover="bs-popover"
                [popover]="passwordPopover"
                placement="bottom"
+               container="body"
                triggers=""
                (focus)="popover.show()"
                (blur)="popover.hide()"
@@ -73,17 +74,17 @@
           <span class="icon icon-eye-slash" *ngIf="passwordVisible"></span>
         </button>
       </div>
-      <div *ngIf="errors.password" class="form-control-error">
-        <p *ngFor="let error of errors.password">
+      <div class="form-control-error" *ngIf="errors.password">
+        <span *ngFor="let error of errors.password">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
 
-    <div *ngIf="errors.non_field_errors" class="form-control-error">
-      <p *ngFor="let error of errors.non_field_errors">
+    <div class="form-control-error" *ngIf="errors.non_field_errors">
+      <span *ngFor="let error of errors.non_field_errors">
         {{ error }}
-      </p>
+      </span>
     </div>
 
     <!-- Note this must be inside the <form> to use the password template reference -->
@@ -93,9 +94,7 @@
     </ng-template>
   </form>
   <footer *ngIf="!submitted" class="modal-footer">
-    <div class="button-group">
-      <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
-        class="button button-primary" form="app-new-user-form">Create account</button>
-    </div>
+    <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
+            class="button button-primary" form="app-new-user-form">Create account</button>
   </footer>
 </div>

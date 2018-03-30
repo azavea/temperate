@@ -9,10 +9,10 @@
       <input class="form-control" id="email-address"
           [(ngModel)]="username" autofocus
           type="email" name="textfield" autocomplete="email" required>
-      <div *ngIf="errors.email" class="form-control-error">
-        <p *ngFor="let error of errors.email">
+      <div class="form-control-error" *ngIf="errors.email">
+        <span *ngFor="let error of errors.email">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
 
@@ -22,17 +22,17 @@
       <input class="form-control" id="password"
           [(ngModel)]="password" auto
           type="password" name="password" autocomplete="current-password" required>
-      <div *ngIf="errors.password" class="form-control-error">
-        <p *ngFor="let error of errors.password">
+      <div class="form-control-error" *ngIf="errors.password">
+        <span *ngFor="let error of errors.password">
           {{ error }}
-        </p>
+        </span>
       </div>
     </div>
   </form>
-  <div *ngIf="errors.non_field_errors" class="form-control-error">
-      <p *ngFor="let error of errors.non_field_errors">
+  <div class="form-control-error" *ngIf="errors.non_field_errors">
+      <span *ngFor="let error of errors.non_field_errors">
           {{ error }}
-      </p>
+      </span>
   </div>
   <footer class="modal-footer">
     <button type="submit" class="button button-primary"
@@ -41,8 +41,9 @@
       <a routerLink="/forgot-password" [queryParams]="username ? {'username': username} : {}">
         Forgot password?
       </a>
+      <div class="separator">&bull;</div>
       <a *ngIf="hostname !== 'temperate.io'" routerLink="/register">
-        Don't have an account?
+        Create an account
       </a>
     </div>
   </footer>
