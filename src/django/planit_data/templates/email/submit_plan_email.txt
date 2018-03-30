@@ -1,5 +1,6 @@
-Temperate climate adaptation plan for {{ organization_name }}
+Temperate climate adaptation plan attached.
 
+Organization: {{ organization_name }}
 Due: {{ date_due }}
 Submitted by: {{ user_email }}
 Date submitted: {{ date_submitted }}

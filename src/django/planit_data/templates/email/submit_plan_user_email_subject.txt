@@ -1,1 +1,1 @@
-Temperate plan submission: {{ organization_name }}
+Your Temperate plan has been submitted

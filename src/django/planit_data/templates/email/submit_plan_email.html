@@ -1,10 +1,10 @@
 {% load premailer %}
 {% premailer %}
 <html>
-    <p>Temperate climate adaptation plan for {{ organization_name }}</p>
-    <p>&nbsp;</p>
-    <p>Due: {{ date_due }}</p>
-    <p>Submitted by: <a href="mailto:{{ user_email }}?subject=Temperate:%20Plan%20submission">{{ user_email }}</a></p>
-    <p>Date submitted: {{ date_submitted }}</p>
+    <p>Temperate climate adaptation plan submission attached.</p>
+    <p><strong>Organization:</strong> {{ organization_name }}</p>
+    <p><strong>Due:</strong> {{ date_due }}</p>
+    <p><strong>Submitted by:</strong> <a href="mailto:{{ user_email }}?subject=Temperate:%20Plan%20submission">{{ user_email }}</a></p>
+    <p><strong>Date submitted:</strong> {{ date_submitted }}</p>
 </html>
 {% endpremailer %}
