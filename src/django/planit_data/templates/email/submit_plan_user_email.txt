@@ -1,0 +1,9 @@
+Hello there!
+
+We’ve received the {{ date_due }} plan you submitted for {{ organization_name }}.
+
+ICLEI will reach out shortly to coordinate a review process.
+
+In the meantime, feel free to continue making changes as necessary.
+
+Thank you!

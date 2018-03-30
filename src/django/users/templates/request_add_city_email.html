@@ -1,11 +1,8 @@
-{% load i18n %}
-<p>Hi,</p>
+<p>Hello there!</p>
 
-<p>{{ user.first_name }} {{ user.last_name }} would like to have {{ city }}, {{ state }} added to Temperate!</p>
+<p>{{ user.first_name }} {{ user.last_name }} would like to have <strong>{{ city }}, {{ state }}</strong> added to Temperate.</p>
 
-<p>You can contact them here:</p>
-
-<a href="mailto:{{ user.email }}?subject=Add%20city%20request">{{ user.email }}.</a>
+<p>You can contact them at <a href="mailto:{{ user.email }}?subject=Temperate:%20Add%20city%20request">{{ user.email }}</a></p>
 
 <p>Here are their notes:</p>
 

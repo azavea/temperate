@@ -1,11 +1,13 @@
-<header class="modal-header">
-  <h1 *ngIf="!submitted" class="modal-title">Create a Temperate account</h1>
-  <h1 *ngIf="submitted" class="modal-title">Account created</h1>
+<header *ngIf="!submitted" class="modal-header">
+  <h1 class="modal-title">Create a Temperate account</h1>
+</header>
+<header *ngIf="submitted" class="modal-header">
+  <h1 *ngIf="activated" class="modal-title">Your account has been activated</h1>
+  <h1 *ngIf="!activated" class="modal-title">We’ve emailed you an activation link</h1>
 </header>
 <div *ngIf="submitted" class="modal-body">
-  <p>Your account has been created!</p>
-  <p *ngIf="!activated">Please check your email at {{ model.email }} to verify the address and complete registration.</p>
-  <p *ngIf="activated">Please <a routerLink="/login">Log in</a> to get started.</p>
+  <p *ngIf="!activated">Check your inbox at {{ model.email }} and follow the instruction to activate your account.</p>
+  <p *ngIf="activated"><a routerLink="/login">Log in</a> to get started.</p>
 </div>
 <div *ngIf="!submitted" class="modal-body">
   <form #newUserForm="ngForm" class="form" id="app-new-user-form" (ngSubmit)="onSubmit()">

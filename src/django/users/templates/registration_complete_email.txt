@@ -1,12 +1,12 @@
-{% load i18n %}
 Hi {{ user.first_name }},
 
 Welcome to Temperate!
 
-You can sign in to the app here:
+Sign in at {{ url }}
 
-{{ url }}
+We’re excited to help you on your journey to making your city more resilient to climate change.
 
-Questons? You can reach us at {{ support_email }}.
+Be sure to check out our FAQ at https://temperate.io/faq. And if you have further questions, don’t hesitate to reach us at {{ support_email }}.
 
-Hope to see you soon!
+
+See you soon!

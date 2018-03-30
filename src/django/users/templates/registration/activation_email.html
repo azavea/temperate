@@ -1,22 +1,11 @@
-{% load i18n %}
 {% load premailer %}
 {% premailer %}
 <html>
-    <style type="text/css">
-        h1 { border:1px solid black }
-        p { color:red;}
-    </style>
-    <h1>
-    {% trans "Activate account at" %} {{ site.name }}:
-    </h1>
-
-    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">https://{{ site.domain }}{% url 'registration_activate' activation_key %}</a>
-
-    <br />
-    <em>
-        {% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
-    </em>
-    If you're having trouble with this link or can't log in, please contact <a href="mailto:{{ support_email }}">{{ support_email }}</a> for assistance.
-    </p>
+    <p>Hello there!</p>
+    <p>We’re thrilled you’ve chosen Temperate to help develop your city’s climate adaptation plan.</p>
+    <p>Click the link below to confirm your email address and activate your account. The link expires in {{ expiration_days }} days.</p>
+    <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">Activate your Temperate account</a></p>
+    <p>&nbsp;</p>
+    <p>If you have any trouble activating your account, contact <a href="mailto:{{ support_email }}">{{ support_email }}</a> for assistance.</p>
 </html>
 {% endpremailer %}
