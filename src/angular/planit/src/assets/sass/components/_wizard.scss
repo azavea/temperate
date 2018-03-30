@@ -8,8 +8,9 @@
   }
 
   &.wizard-no-nav {
-    flex-wrap: nowrap;
-    flex-direction: column;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
 
     wizard {
       justify-content: center;

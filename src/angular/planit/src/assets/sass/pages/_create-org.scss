@@ -1,6 +1,11 @@
 app-organization-city-step,
-app-organization-invite-step {
+app-organization-invite-step,
+app-organization-wizard {
   .form-control-container {
     width: 45rem;
+  }
+
+  .wizard-container.wizard-no-nav .wizard-steps {
+    flex: none;
   }
 }
