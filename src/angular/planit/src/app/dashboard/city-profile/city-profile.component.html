@@ -136,7 +136,7 @@
                 &nbsp;
                 did you assess?
               </label>
-              <app-radio-button-group id="climate-hazards" [options]="hazardOptions"
+              <app-radio-button-group [id]="'hazards-considered'" [options]="hazardOptions"
                                       [(option)]="cityProfile.assessment_hazards_considered">
               </app-radio-button-group>
             </div>
@@ -151,7 +151,7 @@
                 &nbsp;
                 did you consider?
               </label>
-              <app-radio-button-group id="critical-assets" [options]="numberOptions"
+              <app-radio-button-group [id]="'critical-assets'" [options]="numberOptions"
                                       [(option)]="cityProfile.assessment_assets_considered">
               </app-radio-button-group>
             </div>
@@ -166,7 +166,7 @@
                 &nbsp;
                 did you consider?
               </label>
-              <app-radio-button-group id="vulnerable-populations" [options]="numberOptions"
+              <app-radio-button-group [id]="'vulnerable-populations'" [options]="numberOptions"
                                       [(option)]="cityProfile.assessment_populations_considered">
               </app-radio-button-group>
             </div>
