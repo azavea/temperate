@@ -5,6 +5,6 @@ You’ve been invited to join Temperate, your city’s climate adaptation planni
 Organization: {{ user.primary_organization.name }}
 Location: {{ user.primary_organization.location }}
 
-Accept this invitation via the link below. The link expires in {{ expiration_days }} days.
+Accept your invitation via the link below. The link expires in {{ expiration_days }} days.
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}

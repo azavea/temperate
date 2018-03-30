@@ -10,7 +10,7 @@
         <strong>Location:</strong> {{ user.primary_organization.location }}
     </p>
 
-    <p>Accept this invitation via the link below. The link expires in {{ expiration_days }} days.</p>
+    <p>Accept your invitation via the link below. The link expires in {{ expiration_days }} days.</p>
     <p><a href="https://{{ site.domain }}{% url 'registration_activate' activation_key %}">Sign up for Temperate</a>
     <p>&nbsp;</p>
     <p>Thanks!</p>
