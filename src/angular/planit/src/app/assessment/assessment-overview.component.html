@@ -1,18 +1,20 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <section class="page-intro">
-      <h2 class="heading">Vulnerability Assessment</h2>
-      <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
-      <p>Based on your chosen scope, we have identified the below risks as
-        a high priority to assess vulnerability and include in your report.
-        Click on a row to assess each risk.
-          <button class="button-link"
-                  [popover]="learnMoreRiskPopover"
-                  [outsideClick]="true"
-                  container="body"
-                  placement="bottom">Learn why we selected these risks.</button>
+    <header class="page-header" *ngIf="weatherEvent?.name">
+      <h1 class="page-title-small">Vulnerability Assessment</h1>
+      <h2 class="page-title-large">{{ weatherEvent?.name }}</h2>
+      <p class="paragraph-intro">
+        Based on your chosen top hazards and community systems, we have identified some risks as
+        a high priority to include in your vulnerability assessment. 
       </p>
-    </section>
+      <p>
+        <button class="button-link"
+                [popover]="learnMoreRiskPopover"
+                [outsideClick]="true"
+                container="body"
+                placement="right">Learn how we identify high-priority risks.</button>
+      </p>
+    </header>
     <section>
       <va-assessment-overview-table [(risks)]="risks"></va-assessment-overview-table>
       <button class="button" routerLink="risk/new">Add new risk</button>

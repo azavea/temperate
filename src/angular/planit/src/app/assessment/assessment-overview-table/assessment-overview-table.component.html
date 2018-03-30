@@ -18,7 +18,7 @@
         <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></span>
       </th>
       <th scope="col">Adaptive capacity
-        <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></span>
+        <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity" containerClass="tooltip-wide"></span>
       </th>
       <th scope="col" class="hidden-header">Status</th>
       <th scope="col" class="hidden-header">More</th>
@@ -53,13 +53,13 @@
             <span class="icon-ellipsis-h"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-            <li role="menuitem">
+            <li role="menuitem" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()">
               <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
             </li>
-            <li role="menuitem">
+            <li role="menuitem" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()">
               <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">Review</a>
             </li>
-            <div class="divider"></div>
+            <div class="divider" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"></div>
             <li class="action-destructive" role="menuitem">
               <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
             </li>

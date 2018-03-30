@@ -1,7 +1,21 @@
-va-risk-popover {
-  display: inline-block;
-  width: 90%;
+.va-risk-popover-trigger {
+  .icon {
+    color: $brand-teal;
+  }
+
+  &:hover, &:focus {
+    .icon {
+      color: darken($brand-teal, 10);
+    }
+  }
 }
-.popover {
-  max-width: 50rem;
+
+.va-risk-popover {
+  .indicators-list {
+    padding-left: $space-xlarge;
+  }
+
+  .indicators-list-item:not(:last-child) {
+    margin-bottom: $space-small;
+  }
 }

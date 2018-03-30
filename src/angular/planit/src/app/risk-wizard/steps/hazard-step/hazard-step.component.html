@@ -6,7 +6,8 @@
   <p *ngIf="!isDisabled">
     How will <strong>{{ risk.weather_event.name | lowercase }}</strong> change over time?
     <span class="icon icon-question-circle"
-          tooltip="{{ probabilityTooltipText }}">
+          tooltip="{{ probabilityTooltipText }}"
+          containerClass="tooltip-wide">
     </span>
   </p>
 </div>
@@ -16,7 +17,7 @@
        tooltip="{{ relatedIndicatorsTooltip() }}">
     <button class="button button-positive button-icon-left"
             [disabled]="!indicators?.length"
-            (click)="indicatorsModal.open()"><i class="icon-indicators"></i><span class="slide-text">Climate data</span></button>
+            (click)="indicatorsModal.open()"><span class="icon icon-indicators"></span>Climate data</button>
   </div>
   <form [formGroup]="form">
     <div class="form-control-container">
@@ -30,7 +31,7 @@
     <div class="form-control-container">
       <label>How often do you expect this hazard to occur in the next five years?</label>
       <div class="button-group" data-toggle="buttons" role="radiogroup">
-        <button class="button button-primary" role="radio"
+        <button class="button" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.frequency.value === opt}"
                 *ngFor="let opt of directionalFrequencyOptionsKeys"
@@ -42,7 +43,7 @@
     <div class="form-control-container">
       <label>How intense do you expect this hazard to be in the next five years?</label>
       <div class="button-group" role="group">
-        <button class="button button-primary" role="radio"
+        <button class="button" role="radio"
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls.intensity.value === opt}"
                 *ngFor="let opt of directionalIntensityOptionsKeys"
@@ -75,9 +76,21 @@
 
 <app-modal-template #indicatorChartModal
     title="Climate data related to {{ risk.weather_event?.name | lowercase }}">
+  <p>
+    These climate change data indicators may help you think through the probability and 
+    frequency of this hazard. You may also want to consult the 
+    <a href="https://data.globalchange.gov/file/ca9c6f09-9890-41db-ace4-827f9cbeb93a">
+    National Climate Assessment,</a> <a href="http://statesatrisk.org/" target="_blank">States At Risk,</a> or use the help icon to contact 
+    ICLEI-USA.
+  </p>
 
   <app-force-collapse-chart-container
       [indicators]="indicators"
       [city]="city">
   </app-force-collapse-chart-container>
+
+  <footer class="modal-footer">
+    <button class="button" (click)="goToIndicators()">See all indicators</button>
+  </footer>
+
 </app-modal-template>

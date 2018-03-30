@@ -39,14 +39,14 @@
 
   tbody {
     tr {
-      padding: $space-medium 0 $space-medium 0; 
+      padding: $space-medium 0; 
       border-bottom: 2px solid $table-border-color;
     }
 
     th, td {
       background: $table-row-background;
       font-weight: $table-row-weight;
-      padding: $space-large $space-large $space-large 0;
+      padding: $space-medium $space-large $space-medium 0;
       vertical-align: center;
       text-align: left;
     }

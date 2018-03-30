@@ -1,24 +1,39 @@
 <ng-template #riskPopoverTemplate>
-  <p>Donec dictum hendrerit dui, nec dictum ante molestie eleifend. Quisque accumsan nisl lectus, in vulputate erat iaculis quis. Aenean at nisl vehicula, fermentum leo vel, ultricies sapien.
+  <h3 class="popover-title">Climate data related to <strong>{{ risk.weather_event.name | lowercase }}</strong></h3>
+  <p>
+    Climate change data indicators may help you determine the risk posed by this hazard.
   </p>
-  <div *ngIf="indicators?.length">
-    <h4>Related Indicators</h4>
-    <p *ngFor="let indicator of indicators">
-      <a (click)="openIndicatorModal(indicator)">{{ indicator.label }}</a>
-    </p>
-  </div>
+  <ul class="indicators-list" *ngIf="indicators?.length">
+    <li class="indicators-list-item" *ngFor="let indicator of indicators">
+      <button type="button" class="button-link" (click)="openIndicatorModal(indicator)">{{ indicator.label }}</button>
+    </li>
+  </ul>
 </ng-template>
 
-<div class="va-risk" #popover="bs-popover"
-     [popover]="indicators !== undefined && indicators.length > 0 ? riskPopoverTemplate : null"
-     container="body"
-     outsideClick="true"
-     popoverTitle="{{ risk.weather_event.name }} on {{ risk.community_system.name }}"
-     placement="right">{{ risk.title() }}
+<div class="va-risk va-risk-popover-trigger" *ngIf="indicators !== undefined && indicators?.length > 0">
+  {{ risk.title() }}&nbsp;
+  <button class="button-icon-only indicators-trigger-button"
+          #popover="bs-popover"
+          [popover]="riskPopoverTemplate"
+          container="body"
+          outsideClick="true"
+          containerClass="va-risk-popover"
+          placement="right">
+    <span class="icon icon-indicators"
+          tooltip="See related climate data"
+          placement="right"
+          container="body"></span>
+  </button>
+</div>
+
+<div class="va-risk"
+     *ngIf="indicators?.length === 0">
+  {{ risk.title() }}
 </div>
 
 <app-modal-template #indicatorModal
-     title="{{ selectedIndicator?.label }}">
+     title="{{ selectedIndicator?.label }}"
+     containerClass="va-risk-indicators-modal">
   <app-indicator-chart
     *ngIf="selectedIndicator"
     [indicator]="selectedIndicator"

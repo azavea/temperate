@@ -162,4 +162,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
       return `No related climate data for ${this.risk.weather_event.name.toLowerCase()}`;
     }
   }
+
+  goToIndicators() {
+    this.indicatorsModal.close();
+    this.router.navigate(['/indicators']);
+  }
 }

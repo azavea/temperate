@@ -1,4 +1,13 @@
-app-collapsible-chart {
+.modal-body {
+  app-collapsible-chart {
+    .card {
+      border: $card-border;
+      margin-bottom: $space-large;
+    }
+  }
+}
+
+app-collapsible-chart, app-indicator-chart {
   width: 100%;
 
   .chart-controls {

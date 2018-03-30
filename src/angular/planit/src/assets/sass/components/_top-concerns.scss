@@ -50,12 +50,14 @@
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+    width: 100%;
 
     .concern-name {
       color: $concern-title-color;
       font-size: $concern-title-size;
       line-height: $concern-title-line-height;
       text-align: center;
+      width: 100%;
     }
 
     .concern-stats {
@@ -64,6 +66,7 @@
       font-size: $concern-stats-size;
       line-height: $concern-stats-line-height;
       text-align: center;
+      width: 100%;
     }
   }
 
