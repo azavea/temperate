@@ -55,8 +55,8 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   public chartData: ChartData[];
   public rawChartData: any;
   public isHover: Boolean = false;
-  private firstYear = 1950;
-  private lastYear = 2100;
+  private firstYear = 2015;
+  private lastYear = 2030;
   private historicalScenario: Scenario = {
     name: 'historical',
     label: 'Historical',
@@ -66,6 +66,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   public requestErrorCount = 0;
   public error: any;
   public supportEmail = environment.supportEmail;
+  public maskSlider = true;
 
   public sliderConfig: any = {
     behaviour: 'drag',
@@ -141,7 +142,9 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     ).subscribe(data => {
       this.rawChartData = data;
       this.processedData = this.chartService.convertChartData(data);
-      this.chartData = cloneDeep(this.processedData);
+      if (this.processedData[0]) {
+        this.sliceChartData();
+      }
     }, error => {
       this.requestErrorCount += 1;
       this.error = error;
@@ -154,9 +157,11 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     this.updateChart(this.extraParams);
   }
 
-  sliceChartData(newRange: number[]) {
+  sliceChartData(newRange?: number[]) {
     this.chartData = cloneDeep(this.processedData); // to trigger change detection
-    this.dateRange = newRange;
+    if (newRange) {
+      this.dateRange = newRange;
+    }
     const startYear = this.dateRange[0];
     const endYear = this.dateRange[1];
     this.chartData[0]['data'] = this.chartData[0]['data'].filter(obj => {
@@ -175,5 +180,11 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }
+  }
+
+  public expandYearRange() {
+    this.dateRange[1] = 2100;
+    this.maskSlider = false;
+    this.sliceChartData();
   }
 }
