@@ -13,7 +13,7 @@
     <section class="dashboard-container">
       <div class="dashboard-content">
         <div class="dashboard-loader loading-wrapper" *ngIf="this.risks === undefined">
-          <div class="loading loading-spinner loading-large loading-primary"></div>
+          <div class="loading loading-spinner loading-large"></div>
         </div>
 
         <div class="dashboard-empty" *ngIf="this.risks?.length === 0">
@@ -42,14 +42,14 @@
                     (click)="viewTab = viewTabs.ActionSteps">
               Action steps
             </button>
-            <button type="button" 
-                    class="button button-small button-inverse-dark button-icon-left" 
+            <button type="button"
+                    class="button button-small button-inverse-dark button-icon-left"
                     (click)="openModal(weatherEventsModal)"
                      *ngIf="viewTab === viewTabs.Grouped">
               <span class="icon icon-plus-square"></span>
               Add a hazard</button>
-            <button type=button 
-                    class="button button-small button-inverse-dark button-icon-left" 
+            <button type=button
+                    class="button button-small button-inverse-dark button-icon-left"
                     routerLink="/assessment/risk/new"
                     *ngIf="viewTab === viewTabs.Assessment">
               <span class="icon icon-plus-square"></span>
@@ -108,7 +108,7 @@
 <app-modal-template #weatherEventsModal title="Add hazard">
   <h2>Your city&rsquo;s top hazards</h2>
   <p>
-    Calculations use the average of the projections for the years 2025&ndash;2035. See 
+    Calculations use the average of the projections for the years 2025&ndash;2035. See
     the <a routerLink="/methodology" (click)="cancelModal(weatherEventsModal);resetScroll()">Methodology</a> page for more information.
   </p>
   <app-add-weather-events [formControl]="selectedEventsControl"
