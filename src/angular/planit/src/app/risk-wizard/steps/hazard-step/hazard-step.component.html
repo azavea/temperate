@@ -16,7 +16,7 @@
        tooltip="{{ relatedIndicatorsTooltip() }}">
     <button class="button button-positive button-icon-left"
             [disabled]="!indicators?.length"
-            (click)="indicatorsModal.open()"><i class="icon-indicators"></i><span class="slide-text">View related indicators</span></button>
+            (click)="indicatorsModal.open()"><i class="icon-indicators"></i><span class="slide-text">Climate data</span></button>
   </div>
   <form [formGroup]="form">
     <div class="form-control-container">
@@ -74,7 +74,7 @@
 
 
 <app-modal-template #indicatorChartModal
-    title="Viewing indicators related to {{ risk.weather_event?.name | lowercase }}">
+    title="Climate data related to {{ risk.weather_event?.name | lowercase }}">
 
   <app-force-collapse-chart-container
       [indicators]="indicators"

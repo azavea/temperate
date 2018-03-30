@@ -1,7 +1,7 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <header class="page-header">
-      <h1 class="page-title-large">Indicators</h1>
+      <h1 class="page-title-large">Climate data for {{city?.properties?.name}}</h1>
       <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p>
       <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
     </header>
@@ -15,7 +15,7 @@
 
     <section class="page-section indicators">
       <div class="indicators-header">
-        <h2>Indicators</h2>
+        <h2>Climate data</h2>
         <div class="indicator-filters" *ngIf="filters?.size">
           <div class="filter-container">
             <div class="button-group">
