@@ -1,11 +1,9 @@
 #contact-iclei-button {
-  float: right;
-  margin-right: 30px;
+  z-index: $zindex-contact-iclei;
 }
 
 .modal-body {
   .row {
-
     background-color: inherit;
 
     input {
