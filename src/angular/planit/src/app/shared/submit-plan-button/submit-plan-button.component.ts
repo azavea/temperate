@@ -24,7 +24,7 @@ export class SubmitPlanButtonComponent {
   public submitPlan() {
     this.confirmSubmitModal.confirm({
       title: 'Submit your plan',
-      tagline: 'Are you sure you\'re ready to submit your adaptation plan?',
+      tagline: 'Are you sure you’re ready to submit your adaptation plan?',
       confirmButtonClass: 'button-primary',
       confirmText: 'Submit'
     }).onErrorResumeNext().switchMap(() => {

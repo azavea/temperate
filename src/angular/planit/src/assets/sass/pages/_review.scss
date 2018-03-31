@@ -1,0 +1,50 @@
+app-review-plan {
+  .main-container .main-content {
+    max-width: $content-max-width-small;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0 1.4rem;
+  } 
+
+  .page-buttons .button-link {
+    margin-right: $space-large;
+  }
+
+  .panel-label {
+    display: flex;
+    align-items: center;
+
+    .risk-title {
+      margin-left: $space-medium;
+      margin-bottom: 0.4rem;
+    }
+  }
+
+  app-plan-summary {
+    .review-item {
+      background: $review-page-review-item-background-dark;
+    } 
+  }
+
+  app-adaptation-review {
+    .panel-section .review-section-title {
+      color: $review-page-review-section-title-color;
+      font-size: $review-page-review-section-title-size;
+      font-weight: $review-page-review-section-title-weight;
+    }
+    .review-item {
+      background: $review-page-review-item-background-light;
+    }
+
+    .tab-section:not(:first-child) {
+      margin-top: $space-xlarge;
+    }
+
+    .panel-section {
+      margin-left: 2.5rem;
+    }
+  }
+}

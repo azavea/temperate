@@ -1,6 +1,7 @@
 app-faq .main-container .main-content {
-  max-width: 92rem;
+  max-width: $content-max-width-small;
 }
+
 .pricing-faq {
   padding-top: $pricing-section-padding-vertical-large;
   padding-bottom: $pricing-section-padding-vertical-large;

@@ -7,7 +7,7 @@
       <h2 class="card-title">
         {{ indicator.label }}
       </h2>
-      <i class="icon-accordion" [ngClass]="{'accordion': true, 'icon-chevron-right': !isOpen, 'icon-chevron-down': isOpen}"></i>
+      <span class="icon icon-accordion" [ngClass]="{'accordion': true, 'icon-chevron-right': !isOpen, 'icon-chevron-down': isOpen}"></span>
     </button>
   </header>
   <!--We only want to create and show row contents when needed to prevent clogging the page with unwanted requests and page updates. Below looks repetitive but [collapse] only provides the accordion UI action which shows/hides the chart guts but doesn't manage requests; *ngIf does that by actually creating/removing DOM components -->

@@ -786,3 +786,14 @@ $tab-color: $neutral-4;
 $tab-color-hover: $black;
 $tab-color-active: $black;
 $tab-background-active: $white;
+
+
+/* * * *
+ * Review plan page
+ *
+ * * * */
+$review-page-review-section-title-color: $neutral-4;
+$review-page-review-section-title-size: $text-small;
+$review-page-review-section-title-weight: $font-weight-bold;
+$review-page-review-item-background-dark: darken($gray, 4%);
+$review-page-review-item-background-light: lighten($gray, 2%);

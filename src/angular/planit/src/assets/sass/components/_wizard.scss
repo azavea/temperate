@@ -91,50 +91,50 @@
 
 .review-section {
   margin-bottom: $space-xlarge!important;
+}
 
-  .review-section-header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: $space-base;
+.review-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $space-base;
+}
+
+.review-section-title {
+  font-size: $review-header-size;
+  font-weight: $review-header-weight;
+  margin-bottom: $space-small;
+}
+
+.review-item {
+  background-color: $review-item-background;
+  padding: $space-medium $space-medium 0 $space-medium;
+  position: relative;
+
+  .review-description {
+    white-space: pre-wrap;
   }
 
-  .review-section-header {
-    font-size: $review-header-size;
-    font-weight: $review-header-weight;
-    margin-bottom: $space-small;
+  &:last-child {
+    padding-bottom: $space-medium;
   }
 
-  .review-item {
-    background-color: $review-item-background;
-    padding: $space-medium $space-medium 0 $space-medium;
-    position: relative;
+  .answer-label {
+    color: $review-item-label-color;
+    font-weight: $review-item-label-weight;
+    margin-right: $space-small;
+  }
 
-    .review-description {
-      white-space: pre-wrap;
-    }
-
-    &:last-child {
-      padding-bottom: $space-medium;
-    }
-
-    .answer-label {
-      color: $review-item-label-color;
-      font-weight: $review-item-label-weight;
-      margin-right: $space-small;
-    }
-
-    &.warning {
-      &:after {
-        content: "recommended";
-        font-size: $required-size;
-        color: $recommended-color;
-        position: absolute;
-        top: 50%;
-        margin-top: -0.85rem;
-        right: $space-xlarge;
-        text-transform: uppercase;
-      }
+  &.warning {
+    &:after {
+      content: "recommended";
+      font-size: $required-size;
+      color: $recommended-color;
+      position: absolute;
+      top: 50%;
+      margin-top: -0.85rem;
+      right: $space-xlarge;
+      text-transform: uppercase;
     }
   }
 }

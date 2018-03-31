@@ -39,3 +39,7 @@
 .panel-collapse {
   padding: $space-large 0 $space-xxlarge;
 }
+
+.panel-section:not(:first-child) {
+  margin-top: $space-xlarge;
+}
