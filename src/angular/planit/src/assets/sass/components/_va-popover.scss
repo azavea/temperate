@@ -8,6 +8,7 @@
 
   .adaptive-need-table-container {
     flex: 0 0 auto;
+    margin-bottom: 1.25rem;
 
     .adaptive-need-table {
       border-spacing: 0px;
@@ -24,12 +25,18 @@
     }
 
     td.selected {
-      box-shadow: 0 0 0 2px rgba($white,80%);
+      box-shadow: 0 0 0 2px $white,
+                  0 0 10px 5px rgba($black, 0.2);
       z-index: $zindex-modal - 1;
       position: relative;
       
       // IE11
       @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        outline: 2px solid rgba($white,80%);
+      }
+        
+      // Edge
+      @supports (-ms-ime-align:auto) {
         outline: 2px solid rgba($white,80%);
       }
     }
@@ -49,6 +56,7 @@
                  translateX(-40px);
       white-space: nowrap;
       display: block;
+      height: 1.25rem;
     }
 
     .arrow-shaft, .arrow-end {
@@ -66,14 +74,14 @@
 
     .table-horizontal-label {
       &.arrow-shaft:after {
-        right: -10rem;
-        top: 50%;
+        right: -10.25rem;
+        top: 35%;
         width: $adaptive-need-table-label-arrow-shaft-length;
         height: $adaptive-need-table-label-arrow-thickness;
         
         // IE11
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-          top: 2rem;
+          top: 1rem;
         }
       }
       
@@ -85,38 +93,43 @@
       }
 
       &.arrow-end:after {
-        top: 1rem;
+        top: 0.6rem;
         transform: rotate(-45deg);
         
         // IE11
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-          top: 1.2rem;
+          top: 0.6rem;
         }
       }
 
       &.arrow-end:before {
-        bottom: 0.8rem;
+        bottom: 1.4rem;
         transform: rotate(45deg);
         
         // IE11
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-          top: 1.95rem;
+          top: 1.05rem;
         }
       }
     }
 
     .table-vertical-label {
-      padding-left: 1rem;
+      padding-right: 1rem;
 
       &.arrow-shaft:after {
-        bottom: -10rem;
-        right: 40%;
+        bottom: -10.25rem;
+        left: 30%;
         width: $adaptive-need-table-label-arrow-thickness;
         height: $adaptive-need-table-label-arrow-shaft-length;
         
         // IE11
         @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-          bottom: -11.5rem;
+          bottom: -11.75rem;
+        }
+        
+        // Edge
+        @supports (-ms-ime-align:auto) {
+          bottom: -11.75rem;
         }
       }
       
@@ -128,12 +141,12 @@
       }
 
       &.arrow-end:after {
-        right: 0.6rem;
+        right: 1.9rem;
         transform: rotate(-45deg);
       }
 
       &.arrow-end:before {
-        left: 1.15rem;
+        left: 0.7rem;
         transform: rotate(45deg);
       }
     }
@@ -201,4 +214,17 @@ va-adaptive-need-box {
   &.pi-4.ac-1, &.pi-3.ac-0, &.pi-4.ac-0 {
     background: $adaptive-need-high;
   }
+}
+
+// To get rid of extra space between adaptive capacity header
+// and its corresponding labels
+.table-horizontal-title-container td, 
+.table-horizontal-title-container th {
+  height: 0.5rem!important;
+}
+
+.table-horizontal-label-container td,
+.table-horizontal-label-container th {
+  height: 1.5rem!important;
+  padding-bottom: 1rem;
 }
