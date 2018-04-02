@@ -4,7 +4,7 @@ export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
 export { ActionVisibilityOption } from './models/action-visibility-option.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
-export { City, CityProperties } from './models/city.model';
+export { Location, LocationProperties } from './models/location.model';
 export {
   ActionPrioritized,
   CityProfile,

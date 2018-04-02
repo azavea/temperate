@@ -19,7 +19,7 @@
         <div class="dashboard-main">
           <h3>Organization</h3>
           <label>City</label>
-          <input class="form-control" type="text" disabled value="{{ user.primary_organization.location.properties.name }}">
+          <input class="form-control" type="text" disabled value="{{ user.primary_organization.location.getFullName() }}">
 
           <label>Organization/department</label>
           <app-editable-input [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>

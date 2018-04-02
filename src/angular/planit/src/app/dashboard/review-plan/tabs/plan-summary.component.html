@@ -1,9 +1,9 @@
 <section class="tab-section">
   <div class="review-item">
     <span class="answer-label">City:</span>
-    <span class="review-description">{{ org?.location?.properties.name }}</span>
+    <span class="review-description">{{ org?.location?.getFullName() }}</span>
   </div>
-  
+
   <div class="review-item">
     <span class="answer-label">Organization name:</span>
     <span class="review-description">{{ org?.name }}</span>

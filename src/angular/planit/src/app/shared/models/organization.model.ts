@@ -1,5 +1,5 @@
 import { OrgUnitType } from '../constants/units-conversion';
-import { City } from './city.model';
+import { Location } from './location.model';
 import { OrgSubscription } from './org-subscription.model';
 
 export class Organization {
@@ -9,7 +9,7 @@ export class Organization {
   plan_due_date?: Date;
   plan_setup_complete?: boolean;
   units: OrgUnitType;
-  location: City;
+  location: Location;
   subscription: OrgSubscription;
   subscription_end_date?: Date;
   subscription_pending: boolean;
@@ -28,6 +28,9 @@ export class Organization {
     }
     if (this.subscription_end_date && typeof this.subscription_end_date === 'string') {
       this.subscription_end_date = new Date(this.subscription_end_date);
+    }
+    if (this.location) {
+      this.location = new Location(this.location);
     }
   }
 
