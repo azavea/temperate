@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { Indicator } from 'climate-change-components';
 
-import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
+import { UserService } from '../../core/services/user.service';
 import {
   Location,
   OrgRiskRelativeOption,
@@ -39,12 +39,14 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
 
-  constructor(private cityService: CityService,
+  constructor(private userService: UserService,
               private riskService: RiskService,
               private router: Router) { }
 
   ngOnInit() {
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
   }
 
   ngOnChanges() {

@@ -12,7 +12,7 @@ import { ModalTemplateComponent } from '../../shared/modal-template/modal-templa
 import { Location } from '../../shared/models/location.model';
 import { Risk } from '../../shared/models/risk.model';
 
-import { CityService } from '../../core/services/city.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'va-risk-popover',
@@ -32,11 +32,13 @@ export class RiskPopoverComponent implements OnInit {
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,
-               private cityService: CityService) {}
+               private userService: UserService) {}
 
   ngOnInit() {
     this.updateRiskIndicators();
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
   }
 
   public openIndicatorModal(indicator: Indicator) {

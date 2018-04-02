@@ -29,7 +29,7 @@ import { ModalTemplateComponent } from '../../../shared/modal-template/modal-tem
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
-import { CityService } from '../../../core/services/city.service';
+import { UserService } from '../../../core/services/user.service';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -73,7 +73,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
               protected toastr: ToastrService,
               protected router: Router,
               protected previousRouteGuard: PreviousRouteGuard,
-              private cityService: CityService,
+              private userService: UserService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
     super(session, riskService, toastr, router, previousRouteGuard);
@@ -85,7 +85,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     this.setupForm(this.fromModel(this.risk));
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
     this.setDisabled(this.risk);
 
     this.sessionSubscription = this.session.data.subscribe(risk => {

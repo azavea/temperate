@@ -6,7 +6,7 @@ import {
   IndicatorService
 } from 'climate-change-components';
 
-import { CityService } from '../core/services/city.service';
+import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
 import { Location, WeatherEvent } from '../shared';
@@ -34,10 +34,12 @@ export class IndicatorsComponent implements OnInit {
   constructor(private indicatorService: IndicatorService,
               private weatherEventService: WeatherEventService,
               private fb: FormBuilder,
-              private cityService: CityService) {}
+              private userService: UserService) {}
 
   ngOnInit() {
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
     this.weatherEventService.rankedEvents().subscribe(events => {
