@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { CityProfileOption } from '../../shared/models/city-profile.model';
 
@@ -6,7 +6,7 @@ import { CityProfileOption } from '../../shared/models/city-profile.model';
   selector: 'app-checkbox-group',
   templateUrl: './checkbox-group.component.html'
 })
-export class CheckboxGroupComponent implements OnInit {
+export class CheckboxGroupComponent {
 
   @Input() id: string;
 
@@ -16,9 +16,6 @@ export class CheckboxGroupComponent implements OnInit {
   @Input() options: CityProfileOption[];
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   isSelected(opt: CityProfileOption) {
     return this.selected[opt.name];
