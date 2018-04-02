@@ -598,18 +598,6 @@
 },
 {
     "model": "planit_data.weatherevent",
-    "pk": 35,
-    "fields": {
-        "name": "Atmospheric CO2 concentrations",
-        "coastal_only": false,
-        "concern": null,
-        "display_class": "icon-atmospheric-co2-concentrations",
-        "description": "",
-        "indicators": []
-    }
-},
-{
-    "model": "planit_data.weatherevent",
     "pk": 36,
     "fields": {
         "name": "Avalanche",
