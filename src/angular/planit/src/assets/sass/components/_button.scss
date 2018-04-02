@@ -202,38 +202,16 @@
 }
 
 .button-floating {
-  width: 6.7rem;
-  height: 6.7rem;
-  border-radius: 50%;
-  color: $white;
-  background-color: $brand-teal;
-  padding: 0;
-  font-size: 3.6rem;
+  border-radius: $border-radius $border-radius 0 0;
+  padding: $space-medium;
+  font-size: $text-small;
   box-shadow: 0 0 14px rgba($black, .28);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  bottom: 0;
+  right: $space-xxlarge;
 
   &:focus, &.focus {
     @include button-focus-outline();
-  }
-
-  &:hover, &.hover {
-    color: $neutral-0;
-    background-color: adjust-color($brand-teal, $lightness: lightness($brand-teal) * -.3);
-  }
-
-  &:active, &.active {
-    color: $neutral-0;
-    background-color: adjust-color($brand-teal, $lightness: lightness($brand-teal) * -.5);
-    box-shadow: none;
-  }
-
-  &:disabled, &.disabled {
-    background: $button-disabled-background;
-    opacity: .5;
-    cursor: not-allowed;
-    pointer-events: none;
   }
 }
 

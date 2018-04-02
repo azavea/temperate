@@ -1,9 +1,10 @@
-<a id="contact-iclei-button"
-   class="button button-primary button-floating"
-   *ngIf="isButtonVisible()"
-   (click)="openModal(template)">
-  <i class="icon-question"></i>
-</a>
+<button id="contact-iclei-button"
+        class="button button-icon-left button-positive button-floating"
+        *ngIf="isButtonVisible()"
+        (click)="openModal(template)">
+  <span class="icon icon-mail"></span>
+  Send us a message
+</button>
 
 <ng-template #template>
   <header class="modal-header">
@@ -14,7 +15,7 @@
     </button>
   </header>
   <div class="modal-body">
-    <p>Ask questions, share feedback, and report bugs. We're here to help!</p>
+    <p>Ask questions, share feedback, and report bugs. We&rsquo;re here to help!</p>
     <iframe name="help-iframe" id="help-iframe" src="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
     </iframe>
     <form ngNoForm id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST" target="help-iframe">

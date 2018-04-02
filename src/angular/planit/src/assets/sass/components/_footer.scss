@@ -62,6 +62,10 @@
     color: $neutral-5;
     text-align: center;
 
+    @media all and (max-width: 73.750em) {
+      padding: $space-large 23rem $space-large $space-xlarge;
+    }
+
     p {
       margin: $space-tiny auto;
 
