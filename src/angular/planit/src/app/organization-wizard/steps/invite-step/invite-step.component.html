@@ -1,12 +1,12 @@
 <div class="step-header">
   <h2 id="invite-header" class="step-title">Invite colleagues <span class="optional">optional</span></h2>
-</div>
-
-<div class="step-content" [formGroup]="form">
   <p>
     Add your colleagues&rsquo; email addresses to invite them to work on this plan.
     Feel free to do this later.
   </p>
+</div>
+
+<div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label for="invite">Email</label>
     <app-user-emails formControlName="invites" [errors]="inviteErrors" aria-labelledby="invite-header"></app-user-emails>
