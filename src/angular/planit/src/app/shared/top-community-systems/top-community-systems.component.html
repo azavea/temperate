@@ -1,12 +1,12 @@
 <div class="loading-wrapper" *ngIf="communitySystems === undefined">
-  <div class="loading loading-spinner loading-large loading-primary"></div>
+  <div class="loading loading-spinner loading-large"></div>
 </div>
 <div class="card-content top-concerns empty-state"
-     *ngIf="communitySystems === undefined || communitySystems.length === 0">
+     *ngIf="communitySystems?.length === 0">
      <p class="empty-state-header">None yet</p>
      <p class="empty-state-text">Choose community systems that you want to focus on in this adaptive plan.</p>
 </div>
-<div class="top-concerns" *ngIf="communitySystems !== undefined">
+<div class="top-concerns" *ngIf="communitySystems?.length > 0">
   <div *ngFor="let communitySystem of communitySystems" class="concern"
         [ngClass]="communitySystem.display_class">
     <div class="concern-actions">
@@ -19,4 +19,5 @@
         {{ communitySystem.name }}
       </div>
     </div>
+  </div>
 </div>

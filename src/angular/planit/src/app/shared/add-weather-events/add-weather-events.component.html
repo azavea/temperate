@@ -5,7 +5,7 @@
   <div class="switch-list">
     <h3>Add additional hazards</h3>
     <div class="loading-wrapper" *ngIf="!weatherEvents">
-      <div class="loading loading-spinner loading-small loading-primary"></div>
+      <div class="loading loading-spinner loading-large"></div>
     </div>
     <button class="switch-item"
         [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"

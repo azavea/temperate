@@ -9,8 +9,8 @@
       </p>
     </header>
 
-    <div class="loading-container" *ngIf="risks === undefined">
-      <div class="loading loading-spinner loading-large loading-primary"></div>
+    <div class="loading-wrapper" *ngIf="risks === undefined">
+      <div class="loading loading-spinner loading-large"></div>
     </div>
 
     <alert type="success" *ngIf="showFirstActionMessage">

@@ -41,6 +41,14 @@
   }
 }
 
+.wizard-done-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 8rem;
+}
+
 .wizard-header {
   margin: $space-xxlarge 0 $space-xlarge;
   flex: 1 0 100%;
