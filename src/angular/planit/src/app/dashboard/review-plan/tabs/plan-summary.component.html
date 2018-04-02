@@ -1,20 +1,16 @@
 <section class="tab-section">
-  <div class="review-section-header">
-    <h2 class="review-section-title">About your city</h2>
-  </div>
-
   <div class="review-item">
-    <span class="answer-label">Finish date:</span>
-    <span class="review-description">{{ org?.subscription_end_date | date: 'longDate' }}</span>
+    <span class="answer-label">City:</span>
+    <span class="review-description">{{ org?.location?.properties.name }}</span>
   </div>
   
   <div class="review-item">
     <span class="answer-label">Organization name:</span>
     <span class="review-description">{{ org?.name }}</span>
   </div>
-  
+
   <div class="review-item">
-    <span class="answer-label">City:</span>
-    <span class="review-description">{{ org?.location?.properties.name }}</span>
+    <span class="answer-label">Finish date:</span>
+    <span class="review-description">{{ org?.subscription_end_date | date: 'longDate' }}</span>
   </div>
 </section>
