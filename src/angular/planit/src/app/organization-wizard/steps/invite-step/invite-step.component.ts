@@ -6,6 +6,7 @@ import { WizardComponent } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../../../core/services/organization.service';
+import { UserService } from '../../../core/services/user.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { Organization } from '../../../shared';
 import { OrganizationStepKey } from '../../organization-step-key.enum';
@@ -30,6 +31,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
 
   constructor(protected session: WizardSessionService<Organization>,
               protected organizationService: OrganizationService,
+              protected userService: UserService,
               protected toastr: ToastrService,
               private router: Router) {
     super(session, organizationService, toastr);
@@ -56,8 +58,10 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
   }
 
   confirm() {
-    this.save(undefined).then((success) => {
+    this.save().then((success) => {
       if (success) {
+        // get updated user with new organization on next user query
+        this.userService.invalidate();
         this.router.navigate(['/plan']);
       } else {
         const controls = this.form.controls;
