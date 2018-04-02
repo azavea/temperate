@@ -31,10 +31,8 @@ export class AuthService {
     return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
   }
 
-  getUserFromUidToken(uid, token): Observable<User> {
+  getUserFromUidToken(uid, token): Observable<User | null> {
     const url = `${environment.apiUrl}/api/user/${uid}/${token}`;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
     return this.http.get(url).map(response => {
       const user = response.json();
       if (user) {
@@ -43,7 +41,6 @@ export class AuthService {
       return null;
     });
   }
-
 
   isAuthenticated(): boolean {
     return !!this.getToken();

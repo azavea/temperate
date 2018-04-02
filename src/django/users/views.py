@@ -24,7 +24,7 @@ from rest_auth.views import (
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import detail_route, list_route, api_view, permission_classes
+from rest_framework.decorators import detail_route, api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response

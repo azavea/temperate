@@ -36,7 +36,8 @@ export class PasswordResetFormComponent implements OnInit {
   }
 
   submit() {
-    this.authService.resetPassword(this.uid, this.token, this.new_password1, this.new_password1).subscribe(
+    this.authService.resetPassword(this.uid, this.token, this.new_password1, this.new_password1)
+      .subscribe(
       (data) => {
         this.router.navigate(['/login'], {queryParams: {reset: true}});
       },
