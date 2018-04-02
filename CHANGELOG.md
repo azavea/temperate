@@ -4,8 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.5] - 2018-04-02
+### Added
+- City Profile
+- All 'risks' dashboard view
+### Changed
 - Remove last step of the Create Organization wizard
+### Fixed
+- Cleanup site copy
+- Email copy and design cleanup
+- Miscellaneous bugs
 
 ## [0.1.4] - 2018-03-28
 ### Added
