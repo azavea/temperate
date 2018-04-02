@@ -86,17 +86,13 @@
         <app-city-profile-summary [organization]="organization"></app-city-profile-summary>
       </div>
       <div class="aside-block-container">
-        <div class="aside-block">
+        <div class="aside-block review-aside-block">
           <h3 class="aside-title">Review</h3>
-          <p>Review your plan in its entirety or submit a completed plan to ICLEI-USA for review.</p>
-          <a routerLink="/review-plan">Review your plan</a>
+          <p>
+            Review your plan in its entirety or submit a completed plan to ICLEI-USA.
+          </p>
           <footer class="aside-footer">
-            <button class="button button-small"
-               (click)="planService.export()"
-               tooltip="Download your plan as a CSV">Download</button>
-            <app-submit-plan-button class="button button-small">
-              Submit
-            </app-submit-plan-button>
+            <a class="button button-small" routerLink="/review-plan">Review your plan</a>
           </footer>
         </div>
       </div>

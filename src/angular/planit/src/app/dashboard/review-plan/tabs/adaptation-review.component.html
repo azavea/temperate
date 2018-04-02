@@ -1,107 +1,115 @@
-<div *ngFor="let group of groupedRisks">
-  <h2>{{ group[0] }}</h2>
+<div class="tab-section" *ngFor="let group of groupedRisks">
+  <div class="review-section-header">
+    <h2 class="review-section-title">{{ group[0] }}</h2>
+  </div>
   <accordion>
-    <accordion-group class="page-content"
-                     *ngFor="let risk of group[1]"
+    <accordion-group *ngFor="let risk of group[1]"
                      [(isOpen)]="accordionState.isOpen[risk.id]">
-      <div accordion-heading>
-        <h3>
+      <header accordion-heading>
+        <h3 class="panel-label">
           <va-adaptive-need-box [potentialImpact]="risk.impact_magnitude"
                                 [adaptiveCapacity]="risk.adaptive_capacity"></va-adaptive-need-box>
-          {{ risk.title() }}
+          <span class="risk-title">{{ risk.title() }}</span>
         </h3>
-      </div>
+        <span class="icon icon-accordion" [ngClass]="{'icon-chevron-right': !(accordionState.isOpen[risk.id]), 'icon-chevron-down': (accordionState.isOpen[risk.id])}"></span>
+      </header>
 
-      <div>
-        <h3>Vulnerability assessment</h3>
-        <div>
-          <p>
-            <span>Hazard: </span>
-            <span class="icon" [ngClass]="risk.weather_event?.display_class"></span>
-            {{ risk?.weather_event?.name }}
-          </p>
-          <p>
-            <span>Community system at risk: </span>
-            <span class="icon" [ngClass]="risk.community_system?.display_class"></span>
-            {{ risk?.community_system?.name }}
-          </p>
-          <p>
-            <span>Probability of hazard occurring: </span>
-            {{ risk.getProbabilityLabel() || '--' }}
-          </p>
-          <p>
-            <span>Frequency over the next five years: </span>
-            {{ risk.getFrequencyLabel() || '--' }}
-          </p>
-          <p>
-            <span>Intensity over the next five years: </span>
-            {{ risk.getIntensityLabel() || '--' }}
-          </p>
-          <p>
-            <span>Potential impact on this community system: </span>
-            {{ risk.getImpactMagnitudeLabel() || '--' }}
-          </p>
-          <p>
-            <span>Description of potential impact: </span>
-            {{ risk.impact_description || '--' }}
-          </p>
-          <p>
-            <span>Your city's adaptive capacity: </span>
-            {{ risk.getAdaptiveCapacityLabel() || '--' }}
-          </p>
-          <p>
-            <span>Description of adaptive capacity: </span>
-            {{ risk.adaptive_capacity_description || '--' }}
-          </p>
-          <p>
-            <span>Related adaptive values: </span>
-            {{ risk.related_adaptive_values.join(', ') || '--' }}
-          </p>
+      <div class="panel-section">
+        <div class="review-section-header">
+          <h4 class="review-section-title">Risk assessment</h4>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Hazard:</span>
+          <span class="review-description">{{ risk?.weather_event?.name }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Community system at risk:</span>
+          <span class="review-description">{{ risk?.community_system?.name }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Probability of hazard occurring:</span>
+          <span class="review-description">{{ risk.getProbabilityLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Frequency over the next five years:</span>
+          <span class="review-description">{{ risk.getFrequencyLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Intensity over the next five years:</span>
+          <span class="review-description">{{ risk.getIntensityLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Potential impact on this community system:</span>
+          <span class="review-description">{{ risk.getImpactMagnitudeLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Description of potential impact:</span>
+          <div class="review-description" *ngIf="risk.impact_description">{{ risk.impact_description }}</div>
+          <span class="review-description" *ngIf="!risk.impact_description">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Your city&rsquo;s adaptive capacity:</span>
+          <span class="review-description">{{ risk.getAdaptiveCapacityLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Description of adaptive capacity:</span>
+          <div class="review-description" *ngIf="risk.adaptive_capacity_description">{{ risk.adaptive_capacity_description }}</div>
+          <span class="review-description" *ngIf="!risk.adaptive_capacity_description">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Related adaptive values:</span>
+          <span class="review-description">{{ risk.related_adaptive_values.join(', ') || '--' }}</span>
         </div>
       </div>
-      <div *ngIf="risk.action">
-        <h3>Action step</h3>
-        <div>
-          <p>
-            <span>Description of action: </span>
-            {{ risk.action?.name }}
-          </p>
-          <p>
-            <span>Type of action: </span>
-            {{ risk.action?.action_type || '--' }}
-          </p>
-          <p>
-            <span>Action goal: </span>
-            {{ risk.action?.action_goal || '--' }}
-          </p>
-          <p>
-            <span>Implementation details: </span>
-            {{ risk.action?.implementation_details || '--' }}
-          </p>
-          <p>
-            <span>Share with other Temperate users: </span>
-            {{ risk.action?.getVisibilityLabel() }}
-          </p>
-          <p>
-            <span>Effect on your city's adaptive capacity: </span>
-            {{ risk.action?.improvements_adaptive_capacity || '--' }}
-          </p>
-          <p>
-            <span>Reduction in this risk's potential impacts: </span>
-            {{ risk.action?.improvements_impacts || '--' }}
-          </p>
-          <p>
-            <span>Departments to collaborate with: </span>
-            {{ risk.action?.collaborators.join(', ') || '--' }}
-          </p>
-          <p>
-            <span>Selected categories: </span>
-            {{ risk.action?.getActionCategoriesAsCSV() || '--' }}
-          </p>
-          <p>
-            <span>Funding description: </span>
-            {{ risk.action?.funding || '--' }}
-          </p>
+
+      <div class="panel-section">
+        <div class="review-section-header">
+          <h4 class="review-section-title">Action step</h4>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Description of action:</span>
+          <div class="review-description" *ngIf="risk.action?.name">{{ risk.action?.name }}</div>
+          <span class="review-description" *ngIf="!risk.action?.name">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Type of action:</span>
+          <span class="review-description">{{ risk.action?.action_type || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Action goal:</span>
+          <span class="review-description">{{ risk.action?.action_goal || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Implementation details:</span>
+          <div class="review-description" *ngIf="risk.action?.implementation_details">{{ risk.action?.implementation_details }}</div>
+          <span class="review-description" *ngIf="!risk.action?.implementation_details">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Share with other Temperate users:</span>
+          <span class="review-description">{{ risk.action?.getVisibilityLabel() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Effect on your city&rsquo;s adaptive capacity:</span>
+          <div class="review-description" *ngIf="risk.action?.improvements_adaptive_capacity">{{ risk.action?.improvements_adaptive_capacity }}</div>
+          <span class="review-description" *ngIf="!risk.action?.improvements_adaptive_capacity">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Reduction in this risk&rsquo;s potential impacts:</span>
+          <div class="review-description" *ngIf="risk.action?.improvements_impacts">{{ risk.action?.improvements_impacts }}</div>
+          <span class="review-description" *ngIf="!risk.action?.improvements_impacts">--</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Departments to collaborate with:</span>
+          <span class="review-description">{{ risk.action?.collaborators.join(', ') || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Selected categories:</span>
+          <span class="review-description">{{ risk.action?.getActionCategoriesAsCSV() || '--' }}</span>
+        </div>
+        <div class="review-item">
+          <span class="answer-label">Funding description:</span>
+          <div class="review-description" *ngIf="risk.action?.funding">{{ risk.action?.funding }}</div>
+          <span class="review-description" *ngIf="!risk.action?.funding">--</span>
         </div>
       </div>
     </accordion-group>
