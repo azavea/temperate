@@ -132,6 +132,22 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Risk does not belong to user's organization")
         return value
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if ret['visibility'] == OrganizationAction.Visibility.REQUEST_PUBLIC:
+            ret['visibility'] = OrganizationAction.Visibility.PUBLIC
+        return ret
+
+    def validate(self, data):
+        data = super().validate(data)
+        # When users change the action's visibility to public, instead change it to requested public
+        # It can only be changed from requested to public in the Django Admin
+        if ((self.instance is not None and
+             self.instance.visibility != OrganizationAction.Visibility.PUBLIC and
+             data['visibility'] == OrganizationAction.Visibility.PUBLIC)):
+            data['visibility'] = OrganizationAction.Visibility.REQUEST_PUBLIC
+        return data
+
     class Meta:
         model = OrganizationAction
         fields = ('id', 'risk', 'name', 'action_type', 'action_goal',

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
   City,
@@ -23,17 +24,17 @@ interface AccordionState {
 })
 export class IndicatorsComponent implements OnInit {
 
+  public form: FormGroup;
   public accordionState: AccordionState = {};
-  public activeFilter: WeatherEvent;
   public allIndicators: Indicator[];
+  public filteredIndicators: Indicator[];
   public city: City;
-  public filters: WeatherEvent[] = [];
+  public filters = new Map();
   public topConcerns: WeatherEvent[];
-
-  private MAX_FILTERS = 4;
 
   constructor(private indicatorService: IndicatorService,
               private weatherEventService: WeatherEventService,
+              private fb: FormBuilder,
               private cityService: CityService) {}
 
   ngOnInit() {
@@ -44,43 +45,47 @@ export class IndicatorsComponent implements OnInit {
       this.topConcerns = events;
       this.setupFilters(events);
     });
+
+    this.form = this.fb.group({ 'filter': null });
+    this.form.controls.filter.valueChanges
+        .subscribe(weatherEventId => this.applyFilter(weatherEventId));
   }
 
   public indicatorToggled(indicator: string, isOpen: boolean) {
     this.accordionState[indicator] = isOpen;
-    // Check activeFilter state and automatically remove filter if necessary
-    if (this.activeFilter) {
-      const numApplied = this.activeFilter.indicators.reduce((count, i) => {
-        return count + (this.accordionState[i] ? 1 : 0);
-      }, 0);
-      if (numApplied === 0) {
-        this.activeFilter = undefined;
-      }
-    }
   }
 
-  public openAccordion(indicators: string[]) {
-    indicators.forEach(i => this.accordionState[i] = true);
-  }
-
-  public resetAccordion() {
+  public resetFilter() {
     this.allIndicators.forEach(i => this.accordionState[i.name] = false);
-    this.activeFilter = undefined;
+    this.filteredIndicators = this.allIndicators;
   }
 
-  public setActiveFilter(filter: WeatherEvent) {
-    this.resetAccordion();
-    this.activeFilter = filter;
-    this.openAccordion(this.activeFilter.indicators);
+  public applyFilter(weatherEventId) {
+    if (!weatherEventId) {
+      this.resetFilter();
+      return;
+    }
+
+    const selectedWeatherEvent = this.topConcerns.find(concern => concern.id === weatherEventId);
+
+    this.filteredIndicators = this.allIndicators.filter((indicator) => {
+      return selectedWeatherEvent.indicators.includes(indicator.name);
+    });
   }
 
   private setupFilters(weatherEvents: WeatherEvent[]) {
-    const events = weatherEvents.filter(e => e.indicators && e.indicators.length);
-    this.filters = events.slice(0, this.MAX_FILTERS);
+    this.filters.set(null, { label: 'Filter by hazard...' , description: '' });
+
+    weatherEvents.forEach((weatherEvent) => {
+      if (weatherEvent.indicators && weatherEvent.indicators.length) {
+        this.filters.set(weatherEvent.id, { label: weatherEvent.name, description: '' });
+      }
+    });
   }
 
   private setupIndicators(indicators: Indicator[]) {
     this.allIndicators = indicators;
-    this.resetAccordion();
+    this.filteredIndicators = indicators;
+    this.resetFilter();
   }
 }

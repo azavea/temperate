@@ -77,6 +77,7 @@
   'components/switch',
   'components/footer',
   'components/table',
+  'components/tabs',
   'components/tooltip',
   'components/chart',
   'components/timeslider',
@@ -85,12 +86,16 @@
   'components/app-collapsible-chart',
   'components/va-popover',
   'components/va-risk-popover',
-  'components/toast';
+  'components/toast',
+  'components/badge',
+  'components/panel',
+  'components/dashboard/view-tabs';
 
 /* * * *
  * Page specific styling
  * * * */
 @import 'pages/action-steps';
+@import 'pages/city-profile';
 @import 'pages/create-org';
 @import 'pages/dashboard';
 @import 'pages/indicators';
@@ -101,3 +106,4 @@
 @import 'pages/action-wizard';
 @import 'pages/create-plan';
 @import "pages/pricing-page";
+@import "pages/login";

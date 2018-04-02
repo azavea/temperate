@@ -1,6 +1,10 @@
-{% load i18n %}
-{% trans "Activate account at" %} {{ site.name }}:
+Hello there!
+
+We’re thrilled you’ve chosen Temperate to help develop your city’s climate adaptation plan.
+
+Click the link below to confirm your email address and activate your account. The link expires in {{ expiration_days }} days.
 
 https://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
-{% blocktrans %}Link is valid for {{ expiration_days }} days.{% endblocktrans %}
+
+If you have any trouble activating your account, contact {{ support_email }} for assistance.

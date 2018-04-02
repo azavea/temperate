@@ -5,12 +5,8 @@ import { AlertModule } from 'ngx-bootstrap';
 
 import { Observable } from 'rxjs/Rx';
 
-import { ActionService } from '../core/services/action.service';
 import { RiskService } from '../core/services/risk.service';
-import { Action, Risk, WeatherEvent } from '../shared';
-import {
-  ConfirmationModalComponent
-} from '../shared/confirmation-modal/confirmation-modal.component';
+import { Risk, WeatherEvent } from '../shared';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
 @Component({
@@ -19,10 +15,8 @@ import { ModalTemplateComponent } from '../shared/modal-template/modal-template.
 })
 
 export class ActionStepsOverviewComponent implements OnInit {
-  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
   @ViewChild('reviewYourPlanModal') reviewYourPlanModal: ModalTemplateComponent;
 
-  public action: Action;
   public risks: Risk[];
   public allRisks: Risk[];
   public weatherEvent?: WeatherEvent;
@@ -31,10 +25,8 @@ export class ActionStepsOverviewComponent implements OnInit {
   public showAllActionsCompleteMessage: Boolean = false;
   public fromWizard: Boolean = false;
 
-  constructor (private actionService: ActionService,
-               private riskService: RiskService,
-               private route: ActivatedRoute,
-               private router: Router) {}
+  constructor (private riskService: RiskService,
+               private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: Params) => {
@@ -55,11 +47,6 @@ export class ActionStepsOverviewComponent implements OnInit {
     } else {
       this.riskService.list().subscribe(risks => this.risks = risks);
     }
-  }
-
-  // Check if any of the risks have been assessed yet
-  get isARiskAssessed(): boolean {
-    return !!this.risks.find((risk: Risk) => risk.isAssessed());
   }
 
   determineMessageVisibility(): void {
@@ -97,15 +84,7 @@ export class ActionStepsOverviewComponent implements OnInit {
     this.reviewYourPlanModal.open();
   }
 
-  deleteAction(action) {
-    const risk = this.risks.find(r => r.action && r.action.id === action.id);
-    this.confirmDeleteModal.confirm({
-      tagline: `Are you sure you want to remove ${risk.title()}?`,
-      confirmText: 'Remove'
-    }).onErrorResumeNext().switchMap(() => {
-      return this.actionService.delete(action);
-    }).subscribe(a => {
-      risk.action = null;
-    });
+  get areAnyRisksAssessed(): boolean {
+    return Risk.areAnyRisksAssessed(this.risks);
   }
 }

@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AccordionModule, PopoverModule, ProgressbarModule, TooltipModule } from 'ngx-bootstrap';
+import {
+  AccordionModule,
+  PopoverModule,
+  ProgressbarModule,
+  TooltipModule,
+  TypeaheadModule
+} from 'ngx-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 
+import { ActionStepsModule } from '../action-steps/action-steps.module';
+import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
 import {
@@ -14,6 +22,7 @@ import { CityProfileComponent } from './city-profile/city-profile.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { GroupedRiskComponent } from './grouped-risk/grouped-risk.component';
+import { RadioButtonGroupComponent } from './radio-button-group/radio-button-group.component';
 import { ReviewPlanComponent } from './review-plan/review-plan.component';
 import { AdaptationReviewComponent } from './review-plan/tabs/adaptation-review.component';
 import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component';
@@ -21,14 +30,18 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
 @NgModule({
   imports: [
     CommonModule,
+    ActionStepsModule,
+    AssessmentModule,
+    DashboardRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     AccordionModule,
     PopoverModule,
     ProgressbarModule,
     TooltipModule,
     ToastrModule,
+    TypeaheadModule,
     SharedModule,
-    DashboardRoutingModule
   ],
   declarations: [
     AdaptationReviewComponent,
@@ -37,6 +50,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
     DashboardComponent,
     GroupedRiskComponent,
     PlanSummaryComponent,
+    RadioButtonGroupComponent,
     ReviewPlanComponent
   ],
   exports: [ ],

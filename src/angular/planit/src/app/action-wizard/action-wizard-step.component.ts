@@ -47,9 +47,7 @@ export abstract class ActionWizardStepComponent<FormModel>
   }
 
   finish() {
-    // ng2-archwizard save() takes a direction, like forward or back,
-    // but we're not going in any direction when exiting
-    this.save(undefined).then(() => {
+    this.save().then(() => {
       this.action = this.session.getData();
       this.cancel(true);
     });

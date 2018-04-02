@@ -579,6 +579,47 @@ class OrganizationApiTestCase(APITestCase):
         # Request should not error
         self.assertEqual(response.status_code, 200)
 
+    def test_city_profile_get(self):
+        org = OrganizationFactory()
+        self.user.organizations.add(org)
+        self.user.primary_organization = org
+
+        url = reverse('planitorganization-city-profile', kwargs={'pk': org.id})
+        response = self.client.get(url, format='json')
+
+        # Request should not error
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+        self.assertDictEqual(result['action_prioritized'], {
+            "cost_benefit": False,
+            "cost_effectiveness": False,
+            "multiple_criteria": False,
+            "consensus": False,
+            "experiment": False
+        })
+
+    def test_city_profile_put(self):
+        org = OrganizationFactory()
+        self.user.organizations.add(org)
+        self.user.primary_organization = org
+
+        action_prioritized_data = {
+            "cost_benefit": True,
+            "cost_effectiveness": True,
+            "multiple_criteria": False,
+            "consensus": True,
+            "experiment": False
+        }
+        city_profile_data = {
+            "action_prioritized": action_prioritized_data,
+        }
+
+        url = reverse('planitorganization-city-profile', kwargs={'pk': org.id})
+        response = self.client.put(url, city_profile_data, format='json')
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+        self.assertDictEqual(result['action_prioritized'], action_prioritized_data)
+
 
 class CsrfTestCase(TestCase):
     def setUp(self):

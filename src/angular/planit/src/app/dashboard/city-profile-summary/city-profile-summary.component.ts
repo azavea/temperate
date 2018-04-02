@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
-import { CityProfileSummary } from '../../shared/';
+import { CityProfileSummary, Organization } from '../../shared/';
 
 @Component({
   selector: 'app-city-profile-summary',
   templateUrl: 'city-profile-summary.component.html'
 })
 
-export class CityProfileSummaryComponent implements OnInit {
+export class CityProfileSummaryComponent implements OnChanges {
+
+  @Input() organization: Organization;
 
   public required: CityProfileSummary;
   public overall: CityProfileSummary;
 
   constructor(private cityProfileService: CityProfileService) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.updateSummaries();
   }
 
@@ -30,7 +32,19 @@ export class CityProfileSummaryComponent implements OnInit {
   }
 
   updateSummaries() {
-    this.cityProfileService.requiredSummary().subscribe(s => this.required = s);
-    this.cityProfileService.overallSummary().subscribe(s => this.overall = s);
+    if (!this.organization) {
+      return;
+    }
+
+    this.cityProfileService.get(this.organization).subscribe(profile => {
+      this.required = {
+        complete: profile.getCompletedPropCount(true),
+        total: profile.getTotalPropCount(true)
+      };
+      this.overall = {
+        complete: profile.getCompletedPropCount(),
+        total: profile.getTotalPropCount()
+      };
+    });
   }
 }

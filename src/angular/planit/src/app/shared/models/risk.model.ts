@@ -26,6 +26,10 @@ export class Risk {
   intensity?: OrgRiskDirectionalOption;
   probability?: OrgRiskRelativeOption;
 
+  static areAnyRisksAssessed(risks: Risk[]): boolean {
+    return !!risks.find(risk => risk.isAssessed());
+  }
+
   constructor(object: any) {
     Object.assign(this, object);
     if (object.community_system) {
@@ -52,11 +56,18 @@ export class Risk {
     return some(this.getAssessmentPropsAsBools());
   }
 
-  public getCompletedRequiredPropCount() {
+  compare(other: Risk): number {
+    if (this.weather_event.name !== other.weather_event.name) {
+      return this.weather_event.name < other.weather_event.name ? -1 : 1;
+    }
+    return this.community_system.name < other.community_system.name ? -1 : 1;
+  }
+
+  public getCompletedPropCount() {
     return this.getPropsAsBools().filter(prop => prop).length;
   }
 
-  public getTotalRequiredPropCount() {
+  public getTotalPropCount() {
     return this.getPropsAsBools().length;
   }
 
@@ -86,17 +97,17 @@ export class Risk {
   }
 
   private getPropsAsBools(): boolean[] {
+    // Do not include weather_event and community_system. They are required, but cannot be left
+    //  blank in the wizards, so we omit them from progressbar completion
     return [
-      !!this.weather_event,
-      !!this.community_system,
+      !!this.frequency,
+      !!this.intensity,
+      !!this.probability,
       !!this.impact_magnitude,
       !!this.impact_description,
       !!this.adaptive_capacity,
-      !!this.related_adaptive_values,
       !!this.adaptive_capacity_description,
-      !!this.frequency,
-      !!this.intensity,
-      !!this.probability
+      !!this.related_adaptive_values
     ];
   }
 

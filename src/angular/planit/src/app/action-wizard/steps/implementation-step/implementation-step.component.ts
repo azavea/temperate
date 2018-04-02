@@ -9,7 +9,7 @@ import { ActionTypeService } from '../../../core/services/action-type.service';
 import { ActionService } from '../../../core/services/action.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Action, ActionVisibility, Risk } from '../../../shared/';
+import { Action, ActionVisibilityOption, Risk } from '../../../shared/';
 import { ActionStepKey } from '../../action-step-key';
 import { ActionWizardStepComponent } from '../../action-wizard-step.component';
 
@@ -35,10 +35,6 @@ export class ImplementationStepComponent
   public key: ActionStepKey = ActionStepKey.Implementation;
   public navigationSymbol = '2';
   public title = 'Details';
-  public tooltipText = {
-    shareWithCities: 'Public actions can be adapted by other organizations ' +
-                     'for their own vulnerability assessments'
-  };
   private sessionSubscription: Subscription;
 
   constructor(protected session: WizardSessionService<Action>,
@@ -75,7 +71,7 @@ export class ImplementationStepComponent
       action_type: model.action_type,
       implementation_details: model.implementation_details,
       notes: model.implementation_notes,
-      isPublic: model.visibility === ActionVisibility.Public
+      isPublic: model.visibility === ActionVisibilityOption.Public
     };
   }
 
@@ -104,7 +100,8 @@ export class ImplementationStepComponent
     model.action_type = data.action_type;
     model.implementation_details = data.implementation_details;
     model.implementation_notes = data.notes;
-    model.visibility = data.isPublic ? ActionVisibility.Public : ActionVisibility.Private;
+    model.visibility = (data.isPublic ? ActionVisibilityOption.Public :
+                        ActionVisibilityOption.Private);
     return model;
   }
 

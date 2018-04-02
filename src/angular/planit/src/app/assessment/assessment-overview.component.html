@@ -1,86 +1,22 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <section class="page-intro">
-      <h2 class="heading">Vulnerability Assessment</h2>
-      <h1 *ngIf="weatherEvent?.name">{{ weatherEvent?.name }}</h1>
-      <p>Based on your chosen scope, we have identified the below risks as
-        a high priority to assess vulnerability and include in your report.
-        Click on a row to assess each risk.
-          <button class="button-link"
-                  [popover]="learnMoreRiskPopover"
-                  [outsideClick]="true"
-                  container="body"
-                  placement="bottom">Learn why we selected these risks.</button>
+    <header class="page-header" *ngIf="weatherEvent?.name">
+      <h1 class="page-title-small">Vulnerability Assessment</h1>
+      <h2 class="page-title-large">{{ weatherEvent?.name }}</h2>
+      <p class="paragraph-intro">
+        Based on your chosen top hazards and community systems, we have identified some risks as
+        a high priority to include in your vulnerability assessment. 
       </p>
-    </section>
+      <p>
+        <button class="button-link"
+                [popover]="learnMoreRiskPopover"
+                [outsideClick]="true"
+                container="body"
+                placement="right">Learn how we identify high-priority risks.</button>
+      </p>
+    </header>
     <section>
-      <div class="loading-wrapper" *ngIf="risks === undefined">
-        <div class="loading loading-spinner loading-large loading-primary"></div>
-      </div>
-      <div *ngIf="risks?.length === 0">
-        <h2>No risks available</h2>
-      </div>
-      <table class="table va-summary-table" *ngIf="risks?.length">
-        <thead>
-          <tr>
-            <th scope="col" class="hidden-header">Adaptive need</th>
-            <th scope="col">Community system at risk
-              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.risk"></i>
-            </th>
-            <th scope="col">Potential impact
-              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.potentialImpact"></i>
-            </th>
-            <th scope="col">Adaptive capacity
-              <i class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity"></i>
-            </th>
-            <th scope="col" class="hidden-header">Status</th>
-            <th scope="col" class="hidden-header">More</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let risk of risks">
-            <td>
-              <va-adaptive-need-box
-                [adaptiveCapacity]="risk.adaptive_capacity"
-                [popoverPlacement]="'right'"
-                [potentialImpact]="risk.impact_magnitude">
-              </va-adaptive-need-box>
-            </td>
-            <th scope="row">
-              <va-risk-popover [risk]="risk"></va-risk-popover>
-            </th>
-            <td>{{ risk.getImpactMagnitudeLabel() || '--' }}</td>
-            <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
-            <td>
-              <button class="button button-primary va-status-button"
-                      *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
-                      [routerLink]="['risk', risk.id]">Assess</button>
-              <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
-                           [max]="risk.getTotalRequiredPropCount()"
-                           [value]="risk.getCompletedRequiredPropCount()"></progressbar>
-            </td>
-            <td>
-              <div class="button-group" dropdown>
-                <button dropdownToggle type="button" class="button button-icon dropdown-toggle">
-                  <span class="icon-ellipsis-h"></span>
-                </button>
-                <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-                  <li role="menuitem">
-                    <a class="dropdown-item" [routerLink]="['risk', risk.id]" [queryParams]="{goToStep:4}">View</a>
-                  </li>
-                  <li role="menuitem">
-                    <a class="dropdown-item" disabled [routerLink]="['risk', risk.id]">Edit</a>
-                  </li>
-                  <div class="divider"></div>
-                  <li class="action-destructive" role="menuitem">
-                    <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
-                  </li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <va-assessment-overview-table [(risks)]="risks"></va-assessment-overview-table>
       <button class="button" routerLink="risk/new">Add new risk</button>
       <button class="button button-positive"
               *ngIf="risks?.length && getAssessedRisks().length >= 1"
@@ -91,8 +27,6 @@
     </section>
   </main>
 </div>
-
-<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>
 
 <ng-template #learnMoreRiskPopover>
   <div>

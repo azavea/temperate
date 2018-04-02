@@ -159,7 +159,12 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
 
   relatedIndicatorsTooltip(): string {
     if (this.indicators.length === 0) {
-      return `No related indicators for ${this.risk.weather_event.name}`;
+      return `No related climate data for ${this.risk.weather_event.name.toLowerCase()}`;
     }
+  }
+
+  goToIndicators() {
+    this.indicatorsModal.close();
+    this.router.navigate(['/indicators']);
   }
 }

@@ -15,6 +15,9 @@ import {
 import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
+import {
+  ActionCardContainerComponent
+} from './action-card-container/action-card-container.component';
 import { ActionCardComponent } from './action-card/action-card.component';
 import { ActionPickerComponent } from './action-picker/action-picker.component';
 import { ActionStepsOverviewComponent } from './action-steps-overview.component';
@@ -35,13 +38,16 @@ import { RiskCardComponent } from './risk-card/risk-card.component';
     ActionWizardModule,
     AssessmentModule
   ],
-  exports: [],
   declarations: [
+    ActionCardContainerComponent,
     ActionPickerComponent,
     ActionStepsOverviewComponent,
     ActionCardComponent,
     EditActionComponent,
-    RiskCardComponent
+    RiskCardComponent,
+  ],
+  exports: [
+    ActionCardContainerComponent,
   ],
   providers: [],
 })

@@ -1,19 +1,12 @@
-{% load i18n %}
 {% load premailer %}
 {% premailer %}
 <html>
-    <style type="text/css">
-        em { color: grey;}
-    </style>
-    <h1>Welcome to Temperate!</h1>
     <p>Hi {{ user.first_name }},</p>
-    <p>You can sign in to the app here:</p>
-    <p><a href="{{ url }}">{{ url }}</a></p>
-    <p>Hope to see you soon!</p>
-    <br />
-    <p>
-        <em>Questons? You can reach us at
-            <a href="mailto:{{ support_email }}?subject=Help%20request">{{ support_email }}.</em>
-    </p>
+    <p>Welcome to Temperate!</p>
+    <p>Sign in at <a href="{{ url }}">{{ url }}</a></p>
+    <p>We’re excited to help you on your journey to making your city more resilient to climate change.</p>
+    <p>Be sure to check out our <a href="https://temperate.io/faq">FAQ</a>. And if you have further questions, don’t hesitate to reach us at <a href="mailto:{{ support_email }}?subject=Help%20request">{{ support_email }}</a>.</p>
+    <p>&nbsp;</p>
+    <p>See you soon!</p>
 </html>
 {% endpremailer %}

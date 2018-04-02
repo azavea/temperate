@@ -22,6 +22,8 @@ from rest_auth.views import (
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import detail_route
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
@@ -30,10 +32,11 @@ from rest_framework.viewsets import GenericViewSet
 
 
 from users.forms import AddCityForm, InviteUserForm, UserForm, UserProfileForm
-from users.models import PlanItOrganization, PlanItUser
+from users.models import CityProfile, PlanItOrganization, PlanItUser
 from users.permissions import IsAuthenticatedOrCreate
 from users.serializers import (
     AuthTokenSerializer,
+    CityProfileSerializer,
     OrganizationSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
@@ -70,6 +73,7 @@ class RegistrationView(BaseRegistrationView):
         context = self.get_email_context(activation_key)
         context.update({
             'user': user,
+            'support_email': settings.SUPPORT_EMAIL,
         })
         user.email_user(template, context)
 
@@ -266,8 +270,49 @@ class OrganizationViewSet(mixins.CreateModelMixin,
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    @detail_route(methods=['GET', 'PUT'],
+                  serializer_class=CityProfileSerializer,
+                  url_name='city-profile',
+                  url_path='city-profile')
+    def city_profile(self, request, pk=None, *args, **kwargs):
+        organization = get_object_or_404(self.model_class, pk=pk)
+        city_profile = organization.city_profile
+        if city_profile.organization.id != self.request.user.primary_organization.id:
+            return Response(None, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'GET':
+            serializer = CityProfileSerializer(city_profile)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = CityProfileSerializer(city_profile, data=self.request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+
     def get_queryset(self):
         return self.request.user.organizations.all()
+
+
+class CityProfileOptionsView(APIView):
+    """Expose CityProfile field choices classes via API endpoint."""
+
+    permission_classes = (IsAuthenticated,)
+
+    def _list_choices_model(self, choices_model):
+        return [{'name': key, 'label': value} for key, value in choices_model.CHOICES]
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'assessment-section-status': self._list_choices_model(
+                CityProfile.AssessmentSectionStatus),
+            'assessed-hazards': self._list_choices_model(CityProfile.AssessedHazards),
+            'assessment-numbers': self._list_choices_model(CityProfile.AssessmentNumbers),
+            'commitment-status': self._list_choices_model(CityProfile.CommitmentStatus),
+            'economic-sectors': self._list_choices_model(CityProfile.EconomicSector),
+            'plan-types': self._list_choices_model(CityProfile.PlanType),
+            'section-status': self._list_choices_model(CityProfile.SectionStatus),
+        }
+        return Response(data)
 
 
 class AddCityView(JsonFormView):

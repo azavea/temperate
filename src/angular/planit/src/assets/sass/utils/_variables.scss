@@ -220,6 +220,10 @@ $dropdown-menu-link-color-hover: $black;
 $dropdown-menu-link-background-hover: $brand-teal-v-light;
 $dropdown-menu-link-background-active: $brand-teal;
 
+$dropdown-label-font-size: $text-base;
+$dropdown-label-font-weight: $font-weight-bold;
+$dropdown-description-font-size: $text-small;
+
 
 /* * * *
  * Tooltip
@@ -235,8 +239,9 @@ $tooltip-arrow-width: 0.8rem;
 $tooltip-arrow-height: 0.5rem;
 $tooltip-shadow: 0 0 15px rgba($black,0.4);
 $tooltip-max-width: 20rem;
+$tooltip-wide-max-width: 40rem;
 
-$tooltip-trigger-color: $neutral-3;
+$tooltip-trigger-color: rgba( $neutral-5, 0.35 );
 $tooltip-trigger-color-hover: $brand-teal;
 
 /* * * *
@@ -264,6 +269,7 @@ $table-min-width: 860px;
 $table-color: $brand-black;
 $table-border-color: $border-color;
 $table-column-max-width: 40%;
+$table-line-height: 1.35;
 
 $table-header-background: $white;
 $table-header-weight: $font-weight-bold;
@@ -301,7 +307,7 @@ $popover-heading-font-size: $text-medium;
 $popover-font-color: $heading-font-color;
 $popover-background-color: $white;
 $popover-margin: 7px;
-$popover-max-width: 28rem;
+$popover-max-width: 50rem;
 $popover-box-shadow: 0 0 20px rgba($neutral-5, 0.4);
 $popover-border: none;
 $popover-arrow: 8px;
@@ -335,6 +341,7 @@ $chart-legend-datasets-border-top: 1px solid $neutral-1;
 $card-toggle-background: $white;
 $card-dropshadow: 0 0 40px rgba($neutral-2, 0.2);
 $card-border-radius: $border-radius;
+$card-border: 1px solid $neutral-1;
 
 
  /* * * *
@@ -523,6 +530,11 @@ $splash-prompt-max-width: 45rem;
 $dashboard-header-max-width: 65rem;
 $dashboard-aside-background: $white;
 $dashboard-aside-title-size: $text-base;
+$dashboard-view-tab-color-active: $brand-teal;
+$dashboard-view-tabs-height: 3.4rem;
+$dashboard-org-details-color: $black;
+$dashboard-org-details-separator-color: $neutral-4;
+$dashboard-org-details-weight: $font-weight-regular;
 
 
 /* * * *
@@ -719,8 +731,58 @@ $pricing-breakpoint-hero: 40rem;
 
 
 /* * * *
+ * Manage Subscriptions page
+ *
+ * * * */
+$subscription-modal-title-color: $brand-positive;
+$subscription-modal-title-size: $text-display;
+
+$subscription-notice-background: $white;
+$subscription-notice-border: 1px solid $neutral-1;
+$subscription-notice-border-left: 4px solid $brand-positive;
+
+$subscription-notice-heading-size: $text-base;
+$subscription-notice-heading-weight: $font-weight-bold;
+
+
+/* * * *
  * Upgrade banner
  *
  * * * */
 $upgrade-banner-background: $brand-lavender;
 $upgrade-banner-font-color: $black;
+
+
+/* * * *
+ * Badges
+ *
+ * * * */
+$badge-font-color: $black;
+$badge-font-size: $text-tiny;
+$badge-font-color-primary: $white;
+$badge-padding-vertical: 0;
+$badge-padding-horizontal: $space-medium;
+$badge-border-radius: $space-small;
+
+
+/* * * *
+ * Panels
+ * - City profile
+ * * * */
+$panel-label-font-size: $text-base;
+$panel-label-color: $neutral-4;
+$panel-toggle-color-hover: $brand-black;
+$panel-toggle-background-hover: $brand-teal-v-light;
+
+
+/* * * *
+ * Tabs
+ *
+ * * * */
+$tab-header-background: darken($gray, 10%);
+$tab-border: 2px solid $tab-header-background;
+$tab-background: $gray;
+$tab-color: $neutral-4;
+$tab-color-hover: $black;
+$tab-color-active: $black;
+$tab-background-active: $white;

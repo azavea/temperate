@@ -1,0 +1,13 @@
+{% load premailer %}
+{% premailer %}
+<html>
+    <p>Hello there!</p>
+    <p>We’ve received the <strong>{{ date_due }}</strong> plan you submitted for <strong>{{ organization_name }}</strong>.</p>
+    <p>ICLEI will reach out shortly to coordinate a review process.</p>
+    <p>In the meantime, feel free to continue making changes as necessary.</p>
+    <p>&nbsp;</p>
+    <p>Thank you!</p>
+
+</html>
+
+{% endpremailer %}

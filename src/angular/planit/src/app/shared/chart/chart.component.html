@@ -22,7 +22,10 @@
             </ccc-line-graph>
         </div>
 
-        <div class="chart-options slider">
+        <div *ngIf="maskSlider" class="row align-center">
+          <a class="button button-small" (click)="expandYearRange()">See more dates</a>
+        </div>
+        <div *ngIf="!maskSlider" class="chart-options slider">
             <div class="chart-options-body">
                 <nouislider class="chart-options-group"
                             [config]="sliderConfig"

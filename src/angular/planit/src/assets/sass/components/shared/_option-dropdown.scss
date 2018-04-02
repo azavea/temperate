@@ -1,5 +1,4 @@
 app-option-dropdown {
-
   .dropdown-toggle .icon {
     margin-left: $space-medium;
   }
@@ -11,8 +10,9 @@ app-option-dropdown {
 
   .dropdown-menu > li {
     cursor: pointer;
+    border-bottom: $dropdown-menu-border;
 
-    > a.dropdown-item {
+    > .dropdown-item {
       display: flex;
       flex-direction: column;
       white-space: normal;
@@ -20,13 +20,18 @@ app-option-dropdown {
       padding-bottom: $space-base;
 
       .dropdown-label {
-        font-size: $text-base;
-        font-weight: $font-weight-bold;
+        font-size: $dropdown-label-font-size;
+        font-weight: $dropdown-label-font-weight;
       }
 
       .dropdown-description {
-        font-size: $text-tiny;
+        font-size: $dropdown-description-font-size;
+        padding-bottom: $space-small;
       }
+    }
+
+    &:last-child {
+      border-bottom: none;
     }
   }
 }

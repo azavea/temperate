@@ -1,0 +1,18 @@
+<div class="actions-available">
+  <div class="card-container">
+    <!-- Show risks in the order they return, so that a risk always shows at the same
+         position. This helps consistency for users. -->
+    <ng-container *ngFor="let risk of risks">
+      <as-action-card *ngIf="risk.action"
+                      [action]="risk.action"
+                      [risk]="risk"
+                      [showFullTitle]="showFullTitle"
+                      (delete)="deleteAction($event)"></as-action-card>
+      <as-risk-card *ngIf="!risk.action"
+                    [risk]="risk"
+                    [showFullTitle]="showFullTitle"></as-risk-card>
+    </ng-container>
+  </div>
+</div>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

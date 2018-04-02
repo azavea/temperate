@@ -1,4 +1,5 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,15 +19,23 @@ export class SettingsComponent implements OnInit {
 
   @ViewChildren(EditableInputComponent) inputs: QueryList<EditableInputComponent>;
 
+  public form: FormGroup;
+  public minDate: Date = new Date();
   public user: User;
 
-  constructor(private organizationService: OrganizationService,
+  constructor(private fb: FormBuilder,
+              private organizationService: OrganizationService,
               private toastr: ToastrService,
               private userService: UserService,
-              private inviteUserService: InviteUserService) { }
+              private inviteUserService: InviteUserService) {
+    this.form = this.fb.group({
+      'plan_due_date': [null, Validators.required],
+      'invites': []
+    });
+  }
 
   ngOnInit() {
-    this.userService.current().subscribe(user => this.user = user);
+    this.userService.current().subscribe(user => this.setUser(user));
   }
 
   userSave() {
@@ -41,10 +50,29 @@ export class SettingsComponent implements OnInit {
     );
   }
 
+  dueDateSave(date: Date) {
+    if (!date) { return; }
+    // User entered invalid date in input
+    if (isNaN(date.getTime())) { return; }
+    // Sometimes the datepicker fires the change method, but the date hasn't actually changed
+    // Seems to happen mostly during control init
+    if (date.getTime() === this.user.primary_organization.plan_due_date.getTime()) { return; }
+    if (date.getTime() < this.minDate.getTime()) { return; }
+
+    this.user.primary_organization.plan_due_date = date;
+    this.organizationSave();
+  }
+
   edit(edittedInput: EditableInputComponent) {
     this.inputs
       .filter(input => input !== edittedInput)
       .forEach(input => input.cancel());
+  }
+
+  inviteUser(email) {
+    const message = 'Your new colleague will receive an email to join your organization';
+
+    this.save(this.inviteUserService.invite(email), message);
   }
 
   private save(observable, success) {
@@ -59,9 +87,13 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  inviteUser(email) {
-    const message = 'Your new colleague will receive an email to join your organization';
+  private setUser(user: User) {
+    this.user = user;
+    this.toForm(user);
+  }
 
-    this.save(this.inviteUserService.invite(email), message);
+  private toForm(user: User) {
+    this.form.controls.plan_due_date.setValue(user.primary_organization.plan_due_date);
+    this.form.controls.invites.setValue(user.primary_organization.invites);
   }
 }

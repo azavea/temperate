@@ -1,0 +1,62 @@
+.tab-container {
+  .tab-pane:not(.active) {
+    display: none;
+  }
+}
+
+.nav-tabs {
+  background: $tab-header-background;
+  border-radius: $border-radius $border-radius 0 0;
+}
+
+.tab-content {
+  background: $tab-background;
+  padding: $space-medium;
+  border-radius: $border-radius;
+  border-right: $tab-border;
+  border-bottom: $tab-border;
+  border-left: $tab-border;
+}
+
+.button-tab {
+  font-family: $button-font-family;
+  display: inline-block;
+  appearance: none;
+  cursor: pointer;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  overflow: visible;
+  font-size: $text-small;
+  line-height: 1.5;
+  padding: $button-padding-vertical $button-padding-horizontal;
+  border-radius: $button-border-radius $button-border-radius 0 0;
+  box-shadow: none;
+  border: 2px solid transparent;
+  background: transparent;
+  color: $tab-color;
+
+  &:hover, &.hover {
+    color: $tab-color-hover;
+  }
+
+  &:active {
+    color: $tab-color-active;
+    background: $tab-background-active;
+    border-top: $tab-border;
+    border-right: $tab-border;
+    border-left: $tab-border;
+  }
+
+  &.active {
+    background: $tab-background;
+    color: $tab-color-active;
+    border-top: $tab-border;
+    border-right: $tab-border;
+    border-left: $tab-border;
+  }
+
+  &:focus, &.focus, &.active:focus {
+    @include button-focus-outline();
+  }
+}

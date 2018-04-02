@@ -1,13 +1,15 @@
 <div class="button-group" dropdown [isDisabled]="disabled">
-  <button dropdownToggle type="button" class="button button-primary dropdown-toggle" [attr.id]="buttonId">
-    {{ options.get(control.value) ? options.get(control.value)?.label: defaultLabel }}<i class="icon icon-chevron-down"></i>
+  <button dropdownToggle type="button" class="button dropdown-toggle" 
+          [attr.id]="buttonId"
+          [ngClass]="{active: options.get(control.value)}">
+    {{ options.get(control.value) ? options.get(control.value)?.label: defaultLabel }}<span class="icon icon-chevron-down"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li role="menuitem"
         *ngFor="let opt of optionsKeys"
         [ngClass]="{active: opt === control.value}">
       <a class="dropdown-item" (click)="setOption(opt)">
-        <span class="dropdown-label">{{ options.get(opt)?.label }}</span>
+        <span [ngClass]="{'dropdown-label-only': !options.get(opt)?.description, 'dropdown-label': options.get(opt)?.description}">{{ options.get(opt)?.label }}</span>
         <span class="dropdown-description" *ngIf="options.get(opt)?.description">{{ options.get(opt)?.description }}</span>
       </a>
     </li>

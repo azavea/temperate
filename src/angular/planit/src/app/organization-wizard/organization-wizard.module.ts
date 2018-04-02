@@ -12,7 +12,6 @@ import { SharedModule } from '../shared/shared.module';
 import { AddCityModalComponent } from './add-city-modal/add-city-modal.component';
 import { OrganizationWizardComponent } from './organization-wizard.component';
 import { CityStepComponent } from './steps/city-step/city-step.component';
-import { ConfirmStepComponent } from './steps/confirm-step/confirm-step.component';
 import { InviteStepComponent } from './steps/invite-step/invite-step.component';
 
 const routes: Routes = [
@@ -39,7 +38,6 @@ const routes: Routes = [
   declarations: [
     AddCityModalComponent,
     CityStepComponent,
-    ConfirmStepComponent,
     InviteStepComponent,
     OrganizationWizardComponent
   ]

@@ -15,6 +15,17 @@ import { UserService } from './user.service';
 @Injectable()
 export class RiskService {
 
+  static groupByWeatherEvent(risks: Risk[]) {
+    return risks.reduce((acc, r) => {
+      const key = r.weather_event.name;
+      if (!acc.has(key)) {
+        acc.set(key, []);
+      }
+      acc.get(key).push(r);
+      return acc;
+    }, new Map<string, Risk[]>());
+  }
+
   constructor(private apiHttp: PlanItApiHttp,
               private userService: UserService,
               private indicatorService: IndicatorService) {}
@@ -37,11 +48,13 @@ export class RiskService {
   list(): Observable<Risk[]> {
     const url = `${environment.apiUrl}/api/risks/`;
     return this.apiHttp.get(url).map(resp => {
-      const vals = resp.json() || [];
-      return vals.map(r => {
+      let vals = resp.json() || [];
+      vals = vals.map(r => {
         r.action = r.action ? new Action(r.action) : null;
         return new Risk(r);
       });
+      vals.sort((a: Risk, b: Risk) => a.compare(b));
+      return vals;
     });
   }
 
@@ -56,16 +69,7 @@ export class RiskService {
   }
 
   groupByWeatherEvent(): Observable<Map<string, Risk[]>> {
-    return this.list().map(risks => {
-      return risks.reduce((acc, r) => {
-        const key = r.weather_event.name;
-        if (!acc.has(key)) {
-          acc.set(key, []);
-        }
-        acc.get(key).push(r);
-        return acc;
-      }, new Map<string, Risk[]>());
-    });
+    return this.list().map(risks => RiskService.groupByWeatherEvent(risks));
   }
 
   get(id: string): Observable<Risk> {

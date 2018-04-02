@@ -3,8 +3,11 @@
 </div>
 
 <div class="step-content" [formGroup]="form">
+  <p>
+    Select the city you are creating a climate adaptation plan for. All of the climate change data in Temperate will be specific to the city you select.
+  </p>
   <div class="form-control-container">
-    <label>City</label>
+    <label>Find your city</label>
     <input class="form-control"
             formControlName="location"
             autocomplete="off"
@@ -28,7 +31,7 @@
         </div>
       </div>
       <div *ngIf="!noResults">
-        Please note that we only have US cities at this time. 
+        Please note that we only have US cities at this time.
         <app-add-city-modal>Not seeing yours?</app-add-city-modal>
       </div>
     </div>

@@ -1,37 +1,36 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <header class="page-header">
-      <h1 class="page-title-large">Indicators</h1>
+      <h1 class="page-title-large">Climate data for {{city?.properties?.name}}</h1>
       <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p>
       <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
     </header>
 
     <section class="page-section">
       <h2>Top hazards</h2>
+      <p>All calculations shown on the Hazards use the average of the projections for the years 2025-2035. Select individual indicators to see more projections.
+      </p>
       <app-top-concerns [weatherEvents]="topConcerns"></app-top-concerns>
     </section>
 
     <section class="page-section indicators">
       <div class="indicators-header">
-        <h2>Indicators</h2>
-        <div class="indicator-filters" *ngIf="filters?.length">
-          <div class="filter-header">
-            <label for="filter-indicators">Filter by hazard:</label>
-            <div id="filter-indicators" class="button-group">
-              <button class="button button-secondary"
-                   [ngClass]="{'active': activeFilter?.name === filter.name}"
-                   *ngFor="let filter of filters"
-                   (click)="setActiveFilter(filter)">
-                  {{ filter.name }}
-              </button>
-              <button class="button-link reset-button" (click)="resetAccordion()">Reset</button>
+        <h2>Climate data</h2>
+        <div class="indicator-filters" *ngIf="filters?.size">
+          <div class="filter-container">
+            <div class="button-group">
+              <app-option-dropdown
+                [control]="form.controls['filter']"
+                buttonId="filters"
+                [options]="filters">
+              </app-option-dropdown>
             </div>
           </div>
         </div>
       </div>
       <div class="card-container" role="tablist" aria-multiselectable="true">
         <app-collapsible-chart
-            *ngFor="let indicator of allIndicators"
+            *ngFor="let indicator of filteredIndicators"
             [isOpen]="accordionState[indicator.name]"
             [indicator]="indicator"
             [city]="city"

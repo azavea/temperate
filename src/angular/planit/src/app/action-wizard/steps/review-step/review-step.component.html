@@ -18,7 +18,7 @@
         <div>
           <p class="feedback-header">Create another action</p>
           <p>You still have more risks to counteract. Save this action and
-            <button type="button" class="button-link" 
+            <button type="button" class="button-link"
             (click)="finish()">go to action page.</button>
           </p>
         </div>
@@ -68,8 +68,8 @@
       <span class="review-description">{{ action.implementation_details || '--' }}</span>
     </div>
     <div class="review-item">
-      <span class="answer-label">Visibility to other cities: </span>
-      {{ action.visibility | titlecase }}
+      <span class="answer-label">Share with other Temperate users: </span>
+      {{ action.getVisibilityLabel() }}
     </div>
     <div class="review-item"
          [ngClass]="{warning: !action.implementation_notes}">

@@ -23,8 +23,14 @@ from rest_framework import routers
 from climate_api.views import ClimateAPIProxyView
 import action_steps.views as action_steps_views
 import planit_data.views as planit_data_views
-from users.views import (CurrentUserView, PlanitObtainAuthToken, OrganizationViewSet, UserViewSet,
-                         AddCityView)
+from users.views import (
+    AddCityView,
+    CityProfileOptionsView,
+    CurrentUserView,
+    PlanitObtainAuthToken,
+    OrganizationViewSet,
+    UserViewSet,
+)
 
 router = routers.DefaultRouter()
 router.register(r'action-categories', action_steps_views.ActionCategoryViewSet)
@@ -50,6 +56,7 @@ urlpatterns = [
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
     url(r'^api/plan/export/', planit_data_views.PlanExportView.as_view(), name='export-plan'),
     url(r'^api/plan/submit/', planit_data_views.PlanSubmitView.as_view(), name='submit-plan'),
+    url(r'^api/city-profile-options/', CityProfileOptionsView.as_view(), name='cityprofileoptions'),
 
     url(r'^admin/', admin.site.urls),
 

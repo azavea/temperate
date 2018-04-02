@@ -1,14 +1,12 @@
 .plan-cards {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: flex-start;
 
-  @media screen and (max-width: $pricing-breakpoint) {
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 $space-xlarge;
+  @media all and (min-width: 55rem) {
+    flex-flow: row wrap;
+    justify-content: space-between;
   }
 
   > .plan-card {
@@ -16,23 +14,36 @@
     display: flex;
     flex-flow: column nowrap;
     align-items: stretch;
-    justify-content: flex-start;
-    width: calc(50% - #{$space-medium});
-    min-width: $pricing-card-min-width;
-    margin-bottom: $space-xlarge;
-    padding: $space-xxlarge;
     background-color: $white;
+    min-width: $pricing-card-min-width-narrow;
+    margin-bottom: $space-xxlarge;
     box-shadow: $pricing-plan-card-shadow;
+    padding: $space-xlarge;
     transition: transform 0.1s;
 
-    @media screen and (max-width: $pricing-breakpoint) {
-      min-width: $pricing-card-min-width-narrow;
-      margin-bottom: $space-xxlarge;
-      padding: $space-xlarge;
+    @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      flex-flow: row wrap;
+      display:  flex;
+    }
+
+    @media all and (min-width: 55rem) {
+      justify-content: flex-start;
+      width: calc(50% - #{$space-medium});
+      min-width: $pricing-card-min-width;
+      margin-bottom: $space-xlarge;
+      padding: $space-xxlarge;
     }
 
     &:hover {
       transform: scale(1.01);
+    }
+    
+    // If this is the selected plan, no hover state
+    &.active {
+      &:hover {
+        box-shadow: $pricing-plan-card-shadow;
+        transform: none;
+      }
     }
 
     > .tier {
@@ -43,17 +54,29 @@
       font-weight: $font-weight-bold;
       text-transform: uppercase;
       text-align: center;
+
+      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+        flex: 1 0 100%;
+      }
     }
 
     > .heading {
       position: relative;
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
       justify-content: space-between;
-      margin-bottom: $space-xxlarge;
+      margin-bottom: $space-large;
       font-size: $text-medium;
       font-weight: $font-weight-regular;
+
+      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+        flex: 1 0 100%;
+      }
+
+      @media all and (min-width: 55rem) {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        margin-bottom: $space-xxlarge;
+      }
     }
 
     > .heading > .offering {
@@ -72,23 +95,43 @@
 
     > .description {
       margin-bottom: $space-xxlarge;
+
+      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+        margin-bottom: 0;
+        flex: 1 1 0%;
+      }
     }
 
-    > .button {
+    > .button, .button-container {
       margin: auto 0 0;
+
+      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+        margin: 0 0 auto 2rem;
+      }
     }
 
-    > .recommended {
+    > .button-container .button {
+      width: 100%;
+    }
+
+    > .recommended, .plan-tag {
       position: absolute;
       top: 0;
       right: 0;
       padding: 0 $space-medium $space-small $space-large;
       border-radius: 0 0 0 $border-radius;
       color: $black;
-      background: $brand-leaf;
       font-size: $text-tiny;
       text-align: left;
       text-transform: uppercase;
+    }
+
+    > .plan-tag {
+      background: $neutral-2;
+    }
+
+    > .recommended, .positive {
+      background: $brand-leaf;
     }
   }
 }
@@ -96,14 +139,28 @@
 app-plan-selector {
   .plan-cards {
     .plan-card {
-
       &:hover {
         box-shadow: $pricing-plan-card-shadow-hover;
       }
 
       > .heading {
-        padding-top: $space-xxlarge;
+        padding-top: $space-medium;
         border-top: $pricing-plan-tier-header-border;
+
+        @media all and (min-width: 55rem) {
+          padding-top: $space-xxlarge;
+        }
+      }
+    }
+  }
+}    
+// If subscription is pending, no hover states
+.subscription-pending {
+  .plan-cards {
+    .plan-card {
+      &:hover {
+        box-shadow: $pricing-plan-card-shadow;
+        transform: none;
       }
     }
   }

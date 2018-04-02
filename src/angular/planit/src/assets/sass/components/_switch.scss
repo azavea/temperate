@@ -39,6 +39,7 @@
   .icon-readonly {
     color: $switch-readonly-icon-color;
     font-size: $switch-readonly-icon-size;
+    margin-left: auto;
   }
 
   &:hover {
@@ -92,4 +93,5 @@
   line-height: $switch-description-line-height;
   color: $switch-description-color;
   margin-bottom: 0;
+  margin-top: 0.4rem;
 }

@@ -56,12 +56,12 @@ export class CommunitySystemsStepComponent
   ngOnInit() {
     super.ngOnInit();
     this.organization = this.session.getData();
+    this.setupForm(this.fromModel(this.organization));
     this.communitySystemService.list().subscribe(systems => {
       this.communitySystems = systems;
       const orgCommunitySystems = this.getOrganizationSystems(this.organization);
       this.form.controls.selectedCommunitySystems.setValue(orgCommunitySystems);
     });
-    this.setupForm(this.fromModel(this.organization));
   }
 
   getFormModel(): CommunitySystemsFormModel {

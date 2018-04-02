@@ -79,8 +79,8 @@
             {{ risk.action?.implementation_details || '--' }}
           </p>
           <p>
-            <span>Visibility to other cities: </span>
-            {{ risk.action?.visibility | titlecase }}
+            <span>Share with other Temperate users: </span>
+            {{ risk.action?.getVisibilityLabel() }}
           </p>
           <p>
             <span>Effect on your city's adaptive capacity: </span>

@@ -1,16 +1,13 @@
 <div class="step-header">
   <h2 class="step-title">Your city&rsquo;s top hazards</h2>
-  <p>The hazards selected here will give you a starting point in Temperate and establish a scope for your plan. You can always add additional hazards later.</p>
+  <p>The hazards selected here will help you start your vulnerability assessment. You can always add additional hazards later. Click the &ldquo;x&rdquo; to remove any hazards that you don&rsquo;t think belong in your assessment.</p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
     <div class="concerns-header">
-      <h3 class="concern-title">We recommend selecting 3–6 hazards</h3>
-      <p class="concern-explanation">Some hazards are pre-selected based on your city's location 
-        <span class="icon icon-question-circle"
-              tooltip="{{ tooltipText.explainHazardConcerns }}">
-        </span>
+      <h3 class="concern-title">The hazards below have been <strong>pre-selected</strong> based on {{ organization?.location?.properties?.name || 'your city' }}&rsquo;s location.</h3>
+      <p class="concern-explanation">Calculations use the average of the projections for the years 2025&ndash;2035. See the <a routerLink="/methodology">Methodology</a> page for more information.
       </p>
     </div>
     <app-add-weather-events formControlName="selectedEvents"></app-add-weather-events>

@@ -12,6 +12,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
+from annoying.fields import AutoOneToOneField
+from bitfield import BitField
 from rest_framework.authtoken.models import Token
 
 from climate_api.wrapper import make_token_api_request
@@ -103,6 +105,7 @@ class PlanItOrganization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,
                                     default=Subscription.FREE_TRIAL)
@@ -288,7 +291,8 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
-                                           related_name='users')
+                                           related_name='users',
+                                           blank=True)
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
 
@@ -354,3 +358,157 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         """Return the short name for the user."""
         return self.first_name
+
+
+class CityProfile(models.Model):
+    """
+
+    If its necessary to add a new choices class here and surface the options via the API,
+    be sure to add a new property to the data returned by users.views.CityProfileOptionsView.
+
+    """
+    class EconomicSector:
+        CHOICES = (
+            ('Mining', 'Mining',),
+            ('Construction', 'Construction',),
+            ('Manufacturing', 'Manufacturing',),
+            ('Utilities', 'Utilities',),
+            ('Wholesale trade', 'Wholesale trade',),
+            ('Retail trade', 'Retail trade',),
+            ('Transportation and warehousing', 'Transportation and warehousing',),
+            ('Information', 'Information',),
+            ('Financial activities', 'Financial activities',),
+            ('Professional and business services', 'Professional and business services',),
+            ('Educational services', 'Educational services',),
+            ('Healthcare and social assistance', 'Healthcare and social assistance',),
+            ('Leisure and hospitality', 'Leisure and hospitality',),
+            ('Agriculture', 'Agriculture',),
+            ('Forestry', 'Forestry',),
+            ('Fishing and hunting', 'Fishing and hunting',),
+            ('Other', 'Other',),
+        )
+
+    class CommitmentStatus:
+        EXISTS = 'exists'
+        IN_PROGRESS = 'inprogress'
+        DOES_NOT_EXIST = 'doesnotexist'
+        NO_PLANS = 'noplanstoundertake'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (EXISTS, 'Currently exists',),
+            (IN_PROGRESS, 'In progress',),
+            (DOES_NOT_EXIST, 'Does not exist, but intend to undertake',),
+            (NO_PLANS, 'Does not exist, no plans to undertake',),
+            (DO_NOT_KNOW, 'Do not know',),
+        )
+
+    class SectionStatus:
+        YES = 'yes'
+        NOT_YET = 'notyet'
+        IN_PROGRESS = 'inprogress'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (YES, 'Yes',),
+            (NOT_YET, 'Not yet',),
+            (IN_PROGRESS, 'It’s in progress',),
+            (DO_NOT_KNOW, 'I don’t know',),
+        )
+
+    class AssessmentSectionStatus:
+        YES = 'yes'
+        NO = 'no'
+        DO_NOT_KNOW = 'donotknow'
+
+        CHOICES = (
+            (YES, 'Yes',),
+            (NO, 'Not yet',),
+            (DO_NOT_KNOW, 'I Don’t know',),
+        )
+
+    class AssessedHazards:
+        NONE = 'none'
+        AT_LEAST_ONE = 'oneormore'
+        MULTIPLE = 'multiple'
+        MULTIPLE_AND_EFFECTS = 'multipleandeffects'
+
+        CHOICES = (
+            (NONE, 'None'),
+            (AT_LEAST_ONE, 'At least one'),
+            (MULTIPLE, 'Multiple hazards and their effect on our city'),
+            (MULTIPLE_AND_EFFECTS, 'Multiple hazards, including how they might affect one another'),
+        )
+
+    class AssessmentNumbers:
+        NONE = 'none'
+        SOME = 'some'
+        ALL = 'all'
+        ALL_PLUS = 'allplus'
+
+        CHOICES = (
+            (NONE, 'None'),
+            (SOME, 'Some'),
+            (ALL, 'All'),
+            (ALL_PLUS, 'All, including their interdependencies'),
+        )
+
+    class PlanType:
+        STANDALONE = 'standalone'
+        GENERAL = 'general'
+        SECTOR = 'sector'
+        COMBINED = 'combined'
+        NONE_OF_THE_ABOVE = 'none'
+
+        CHOICES = (
+            (STANDALONE, 'Standalone adaptation plan'),
+            (GENERAL, 'Included in a general city plan'),
+            (SECTOR, 'Included in a city sector plan'),
+            (COMBINED, 'Addressed in a combined adaptation and mitigation climate action plan'),
+            (NONE_OF_THE_ABOVE, 'None of these'),
+        )
+
+    organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    about_economic_sector = models.CharField(max_length=256, choices=EconomicSector.CHOICES,
+                                             blank=True, default='')
+    about_operational_budget_usd = models.PositiveIntegerField(blank=True, null=True)
+    about_adaptation_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
+    about_commitment_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
+    about_mitigation_status = models.CharField(max_length=256, choices=CommitmentStatus.CHOICES,
+                                               blank=True, default='')
+    about_sustainability_description = models.TextField(blank=True, default='')
+    about_sustainability_progress = models.TextField(blank=True, default='')
+    about_master_planning = models.TextField(blank=True, default='')
+
+    assessment_status = models.CharField(max_length=128, choices=AssessmentSectionStatus.CHOICES,
+                                         blank=True, default='')
+    assessment_hazards_considered = models.CharField(max_length=32, choices=AssessedHazards.CHOICES,
+                                                     blank=True, default='')
+    assessment_assets_considered = models.CharField(max_length=32,
+                                                    choices=AssessmentNumbers.CHOICES,
+                                                    blank=True, default='')
+    assessment_populations_identified = models.CharField(max_length=32,
+                                                         choices=AssessmentNumbers.CHOICES,
+                                                         blank=True, default='')
+
+    plan_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+                                   blank=True, default='')
+    plan_type = models.CharField(max_length=32, choices=PlanType.CHOICES, blank=True, default='')
+
+    action_status = models.CharField(max_length=128, choices=SectionStatus.CHOICES,
+                                     blank=True, default='')
+    action_prioritized_description = models.TextField(blank=True, default='')
+    # default=0 explicitly sets all flags to false
+    action_prioritized = BitField(flags=(
+        ('cost_benefit', 'Benefit-cost analysis',),
+        ('cost_effectiveness', 'Cost-effectiveness',),
+        ('multiple_criteria', 'Multiple-criteria decision analysis',),
+        ('consensus', 'Stakeholder consensus decision-making',),
+        ('experiment', 'Experiment and observe',),
+    ), default=0)

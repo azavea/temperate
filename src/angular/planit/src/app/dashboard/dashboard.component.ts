@@ -13,17 +13,27 @@ import { WeatherEventService } from '../core/services/weather-event.service';
 import { Organization, Risk, User, WeatherEvent } from '../shared/';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
+enum ViewTabs {
+  Grouped,
+  Assessment,
+  ActionSteps
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
-  public groupedRisks: any[];
+  public risks: Risk[];
+  public groupedRisks: Risk[][];
+  public organization: Organization;
   public selectedEventsControl = new FormControl([]);
   public trialDaysRemaining: number;
 
-  private organization: Organization;
+  public viewTab = ViewTabs.Grouped;
+  public viewTabs = ViewTabs;
+
   private weatherEvents: WeatherEvent[];
   private weatherEventIdsAtLastSave: number[] = [];
 
@@ -39,7 +49,7 @@ export class DashboardComponent implements OnInit {
               private weatherEventService: WeatherEventService) { }
 
   ngOnInit() {
-    this.getGroupedRisks();
+    this.getRisks();
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
       this.setSelectedEvents(this.organization.weather_events);
@@ -56,6 +66,10 @@ export class DashboardComponent implements OnInit {
         }
       }
     });
+  }
+
+  onRisksChanged() {
+    this.groupedRisks = this.getGroupedRisks();
   }
 
   cancelModal(modal: ModalTemplateComponent) {
@@ -76,11 +90,11 @@ export class DashboardComponent implements OnInit {
 
   saveWeatherEventsModal(modal: ModalTemplateComponent) {
     // Trigger spinner display so that it's shown for both the save queries and the
-    //  grouped risks requery
-    this.groupedRisks = undefined;
+    // risks requery
+    this.risks = undefined;
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
     this.saveEventsToAPI(selectedEvents)
-      .finally(() => this.getGroupedRisks())
+      .finally(() => this.getRisks())
       .subscribe(results => this.handleAPISave(results));
     modal.close();
   }
@@ -92,11 +106,26 @@ export class DashboardComponent implements OnInit {
     return [];
   }
 
-  private getGroupedRisks() {
-    this.groupedRisks = undefined;
-    this.riskService.groupByWeatherEvent().subscribe(r => {
-      this.groupedRisks = Array.from(r.values());
+  get areAnyRisksAssessed(): boolean {
+    return Risk.areAnyRisksAssessed(this.risks);
+  }
+
+  getRisks() {
+    this.risks = undefined;
+    this.riskService.list().subscribe(risks => {
+      this.risks = risks;
+      this.groupedRisks = this.getGroupedRisks();
     });
+  }
+
+  private getGroupedRisks(): Risk[][] {
+    if (this.risks === undefined) {
+      return undefined;
+    }
+
+    const groupedRisks = RiskService.groupByWeatherEvent(this.risks);
+    const names = Array.from(groupedRisks.keys()).sort();
+    return Array.from(names.map(name => groupedRisks.get(name)));
   }
 
   private setSelectedEvents(eventIds: number[]) {
@@ -112,5 +141,9 @@ export class DashboardComponent implements OnInit {
 
     this.organization.weather_events = events.map(e => e.id);
     return this.organizationService.update(this.organization);
+  }
+
+  public resetScroll() {
+    window.scrollTo(0, 0);
   }
 }

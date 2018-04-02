@@ -7,6 +7,52 @@
 
 .subscription-modal-plan {
   margin-top: $space-large;
-  color: $brand-positive;
-  font-size: $text-display;
+  color: $subscription-modal-title-color;
+  font-size: $subscription-modal-title-size;
+}
+
+app-manage-subscription {
+  app-plan-selector {
+    .plan-cards {
+      .plan-card {
+        &:hover {
+          box-shadow: $pricing-plan-card-shadow;
+        }
+      }
+    }
+  }
+
+  section {
+    margin: $space-xxlarge $space-large;
+
+    &:last-child {
+      margin: 0;
+      padding: $space-xxlarge $space-large 0;
+    }
+    
+    .section-content > .heading {
+      margin-bottom: $space-xlarge;
+    }
+  }
+
+  .section-extra-plans {
+    background-color: $neutral-1;
+    padding: $space-xxlarge 0;
+  }
+
+  .plan-notice {
+    padding: $space-large $space-large $space-large $space-xlarge;
+    background: $subscription-notice-background;
+    border: $subscription-notice-border;
+    border-left: $subscription-notice-border-left;
+    border-radius: $border-radius;
+    width: fit-content;
+    margin: $space-xlarge 0 $space-xxlarge;
+    
+    .heading {
+      font-size: $subscription-notice-heading-size;
+      font-weight: $subscription-notice-heading-weight;
+      margin-bottom: 0;
+    }
+  }
 }

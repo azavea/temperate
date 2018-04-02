@@ -1,4 +1,4 @@
-<div class="aside-block">
+<div class="aside-block" *ngIf="organization">
   <!-- All complete -->
   <div class="aside-content all-complete" *ngIf="isDone(required) && isDone(overall)">
     <h3 class="aside-title" (click)="updateSummaries()">
@@ -7,21 +7,22 @@
     </h3>
     <a routerLink="/city-profile" class="button button-small">Manage</a>
   </div>
-  
+
   <!-- At least partially incomplete -->
-  <h3 class="aside-title" 
-      (click)="updateSummaries()" 
+  <h3 class="aside-title"
+      (click)="updateSummaries()"
       *ngIf="!isDone(required) || !isDone(overall)">
       City profile
   </h3>
-  
-  <div class="aside-content in-progress" *ngIf="!isDone(overall)">
+
+  <div class="aside-content in-progress" *ngIf="required && overall && !isDone(overall)">
     <p>
       Enter information about your city, including any long-term goals you hope to achieve
     </p>
 
     <!-- Required in progress -->
-    <div class="profile-progress-container required-progress" *ngIf="!isDone(required) && !isDone(overall)">
+    <div class="profile-progress-container required-progress"
+         *ngIf="!isDone(required) && !isDone(overall)">
       <div class="progress-circle"
            [ldProgressbar]="required.complete"
            [ldProgressbarMax]="required.total"
@@ -29,7 +30,7 @@
       </div>
       <span class="progress-title">Required</span>
     </div>
-    
+
     <!-- Required is complete -->
     <div class="profile-progress-container required-finished" *ngIf="isDone(required) && !isDone(overall)">
       <span class="icon icon-ok-circled"></span>

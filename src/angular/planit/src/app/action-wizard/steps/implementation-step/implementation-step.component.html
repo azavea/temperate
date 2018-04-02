@@ -33,9 +33,9 @@
     </div>
     <div class="form-control-container">
       <label for="share">
-        Visibility to other cities
+        Share with other Temperate users
         <span class="icon icon-question-circle"
-              tooltip="{{ tooltipText.shareWithCities }}">
+              tooltip="Shared actions can be adapted by other organizations in Temperate for their own adaptation plans">
         </span>
       </label>
       <div id="share" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
@@ -49,7 +49,7 @@
                 [disabled]="isDisabled"
                 [ngClass]="{active: form.controls['isPublic'].value}"
                 (click)="updateIsPublic(true)">
-          Make public
+          Share action
         </button>
       </div>
     </div>

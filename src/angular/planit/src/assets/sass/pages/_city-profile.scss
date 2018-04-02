@@ -1,0 +1,19 @@
+app-city-profile {
+  .main-container .main-content {
+    max-width: 92rem;
+
+    .profile-required:after {
+      margin-left: 0.4rem;
+      content: '*';
+      color: $brand-danger;
+    }
+  }
+  .radio-button-item {
+    cursor: pointer;
+  }
+  .panel-title header > .icon.completed {
+    margin-left: auto;
+    margin-right: $space-medium;
+    color: $brand-positive;
+  }
+}

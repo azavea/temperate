@@ -33,7 +33,6 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   public minDate: Date = new Date();
   public planDueDate: Date;
-  public suggestedDate: Date;
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
@@ -46,7 +45,6 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
   ngOnInit() {
     super.ngOnInit();
     const org = this.session.getData();
-    this.planDueDate = org.plan_due_date;
     this.setupForm(this.fromModel(org));
   }
 
@@ -58,7 +56,7 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   getFormModel(): DueDateStepFormModel {
     const data: DueDateStepFormModel = {
-      plan_due_date: this.planDueDate
+      plan_due_date: this.form.controls.plan_due_date.value
     };
     return data;
   }
