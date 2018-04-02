@@ -2,47 +2,45 @@
   <div class="popover-row">
     <p class="popover-title">How is <strong>adaptive need</strong> calculated?</p>
     <p>
-      Averaging the values entered for potential impact and adaptive capacity, adaptive need is
-      an illustration of relative priority, from yellow (lowest priority) to deep red
-      (highest priority).
+      Adaptive need represents a risk&rsquo;s priority, from yellow (lowest) to deep red 
+      (highest). Its value depends on the risk&rsquo;s <strong>potential impact</strong> 
+      and your city&rsquo;s <strong>adaptive capacity</strong> to manage it.
     </p>
   </div>
 
   <div class="popover-row adaptive-need-table-container">
     <table class="adaptive-need-table">
       <thead>
-        <tr>
+        <tr class="table-horizontal-title-container">
+          <td></td>
           <td></td>
           <th scope="colgroup" colspan="5">Adaptive capacity</th>
-          <td></td>
         </tr>
-      </thead>
-      <tfoot>
-        <tr>
+        <tr class="table-horizontal-label-container">
+          <td></td>
           <td></td>
           <th scope="col" class="table-label arrow-shaft table-horizontal-label">High</th>
           <th scope="col" class="hidden-header">Medium high</th>
           <th scope="col" class="hidden-header">Medium</th>
           <th scope="col" class="hidden-header">Medium low</th>
           <th scope="col" class="table-label arrow-end table-horizontal-label">Low</th>
-          <td></td>
         </tr>
-      </tfoot>
+      </thead>
       <tbody>
         <th scope="rowgroup" rowspan="6" class="table-header-vertical"><span>Potential impact</span></th>
         <tr *ngFor="let potentialImpactIndex of [4, 3, 2, 1, 0]">
-          <td *ngFor="let adaptiveCapacityIndex of [4, 3, 2, 1, 0]"
-              class="adaptive-capacity-box ac-{{ adaptiveCapacityIndex }} pi-{{ potentialImpactIndex }}"
-            [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
-              && adaptiveCapacityIndex == adaptiveCapacityBin}">
-            &nbsp;
-          </td>
           <td *ngIf="potentialImpactIndex == null"></td>
           <th *ngIf="potentialImpactIndex == 4" scope="row" class="table-label arrow-shaft table-vertical-label">High</th>
           <th *ngIf="potentialImpactIndex == 3" scope="row" class="hidden-header">Medium high</th>
           <th *ngIf="potentialImpactIndex == 2" scope="row" class="hidden-header">Medium</th>
           <td *ngIf="potentialImpactIndex == 1" scope="row" class="hidden-header">Medium low</td>
           <th *ngIf="potentialImpactIndex == 0" scope="row" class="table-label arrow-end table-vertical-label">Low</th>
+          <td *ngFor="let adaptiveCapacityIndex of [4, 3, 2, 1, 0]"
+              class="adaptive-capacity-box ac-{{ adaptiveCapacityIndex }} pi-{{ potentialImpactIndex }}"
+            [ngClass]="{'selected': potentialImpactIndex == potentialImpactBin
+              && adaptiveCapacityIndex == adaptiveCapacityBin}">
+            &nbsp;
+          </td>
         </tr>
       </tbody>
     </table>
