@@ -44,15 +44,17 @@
         </div>
         <div class="review-item">
           <span class="answer-label">Description of potential impact:</span>
-          <span class="review-description">{{ risk.impact_description || '--' }}</span>
+          <div class="review-description" *ngIf="risk.impact_description">{{ risk.impact_description }}</div>
+          <span class="review-description" *ngIf="!risk.impact_description">--</span>
         </div>
         <div class="review-item">
-          <span class="answer-label">Your city's adaptive capacity:</span>
+          <span class="answer-label">Your city&rsquo;s adaptive capacity:</span>
           <span class="review-description">{{ risk.getAdaptiveCapacityLabel() || '--' }}</span>
         </div>
         <div class="review-item">
           <span class="answer-label">Description of adaptive capacity:</span>
-          <span class="review-description">{{ risk.adaptive_capacity_description || '--' }}</span>
+          <div class="review-description" *ngIf="risk.adaptive_capacity_description">{{ risk.adaptive_capacity_description }}</div>
+          <span class="review-description" *ngIf="!risk.adaptive_capacity_description">--</span>
         </div>
         <div class="review-item">
           <span class="answer-label">Related adaptive values:</span>
@@ -66,7 +68,8 @@
         </div>
         <div class="review-item">
           <span class="answer-label">Description of action:</span>
-          <span class="review-description">{{ risk.action?.name }}</span>
+          <div class="review-description" *ngIf="risk.action?.name">{{ risk.action?.name }}</div>
+          <span class="review-description" *ngIf="!risk.action?.name">--</span>
         </div>
         <div class="review-item">
           <span class="answer-label">Type of action:</span>
@@ -78,19 +81,22 @@
         </div>
         <div class="review-item">
           <span class="answer-label">Implementation details:</span>
-          <span class="review-description">{{ risk.action?.implementation_details || '--' }}</span>
+          <div class="review-description" *ngIf="risk.action?.implementation_details">{{ risk.action?.implementation_details }}</div>
+          <span class="review-description" *ngIf="!risk.action?.implementation_details">--</span>
         </div>
         <div class="review-item">
           <span class="answer-label">Share with other Temperate users:</span>
           <span class="review-description">{{ risk.action?.getVisibilityLabel() || '--' }}</span>
         </div>
         <div class="review-item">
-          <span class="answer-label">Effect on your city's adaptive capacity:</span>
-          <span class="review-description">{{ risk.action?.improvements_adaptive_capacity || '--' }}</span>
+          <span class="answer-label">Effect on your city&rsquo;s adaptive capacity:</span>
+          <div class="review-description" *ngIf="risk.action?.improvements_adaptive_capacity">{{ risk.action?.improvements_adaptive_capacity }}</div>
+          <span class="review-description" *ngIf="!risk.action?.improvements_adaptive_capacity">--</span>
         </div>
         <div class="review-item">
-          <span class="answer-label">Reduction in this risk's potential impacts:</span>
-          <span class="review-description">{{ risk.action?.improvements_impacts || '--' }}</span>
+          <span class="answer-label">Reduction in this risk&rsquo;s potential impacts:</span>
+          <div class="review-description" *ngIf="risk.action?.improvements_impacts">{{ risk.action?.improvements_impacts }}</div>
+          <span class="review-description" *ngIf="!risk.action?.improvements_impacts">--</span>
         </div>
         <div class="review-item">
           <span class="answer-label">Departments to collaborate with:</span>
@@ -102,7 +108,8 @@
         </div>
         <div class="review-item">
           <span class="answer-label">Funding description:</span>
-          <span class="review-description">{{ risk.action?.funding || '--' }}</span>
+          <div class="review-description" *ngIf="risk.action?.funding">{{ risk.action?.funding }}</div>
+          <span class="review-description" *ngIf="!risk.action?.funding">--</span>
         </div>
       </div>
     </accordion-group>
