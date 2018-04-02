@@ -52,10 +52,10 @@ export class DashboardComponent implements OnInit {
     this.getRisks();
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
-      this.setSelectedEvents(this.organization.weather_events);
     });
     this.route.data.subscribe((data: {user: User}) => {
       this.organization = data.user.primary_organization;
+      this.setSelectedEvents(this.organization.weather_events);
 
       const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
       if (!shownWarning) {
