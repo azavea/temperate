@@ -159,12 +159,15 @@ $page-content-border: 1px solid $neutral-2;
  * Loading
  *
  * * * */
-$loading-color: $brand-primary;
+$loading-color: $neutral-2;
 $loading-dimension: 3rem;
-$loading-dimension-large: 8rem;
+$loading-dimension-large: 5rem;
 $loading-dimension-small: 1.7rem;
+$loading-border-width: .8rem;
 $loading-background-color: $neutral-0;
-
+$loading-splash-text-size: 16px;  // same units as inline styles in index.html
+$loading-splash-text-color: $neutral-3;
+$loading-splash-background-color: $neutral-1;
 
 /* * * *
  * Button

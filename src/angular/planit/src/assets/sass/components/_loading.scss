@@ -1,5 +1,6 @@
 // Loading
 
+// All .loading-splash styles are replicated inline in index.html to avoid FOUC
 .loading-splash {
   display: flex;
   flex-flow: column nowrap;
@@ -7,6 +8,7 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
+  background-color: $loading-splash-background-color;
 
   .loading-logo {
     width: 6.4rem;
@@ -15,8 +17,8 @@
 
   .loading-heading {
     margin-top: $space-xlarge;
-    color: $neutral-3;
-    font: $text-base;
+    color: $loading-splash-text-color;
+    font-size: $loading-splash-text-size;
     text-align: center;
   }
 }
@@ -40,14 +42,14 @@
   vertical-align: middle;
 
   &.loading-spinner {
-    font-size: 10px;
+    font-size: 1rem;
     position: relative;
     text-indent: -9999em;
     border-radius: 100%;
-    border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-    border-right: 1.1em solid $loading-color;
-    border-bottom: 1.1em solid $loading-color;
-    border-left: 1.1em solid $loading-color;
+    border-top: $loading-border-width solid rgba(255, 255, 255, 0.2);
+    border-right: $loading-border-width solid $loading-color;
+    border-bottom: $loading-border-width solid $loading-color;
+    border-left: $loading-border-width solid $loading-color;
     transform: translateZ(0);
     animation: spinner 1.1s infinite linear;
   }
