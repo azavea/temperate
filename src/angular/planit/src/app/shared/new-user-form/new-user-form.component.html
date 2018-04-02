@@ -92,9 +92,10 @@
       <app-password-validator-popover [control]="password">
       </app-password-validator-popover>
     </ng-template>
+
+    <footer *ngIf="!submitted" class="modal-footer">
+      <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
+              class="button button-primary" form="app-new-user-form">Create account</button>
+    </footer>
   </form>
-  <footer *ngIf="!submitted" class="modal-footer">
-    <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
-            class="button button-primary" form="app-new-user-form">Create account</button>
-  </footer>
 </div>
