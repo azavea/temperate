@@ -1,62 +1,71 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <header>
-      <h1 class="heading">Settings</h1>
+    <header class="page-header">
+      <h1 class="page-title-large">Settings</h1>
     </header>
-    <section>
-      <form [formGroup]="form">
-        <div class="dashboard-main">
-          <h3>Profile</h3>
+    <form [formGroup]="form">
+
+      <section class="settings-section">
+        <h3>Profile</h3>
+        <div class="form-control-container">
           <label>First name</label>
           <app-editable-input [(value)]="user.first_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
-
+        </div>
+        <div class="form-control-container">
           <label>Last name</label>
           <app-editable-input [(value)]="user.last_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
-
+        </div>
+        <div class="form-control-container">
           <label>Email</label>
           <input class="form-control" type="text" disabled value="{{ user.email }}">
         </div>
-        <div class="dashboard-main">
-          <h3>Organization</h3>
+      </section>
+
+      <section class="settings-section">
+        <h3>City and Organization</h3>
+        <div class="form-control-container">
           <label>City</label>
           <input class="form-control" type="text" disabled value="{{ user.primary_organization.location.getFullName() }}">
-
+        </div>
+        <div class="form-control-container">
           <label>Organization/department</label>
           <app-editable-input [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>
-
-          <div>
-            <p>You can invite your colleagues to work on this plan with you. They will receive an email prompting them to join your organization and create a Temperate account. This can also be accomplished later.</p>
-            <div class="form-control-container">
-              <label for="invite">Email</label>
-              <app-user-emails formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
-              <div class="form-control-error"> </div>
-            </div>
-          </div>
         </div>
+      </section>
 
-        <div class="dashboard-main">
-          <h3>Plan</h3>
+      <section class="settings-section">
+        <h3>Colleagues</h3>
+        <div class="form-control-container">
+          <label>Invite a colleague</label>
+          <app-user-emails formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
+          <div class="form-control-hint">Invited colleagues will automatically join your organization and can collaborate on your plan.</div>
+          <div class="form-control-error"> </div>
+        </div>
+      </section>
+
+      <section class="settings-section">
+        <h3>Plan</h3>
+        <div class="form-control-container">
           <label>Due Date</label>
-          <div class="form-control-container">
-            <input class="form-control date-picker-control"
-                  type="text"
-                  placeholder="mm/dd/yyyy"
-                  bsDatepicker
-                  formControlName="plan_due_date"
-                  [minDate]="minDate"
-                  [bsConfig]="{ containerClass: 'theme-default', showWeekNumbers: false }"
-                  (bsValueChange)="dueDateSave($event)">
-            <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && form.controls.plan_due_date.dirty">
-              <span *ngIf="form.controls.plan_due_date.errors.required">Please enter a plan due date.</span>
-              <div *ngIf="form.controls.plan_due_date.errors.bsDate">
-                <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
-                          !form.controls.plan_due_date.errors.required">Try a valid date.</span>
-                <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">Oops, this date was set in the past!</span>
-              </div>
+          <input class="form-control date-picker-control"
+                 type="text"
+                 placeholder="mm/dd/yyyy"
+                 bsDatepicker
+                 formControlName="plan_due_date"
+                 [minDate]="minDate"
+                 [bsConfig]="{ containerClass: 'theme-default', showWeekNumbers: false }"
+                 (bsValueChange)="dueDateSave($event)">
+          <div class="form-control-error" *ngIf="form.controls.plan_due_date.errors && form.controls.plan_due_date.dirty">
+            <span *ngIf="form.controls.plan_due_date.errors.required">Please enter a plan due date.</span>
+            <div *ngIf="form.controls.plan_due_date.errors.bsDate">
+              <span *ngIf="form.controls.plan_due_date.errors.bsDate.invalid &&
+              !form.controls.plan_due_date.errors.required">Try a valid date.</span>
+              <span *ngIf="form.controls.plan_due_date.errors.bsDate.minDate">Oops, this date was set in the past!</span>
             </div>
           </div>
         </div>
-      </form>
-    </section>
+      </section>
+
+    </form>
   </main>
 </div>
