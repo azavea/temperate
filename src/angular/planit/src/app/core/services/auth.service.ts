@@ -8,6 +8,8 @@ import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
 import { CORE_CITYSERVICE_CURRENT, CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
+import { User } from '../../shared/';
+
 @Injectable()
 export class AuthService {
 
@@ -29,11 +31,17 @@ export class AuthService {
     return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
   }
 
-  getUserFromUidToken(uid, token): Observable<any> {
+  getUserFromUidToken(uid, token): Observable<User> {
     const url = `${environment.apiUrl}/api/user/${uid}/${token}`;
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(url);
+    return this.http.get(url).map(response => {
+      const user = response.json();
+      if (user) {
+        return new User(user);
+      }
+      return null;
+    });
   }
 
 
