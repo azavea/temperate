@@ -1,0 +1,8 @@
+<div [id]="id" class="form-control-container">
+  <div class="checkbox-item" *ngFor="let opt of options"
+       (keyup.enter)="toggleOption(opt)" (click)="toggleOption(opt)" tabindex="0">
+    <span class="icon icon-check-square" *ngIf="isSelected(opt)"></span>
+    <span class="icon icon-square" *ngIf="!isSelected(opt)"></span>
+    {{ opt.label }}
+  </div>
+</div>
