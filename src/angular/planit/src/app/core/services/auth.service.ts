@@ -4,8 +4,9 @@ import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs/Rx';
 
+import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
-import { CacheService } from './cache.service';
+import { CORE_CITYSERVICE_CURRENT, CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
   //       dependency on window
   constructor(protected http: Http,
               protected router: Router,
-              private cache: CacheService) {}
+              private cache: APICacheService) {}
 
   getToken(): string {
     return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
@@ -49,7 +50,7 @@ export class AuthService {
 
   logout(redirectTo: string = '/') {
     this.setToken(null);
-    this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+    this.cache.clear(CORE_USERSERVICE_CURRENT);
     this._loggedOut.next();
     if (redirectTo) {
       this.router.navigate([redirectTo]);
