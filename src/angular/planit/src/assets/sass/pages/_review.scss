@@ -46,5 +46,9 @@ app-review-plan {
     .panel-section {
       margin-left: 2.5rem;
     }
+
+    .panel-heading .icon-accordion {
+      margin-right: $space-medium;
+    }
   }
 }
