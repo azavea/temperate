@@ -2,9 +2,9 @@
   <p *ngIf="tagline">{{ tagline }}</p>
   <footer class="modal-footer">
     <button class="button"
-            (click)="close(false)">{{ cancelText }}</button>
-    <button class="button"
             [ngClass]="confirmButtonClass"
             (click)="close(true)">{{ confirmText }}</button>
+    <button class="button"
+            (click)="close(false)">{{ cancelText }}</button>
   </footer>
 </app-modal-template>
