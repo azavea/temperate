@@ -53,6 +53,17 @@ export class HelpModalComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, {animated: false});
   }
 
+  // Close modal with a timed delay. Form submission requires a delay so that the
+  //  form has time to be sent before the modal is closed and the form is destroyed in the DOM
+  public closeModal(delay = 0) {
+    if (this.modalRef) {
+      window.setTimeout(() => {
+        this.modalRef.hide();
+        this.modalRef = undefined;
+      }, delay);
+    }
+  }
+
   private getCurrentUser() {
     if (this.authService.isAuthenticated()) {
       this.userService.current().subscribe(user => this.user = user);

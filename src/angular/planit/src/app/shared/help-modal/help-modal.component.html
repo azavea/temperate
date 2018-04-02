@@ -10,7 +10,7 @@
   <header class="modal-header">
     <h1 class="modal-title">Contact ICLEI</h1>
     <button type="button" class="button button-large button-icon button-inverse-dark modal-close"
-      data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      data-dismiss="modal" aria-label="Close" (click)="closeModal()">
       <i class="icon-cancel"></i>
     </button>
   </header>
@@ -36,14 +36,14 @@
         <label for="description">Description</label>
         <textarea id="description" class="form-control" autofocus></textarea>
       </div>
+      <footer class="modal-footer">
+        <div class="button-group">
+          <button form="help" type="submit" class="button button-primary"
+            (click)="closeModal(500)">Send</button>
+          <button type="button" class="button"
+            data-dismiss="modal" aria-label="Close" (click)="closeModal()">Cancel</button>
+        </div>
+      </footer>
     </form>
-    <footer class="modal-footer">
-      <div class="button-group">
-        <button form="help" type="submit" class="button button-primary"
-          (click)="modalRef.hide()">Send</button>
-        <button type="button" class="button"
-          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Cancel</button>
-      </div>
-    </footer>
   </div>
 </ng-template>
