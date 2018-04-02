@@ -6,14 +6,15 @@ import { environment } from '../../../environments/environment';
 
 import { City as ApiCity } from 'climate-change-components';
 
+import { APICacheService } from 'climate-change-components';
+import { CORE_CITYSERVICE_CURRENT } from '../constants/cache';
 import { PlanItApiHttp } from './api-http.service';
-import { CacheService } from './cache.service';
 import { UserService } from './user.service';
 
 @Injectable()
 export class CityService {
 
-  constructor(private apiHttp: PlanItApiHttp, private cache: CacheService,
+  constructor(private apiHttp: PlanItApiHttp, private cache: APICacheService,
               private userService: UserService) {}
 
   search(query: string): Observable<ApiCity[]> {

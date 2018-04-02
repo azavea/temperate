@@ -3,14 +3,14 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { APICacheService } from 'climate-change-components';
 import { MarketingComponent } from '../../marketing/marketing.component';
 import { AuthService } from './auth.service';
-import { CacheService } from './cache.service';
 
 describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AuthService, CacheService],
+      providers: [AuthService, APICacheService],
       imports: [ HttpModule, RouterTestingModule.withRoutes([
         { path: '*', component: MarketingComponent }
       ])],

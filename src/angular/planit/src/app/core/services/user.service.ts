@@ -5,8 +5,10 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../shared';
+import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 import { PlanItApiHttp } from './api-http.service';
-import { CacheService } from './cache.service';
+
+import { APICacheService } from 'climate-change-components';
 
 @Injectable()
 export class UserService {
@@ -15,7 +17,7 @@ export class UserService {
 
   public currentUser = this._currentUser.asObservable();
 
-  constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
+  constructor(private apiHttp: PlanItApiHttp, private cache: APICacheService) {}
 
   private formatUser(user: User): any {
     // Delete the attached organization to ensure we don't accidentally alter
@@ -27,26 +29,23 @@ export class UserService {
   }
 
   current(): Observable<User | null> {
-    let user = this.cache.get(CacheService.CORE_USERSERVICE_CURRENT);
-    if (user) {
-      return Observable.of(user);
-    }
-
     const url = `${environment.apiUrl}/api/user/`;
-    return this.apiHttp.get(url).map(resp => {
+    const request = this.apiHttp.get(url);
+    const response = this.cache.get(CORE_USERSERVICE_CURRENT, request);
+    return response.map((resp) => {
       const json = resp.json();
       if (json) {
-        user = new User(json);
-        this.cache.set(CacheService.CORE_USERSERVICE_CURRENT, user);
+        const user = new User(json);
         this._currentUser.next(user);
         return user;
       }
+
       return null;
     });
   }
 
   invalidate() {
-    this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+    this.cache.clear(CORE_USERSERVICE_CURRENT);
     // Trigger requery and internal push to currentUser in current() call
     this.current().subscribe(() => undefined);
   }
@@ -54,7 +53,7 @@ export class UserService {
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
-      this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+      this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
     });
   }
