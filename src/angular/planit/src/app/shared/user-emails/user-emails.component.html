@@ -1,7 +1,8 @@
 <div class="input-group">
   <input class="form-control"
          type="email"
-         placeholder="Add an email by clicking the +" 
+         placeholder="Add an email by clicking the +"
+         [id]="inputId"
          [email]="email.length > 0"
          #emailControl="ngModel"
          [tabindex]="tabindex"
