@@ -5,7 +5,6 @@ export enum OrgSubscription {
   Review = 'review',
   Insights = 'insights',
   Guidance = 'guidance',
-  Hourly = 'hourly',
   Custom = 'custom',
 }
 
@@ -89,19 +88,6 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 10000,
     header: 'Custom',
     // tslint:disable-next-line:max-line-length
-    description: 'Need custom assistance from ICLEI-USA? We’re happy to work with you to create a package that fits your needs.',
-    iconClass: '',
-    visible: false,
-    yearlyValue: null
-  }],
-  [OrgSubscription.Hourly, {
-    name: OrgSubscription.Hourly,
-    nickName: 'Pay as you go',
-    fullName: 'Pay as you go subscription',
-    yearlyCost: 1500,
-    header: 'Pay as you go consulting',
-    // tslint:disable-next-line:max-line-length
-    description: 'Start with a basic package and get guidance from ICLEI-USA only when you need it. Your conversations will be billed at $150/hr.',
     iconClass: '',
     visible: false,
     yearlyValue: null
