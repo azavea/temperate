@@ -10,6 +10,8 @@ export class Location {
   type: string;
   geometry: Point;
   properties: LocationProperties;
+  id: string;
+  dataset: Array<string>;
 
   constructor(object: Object) {
     Object.assign(this, object);
