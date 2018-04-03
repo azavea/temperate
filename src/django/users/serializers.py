@@ -93,6 +93,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                   slug_field='weather_event_id')
     invites = serializers.ListField(child=serializers.EmailField(), write_only=True, required=False)
 
+    users = serializers.SlugRelatedField(many=True, read_only=True, slug_field='email')
+
     def validate_location(self, location_data):
         if 'api_city_id' not in location_data:
             raise serializers.ValidationError("Location ID is required.")
@@ -184,7 +186,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         fields = ('id', 'created_at', 'name', 'location', 'units', 'invites',
                   'subscription', 'subscription_end_date', 'subscription_pending',
                   'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
-                  'community_systems', 'weather_events',)
+                  'community_systems', 'weather_events', 'users',)
         read_only_fields = ('subscription_end_date', 'subscription_pending',)
 
 
