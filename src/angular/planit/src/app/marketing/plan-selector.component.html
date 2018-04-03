@@ -22,7 +22,7 @@
     <button class="button button-primary"
             [disabled]="plan.name === activePlan?.name"
             (click)="planSelected(plan)"
-            *ngIf="!org?.subscription_pending">
+            *ngIf="org && !org?.subscription_pending">
       {{ activePlan && plan.name === activePlan.name ? 'Selected' : 'Select package' }}</button>
 
     <div class="plan-tag"
