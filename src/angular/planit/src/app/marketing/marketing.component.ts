@@ -8,7 +8,5 @@ import { Component } from '@angular/core';
 })
 export class MarketingComponent {
 
-  public hostname = window.location.hostname;
-
   constructor() {}
 }

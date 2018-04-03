@@ -10,7 +10,7 @@
   <header class="modal-header">
     <h1 class="modal-title">Contact ICLEI</h1>
     <button type="button" class="button button-large button-icon button-inverse-dark modal-close"
-      data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">
+      data-dismiss="modal" aria-label="Close" (click)="closeModal()">
       <i class="icon-cancel"></i>
     </button>
   </header>
@@ -19,12 +19,17 @@
     <iframe name="help-iframe" id="help-iframe" src="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8">
     </iframe>
     <form ngNoForm id="help" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST" target="help-iframe">
+      <!-- Each input's name attribute is what links this form to the one in SalesForce.
+           If modifying this form, ensure the name attributes remain attached to the
+           appropriate inputs -->
       <input type=hidden name="orgid" value="00D700000008ZTW">
       <input type=hidden name="retURL" value="{{ url }}">
       <input type=hidden id="name" name="name" value="{{ user.first_name }} {{ user.last_name }}">
       <input type=hidden id="email" name="email" value="{{ user.email }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization.location.getFullName() }}">
-      <input type=hidden id="city" name="city" value="{{ user.primary_organization.name }}">
+      <input type="hidden" id="00N0g000003o97m" maxlength="100" name="00N0g000003o97m"
+             value="{{ user.primary_organization.name }}">
+      <input type="hidden" id="00N70000002YjrD" maxlength="50" name="00N70000002YjrD"
+             value="{{ user.primary_organization.location.getFullName() }}">
       <input type="hidden" id="recordType" name="recordType" value="0120g000000cfLg">
       <input type="hidden" id="external" name="external" value="1">
       <div class="form-control-container">
@@ -34,16 +39,17 @@
       </div>
       <div class="form-control-container">
         <label for="description">Description</label>
-        <textarea id="description" class="form-control" autofocus></textarea>
+        <textarea id="description" name="description" class="form-control" autofocus></textarea>
       </div>
+      <footer class="modal-footer">
+        <div class="button-group">
+          <button form="help" type="submit" class="button button-primary"
+            [ngClass]="{'disabled': submitPending}"
+            (click)="closeModal(500)">Send</button>
+          <button type="button" class="button"
+            data-dismiss="modal" aria-label="Close" (click)="closeModal()">Cancel</button>
+        </div>
+      </footer>
     </form>
-    <footer class="modal-footer">
-      <div class="button-group">
-        <button form="help" type="submit" class="button button-primary"
-          (click)="modalRef.hide()">Send</button>
-        <button type="button" class="button"
-          data-dismiss="modal" aria-label="Close" (click)="modalRef.hide()">Cancel</button>
-      </div>
-    </footer>
   </div>
 </ng-template>

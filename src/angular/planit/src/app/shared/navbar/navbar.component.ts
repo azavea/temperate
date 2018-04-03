@@ -21,8 +21,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public user?: User;
   public userSubscription: Subscription;
 
-  public hostname = window.location.hostname;
-
   constructor(public authService: AuthService,
               public router: Router,
               private userService: UserService) {}

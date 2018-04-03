@@ -86,7 +86,6 @@ class PlanItOrganization(models.Model):
         REVIEW = 'review'
         INSIGHTS = 'insights'
         GUIDANCE = 'guidance'
-        HOURLY = 'hourly'
         CUSTOM = 'custom'
 
         CHOICES = (
@@ -95,7 +94,6 @@ class PlanItOrganization(models.Model):
             (REVIEW, 'Review',),
             (INSIGHTS, 'Insights',),
             (GUIDANCE, 'Guidance',),
-            (HOURLY, 'Pay as you go',),
             (CUSTOM, 'Custom',),
         )
 
@@ -424,7 +422,7 @@ class CityProfile(models.Model):
         CHOICES = (
             (YES, 'Yes',),
             (NO, 'Not yet',),
-            (DO_NOT_KNOW, 'I Don’t know',),
+            (DO_NOT_KNOW, 'I don’t know',),
         )
 
     class AssessedHazards:
