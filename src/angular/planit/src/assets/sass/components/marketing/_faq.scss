@@ -31,25 +31,27 @@ app-faq .main-container .main-content {
 
   > .faq-list {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     align-items: stretch;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 0;
     padding: 0;
     list-style: none;
 
-    @media screen and (max-width: $pricing-breakpoint) {
-      flex-flow: column nowrap;
-      align-items: center;
-      justify-content: flex-start;
+    @media screen and (min-width: $pricing-breakpoint) {
+      flex-flow: row wrap;
+      justify-content: space-between;
     }
 
     > .faq {
-      width: calc(50% - #{$space-medium});
-      min-width: $pricing-card-min-width;
       margin-bottom: $space-xlarge;
       padding: $space-xxlarge;
       background-color: $white;
+
+      @media all and (min-width: 55.750em) {
+        min-width: $pricing-card-min-width;
+        width: calc(50% - #{$space-medium});
+      }
     }
 
     > .faq > .question {
