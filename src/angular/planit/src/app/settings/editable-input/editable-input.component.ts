@@ -9,6 +9,8 @@ import { Observable } from 'rxjs/Rx';
 })
 export class EditableInputComponent implements OnInit {
 
+  @Input() inputId: string = null;
+
   @Input() value = '';
   @Output() valueChange = new EventEmitter<string>();
 

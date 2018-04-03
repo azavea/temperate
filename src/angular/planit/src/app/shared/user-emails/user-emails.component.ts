@@ -14,6 +14,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class UserEmailsComponent implements ControlValueAccessor {
 
+  @Input() public inputId: string = null;
   @Input() public tabindex = 1;
   @Input() public errors: { [key: string]: string} = {};
 
