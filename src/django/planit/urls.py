@@ -27,6 +27,7 @@ from users.views import (
     AddCityView,
     CityProfileOptionsView,
     CurrentUserView,
+    get_user,
     PlanitObtainAuthToken,
     OrganizationViewSet,
     UserViewSet,
@@ -63,6 +64,10 @@ urlpatterns = [
     # user management
     url(r'^accounts/', include('users.urls')),
     url(r'^api/add_city/', AddCityView.as_view(), name='add_city'),
+
+    url(r'^api/user/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        get_user,
+        name='user_from_uid_token'),
     url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
     url(r'^api-token-auth/', PlanitObtainAuthToken.as_view(), name='token_auth'),
 
