@@ -2,14 +2,20 @@
   background-color: $brand-black;
   display: block;
   min-height: 6rem;
-  padding: $space-small $space-xlarge;
+  padding: $space-large $space-tiny;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
 
-  @media (max-width: 40rem) {
-    flex-flow: column nowrap;
+  @media all and (min-width: 23.5rem) {
+    flex-flow: row wrap;
+  }
+
+  @media all and (min-width: 38.750rem) {
+    justify-content: space-between;
+    padding: $space-small $space-xlarge;
+    flex-flow: row wrap;
 
     > * {
       margin: .8rem 0;
@@ -22,6 +28,12 @@
     border: 0;
     overflow: hidden;
     text-decoration: none;
+    text-align: center;
+    flex: 1 1 100%;
+
+    @media all and (min-width: 38.750rem) {
+      flex: 0 0 auto;
+    }
 
     > img {
       width: 22rem;
@@ -38,20 +50,34 @@
 
   .nav-buttons {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     align-items: center;
-
-    > * {
-      margin-left: $space-base;
-    }
+    margin-top: $space-medium;
 
     .button {
       font-size: 1.8rem;
       padding-top: $button-padding-vertical-small;
       padding-bottom: $button-padding-vertical-small;
-      flex: 0 0 auto;
+      flex: 1 1 47%;
+      margin: $space-small 1%;
     }
-  }
+
+    @media all and (min-width: 23.5rem) {
+      flex-flow: row nowrap;
+
+      .button {
+        flex: 0 0 auto;
+        margin: 0 $space-base 0 0;
+      }
+
+      .button:first-child {
+        margin: 0;
+      }
+    }
+    @media all and (min-width: 38.750rem) {
+      margin: 0;
+    }
+  } 
 }
 
 .banner {
