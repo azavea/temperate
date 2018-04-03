@@ -8,15 +8,15 @@
       <section class="settings-section">
         <h3>Profile</h3>
         <div class="form-control-container">
-          <label id="first-name">First name</label>
+          <label for="first-name">First name</label>
           <app-editable-input inputId="first-name" [(value)]="user.first_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
         </div>
         <div class="form-control-container">
-          <label id="last-name">Last name</label>
+          <label for="last-name">Last name</label>
           <app-editable-input inputId="last-name" [(value)]="user.last_name" (saved)="userSave()" (editted)="edit($event)"></app-editable-input>
         </div>
         <div class="form-control-container">
-          <label id="email">Email</label>
+          <label for="email">Email</label>
           <input inputId="email" class="form-control" type="text" disabled value="{{ user.email }}">
         </div>
       </section>
@@ -24,11 +24,11 @@
       <section class="settings-section">
         <h3>City and Organization</h3>
         <div class="form-control-container">
-          <label id="city">City</label>
+          <label for="city">City</label>
           <input id="city" class="form-control" type="text" disabled value="{{ user.primary_organization.location.getFullName() }}">
         </div>
         <div class="form-control-container">
-          <label id="organization-name">Organization/department</label>
+          <label for="organization-name">Organization/department</label>
           <app-editable-input inputId="organization-name" [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>
         </div>
       </section>
@@ -36,7 +36,7 @@
       <section class="settings-section">
         <h3>Colleagues</h3>
         <div class="form-control-container">
-          <label id="inputs">Invite a colleague</label>
+          <label for="inputs">Invite a colleague</label>
           <app-user-emails inputId="invites" formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
           <div class="form-control-hint">
             Invited colleagues will automatically join your organization and can collaborate on your plan.
@@ -49,7 +49,7 @@
       <section class="settings-section">
         <h3>Plan</h3>
         <div class="form-control-container">
-          <label id="due-date">Due Date</label>
+          <label for="due-date">Due Date</label>
           <input class="form-control date-picker-control"
                  type="text"
                  placeholder="mm/dd/yyyy"
