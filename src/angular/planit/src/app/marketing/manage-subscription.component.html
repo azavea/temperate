@@ -41,10 +41,11 @@
     
     <section class="section-extra-plans">
       <div class="section-content">
-        <h3 class="heading">Not seeing what you need above?</h3>
+        <h3 class="heading text-center">Not seeing what you need above?</h3>
         <div class="plan-cards">
 
           <div class="plan-card" [ngClass]="{active: customPlan.name === user?.primary_organization?.subscription}">
+            <h4 class="tier">{{ customPlan.nickName }}</h4>
             <h4 class="heading">{{ customPlan.header }}</h4>
             <p class="description">{{ customPlan.description }}</p>
             

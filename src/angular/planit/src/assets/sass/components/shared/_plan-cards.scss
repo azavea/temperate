@@ -37,7 +37,7 @@
     &:hover {
       transform: scale(1.01);
     }
-    
+
     // If this is the selected plan, no hover state
     &.active {
       &:hover {
@@ -66,6 +66,8 @@
       margin-bottom: $space-large;
       font-size: $text-medium;
       font-weight: $font-weight-regular;
+      padding-top: $space-medium;
+      border-top: $pricing-plan-tier-header-border;
 
       @media all and (min-width: 35.500rem) and (max-width: 55rem) {
         flex: 1 0 100%;
@@ -76,6 +78,7 @@
         flex-flow: row nowrap;
         align-items: center;
         margin-bottom: $space-xxlarge;
+        padding-top: $space-xxlarge;
       }
     }
 
@@ -103,7 +106,7 @@
     }
 
     > .button, .button-container {
-      margin: 3rem 0 auto 0;
+      margin: $space-xxlarge 0 auto 0;
 
       @media all and (min-width: 35.500rem) and (max-width: 55rem) {
         margin: 0 0 auto 2rem;
@@ -142,18 +145,10 @@ app-plan-selector {
       &:hover {
         box-shadow: $pricing-plan-card-shadow-hover;
       }
-
-      > .heading {
-        padding-top: $space-medium;
-        border-top: $pricing-plan-tier-header-border;
-
-        @media all and (min-width: 55rem) {
-          padding-top: $space-xxlarge;
-        }
-      }
     }
   }
-}    
+}
+
 // If subscription is pending, no hover states
 .subscription-pending {
   .plan-cards {

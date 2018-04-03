@@ -29,7 +29,7 @@ app-manage-subscription {
       margin: 0;
       padding: $space-xxlarge $space-large 0;
     }
-    
+
     .section-content > .heading {
       margin-bottom: $space-xlarge;
     }
@@ -38,6 +38,10 @@ app-manage-subscription {
   .section-extra-plans {
     background-color: $neutral-1;
     padding: $space-xxlarge 0;
+
+    .plan-cards {
+      justify-content: space-around;
+    }
   }
 
   .plan-notice {
@@ -48,7 +52,7 @@ app-manage-subscription {
     border-radius: $border-radius;
     width: fit-content;
     margin: $space-xlarge 0 $space-xxlarge;
-    
+
     .heading {
       font-size: $subscription-notice-heading-size;
       font-weight: $subscription-notice-heading-weight;
