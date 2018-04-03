@@ -86,8 +86,9 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     nickName: 'Custom',
     fullName: 'Custom subscription',
     yearlyCost: 10000,
-    header: 'Custom',
+    header: 'Full Suite of Adaptation Services',
     // tslint:disable-next-line:max-line-length
+    description: 'ICLEI-USA offers comprehensive adaptation and resilience planning services for your community or government agency, including additional research, stakeholder engagement, and report writing in order to craft a locally tailored and actionable plan to thrive in a changing climate.  Contact us to learn more.',
     iconClass: '',
     visible: false,
     yearlyValue: null
