@@ -2,12 +2,6 @@
   <nav class="footer-nav">
     <a routerLink="/" class="logo"><img src="assets/images/temperate-logo-full-left-neutral.svg" alt="Temperate, by Azavea"></a>
     <div class="nav-buttons">
-      <a href="https://www.azavea.com/terms-of-use/"
-         class="button button-inverse-dark"
-         target="_blank">Terms of Use</a>
-      <a href="https://www.azavea.com/privacy-policy/"
-         class="button button-inverse-dark"
-         target="_blank">Privacy Policy</a>
       <a class="button button-inverse-dark"
          (click)="resetScroll()"
          routerLink="/methodology"
@@ -31,7 +25,13 @@
     </div>
   </nav>
   <div class="fine-print">
-    <p class="copyright">&copy; 2016-2018 <a href="https://azavea.com/" target="_blank">Azavea Inc.</a>, using technology to inform research for civic and social impact. All rights reserved.</p>
+    <p class="copyright">
+      &copy; 2016-2018 <a href="https://azavea.com/" target="_blank">Azavea Inc.</a>, using technology to inform research for civic and social impact. All rights reserved.
+    </p>
     <p class="grant">Temperate and the Climate API developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
+    <p class="grant">
+      <a href="https://www.azavea.com/terms-of-use/" target="_blank">Terms of Use</a> &bull; 
+      <a href="https://www.azavea.com/privacy-policy/" target="_blank">Privacy Policy</a>
+    </p>
   </div>
 </footer>
