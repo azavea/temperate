@@ -38,7 +38,10 @@
         <div class="form-control-container">
           <label>Invite a colleague</label>
           <app-user-emails formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
-          <div class="form-control-hint">Invited colleagues will automatically join your organization and can collaborate on your plan.</div>
+          <div class="form-control-hint">
+            Invited colleagues will automatically join your organization and can collaborate on your plan.
+            <p>To remove someone from your organization, please click &ldquo;Send us a message&rdquo; for assistance.</p>
+          </div>
           <div class="form-control-error"> </div>
         </div>
       </section>

@@ -16,6 +16,7 @@ export class Organization {
   weather_events: number[];
   community_systems: number[];
   invites?: string[];
+  users?: string[];
 
   constructor(object: Object) {
     Object.assign(this, object);

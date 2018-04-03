@@ -83,6 +83,8 @@ export class SettingsComponent implements OnInit {
       });
     }, () => {
       this.toastr.error('Something went wrong, please try again.');
+      // If the save failed, reset the form controls
+      this.toForm(this.user);
     });
   }
 
@@ -93,6 +95,6 @@ export class SettingsComponent implements OnInit {
 
   private toForm(user: User) {
     this.form.controls.plan_due_date.setValue(user.primary_organization.plan_due_date);
-    this.form.controls.invites.setValue(user.primary_organization.invites);
+    this.form.controls.invites.setValue(user.primary_organization.users);
   }
 }
