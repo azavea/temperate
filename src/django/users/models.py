@@ -424,7 +424,7 @@ class CityProfile(models.Model):
         CHOICES = (
             (YES, 'Yes',),
             (NO, 'Not yet',),
-            (DO_NOT_KNOW, 'I Don’t know',),
+            (DO_NOT_KNOW, 'I don’t know',),
         )
 
     class AssessedHazards:
