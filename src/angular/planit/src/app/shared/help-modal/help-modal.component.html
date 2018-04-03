@@ -43,7 +43,8 @@
       </div>
       <footer class="modal-footer">
         <div class="button-group">
-          <button form="help" type="submit" class="button button-primary" [disabled]="submitPending"
+          <button form="help" type="submit" class="button button-primary"
+            [ngClass]="{'disabled': submitPending}"
             (click)="closeModal(500)">Send</button>
           <button type="button" class="button"
             data-dismiss="modal" aria-label="Close" (click)="closeModal()">Cancel</button>
