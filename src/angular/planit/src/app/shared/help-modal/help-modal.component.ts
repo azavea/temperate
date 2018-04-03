@@ -18,6 +18,7 @@ export class HelpModalComponent implements OnInit, OnDestroy {
   public loginSubscription: Subscription;
   public logoutSubscription: Subscription;
   public modalRef: BsModalRef;
+  public submitPending = false;
   public user?: User;
   public url: string;
   public userSubscription: Subscription;
@@ -50,6 +51,7 @@ export class HelpModalComponent implements OnInit, OnDestroy {
   }
 
   public openModal(template: TemplateRef<any>) {
+    this.submitPending = false;
     this.modalRef = this.modalService.show(template, {animated: false});
   }
 
@@ -57,6 +59,9 @@ export class HelpModalComponent implements OnInit, OnDestroy {
   //  form has time to be sent before the modal is closed and the form is destroyed in the DOM
   public closeModal(delay = 0) {
     if (this.modalRef) {
+      if (delay > 0) {
+        this.submitPending = true;
+      }
       window.setTimeout(() => {
         this.modalRef.hide();
         this.modalRef = undefined;
