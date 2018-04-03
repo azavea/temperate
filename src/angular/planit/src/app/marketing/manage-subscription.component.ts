@@ -27,7 +27,6 @@ export class ManageSubscriptionComponent implements OnInit {
 
   public activeModalStep = SubscriptionModalStep.Select;
   public customPlan = OrgSubscriptionOptions.get(OrgSubscription.Custom);
-  public hourlyPlan = OrgSubscriptionOptions.get(OrgSubscription.Hourly);
   public modalStep = SubscriptionModalStep;
   public customSubscription = OrgSubscription.Custom;
   public selectedPlan: OrgSubscriptionPlan;

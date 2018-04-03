@@ -86,7 +86,6 @@ class PlanItOrganization(models.Model):
         REVIEW = 'review'
         INSIGHTS = 'insights'
         GUIDANCE = 'guidance'
-        HOURLY = 'hourly'
         CUSTOM = 'custom'
 
         CHOICES = (
@@ -95,7 +94,6 @@ class PlanItOrganization(models.Model):
             (REVIEW, 'Review',),
             (INSIGHTS, 'Insights',),
             (GUIDANCE, 'Guidance',),
-            (HOURLY, 'Pay as you go',),
             (CUSTOM, 'Custom',),
         )
 
