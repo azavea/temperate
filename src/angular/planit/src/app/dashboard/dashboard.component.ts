@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit {
   public viewTabs = ViewTabs;
 
   private weatherEvents: WeatherEvent[];
-  private weatherEventIdsAtLastSave: number[] = [];
 
   @ViewChild('trialWarningModal') private trialWarningModal: ModalTemplateComponent;
 
@@ -56,7 +55,7 @@ export class DashboardComponent implements OnInit {
     ).subscribe(([events, user]: [WeatherEvent[], User]) => {
       this.weatherEvents = events;
       this.organization = user.primary_organization;
-      this.setSelectedEvents(this.organization.weather_events);
+      this.setSelectedEvents();
 
       const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
       if (!shownWarning) {
@@ -74,7 +73,7 @@ export class DashboardComponent implements OnInit {
   }
 
   cancelModal(modal: ModalTemplateComponent) {
-    this.setSelectedEvents(this.weatherEventIdsAtLastSave);
+    this.setSelectedEvents();
     modal.close();
   }
 
@@ -96,13 +95,13 @@ export class DashboardComponent implements OnInit {
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
     this.saveEventsToAPI(selectedEvents)
       .finally(() => this.getRisks())
-      .subscribe(results => this.handleAPISave(results));
+      .subscribe();
     modal.close();
   }
 
   weatherEventsAtLastSave() {
     if (this.weatherEvents) {
-      return this.weatherEvents.filter(e => this.weatherEventIdsAtLastSave.includes(e.id));
+      return this.weatherEvents.filter(e => this.organization.weather_events.includes(e.id));
     }
     return [];
   }
@@ -129,13 +128,8 @@ export class DashboardComponent implements OnInit {
     return Array.from(names.map(name => groupedRisks.get(name)));
   }
 
-  private setSelectedEvents(eventIds: number[]) {
-    this.weatherEventIdsAtLastSave = eventIds;
+  private setSelectedEvents() {
     this.selectedEventsControl.setValue(this.weatherEventsAtLastSave());
-  }
-
-  private handleAPISave(organization: Organization) {
-    this.weatherEventIdsAtLastSave = organization.weather_events;
   }
 
   private saveEventsToAPI(events: WeatherEvent[]): Observable<Organization> {
