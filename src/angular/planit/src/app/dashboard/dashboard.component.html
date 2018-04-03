@@ -108,7 +108,7 @@
     the <a routerLink="/methodology" (click)="cancelModal(weatherEventsModal);resetScroll()">Methodology</a> page for more information.
   </p>
   <app-add-weather-events [formControl]="selectedEventsControl"
-                          [readOnlyEvents]="weatherEventsAtLastSave"></app-add-weather-events>
+                          [readOnlyEvents]="weatherEventsAtLastSave()"></app-add-weather-events>
   <footer class="modal-footer">
     <button class="button button-primary"
             (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>

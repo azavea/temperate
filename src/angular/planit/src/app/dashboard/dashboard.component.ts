@@ -99,7 +99,7 @@ export class DashboardComponent implements OnInit {
     modal.close();
   }
 
-  get weatherEventsAtLastSave() {
+  weatherEventsAtLastSave() {
     if (this.weatherEvents) {
       return this.weatherEvents.filter(e => this.weatherEventIdsAtLastSave.includes(e.id));
     }
@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit {
 
   private setSelectedEvents(eventIds: number[]) {
     this.weatherEventIdsAtLastSave = eventIds;
-    this.selectedEventsControl.setValue(this.weatherEventsAtLastSave);
+    this.selectedEventsControl.setValue(this.weatherEventsAtLastSave());
   }
 
   private handleAPISave(organization: Organization) {
