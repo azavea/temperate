@@ -36,6 +36,8 @@ export class PasswordResetFormComponent implements OnInit {
   }
 
   submit() {
+    // In order to make the form single input, we trick Django Registration library's serializer
+    // by sending the one input twice rather than overriding the serializer to accept one input
     this.authService.resetPassword(this.uid, this.token, this.new_password1, this.new_password1)
       .subscribe(
       (data) => {
