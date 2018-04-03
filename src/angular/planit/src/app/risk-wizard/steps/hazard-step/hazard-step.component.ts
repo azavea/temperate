@@ -5,13 +5,13 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
 import { ToastrService } from 'ngx-toastr';
 
 import {
+  Location,
   OrgRiskDirectionalFrequencyOptions,
   OrgRiskDirectionalIntensityOptions,
   OrgRiskDirectionalOption,
@@ -29,7 +29,7 @@ import { ModalTemplateComponent } from '../../../shared/modal-template/modal-tem
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
-import { CityService } from '../../../core/services/city.service';
+import { UserService } from '../../../core/services/user.service';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -56,7 +56,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public directionalFrequencyOptionsKeys = Array.from(OrgRiskDirectionalFrequencyOptions.keys());
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
-  public city: City;
+  public city: Location;
   public indicators: Indicator[] = [];
 
   @ViewChild('indicatorChartModal')
@@ -73,7 +73,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
               protected toastr: ToastrService,
               protected router: Router,
               protected previousRouteGuard: PreviousRouteGuard,
-              private cityService: CityService,
+              private userService: UserService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
     super(session, riskService, toastr, router, previousRouteGuard);
@@ -85,7 +85,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     this.setupForm(this.fromModel(this.risk));
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
     this.setDisabled(this.risk);
 
     this.sessionSubscription = this.session.data.subscribe(risk => {

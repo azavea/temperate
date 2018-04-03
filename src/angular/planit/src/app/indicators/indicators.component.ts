@@ -2,15 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
 
-import { CityService } from '../core/services/city.service';
+import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
-import { WeatherEvent } from '../shared';
+import { Location, WeatherEvent } from '../shared';
 
 import { CollapsibleChartComponent } from '../shared/collapsible-chart/collapsible-chart.component';
 
@@ -28,17 +27,19 @@ export class IndicatorsComponent implements OnInit {
   public accordionState: AccordionState = {};
   public allIndicators: Indicator[];
   public filteredIndicators: Indicator[];
-  public city: City;
+  public city: Location;
   public filters = new Map();
   public topConcerns: WeatherEvent[];
 
   constructor(private indicatorService: IndicatorService,
               private weatherEventService: WeatherEventService,
               private fb: FormBuilder,
-              private cityService: CityService) {}
+              private userService: UserService) {}
 
   ngOnInit() {
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
     this.weatherEventService.rankedEvents().subscribe(events => {

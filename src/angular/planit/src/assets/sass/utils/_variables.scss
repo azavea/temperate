@@ -93,6 +93,8 @@ $zindex-typeahead: 1060;
 $zindex-dropdown-menu: 1070;
 $zindex-popover: 1080;
 $zindex-tooltip: 1080;
+$zindex-spinner: 1090;
+$zindex-contact-iclei: 1040;
 
 /* * * *
  * Columns
@@ -158,10 +160,15 @@ $page-content-border: 1px solid $neutral-2;
  * Loading
  *
  * * * */
+$loading-color: $neutral-2;
 $loading-dimension: 3rem;
-$loading-dimension-large: 8rem;
+$loading-dimension-large: 5rem;
 $loading-dimension-small: 1.7rem;
-
+$loading-border-width: .8rem;
+$loading-background-color: $neutral-0;
+$loading-splash-text-size: 16px;  // same units as inline styles in index.html
+$loading-splash-text-color: $neutral-3;
+$loading-splash-background-color: $neutral-1;
 
 /* * * *
  * Button
@@ -368,13 +375,6 @@ $progress-bar-highlight-background-action: $brand-positive;
  $speed-normal: 0.35s;
  $speed-slow: 0.5s;
  $speed-very-slow: 1s;
-
-
- /* * * *
- * Loading Screen
- *
- * * * */
- $loading-background-color: $neutral-0;
 
 
 /* * * *
@@ -637,8 +637,8 @@ $adaptive-need-table-label-color: $neutral-3;
 
 $adaptive-need-table-label-arrow-background: $neutral-2;
 $adaptive-need-table-label-arrow-thickness: 1px;
-$adaptive-need-table-label-arrow-shaft-length: 9.5rem;
-$adaptive-need-table-label-arrow-end-length: 1rem;
+$adaptive-need-table-label-arrow-shaft-length: 10rem;
+$adaptive-need-table-label-arrow-end-length: 0.5rem;
 
 $adaptive-need-table-cell-size: 3.5rem;
 
@@ -786,3 +786,14 @@ $tab-color: $neutral-4;
 $tab-color-hover: $black;
 $tab-color-active: $black;
 $tab-background-active: $white;
+
+
+/* * * *
+ * Review plan page
+ *
+ * * * */
+$review-page-review-section-title-color: $neutral-4;
+$review-page-review-section-title-size: $text-small;
+$review-page-review-section-title-weight: $font-weight-bold;
+$review-page-review-item-background-dark: darken($gray, 4%);
+$review-page-review-item-background-light: lighten($gray, 2%);

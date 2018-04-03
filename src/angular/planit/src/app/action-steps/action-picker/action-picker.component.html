@@ -11,7 +11,7 @@
   <div class="modal-body">
     <div class="display-flex flex-vertical" *ngIf="loading">
       <div class="loading-wrapper">
-        <div class="loading loading-spinner loading-large loading-primary"></div>
+        <div class="loading loading-spinner loading-large"></div>
       </div>
     </div>
     <div class="suggested-actions-cta" *ngIf="!loading">
@@ -24,7 +24,7 @@
         Get started
       </button>
     </div>
-    <footer class="modal-footer">
+    <footer class="modal-footer" *ngIf="!loading">
       <button class="button-link" (click)="goToWizard()">No thanks. I&rsquo;ll start from scratch.</button>
     </footer>
   </div>

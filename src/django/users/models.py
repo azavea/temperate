@@ -86,7 +86,6 @@ class PlanItOrganization(models.Model):
         REVIEW = 'review'
         INSIGHTS = 'insights'
         GUIDANCE = 'guidance'
-        HOURLY = 'hourly'
         CUSTOM = 'custom'
 
         CHOICES = (
@@ -95,7 +94,6 @@ class PlanItOrganization(models.Model):
             (REVIEW, 'Review',),
             (INSIGHTS, 'Insights',),
             (GUIDANCE, 'Guidance',),
-            (HOURLY, 'Pay as you go',),
             (CUSTOM, 'Custom',),
         )
 
@@ -424,7 +422,7 @@ class CityProfile(models.Model):
         CHOICES = (
             (YES, 'Yes',),
             (NO, 'Not yet',),
-            (DO_NOT_KNOW, 'I Don’t know',),
+            (DO_NOT_KNOW, 'I don’t know',),
         )
 
     class AssessedHazards:
@@ -468,6 +466,21 @@ class CityProfile(models.Model):
             (NONE_OF_THE_ABOVE, 'None of these'),
         )
 
+    class ActionPriorities:
+        COST_BENEFIT = 'cost_benefit'
+        COST_EFFECTIVENESS = 'cost_effectiveness'
+        MULTIPLE = 'multiple_criteria'
+        CONSENSUS = 'consensus'
+        EXPERIMENT = 'experiment'
+
+        CHOICES = (
+            (COST_BENEFIT, 'Benefit-cost analysis',),
+            (COST_EFFECTIVENESS, 'Cost-effectiveness',),
+            (MULTIPLE, 'Multiple-criteria decision analysis',),
+            (CONSENSUS, 'Stakeholder consensus decision-making',),
+            (EXPERIMENT, 'Experiment and observe',),
+        )
+
     organization = AutoOneToOneField('users.PlanItOrganization', related_name='city_profile')
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -505,10 +518,4 @@ class CityProfile(models.Model):
                                      blank=True, default='')
     action_prioritized_description = models.TextField(blank=True, default='')
     # default=0 explicitly sets all flags to false
-    action_prioritized = BitField(flags=(
-        ('cost_benefit', 'Benefit-cost analysis',),
-        ('cost_effectiveness', 'Cost-effectiveness',),
-        ('multiple_criteria', 'Multiple-criteria decision analysis',),
-        ('consensus', 'Stakeholder consensus decision-making',),
-        ('experiment', 'Experiment and observe',),
-    ), default=0)
+    action_prioritized = BitField(flags=ActionPriorities.CHOICES, default=0)

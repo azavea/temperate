@@ -1,8 +1,16 @@
-<div class="page-content">
-  <h3>About your city</h3>
-  <section class="page-section">
-    <p>Finish date: {{ org?.subscription_end_date | date: 'longDate' }}</p>
-    <p>Organization name: {{ org?.name }}</p>
-    <p>City: {{ org?.location?.properties.name }}</p>
-  </section>
-</div>
+<section class="tab-section">
+  <div class="review-item">
+    <span class="answer-label">City:</span>
+    <span class="review-description">{{ org?.location?.getFullName() }}</span>
+  </div>
+
+  <div class="review-item">
+    <span class="answer-label">Organization name:</span>
+    <span class="review-description">{{ org?.name }}</span>
+  </div>
+
+  <div class="review-item">
+    <span class="answer-label">Finish date:</span>
+    <span class="review-description">{{ org?.subscription_end_date | date: 'longDate' }}</span>
+  </div>
+</section>

@@ -15,7 +15,5 @@ import { environment } from '../../environments/environment';
 export class PricingComponent {
 
   public customPlan = OrgSubscriptionOptions.get(OrgSubscription.Custom);
-  public hourlyPlan = OrgSubscriptionOptions.get(OrgSubscription.Hourly);
   public supportEmail = environment.supportEmail;
-  public hostname = window.location.hostname;
 }

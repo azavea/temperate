@@ -4141,42 +4141,6 @@
 },
 {
     "model": "planit_data.defaultrisk",
-    "pk": 3428,
-    "fields": {
-        "weather_event": 35,
-        "community_system": 5,
-        "order": null
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3429,
-    "fields": {
-        "weather_event": 35,
-        "community_system": 26,
-        "order": null
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3430,
-    "fields": {
-        "weather_event": 35,
-        "community_system": 12,
-        "order": null
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
-    "pk": 3431,
-    "fields": {
-        "weather_event": 35,
-        "community_system": 13,
-        "order": null
-    }
-},
-{
-    "model": "planit_data.defaultrisk",
     "pk": 3432,
     "fields": {
         "weather_event": 16,

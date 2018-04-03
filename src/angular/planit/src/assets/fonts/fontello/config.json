@@ -1689,6 +1689,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "130380e481a7defc690dfb24123a1f0c",
+      "css": "circle",
+      "code": 59644,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "b6ef4443ecc502136135437837d9724b",
+      "css": "mail",
+      "code": 59513,
+      "src": "elusive"
+    },
+    {
       "uid": "aaafc57606711978ce1817857229d8eb",
       "css": "plus",
       "code": 59500,

@@ -3,15 +3,18 @@ import { Injectable } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs/Rx';
 
+import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
 import { Organization } from '../../shared';
 import { PlanItApiHttp } from './api-http.service';
-import { CacheService } from './cache.service';
+import { UserService } from './user.service';
 
 @Injectable()
 export class OrganizationService {
 
-  constructor(private apiHttp: PlanItApiHttp, private cache: CacheService) {}
+  constructor(private apiHttp: PlanItApiHttp,
+              private userService: UserService,
+              private cache: APICacheService) {}
 
   private formatOrganization(organization: Organization): any {
     const formattedOrganization = cloneDeep(organization);
@@ -26,7 +29,7 @@ export class OrganizationService {
     const url = `${environment.apiUrl}/api/organizations/`;
     return this.apiHttp.post(url, this.formatOrganization(organization)).map(resp => {
       organization = new Organization(resp.json());
-      this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+      this.userService.invalidate();
       return organization;
     });
   }
@@ -36,7 +39,7 @@ export class OrganizationService {
     // PATCH instead of PUT here to avoid errors regarding required fields that are already set
     return this.apiHttp.patch(url, this.formatOrganization(organization)).map(resp => {
       organization = new Organization(resp.json());
-      this.cache.delete(CacheService.CORE_USERSERVICE_CURRENT);
+      this.userService.invalidate();
       return organization;
     });
   }

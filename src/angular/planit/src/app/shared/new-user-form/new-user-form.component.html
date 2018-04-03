@@ -53,7 +53,7 @@
       <label for="password">Password</label>
       <div class="input-group">
         <input class="form-control"
-               [type]="passwordVisible ? 'input' : 'password'"
+               [type]="passwordVisible ? 'text' : 'password'"
                required
                autocomplete="new-password"
                [(ngModel)]="model.password"
@@ -92,9 +92,10 @@
       <app-password-validator-popover [control]="password">
       </app-password-validator-popover>
     </ng-template>
+
+    <footer *ngIf="!submitted" class="modal-footer">
+      <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
+              class="button button-primary" form="app-new-user-form">Create account</button>
+    </footer>
   </form>
-  <footer *ngIf="!submitted" class="modal-footer">
-    <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
-            class="button button-primary" form="app-new-user-form">Create account</button>
-  </footer>
 </div>

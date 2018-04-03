@@ -1,6 +1,6 @@
 app-city-profile {
   .main-container .main-content {
-    max-width: 92rem;
+    max-width: $content-max-width-small;
 
     .profile-required:after {
       margin-left: 0.4rem;
@@ -8,7 +8,7 @@ app-city-profile {
       color: $brand-danger;
     }
   }
-  .radio-button-item {
+  .radio-button-item, .checkbox-item {
     cursor: pointer;
   }
   .panel-title header > .icon.completed {

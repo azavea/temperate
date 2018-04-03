@@ -18,6 +18,10 @@
   border-left: $tab-border;
 }
 
+.tab-section {
+  margin: $space-medium;
+}
+
 .button-tab {
   font-family: $button-font-family;
   display: inline-block;

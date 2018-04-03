@@ -4,7 +4,7 @@
       <h1 class="page-title-small">{{ organization?.plan_due_date | date: 'yyyy' }} Adaptive Plan</h1>
       <h2 class="page-title-large">Dashboard</h2>
       <div class="organization-details">
-        {{ organization?.location?.properties?.name || 'Your city' }}
+        {{ organization?.location?.getFullName() || 'Your city' }}
         <span class="separator"> &bull; </span>
         {{ organization?.name || 'Your organization' }}
       </div>
@@ -13,7 +13,7 @@
     <section class="dashboard-container">
       <div class="dashboard-content">
         <div class="dashboard-loader loading-wrapper" *ngIf="this.risks === undefined">
-          <div class="loading loading-spinner loading-large loading-primary"></div>
+          <div class="loading loading-spinner loading-large"></div>
         </div>
 
         <div class="dashboard-empty" *ngIf="this.risks?.length === 0">
@@ -42,14 +42,14 @@
                     (click)="viewTab = viewTabs.ActionSteps">
               Action steps
             </button>
-            <button type="button" 
-                    class="button button-small button-inverse-dark button-icon-left" 
+            <button type="button"
+                    class="button button-small button-inverse-dark button-icon-left"
                     (click)="openModal(weatherEventsModal)"
                      *ngIf="viewTab === viewTabs.Grouped">
               <span class="icon icon-plus-square"></span>
               Add a hazard</button>
-            <button type=button 
-                    class="button button-small button-inverse-dark button-icon-left" 
+            <button type=button
+                    class="button button-small button-inverse-dark button-icon-left"
                     routerLink="/assessment/risk/new"
                     *ngIf="viewTab === viewTabs.Assessment">
               <span class="icon icon-plus-square"></span>
@@ -86,17 +86,13 @@
         <app-city-profile-summary [organization]="organization"></app-city-profile-summary>
       </div>
       <div class="aside-block-container">
-        <div class="aside-block">
+        <div class="aside-block review-aside-block">
           <h3 class="aside-title">Review</h3>
-          <p>Review your plan in its entirety or submit a completed plan to ICLEI-USA for review.</p>
-          <a routerLink="/review-plan">Review your plan</a>
+          <p>
+            Review your plan in its entirety or submit a completed plan to ICLEI-USA.
+          </p>
           <footer class="aside-footer">
-            <button class="button button-small"
-               (click)="planService.export()"
-               tooltip="Download your plan as a CSV">Download</button>
-            <app-submit-plan-button class="button button-small">
-              Submit
-            </app-submit-plan-button>
+            <a class="button button-small" routerLink="/review-plan">Review your plan</a>
           </footer>
         </div>
       </div>
@@ -108,7 +104,7 @@
 <app-modal-template #weatherEventsModal title="Add hazard">
   <h2>Your city&rsquo;s top hazards</h2>
   <p>
-    Calculations use the average of the projections for the years 2025&ndash;2035. See 
+    Calculations use the average of the projections for the years 2025&ndash;2035. See
     the <a routerLink="/methodology" (click)="cancelModal(weatherEventsModal);resetScroll()">Methodology</a> page for more information.
   </p>
   <app-add-weather-events [formControl]="selectedEventsControl"

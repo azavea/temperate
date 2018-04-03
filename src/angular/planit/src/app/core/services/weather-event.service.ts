@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Rx';
 
+import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
 import { OrgWeatherEvent, WeatherEvent } from '../../shared';
+import { CORE_WEATHEREVENTSERVICE_LIST } from '../constants/cache';
 import { PlanItApiHttp } from './api-http.service';
 
 @Injectable()
 export class WeatherEventService {
 
-  constructor(private apiHttp: PlanItApiHttp) {}
+  constructor(private apiHttp: PlanItApiHttp,
+              private cache: APICacheService) { }
 
   list(): Observable<WeatherEvent[]> {
     const url = `${environment.apiUrl}/api/weather-event/`;
-    return this.apiHttp.get(url)
-      .map(resp => resp.json() || [] as WeatherEvent[]);
+    const request = this.apiHttp.get(url);
+    const response = this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
+
+    return response.map((resp) => {
+      const data = resp.json() as WeatherEvent[];
+      return data;
+    });
   }
 
   get(weatherEventId: number): Observable<WeatherEvent> {

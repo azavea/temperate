@@ -6,7 +6,7 @@
 <div class="step-content">
   <form [formGroup]="form">
     <div class="concerns-header">
-      <h3 class="concern-title">The hazards below have been <strong>pre-selected</strong> based on {{ organization?.location?.properties?.name || 'your city' }}&rsquo;s location.</h3>
+      <h3 class="concern-title">The hazards below have been <strong>pre-selected</strong> based on {{ organization?.location?.getFullName() || 'your city' }}&rsquo;s location.</h3>
       <p class="concern-explanation">Calculations use the average of the projections for the years 2025&ndash;2035. See the <a routerLink="/methodology">Methodology</a> page for more information.
       </p>
     </div>

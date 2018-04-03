@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2018-04-03
+- MVP Release
+### Added
+- Links to Azavea privacy policy and terms of service
+- Show register links on production
+### Removed
+- Hourly subscription option from pricing and subscription pages
+### Fixed
+- Miscellaneous styling and bug fixes
+- Copy changes across site
+- Marketing page images not showing in IE
+- Correctly send org name, location and support request description in help form
+- Indicator charts accidentally broken by earlier refactor
+
 ## [0.1.5] - 2018-04-02
 ### Added
 - City Profile

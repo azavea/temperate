@@ -15,4 +15,7 @@
     font-weight: $font-weight-light;
     text-align: center;
   }
+  > .plan-cards {
+    justify-content: space-around;
+  }
 }

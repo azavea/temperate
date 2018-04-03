@@ -5,7 +5,6 @@ export enum OrgSubscription {
   Review = 'review',
   Insights = 'insights',
   Guidance = 'guidance',
-  Hourly = 'hourly',
   Custom = 'custom',
 }
 
@@ -87,21 +86,9 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     nickName: 'Custom',
     fullName: 'Custom subscription',
     yearlyCost: 10000,
-    header: 'Custom',
+    header: 'Full suite of adaptation services',
     // tslint:disable-next-line:max-line-length
-    description: 'Need custom assistance from ICLEI-USA? We’re happy to work with you to create a package that fits your needs.',
-    iconClass: '',
-    visible: false,
-    yearlyValue: null
-  }],
-  [OrgSubscription.Hourly, {
-    name: OrgSubscription.Hourly,
-    nickName: 'Pay as you go',
-    fullName: 'Pay as you go subscription',
-    yearlyCost: 1500,
-    header: 'Pay as you go consulting',
-    // tslint:disable-next-line:max-line-length
-    description: 'Start with a basic package and get guidance from ICLEI-USA only when you need it. Your conversations will be billed at $150/hr.',
+    description: 'ICLEI-USA offers comprehensive adaptation and resilience planning services for your community or government agency, including additional research, stakeholder engagement, and report writing in order to craft a locally tailored and actionable plan to thrive in a changing climate.  Contact us to learn more.',
     iconClass: '',
     visible: false,
     yearlyValue: null

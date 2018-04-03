@@ -3,16 +3,16 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PopoverDirective } from 'ngx-bootstrap/popover';
 
 import {
-  City,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
 
 import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-chart.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
+import { Location } from '../../shared/models/location.model';
 import { Risk } from '../../shared/models/risk.model';
 
-import { CityService } from '../../core/services/city.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'va-risk-popover',
@@ -23,7 +23,7 @@ export class RiskPopoverComponent implements OnInit {
 
   public indicators: Indicator[];
   public selectedIndicator: Indicator;
-  public city: City;
+  public city: Location;
 
   @ViewChild('indicatorModal')
   private indicatorModal: ModalTemplateComponent;
@@ -32,11 +32,13 @@ export class RiskPopoverComponent implements OnInit {
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,
-               private cityService: CityService) {}
+               private userService: UserService) {}
 
   ngOnInit() {
     this.updateRiskIndicators();
-    this.cityService.current().subscribe(city => { this.city = city; });
+    this.userService.current().subscribe(user => {
+      this.city = user.primary_organization.location;
+    });
   }
 
   public openIndicatorModal(indicator: Indicator) {
