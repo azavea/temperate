@@ -50,11 +50,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getRisks();
-    this.weatherEventService.list().subscribe(events => {
+    Observable.forkJoin(
+      this.weatherEventService.list(),
+      this.userService.current()
+    ).subscribe(([events, user]: [WeatherEvent[], User]) => {
       this.weatherEvents = events;
-    });
-    this.route.data.subscribe((data: {user: User}) => {
-      this.organization = data.user.primary_organization;
+      this.organization = user.primary_organization;
       this.setSelectedEvents(this.organization.weather_events);
 
       const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
