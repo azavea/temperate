@@ -3,9 +3,9 @@ import logging
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point
 
-from geopy.geocoders import GoogleV3
+import geopy
 
 from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
 from action_steps.models import ActionCategory
@@ -17,36 +17,50 @@ logger = logging.getLogger('planit_data')
 def create_organizations(cities_file):
     """All cities are represented as bare bones organizations."""
     next(cities_file)  # skip headers
-    geo = GoogleV3()
+    geo = geopy.geocoders.GoogleV3()
     city_reader = csv.reader(cities_file)
     org_count = 0
 
     logger.info('Creating organizations')
 
     for row in city_reader:
-        date = row[3] or None
+        stripped_row = (val.strip() for val in row)
+        (city_name, state, is_coastal, lon, lat, date, plan_name, plan_hyperlink) = stripped_row
+        if not date:
+            date = None
+
+        point = None
+        try:
+            point = Point([float(lon), float(lat)])
+        except ValueError:
+            logger.info('No coordinates for {}, trying to geocode'.format(city_name))
+
+            try:
+                location = geo.geocode('{} {}'.format(city_name, state))
+                point = Point([location.longitude, location.latitude])
+            except geopy.exc.GeocoderQuotaExceeded:
+                logger.warn('Geocoder quota exceeded')
 
         # location info is essential, so skip cities that don't geocode
-        try:
-            location = geo.geocode('{} {}'.format(row[0], row[1]))
-            point = {"type": 'Point',
-                     "coordinates": [location.longitude, location.latitude]}
-            formatted_point = GEOSGeometry(str(point))
-
-            temperate_location, c = PlanItLocation.objects.get_or_create(point=formatted_point,
-                                                                         name=row[0],
-                                                                         is_coastal=row[2])
-        except Exception:
-            logger.info('Organization not created for {}'.format(row[0]))
+        if point is None:
+            logger.info('Organization not created for {}'.format(city_name))
             continue
 
-        org, c = PlanItOrganization.objects.update_or_create(name=row[0],
-                                                             defaults={
-                                                             'plan_due_date': date,
-                                                             'plan_name': row[4],
-                                                             'plan_hyperlink': row[5],
-                                                             'location': temperate_location
-                                                             })
+        temperate_location, c = PlanItLocation.objects.update_or_create(
+            name=city_name,
+            is_coastal=is_coastal,
+            defaults={
+                'point': point,
+            })
+
+        org, c = PlanItOrganization.objects.update_or_create(
+            name=city_name,
+            defaults={
+                'plan_due_date': date,
+                'plan_name': plan_name,
+                'plan_hyperlink': plan_hyperlink,
+                'location': temperate_location
+            })
         if c:
             org_count += 1
 
@@ -85,31 +99,35 @@ def create_risks_and_actions(actions_file):
 
     action_count = 0
 
+    prev_org = None  # This is just to enable logging once per city rather than once per row
     for row in actions_reader:
+        stripped_row = (val.strip() for val in row)
+        (city_name, strategy, weather_event, community_system, category, impact) = stripped_row
         # We only care about a row if a weather event and/or community system are listed
-        if row[2] or row[3]:
+        if weather_event or community_system:
             try:
-                org = PlanItOrganization.objects.get(name=row[0])
+                org = PlanItOrganization.objects.get(name=city_name)
+                if org != prev_org:
+                    logger.info('Processing risks and actions for {}'.format(org))
+                    prev_org = org
             except ObjectDoesNotExist:
-                logger.warn('No organization for {}, skipping'.format(row[0]))
+                logger.warn('No organization for {}, skipping'.format(city_name))
                 continue
 
-            logger.info('Processing risks for {}'.format(org))
-            events = WeatherEvent.objects.filter(name__in=row[2].split(';'))
-            systems = CommunitySystem.objects.filter(name__in=row[3].split(';'))
+            events = WeatherEvent.objects.filter(name__in=weather_event.split(';'))
+            systems = CommunitySystem.objects.filter(name__in=community_system.split(';'))
             row_risks = create_risks(org, events, systems)
 
-            logger.info('Processing actions for {}'.format(org))
             for risk in row_risks:
                 action, c = OrganizationAction.objects.get_or_create(
                     organization_risk=risk,
-                    name=row[1],
+                    name=strategy,
                     visibility=OrganizationAction.Visibility.PUBLIC)
 
                 # Unable to bulk add categories as a list and ".add" doesn't prevent duplicates
                 if c:
                     action_count += 1
-                    category_names = [cat.title() for cat in row[4].split(';')]
+                    category_names = [cat.title() for cat in category.split(';')]
                     categories = ActionCategory.objects.filter(name__in=category_names)
                     for cat in categories:
                         action.categories.add(cat.id.hex)
