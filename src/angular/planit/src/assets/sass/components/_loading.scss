@@ -43,7 +43,7 @@
 
   &.loading-spinner {
     font-size: 1rem;
-    position: relative;
+    position: absolute;
     text-indent: -9999em;
     border-radius: 100%;
     border-top: $loading-border-width solid rgba(255, 255, 255, 0.2);
