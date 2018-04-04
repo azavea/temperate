@@ -20,7 +20,7 @@
     padding: $space-xlarge;
     transition: transform 0.1s;
 
-    @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+    @media all and (min-width: 42rem) and (max-width: 55rem) {
       flex-flow: row wrap;
       display:  flex;
     }
@@ -54,7 +54,7 @@
       text-transform: uppercase;
       text-align: center;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 0 100%;
       }
     }
@@ -68,7 +68,7 @@
       padding-top: $space-medium;
       border-top: $pricing-plan-tier-header-border;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 0 100%;
       }
 
@@ -99,7 +99,7 @@
       margin-bottom: 0;
       flex: auto;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 1 0%;
       }
     }
@@ -107,7 +107,7 @@
     > .button, .button-container {
       margin: $space-xxlarge 0 auto 0;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         margin: 0 0 auto 2rem;
       }
     }
