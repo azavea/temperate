@@ -1,6 +1,15 @@
 app-indicators {
   .main-container .main-content {
     max-width: $content-max-width-small;
+    // width: 0; is for d3.js charts to respond on resize.
+    // refer to: https://stackoverflow.com/questions/7985021/css-flexbox-issue-why-is-the-width-of-my-flexchildren-affected-by-their-content
+    width: 0;
+    // However, this adds lots of extra space above the footer
+    // in IE11, so we are removing it... the resize issue is not a
+    // problem in IE11 even without the width: 0;
+    @media all and (-ms-high-contrast:none) {
+      width: auto;
+    }
   }
 
   .top-concerns.empty-state {

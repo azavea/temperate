@@ -3,9 +3,6 @@
 
   .main-content {
     flex: 0 1 $content-max-width;
-    // width: 0; is for d3.js charts to respond on resize.
-    // refer to: https://stackoverflow.com/questions/7985021/css-flexbox-issue-why-is-the-width-of-my-flexchildren-affected-by-their-content
-    width: 0;
     margin: auto;
     padding: $space-large $space-medium;
 
@@ -76,5 +73,6 @@
     flex: 1 0 auto;
     background-color: $main-background;
     position: relative;
+    min-height: 1px // IE11 hack per https://github.com/philipwalton/flexbugs/issues/75
   }
 }
