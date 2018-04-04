@@ -63,10 +63,14 @@
       position: relative;
       justify-content: space-between;
       margin-bottom: $space-large;
-      font-size: $text-medium;
+      font-size: $text-base;
       font-weight: $font-weight-regular;
       padding-top: $space-medium;
       border-top: $pricing-plan-tier-header-border;
+
+      @media all and (min-width: 42rem) {
+        font-size: $text-medium;
+      }
 
       @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 0 100%;
@@ -87,8 +91,12 @@
 
     > .heading > .cost {
       color: $neutral-4;
-      font-size: $text-medium;
+      font-size: $text-base;
       font-weight: $font-weight-light;
+
+      @media all and (min-width: 42rem) {
+        font-size: $text-medium;
+      }
 
       > .peryear {
         font-size: $text-tiny;
