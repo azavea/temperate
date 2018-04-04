@@ -101,6 +101,8 @@
 }
 
 .action-name-container {
+  width: 100%;
+
   &.suggestion-closed {
     position: relative;
     max-height: $suggestion-title-height;
@@ -122,7 +124,7 @@
 .suggested-action-footer {
   border-top: $suggestion-footer-border;
   background: $suggestion-footer-background;
-  flex: 1 0 100%;
+  flex: 1 0 auto;
   padding: $space-medium $space-xlarge;
 
   .action-source {
