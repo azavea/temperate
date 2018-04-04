@@ -55,7 +55,7 @@ class PlanView(APIView):
         'impact_magnitude': 'Risk Impact Magnitude',
         'impact_description': 'Risk Impact Description',
         'adaptive_capacity': 'Risk Adaptive Capacity',
-        'related_adaptive_values': 'Risk Related Adaptive Values',
+        'related_adaptive_values': 'Risk Adaptive Capacity Factors',
         'adaptive_capacity_description': 'Risk Adaptive Capacity Description',
         'organizationaction__name': 'Action Name',
         'organizationaction__action_type': 'Action Type',
