@@ -62,8 +62,9 @@
       margin: $space-small 1%;
     }
 
-    @media all and (min-width: 23.5rem) {
+    @media all and (min-width: 38.75rem) {
       flex-flow: row nowrap;
+      margin: 0;
 
       .button {
         flex: 0 0 auto;
@@ -73,9 +74,6 @@
       .button:first-child {
         margin: 0;
       }
-    }
-    @media all and (min-width: 38.750rem) {
-      margin: 0;
     }
   } 
 }
