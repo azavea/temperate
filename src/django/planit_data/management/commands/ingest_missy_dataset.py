@@ -16,13 +16,14 @@ logger = logging.getLogger('planit_data')
 
 def create_organizations(cities_file):
     """All cities are represented as bare bones organizations."""
+    geo = geopy.geocoders.GoogleV3(domain='www.datasciencetoolkit.org', scheme='http',
+                                   timeout=15)
+
     next(cities_file)  # skip headers
-    geo = geopy.geocoders.GoogleV3()
     city_reader = csv.reader(cities_file)
-    org_count = 0
 
     logger.info('Creating organizations')
-
+    org_count = 0
     for row in city_reader:
         stripped_row = (val.strip() for val in row)
         (city_name, state, is_coastal, lon, lat, date, plan_name, plan_hyperlink) = stripped_row
@@ -36,10 +37,10 @@ def create_organizations(cities_file):
             logger.info('No coordinates for {}, trying to geocode'.format(city_name))
 
             try:
-                location = geo.geocode('{} {}'.format(city_name, state))
+                location = geo.geocode('{}, {}'.format(city_name, state))
                 point = Point([location.longitude, location.latitude])
-            except geopy.exc.GeocoderQuotaExceeded:
-                logger.warn('Geocoder quota exceeded')
+            except geopy.exc.GeopyError as e:
+                logger.warn('Geocoding error: {}'.format(e))
 
         # location info is essential, so skip cities that don't geocode
         if point is None:
