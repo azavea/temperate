@@ -73,6 +73,6 @@
     flex: 1 0 auto;
     background-color: $main-background;
     position: relative;
-    min-height: 1px // IE11 hack per https://github.com/philipwalton/flexbugs/issues/75
+    min-height: 1px; // IE11 hack per https://github.com/philipwalton/flexbugs/issues/75
   }
 }
