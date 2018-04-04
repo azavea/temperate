@@ -5,7 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ApiModule, ChartsModule } from 'climate-change-components';
+import {
+  ApiModule,
+  ChartsModule,
+  ClimateModelService,
+  DatasetService,
+  ScenarioService
+} from 'climate-change-components';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -180,4 +186,14 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor (private datasetService: DatasetService,
+               private scenarioService: ScenarioService,
+               private modelService: ClimateModelService) {
+      // Issue a eager request for indicator static configuration data so it's already cached if
+      // the user opens an indicator chart
+      this.datasetService.list().subscribe();
+      this.scenarioService.list().subscribe();
+      this.modelService.list().subscribe();
+  }
+}
