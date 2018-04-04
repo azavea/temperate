@@ -17,7 +17,7 @@ import {
   Chart,
   ChartData,
   ChartService,
-  City,
+  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
@@ -47,7 +47,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   @Input() dataset: Dataset;
   @Input() scenario: Scenario;
   @Input() models: ClimateModel[];
-  @Input() city: City;
+  @Input() apiCity: ApiCity;
   @Input() unit: string;
   @Input() extraParams: IndicatorQueryParams;
 
@@ -126,7 +126,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     const queryOpts: IndicatorRequestOpts = {
       indicator: this.indicator,
       scenario: this.scenario,
-      city: this.city,
+      city: this.apiCity,
       params: params
     };
 

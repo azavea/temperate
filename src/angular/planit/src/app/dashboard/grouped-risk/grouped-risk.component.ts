@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Indicator } from 'climate-change-components';
+import { City as ApiCity, Indicator } from 'climate-change-components';
 
+import { CityService } from '../../core/services/city.service';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import {
@@ -35,18 +36,24 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
-  public city: Location;
+  public apiCity: ApiCity;
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
 
-  constructor(private userService: UserService,
+  constructor(private cityService: CityService,
+              private userService: UserService,
               private riskService: RiskService,
               private router: Router) { }
 
   ngOnInit() {
-    this.userService.current().subscribe(user => {
-      this.city = user.primary_organization.location;
-    });
+    this.userService.current()
+      .switchMap((user) => {
+        const id = user.primary_organization.location.properties.api_city_id;
+        return this.cityService.get(id);
+      })
+      .subscribe((apiCity) => {
+        this.apiCity = apiCity;
+      });
   }
 
   ngOnChanges() {

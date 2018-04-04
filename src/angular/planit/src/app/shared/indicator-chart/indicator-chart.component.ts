@@ -12,7 +12,7 @@ import {
 import {
   Chart,
   ChartData,
-  City,
+  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
@@ -44,7 +44,7 @@ import {
 })
 export class IndicatorChartComponent implements OnInit, DoCheck {
   @Input() indicator: Indicator;
-  @Input() city: City;
+  @Input() apiCity: ApiCity;
 
   public isThresholdIndicator = isThresholdIndicator;
   public isBasetempIndicator = isBasetempIndicator;

@@ -2,10 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import {
+  City as ApiCity,
   Indicator,
   IndicatorService
 } from 'climate-change-components';
 
+import { CityService } from '../core/services/city.service';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
@@ -28,18 +30,25 @@ export class IndicatorsComponent implements OnInit {
   public allIndicators: Indicator[];
   public filteredIndicators: Indicator[];
   public city: Location;
+  public apiCity: ApiCity;
   public filters = new Map();
   public topConcerns: WeatherEvent[];
 
   constructor(private indicatorService: IndicatorService,
               private weatherEventService: WeatherEventService,
+              private cityService: CityService,
               private fb: FormBuilder,
               private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.current().subscribe(user => {
-      this.city = user.primary_organization.location;
-    });
+    this.userService.current()
+      .switchMap((user) => {
+        this.city = user.primary_organization.location;
+        return this.cityService.get(this.city.properties.api_city_id);
+      })
+      .subscribe((apiCity) => {
+        this.apiCity = apiCity;
+      });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
     this.weatherEventService.rankedEvents().subscribe(events => {
