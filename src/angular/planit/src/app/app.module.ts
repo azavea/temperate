@@ -187,13 +187,17 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor (private datasetService: DatasetService,
+  constructor (private userService: UserService,
+               private datasetService: DatasetService,
                private scenarioService: ScenarioService,
                private modelService: ClimateModelService) {
-      // Issue a eager request for indicator static configuration data so it's already cached if
-      // the user opens an indicator chart
-      this.datasetService.list().subscribe();
-      this.scenarioService.list().subscribe();
-      this.modelService.list().subscribe();
+      this.userService.currentUser.first().subscribe(() => {
+        // Issue an eager request for indicator static configuration data so it's already cached if
+        // the user opens an indicator chart
+        this.datasetService.list().subscribe();
+        this.scenarioService.list().subscribe();
+        this.modelService.list().subscribe();
+      });
+
   }
 }
