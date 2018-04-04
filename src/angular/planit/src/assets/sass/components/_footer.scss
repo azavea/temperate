@@ -12,7 +12,7 @@
     justify-content: space-between;
     padding: $space-xlarge $space-large;
 
-    @media (max-width: 47.5rem) {
+    @media all and (max-width: 59.250rem) {
       padding-top: $space-xlarge;
       flex-flow: column nowrap;
     }
@@ -37,17 +37,21 @@
 
     .nav-buttons {
       display: flex;
-      flex-flow: row wrap;
-      align-items: center;
-      justify-content: space-between;
+      flex-flow: column nowrap;
       white-space: nowrap;
 
-      @media (max-width: 47.5rem) {
-        justify-content: center;
+      > * {
+        margin: 0 1.6rem;
+      }
 
-        > * {
-          margin: 0 1.6rem;
-        }
+      @media all and (min-width: 38.75rem) {
+        flex-flow: row wrap;
+        justify-content: center;
+      }
+
+      @media all and (min-width: 59.250rem) {
+        align-items: center;
+        justify-content: space-between;
       }
     }
   }
@@ -57,13 +61,13 @@
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-    padding: $space-large $space-xlarge;
+    padding: $space-large $space-xlarge 5rem $space-xlarge;
     background-color: $neutral-2;
     color: $neutral-5;
     text-align: center;
 
-    @media all and (max-width: 73.750em) {
-      padding: $space-large 23rem $space-large $space-xlarge;
+    @media all and (min-width: 60.938rem) {
+      padding: $space-large $space-xlarge;
     }
 
     p {

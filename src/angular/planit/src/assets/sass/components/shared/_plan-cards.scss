@@ -15,13 +15,12 @@
     flex-flow: column nowrap;
     align-items: stretch;
     background-color: $white;
-    min-width: $pricing-card-min-width-narrow;
     margin-bottom: $space-xxlarge;
     box-shadow: $pricing-plan-card-shadow;
     padding: $space-xlarge;
     transition: transform 0.1s;
 
-    @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+    @media all and (min-width: 42rem) and (max-width: 55rem) {
       flex-flow: row wrap;
       display:  flex;
     }
@@ -55,7 +54,7 @@
       text-transform: uppercase;
       text-align: center;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 0 100%;
       }
     }
@@ -64,12 +63,16 @@
       position: relative;
       justify-content: space-between;
       margin-bottom: $space-large;
-      font-size: $text-medium;
+      font-size: $text-base;
       font-weight: $font-weight-regular;
       padding-top: $space-medium;
       border-top: $pricing-plan-tier-header-border;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) {
+        font-size: $text-medium;
+      }
+
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 0 100%;
       }
 
@@ -88,8 +91,12 @@
 
     > .heading > .cost {
       color: $neutral-4;
-      font-size: $text-medium;
+      font-size: $text-base;
       font-weight: $font-weight-light;
+
+      @media all and (min-width: 42rem) {
+        font-size: $text-medium;
+      }
 
       > .peryear {
         font-size: $text-tiny;
@@ -100,7 +107,7 @@
       margin-bottom: 0;
       flex: auto;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         flex: 1 1 0%;
       }
     }
@@ -108,7 +115,7 @@
     > .button, .button-container {
       margin: $space-xxlarge 0 auto 0;
 
-      @media all and (min-width: 35.500rem) and (max-width: 55rem) {
+      @media all and (min-width: 42rem) and (max-width: 55rem) {
         margin: 0 0 auto 2rem;
       }
     }
