@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
-import { CORE_CITYSERVICE_CURRENT, CORE_USERSERVICE_CURRENT } from '../constants/cache';
+import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
 import { User } from '../../shared/';
 
