@@ -13,7 +13,6 @@ from planit_data.views import PlanExportView
 from planit_data.tests.factories import (
     CommunitySystemFactory,
     ConcernFactory,
-    GeoRegionFactory,
     OrganizationActionFactory,
     OrganizationRiskFactory,
     OrganizationWeatherEventFactory,
@@ -794,15 +793,38 @@ class OrganizationActionTestCase(APITestCase):
 
 class SuggestedActionTestCase(APITestCase):
     def setUp(self):
-        self.georegion = GeoRegionFactory()
-
-        self.user = UserFactory(
-            primary_organization__location__coords=self.georegion.geom.point_on_surface)
+        self.user = UserFactory()
         self.client.force_authenticate(user=self.user)
+
+        self.georegion = self.user.primary_organization.location.georegion
 
     def test_see_public_actions(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC
+        )
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=action.organization_risk.weather_event,
+            community_system=action.organization_risk.community_system
+        )
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'risk': user_risk.id
+        })
+        response = self.client.get(url)
+
+        # We should get back the action as a suggestion
+        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(response.json()[0]['name'], action.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_see_public_actions_using_foreign_key(self):
+        # Make a PlanItLocation object that references the georegion by foreign key
+        action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=self.georegion,
+            organization_risk__organization__location__coords=(0, 0),
             visibility=OrganizationAction.Visibility.PUBLIC
         )
         user_risk = OrganizationRiskFactory(
@@ -823,6 +845,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_suggested_action_detail(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
@@ -852,6 +875,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_private_action_404s_in_detail(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PRIVATE
         )
@@ -863,6 +887,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_ignore_private_actions(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PRIVATE
         )
@@ -883,6 +908,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_ignore_mismatch_weather_event_and_community_system(self):
         OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
@@ -903,6 +929,7 @@ class SuggestedActionTestCase(APITestCase):
     def test_ignore_other_georegion_actions(self):
         action = OrganizationActionFactory(
             visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=(0, 0),
         )
         user_risk = OrganizationRiskFactory(
@@ -922,6 +949,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_include_mismatch_weather_event_actions(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
@@ -941,6 +969,7 @@ class SuggestedActionTestCase(APITestCase):
 
     def test_include_mismatch_community_system_actions(self):
         action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC
         )
@@ -964,6 +993,7 @@ class SuggestedActionTestCase(APITestCase):
         community_system = CommunitySystemFactory()
 
         coastal_action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__organization__location__is_coastal=True,
@@ -972,6 +1002,7 @@ class SuggestedActionTestCase(APITestCase):
         )
 
         noncoastal_action = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event,
@@ -979,6 +1010,7 @@ class SuggestedActionTestCase(APITestCase):
         )
 
         matching_community_system = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__organization__location__is_coastal=True,
@@ -986,6 +1018,7 @@ class SuggestedActionTestCase(APITestCase):
         )
 
         matching_weather_event = OrganizationActionFactory(
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event,
@@ -1024,6 +1057,7 @@ class SuggestedActionTestCase(APITestCase):
 
         OrganizationActionFactory(
             name='Test Action',
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event,
@@ -1032,6 +1066,7 @@ class SuggestedActionTestCase(APITestCase):
 
         OrganizationActionFactory(
             name='Test Action',
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event
@@ -1058,6 +1093,7 @@ class SuggestedActionTestCase(APITestCase):
 
         OrganizationActionFactory(
             name='Test Action',
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event,
@@ -1066,6 +1102,7 @@ class SuggestedActionTestCase(APITestCase):
 
         OrganizationActionFactory(
             name='Test Action 2',
+            organization_risk__organization__location__georegion=None,
             organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
             visibility=OrganizationAction.Visibility.PUBLIC,
             organization_risk__weather_event=weather_event
