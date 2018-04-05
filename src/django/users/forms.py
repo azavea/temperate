@@ -75,7 +75,8 @@ class AddCityForm(forms.Form):
                         settings.DEFAULT_FROM_EMAIL,
                         [settings.DEFAULT_TO_EMAIL],
                         context=context,
-                        reply_to=[user.email])
+                        reply_to=[user.email],
+                        cc=[user.email])
 
 
 class InviteUserForm(forms.Form):
