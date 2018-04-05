@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+- Add database field to track PlanItLocation georegion directly
 
 ## [1.0.2] - 2018-04-19
 ### Fixed
