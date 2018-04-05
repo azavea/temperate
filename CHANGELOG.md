@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 - Preload static indicator chart configuration data on app load
+- Use stored coordinates and switch geocoders in `ingest_missy_dataset`
 
 ## [1.0.0] - 2018-04-03
 - MVP Release
