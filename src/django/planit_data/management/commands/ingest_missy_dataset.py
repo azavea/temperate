@@ -8,6 +8,7 @@ from omgeo import Geocoder
 from omgeo.places import PlaceQuery
 from omgeo.postprocessors import AttrFilter
 from omgeo.services import EsriWGS
+import us
 
 from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
 from action_steps.models import ActionCategory
@@ -18,6 +19,8 @@ logger = logging.getLogger('planit_data')
 
 def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
     """All cities are represented as bare bones organizations."""
+
+    states_dict = {s.name.lower(): s.abbr for s in us.STATES_AND_TERRITORIES}
 
     if esri_client_id and esri_secret:
         postprocessors = [AttrFilter(['Locality'], 'locator_type')]
@@ -40,6 +43,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
     for row in city_reader:
         stripped_row = (val.strip() for val in row)
         (city_name, state, is_coastal, lon, lat, date, plan_name, plan_hyperlink) = stripped_row
+        state_abbr = states_dict[state.lower()]
         if not date:
             date = None
 
@@ -53,7 +57,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
                 logger.warn('No geocoder. Please supply Esri client ID and secret.')
             else:
                 try:
-                    pq = PlaceQuery('{}, {}'.format(city_name, state), for_storage=True)
+                    pq = PlaceQuery('{}, {}'.format(city_name, state_abbr), for_storage=True)
                     location = geocoder.get_candidates(pq)[0]
                     point = Point([location.x, location.y])
                 except Exception as e:
@@ -64,10 +68,19 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
             logger.info('Organization not created for {}'.format(city_name))
             continue
 
+        # We need locations because Orgs need them and risks and actions need Orgs,
+        # but we want these to be independent from the actual cities loaded from the API,
+        # so we'll only get ones that have a null `api_city_id`.
+        # The 'admin' value might make more sense in the filter rather than the defaults, but
+        # this script was run on production without saving 'admin' values, so we want to update
+        # the existing instances.  The name and lack of API ID should be enough to uniquely
+        # identify an existing instance.
         temperate_location, c = PlanItLocation.objects.update_or_create(
             name=city_name,
             is_coastal=is_coastal,
+            api_city_id=None,
             defaults={
+                'admin': state_abbr,
                 'point': point,
             })
 
