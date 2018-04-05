@@ -4,8 +4,10 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import Point
-
-import geopy
+from omgeo import Geocoder
+from omgeo.places import PlaceQuery
+from omgeo.postprocessors import AttrFilter
+from omgeo.services import EsriWGS
 
 from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
 from action_steps.models import ActionCategory
@@ -14,10 +16,21 @@ from users.models import PlanItOrganization, PlanItLocation
 logger = logging.getLogger('planit_data')
 
 
-def create_organizations(cities_file):
+def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
     """All cities are represented as bare bones organizations."""
-    geo = geopy.geocoders.GoogleV3(domain='www.datasciencetoolkit.org', scheme='http',
-                                   timeout=15)
+
+    if esri_client_id and esri_secret:
+        postprocessors = [AttrFilter(['Locality'], 'locator_type')]
+        postprocessors += EsriWGS.DEFAULT_POSTPROCESSORS[1:]
+        geocoder = Geocoder([('omgeo.services.EsriWGS', {
+            'postprocessors': postprocessors,
+            'settings': {
+                'client_id': esri_client_id,
+                'client_secret': esri_secret,
+            }
+        })])
+    else:
+        geocoder = None
 
     next(cities_file)  # skip headers
     city_reader = csv.reader(cities_file)
@@ -36,11 +49,15 @@ def create_organizations(cities_file):
         except ValueError:
             logger.info('No coordinates for {}, trying to geocode'.format(city_name))
 
-            try:
-                location = geo.geocode('{}, {}'.format(city_name, state))
-                point = Point([location.longitude, location.latitude])
-            except geopy.exc.GeopyError as e:
-                logger.warn('Geocoding error: {}'.format(e))
+            if geocoder is None:
+                logger.warn('No geocoder. Please supply Esri client ID and secret.')
+            else:
+                try:
+                    pq = PlaceQuery('{}, {}'.format(city_name, state), for_storage=True)
+                    location = geocoder.get_candidates(pq)[0]
+                    point = Point([location.x, location.y])
+                except Exception as e:
+                    logger.warn('Geocoding error: {}'.format(e))
 
         # location info is essential, so skip cities that don't geocode
         if point is None:
@@ -145,15 +162,20 @@ class Command(BaseCommand):
         ./scripts/manage ingest_missy_dataset <cities_csv> <strategies_csv>
     """
 
-    help = 'imports suggested actions data from CSVs'
+    help = ('Imports suggested actions data from CSVs. Looks for coordinates in the cities file, '
+            'falling back to geocoding if any are missing.')
 
     def add_arguments(self, parser):
         parser.add_argument('cities_csv')
         parser.add_argument('actions_csv')
 
+        parser.add_argument('--esri-client-id', help='Client ID of Esri account for geocoding')
+        parser.add_argument('--esri-secret', help='Esri token for geocoding')
+
     def handle(self, *args, **options):
         with open(options['cities_csv']) as cities_file:
-            org_count = create_organizations(cities_file)
+            org_count = create_organizations(cities_file, esri_client_id=options['esri_client_id'],
+                                             esri_secret=options['esri_secret'])
 
         with open(options['actions_csv']) as actions_file:
             action_count = create_risks_and_actions(actions_file)
