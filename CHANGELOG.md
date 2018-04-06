@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+<!--When making a new release, remember to update the magic links at the bottom.-->
+
 ## [Unreleased]
 - Preload static indicator chart configuration data on app load
 
@@ -66,6 +68,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - App now hosted at https://temperate.io instead of https://app.temperate.io
 - Production application no longer restricted to use on Azavea VPN
 
-## [0.1.0] - 2018-03-08
+## 0.1.0 - 2018-03-08
 ### Added
 - Initial release
+
+[Unreleased]: https://github.com/azavea/temperate/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/azavea/temperate/compare/0.1.5...1.0.0
+[0.1.5]: https://github.com/azavea/temperate/compare/0.1.4...0.1.5
+[0.1.4]: https://github.com/azavea/temperate/compare/0.1.3...0.1.4
+[0.1.3]: https://github.com/azavea/temperate/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/azavea/temperate/compare/0.1.1...0.1.2
+[0.1.1]: https://github.com/azavea/temperate/compare/0.1.0...0.1.1
