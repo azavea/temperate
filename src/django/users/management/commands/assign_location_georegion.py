@@ -23,8 +23,10 @@ class Command(BaseCommand):
             ).exclude(
                 georegion=georegion
             ).update(georegion=georegion)
-            logger.info("Changed {} PlanItLocation objects".format(count))
+            logger.info(" - Changed {} PlanItLocation objects".format(count))
 
+        # Find all locations that either are lacking a georegion or don't belong to their mapped
+        # georegion
         unmapped_locations = PlanItLocation.objects.all().exclude(
             georegion__isnull=False,
             point__intersects=F('georegion__geom'))
