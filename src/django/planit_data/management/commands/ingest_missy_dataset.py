@@ -12,7 +12,13 @@ from omgeo.postprocessors import AttrFilter
 from omgeo.services import EsriWGS
 import us
 
-from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
+from planit_data.models import (
+    GeoRegion,
+    CommunitySystem,
+    WeatherEvent,
+    OrganizationRisk,
+    OrganizationAction
+)
 from action_steps.models import ActionCategory
 from users.models import PlanItOrganization, PlanItLocation
 
@@ -70,6 +76,8 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
             logger.info('Organization not created for {}'.format(city_name))
             continue
 
+        georegion = GeoRegion.objects.get_for_point(point)
+
         # We need locations because Orgs need them and risks and actions need Orgs,
         # but we want these to be independent from the actual cities loaded from the API,
         # so we'll only get ones that have a null `api_city_id`.
@@ -84,6 +92,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
             defaults={
                 'admin': state_abbr,
                 'point': point,
+                'georegion': georegion,
             })
 
         org, c = PlanItOrganization.objects.update_or_create(
