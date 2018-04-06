@@ -20,6 +20,8 @@ class Command(BaseCommand):
             logger.info("Updating georegion {}".format(georegion.name))
             count = PlanItLocation.objects.filter(
                 point__intersects=georegion.geom
+            ).exclude(
+                georegion=georegion
             ).update(georegion=georegion)
             logger.info("Changed {} PlanItLocation objects".format(count))
 
