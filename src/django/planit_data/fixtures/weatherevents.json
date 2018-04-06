@@ -159,7 +159,7 @@
     "pk": 8,
     "fields": {
         "name": "Cyclone (Hurricane / Typhoon)",
-        "coastal_only": false,
+        "coastal_only": true,
         "concern": null,
         "display_class": "icon-hurricane",
         "description": "Large storm systems capable of prolonged destructive winds over a large area and exceptional precipitation amounts",
@@ -545,7 +545,7 @@
     "pk": 31,
     "fields": {
         "name": "Tropical storm",
-        "coastal_only": false,
+        "coastal_only": true,
         "concern": null,
         "display_class": "icon-tropical-storm",
         "description": "Large storm systems created by convective heat originiating in tropical latitudes",
