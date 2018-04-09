@@ -346,27 +346,31 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
             self.request.user.primary_organization.location.point)
         locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
 
-        queryset_risk_match = self.get_queryset().filter(
-            organization_risk__organization__location__in=locations
-        ).filter(
-            Q(organization_risk__weather_event=risk.weather_event_id) &
-            Q(organization_risk__community_system=risk.community_system_id)
-        ).order_by('name').distinct('name')
-
-        superior_action_names = queryset_risk_match.values_list('name')
-
-        queryset_all = self.get_queryset().filter(
+        queryset = self.get_queryset().filter(
             organization_risk__organization__location__in=locations
         ).filter(
             Q(organization_risk__weather_event=risk.weather_event_id) |
             Q(organization_risk__community_system=risk.community_system_id)
-        ).exclude(name__in=superior_action_names).order_by('name').distinct('name')
+        )
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset_risk_match | queryset_all)[:5]
+                                         is_coastal, queryset)
 
-        serializer = self.get_serializer(results, data=results, many=True)
+        # A suggested action may be copied to multiple risks but we only want to show users
+        # unique actions. distinct() de-duplicates actions but in a sorted order that can't be
+        # overriden. Instead, manually pluck unique actions and the first of any
+        # duplicates from our custom ranked list
+        action_names = set()
+        distinct_results = []
+        for action in results:
+            if action.name not in action_names:
+                action_names.add(action.name)
+                distinct_results.append(action)
+
+        distinct_results = distinct_results[:5]
+
+        serializer = self.get_serializer(distinct_results, data=distinct_results, many=True)
         serializer.is_valid()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
