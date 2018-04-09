@@ -328,7 +328,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
             'organization_risk__organization__location'
         ).prefetch_related(
             'categories'
-        ).distinct('name')
+        )
 
     def list(self, request, *args, **kwargs):
         try:
@@ -345,16 +345,26 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         georegion = GeoRegion.objects.get_for_point(
             self.request.user.primary_organization.location.point)
         locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
-        queryset = self.get_queryset().filter(
+
+        queryset_risk_match = self.get_queryset().filter(
+            organization_risk__organization__location__in=locations
+        ).filter(
+            Q(organization_risk__weather_event=risk.weather_event_id) &
+            Q(organization_risk__community_system=risk.community_system_id)
+        ).order_by('name').distinct('name')
+
+        superior_action_names = queryset_risk_match.values_list('name')
+
+        queryset_all = self.get_queryset().filter(
             organization_risk__organization__location__in=locations
         ).filter(
             Q(organization_risk__weather_event=risk.weather_event_id) |
             Q(organization_risk__community_system=risk.community_system_id)
-        )
+        ).exclude(name__in=superior_action_names).order_by('name').distinct('name')
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset)[:5]
+                                         is_coastal, queryset_risk_match | queryset_all)[:5]
 
         serializer = self.get_serializer(results, data=results, many=True)
         serializer.is_valid()
