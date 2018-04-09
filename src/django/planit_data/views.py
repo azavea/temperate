@@ -328,7 +328,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
             'organization_risk__organization__location'
         ).prefetch_related(
             'categories'
-        )
+        ).distinct('name')
 
     def list(self, request, *args, **kwargs):
         try:
