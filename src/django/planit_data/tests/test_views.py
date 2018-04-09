@@ -1011,3 +1011,47 @@ class SuggestedActionTestCase(APITestCase):
             matching_community_system,
             matching_weather_event
         ])
+
+    def test_suggested_action_deduplication(self):
+        weather_event = WeatherEventFactory()
+        community_system = CommunitySystemFactory()
+
+        user_risk = OrganizationRiskFactory(
+            organization=self.user.primary_organization,
+            weather_event=weather_event,
+            community_system=community_system
+        )
+
+        OrganizationActionFactory(
+            name='Non-coastal action',
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__is_coastal=False,
+            organization_risk__community_system=community_system,
+        )
+
+        OrganizationActionFactory(
+            name='Coastal Action',
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__is_coastal=True,
+            organization_risk__weather_event=weather_event,
+            organization_risk__community_system=community_system,
+        )
+
+        OrganizationActionFactory(
+            name='Coastal Action',
+            organization_risk__organization__location__coords=self.georegion.geom.point_on_surface,
+            visibility=OrganizationAction.Visibility.PUBLIC,
+            organization_risk__organization__location__is_coastal=True,
+            organization_risk__weather_event=weather_event,
+        )
+
+        url = reverse('suggestedaction-list') + '?' + urlencode({
+            'risk': user_risk.id
+        })
+
+        response = self.client.get(url)
+
+        self.assertEqual(len(response.json()), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
