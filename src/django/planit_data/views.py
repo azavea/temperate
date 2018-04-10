@@ -1,3 +1,5 @@
+from djqscsv import render_to_csv_response, write_csv
+from itertools import islice
 from tempfile import TemporaryFile
 
 from django.conf import settings
@@ -12,7 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
-from djqscsv import render_to_csv_response, write_csv
 
 from planit_data.models import (
     CommunitySystem,
@@ -319,6 +320,15 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         return sorted(list(suggestions), key=order_key)
 
+    @staticmethod
+    def filter_duplicates(actions):
+        """A generator for filtering duplicate actions from a list while maintaining order."""
+        action_names = set()
+        for action in actions:
+            if action.name not in action_names:
+                action_names.add(action.name)
+                yield action
+
     def get_queryset(self):
         return OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
@@ -361,14 +371,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         # unique actions. distinct() de-duplicates actions but in a sorted order that can't be
         # overriden. Instead, manually pluck unique actions and the first of any
         # duplicates from our custom ranked list
-        action_names = set()
-        distinct_results = []
-        for action in results:
-            if action.name not in action_names:
-                action_names.add(action.name)
-                distinct_results.append(action)
-
-        distinct_results = distinct_results[:5]
+        distinct_results = list(islice(self.filter_duplicates(results), 5))
 
         serializer = self.get_serializer(distinct_results, data=distinct_results, many=True)
         serializer.is_valid()
