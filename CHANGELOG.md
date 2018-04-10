@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use stored coordinates and switch geocoders in `ingest_missy_dataset`
 - Change cyclone and tropical storms to coastal_only
 - Do not log users out if Temperate's Climate API token is invalid
+- Only show unique suggested actions to user
 
 ## [1.0.0] - 2018-04-03
 - MVP Release

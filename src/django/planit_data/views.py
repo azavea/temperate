@@ -1,3 +1,5 @@
+from djqscsv import render_to_csv_response, write_csv
+from itertools import islice
 from tempfile import TemporaryFile
 
 from django.conf import settings
@@ -12,7 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
-from djqscsv import render_to_csv_response, write_csv
 
 from planit_data.models import (
     CommunitySystem,
@@ -319,6 +320,15 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         return sorted(list(suggestions), key=order_key)
 
+    @staticmethod
+    def filter_duplicates(actions):
+        """A generator for filtering duplicate actions from a list while maintaining order."""
+        action_names = set()
+        for action in actions:
+            if action.name not in action_names:
+                action_names.add(action.name)
+                yield action
+
     def get_queryset(self):
         return OrganizationAction.objects.all().filter(
             visibility=OrganizationAction.Visibility.PUBLIC
@@ -345,6 +355,7 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         georegion = GeoRegion.objects.get_for_point(
             self.request.user.primary_organization.location.point)
         locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
+
         queryset = self.get_queryset().filter(
             organization_risk__organization__location__in=locations
         ).filter(
@@ -354,9 +365,15 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
 
         is_coastal = request.user.primary_organization.location.is_coastal
         results = self.order_suggestions(risk.community_system, risk.weather_event,
-                                         is_coastal, queryset)[:5]
+                                         is_coastal, queryset)
 
-        serializer = self.get_serializer(results, data=results, many=True)
+        # A suggested action may be copied to multiple risks but we only want to show users
+        # unique actions. distinct() de-duplicates actions but in a sorted order that can't be
+        # overriden. Instead, manually pluck unique actions and the first of any
+        # duplicates from our custom ranked list
+        distinct_results = list(islice(self.filter_duplicates(results), 5))
+
+        serializer = self.get_serializer(distinct_results, data=distinct_results, many=True)
         serializer.is_valid()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
