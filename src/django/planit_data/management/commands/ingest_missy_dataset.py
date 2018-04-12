@@ -4,6 +4,8 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 from django.contrib.gis.geos import Point
+from django.db import transaction
+
 from omgeo import Geocoder
 from omgeo.places import PlaceQuery
 from omgeo.postprocessors import AttrFilter
@@ -92,6 +94,11 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
                 'plan_hyperlink': plan_hyperlink,
                 'location': temperate_location
             })
+
+        # We copy edit actions frequently enough that wiping and reloading upon import is good
+        # house-keeping. It's baked into this script to minimize data deletion impacting users.
+        delete_org_actions(org)
+
         if c:
             org_count += 1
 
@@ -121,6 +128,12 @@ def create_risks(org, events, systems):
             risks.append(risk)
 
     return risks
+
+
+def delete_org_actions(org):
+    return (OrganizationAction.objects
+            .filter(organization_risk__organization=org)
+            .delete())
 
 
 def create_risks_and_actions(actions_file):
@@ -185,6 +198,7 @@ class Command(BaseCommand):
         parser.add_argument('--esri-client-id', help='Client ID of Esri account for geocoding')
         parser.add_argument('--esri-secret', help='Esri token for geocoding')
 
+    @transaction.atomic
     def handle(self, *args, **options):
         with open(options['cities_csv']) as cities_file:
             org_count = create_organizations(cities_file, esri_client_id=options['esri_client_id'],
