@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
+import { AuthService } from '../core/services/auth.service';
 import { PlanService } from '../core/services/plan.service';
 import { UserService } from '../core/services/user.service';
 import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } from '../shared';
@@ -17,7 +18,8 @@ export class ExpirationModalComponent implements OnInit {
   public subscription: OrgSubscriptionPlan;
   public options = OrgSubscriptionOptions;
 
-  constructor(private planService: PlanService,
+  constructor(private authService: AuthService,
+              private planService: PlanService,
               private userService: UserService) { }
 
   ngOnInit() {
