@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change cyclone and tropical storms to coastal_only
 - Do not log users out if Temperate's Climate API token is invalid
 - Only show unique suggested actions to user
+- Include logout link in expired account modal
 
 ## [1.0.0] - 2018-04-03
 - MVP Release
