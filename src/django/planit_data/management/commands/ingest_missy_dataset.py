@@ -95,9 +95,9 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
                 'location': temperate_location
             })
 
-        # We copy edit actions frequently enough that wiping and reloading upon import is good
-        # house-keeping. It's baked into this script to minimize data deletion impacting users.
-        delete_org_actions(org)
+        # We copy edit risks & actions frequently enough that wiping and reloading upon import is
+        # good house-keeping. It's baked into this script to minimize data deletion impacting users.
+        delete_org_risks_and_actions(org)
 
         if c:
             org_count += 1
@@ -130,8 +130,9 @@ def create_risks(org, events, systems):
     return risks
 
 
-def delete_org_actions(org):
-    return (OrganizationAction.objects
+def delete_org_risks_and_actions(org):
+    """Delete all risks and actions for an organization."""
+    return (OrganizationRisk.objects
             .filter(organization_risk__organization=org)
             .delete())
 
