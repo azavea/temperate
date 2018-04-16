@@ -61,12 +61,16 @@ export class AuthService {
     });
   }
 
-  logout(redirectTo: string = '/') {
+  logout(redirectTo: string = '/', expired: boolean = false) {
     this.setToken(null);
     this.cache.clear(CORE_USERSERVICE_CURRENT);
     this._loggedOut.next();
+    const params = { queryParams : {} };
+    if (expired) {
+      params.queryParams = { expired: expired };
+    }
     if (redirectTo) {
-      this.router.navigate([redirectTo]);
+      this.router.navigate([redirectTo], params );
     }
   }
 

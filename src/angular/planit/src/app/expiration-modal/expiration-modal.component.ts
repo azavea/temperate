@@ -13,6 +13,7 @@ import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } fr
 })
 export class ExpirationModalComponent implements OnInit {
   @ViewChild('expirationModal') expirationModal: ModalDirective;
+  public downloadDisabled = false;
   public isModalShown = true;
   private user: User;
   public subscription: OrgSubscriptionPlan;
@@ -32,5 +33,13 @@ export class ExpirationModalComponent implements OnInit {
 
   private showModal(): void {
     this.isModalShown = true;
+  }
+
+  downloadAndLogout() {
+    this.planService.export();
+    this.downloadDisabled = true;
+    window.setTimeout(() => {
+      this.authService.logout('/', true);
+    }, 1000);
   }
 }
