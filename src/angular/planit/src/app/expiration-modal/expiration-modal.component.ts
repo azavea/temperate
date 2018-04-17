@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
+import { AuthService } from '../core/services/auth.service';
 import { PlanService } from '../core/services/plan.service';
 import { UserService } from '../core/services/user.service';
 import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } from '../shared';
@@ -12,12 +14,14 @@ import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } fr
 })
 export class ExpirationModalComponent implements OnInit {
   @ViewChild('expirationModal') expirationModal: ModalDirective;
+  public downloadDisabled = false;
   public isModalShown = true;
   private user: User;
   public subscription: OrgSubscriptionPlan;
   public options = OrgSubscriptionOptions;
 
-  constructor(private planService: PlanService,
+  constructor(private authService: AuthService,
+              private planService: PlanService,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -30,5 +34,14 @@ export class ExpirationModalComponent implements OnInit {
 
   private showModal(): void {
     this.isModalShown = true;
+  }
+
+  downloadAndLogout() {
+    this.planService.export();
+    this.downloadDisabled = true;
+    const params: NavigationExtras = { queryParams : { expired : true } };
+    window.setTimeout(() => {
+      this.authService.logout('/', params);
+    }, 1000);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs/Rx';
 
@@ -61,12 +61,12 @@ export class AuthService {
     });
   }
 
-  logout(redirectTo: string = '/') {
+  logout(redirectTo: string = '/', redirectOptions: NavigationExtras = {}) {
     this.setToken(null);
     this.cache.clear(CORE_USERSERVICE_CURRENT);
     this._loggedOut.next();
     if (redirectTo) {
-      this.router.navigate([redirectTo]);
+      this.router.navigate([redirectTo], redirectOptions );
     }
   }
 
