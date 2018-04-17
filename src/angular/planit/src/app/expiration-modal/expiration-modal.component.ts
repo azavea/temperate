@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NavigationExtras } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -38,7 +39,7 @@ export class ExpirationModalComponent implements OnInit {
   downloadAndLogout() {
     this.planService.export();
     this.downloadDisabled = true;
-    const params = { queryParams : { expired : true } };
+    const params: NavigationExtras = { queryParams : { expired : true } };
     window.setTimeout(() => {
       this.authService.logout('/', params);
     }, 1000);
