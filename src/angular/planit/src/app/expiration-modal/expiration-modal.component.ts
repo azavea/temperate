@@ -38,8 +38,9 @@ export class ExpirationModalComponent implements OnInit {
   downloadAndLogout() {
     this.planService.export();
     this.downloadDisabled = true;
+    const params = { queryParams : { expired : true } };
     window.setTimeout(() => {
-      this.authService.logout('/', true);
+      this.authService.logout('/', params);
     }, 1000);
   }
 }
