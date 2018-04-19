@@ -7,13 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+
+## [1.0.1] - 2018-04-19
+### Added
 - User is now CC'ed on "add city" email
 - Preload static indicator chart configuration data on app load
+- Include logout link in expired account modal
+### Fixed
+- Change forgot password form to a single input
+- Tweak faulty password validation
 - Use stored coordinates and switch geocoders in `ingest_missy_dataset`
 - Change cyclone and tropical storms to coastal_only
 - Do not log users out if Temperate's Climate API token is invalid
 - Only show unique suggested actions to user
-- Include logout link in expired account modal
+
 
 ## [1.0.0] - 2018-04-03
 - MVP Release
@@ -78,3 +85,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
+[Unreleased]: https://github.com/azavea/temperate/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/azavea/temperate/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/azavea/temperate/compare/0.1.5...1.0.0
+[0.1.5]: https://github.com/azavea/temperate/compare/0.1.4...0.1.5
+[0.1.4]: https://github.com/azavea/temperate/compare/0.1.3...0.1.4
+[0.1.3]: https://github.com/azavea/temperate/compare/0.1.2...0.1.3
+[0.1.2]: https://github.com/azavea/temperate/compare/0.1.1...0.1.2
+[0.1.1]: https://github.com/azavea/temperate/compare/0.1.0...0.1.1
