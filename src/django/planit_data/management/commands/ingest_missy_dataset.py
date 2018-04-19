@@ -133,7 +133,7 @@ def create_risks(org, events, systems):
 def delete_org_risks_and_actions(org):
     """Delete all risks and actions for an organization."""
     return (OrganizationRisk.objects
-            .filter(organization_risk__organization=org)
+            .filter(organization=org)
             .delete())
 
 
