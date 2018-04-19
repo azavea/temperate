@@ -8,6 +8,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
 
 from registration.backends.hmac.views import (
     RegistrationView as BaseRegistrationView,
@@ -22,7 +24,7 @@ from rest_auth.views import (
 from rest_framework import status, mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, api_view, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
@@ -48,6 +50,27 @@ from django.conf import settings
 
 
 logger = logging.getLogger(__name__)
+
+
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
+def get_user(self, uidb64, token):
+    """Get a user from a valid uid and token (token from the password reset flow).
+
+    This should only really be used with the reset password workflow, which exposes PlanItUser
+    objects with valid iud and token anyway.
+    """
+    try:
+        # urlsafe_base64_decode() decodes to bytestring
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = PlanItUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, PlanItUser.DoesNotExist, ValidationError):
+        raise ValidationError({'user': ['Invalid value']})
+
+    if not default_token_generator.check_token(user, token):
+        raise ValidationError({'token': ['Invalid value']})
+
+    return Response(UserSerializer(user).data)
 
 
 class RegistrationView(BaseRegistrationView):

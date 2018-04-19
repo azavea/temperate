@@ -56,3 +56,20 @@ class ClimateAPIProxyViewTestCase(APITestCase):
             response = self.client.get(url)
             self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
             self.assertFalse(requests_mock.get.called)
+
+    @mock.patch('climate_api.views.requests')
+    def test_proxy_masks_unauthorized_errors(self, requests_mock):
+        APIToken.objects.create(token='123abc')
+        requests_mock.get.return_value = mock.Mock(
+            status_code=status.HTTP_401_UNAUTHORIZED
+        )
+        test_settings = {
+            'CCAPI_HOST': 'https://app.climate.azavea.com',
+            'CCAPI_ROUTE_WHITELIST': ('/api/indicator', )
+        }
+
+        with self.settings(**test_settings):
+            url = reverse('climate-api-proxy', kwargs={'route': 'api/indicator/'})
+            response = self.client.get(url)
+            # We should *not* get back an Unauthorized error
+            self.assertNotEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

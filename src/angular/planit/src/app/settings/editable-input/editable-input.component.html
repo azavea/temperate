@@ -1,5 +1,5 @@
 <div class="input-group">
-  <input class="form-control" type="text" [disabled]="!isEditing" [value]="value" (input)="input($event)">
+  <input class="form-control" type="text" [id]="inputId" [disabled]="!isEditing" [value]="value" (input)="input($event)">
 
   <div class="button-group">
     <button type="button" class="button-icon-only" (click)="edit()" *ngIf="!isEditing">

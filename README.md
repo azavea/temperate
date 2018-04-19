@@ -97,7 +97,13 @@ $ vagrant ssh
 $ ./scripts/ingest_missy_dataset
 ```
 
-Note: Sometimes the script's geocoder fails, in which case you have to run the script several times if you want all the data (~3.1k actions). Re-running the script does not overwrite data.
+Note: The script needs latitude/longitude coordinates for cities, which it looks for in the
+CSV file.  If all the rows have coordinates then no geocoding is required, but if there are
+rows in the CSV without coordinates, it will fall back to geocoding those cities using the Esri
+geocoder.  For the geocoder to work, the `--esri-client-id` and `--esri-secret` options must
+be used when invoking the command to provide credentials.
+Credentials can be found in the [Temperate application under the Azavea ArcGIS
+Online account](https://developers.arcgis.com/applications/dab66240dd264cc6b44fba60609de51d).
 
 #### Export data from source
 It is easier to download the data using the above script. If you want to update the data on S3, you must recreate the CSVs:

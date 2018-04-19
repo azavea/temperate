@@ -15,7 +15,9 @@
       <footer class="modal-footer">
         <div class="button-group">
           <button class="button button-primary" routerLink="/subscription">Upgrade</button>
-          <a class="download-link" (click)="planService.export()">Download your progress in a CSV</a>
+          <a class="download-link"
+             [ngClass]="{disabled: downloadDisabled}"
+             (click)="downloadAndLogout()">Download your progress in a CSV and logout</a>
         </div>
       </footer>
     </div>

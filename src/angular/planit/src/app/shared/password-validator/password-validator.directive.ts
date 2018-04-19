@@ -33,8 +33,8 @@ export class PasswordValidatorDirective implements Validator {
         if (!disallowedVal) {
           return true;
         }
-        const parts = disallowedVal.split(/\W+/);
-        parts.concat(disallowedVal);
+        let parts = disallowedVal.split(/\W+/);
+        parts = parts.concat(disallowedVal);
         return parts.every(part => {
           const matcher = new SequenceMatcher(null,
             part.toLowerCase(), control.value.toLowerCase());

@@ -7,6 +7,7 @@ from django.http import StreamingHttpResponse
 import requests
 
 from rest_framework import status
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -48,6 +49,12 @@ class ClimateAPIProxyView(APIView):
                                     params=request.query_params,
                                     stream=True,
                                     timeout=settings.CCAPI_REQUEST_TIMEOUT)
+
+        if api_response.status_code in (401, 403):
+            # Don't propagate Unauthorized errors, since they will be interpreted by the UI and
+            # result in the user being inadvertently logged out.
+            raise APIException("Temperate failed to authenticate with Climate API")
+
         return StreamingHttpResponse(
             (chunk for chunk in api_response.iter_content(self.STREAMING_CHUNK_SIZE)),
             content_type=api_response.headers['content-type'],

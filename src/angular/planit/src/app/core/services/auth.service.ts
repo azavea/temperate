@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs/Rx';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
-import { CORE_CITYSERVICE_CURRENT, CORE_USERSERVICE_CURRENT } from '../constants/cache';
+import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
+
+import { User } from '../../shared/';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +31,17 @@ export class AuthService {
     return window.localStorage.getItem(this.LOCALSTORAGE_TOKEN_KEY) || null;
   }
 
+  getUserFromUidToken(uid, token): Observable<User | null> {
+    const url = `${environment.apiUrl}/api/user/${uid}/${token}`;
+    return this.http.get(url).map(response => {
+      const user = response.json();
+      if (user) {
+        return new User(user);
+      }
+      return null;
+    });
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
@@ -48,12 +61,12 @@ export class AuthService {
     });
   }
 
-  logout(redirectTo: string = '/') {
+  logout(redirectTo: string = '/', redirectOptions: NavigationExtras = {}) {
     this.setToken(null);
     this.cache.clear(CORE_USERSERVICE_CURRENT);
     this._loggedOut.next();
     if (redirectTo) {
-      this.router.navigate([redirectTo]);
+      this.router.navigate([redirectTo], redirectOptions );
     }
   }
 

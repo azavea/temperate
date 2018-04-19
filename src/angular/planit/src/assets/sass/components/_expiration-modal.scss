@@ -9,6 +9,10 @@
       margin-top: $space-xxlarge;
       border-bottom: 1px solid $brand-teal;
       cursor: pointer;
+
+      &.disabled {
+        pointer-events: none;
+      }
     }
   }
 }

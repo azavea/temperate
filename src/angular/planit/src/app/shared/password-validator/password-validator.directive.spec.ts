@@ -23,9 +23,27 @@ describe('PasswordValidatorDirective', () => {
     });
   });
 
-  it('should disallow passwords similar to user attributes', () => {
-    directive.disallowed = ['Alexander'];
-    expect(directive.validate(new FormControl('alexander'))).toEqual({'similar': true});
+  describe('similar passwords', () => {
+    beforeEach(() => {
+      directive.disallowed = ['testclient@example.com', 'Test', 'Client'];
+    });
+
+    it('should disallow passwords similar to parts of user attributes', () => {
+      expect(directive.validate(new FormControl('example.com'))).toEqual({'similar': true});
+      expect(directive.validate(new FormControl('testclien'))).toEqual({'similar': true});
+    });
+
+    it('should disallow passwords similar to entirety of any user attributes', () => {
+      expect(directive.validate(new FormControl('estclient@example.co'))).toEqual({
+        'similar': true
+      });
+    });
+
+    it('should disallow passwords that exactly match any user attributes', () => {
+      expect(directive.validate(new FormControl('testclient@example.com'))).toEqual({
+        'similar': true
+      });
+    });
   });
 
   it('should disallow common passwords', () => {

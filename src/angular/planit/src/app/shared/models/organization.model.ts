@@ -16,6 +16,7 @@ export class Organization {
   weather_events: number[];
   community_systems: number[];
   invites?: string[];
+  users?: string[];
 
   constructor(object: Object) {
     Object.assign(this, object);
@@ -30,8 +31,6 @@ export class Organization {
       this.subscription_end_date = new Date(this.subscription_end_date);
     }
     if (this.location) {
-      this.location.id = this.location.properties.api_city_id;
-      this.location.properties['datasets'] = ['LOCA'],
       this.location = new Location(this.location);
     }
   }
