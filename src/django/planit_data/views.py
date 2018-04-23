@@ -351,10 +351,16 @@ class SuggestedActionViewSet(ReadOnlyModelViewSet):
         ).get(id=risk_id)
 
         # Filter OrganizationActions to organizations that are within the same georegion as the user
-        # This may be possible to do entirely in the database
-        georegion = GeoRegion.objects.get_for_point(
-            self.request.user.primary_organization.location.point)
-        locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
+        if not PlanItLocation.objects.filter(georegion__isnull=True).exists():
+            # All PlanItLocation objects have their georegion set, use that as a M2M mapping
+            locations = PlanItLocation.objects.filter(
+                georegion__planitlocation=self.request.user.primary_organization.location
+            )
+        else:
+            # Not all PlanItLocations have a georegion, so fall back to geographic lookup
+            georegion = GeoRegion.objects.get_for_point(
+                self.request.user.primary_organization.location.point)
+            locations = PlanItLocation.objects.filter(point__contained=georegion.geom)
 
         queryset = self.get_queryset().filter(
             organization_risk__organization__location__in=locations

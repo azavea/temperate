@@ -40,6 +40,7 @@ class PlanItLocationManager(models.Manager):
             location.name = city['properties']['name']
             location.admin = city['properties']['admin']
             location.point = GEOSGeometry(str(city['geometry']))
+            location.georegion = GeoRegion.objects.get_for_point(location.point)
             location.is_coastal = city['properties']['proximity']['ocean']
             location.save()
         return location
@@ -54,6 +55,7 @@ class PlanItLocation(models.Model):
     admin = models.CharField(max_length=16, null=False, blank=True)
     api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
+    georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
