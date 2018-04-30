@@ -81,27 +81,23 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
         # We need locations because Orgs need them and risks and actions need Orgs,
         # but we want these to be independent from the actual cities loaded from the API,
         # so we'll only get ones that have a null `api_city_id`.
-        # The 'admin' value might make more sense in the filter rather than the defaults, but
-        # this script was run on production without saving 'admin' values, so we want to update
-        # the existing instances.  The name and lack of API ID should be enough to uniquely
-        # identify an existing instance.
         temperate_location, c = PlanItLocation.objects.update_or_create(
             name=city_name,
-            is_coastal=is_coastal,
+            admin=state_abbr,
             api_city_id=None,
             defaults={
-                'admin': state_abbr,
                 'point': point,
+                'is_coastal': is_coastal,
                 'georegion': georegion,
             })
 
         org, c = PlanItOrganization.objects.update_or_create(
             name=city_name,
+            location=temperate_location,
             defaults={
                 'plan_due_date': date,
                 'plan_name': plan_name,
-                'plan_hyperlink': plan_hyperlink,
-                'location': temperate_location
+                'plan_hyperlink': plan_hyperlink
             })
 
         # We copy edit risks & actions frequently enough that wiping and reloading upon import is
@@ -160,7 +156,10 @@ def create_risks_and_actions(actions_file):
         # We only care about a row if a weather event and/or community system are listed
         if weather_event or community_system:
             try:
-                org = PlanItOrganization.objects.get(name=city_name)
+                org = PlanItOrganization.objects.get(
+                    name=city_name,
+                    location__api_city_id=None
+                )
                 if org != prev_org:
                     logger.info('Processing risks and actions for {}'.format(org))
                     prev_org = org
