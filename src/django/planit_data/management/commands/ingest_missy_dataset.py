@@ -113,7 +113,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
 
 
 def create_risks(org, events, systems):
-    """A valid risk needs at minumum either a weather event or community system."""
+    """A valid risk needs at minimum either a weather event or community system."""
     risks = []
     for event in events:
         if systems:
