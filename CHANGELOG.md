@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Add database field to track PlanItLocation georegion directly
 - Prevent Missy ingest script from failing if user organization has same name as Missy organization
+- Prevent Chrome's insubordinate autocomplete on the city selector
 
 ## [1.0.2] - 2018-04-19
 ### Fixed
