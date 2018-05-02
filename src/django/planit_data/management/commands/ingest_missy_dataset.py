@@ -85,9 +85,9 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
         # so we'll only get ones that have a null `api_city_id`.
         temperate_location, c = PlanItLocation.objects.update_or_create(
             name=city_name,
-            admin=state_abbr,
             api_city_id=None,
             defaults={
+                'admin': state_abbr,
                 'point': point,
                 'is_coastal': is_coastal,
                 'georegion': georegion,
