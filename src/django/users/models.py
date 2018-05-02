@@ -341,7 +341,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
         Required method on user for use of django-registration.
         Signature modified here to support multi-part HTML email.
-        Only used by django-registration to send activation email, which we override.
         """
         send_html_email(template_prefix, from_email, [self.email], context=context, **kwargs)
 
