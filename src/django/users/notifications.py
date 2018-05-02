@@ -1,5 +1,4 @@
-import pytz
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 
 from .models import PlanItOrganization, PlanItUser
@@ -30,7 +29,7 @@ def send_trial_end_notifications(threshold_days):
 
 def get_pending_subscription_expirations(threshold_days, plan):
     """Return a QS of organizations which have not been notified about their subscription ending."""
-    now = datetime.now(pytz.utc)
+    now = datetime.now(timezone.utc)
     end_time = now + timedelta(days=threshold_days)
 
     return PlanItOrganization.objects.filter(
