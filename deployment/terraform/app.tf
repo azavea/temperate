@@ -97,6 +97,32 @@ resource "aws_alb_listener" "planit_app_http" {
 }
 
 #
+# ECS IAM resources
+#
+data "aws_iam_policy_document" "container_instance_ecs_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "container_instance_ecs" {
+  name               = "ecs${var.environment}InstanceRole"
+  assume_role_policy = "${data.aws_iam_policy_document.container_instance_ecs_assume_role.json}"
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_policy" {
+  role       = "${aws_iam_role.container_instance_ecs.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+#
 # ECS resources
 #
 data "template_file" "planit_app_https_ecs_task" {
@@ -212,4 +238,57 @@ resource "aws_ecs_task_definition" "planit_app_management" {
     name      = "tmp"
     host_path = "/tmp"
   }
+}
+
+data "template_file" "planit_app_send_emails_ecs_task" {
+  template = "${file("task-definitions/send_emails.json")}"
+
+  vars {
+    management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
+    django_secret_key                = "${var.django_secret_key}"
+    rds_host                         = "${data.terraform_remote_state.core.rds_host}"
+    rds_database_name                = "${var.rds_database_name}"
+    rds_username                     = "${data.terraform_remote_state.core.rds_username}"
+    rds_password                     = "${data.terraform_remote_state.core.rds_password}"
+    git_commit                       = "${var.git_commit}"
+    rollbar_server_side_access_token = "${var.rollbar_server_side_access_token}"
+    environment                      = "${var.environment}"
+    planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
+    aws_region                       = "${var.aws_region}"
+    ccapi_email                      = "${var.ccapi_email}"
+    ccapi_password                   = "${var.ccapi_password}"
+    ccapi_host                       = "${var.ccapi_host}"
+  }
+}
+
+resource "aws_ecs_task_definition" "planit_app_send_emails" {
+  family                = "${var.environment}ManagementPlanItApp"
+  container_definitions = "${data.template_file.planit_app_send_emails_ecs_task.rendered}"
+
+  volume {
+    name      = "tmp"
+    host_path = "/tmp"
+  }
+}
+
+#
+# CloudWatch resources
+#
+resource "aws_cloudwatch_event_rule" "send_emails" {
+  name        = "rule${var.environment}SendEmails"
+  description = "Event to send trial expiration notifications."
+
+  # 8 UTC, 3AM EST / 4AM EDT
+  schedule_expression = "cron(0 8 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "send_emails" {
+  rule      = "${aws_cloudwatch_event_rule.send_emails.name}"
+  role_arn  = "${aws_iam_role.container_instance_ecs.arn}"
+  arn       = "${aws_ecs_task_definition.planit_app_send_emails.arn}"
+
+  ecs_target {
+    task_definition_arn = "${aws_ecs_task_definition.planit_app_send_emails.arn}"
+  }
+
 }
