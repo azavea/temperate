@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta, timezone
 import logging
+import rollbar
+
+from django.conf import settings
 
 from .models import PlanItOrganization, PlanItUser
 
@@ -18,6 +21,12 @@ def send_trial_end_notifications(threshold_days):
         'primary_organization'
     )
 
+    # Initialize Rollbar in case sending email fails
+    rollbar_settings = getattr(settings, 'ROLLBAR', {})
+    if rollbar_settings:
+        rollbar.init(rollbar_settings.get('access_token'),
+                     rollbar_settings.get('environment'))
+
     for user in expiring_users:
         try:
             user.email_user(
@@ -28,6 +37,11 @@ def send_trial_end_notifications(threshold_days):
             )
         except Exception:
             logger.exception("Failed to send trial expiration notice to {}".format(user))
+            if rollbar_settings:
+                rollbar.report_exc_info(extra_data={
+                    'user': user
+                })
+
         else:
             user.trial_end_notified = True
             user.save()
