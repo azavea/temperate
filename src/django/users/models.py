@@ -330,7 +330,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     def send_registration_complete_email(self):
         context = {
-            'user': self,
             'url': settings.PLANIT_APP_HOME,
             'support_email': settings.SUPPORT_EMAIL
         }
@@ -343,6 +342,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         Required method on user for use of django-registration.
         Signature modified here to support multi-part HTML email.
         """
+        context.setdefault('user', self)
         send_html_email(template_prefix, from_email, [self.email], context=context, **kwargs)
 
     # All methods below copied from Django's AbstractUser

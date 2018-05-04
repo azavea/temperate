@@ -32,7 +32,6 @@ def send_trial_end_notifications(threshold_days):
             user.email_user(
                 'trial_end_notification_email',
                 context={
-                    'user': user,
                     'expire_date': user.primary_organization.subscription_end_date
                 }
             )
