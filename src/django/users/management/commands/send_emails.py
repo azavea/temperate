@@ -15,6 +15,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger.info("Notifying users...")
 
-        send_trial_end_notifications(threshold_days=5)
+        send_trial_end_notifications(threshold_days=3)
 
         logger.info("Done!")
