@@ -12,19 +12,20 @@ def send_trial_end_notifications(threshold_days):
 
     expiring_users = PlanItUser.objects.filter(
         primary_organization__in=expiring_organizations,
+        trial_end_notified=False,
         is_active=True
     ).select_related(
         'primary_organization'
     )
 
     for user in expiring_users:
-        logger.info("Sending email to {}", user)
         user.email_user(
             'trial_end_notification_email',
             context={
                 'expire_date': user.primary_organization.subscription_end_date
             }
         )
+        user.trial_end_notified = True
 
 
 def get_pending_subscription_expirations(threshold_days, plan):
@@ -35,6 +36,5 @@ def get_pending_subscription_expirations(threshold_days, plan):
     return PlanItOrganization.objects.filter(
         subscription_end_date__lt=end_time,
         subscription_end_date__gt=now,
-        subscription_end_notified=False,
         subscription=plan
     )

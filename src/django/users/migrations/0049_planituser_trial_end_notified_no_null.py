@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0048_planitorganization_subscription_end_notified_update'),
+        ('users', '0048_planituser_trial_end_notified_update'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='planitorganization',
-            name='subscription_end_notified',
+            model_name='planituser',
+            name='trial_end_notified',
             field=models.BooleanField(default=False),
         ),
     ]

@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0049_planitorganization_subscription_end_notified_no_null'),
+        ('users', '0049_planituser_trial_end_notified_no_null'),
     ]
 
     operations = [

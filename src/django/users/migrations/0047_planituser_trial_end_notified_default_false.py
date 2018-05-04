@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0045_planitlocation_georegion'),
+        ('users', '0046_planituser_trial_end_notified'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='planitorganization',
-            name='subscription_end_notified',
-            field=models.NullBooleanField(),
+        migrations.AlterField(
+            model_name='planituser',
+            name='trial_end_notified',
+            field=models.NullBooleanField(default=False),
         ),
     ]
