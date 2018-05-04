@@ -19,13 +19,18 @@ def send_trial_end_notifications(threshold_days):
     )
 
     for user in expiring_users:
-        user.email_user(
-            'trial_end_notification_email',
-            context={
-                'expire_date': user.primary_organization.subscription_end_date
-            }
-        )
-        user.trial_end_notified = True
+        try:
+            user.email_user(
+                'trial_end_notification_email',
+                context={
+                    'expire_date': user.primary_organization.subscription_end_date
+                }
+            )
+        except Exception:
+            logger.exception("Failed to send trial expiration notice to {}".format(user))
+        else:
+            user.trial_end_notified = True
+            user.save()
 
 
 def get_pending_subscription_expirations(threshold_days, plan):
