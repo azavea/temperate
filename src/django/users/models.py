@@ -111,6 +111,7 @@ class PlanItOrganization(models.Model):
                                     default=Subscription.FREE_TRIAL)
     subscription_end_date = models.DateTimeField(null=True, blank=True)
     subscription_pending = models.BooleanField(default=False)
+    subscription_end_notified = models.BooleanField(default=False)
 
     plan_due_date = models.DateField(null=True, blank=True)
     plan_name = models.CharField(max_length=256, blank=True)

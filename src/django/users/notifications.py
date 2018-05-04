@@ -35,5 +35,6 @@ def get_pending_subscription_expirations(threshold_days, plan):
     return PlanItOrganization.objects.filter(
         subscription_end_date__lt=end_time,
         subscription_end_date__gt=now,
+        subscription_end_notified=False,
         subscription=plan
     )
