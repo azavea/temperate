@@ -239,7 +239,7 @@ data "template_file" "planit_app_send_emails_ecs_task" {
 }
 
 resource "aws_ecs_task_definition" "planit_app_send_emails" {
-  family                = "${var.environment}ManagementPlanItApp"
+  family                = "${var.environment}ManagementPlanItSendEmails"
   container_definitions = "${data.template_file.planit_app_send_emails_ecs_task.rendered}"
 
   volume {
