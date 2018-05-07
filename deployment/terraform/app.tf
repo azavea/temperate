@@ -217,11 +217,11 @@ resource "aws_ecs_task_definition" "planit_app_management" {
   }
 }
 
-data "template_file" "planit_app_send_emails_ecs_task" {
+data "template_file" "planit_app_send_trial_expiration_emails_ecs_task" {
   template = "${file("task-definitions/management.json")}"
 
   vars {
-    django_command_override          = "send_emails"
+    django_command_override          = "send_trial_expiration_emails"
     management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"
@@ -240,9 +240,9 @@ data "template_file" "planit_app_send_emails_ecs_task" {
   }
 }
 
-resource "aws_ecs_task_definition" "planit_app_send_emails" {
+resource "aws_ecs_task_definition" "planit_app_send_trial_expiration_emails" {
   family                = "${var.environment}ManagementPlanItSendEmails"
-  container_definitions = "${data.template_file.planit_app_send_emails_ecs_task.rendered}"
+  container_definitions = "${data.template_file.planit_app_send_trial_expiration_emails_ecs_task.rendered}"
 
   volume {
     name      = "tmp"
@@ -253,7 +253,7 @@ resource "aws_ecs_task_definition" "planit_app_send_emails" {
 #
 # CloudWatch resources
 #
-resource "aws_cloudwatch_event_rule" "send_emails" {
+resource "aws_cloudwatch_event_rule" "send_trial_expiration_emails" {
   name        = "rule${var.environment}SendEmails"
   description = "Event to send trial expiration notifications."
 
@@ -261,12 +261,12 @@ resource "aws_cloudwatch_event_rule" "send_emails" {
   schedule_expression = "cron(0 8 * * ? *)"
 }
 
-resource "aws_cloudwatch_event_target" "send_emails" {
-  rule      = "${aws_cloudwatch_event_rule.send_emails.name}"
+resource "aws_cloudwatch_event_target" "send_trial_expiration_emails" {
+  rule      = "${aws_cloudwatch_event_rule.send_trial_expiration_emails.name}"
   role_arn  = "${aws_iam_role.events_ecs.arn}"
   arn       = "${data.terraform_remote_state.core.container_service_cluster_id}"
   ecs_target {
-    task_definition_arn = "${aws_ecs_task_definition.planit_app_send_emails.arn}"
+    task_definition_arn = "${aws_ecs_task_definition.planit_app_send_trial_expiration_emails.arn}"
     task_count = 1
   }
 

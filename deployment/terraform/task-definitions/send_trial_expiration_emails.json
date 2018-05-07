@@ -3,7 +3,7 @@
         "cpu": 10,
         "memory": 2048,
         "entryPoint": [
-            "./manage.py send_emails"
+            "./manage.py send_trial_expiration_emails"
         ],
         "mountPoints": [
             {
