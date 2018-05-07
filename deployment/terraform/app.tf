@@ -96,31 +96,6 @@ resource "aws_alb_listener" "planit_app_http" {
   }
 }
 
-#
-# ECS IAM resources
-#
-data "aws_iam_policy_document" "container_instance_ecs_assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "container_instance_ecs" {
-  name               = "ecs${var.environment}InstanceRole"
-  assume_role_policy = "${data.aws_iam_policy_document.container_instance_ecs_assume_role.json}"
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_policy" {
-  role       = "${aws_iam_role.container_instance_ecs.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
 
 #
 # ECS resources
@@ -284,11 +259,11 @@ resource "aws_cloudwatch_event_rule" "send_emails" {
 
 resource "aws_cloudwatch_event_target" "send_emails" {
   rule      = "${aws_cloudwatch_event_rule.send_emails.name}"
-  role_arn  = "${aws_iam_role.container_instance_ecs.arn}"
-  arn       = "${aws_ecs_task_definition.planit_app_send_emails.arn}"
-
+  role_arn  = "${aws_iam_role.events_ecs.arn}"
+  arn       = "${data.terraform_remote_state.core.container_service_cluster_id}"
   ecs_target {
     task_definition_arn = "${aws_ecs_task_definition.planit_app_send_emails.arn}"
+    task_count = 1
   }
 
 }
