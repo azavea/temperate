@@ -315,7 +315,12 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
-    trial_end_notified = models.BooleanField(default=False)
+    trial_end_notified = models.BooleanField(
+        default=False,
+        help_text=(
+            'Indicates if the user has been notified about an upcoming trial expiration'
+        )
+    )
 
     class Meta:
         verbose_name = 'user'

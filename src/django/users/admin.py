@@ -18,7 +18,8 @@ class PlanItUserAddForm(UserValidationMixin, UserCreationForm):
 UserAdmin.fieldsets = (
     (None, {'fields': ('email', 'password')}),
     ('Personal info', {'fields': ('first_name', 'last_name', 'organizations',
-                                  'primary_organization',)}),
+                                  'primary_organization',
+                                  'trial_end_notified')}),
     ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
                                 'groups', 'user_permissions')}),
     ('Important dates', {'fields': ('last_login', 'date_joined')}),
@@ -32,6 +33,7 @@ UserAdmin.add_fieldsets = (
 )
 UserAdmin.list_display = ('email', 'first_name', 'last_name', 'is_staff')
 UserAdmin.search_fields = ('first_name', 'last_name', 'email', 'organizations__name')
+UserAdmin.list_filter += ('trial_end_notified',)
 UserAdmin.ordering = ('email',)
 UserAdmin.form = PlanItUserChangeForm
 UserAdmin.add_form = PlanItUserAddForm
