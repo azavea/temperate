@@ -31,7 +31,13 @@ UserAdmin.add_fieldsets = (
                    'organizations', 'primary_organization',),
     }),
 )
-UserAdmin.list_display = ('email', 'first_name', 'last_name', 'is_staff')
+UserAdmin.list_display = (
+    'email',
+    'first_name',
+    'last_name',
+    'is_staff',
+    'trial_end_notified'
+)
 UserAdmin.search_fields = ('first_name', 'last_name', 'email', 'organizations__name')
 UserAdmin.list_filter += ('trial_end_notified',)
 UserAdmin.ordering = ('email',)
