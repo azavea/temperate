@@ -31,7 +31,7 @@ UserAdmin.add_fieldsets = (
     }),
 )
 UserAdmin.list_display = ('email', 'first_name', 'last_name', 'is_staff')
-UserAdmin.search_fields = ('first_name', 'last_name', 'email', 'organizations')
+UserAdmin.search_fields = ('first_name', 'last_name', 'email', 'organizations__name')
 UserAdmin.ordering = ('email',)
 UserAdmin.form = PlanItUserChangeForm
 UserAdmin.add_form = PlanItUserAddForm
