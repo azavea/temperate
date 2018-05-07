@@ -188,6 +188,7 @@ data "template_file" "planit_app_management_ecs_task" {
   template = "${file("task-definitions/management.json")}"
 
   vars {
+    django_command_override          = ""
     management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"
@@ -216,9 +217,10 @@ resource "aws_ecs_task_definition" "planit_app_management" {
 }
 
 data "template_file" "planit_app_send_emails_ecs_task" {
-  template = "${file("task-definitions/send_emails.json")}"
+  template = "${file("task-definitions/management.json")}"
 
   vars {
+    django_command_override          = "send_emails"
     management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"

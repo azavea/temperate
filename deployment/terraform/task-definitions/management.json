@@ -5,6 +5,7 @@
         "entryPoint": [
             "./manage.py"
         ],
+        "command": ["${django_command_override}"],
         "mountPoints": [
             {
                 "sourceVolume": "tmp",
