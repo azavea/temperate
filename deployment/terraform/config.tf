@@ -1,5 +1,10 @@
 provider "aws" {
-  region = "${var.aws_region}"
+  version = "~> 1.17.0"
+  region  = "${var.aws_region}"
+}
+
+provider "template" {
+  version = "~> 1.0.0"
 }
 
 terraform {
