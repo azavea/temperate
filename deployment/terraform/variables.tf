@@ -66,6 +66,6 @@ variable "ccapi_host" {}
 
 variable "planit_app_home" {}
 
-variable "ecs_cloudwatch_events_role"{
+variable "ecs_cloudwatch_events_role" {
   default = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }

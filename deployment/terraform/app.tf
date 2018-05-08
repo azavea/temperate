@@ -96,7 +96,6 @@ resource "aws_alb_listener" "planit_app_http" {
   }
 }
 
-
 #
 # ECS resources
 #
@@ -262,12 +261,12 @@ resource "aws_cloudwatch_event_rule" "send_trial_expiration_emails" {
 }
 
 resource "aws_cloudwatch_event_target" "send_trial_expiration_emails" {
-  rule      = "${aws_cloudwatch_event_rule.send_trial_expiration_emails.name}"
-  role_arn  = "${aws_iam_role.events_ecs.arn}"
-  arn       = "${data.terraform_remote_state.core.container_service_cluster_id}"
+  rule     = "${aws_cloudwatch_event_rule.send_trial_expiration_emails.name}"
+  role_arn = "${aws_iam_role.events_ecs.arn}"
+  arn      = "${data.terraform_remote_state.core.container_service_cluster_id}"
+
   ecs_target {
     task_definition_arn = "${aws_ecs_task_definition.planit_app_send_trial_expiration_emails.arn}"
-    task_count = 1
+    task_count          = 1
   }
-
 }
