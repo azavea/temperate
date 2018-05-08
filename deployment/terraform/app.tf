@@ -118,7 +118,7 @@ data "template_file" "planit_app_https_ecs_task" {
     ccapi_email                      = "${var.ccapi_email}"
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
-    planit_app_home                   = "${var.planit_app_home}"
+    planit_app_home                  = "${var.planit_app_home}"
   }
 }
 
@@ -187,6 +187,7 @@ data "template_file" "planit_app_management_ecs_task" {
   template = "${file("task-definitions/management.json")}"
 
   vars {
+    django_command_override          = ""
     management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
     django_secret_key                = "${var.django_secret_key}"
     rds_host                         = "${data.terraform_remote_state.core.rds_host}"
@@ -201,6 +202,7 @@ data "template_file" "planit_app_management_ecs_task" {
     ccapi_email                      = "${var.ccapi_email}"
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
+    planit_app_home                  = "${var.planit_app_home}"
   }
 }
 
@@ -211,5 +213,60 @@ resource "aws_ecs_task_definition" "planit_app_management" {
   volume {
     name      = "tmp"
     host_path = "/tmp"
+  }
+}
+
+data "template_file" "planit_app_send_trial_expiration_emails_ecs_task" {
+  template = "${file("task-definitions/management.json")}"
+
+  vars {
+    django_command_override          = "send_trial_expiration_emails"
+    management_url                   = "${data.terraform_remote_state.core.aws_account_id}.dkr.ecr.us-east-1.amazonaws.com/planit-app:${var.git_commit}"
+    django_secret_key                = "${var.django_secret_key}"
+    rds_host                         = "${data.terraform_remote_state.core.rds_host}"
+    rds_database_name                = "${var.rds_database_name}"
+    rds_username                     = "${data.terraform_remote_state.core.rds_username}"
+    rds_password                     = "${data.terraform_remote_state.core.rds_password}"
+    git_commit                       = "${var.git_commit}"
+    rollbar_server_side_access_token = "${var.rollbar_server_side_access_token}"
+    environment                      = "${var.environment}"
+    planit_app_papertrail_endpoint   = "${var.papertrail_host}:${var.papertrail_port}"
+    aws_region                       = "${var.aws_region}"
+    ccapi_email                      = "${var.ccapi_email}"
+    ccapi_password                   = "${var.ccapi_password}"
+    ccapi_host                       = "${var.ccapi_host}"
+    planit_app_home                  = "${var.planit_app_home}"
+  }
+}
+
+resource "aws_ecs_task_definition" "planit_app_send_trial_expiration_emails" {
+  family                = "${var.environment}ManagementPlanItSendTrialExpirationEmail"
+  container_definitions = "${data.template_file.planit_app_send_trial_expiration_emails_ecs_task.rendered}"
+
+  volume {
+    name      = "tmp"
+    host_path = "/tmp"
+  }
+}
+
+#
+# CloudWatch resources
+#
+resource "aws_cloudwatch_event_rule" "send_trial_expiration_emails" {
+  name        = "rule${var.environment}SendTrialExpirationEmail"
+  description = "Event to send trial expiration notifications."
+
+  # 8 UTC, 3AM EST / 4AM EDT
+  schedule_expression = "cron(0 8 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "send_trial_expiration_emails" {
+  rule     = "${aws_cloudwatch_event_rule.send_trial_expiration_emails.name}"
+  role_arn = "${aws_iam_role.events_ecs.arn}"
+  arn      = "${data.terraform_remote_state.core.container_service_cluster_id}"
+
+  ecs_target {
+    task_definition_arn = "${aws_ecs_task_definition.planit_app_send_trial_expiration_emails.arn}"
+    task_count          = 1
   }
 }
