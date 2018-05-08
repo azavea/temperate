@@ -241,7 +241,7 @@ data "template_file" "planit_app_send_trial_expiration_emails_ecs_task" {
 }
 
 resource "aws_ecs_task_definition" "planit_app_send_trial_expiration_emails" {
-  family                = "${var.environment}ManagementPlanItSendEmails"
+  family                = "${var.environment}ManagementPlanItSendTrialExpirationEmail"
   container_definitions = "${data.template_file.planit_app_send_trial_expiration_emails_ecs_task.rendered}"
 
   volume {
@@ -254,7 +254,7 @@ resource "aws_ecs_task_definition" "planit_app_send_trial_expiration_emails" {
 # CloudWatch resources
 #
 resource "aws_cloudwatch_event_rule" "send_trial_expiration_emails" {
-  name        = "rule${var.environment}SendEmails"
+  name        = "rule${var.environment}SendTrialExpirationEmail"
   description = "Event to send trial expiration notifications."
 
   # 8 UTC, 3AM EST / 4AM EDT
