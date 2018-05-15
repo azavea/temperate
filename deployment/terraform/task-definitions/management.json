@@ -5,6 +5,7 @@
         "entryPoint": [
             "./manage.py"
         ],
+        "command": ["${django_command_override}"],
         "mountPoints": [
             {
                 "sourceVolume": "tmp",
@@ -65,6 +66,10 @@
             {
                 "name": "CCAPI_HOST",
                 "value": "${ccapi_host}"
+            },
+            {
+                "name": "PLANIT_APP_HOME",
+                "value": "${planit_app_home}"
             }
         ],
         "logConfiguration": {

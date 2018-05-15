@@ -1,5 +1,7 @@
 import csv
 import logging
+from itertools import groupby
+from collections import namedtuple
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
@@ -12,7 +14,13 @@ from omgeo.postprocessors import AttrFilter
 from omgeo.services import EsriWGS
 import us
 
-from planit_data.models import CommunitySystem, WeatherEvent, OrganizationRisk, OrganizationAction
+from planit_data.models import (
+    GeoRegion,
+    CommunitySystem,
+    WeatherEvent,
+    OrganizationRisk,
+    OrganizationAction
+)
 from action_steps.models import ActionCategory
 from users.models import PlanItOrganization, PlanItLocation
 
@@ -70,29 +78,28 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
             logger.info('Organization not created for {}'.format(city_name))
             continue
 
+        georegion = GeoRegion.objects.get_for_point(point)
+
         # We need locations because Orgs need them and risks and actions need Orgs,
         # but we want these to be independent from the actual cities loaded from the API,
         # so we'll only get ones that have a null `api_city_id`.
-        # The 'admin' value might make more sense in the filter rather than the defaults, but
-        # this script was run on production without saving 'admin' values, so we want to update
-        # the existing instances.  The name and lack of API ID should be enough to uniquely
-        # identify an existing instance.
         temperate_location, c = PlanItLocation.objects.update_or_create(
             name=city_name,
-            is_coastal=is_coastal,
             api_city_id=None,
             defaults={
                 'admin': state_abbr,
                 'point': point,
+                'is_coastal': is_coastal,
+                'georegion': georegion,
             })
 
         org, c = PlanItOrganization.objects.update_or_create(
             name=city_name,
+            location=temperate_location,
             defaults={
                 'plan_due_date': date,
                 'plan_name': plan_name,
-                'plan_hyperlink': plan_hyperlink,
-                'location': temperate_location
+                'plan_hyperlink': plan_hyperlink
             })
 
         # We copy edit risks & actions frequently enough that wiping and reloading upon import is
@@ -106,7 +113,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
 
 
 def create_risks(org, events, systems):
-    """A valid risk needs at minumum either a weather event or community system."""
+    """A valid risk needs at minimum either a weather event or community system."""
     risks = []
     for event in events:
         if systems:
@@ -144,35 +151,45 @@ def create_risks_and_actions(actions_file):
 
     action_count = 0
 
-    prev_org = None  # This is just to enable logging once per city rather than once per row
-    for row in actions_reader:
-        stripped_row = (val.strip() for val in row)
-        (city_name, strategy, weather_event, community_system, category, impact) = stripped_row
-        # We only care about a row if a weather event and/or community system are listed
-        if weather_event or community_system:
-            try:
-                org = PlanItOrganization.objects.get(name=city_name)
-                if org != prev_org:
-                    logger.info('Processing risks and actions for {}'.format(org))
-                    prev_org = org
-            except ObjectDoesNotExist:
-                logger.warn('No organization for {}, skipping'.format(city_name))
-                continue
+    stripped_rows = ((val.strip() for val in row) for row in actions_reader)
 
-            events = WeatherEvent.objects.filter(name__in=weather_event.split(';'))
-            systems = CommunitySystem.objects.filter(name__in=community_system.split(';'))
+    # Convert index-based rows into a named tuple for easier handling
+    NamedRow = namedtuple('NamedRow', [
+        'city_name', 'strategy', 'weather_event', 'community_system', 'category', 'impact'
+    ])
+    named_rows = (NamedRow(*row) for row in stripped_rows)
+
+    # We only care about a row if a weather event and/or community system are listed
+    valid_rows = (row for row in named_rows if row.weather_event or row.community_system)
+
+    # Group rows from the same city together so we can reuse the org object and limit logging noise
+    for city_name, rows in groupby(valid_rows, lambda row: row.city_name):
+        try:
+            org = PlanItOrganization.objects.get(
+                name=city_name,
+                location__api_city_id=None
+            )
+        except ObjectDoesNotExist:
+            logger.warn('No organization for {}, skipping'.format(city_name))
+            continue
+
+        logger.info('Processing risks and actions for {}'.format(org))
+
+        for row in rows:
+            events = WeatherEvent.objects.filter(name__in=row.weather_event.split(';'))
+            systems = CommunitySystem.objects.filter(name__in=row.community_system.split(';'))
             row_risks = create_risks(org, events, systems)
 
             for risk in row_risks:
                 action, c = OrganizationAction.objects.get_or_create(
                     organization_risk=risk,
-                    name=strategy,
+                    name=row.strategy,
                     visibility=OrganizationAction.Visibility.PUBLIC)
 
                 # Unable to bulk add categories as a list and ".add" doesn't prevent duplicates
                 if c:
                     action_count += 1
-                    category_names = [cat.title() for cat in category.split(';')]
+                    category_names = [cat.title() for cat in row.category.split(';')]
                     categories = ActionCategory.objects.filter(name__in=category_names)
                     for cat in categories:
                         action.categories.add(cat.id.hex)

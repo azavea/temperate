@@ -40,6 +40,7 @@ class PlanItLocationManager(models.Manager):
             location.name = city['properties']['name']
             location.admin = city['properties']['admin']
             location.point = GEOSGeometry(str(city['geometry']))
+            location.georegion = GeoRegion.objects.get_for_point(location.point)
             location.is_coastal = city['properties']['proximity']['ocean']
             location.save()
         return location
@@ -54,6 +55,7 @@ class PlanItLocation(models.Model):
     admin = models.CharField(max_length=16, null=False, blank=True)
     api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
+    georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
 
     objects = PlanItLocationManager()
@@ -107,7 +109,7 @@ class PlanItOrganization(models.Model):
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,
                                     default=Subscription.FREE_TRIAL)
-    subscription_end_date = models.DateTimeField(null=True, blank=True)
+    subscription_end_date = models.DateTimeField(null=True, blank=True, db_index=True)
     subscription_pending = models.BooleanField(default=False)
 
     plan_due_date = models.DateField(null=True, blank=True)
@@ -313,6 +315,12 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
+    trial_end_notified = models.BooleanField(
+        default=False,
+        help_text=(
+            'Indicates if the user has been notified about an upcoming trial expiration'
+        )
+    )
 
     class Meta:
         verbose_name = 'user'
@@ -327,7 +335,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
     def send_registration_complete_email(self):
         context = {
-            'user': self,
             'url': settings.PLANIT_APP_HOME,
             'support_email': settings.SUPPORT_EMAIL
         }
@@ -339,8 +346,8 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
 
         Required method on user for use of django-registration.
         Signature modified here to support multi-part HTML email.
-        Only used by django-registration to send activation email, which we override.
         """
+        context.setdefault('user', self)
         send_html_email(template_prefix, from_email, [self.email], context=context, **kwargs)
 
     # All methods below copied from Django's AbstractUser

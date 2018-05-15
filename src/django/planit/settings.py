@@ -281,6 +281,7 @@ LOGGING = {
         'users': {
             'handlers': ['console'],
             'propagate': True,
+            'level': LOGLEVEL
         },
         'planit_data': {
             'handlers': ['console'],

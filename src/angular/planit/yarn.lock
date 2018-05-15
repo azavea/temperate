@@ -940,9 +940,9 @@ clean-css@4.1.x:
   dependencies:
     source-map "0.5.x"
 
-climate-change-components@0.2.13:
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/climate-change-components/-/climate-change-components-0.2.13.tgz#f27c74f127908a88a5c29600eddb83405b0434d6"
+climate-change-components@0.2.15:
+  version "0.2.15"
+  resolved "https://registry.yarnpkg.com/climate-change-components/-/climate-change-components-0.2.15.tgz#43ac0f199005f098763337c079c7c8aedfa8de5d"
   dependencies:
     "@types/geojson" "^1.0.3"
     d3 "^4.10.0"

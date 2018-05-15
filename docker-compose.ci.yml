@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   terraform:
-    image: "quay.io/azavea/terraform:0.9.11"
+    image: "quay.io/azavea/terraform:0.10.8"
     volumes:
       - ./:/usr/local/src
       - ~/.aws:/root/.aws
