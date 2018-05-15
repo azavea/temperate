@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
-- Add database field to track PlanItLocation georegion directly
+
+## [1.1.0] - 2018-05-15
+### Added
+- Automatic emails notifying users of their upcoming trial expiration
+- Database field to track PlanItLocation georegion directly
+### Fixed
 - Prevent Missy ingest script from failing if user organization has same name as Missy organization
 - Prevent Chrome's insubordinate autocomplete on the city selector
-- Add automatic emails notifying users of their upcoming trial expiration
 
 ## [1.0.2] - 2018-04-19
 ### Fixed
@@ -92,7 +96,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/azavea/temperate/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/azavea/temperate/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/azavea/temperate/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/azavea/temperate/compare/0.1.5...1.0.0
