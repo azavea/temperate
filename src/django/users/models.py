@@ -7,6 +7,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.postgres.fields.array import ArrayField
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -42,6 +43,7 @@ class PlanItLocationManager(models.Manager):
             location.point = GEOSGeometry(str(city['geometry']))
             location.georegion = GeoRegion.objects.get_for_point(location.point)
             location.is_coastal = city['properties']['proximity']['ocean']
+            location.datasets = city['properties']['datasets']
             location.save()
         return location
 
@@ -57,6 +59,7 @@ class PlanItLocation(models.Model):
     point = models.PointField(srid=4326, null=True, blank=True)
     georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
+    datasets = ArrayField(models.CharField(max_length=48), blank=True, default=list)
 
     objects = PlanItLocationManager()
 
