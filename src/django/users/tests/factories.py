@@ -25,6 +25,7 @@ class LocationFactory(factory.DjangoModelFactory):
     is_coastal = False
     georegion = factory.SubFactory('planit_data.tests.factories.GeoRegionFactory')
     point = Point(1, 1)
+    datasets = ['LOCA', 'NEX-GDDP']
 
 
 class OrganizationFactory(factory.DjangoModelFactory):
