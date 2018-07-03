@@ -53,7 +53,7 @@ resource "aws_alb_listener" "planit_app_https" {
   load_balancer_arn = "${aws_alb.planit_app.id}"
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = "${var.ssl_certificate_arn}"
+  certificate_arn   = "${data.terraform_remote_state.core.temperate_ssl_certificate_arn}"
 
   default_action {
     target_group_arn = "${aws_alb_target_group.planit_app_https.id}"
