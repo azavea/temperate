@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+- Pull SSL certificate ARN from remote state
 
 ## [1.1.0] - 2018-05-15
 ### Added
