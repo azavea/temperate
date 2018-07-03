@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+
+## [1.2.0] - 2018-07-03
+### Added
 - Pull SSL certificate ARN from remote state
 
 ## [1.1.0] - 2018-05-15
@@ -97,7 +100,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/azavea/temperate/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/azavea/temperate/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/azavea/temperate/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/azavea/temperate/compare/1.0.0...1.0.1
