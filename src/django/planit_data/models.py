@@ -311,9 +311,11 @@ class ConcernValueManager(models.Manager):
     def get_average_value(self, concern, location, scenario, start_year):
         city_id = location.api_city_id
         year_range = range(start_year, start_year + self.ERA_LENGTH)
+        # Prefer LOCA dataset, but fall-back to NEX-GDDP if it's not supported
+        dataset = 'LOCA' if 'LOCA' in location.datasets else 'NEX-GDDP'
         params = {
             'years': [year_range],
-            'dataset': 'LOCA'
+            'dataset': dataset
         }
 
         response = make_indicator_api_request(concern.indicator, city_id, scenario,

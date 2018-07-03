@@ -11,10 +11,9 @@ from planit_data.models import (
 from planit_data.tests.factories import (
     ConcernFactory,
     ConcernValueFactory,
-    OrganizationFactory,
-    LocationFactory,
     WeatherEventFactory
 )
+from users.tests.factories import OrganizationFactory, LocationFactory
 
 
 class ConcernTestCase(TestCase):

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+- Use datasets property of Climate Change API cities when calculating concern values
 
 ## [1.2.0] - 2018-07-03
 ### Added
