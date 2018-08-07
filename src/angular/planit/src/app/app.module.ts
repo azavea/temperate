@@ -25,6 +25,7 @@ import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PlanSelectorComponent } from './marketing/plan-selector.component';
 import { PricingComponent } from './marketing/pricing.component';
+import { TermsOfServiceComponent } from './marketing/terms-of-service.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { ActionStepsModule } from './action-steps/action-steps.module';
@@ -106,7 +107,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlanSelectorComponent,
     PricingComponent,
     RegistrationPageComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    TermsOfServiceComponent,
   ],
   imports: [
     // Angular

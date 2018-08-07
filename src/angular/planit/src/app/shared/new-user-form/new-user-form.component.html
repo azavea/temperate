@@ -98,7 +98,8 @@
              name="terms"
              type="checkbox"
              [(ngModel)]="acceptedTOS">
-      <label for="terms"> I accept the <a href="">Terms of Service</a></label>
+      <label for="terms"> I accept the
+        <a routerLink="/terms-of-service" target="_blank">Terms of Service</a></label>
     </div>
 
     <footer *ngIf="!submitted" class="modal-footer">
