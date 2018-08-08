@@ -13,6 +13,7 @@ export class NewUserFormComponent implements OnInit {
   public model: User = new User({});
   public submitted = false;
   public activated = false;
+  public acceptedTOS = false;
   public errors: any[] = [];
   public emailDisabled = false;
   public passwordVisible = false;
