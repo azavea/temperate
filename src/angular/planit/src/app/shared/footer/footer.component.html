@@ -22,16 +22,28 @@
          routerLink="/"
          routerLinkActive="current"
          [queryParams]="{ ref: 'footer' }">About</a>
+      <a class="button-icon-only"
+         href="https://www.facebook.com/temperateio"
+         target="_blank"
+         rel="noopener">
+        <span aria-label="Facebook" class="icon icon-primary icon-facebook"></span>
+      </a>
+      <a class="button-icon-only"
+         href="https://twitter.com/TemperateApp"
+         target="_blank"
+         rel="noopener">
+        <span class="icon icon-primary icon-twitter" aria-label="Twitter"></span>
+      </a>
     </div>
   </nav>
   <div class="fine-print">
     <p class="copyright">
-      &copy; 2016-2018 <a href="https://azavea.com/" target="_blank">Azavea Inc.</a>, using technology to inform research for civic and social impact. All rights reserved.
+      &copy; 2016-2018 <a href="https://azavea.com/" rel="noopener" target="_blank">Azavea Inc.</a>, using technology to inform research for civic and social impact. All rights reserved.
     </p>
     <p class="grant">Temperate and the Climate API developed with support from the US Dept. of Energy (DE‐SC0011303).</p>
     <p class="grant">
-      <a href="https://www.azavea.com/terms-of-use/" target="_blank">Terms of Use</a> &bull; 
-      <a href="https://www.azavea.com/privacy-policy/" target="_blank">Privacy Policy</a>
+      <a routerLink="/terms-of-service" rel="noopener" target="_blank">Terms of Service</a> &bull;
+      <a href="https://www.azavea.com/privacy-policy/" rel="noopener" target="_blank">Privacy Policy</a>
     </p>
   </div>
 </footer>

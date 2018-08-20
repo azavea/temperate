@@ -124,3 +124,9 @@
 .icon-forestry:before { content: '\e8e6'; } /* '' */
 .icon-circle:before { content: '\e8fc'; } /* '' */
 .icon-circle-empty:before { content: '\e8fd'; } /* '' */
+.icon-twitter:before { content: '\f099'; } /* '' */
+.icon-facebook:before { content: '\f09a'; } /* '' */
+.icon-gplus-squared:before { content: '\f0d4'; } /* '' */
+.icon-gplus:before { content: '\f0d5'; } /* '' */
+.icon-facebook-official:before { content: '\f230'; } /* '' */
+.icon-facebook-squared:before { content: '\f308'; } /* '' */

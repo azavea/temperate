@@ -18,6 +18,7 @@ import { MarketingComponent } from './marketing/marketing.component';
 import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PricingComponent } from './marketing/pricing.component';
+import { TermsOfServiceComponent } from './marketing/terms-of-service.component';
 import { PageNotFoundComponent } from './not-found.component';
 import { OrganizationWizardComponent } from './organization-wizard/organization-wizard.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
@@ -56,6 +57,7 @@ const routes: Routes = [
     component: ManageSubscriptionComponent,
     canActivate: [PlanAuthGuard]
   },
+  { path: 'terms-of-service', component: TermsOfServiceComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 

@@ -93,8 +93,17 @@
       </app-password-validator-popover>
     </ng-template>
 
+    <div class="input-group checkbox-item">
+      <input id="terms"
+             name="terms"
+             type="checkbox"
+             [(ngModel)]="acceptedTOS">
+      <label for="terms">&nbsp;I accept the&nbsp;
+        <a routerLink="/terms-of-service" target="_blank">Terms of Service</a></label>
+    </div>
+
     <footer *ngIf="!submitted" class="modal-footer">
-      <button type="submit" [disabled]="newUserForm && newUserForm.invalid"
+      <button type="submit" [disabled]="!acceptedTOS || (newUserForm && newUserForm.invalid)"
               class="button button-primary" form="app-new-user-form">Create account</button>
     </footer>
   </form>
