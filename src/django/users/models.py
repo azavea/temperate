@@ -324,6 +324,12 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
             'Indicates if the user has been notified about an upcoming trial expiration'
         )
     )
+    can_create_multiple_organizations = models.BooleanField(
+        default=False,
+        help_text=(
+            'Designates whether user can create multiple organizations.'
+        ),
+    )
 
     class Meta:
         verbose_name = 'user'
