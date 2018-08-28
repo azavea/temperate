@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
+import { ToastrService } from 'ngx-toastr';
 
 import { UserService } from '../../core/services/user.service';
 import { OrgSubscriptionOptions, Organization, User } from '../../shared';
@@ -16,7 +17,7 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
   public organizations: string[];
   public userSubscription: Subscription;
 
-  constructor(private userService: UserService) {}
+  constructor(private toastr: ToastrService, private userService: UserService) {}
 
   ngOnInit() {
     this.userSubscription = this.userService.currentUser.subscribe(user => {
@@ -31,7 +32,18 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
   }
 
   private setOrganization(organization: string): void {
-    // TODO: change primary organization
-    console.log(organization);
+    const newOrg: string = this.organizations.find(org => { return org === organization; });
+    if (newOrg) {
+      this.user.primary_organization.name = newOrg;
+      this.save(this.userService.update(this.user), 'Changed primary organization');
+    }
+  }
+
+  private save(observable, success) {
+    observable.subscribe(() => {
+      this.toastr.success(success);
+    }, () => {
+      this.toastr.error('Something went wrong, please try again.');
+    });
   }
 }

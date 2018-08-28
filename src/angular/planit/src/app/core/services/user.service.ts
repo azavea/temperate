@@ -20,11 +20,12 @@ export class UserService {
   constructor(private apiHttp: PlanItApiHttp, private cache: APICacheService) {}
 
   private formatUser(user: User): any {
-    // Delete the attached organization to ensure we don't accidentally alter
-    // or create any organizations
-    // Since we update with PATCH the user will still keep their primary_organization
     const formattedUser = cloneDeep(user);
     delete formattedUser.primary_organization;
+    if (user.primary_organization) {
+      formattedUser.primary_organization = user.primary_organization.name;
+    }
+
     return Object.assign(formattedUser, {});
   }
 
