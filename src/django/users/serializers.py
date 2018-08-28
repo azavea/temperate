@@ -208,10 +208,12 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                      style={'input_type': 'password'})
 
+    can_create_multiple_organizations = serializers.BooleanField(read_only=True)
+
     class Meta:
         model = PlanItUser
         fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password',)
+                  'primary_organization', 'password', 'can_create_multiple_organizations',)
 
     def validate(self, data):
         if (('primary_organization' in data and
