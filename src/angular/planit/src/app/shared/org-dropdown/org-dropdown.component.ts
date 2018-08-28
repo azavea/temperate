@@ -36,6 +36,8 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
     if (newOrg) {
       this.user.primary_organization.name = newOrg;
       this.save(this.userService.update(this.user), 'Changed primary organization');
+      this.userService.invalidate();
+      // TODO: also refresh page? reload all user/org related data
     }
   }
 
