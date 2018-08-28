@@ -22,10 +22,6 @@ export class UserService {
   private formatUser(user: User): any {
     const formattedUser = cloneDeep(user);
     delete formattedUser.primary_organization;
-    if (user.primary_organization) {
-      formattedUser.primary_organization = user.primary_organization.name;
-    }
-
     return Object.assign(formattedUser, {});
   }
 
@@ -54,6 +50,18 @@ export class UserService {
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
+      this.cache.clear(CORE_USERSERVICE_CURRENT);
+      return this.current();
+    });
+  }
+
+  updatePrimaryOrg(user: User, organization: string): Observable<User> {
+    const url = `${environment.apiUrl}/api/users/${user.id}/`;
+    return this.apiHttp.patch(url,
+                              {'primary_organization': organization,
+                               'organizations': user.organizations}
+                              ).switchMap(resp => {
+
       this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
     });

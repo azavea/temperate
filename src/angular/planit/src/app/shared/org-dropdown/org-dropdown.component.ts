@@ -32,13 +32,12 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
   }
 
   private setOrganization(organization: string): void {
-    const newOrg: string = this.organizations.find(org => { return org === organization; });
-    if (newOrg) {
-      this.user.primary_organization.name = newOrg;
-      this.save(this.userService.update(this.user), 'Changed primary organization');
-      this.userService.invalidate();
-      // TODO: also refresh page? reload all user/org related data
-    }
+    const newOrg: string = this.organizations.find(org => { return org === organization; }) || '';
+    this.save(this.userService.updatePrimaryOrg(this.user, newOrg),
+              'Changed primary organization');
+
+    this.userService.invalidate();
+    // TODO: also refresh page? reload all user/org related data
   }
 
   private save(observable, success) {
