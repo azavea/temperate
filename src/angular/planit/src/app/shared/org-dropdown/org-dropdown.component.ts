@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
 
-import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { OrgSubscriptionOptions, Organization, User } from '../../shared';
 
@@ -13,16 +12,17 @@ import { OrgSubscriptionOptions, Organization, User } from '../../shared';
 
 export class OrgDropdownComponent implements OnDestroy, OnInit {
   public user: User;
-  public organization: Organization;
-  public subscriptionOptions = OrgSubscriptionOptions;
+  public primaryOrganization: Organization;
+  public organizations: string[];
   public userSubscription: Subscription;
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.userSubscription = this.userService.currentUser.subscribe(user => {
       this.user = user;
-      this.organization = user.primary_organization;
+      this.primaryOrganization = user.primary_organization;
+      this.organizations = user.organizations;
     });
   }
 
@@ -30,7 +30,8 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
     this.userSubscription.unsubscribe();
   }
 
-  public logout() {
-    this.authService.logout();
+  private setOrganization(organization: string): void {
+    // TODO: change primary organization
+    console.log(organization);
   }
 }
