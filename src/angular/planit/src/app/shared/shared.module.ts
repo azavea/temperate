@@ -42,6 +42,7 @@ import {
   TopCommunitySystemsComponent
 } from './top-community-systems/top-community-systems.component';
 import { TopConcernsComponent } from './top-concerns/top-concerns.component';
+import { OrgDropdownComponent } from './org-dropdown/org-dropdown.component';
 import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 import { UserEmailsComponent } from './user-emails/user-emails.component';
 
@@ -80,6 +81,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
@@ -107,6 +109,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,

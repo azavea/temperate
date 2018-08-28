@@ -10,6 +10,7 @@
        *ngIf="showLink()"
        routerLink="/indicators"
        routerLinkActive="current">Climate data</a>
+    <app-org-dropdown *ngIf="showCreateOrg()"></app-org-dropdown>
     <app-user-dropdown></app-user-dropdown>
   </div>
   <nav class="nav-buttons" *ngIf="!authService.isAuthenticated()">

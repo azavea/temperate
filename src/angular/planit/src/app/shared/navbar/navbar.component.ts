@@ -40,6 +40,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.userSubscription.unsubscribe();
   }
 
+  private showCreateOrg(): boolean {
+    return this.user && this.user.can_create_multiple_organizations;
+  }
+
   private showLink(): boolean {
     if (this.user && this.user.primary_organization) {
       if (this.user.primary_organization.plan_setup_complete) {
