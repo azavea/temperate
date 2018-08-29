@@ -36,7 +36,6 @@ export class UserService {
         this._currentUser.next(user);
         return user;
       }
-
       return null;
     });
   }

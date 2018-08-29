@@ -11,28 +11,29 @@ import { OrgSubscriptionOptions, Organization, User } from '../../shared';
   templateUrl: './org-dropdown.component.html'
 })
 
-export class OrgDropdownComponent implements OnDestroy, OnInit {
+export class OrgDropdownComponent implements OnInit {
   public user: User;
   public primaryOrganization: Organization;
   public organizations: string[];
-  public userSubscription: Subscription;
 
   constructor(private toastr: ToastrService, private userService: UserService) {}
 
   ngOnInit() {
-    this.userSubscription = this.userService.currentUser.subscribe(user => {
+    // Request current user, but do not subscribe to changes, since page reloads on org change.
+    this.userService.current().subscribe(user => {
       this.user = user;
       this.primaryOrganization = user.primary_organization;
       this.organizations = user.organizations;
     });
   }
 
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+  private canCreateOrgs(): boolean {
+    return this.user && this.user.can_create_multiple_organizations;
   }
 
   private setOrganization(organization: string): void {
-    const newOrg: string = this.organizations.find(org => { return org === organization; }) || '';
+    const newOrg: string = this.organizations ?
+      this.organizations.find(org => { return org === organization; }) || '' : '';
     this.save(this.userService.updatePrimaryOrg(this.user, newOrg),
               'Changed primary organization');
   }
@@ -42,7 +43,6 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
       this.toastr.success(success);
       this.userService.invalidate();
       window.location.reload();
-
     }, () => {
       this.toastr.error('Something went wrong, please try again.');
     });
