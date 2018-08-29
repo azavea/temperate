@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Subscription } from 'rxjs/Rx';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Rx';
 
 import { UserService } from '../../core/services/user.service';
-import { OrgSubscriptionOptions, Organization, User } from '../../shared';
+import { Organization, User } from '../../shared';
 import {
   ConfirmationModalComponent
 } from '../../shared/confirmation-modal/confirmation-modal.component';
@@ -39,7 +39,7 @@ export class OrgDropdownComponent implements OnInit {
   private setOrganization(organization: string): void {
     // Show confirmation dialog before switching
     const createNewOrg: boolean = !organization || organization.length === 0;
-    var tagline = createNewOrg ? 'Are you sure you want to create a new organization?' :
+    let tagline = createNewOrg ? 'Are you sure you want to create a new organization?' :
         `Are you sure you want to switch to organization ${organization}?`;
     tagline += ' Any unsaved changes on the current page will be lost.';
 
@@ -50,7 +50,7 @@ export class OrgDropdownComponent implements OnInit {
       confirmText: createNewOrg ? 'Create' : 'Switch'
     }).onErrorResumeNext().switchMap(() => {
       const newOrg: string = this.organizations ?
-        this.organizations.find(org => { return org === organization; }) || '' : '';
+        this.organizations.find(org => org === organization) || '' : '';
       return this.userService.updatePrimaryOrg(this.user, newOrg);
     }).subscribe(() => {
       if (!createNewOrg) {
