@@ -49,6 +49,9 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(user.primary_organization, None,
                          'User should have no primary organization')
 
+        # check user cannot create multiple organizations by default
+        self.assertFalse(user.can_create_multiple_organizations)
+
     def test_user_created_can_log_in(self):
         user_data = {
             'email': 'test@azavea.com',
