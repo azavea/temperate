@@ -21,6 +21,8 @@ export class UserService {
 
   private formatUser(user: User): any {
     const formattedUser = cloneDeep(user);
+    // Do not attempt to send organization model object in JSON, as endpoint expects a string.
+    // Use `updatePrimaryOrg` to set the primary organization or organizations.
     delete formattedUser.primary_organization;
     return Object.assign(formattedUser, {});
   }

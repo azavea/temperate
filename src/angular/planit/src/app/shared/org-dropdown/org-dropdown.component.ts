@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Rx';
@@ -14,26 +14,35 @@ import {
   templateUrl: './org-dropdown.component.html'
 })
 
-export class OrgDropdownComponent implements OnInit {
+export class OrgDropdownComponent implements OnDestroy, OnInit {
   @ViewChild('confirmOrgChangeModal') confirmOrgChangeModal: ConfirmationModalComponent;
 
   public user: User;
   public primaryOrganization: Organization;
   public organizations: string[];
 
+  private userSubscription: Subscription;
+
   constructor(private toastr: ToastrService, private userService: UserService) {}
 
   ngOnInit() {
-    // Request current user, but do not subscribe to changes, since page reloads on org change.
-    this.userService.current().subscribe(user => {
-      this.user = user;
-      this.primaryOrganization = user.primary_organization;
-      this.organizations = user.organizations;
-    });
+    // Request current user and subscribe to changes
+    this.userService.current().subscribe(user => this.setUser(user));
+    this.userSubscription = this.userService.currentUser.subscribe(user => this.setUser(user));
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
   private canCreateOrgs(): boolean {
     return this.user && this.user.can_create_multiple_organizations;
+  }
+
+  private setUser(user: User) {
+    this.user = user;
+    this.primaryOrganization = user.primary_organization;
+    this.organizations = user.organizations;
   }
 
   private setOrganization(organization: string): void {
