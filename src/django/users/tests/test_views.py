@@ -22,6 +22,32 @@ from planit_data.tests.factories import (
     OrganizationWeatherEventFactory
 )
 
+# Mock response for a city from the CC_API
+MOCK_CC_API_CITY = {
+    "id": 7,
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -75.16379,
+            39.95233
+        ]
+    },
+    "properties": {
+        "datasets": [
+            "NEX-GDDP",
+            "LOCA"
+        ],
+        "name": "Philadelphia",
+        "admin": "PA",
+        "proximity": {
+            "ocean": False
+        },
+        "population": 1526006,
+        "region": 11
+    }
+}
+
 
 class UserCreationApiTestCase(APITestCase):
     def test_user_created(self):
@@ -48,6 +74,9 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
         self.assertEqual(user.primary_organization, None,
                          'User should have no primary organization')
+
+        # check user cannot create multiple organizations by default
+        self.assertFalse(user.can_create_multiple_organizations)
 
     def test_user_created_can_log_in(self):
         user_data = {
@@ -182,30 +211,7 @@ class OrganizationCreationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     def test_org_created(self, api_wrapper_mock):
-        api_wrapper_mock.return_value = {
-            "id": 7,
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -75.16379,
-                    39.95233
-                ]
-            },
-            "properties": {
-                "datasets": [
-                    "NEX-GDDP",
-                    "LOCA"
-                ],
-                "name": "Philadelphia",
-                "admin": "PA",
-                "proximity": {
-                    "ocean": False
-                },
-                "population": 1526006,
-                "region": 11
-            }
-        }
+        api_wrapper_mock.return_value = MOCK_CC_API_CITY
 
         # Create a GeoRegion that encompasses (-75.16379, 39.95233)
         GeoRegion.objects.create(
@@ -707,3 +713,80 @@ class CsrfTestCase(TestCase):
         # Ensure the request was accepted
         self.assertTrue(status.is_success(result.status_code),
                         "Expected success status, received {} instead".format(result.status_code))
+
+
+class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
+    """Check users can create multiple organizations if and only if the user flag for that is set"""
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_can_create_multiple_organizations_with_flag(self, api_wrapper_mock):
+        api_wrapper_mock.return_value = MOCK_CC_API_CITY
+
+        # Create a GeoRegion that encompasses the mock API city
+        GeoRegion.objects.create(
+            name="Test GeoRegion",
+            geom=MultiPolygon(Polygon(((0, 0), (0, 100), (-100, 100),
+                                       (-100, 0), (0, 0))))
+        )
+
+        test_org_name = 'Test Organization'
+
+        location = LocationFactory(
+            api_city_id=7
+        )
+        org = OrganizationFactory(
+            name=test_org_name,
+            location__api_city_id=location.api_city_id
+        )
+
+        user_data = {
+            'email': 'test@azavea.com',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'password': 'sooperseekrit'
+        }
+
+        user = PlanItUser.objects.create_user(**user_data)
+        user.organizations.add(org)
+        user.primary_organization = org
+        user.save()
+
+        token = Token.objects.get(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
+        url = reverse('planituser-detail', kwargs={'pk': user.pk})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+        # should have response with one user, our test user, with one organization
+        self.assertEqual(result['email'], user_data['email'])
+        self.assertEqual(1, user.organizations.all().count(), 'User should have one organization')
+        self.assertEqual(user.primary_organization.name, test_org_name,
+                         'User should have primary organization set')
+
+        # attempt to create a second organization for the user
+        second_org_name = 'Second Organization'
+        org_data = {
+            'name': second_org_name,
+            'location': {
+                'properties': {
+                    'api_city_id': 2,
+                }
+            },
+            'units': 'METRIC'
+        }
+
+        url = reverse('planitorganization-list')
+
+        # should fail to create second organization without user flag set for that permission
+        response = self.client.post(url, org_data, format='json')
+        self.assertEqual(response.status_code, 400)
+
+        # should succeed to create second organization, once the user has that permission
+        user.can_create_multiple_organizations = True
+        user.save()
+
+        response = self.client.post(url, org_data, format='json')
+        self.assertEqual(response.status_code, 201)
+        result = response.json()
+        self.assertEqual(result['name'], second_org_name)

@@ -68,7 +68,7 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
-                  run --rm angular run test
+                  run --rm angular run test --sourcemaps=false
 
         echo "Check for missing migrations"
         GIT_COMMIT="${GIT_COMMIT}" docker-compose \

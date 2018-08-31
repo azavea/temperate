@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+### Added
+ - Allow users to switch organizations or create multiple new organizations
 
 ## [1.4.0] - 2018-08-20
 ### Added

@@ -274,7 +274,8 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        if self.request.user.primary_organization:
+        if (self.request.user.primary_organization and not
+           self.request.user.can_create_multiple_organizations):
             return Response('User already has an organization',
                             status=status.HTTP_400_BAD_REQUEST)
 

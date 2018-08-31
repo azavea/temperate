@@ -202,22 +202,26 @@ class UserSerializer(serializers.ModelSerializer):
                                                  required=False,
                                                  slug_field='name')
     primary_organization = serializers.SlugRelatedField(queryset=PlanItOrganization.objects.all(),
+                                                        allow_null=True,
                                                         required=False,
                                                         slug_field='name')
 
     password = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                      style={'input_type': 'password'})
 
+    can_create_multiple_organizations = serializers.BooleanField(read_only=True)
+
     class Meta:
         model = PlanItUser
         fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password',)
+                  'primary_organization', 'password', 'can_create_multiple_organizations',)
 
     def validate(self, data):
-        if (('primary_organization' in data and
-             data['primary_organization'] not in data['organizations'])):
+        if ('primary_organization' in data and data['primary_organization'] and
+                data['primary_organization'] not in data['organizations']):
+
             raise serializers.ValidationError(
-                "Primary Organization must be one of the user's Organizations"
+                "Primary organization must be one of the user's organizations"
             )
         if 'password' in data:
             # run built-in password validators; will raise ValidationError if it fails
