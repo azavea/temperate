@@ -17,9 +17,9 @@ import {
 export class OrgDropdownComponent implements OnDestroy, OnInit {
   @ViewChild('confirmOrgChangeModal') confirmOrgChangeModal: ConfirmationModalComponent;
 
-  public user: User;
-  public primaryOrganization: Organization;
-  public organizations: string[];
+  private dropdownUser: User;
+  private dropdownPrimaryOrganization: Organization;
+  private dropdownOrganizations: string[];
 
   private userSubscription: Subscription;
 
@@ -35,14 +35,26 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
     this.userSubscription.unsubscribe();
   }
 
+  get User() {
+    return this.dropdownUser;
+  }
+
+  get primaryOrganization() {
+    return this.dropdownPrimaryOrganization;
+  }
+
+  get organizations() {
+    return this.dropdownOrganizations;
+  }
+
   private canCreateOrgs(): boolean {
-    return this.user && this.user.can_create_multiple_organizations;
+    return this.dropdownUser && this.dropdownUser.can_create_multiple_organizations;
   }
 
   private setUser(user: User) {
-    this.user = user;
-    this.primaryOrganization = user.primary_organization;
-    this.organizations = user.organizations;
+    this.dropdownUser = user;
+    this.dropdownPrimaryOrganization = user.primary_organization;
+    this.dropdownOrganizations = user.organizations;
   }
 
   private setOrganization(organization: string): void {
@@ -58,9 +70,9 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
       confirmButtonClass: 'button-primary',
       confirmText: createNewOrg ? 'Create' : 'Switch'
     }).onErrorResumeNext().switchMap(() => {
-      const newOrg: string = this.organizations ?
-        this.organizations.find(org => org === organization) || '' : '';
-      return this.userService.updatePrimaryOrg(this.user, newOrg);
+      const newOrg: string = this.dropdownOrganizations ?
+        this.dropdownOrganizations.find(org => org === organization) || '' : '';
+      return this.userService.updatePrimaryOrg(this.dropdownUser, newOrg);
     }).subscribe(() => {
       if (!createNewOrg) {
         this.toastr.success('Changed primary organization');
