@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+
+## [1.5.0] - 2018-09-14
 ### Added
  - Allow users to switch organizations or create multiple new organizations
 
@@ -110,7 +112,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.5.0...HEAD
+[1.5.0]: https://github.com/azavea/temperate/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/azavea/temperate/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/azavea/temperate/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/azavea/temperate/compare/1.1.0...1.2.0
