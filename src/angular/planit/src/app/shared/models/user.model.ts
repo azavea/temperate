@@ -6,6 +6,7 @@ export class User {
   last_name: string;
   email: string;
   is_active: boolean;
+  can_create_multiple_organizations: boolean;
   organizations?: string[];
   primary_organization?: Organization;
   city?: number;

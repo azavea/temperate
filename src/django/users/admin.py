@@ -21,6 +21,7 @@ UserAdmin.fieldsets = (
                                   'primary_organization',
                                   'trial_end_notified')}),
     ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                'can_create_multiple_organizations',
                                 'groups', 'user_permissions')}),
     ('Important dates', {'fields': ('last_login', 'date_joined')}),
 )
@@ -28,7 +29,7 @@ UserAdmin.add_fieldsets = (
     (None, {
         'classes': ('wide',),
         'fields': ('email', 'password1', 'password2', 'first_name', 'last_name',
-                   'organizations', 'primary_organization',),
+                   'organizations', 'primary_organization', 'can_create_multiple_organizations',),
     }),
 )
 UserAdmin.list_display = (
@@ -36,10 +37,11 @@ UserAdmin.list_display = (
     'first_name',
     'last_name',
     'is_staff',
-    'trial_end_notified'
+    'trial_end_notified',
+    'can_create_multiple_organizations',
 )
 UserAdmin.search_fields = ('first_name', 'last_name', 'email', 'organizations__name')
-UserAdmin.list_filter += ('trial_end_notified',)
+UserAdmin.list_filter += ('trial_end_notified', 'can_create_multiple_organizations',)
 UserAdmin.ordering = ('email',)
 UserAdmin.form = PlanItUserChangeForm
 UserAdmin.add_form = PlanItUserAddForm

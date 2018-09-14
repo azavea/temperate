@@ -20,10 +20,9 @@ export class UserService {
   constructor(private apiHttp: PlanItApiHttp, private cache: APICacheService) {}
 
   private formatUser(user: User): any {
-    // Delete the attached organization to ensure we don't accidentally alter
-    // or create any organizations
-    // Since we update with PATCH the user will still keep their primary_organization
     const formattedUser = cloneDeep(user);
+    // Do not attempt to send organization model object in JSON, as endpoint expects a string.
+    // Use `updatePrimaryOrg` to set the primary organization or organizations.
     delete formattedUser.primary_organization;
     return Object.assign(formattedUser, {});
   }
@@ -39,7 +38,6 @@ export class UserService {
         this._currentUser.next(user);
         return user;
       }
-
       return null;
     });
   }
@@ -53,6 +51,18 @@ export class UserService {
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
+      this.cache.clear(CORE_USERSERVICE_CURRENT);
+      return this.current();
+    });
+  }
+
+  updatePrimaryOrg(user: User, organization: string): Observable<User> {
+    const url = `${environment.apiUrl}/api/users/${user.id}/`;
+    return this.apiHttp.patch(url,
+                              {'primary_organization': organization,
+                               'organizations': user.organizations}
+                              ).switchMap(resp => {
+
       this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
     });

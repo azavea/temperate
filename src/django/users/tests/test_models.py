@@ -309,19 +309,22 @@ class PlanItUserTestCase(TestCase):
 
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
+        self.assertFalse(user.can_create_multiple_organizations)
 
     def test_createsuperuser(self):
         user_data = {
             'email': 'test@azavea.com',
             'first_name': 'Test',
             'last_name': 'User',
-            'password': 'sooperseekrit'
+            'password': 'sooperseekrit',
+            'can_create_multiple_organizations': True
         }
         user = PlanItUser.objects.create_superuser(**user_data)
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_active)
+        self.assertTrue(user.can_create_multiple_organizations)
 
         # check user has no organizations
         self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')

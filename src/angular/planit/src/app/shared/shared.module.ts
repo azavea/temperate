@@ -32,6 +32,7 @@ import { ModalTemplateComponent } from './modal-template/modal-template.componen
 import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
+import { OrgDropdownComponent } from './org-dropdown/org-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import {
   PasswordValidatorPopoverComponent
@@ -80,6 +81,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
@@ -107,6 +109,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
