@@ -22,7 +22,7 @@ export class ExpirationGuard implements CanActivate {
       return this.userService.current().map(user => {
         if (user.primary_organization) {
           const org = new Organization(user.primary_organization);
-          if (org.isExpired()) {
+          if (org.isExpired() && org.hasPlan()) {
             if (route.url[0].path !== 'expired') {
               this.router.navigate(['/expired']);
               return false;
