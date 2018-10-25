@@ -85,6 +85,15 @@ class PlanItOrganization(models.Model):
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
                      (METRIC, 'metric'),)
 
+    class Source:
+        USER = 'user'
+        MISSY_IMPORTER = 'missy_importer'
+
+        CHOICES = (
+            (USER, 'User',),
+            (MISSY_IMPORTER, 'Missy Importer',),
+        )
+
     class Subscription:
         FREE_TRIAL = 'free_trial'
         BASIC = 'basic'
@@ -108,6 +117,7 @@ class PlanItOrganization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+    source = models.CharField(max_length=16, choices=Source.CHOICES, default=Source.USER)
 
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,

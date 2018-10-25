@@ -96,6 +96,7 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
         org, c = PlanItOrganization.objects.update_or_create(
             name=city_name,
             location=temperate_location,
+            source=PlanItOrganization.Source.MISSY_IMPORTER,
             defaults={
                 'plan_due_date': date,
                 'plan_name': plan_name,
@@ -167,7 +168,7 @@ def create_risks_and_actions(actions_file):
         try:
             org = PlanItOrganization.objects.get(
                 name=city_name,
-                location__api_city_id=None
+                source=PlanItOrganization.Source.MISSY_IMPORTER,
             )
         except ObjectDoesNotExist:
             logger.warn('No organization for {}, skipping'.format(city_name))
