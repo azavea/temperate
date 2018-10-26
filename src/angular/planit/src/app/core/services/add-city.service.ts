@@ -6,8 +6,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { PlanItApiHttp } from '../../core/services/api-http.service';
 
-import { User } from '../../shared/';
-
 import { environment } from '../../../environments/environment';
 
 @Injectable()

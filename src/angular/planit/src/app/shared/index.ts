@@ -50,3 +50,5 @@ export { OrgRiskRelativeImpactOptions } from './models/org-risk-relative-impact-
 export { OrgRiskAdaptiveCapacityOptions } from './models/org-risk-adaptive-capacity-options.model';
 
 export { WizardStepComponent } from './wizard/wizard-step.component';
+
+export { Point } from './geojson';

@@ -73,7 +73,7 @@ class ConcernTestCase(TestCase):
         data = concern.calculate(None)
         self.assertEqual(data['units'], None)
 
-    @mock.patch('planit_data.models.make_indicator_api_request')
+    @mock.patch('planit_data.models.make_indicator_point_api_request')
     def test_concern_no_indicator_skips_api_request(self, api_request_mock):
         api_request_mock.side_effect = RuntimeError('Static concerns should not make API requests')
 
@@ -192,7 +192,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result_value, 15.6)
         self.assertEqual(result_units, indicator_units)
 
-    @mock.patch('planit_data.models.make_indicator_api_request')
+    @mock.patch('planit_data.models.make_indicator_point_api_request')
     def test_get_average_value(self, api_indicator_mock):
         """get_average_value should return the mean of values in Climate API request data."""
         location = LocationFactory()
@@ -213,7 +213,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result_units, indicator_units)
         api_indicator_mock.assert_called_with(
             concern.indicator,
-            location.api_city_id,
+            location.point,
             scenario,
             params={
                 'years': [range(1990, 2000)],

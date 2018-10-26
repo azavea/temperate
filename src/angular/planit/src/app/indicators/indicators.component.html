@@ -33,7 +33,7 @@
             *ngFor="let indicator of filteredIndicators"
             [isOpen]="accordionState[indicator.name]"
             [indicator]="indicator"
-            [apiCity]="apiCity"
+            [point]="city?.geometry"
             (toggled)="indicatorToggled(indicator.name, $event)">
         </app-collapsible-chart>
       </div>
