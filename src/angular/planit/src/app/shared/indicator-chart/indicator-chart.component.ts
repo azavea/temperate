@@ -2,22 +2,16 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 
 import {
-  Chart,
-  ChartData,
-  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
   IndicatorQueryParams,
-  IndicatorRequestOpts,
   ModelModalComponent,
   Scenario,
   isBasetempIndicator,
@@ -25,6 +19,7 @@ import {
   isPercentileIndicator,
   isThresholdIndicator
 } from 'climate-change-components';
+import { Point } from '../geojson';
 
 import { UserService } from '../../core/services/user.service';
 import {
@@ -44,13 +39,18 @@ import {
 })
 export class IndicatorChartComponent implements OnInit, DoCheck {
   @Input() indicator: Indicator;
-  @Input() apiCity: ApiCity;
+  @Input() point: Point;
 
   public isThresholdIndicator = isThresholdIndicator;
   public isBasetempIndicator = isBasetempIndicator;
   public isHistoricIndicator = isHistoricIndicator;
   public isPercentileIndicator = isPercentileIndicator;
 
+  // We've removed use of the City model in Temperate. However, the components dataset toggle takes
+  //  a city object and will filter available datasets to what the city reports. Since the chart
+  //  handles no data gracefully, we'll just disable this filtering here by always setting city to
+  //  an empty object.
+  public apiCity = {};
   public models: ClimateModel[] = [];
   public scenario = DEFAULT_SCENARIO;
   public dataset: Dataset = DEFAULT_DATASET;

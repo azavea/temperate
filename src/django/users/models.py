@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, Point
 from django.contrib.postgres.fields.array import ArrayField
 from django.db import transaction
 from django.db.models.signals import post_save
@@ -47,9 +47,10 @@ class PlanItLocationManager(models.Manager):
             location.save()
         return location
 
-    def get_by_natural_key(self, api_city_id):
-        """Get or create the location based on its API City ID."""
-        return self.from_api_city(api_city_id)
+    def get_by_natural_key(self, name, admin, lat, lon):
+        """Get or create the location based on its name, admin and position."""
+        point = Point([lon, lat], srid=4326)
+        return self.get(name=name, admin=admin, point=point)
 
 
 class PlanItLocation(models.Model):
@@ -67,7 +68,7 @@ class PlanItLocation(models.Model):
         verbose_name = 'location'
 
     def natural_key(self):
-        return (self.api_city_id,)
+        return (self.name, self.admin, self.point.coords[1], self.point.coords[0])
 
     def __str__(self):
         if self.admin:

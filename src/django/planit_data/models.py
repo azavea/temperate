@@ -6,7 +6,7 @@ from django.db import connection, transaction, IntegrityError
 from django.db.models import CASCADE, SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
-from climate_api.wrapper import make_indicator_api_request
+from climate_api.wrapper import make_indicator_point_api_request
 from action_steps.models import ActionCategory
 
 logger = logging.getLogger(__name__)
@@ -309,7 +309,6 @@ class ConcernValueManager(models.Manager):
             return difference, start_units
 
     def get_average_value(self, concern, location, scenario, start_year):
-        city_id = location.api_city_id
         year_range = range(start_year, start_year + self.ERA_LENGTH)
         # Prefer LOCA dataset, but fall-back to NEX-GDDP if it's not supported
         dataset = 'LOCA' if 'LOCA' in location.datasets else 'NEX-GDDP'
@@ -318,8 +317,8 @@ class ConcernValueManager(models.Manager):
             'dataset': dataset
         }
 
-        response = make_indicator_api_request(concern.indicator, city_id, scenario,
-                                              params=params)
+        response = make_indicator_point_api_request(concern.indicator, location.point, scenario,
+                                                    params=params)
 
         values = [v['avg'] for v in response['data'].values()]
         average = sum(values) / len(values)

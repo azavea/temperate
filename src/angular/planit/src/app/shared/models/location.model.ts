@@ -1,4 +1,4 @@
-import { Point } from 'geojson';
+import { Point } from '../geojson';
 
 export class LocationProperties {
   name: string;
