@@ -23,35 +23,6 @@ for Model in (Concern,
     admin.site.register(Model)
 
 
-class OrganizationTypeFilter(admin.SimpleListFilter):
-    title = 'type'
-    parameter_name = 'type'
-    is_import = 'created_by__isnull'
-
-    class Choices:
-        CUSTOMER = 'Customer created'
-        IMPORT = 'Imported'
-
-    def lookups(self, request, model_admin):
-        return [(OrganizationTypeFilter.Choices.CUSTOMER, OrganizationTypeFilter.Choices.CUSTOMER),
-                (OrganizationTypeFilter.Choices.IMPORT, OrganizationTypeFilter.Choices.IMPORT)]
-
-    def queryset(self, request, queryset):
-        if self.value() == OrganizationTypeFilter.Choices.CUSTOMER:
-            return queryset.filter(**{self.is_import: False})
-        if self.value() == OrganizationTypeFilter.Choices.IMPORT:
-            return queryset.filter(**{self.is_import: True})
-        return queryset.all()
-
-
-class OrganizationTypeRiskFilter(OrganizationTypeFilter):
-    is_import = 'organization__created_by__isnull'
-
-
-class OrganizationTypeActionFilter(OrganizationTypeFilter):
-    is_import = 'organization_risk__organization__created_by__isnull'
-
-
 @admin.register(CommunitySystem)
 class CommunitySystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'display_class',)
@@ -66,7 +37,7 @@ class DefaultRiskAdmin(admin.ModelAdmin):
 
 @admin.register(OrganizationRisk)
 class OrganizationRiskAdmin(admin.ModelAdmin):
-    list_filter = (OrganizationTypeRiskFilter, 'weather_event', 'community_system')
+    list_filter = ('organization__source', 'weather_event', 'community_system')
     list_select_related = ('organization', 'weather_event', 'community_system')
     ordering = ('organization__name', 'weather_event__name', 'community_system__name')
     search_fields = ('name', 'organization__name',)
@@ -76,7 +47,7 @@ class OrganizationRiskAdmin(admin.ModelAdmin):
 class OrganizationActionAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'name', 'visibility')
     list_editable = ('visibility',)
-    list_filter = (OrganizationTypeActionFilter,
+    list_filter = ('organization_risk__organization__source',
                    'visibility',
                    'organization_risk__weather_event',
                    'organization_risk__community_system')
