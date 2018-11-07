@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - A PlanItOrganization.source field. Refactors the Missy importer to use the field. The source default of USER should be backwards compatible with all other use cases within the application.
 ### Fixed
  - Redirect users without a plan and an expired subscription to the subscription page
+ - Users with multiple organizations with the same name can now correctly change orgs via the dropdown
 ### Removed 
  - API and client app dependence on Climate API city id. Instead, the app uses the geom field of
    PlanItLocation for any location related queries.
