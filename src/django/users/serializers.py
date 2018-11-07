@@ -197,14 +197,14 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    organizations = serializers.SlugRelatedField(many=True,
-                                                 queryset=PlanItOrganization.objects.all(),
-                                                 required=False,
-                                                 slug_field='name')
-    primary_organization = serializers.SlugRelatedField(queryset=PlanItOrganization.objects.all(),
-                                                        allow_null=True,
-                                                        required=False,
-                                                        slug_field='name')
+    organizations = serializers.PrimaryKeyRelatedField(many=True,
+                                                       queryset=PlanItOrganization.objects.all(),
+                                                       required=False)
+    primary_organization = serializers.PrimaryKeyRelatedField(
+        queryset=PlanItOrganization.objects.all(),
+        allow_null=True,
+        required=False
+    )
 
     password = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                      style={'input_type': 'password'})
@@ -237,6 +237,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""
 
+    organizations = OrganizationSerializer(many=True, read_only=True)
     primary_organization = OrganizationSerializer()
 
 
