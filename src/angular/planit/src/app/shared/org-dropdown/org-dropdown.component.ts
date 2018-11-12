@@ -19,7 +19,7 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
 
   private dropdownUser: User;
   private dropdownPrimaryOrganization: Organization;
-  private dropdownOrganizations: string[];
+  private dropdownOrganizations: Organization[];
 
   private userSubscription: Subscription;
 
@@ -57,11 +57,11 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
     this.dropdownOrganizations = user.organizations;
   }
 
-  private setOrganization(organization: string): void {
+  private setOrganization(organization: Organization): void {
     // Show confirmation dialog before switching
-    const createNewOrg: boolean = !organization || organization.length === 0;
+    const createNewOrg: boolean = !organization;
     let tagline = createNewOrg ? 'Are you sure you want to create a new organization?' :
-        `Are you sure you want to switch to organization ${organization}?`;
+        `Are you sure you want to switch to organization ${organization.name}?`;
     tagline += ' Any unsaved changes on the current page will be lost.';
 
     this.confirmOrgChangeModal.confirm({
@@ -70,9 +70,10 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
       confirmButtonClass: 'button-primary',
       confirmText: createNewOrg ? 'Create' : 'Switch'
     }).onErrorResumeNext().switchMap(() => {
-      const newOrg: string = this.dropdownOrganizations ?
-        this.dropdownOrganizations.find(org => org === organization) || '' : '';
-      return this.userService.updatePrimaryOrg(this.dropdownUser, newOrg);
+      const newOrg: Organization = organization && this.dropdownOrganizations ?
+        this.dropdownOrganizations.find(org => org.id === organization.id) || null : null;
+      const newOrgId = newOrg ? newOrg.id : null;
+      return this.userService.updatePrimaryOrg(this.dropdownUser, newOrgId);
     }).subscribe(() => {
       if (!createNewOrg) {
         this.toastr.success('Changed primary organization');

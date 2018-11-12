@@ -56,11 +56,11 @@ export class UserService {
     });
   }
 
-  updatePrimaryOrg(user: User, organization: string): Observable<User> {
+  updatePrimaryOrg(user: User, organizationId: number): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url,
-                              {'primary_organization': organization,
-                               'organizations': user.organizations}
+                              {'primary_organization': organizationId,
+                               'organizations': user.organizationIds()}
                               ).switchMap(resp => {
 
       this.cache.clear(CORE_USERSERVICE_CURRENT);
