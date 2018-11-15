@@ -6,6 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
 
+from requests.exceptions import HTTPError
+
 from rest_auth.serializers import (
     PasswordResetSerializer as AuthPasswordResetSerializer,
     PasswordResetConfirmSerializer as AuthPasswordResetConfirmSerializer
@@ -77,8 +79,7 @@ class LocationSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = PlanItLocation
         geo_field = 'point'
-        fields = ('name', 'admin', 'api_city_id',)
-        read_only_fields = ('name', 'admin', 'point',)
+        fields = ('name', 'admin', 'datasets',)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -96,8 +97,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
     users = serializers.SlugRelatedField(many=True, read_only=True, slug_field='email')
 
     def validate_location(self, location_data):
-        if 'api_city_id' not in location_data:
-            raise serializers.ValidationError("Location ID is required.")
+        if 'name' not in location_data:
+            raise serializers.ValidationError("Location name is required.")
+        if 'admin' not in location_data:
+            raise serializers.ValidationError("Location admin is required.")
+        if 'point' not in location_data:
+            raise serializers.ValidationError("Location point is required.")
         return location_data
 
     def validate_plan_due_date(self, dt):
@@ -118,10 +123,15 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return name
 
         try:
-            api_city_id = self.initial_data['location']['properties']['api_city_id']
+            location_name = self.initial_data['location']['name']
+            admin = self.initial_data['location']['admin']
         except KeyError:
-            raise serializers.ValidationError('Location ID is required.')
-        if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
+            raise serializers.ValidationError('Location is required.')
+
+        other_orgs = PlanItOrganization.objects.filter(
+            name=name, location__name=location_name, location__admin=admin
+        )
+        if other_orgs.exists():
             raise serializers.ValidationError('An organization with this name already exists.')
         return name
 
@@ -149,9 +159,22 @@ class OrganizationSerializer(serializers.ModelSerializer):
         location_data = validated_data.pop('location')
 
         instance = PlanItOrganization.objects.create(**validated_data)
-        if 'api_city_id' in location_data:
-            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
-            instance.save()
+        try:
+            instance.location = PlanItLocation.objects.from_point(
+                location_data['name'],
+                location_data['admin'],
+                location_data['point'],
+            )
+        except HTTPError as error:
+            # A 404 error indicates there are no map cells for this point
+            # Any other error we should let the client handle
+            if error.response.status_code == 404:
+                raise serializers.ValidationError({
+                    'location': 'No climate data for this location'
+                })
+            raise
+
+        instance.save()
 
         for email in invites:
             PlanItUser.objects.create_user(email, '', '', primary_organization=instance,
@@ -166,8 +189,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
         location_data = validated_data.pop('location')
         for k, v in validated_data.items():
             setattr(instance, k, v)
-        if location_data['api_city_id'] is not None:
-            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
+        instance.location = PlanItLocation.objects.from_point(
+            location_data['name'],
+            location_data['admin'],
+            location_data['point'],
+        )
         instance.save()
 
         if 'weather_events' in self.initial_data:

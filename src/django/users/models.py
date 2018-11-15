@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import GEOSGeometry, Point
+from django.contrib.gis.geos import Point
 from django.contrib.postgres.fields.array import ArrayField
 from django.db import transaction
 from django.db.models.signals import post_save
@@ -34,16 +34,17 @@ logger = logging.getLogger(__name__)
 class PlanItLocationManager(models.Manager):
 
     @transaction.atomic
-    def from_api_city(self, api_city_id):
-        location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
+    def from_point(self, name, admin, point):
+        location, created = PlanItLocation.objects.get_or_create(
+            name=name, admin=admin, point=point
+        )
         if created:
-            city = make_token_api_request('/api/city/{}/'.format(api_city_id))
-            location.name = city['properties']['name']
-            location.admin = city['properties']['admin']
-            location.point = GEOSGeometry(str(city['geometry']))
-            location.georegion = GeoRegion.objects.get_for_point(location.point)
-            location.is_coastal = city['properties']['proximity']['ocean']
-            location.datasets = city['properties']['datasets']
+            # Note: If this throws a Http404 exception, that will be caught in the serializer
+            map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x))
+            location.is_coastal = any(cell['properties']['proximity']['ocean']
+                                      for cell in map_cells)
+            location.datasets = [cell['properties']['dataset'] for cell in map_cells]
+            location.georegion = GeoRegion.objects.get_for_point(point)
             location.save()
         return location
 
@@ -56,7 +57,6 @@ class PlanItLocationManager(models.Manager):
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=False, blank=True)
     admin = models.CharField(max_length=16, null=False, blank=True)
-    api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)

@@ -23,30 +23,22 @@ from planit_data.tests.factories import (
 )
 
 # Mock response for a city from the CC_API
-MOCK_CC_API_CITY = {
-    "id": 7,
-    "type": "Feature",
-    "geometry": {
-        "type": "Point",
-        "coordinates": [
+MOCK_CC_API_DATACELLS = [{
+    'type': 'Feature',
+    'geometry': {
+        'type': 'Point',
+        'coordinates': [
             -75.16379,
             39.95233
         ]
     },
-    "properties": {
-        "datasets": [
-            "NEX-GDDP",
-            "LOCA"
-        ],
-        "name": "Philadelphia",
-        "admin": "PA",
-        "proximity": {
-            "ocean": False
-        },
-        "population": 1526006,
-        "region": 11
+    'properties': {
+        'dataset': 'NEX-GDDP',
+        'proximity': {
+            'ocean': False
+        }
     }
-}
+}]
 
 
 class UserCreationApiTestCase(APITestCase):
@@ -211,7 +203,7 @@ class OrganizationCreationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     def test_org_created(self, api_wrapper_mock):
-        api_wrapper_mock.return_value = MOCK_CC_API_CITY
+        api_wrapper_mock.return_value = MOCK_CC_API_DATACELLS
 
         # Create a GeoRegion that encompasses (-75.16379, 39.95233)
         GeoRegion.objects.create(
@@ -220,13 +212,15 @@ class OrganizationCreationApiTestCase(APITestCase):
                                        (-100, 0), (0, 0))))
         )
 
-        city_id = 7
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -238,7 +232,7 @@ class OrganizationCreationApiTestCase(APITestCase):
 
         # check organization exists
         org = PlanItOrganization.objects.get(name='Test Organization')
-        self.assertEqual(org.location.api_city_id, city_id)
+        self.assertEqual(org.location.name, 'Test City')
         self.assertEqual(org.units, org_data['units'])
 
     @mock.patch('users.models.make_token_api_request')
@@ -250,9 +244,12 @@ class OrganizationCreationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -267,17 +264,20 @@ class OrganizationCreationApiTestCase(APITestCase):
         # No PlanItOrganization objects should have been created
         self.assertFalse(PlanItOrganization.objects.all().exists())
 
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    def test_organization_saves_user_in_created_by(self, import_mock, from_api_city_mock):
-        from_api_city_mock.return_value = LocationFactory()
+    def test_organization_saves_user_in_created_by(self, import_mock, from_point_mock):
+        from_point_mock.return_value = LocationFactory()
 
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -290,21 +290,23 @@ class OrganizationCreationApiTestCase(APITestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_duplicate_name_allowed(self, import_mock):
         """Creating an organization with same name as another should succeed."""
-        location = LocationFactory(
-            api_city_id=5
-        )
+        location = LocationFactory(name='Other City', admin='BCD')
         # Make an existing object to conflict with
         org = OrganizationFactory(
             name="Test Name",
-            location__api_city_id=7
+            location__name='Test City',
+            location__admin='ABC'
         )
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': location.point.coords
+                },
+                'name': location.name,
+                'admin': location.admin,
             },
             'units': 'METRIC'
         }
@@ -320,15 +322,19 @@ class OrganizationCreationApiTestCase(APITestCase):
         # Make an existing object to conflict with
         org = OrganizationFactory(
             name="Test Name",
-            location__api_city_id=7
+            location__name='Test City',
+            location__admin='ABC'
         )
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -359,9 +365,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': '{} Changed'.format(starting_name),
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id + 1,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -381,9 +390,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': []
@@ -402,9 +414,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'community_systems': [new_community_system.id]
@@ -424,9 +439,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'community_systems': []
@@ -444,9 +462,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': [we.pk]
@@ -473,9 +494,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': self.org.name,
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'plan_setup_complete': True,
             'weather_events': [weather_event.pk],
@@ -511,9 +535,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': self.org.name,
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'plan_setup_complete': True,
             'weather_events': [we.pk for we in weather_events],
@@ -547,9 +574,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': []
@@ -561,21 +591,24 @@ class OrganizationApiTestCase(APITestCase):
         self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
         self.assertEqual(response.status_code, 200)
 
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    def test_organization_name_does_not_self_conflict(self, import_mock, from_api_city_mock):
+    def test_organization_name_does_not_self_conflict(self, import_mock, from_point_mock):
         """Updating an organization without changing its name should not error."""
         org = OrganizationFactory()
         self.user.organizations.add(org)
 
-        from_api_city_mock.return_value = org.location
+        from_point_mock.return_value = org.location
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'IMPERIAL'
         }
@@ -720,7 +753,7 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     def test_can_create_multiple_organizations_with_flag(self, api_wrapper_mock):
-        api_wrapper_mock.return_value = MOCK_CC_API_CITY
+        api_wrapper_mock.return_value = MOCK_CC_API_DATACELLS
 
         # Create a GeoRegion that encompasses the mock API city
         GeoRegion.objects.create(
@@ -731,12 +764,11 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
 
         test_org_name = 'Test Organization'
 
-        location = LocationFactory(
-            api_city_id=7
-        )
+        location = LocationFactory(name='Test City', admin='ABC')
         org = OrganizationFactory(
             name=test_org_name,
-            location__api_city_id=location.api_city_id
+            location__name=location.name,
+            location__admin=location.admin,
         )
 
         user_data = {
@@ -769,9 +801,12 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
         org_data = {
             'name': second_org_name,
             'location': {
-                'properties': {
-                    'api_city_id': 2,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
