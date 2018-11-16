@@ -5,6 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AgmCoreModule } from '@agm/core';
+
 import {
   ApiModule,
   ChartsModule,
@@ -55,7 +57,6 @@ import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
 import { CityProfileService } from './core/services/city-profile.service';
-import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
@@ -91,6 +92,13 @@ import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-passw
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+
+const AGM_CONFIG = {
+  apiKey: environment.googleMapsApiKey,
+  libraries: ['places']
+};
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -119,6 +127,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     HttpModule,
     // 3rd party
     AccordionModule.forRoot(),
+    AgmCoreModule.forRoot(AGM_CONFIG),
     AlertModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
@@ -164,7 +173,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     AuthGuard,
     CacheService,
     CityProfileService,
-    CityService,
     CollaboratorService,
     CommunitySystemService,
     DownloadService,

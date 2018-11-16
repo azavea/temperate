@@ -36,7 +36,7 @@ export class RiskPopoverComponent implements OnInit {
   ngOnInit() {
     this.updateRiskIndicators();
     this.userService.current().subscribe((user) => {
-      this.point = user.primary_organization.location.geometry;
+      this.point = user.primary_organization.location.point;
     });
   }
 

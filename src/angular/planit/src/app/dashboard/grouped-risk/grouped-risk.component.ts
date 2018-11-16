@@ -45,7 +45,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
-      this.point = user.primary_organization.location.geometry;
+      this.point = user.primary_organization.location.point;
     });
   }
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AgmCoreModule } from '@agm/core';
 import { ArchwizardModule } from 'ng2-archwizard';
 import { ButtonsModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 
@@ -25,6 +26,7 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    AgmCoreModule,
     SharedModule,
     ArchwizardModule,
     ButtonsModule,

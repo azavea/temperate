@@ -81,7 +81,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
     this.userService.current().subscribe(user => {
-      this.point = user.primary_organization.location.geometry;
+      this.point = user.primary_organization.location.point;
     });
     this.setDisabled(this.risk);
 

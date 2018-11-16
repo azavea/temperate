@@ -4,7 +4,7 @@ export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
 export { ActionVisibilityOption } from './models/action-visibility-option.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
-export { Location, LocationProperties } from './models/location.model';
+export { Location } from './models/location.model';
 export {
   ActionPrioritized,
   CityProfile,
@@ -52,3 +52,4 @@ export { OrgRiskAdaptiveCapacityOptions } from './models/org-risk-adaptive-capac
 export { WizardStepComponent } from './wizard/wizard-step.component';
 
 export { Point } from './geojson';
+export { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
