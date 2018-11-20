@@ -9,20 +9,13 @@
 <div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label>Find your city</label>
-    <input class="form-control"
-            formControlName="location"
-            autocomplete="forced-false"
-            placeholder="Start typing to search cities"
-            typeaheadOptionField="properties.displayName"
-            (typeaheadOnSelect)="itemSelected($event)"
-            (typeaheadOnBlur)="itemBlurred()"
-            (typeaheadNoResults)="onNoResults($event)"
-            (blur)="itemBlurred()"
-            [typeahead]="cities"
-            [typeaheadMinLength]="1"
-            [typeaheadScrollable]="true"
-            [typeaheadWaitMs]="100"
-            [typeaheadOptionsInScrollableView]="5">
+    <input
+        class="form-control"
+        formControlName="location"
+        appGmapAutocomplete
+        (placeChanged)="itemSelected($event)"
+        (blur)="itemBlurred()"
+    />
     <div class="form-control-hint">
       <div *ngIf="noResults">
         Please select an available city or
@@ -32,7 +25,7 @@
         </div>
       </div>
       <div *ngIf="!noResults">
-        Please note that we only have US cities at this time.
+        Please note that we don't have all cities at this time.
         <app-add-city-modal>Not seeing yours?</app-add-city-modal>
       </div>
     </div>

@@ -94,7 +94,6 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
             location, _ = PlanItLocation.objects.get_or_create(
                 name=city_name,
                 admin=state_abbr,
-                api_city_id=None,
                 defaults={
                     'point': point,
                     'is_coastal': is_coastal,

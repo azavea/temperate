@@ -8,12 +8,12 @@ import { Indicator, IndicatorService } from 'climate-change-components';
 import { ToastrService } from 'ngx-toastr';
 
 import {
+  Location,
   OrgRiskDirectionalFrequencyOptions,
   OrgRiskDirectionalIntensityOptions,
   OrgRiskDirectionalOption,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeOption,
-  Point,
   Risk,
 } from '../../../shared/';
 
@@ -42,7 +42,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
 
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
-  public point: Point;
+  public location: Location;
   public risk: Risk;
   public title = 'Hazard';
 
@@ -81,7 +81,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
     this.userService.current().subscribe(user => {
-      this.point = user.primary_organization.location.geometry;
+      this.location = user.primary_organization.location;
     });
     this.setDisabled(this.risk);
 

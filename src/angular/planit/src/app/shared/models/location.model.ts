@@ -1,13 +1,15 @@
 import { Point } from '../geojson';
 
+
+
 export class LocationProperties {
   name: string;
   admin: string;
-  api_city_id: string;
+  datasets: string[];
 }
 
+
 export class Location {
-  type: string;
   geometry: Point;
   properties: LocationProperties;
 
@@ -17,6 +19,10 @@ export class Location {
 
   public getFullName(): string {
     if (!this.properties) { return undefined; }
-    return `${this.properties.name}, ${this.properties.admin}`;
+
+    if (this.properties.admin) {
+      return `${this.properties.name}, ${this.properties.admin}`;
+    }
+    return this.properties.name;
   }
 }

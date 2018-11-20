@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@agm/core@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@agm/core/-/core-1.0.0-beta.2.tgz#da15c0a5e86fe9e1178f14c36a3e0ffc14f9ad77"
+
 "@angular-devkit/build-optimizer@0.0.40":
   version "0.0.40"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.40.tgz#c7a8efc102adaeb6e63f4cbe8753dab4796e319a"
@@ -182,6 +186,10 @@
 "@types/geojson@^1.0.3":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.6.tgz#3e02972728c69248c2af08d60a48cbb8680fffdf"
+
+"@types/googlemaps@^3.30.16":
+  version "3.30.16"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.16.tgz#3264d5ef7c3a92fab2a9f00e09e3247866ff3532"
 
 "@types/jasmine@*":
   version "2.6.0"
@@ -940,9 +948,9 @@ clean-css@4.1.x:
   dependencies:
     source-map "0.5.x"
 
-climate-change-components@0.2.15:
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/climate-change-components/-/climate-change-components-0.2.15.tgz#43ac0f199005f098763337c079c7c8aedfa8de5d"
+climate-change-components@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/climate-change-components/-/climate-change-components-0.3.0.tgz#9269476f2c2391d2bfa6f0c8fe2f413797ed19a8"
   dependencies:
     "@types/geojson" "^1.0.3"
     d3 "^4.10.0"

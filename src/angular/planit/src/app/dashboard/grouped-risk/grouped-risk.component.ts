@@ -6,8 +6,8 @@ import { Indicator } from 'climate-change-components';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import {
+  Location,
   OrgRiskRelativeOption,
-  Point,
   Risk,
   WeatherEvent,
   numberToRelativeOption,
@@ -37,7 +37,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public canShowIndicators = false;
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
-  public point: Point;
+  public location: Location;
 
   constructor(private userService: UserService,
               private riskService: RiskService,
@@ -45,7 +45,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
-      this.point = user.primary_organization.location.geometry;
+      this.location = user.primary_organization.location;
     });
   }
 

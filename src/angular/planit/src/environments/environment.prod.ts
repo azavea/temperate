@@ -5,5 +5,6 @@ export const environment = {
   apiUrl: '',
   heapID: '2827494035',
   actionTextMaxLength: 1024,
-  supportEmail: 'support@temperate.io'
+  supportEmail: 'support@temperate.io',
+  googleMapsApiKey: 'AIzaSyDK6j5M8gn7f7aA22hZYOoucyfqwN95tz8',
 };

@@ -3,7 +3,7 @@ import { Component, Input, ViewChildren } from '@angular/core';
 import { Indicator } from 'climate-change-components';
 
 import { CollapsibleChartComponent } from '../collapsible-chart/collapsible-chart.component';
-import { Point } from '../geojson';
+import { Location } from '../models/location.model';
 
 @Component({
   selector: 'app-force-collapse-chart-container',
@@ -11,7 +11,7 @@ import { Point } from '../geojson';
 })
 export class ForceCollapseChartContainerComponent {
 
-  @Input() point: Point;
+  @Input() location: Location;
   @Input() indicators: Indicator[] = [];
 
   @ViewChildren(CollapsibleChartComponent)
