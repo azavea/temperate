@@ -3,7 +3,7 @@ import {
   Indicator
 } from 'climate-change-components';
 
-import { Point } from '../geojson';
+import { Location } from '../models/location.model';
 
 @Component({
   selector: 'app-collapsible-chart',
@@ -13,7 +13,7 @@ export class CollapsibleChartComponent {
 
   @Input() isOpen: boolean;
   @Input() indicator: Indicator;
-  @Input() point: Point;
+  @Input() location: Location;
   @Output() toggled: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {}

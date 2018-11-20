@@ -25,7 +25,7 @@ export class IndicatorsComponent implements OnInit {
   public accordionState: AccordionState = {};
   public allIndicators: Indicator[];
   public filteredIndicators: Indicator[];
-  public city: Location;
+  public location: Location;
   public filters = new Map();
   public topConcerns: WeatherEvent[];
 
@@ -36,7 +36,7 @@ export class IndicatorsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
-      this.city = user.primary_organization.location;
+      this.location = user.primary_organization.location;
     });
 
     this.indicatorService.list().subscribe(indicators => this.setupIndicators(indicators));
