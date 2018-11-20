@@ -5,7 +5,7 @@
   </button>
   <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
     <li role="menuitem"
-        *ngFor="let org of organizations"
+        *ngFor="let org of dropdownOrganizations"
         [ngClass]="{active: org.id === primaryOrganization?.id }">
       <a class="dropdown-item" (click)="setOrganization(org)">
         <span [ngClass]="{'dropdown-label': org.name}">{{ org.name }}</span>
