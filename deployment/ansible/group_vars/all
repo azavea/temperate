@@ -2,9 +2,9 @@
 aws_region: "us-east-1"
 aws_profile: "climate"
 
-aws_cli_version: "1.11.145"
+aws_cli_version: "1.15.19"
 
-docker_version: "17.*"
-docker_compose_version: "1.16.1"
+docker_version: "18.*"
+docker_compose_version: "1.23.1"
 
 shellcheck_version: "0.3.*"
