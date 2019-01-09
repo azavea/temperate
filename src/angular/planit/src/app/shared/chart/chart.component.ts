@@ -18,6 +18,7 @@ import {
   ClimateModel,
   Dataset,
   Indicator,
+  IndicatorDistanceQueryParams,
   IndicatorQueryParams,
   IndicatorRequestOpts,
   IndicatorService,
@@ -109,11 +110,12 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     this.chartData = [];
     this.rawChartData = [];
 
-    const params: IndicatorQueryParams = {
+    const params: IndicatorDistanceQueryParams = {
       climateModels: this.models.filter(model => model.enabled),
       dataset: this.dataset.name,
       unit: this.unit,
-      time_aggregation: TimeAggParam.Yearly
+      time_aggregation: TimeAggParam.Yearly,
+      distance: environment.apiDistance
     };
 
     Object.assign(params, this.extraParams);
