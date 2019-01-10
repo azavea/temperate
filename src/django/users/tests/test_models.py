@@ -181,7 +181,8 @@ class LocationManagerTestCase(TestCase):
                 "coordinates": [0, 0]
             },
             "properties": {
-                "dataset": "NEX-GDDP",
+                "datasets": ["NEX-GDDP"],
+                "distance_meters": 10,
                 "proximity": {
                     "ocean": False
                 }
@@ -206,7 +207,8 @@ class LocationManagerTestCase(TestCase):
                 "coordinates": [0, 0]
             },
             "properties": {
-                "dataset": "NEX-GDDP",
+                "datasets": ["NEX-GDDP", "LOCA"],
+                "distance_meters": 0,
                 "proximity": {
                     "ocean": True
                 }
@@ -218,7 +220,8 @@ class LocationManagerTestCase(TestCase):
                 "coordinates": [0, 0]
             },
             "properties": {
-                "dataset": "LOCA",
+                "datasets": ["NEX-GDDP", "LOCA"],
+                "distance_meters": 1000,
                 "proximity": {
                     "ocean": False
                 }
@@ -241,7 +244,8 @@ class LocationManagerTestCase(TestCase):
                 "coordinates": [0, 0]
             },
             "properties": {
-                "dataset": "NEX-GDDP",
+                "datasets": ["NEX-GDDP"],
+                "distance_meters": 1000,
                 "proximity": {
                     "ocean": True
                 }
