@@ -1,5 +1,6 @@
 from unittest import mock
 
+from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
@@ -17,7 +18,7 @@ class ApiWrapperTestCase(TestCase):
 
         self.assertEqual(result, api_wrapper.return_value)
         api_wrapper.assert_called_with('api/climate-data/20.0/10.0/TEST/indicator/test_indicator/',
-                                       {})
+                                       {'distance': settings.CCAPI_DISTANCE})
 
     @mock.patch('climate_api.utils.settings.CCAPI_REQUEST_TIMEOUT')
     @mock.patch('climate_api.wrapper.get_api_url')
