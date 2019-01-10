@@ -42,6 +42,13 @@ class PlanItLocationManager(models.Manager):
             # Note: If this throws a Http404 exception, that will be caught in the serializer
             map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x),
                                                {'distance': settings.CCAPI_DISTANCE})
+            # TODO: Remove in favor of fix to CC-API
+            from rest_framework import serializers
+            if len(map_cells) == 0:
+                raise serializers.ValidationError({
+                    'location': 'No climate data for this location'
+                })
+
             location.is_coastal = any(cell['properties']['proximity']['ocean']
                                       for cell in map_cells)
             datasets = set()
