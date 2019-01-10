@@ -40,10 +40,14 @@ class PlanItLocationManager(models.Manager):
         )
         if created:
             # Note: If this throws a Http404 exception, that will be caught in the serializer
-            map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x))
+            map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x),
+                                               {'distance': settings.CCAPI_DISTANCE})
             location.is_coastal = any(cell['properties']['proximity']['ocean']
                                       for cell in map_cells)
-            location.datasets = [cell['properties']['dataset'] for cell in map_cells]
+            datasets = set()
+            for cell in map_cells:
+                datasets |= set(cell['properties']['datasets'])
+            location.datasets = list(datasets)
             location.georegion = GeoRegion.objects.get_for_point(point)
             location.save()
         return location
