@@ -33,7 +33,8 @@ MOCK_CC_API_DATACELLS = [{
         ]
     },
     'properties': {
-        'dataset': 'NEX-GDDP',
+        'datasets': ['NEX-GDDP'],
+        'distance_meters': 10000,
         'proximity': {
             'ocean': False
         }

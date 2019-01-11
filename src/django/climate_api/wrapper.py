@@ -25,6 +25,8 @@ def make_indicator_point_api_request(indicator, point, scenario, params=None):
     if params is None:
         params = {}
 
+    if 'distance' not in params:
+        params['distance'] = settings.CCAPI_DISTANCE
     if 'years' in params:
         params['years'] = serialize_years(params['years'])
 
