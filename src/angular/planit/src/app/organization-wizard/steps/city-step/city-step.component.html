@@ -13,6 +13,7 @@
         class="form-control"
         formControlName="location"
         appGmapAutocomplete
+        [options]="{componentRestrictions: {'country': ['us', 'pr', 'vi', 'gu', 'mp']}}"
         (placeChanged)="itemSelected($event)"
         (blur)="itemBlurred()"
     />

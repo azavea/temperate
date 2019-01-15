@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
  - A PlanItOrganization.source field. Refactors the Missy importer to use the field. The source default of USER should be backwards compatible with all other use cases within the application.
+ - Switched autocomplete in Organization Creation to the Google Places autocomplete. This is temporarily restricted to only US cities.
 ### Fixed
  - Redirect users without a plan and an expired subscription to the subscription page
  - Users with multiple organizations with the same name can now correctly change orgs via the dropdown
