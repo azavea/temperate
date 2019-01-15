@@ -83,7 +83,7 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
-    DEFAULT_FREE_TRIAL_DAYS = 15
+    DEFAULT_FREE_TRIAL_DAYS = 90
 
     METRIC = 'METRIC'
     IMPERIAL = 'IMPERIAL'
