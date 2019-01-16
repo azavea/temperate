@@ -31,8 +31,13 @@ export class PlanAuthGuard implements CanActivate {
             return true;
           } else if (route.url[0].path !== 'plan' && route.url[0].path !== 'settings' &&
                      route.url[0].path !== 'subscription') {
-            // direct user to create organization plan, if one not set up yet
-            this.router.navigate(['/plan']);
+            if (org.isExpired()) {
+              // direct user with expired subscription and no plan set up to subscription page
+              this.router.navigate(['/subscription']);
+            } else {
+              // direct user to create organization plan, if one not set up yet
+              this.router.navigate(['/plan']);
+            }
             return false;
           } else {
             return true;

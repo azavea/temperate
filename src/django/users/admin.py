@@ -46,6 +46,12 @@ UserAdmin.ordering = ('email',)
 UserAdmin.form = PlanItUserChangeForm
 UserAdmin.add_form = PlanItUserAddForm
 
+
+@admin.register(PlanItOrganization)
+class PlanItOrganizationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_by', 'source', 'subscription',)
+    list_filter = ('source', 'subscription',)
+
+
 admin.site.register(PlanItUser, UserAdmin)
-admin.site.register(PlanItOrganization)
 admin.site.register(PlanItLocation)

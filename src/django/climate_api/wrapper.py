@@ -21,15 +21,19 @@ def make_token_api_request(route, params=None):
     return response.json()
 
 
-def make_indicator_api_request(indicator, city, scenario, params=None):
+def make_indicator_point_api_request(indicator, point, scenario, params=None):
     if params is None:
         params = {}
 
+    if 'distance' not in params:
+        params['distance'] = settings.CCAPI_DISTANCE
     if 'years' in params:
         params['years'] = serialize_years(params['years'])
 
-    route = 'api/climate-data/{city}/{scenario}/indicator/{indicator}/'.format(
-        city=city,
+    point = point.transform(4326, clone=True)
+    route = 'api/climate-data/{lat}/{lon}/{scenario}/indicator/{indicator}/'.format(
+        lat=point.coords[1],
+        lon=point.coords[0],
         scenario=scenario,
         indicator=indicator.name
     )

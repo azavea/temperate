@@ -2,22 +2,16 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 
 import {
-  Chart,
-  ChartData,
-  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
   IndicatorQueryParams,
-  IndicatorRequestOpts,
   ModelModalComponent,
   Scenario,
   isBasetempIndicator,
@@ -28,6 +22,7 @@ import {
 
 import { UserService } from '../../core/services/user.service';
 import {
+  Location,
   OrgUnitType,
   PrecipitationUnits,
   TemperatureUnits
@@ -44,7 +39,7 @@ import {
 })
 export class IndicatorChartComponent implements OnInit, DoCheck {
   @Input() indicator: Indicator;
-  @Input() apiCity: ApiCity;
+  @Input() location: Location;
 
   public isThresholdIndicator = isThresholdIndicator;
   public isBasetempIndicator = isBasetempIndicator;

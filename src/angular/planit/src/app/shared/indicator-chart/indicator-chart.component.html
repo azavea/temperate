@@ -22,7 +22,7 @@
     <div class="chart-toggle">
       <span>Dataset</span>
       <ccc-dataset-toggle [dataset]="dataset"
-                          [city]="apiCity"
+                          [city]="location"
                           [models]="models"
                           (onDatasetSelected)="datasetSelected($event)">
       </ccc-dataset-toggle>
@@ -65,7 +65,7 @@
     </ccc-historic-parameters>
   </div>
   <app-chart [indicator]="indicator"
-         [apiCity]="apiCity"
+         [point]="location.geometry"
          [models]="models"
          [dataset]="dataset"
          [scenario]="scenario"

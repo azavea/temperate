@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point
 from django.contrib.postgres.fields.array import ArrayField
 from django.db import transaction
 from django.db.models.signals import post_save
@@ -34,28 +34,34 @@ logger = logging.getLogger(__name__)
 class PlanItLocationManager(models.Manager):
 
     @transaction.atomic
-    def from_api_city(self, api_city_id):
-        location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
+    def from_point(self, name, admin, point):
+        location, created = PlanItLocation.objects.get_or_create(
+            name=name, admin=admin, point=point
+        )
         if created:
-            city = make_token_api_request('/api/city/{}/'.format(api_city_id))
-            location.name = city['properties']['name']
-            location.admin = city['properties']['admin']
-            location.point = GEOSGeometry(str(city['geometry']))
-            location.georegion = GeoRegion.objects.get_for_point(location.point)
-            location.is_coastal = city['properties']['proximity']['ocean']
-            location.datasets = city['properties']['datasets']
+            # Note: If this throws a Http404 exception, that will be caught in the serializer
+            map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x),
+                                               {'distance': settings.CCAPI_DISTANCE})
+            location.is_coastal = any(cell['properties']['proximity']['ocean']
+                                      for cell in map_cells)
+            datasets = set()
+            for cell in map_cells:
+                datasets |= {dataset for dataset in cell['properties']['datasets']
+                             if dataset is not None}
+            location.datasets = list(datasets)
+            location.georegion = GeoRegion.objects.get_for_point(point)
             location.save()
         return location
 
-    def get_by_natural_key(self, api_city_id):
-        """Get or create the location based on its API City ID."""
-        return self.from_api_city(api_city_id)
+    def get_by_natural_key(self, name, admin, lat, lon):
+        """Get or create the location based on its name, admin and position."""
+        point = Point([lon, lat], srid=4326)
+        return self.get(name=name, admin=admin, point=point)
 
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=False, blank=True)
     admin = models.CharField(max_length=16, null=False, blank=True)
-    api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
@@ -67,7 +73,7 @@ class PlanItLocation(models.Model):
         verbose_name = 'location'
 
     def natural_key(self):
-        return (self.api_city_id,)
+        return (self.name, self.admin, self.point.coords[1], self.point.coords[0])
 
     def __str__(self):
         if self.admin:
@@ -78,12 +84,21 @@ class PlanItLocation(models.Model):
 
 class PlanItOrganization(models.Model):
     """Users belong to one or more organizations."""
-    DEFAULT_FREE_TRIAL_DAYS = 15
+    DEFAULT_FREE_TRIAL_DAYS = 90
 
     METRIC = 'METRIC'
     IMPERIAL = 'IMPERIAL'
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
                      (METRIC, 'metric'),)
+
+    class Source:
+        USER = 'user'
+        MISSY_IMPORTER = 'missy_importer'
+
+        CHOICES = (
+            (USER, 'User',),
+            (MISSY_IMPORTER, 'Missy Importer',),
+        )
 
     class Subscription:
         FREE_TRIAL = 'free_trial'
@@ -108,6 +123,7 @@ class PlanItOrganization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+    source = models.CharField(max_length=16, choices=Source.CHOICES, default=Source.USER)
 
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,

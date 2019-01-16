@@ -315,15 +315,19 @@ if not CCAPI_HOST:
 CCAPI_REQUEST_TIMEOUT = 30
 # Whitelist for proxy routes to allow. These routes are checked using str.startswith
 CCAPI_ROUTE_WHITELIST = (
+    '^api/climate-data/[0-9.-]+/[0-9.-]+/.+/indicator/.+/$',
     '^api/climate-data/[0-9]+/.+/indicator/.+/$',
     '^api/climate-model/$',
     '^api/dataset/$',
     '^api/historic-range/$',
     '^api/indicator/$',
+    '^api/map-cell/[0-9.-]+/[0-9.-]+/$',
     '^api/scenario/$',
-    '^api/city/$',
-    '^api/city/[0-9]+/$',
 )
+# Distance threshold for lat/lon data requests (roughly 20 miles).
+# This is also defined in src/angular/planit/src/environments/environment.common.ts
+# try to keep both in sync
+CCAPI_DISTANCE = 32000
 
 # Vulnerability Assessment Configuration
 # Max # of risks to make when creating an organization

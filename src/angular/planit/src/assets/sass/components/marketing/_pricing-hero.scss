@@ -1,3 +1,51 @@
+/* Temporary promo */
+.promo-banner {
+  margin-bottom: 0!important;
+  background-color: $upgrade-banner-background;
+  border-top: 1px solid darken( $upgrade-banner-background, 10% );
+  color: $upgrade-banner-font-color;
+  padding: $space-large $space-xxlarge;
+  text-align: center;
+
+  @media (max-width: 37.5rem) {
+    font-size: $text-tiny;
+  }
+}
+
+.pricing-hero .cta {
+  position: relative;
+}
+
+.promo-strikethrough {
+  text-decoration: line-through;
+  opacity: 0.5;
+  -webkit-filter: blur(1px);
+          filter: blur(1px);
+  color: $brand-black!important;
+}
+
+@media all and (-ms-high-contrast:none) {
+  .promo-strikethrough {
+    opacity: 0;
+  }
+}
+
+.pricing-hero .promo-text {
+  position: absolute;
+  top: 48.5%;
+  right: 2.75rem;
+  font-weight: bold;
+  text-shadow: -1px 1px 0 $brand-leaf,
+               1px 1px 0 $brand-leaf,
+               1px -1px 0 $brand-leaf;
+  text-transform: uppercase;
+  transform: translateY(-50%);
+  font-size: 1.85rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  pointer-events: none;
+}
+/* Temporary promo */
+
 .pricing-section.pricing-hero {
   min-height: 42rem;
   background-color: $neutral-1;

@@ -70,7 +70,7 @@ def get_user(self, uidb64, token):
     if not default_token_generator.check_token(user, token):
         raise ValidationError({'token': ['Invalid value']})
 
-    return Response(UserSerializer(user).data)
+    return Response(UserOrgSerializer(user).data)
 
 
 class RegistrationView(BaseRegistrationView):

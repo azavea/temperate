@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   HostListener,
@@ -9,18 +8,17 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Response } from '@angular/http';
+import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import {
-  Chart,
   ChartData,
   ChartService,
-  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
+  IndicatorDistanceQueryParams,
   IndicatorQueryParams,
   IndicatorRequestOpts,
   IndicatorService,
@@ -29,8 +27,8 @@ import {
 } from 'climate-change-components';
 
 import { environment } from '../../../environments/environment';
+import { Point } from '../geojson';
 
-import * as cloneDeep from 'lodash.clonedeep';
 /*
  * Chart component
  * Container for each individual chart
@@ -47,7 +45,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   @Input() dataset: Dataset;
   @Input() scenario: Scenario;
   @Input() models: ClimateModel[];
-  @Input() apiCity: ApiCity;
+  @Input() point: Point;
   @Input() unit: string;
   @Input() extraParams: IndicatorQueryParams;
 
@@ -87,9 +85,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   private dataSubscription: Subscription;
 
   constructor(private chartService: ChartService,
-              private indicatorService: IndicatorService,
-              private changeDetector: ChangeDetectorRef) {
-  }
+              private indicatorService: IndicatorService) {}
 
   // Mousemove event must be at this level to listen to mousing over rect#overlay
   @HostListener('mouseover', ['$event'])
@@ -114,11 +110,12 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     this.chartData = [];
     this.rawChartData = [];
 
-    const params: IndicatorQueryParams = {
+    const params: IndicatorDistanceQueryParams = {
       climateModels: this.models.filter(model => model.enabled),
       dataset: this.dataset.name,
       unit: this.unit,
-      time_aggregation: TimeAggParam.Yearly
+      time_aggregation: TimeAggParam.Yearly,
+      distance: environment.apiDistance
     };
 
     Object.assign(params, this.extraParams);
@@ -126,15 +123,14 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     const queryOpts: IndicatorRequestOpts = {
       indicator: this.indicator,
       scenario: this.scenario,
-      city: this.apiCity,
       params: params
     };
 
     this.dateRange = [this.firstYear, this.lastYear]; // reset time slider range
-    const future = this.indicatorService.getData(queryOpts);
+    const future = this.indicatorService.getDataForLatLon(this.point, queryOpts);
 
     queryOpts.scenario = this.historicalScenario;
-    const historical = this.indicatorService.getData(queryOpts);
+    const historical = this.indicatorService.getDataForLatLon(this.point, queryOpts);
 
     this.dataSubscription = Observable.forkJoin(
       historical,

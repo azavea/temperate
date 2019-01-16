@@ -1,8 +1,9 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { City as ApiCity, Indicator } from 'climate-change-components';
+import { Indicator } from 'climate-change-components';
 
 import { CollapsibleChartComponent } from '../collapsible-chart/collapsible-chart.component';
+import { Location } from '../models/location.model';
 
 @Component({
   selector: 'app-force-collapse-chart-container',
@@ -10,7 +11,7 @@ import { CollapsibleChartComponent } from '../collapsible-chart/collapsible-char
 })
 export class ForceCollapseChartContainerComponent {
 
-  @Input() apiCity: ApiCity;
+  @Input() location: Location;
   @Input() indicators: Indicator[] = [];
 
   @ViewChildren(CollapsibleChartComponent)

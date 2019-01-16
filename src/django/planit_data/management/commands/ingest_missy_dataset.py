@@ -82,32 +82,35 @@ def create_organizations(cities_file, esri_client_id=None, esri_secret=None):
 
         # We need locations because Orgs need them and risks and actions need Orgs,
         # but we want these to be independent from the actual cities loaded from the API,
-        # so we'll only get ones that have a null `api_city_id`.
-        temperate_location, c = PlanItLocation.objects.update_or_create(
-            name=city_name,
-            api_city_id=None,
-            defaults={
-                'admin': state_abbr,
-                'point': point,
-                'is_coastal': is_coastal,
-                'georegion': georegion,
-            })
-
-        org, c = PlanItOrganization.objects.update_or_create(
-            name=city_name,
-            location=temperate_location,
-            defaults={
-                'plan_due_date': date,
-                'plan_name': plan_name,
-                'plan_hyperlink': plan_hyperlink
-            })
+        # so we'll only get ones that have a `source` set to `MISSY_IMPORTER`.
+        try:
+            org = PlanItOrganization.objects.get(name=city_name,
+                                                 source=PlanItOrganization.Source.MISSY_IMPORTER)
+            org.plan_due_date = date
+            org.plan_name = plan_name
+            org.plan_hyperlink = plan_hyperlink
+            org.save()
+        except PlanItOrganization.DoesNotExist:
+            location, _ = PlanItLocation.objects.get_or_create(
+                name=city_name,
+                admin=state_abbr,
+                defaults={
+                    'point': point,
+                    'is_coastal': is_coastal,
+                    'georegion': georegion,
+                })
+            org = PlanItOrganization.objects.create(
+                name=city_name,
+                location=location,
+                source=PlanItOrganization.Source.MISSY_IMPORTER,
+                plan_due_date=date,
+                plan_name=plan_name,
+                plan_hyperlink=plan_hyperlink)
+            org_count += 1
 
         # We copy edit risks & actions frequently enough that wiping and reloading upon import is
         # good house-keeping. It's baked into this script to minimize data deletion impacting users.
         delete_org_risks_and_actions(org)
-
-        if c:
-            org_count += 1
 
     return org_count
 
@@ -167,7 +170,7 @@ def create_risks_and_actions(actions_file):
         try:
             org = PlanItOrganization.objects.get(
                 name=city_name,
-                location__api_city_id=None
+                source=PlanItOrganization.Source.MISSY_IMPORTER,
             )
         except ObjectDoesNotExist:
             logger.warn('No organization for {}, skipping'.format(city_name))
