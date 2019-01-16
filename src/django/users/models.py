@@ -46,7 +46,8 @@ class PlanItLocationManager(models.Manager):
                                       for cell in map_cells)
             datasets = set()
             for cell in map_cells:
-                datasets |= set(cell['properties']['datasets'])
+                datasets |= {dataset for dataset in cell['properties']['datasets']
+                             if dataset is not None}
             location.datasets = list(datasets)
             location.georegion = GeoRegion.objects.get_for_point(point)
             location.save()
