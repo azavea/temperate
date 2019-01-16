@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+
+## [1.6.0] - 2019-01-16
 ### Added
  - A PlanItOrganization.source field. Refactors the Missy importer to use the field. The source default of USER should be backwards compatible with all other use cases within the application.
  - Switched autocomplete in Organization Creation to the Google Places autocomplete. This is temporarily restricted to only US cities.
@@ -121,7 +123,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.5.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.6.0...HEAD
+[1.5.0]: https://github.com/azavea/temperate/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/azavea/temperate/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/azavea/temperate/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/azavea/temperate/compare/1.2.0...1.3.0
