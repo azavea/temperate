@@ -14,7 +14,7 @@
         <div class="current plan-notice" *ngIf="user?.primary_organization.isFreeTrial() && !user?.primary_organization?.subscription_pending">
           <h3 class="heading">Free trial</h3>
           <div class="description">
-            Your 15-day free trial ends on
+            Your free trial ends on
             {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
           </div>
         </div>
