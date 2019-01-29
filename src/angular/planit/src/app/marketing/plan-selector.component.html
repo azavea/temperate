@@ -5,11 +5,7 @@
     <h4 class="tier">{{ plan.nickName }}</h4>
     <h5 class="heading">
       <span class="offering">{{ plan.header }}&thinsp;</span>
-      <span class="cost">
-        <span class="promo-text">${{ plan.promoCost | number }}</span>
-        <span class="promo-strikethrough" aria-hidden="true">${{ plan.yearlyCost | number }}</span>
-        <span class="peryear">/year</span>
-      </span>
+      <span class="cost">${{ plan.yearlyCost | number }}<span class="peryear">/year</span></span>
     </h5>
     <p class="description">{{ plan.description }}</p>
 
