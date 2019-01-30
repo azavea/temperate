@@ -2,13 +2,16 @@
 
 from django.conf.urls import include, url
 
-from users.views import (PlanitHomeView,
-                         RegistrationView,
-                         ActivationView,
-                         UserProfileView,
-                         InviteUserView,
-                         PasswordResetView,
-                         PasswordResetConfirmView)
+from users.views import (
+    ActivationView,
+    InviteUserView,
+    PasswordResetView,
+    PasswordResetConfirmView,
+    PlanitHomeView,
+    RemoveUserView,
+    RegistrationView,
+    UserProfileView,
+)
 
 
 urlpatterns = [
@@ -27,6 +30,7 @@ urlpatterns = [
     url(r'^api/new_token/', PlanitHomeView().new_token, name='new_token'),
     url(r'^api/$', PlanitHomeView.as_view(), name='planit_home'),
     url(r'^invite_user/$', InviteUserView.as_view(), name='invite_user'),
+    url(r'^remove_user/$', RemoveUserView.as_view(), name='remove_user'),
     url(r'^profile/$', UserProfileView.as_view(), name='edit_profile'),
     url(r'', include('registration.backends.hmac.urls')),
 ]

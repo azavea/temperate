@@ -1,12 +1,14 @@
 from unittest import mock
 
 from django.contrib.gis.geos import Point
+from django.http import Http404
 from django.test import TestCase
+from rest_framework.test import APIRequestFactory
 
 from users.models import PlanItLocation, PlanItOrganization
-from users.serializers import OrganizationSerializer
+from users.serializers import OrganizationSerializer, RemoveUserSerializer
 
-from users.tests.factories import OrganizationFactory
+from users.tests.factories import OrganizationFactory, UserFactory
 
 
 class OrganizationSerializerTestCase(TestCase):
@@ -286,3 +288,45 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertTrue(serializer.errors and 'subscription' in serializer.errors)
         self.assertEqual(len(serializer.errors['subscription']), 1)
         self.assertTrue(serializer.errors['subscription'][0].startswith("Subscription cannot"))
+
+
+class RemoveUserSerializerTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.organization = OrganizationFactory(created_by=self.user)
+
+        self.request_factory = APIRequestFactory()
+        self.request = self.request_factory.get('/blah/')
+        self.request.user = self.user
+
+    def test_remove_user_that_doesnt_exist(self):
+        """Ensure validation 404s if user missing."""
+        serializer = RemoveUserSerializer(data={'email': 'not.there@missing.xyz'},
+                                          context={'request': self.request})
+        with self.assertRaises(Http404):
+            serializer.is_valid()
+
+    def test_remove_user_that_not_on_organization(self):
+        """Ensure validation 404s if user not part of organization."""
+        serializer = RemoveUserSerializer(data={'email': 'not.there@missing.xyz'},
+                                          context={'request': self.request})
+        with self.assertRaises(Http404):
+            serializer.is_valid()
+
+    def test_email_not_specified(self):
+        """Ensure validationfails if email blank."""
+        serializer = RemoveUserSerializer(data={'email': ''},
+                                          context={'request': self.request})
+        self.assertFalse(serializer.is_valid())
+
+    def test_email_invalid(self):
+        """Ensure validationfails if email invalid."""
+        serializer = RemoveUserSerializer(data={'email': 'not even an email'},
+                                          context={'request': self.request})
+        self.assertFalse(serializer.is_valid())
+
+    def test_valid(self):
+        """Ensure validation succeeds."""
+        serializer = RemoveUserSerializer(data={'email': self.user.email},
+                                          context={'request': self.request})
+        self.assertTrue(serializer.is_valid())

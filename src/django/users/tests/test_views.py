@@ -3,6 +3,7 @@ from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Polygon, MultiPolygon
+from django.core import mail
 from django.test import override_settings, TestCase, Client
 from django.urls import reverse
 
@@ -826,3 +827,78 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
         self.assertEqual(response.status_code, 201)
         result = response.json()
         self.assertEqual(result['name'], second_org_name)
+
+
+class UserRemovalApiTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+        self.org = self.user.primary_organization
+
+    def test_removal_sends_email(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject,
+                         'Removed from Temperate organization {}'.format(self.org))
+
+    def test_removal_returns_204(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        response = self.client.post(url, user_data, format='json')
+
+        # should get deleted status
+        self.assertEqual(response.status_code, 204)
+
+    def test_removal_does_not_delete_user(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user still exists
+        user = PlanItUser.objects.get(email=self.user.email)
+        self.assertEqual(user.first_name, self.user.first_name)
+
+    def test_removed_no_other_orgs(self):
+        other_user = UserFactory(primary_organization=self.org,
+                                 email='person@home.place')
+        user_data = {
+            'email': other_user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user has no organizations
+        user = PlanItUser.objects.get(email=other_user.email)
+        self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
+        self.assertEqual(user.primary_organization, None,
+                         'User should have no primary organization')
+
+    def test_removed_has_other_orgs(self):
+        other_org = OrganizationFactory()
+        other_user = UserFactory(primary_organization=self.org,
+                                 organizations=[self.org, other_org],
+                                 email='person@home.place')
+        user_data = {
+            'email': other_user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user has one organization left, which has been set to be the primary org
+        user = PlanItUser.objects.get(email=other_user.email)
+        self.assertEqual(1, user.organizations.all().count(), 'User should have one organization')
+        self.assertEqual(user.primary_organization_id, other_org.pk,
+                         'User should have a primary organization')
