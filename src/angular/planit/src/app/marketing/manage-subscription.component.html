@@ -66,7 +66,7 @@
               {{ customPlan.name === user?.primary_organization?.subscription ? 'Selected' : 'Contact us' }}
             </button>
 
-            <div class="plan-tag"
+            <div class="plan-tag" 
                  [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}"
                  *ngIf="customPlan.name === user?.primary_organization?.subscription">
                  {{ user?.primary_organization?.subscription_pending ? 'Pending' : 'Current plan' }}</div>
