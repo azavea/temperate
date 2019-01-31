@@ -34,7 +34,7 @@ export class OrganizationWizardComponent implements OnInit {
     this.form = this.fb.group({
       'location': ['', [Validators.required]],
       'name': ['', [Validators.required]],
-      'invites': [[], []]
+      'invites': [new Set(), []]
     });
     this.userService.current().subscribe(user => this.user = user);
   }

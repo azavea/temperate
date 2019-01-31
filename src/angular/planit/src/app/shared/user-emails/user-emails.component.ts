@@ -19,6 +19,7 @@ export class UserEmailsComponent implements ControlValueAccessor {
   @Input() public errors: { [key: string]: string} = {};
 
   @Output() added = new EventEmitter<string>();
+  @Output() removed = new EventEmitter<string>();
 
   public email = '';
   public emails: Set<string> = new Set();
@@ -35,22 +36,17 @@ export class UserEmailsComponent implements ControlValueAccessor {
     }
   }
 
-  public registerOnChange(fn: any) {
-    this.onChange = fn;
-  }
+  public registerOnChange(fn: any) {}
 
   public registerOnTouched(fn: any) {}
 
   add() {
     this.added.emit(this.email);
-    this.emails.add(this.email);
     this.email = '';
-    this.onChange(Array.from(this.emails));
   }
 
   remove(email) {
-    this.emails.delete(email);
-    this.onChange(Array.from(this.emails));
+    this.removed.emit(email);
   }
 
   hasError(email) {
