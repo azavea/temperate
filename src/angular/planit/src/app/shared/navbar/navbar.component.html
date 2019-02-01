@@ -27,7 +27,19 @@
   </nav>
 </header>
 
-<div class="banner" *ngIf="authService.isAuthenticated() && isFreeTrial && !isManageSubscriptionPage()">
+<div class="banner removal-banner" *ngIf="showRemovedOrganizationsBanner()">
+  <span>You have been removed from the
+    <span [ngPlural]="removedOrganizations.length">
+      <ng-template ngPluralCase="one">organization</ng-template>
+      <ng-template ngPluralCase="other">organizations</ng-template>
+    </span>
+    <span [innerHTML]="removedOrganizationNames"></span>.
+  </span>&nbsp;<span>
+    If you believe this was a mistake, please <a href="mailto:{{ supportEmail }}">contact support</a>.
+  </span>
+  <button (click)="hideRemovedOrganizations()" class="button button-small">&times;</button>
+</div>
+<div class="banner" *ngIf="showFreeTrialBanner()">
   <span>There
     <span *ngIf="trialDaysRemaining !== 1"> are {{ trialDaysRemaining }} days </span>
     <span *ngIf="trialDaysRemaining === 1"> is 1 day </span>

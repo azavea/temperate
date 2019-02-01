@@ -22,8 +22,12 @@ export class UserService {
   private formatUser(user: User): any {
     const formattedUser = cloneDeep(user);
     // Do not attempt to send organization model object in JSON, as endpoint expects a string.
-    // Use `updatePrimaryOrg` to set the primary organization or organizations.
-    delete formattedUser.primary_organization;
+    // Instead convert into PKs which the backend can handle
+    if (formattedUser.primary_organization) {
+      formattedUser.primary_organization = formattedUser.primary_organization.id;
+    }
+    formattedUser.organizations = formattedUser.organizationIds();
+    formattedUser.removed_organizations = formattedUser.removedOrganizationIds();
     return Object.assign(formattedUser, {});
   }
 
@@ -51,18 +55,6 @@ export class UserService {
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
     return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
-      this.cache.clear(CORE_USERSERVICE_CURRENT);
-      return this.current();
-    });
-  }
-
-  updatePrimaryOrg(user: User, organizationId: number): Observable<User> {
-    const url = `${environment.apiUrl}/api/users/${user.id}/`;
-    return this.apiHttp.patch(url,
-                              {'primary_organization': organizationId,
-                               'organizations': user.organizationIds()}
-                              ).switchMap(resp => {
-
       this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
     });

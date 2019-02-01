@@ -233,9 +233,16 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    organizations = serializers.PrimaryKeyRelatedField(many=True,
-                                                       queryset=PlanItOrganization.objects.all(),
-                                                       required=False)
+    organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
+    removed_organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
     primary_organization = serializers.PrimaryKeyRelatedField(
         queryset=PlanItOrganization.objects.all(),
         allow_null=True,
@@ -249,8 +256,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password', 'can_create_multiple_organizations',)
+        fields = ('id', 'email', 'first_name', 'last_name', 'organizations', 'primary_organization',
+                  'removed_organizations', 'password', 'can_create_multiple_organizations',)
 
     def validate(self, data):
         if ('primary_organization' in data and data['primary_organization'] and
@@ -274,6 +281,7 @@ class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""
 
     organizations = OrganizationSerializer(many=True, read_only=True)
+    removed_organizations = OrganizationSerializer(many=True, read_only=True)
     primary_organization = OrganizationSerializer()
 
 

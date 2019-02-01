@@ -386,6 +386,7 @@ class RemoveUserView(APIView):
                 user_to_remove.primary_organization = None
 
             user_to_remove.organizations.remove(organization)
+            user_to_remove.removed_organizations.add(organization)
 
             # If the primary_organization was previously updated, reset it to their first
             # organization remaining if there are any. Setting the primary organization to another
