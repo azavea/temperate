@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.7.0] - 2019-02-16
+### Changed
+ - Reverted pricing changes from previous release
+
 ## [1.6.0] - 2019-01-16
 ### Added
  - A PlanItOrganization.source field. Refactors the Missy importer to use the field. The source default of USER should be backwards compatible with all other use cases within the application.
