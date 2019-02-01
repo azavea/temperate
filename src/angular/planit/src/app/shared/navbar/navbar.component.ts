@@ -51,8 +51,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private showOrgDropdown(): boolean {
     // Any user in multiple organizations or with the ability to create multiple organizations
     // can see the org dropdown.
-    return this.user && (this.user.can_create_multiple_organizations ||
-                         (this.user.organizations && this.user.organizations.length > 1));
+    return this.user && this.user.organizations &&
+          ((this.user.can_create_multiple_organizations && this.user.organizations.length >= 1) ||
+           this.user.organizations.length > 1);
   }
 
   private showLink(): boolean {
