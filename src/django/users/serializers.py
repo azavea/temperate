@@ -153,21 +153,13 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                               "change is pending.")
         return subscription
 
-    def validate_invites(self, invites):
-        # TODO (#368): Only check for duplicate users in this organization instead of all
-        # organizations once users can switch their primary organization
-        existing_emails = PlanItUser.objects \
-            .filter(email__in=invites).values_list('email', flat=True)
-        if existing_emails:
-            raise serializers.ValidationError({email: 'A user with this email already exists.'
-                                               for email in existing_emails})
-        return invites
-
     @transaction.atomic
     def create(self, validated_data):
-        invites = validated_data.pop('invites', [])
         location_data = validated_data.pop('location')
 
+        # This is used at the viewset level but will cause an error if we use it here because
+        # Organization doesn't have an `invites` field.
+        validated_data.pop('invites', [])
         instance = PlanItOrganization.objects.create(**validated_data)
         try:
             instance.location = PlanItLocation.objects.from_point(
@@ -185,10 +177,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             raise
 
         instance.save()
-
-        for email in invites:
-            PlanItUser.objects.create_user(email, '', '', primary_organization=instance,
-                                           is_active=False)
 
         # Copy the template WeatherEventRank objects for this new Organization
         instance.import_weather_events()

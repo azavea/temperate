@@ -282,11 +282,27 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        invites = serializer.initial_data.get('invites', [])
         serializer.save()
 
         organization = serializer.instance
-        for user in organization.users.all():
-            RegistrationView(request=request).send_invitation_email(user)
+        for email in invites:
+            # Don't let a user send an email to themselves. We could also validate this and raise an
+            # error, but in that case the user would presumably just delete themselves and try
+            # again, so it's probably friendlier to do that for them and ignore the "error".
+            if email == self.request.user.email:
+                continue
+            user, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
+                email, organization
+            )
+
+            if was_created:
+                RegistrationView(request=request).send_invitation_email(user)
+            # Let them know they've been added to the organization
+            elif was_added:
+                user.email_user('registration/existing_user_invitation_email',
+                                {'user': user, 'organization': organization,
+                                 'login_url': settings.PLANIT_APP_HOME + '/login'})
 
         self.request.user.organizations.add(organization)
         self.request.user.primary_organization = organization
@@ -360,10 +376,17 @@ class InviteUserView(JsonFormView):
         email = form.cleaned_data['email']
         organization = self.request.user.primary_organization
 
-        user = PlanItUser.objects.create_user(email, '', '', primary_organization=organization,
-                                              is_active=False)
-
-        RegistrationView(request=self.request).send_invitation_email(user)
+        user, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
+            email,
+            organization
+        )
+        if was_created:
+            RegistrationView(request=self.request).send_invitation_email(user)
+        # Let them know they've been added to the organization
+        elif was_added:
+            user.email_user('registration/existing_user_invitation_email',
+                            {'user': user, 'organization': organization,
+                             'login_url': settings.PLANIT_APP_HOME + '/login'})
 
 
 class RemoveUserView(APIView):
