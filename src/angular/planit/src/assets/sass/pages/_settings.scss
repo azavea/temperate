@@ -6,10 +6,6 @@
   }
 
   app-user-emails {
-    .selected-option > button {
-      display: none;
-    }
-
     + .form-control-hint {
       margin-top: $space-base;
     }

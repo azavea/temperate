@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ToastrService } from 'ngx-toastr';
+
 import { Subscription } from 'rxjs/Rx';
 
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
-import { User } from '../../shared/';
+import { Organization, User } from '../../shared/';
+
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -20,9 +24,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public trialDaysRemaining: number;
   public user?: User;
   public userSubscription: Subscription;
+  public removedOrganizations: Organization[] = [];
+  public removedOrganizationNames = '';
+  public supportEmail = environment.supportEmail;
 
   constructor(public authService: AuthService,
               public router: Router,
+              private toastr: ToastrService,
               private userService: UserService) {}
 
   public ngOnInit() {
@@ -43,8 +51,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private showOrgDropdown(): boolean {
     // Any user in multiple organizations or with the ability to create multiple organizations
     // can see the org dropdown.
-    return this.user && (this.user.can_create_multiple_organizations ||
-                         (this.user.organizations && this.user.organizations.length > 1));
+    return this.user && this.user.organizations &&
+          ((this.user.can_create_multiple_organizations && this.user.organizations.length >= 1) ||
+           this.user.organizations.length > 1);
   }
 
   private showLink(): boolean {
@@ -73,9 +82,46 @@ export class NavbarComponent implements OnInit, OnDestroy {
     } else {
       this.isFreeTrial = false;
     }
+
+    if (this.user) {
+      // It looks nicer to have the organization names bolded and with proper punctuation
+      // Easier to do that here than in the template
+      this.removedOrganizations = this.user.removed_organizations;
+      if (this.removedOrganizations.length === 0) {
+        this.removedOrganizationNames = '';
+      } else if (this.removedOrganizations.length === 1) {
+        this.removedOrganizationNames = `<b>${this.removedOrganizations[0].name}</b>`;
+      } else {
+        const firstOrgs = this.removedOrganizations.slice(0, -1);
+        const firstOrgNames = firstOrgs.map(o => `<b>${o.name}</b>`);
+        const lastOrg = this.removedOrganizations[this.removedOrganizations.length - 1];
+        const lastOrgName = `<b>${lastOrg.name}</b>`;
+        this.removedOrganizationNames = firstOrgNames.join(', ') + ' and ' + lastOrgName;
+      }
+    } else {
+      this.removedOrganizations = [];
+      this.removedOrganizationNames = '';
+    }
   }
 
   public isManageSubscriptionPage() {
     return this.router.url === '/subscription';
+  }
+
+  public showFreeTrialBanner() {
+    return !this.showRemovedOrganizationsBanner() && this.authService.isAuthenticated()
+          && this.isFreeTrial && !this.isManageSubscriptionPage();
+  }
+
+  public showRemovedOrganizationsBanner() {
+    return this.authService.isAuthenticated() && this.removedOrganizations.length > 0;
+  }
+
+  public hideRemovedOrganizations() {
+    this.user.removed_organizations = [];
+    this.userService.update(this.user).subscribe(() => {}, (result) => {
+      console.error('Error clearing removed organizations', result.json());
+      this.toastr.error('Something went wrong, please try again.');
+    });
   }
 }

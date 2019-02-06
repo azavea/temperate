@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 
 from requests.exceptions import HTTPError
 
@@ -19,6 +20,15 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from users.models import CityProfile, PlanItLocation, PlanItOrganization, PlanItUser
 from users.serializer_fields import BitField
 from planit_data.models import CommunitySystem
+
+
+def get_org_from_context(context):
+    """Get current user's primary organization from the request context.
+
+    Used when serializing data filtered to current user's organization.
+    """
+    user = context['request'].user
+    return user.primary_organization
 
 
 class PasswordResetSerializer(AuthPasswordResetSerializer):
@@ -223,9 +233,16 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    organizations = serializers.PrimaryKeyRelatedField(many=True,
-                                                       queryset=PlanItOrganization.objects.all(),
-                                                       required=False)
+    organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
+    removed_organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
     primary_organization = serializers.PrimaryKeyRelatedField(
         queryset=PlanItOrganization.objects.all(),
         allow_null=True,
@@ -239,8 +256,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password', 'can_create_multiple_organizations',)
+        fields = ('id', 'email', 'first_name', 'last_name', 'organizations', 'primary_organization',
+                  'removed_organizations', 'password', 'can_create_multiple_organizations',)
 
     def validate(self, data):
         if ('primary_organization' in data and data['primary_organization'] and
@@ -264,6 +281,7 @@ class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""
 
     organizations = OrganizationSerializer(many=True, read_only=True)
+    removed_organizations = OrganizationSerializer(many=True, read_only=True)
     primary_organization = OrganizationSerializer()
 
 
@@ -275,3 +293,14 @@ class CityProfileSerializer(serializers.ModelSerializer):
         model = CityProfile
         fields = '__all__'
         read_only_fields = ('organization',)
+
+
+class RemoveUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(label='Email', required=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        org = get_org_from_context(self.context)
+        user = get_object_or_404(org.users, email=email)
+        attrs['user'] = user
+        return attrs

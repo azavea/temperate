@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 
 ## [Unreleased]
+### Added
+ - Added ability to remove users from an organization to the settings page
+### Fixed
+ - Fixed bug where organization dropdown could be shown to a user with no organizations
 
 ## [1.7.0] - 2019-02-16
 ### Changed

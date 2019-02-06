@@ -1,5 +1,5 @@
 <app-modal-template #modal [title]="title">
-  <p *ngIf="tagline">{{ tagline }}</p>
+  <p *ngIf="tagline" [innerHTML]="tagline"></p>
   <footer class="modal-footer">
     <button class="button"
             [ngClass]="confirmButtonClass"

@@ -314,6 +314,23 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
                                            blank=True)
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
+    # Stores organizations the user was recently removed from
+    removed_organizations = models.ManyToManyField('PlanItOrganization',
+                                                   related_name='former_users',
+                                                   blank=True)
+
+    trial_end_notified = models.BooleanField(
+        default=False,
+        help_text=(
+            'Indicates if the user has been notified about an upcoming trial expiration'
+        )
+    )
+    can_create_multiple_organizations = models.BooleanField(
+        default=False,
+        help_text=(
+            'Designates whether user can create multiple organizations.'
+        ),
+    )
 
     objects = PlanItUserManager()
 
@@ -334,18 +351,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
-    trial_end_notified = models.BooleanField(
-        default=False,
-        help_text=(
-            'Indicates if the user has been notified about an upcoming trial expiration'
-        )
-    )
-    can_create_multiple_organizations = models.BooleanField(
-        default=False,
-        help_text=(
-            'Designates whether user can create multiple organizations.'
-        ),
-    )
 
     class Meta:
         verbose_name = 'user'

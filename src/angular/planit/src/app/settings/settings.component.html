@@ -37,10 +37,10 @@
         <h3>Colleagues</h3>
         <div class="form-control-container">
           <label for="invites">Invite a colleague</label>
-          <app-user-emails inputId="invites" formControlName="invites" aria-labelledby="invite-header" (added)="inviteUser($event)"></app-user-emails>
+          <app-user-emails inputId="invites" formControlName="users" aria-labelledby="invite-header" (added)="inviteUser($event)" (removed)="removeUser($event)"></app-user-emails>
           <div class="form-control-hint">
             Invited colleagues will automatically join your organization and can collaborate on your plan.
-            <p>To remove someone from your organization, please click &ldquo;Send us a message&rdquo; for assistance.</p>
+            <p>To remove someone from your organization, please click the &ldquo;<i class="icon-cancel"></i>&rdquo; next to their email address.</p>
           </div>
           <div class="form-control-error"> </div>
         </div>
@@ -73,3 +73,5 @@
     </form>
   </main>
 </div>
+
+<app-confirmation-modal #confirmRemoveModal></app-confirmation-modal>

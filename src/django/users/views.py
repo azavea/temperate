@@ -42,6 +42,7 @@ from users.serializers import (
     OrganizationSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
+    RemoveUserSerializer,
     UserSerializer,
     UserOrgSerializer,
 )
@@ -364,4 +365,42 @@ class InviteUserView(JsonFormView):
 
         RegistrationView(request=self.request).send_invitation_email(user)
 
-        return Response({'status': 'ok'})
+
+class RemoveUserView(APIView):
+    """Removes a user from the current user's primary_organization"""
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        with transaction.atomic():
+            serializer = RemoveUserSerializer(data=request.data, context={'request': request})
+
+            if not serializer.is_valid():
+                return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            organization = request.user.primary_organization
+            user_to_remove = serializer.validated_data['user']
+            reset_primary_org = user_to_remove.primary_organization_id == organization.pk
+            # If the primary organization is going to be removed, we need to manually
+            # unset it first to avoid an inconsistent state
+            if reset_primary_org:
+                user_to_remove.primary_organization = None
+
+            user_to_remove.organizations.remove(organization)
+            user_to_remove.removed_organizations.add(organization)
+
+            # If the primary_organization was previously updated, reset it to their first
+            # organization remaining if there are any. Setting the primary organization to another
+            # one prevents users without 'can_create_multiple_organizations' from accidentally
+            # being routed to the "Create Organization" wizard, which they should only be able to
+            # access when they have no Organizations yet.
+            if reset_primary_org and user_to_remove.organizations.exists():
+                user_to_remove.primary_organization = user_to_remove.organizations.all()[0]
+
+            user_to_remove.save()
+
+        user_to_remove.email_user('removed_from_organization_email', {
+            'organization': organization,
+            'support_email': settings.SUPPORT_EMAIL,
+        })
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -12,16 +12,8 @@ from planit_data.models import (
     WeatherEvent,
 )
 from users.models import PlanItOrganization
+from users.serializers import get_org_from_context
 from planit.fields import OneWayPrimaryKeyRelatedField
-
-
-def get_org_from_context(context):
-    """Get current user's primarary organization from the request context.
-
-    Used when serializing data filtered to current user's organization.
-    """
-    user = context['request'].user
-    return user.primary_organization
 
 
 class OrganizationDefault(object):

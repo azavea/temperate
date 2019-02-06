@@ -69,6 +69,7 @@ import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { PlanService } from './core/services/plan.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
+import { RemoveUserService } from './core/services/remove-user.service';
 import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
 import { UserService } from './core/services/user.service';
@@ -185,6 +186,7 @@ const AGM_CONFIG = {
     PlanService,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
+    RemoveUserService,
     RiskResolve,
     RiskService,
     SuggestedActionResolve,
