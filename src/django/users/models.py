@@ -302,6 +302,39 @@ class PlanItUserManager(BaseUserManager):
 
         return self._create_user(email, first_name, last_name, password, **extra)
 
+    def add_via_email_to_organization(self, email, organization):
+        """Add a user to an organization via email address.
+
+        Return value is (user, was_created, was_added).
+        """
+        was_created = False
+        was_added = False
+        # If the user is already in the org, do nothing
+        try:
+            user = organization.users.get(email=email)
+            return (user, was_created, was_added)
+        except PlanItUser.DoesNotExist:
+            pass
+        # If the user exists but isn't in the org, add them.
+        try:
+            user = PlanItUser.objects.get(email=email)
+            user.organizations.add(organization)
+            # Handle the case where the user was removed from an organization and re-added. This
+            # succeeds even if the org is not in removed_organizations (and therefore is not
+            # removed).
+            user.removed_organizations.remove(organization)
+            if user.primary_organization is None:
+                user.primary_organization = organization
+                user.save()
+            was_added = True
+        # Otherwise, create a new user
+        except PlanItUser.DoesNotExist:
+            user = self.create_user(email, '', '', primary_organization=organization,
+                                    is_active=False)
+            was_created = True
+
+        return (user, was_created, was_added)
+
 
 class PlanItUser(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'

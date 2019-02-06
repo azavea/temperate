@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added ability to remove users from an organization to the settings page
 ### Fixed
  - Fixed bug where organization dropdown could be shown to a user with no organizations
+ - Fixed a bug where users can invite the same user to their organization twice.
+### Changed
+ - Existing users can now be invited to new and existing organizations.
 
 ## [1.7.0] - 2019-02-16
 ### Changed
