@@ -26,6 +26,7 @@
   <div class="step-footer-navigation">
     <button type="button"
             class="button button-primary"
+            [disabled]="requestPending"
             (click)="confirm()">
       <span *ngIf="!shouldSkip()">
         Send {{ form.controls.invites.value.length }}
