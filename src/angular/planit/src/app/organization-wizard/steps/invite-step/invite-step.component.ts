@@ -24,6 +24,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
 
   public key: OrganizationStepKey = OrganizationStepKey.Invite;
   public inviteErrors: { [key: string]: string} = {};
+  public requestPending = false;
 
   @Input() form: FormGroup;
   @Input() wizard: WizardComponent;
@@ -68,10 +69,14 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
   }
 
   confirm() {
+    this.requestPending = true;
+
     this.save(undefined).then((success) => {
       if (success) {
         this.router.navigate(['/plan']);
       } else {
+        this.requestPending = false;
+
         const controls = this.form.controls;
         if (controls.location.invalid || controls.name.invalid) {
           this.wizard.navigation.goToStep(0);
