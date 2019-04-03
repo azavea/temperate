@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
  - Added ability to remove users from an organization to the settings page
+ - Added ability for users to download charts as PNGs
 ### Fixed
  - Fixed bug where organization dropdown could be shown to a user with no organizations
  - Fixed a bug where users can invite the same user to their organization twice.

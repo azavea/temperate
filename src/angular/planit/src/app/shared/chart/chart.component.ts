@@ -16,14 +16,16 @@ import {
   ChartData,
   ChartService,
   ClimateModel,
+  DataExportService,
   Dataset,
+  ImageExportService,
   Indicator,
   IndicatorDistanceQueryParams,
   IndicatorQueryParams,
   IndicatorRequestOpts,
   IndicatorService,
   Scenario,
-  TimeAggParam
+  TimeAggParam,
 } from 'climate-change-components';
 
 import { environment } from '../../../environments/environment';
@@ -35,7 +37,11 @@ import { Point } from '../geojson';
  */
 @Component({
   selector: 'app-chart',
-  templateUrl: './chart.component.html'
+  templateUrl: './chart.component.html',
+  providers: [
+    DataExportService,
+    ImageExportService
+  ]
 })
 export class ChartComponent implements OnChanges, OnDestroy, OnInit {
 
@@ -85,6 +91,8 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
   private dataSubscription: Subscription;
 
   constructor(private chartService: ChartService,
+              private dataExportService: DataExportService,
+              private imageExportService: ImageExportService,
               private indicatorService: IndicatorService) {}
 
   // Mousemove event must be at this level to listen to mousing over rect#overlay
@@ -164,6 +172,15 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
       const year = obj['date'].getFullYear();
       return year >= startYear && year <= endYear;
     });
+  }
+
+  onDownloadImageClicked() {
+    const fileName: string = [
+      this.indicator.name,
+      this.dataset.name,
+      this.scenario.name
+    ].join('_');
+    this.imageExportService.downloadAsPNG(this.indicator.name, fileName, 'app-chart');
   }
 
   public onExtraParamsSelected(params: IndicatorQueryParams) {
