@@ -14,8 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Fixed bug where organization dropdown could be shown to a user with no organizations
  - Fixed a bug where users can invite the same user to their organization twice.
  - Fixed a bug where users could accidentally create duplicate organizations
+ - Fixed Climate API URL path used when creating organizations
 ### Changed
  - Existing users can now be invited to new and existing organizations.
+ - Changed text from "Send us a message" to "Ask an expert"
 
 ## [1.7.0] - 2019-02-16
 ### Changed
