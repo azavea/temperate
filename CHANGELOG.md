@@ -5,8 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
-
 ## [Unreleased]
+
+## [1.8.0] - 2019-04-18
 ### Added
  - Added ability to remove users from an organization to the settings page
  - Added ability for users to download charts as PNGs
@@ -138,8 +139,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.6.0...HEAD
-[1.5.0]: https://github.com/azavea/temperate/compare/1.5.0...1.6.0
+[Unreleased]: https://github.com/azavea/temperate/compare/1.8.0...HEAD
+[1.8.0]: https://github.com/azavea/temperate/compare/1.7.0...1.8.0
+[1.7.0]: https://github.com/azavea/temperate/compare/1.6.0...1.7.0
+[1.6.0]: https://github.com/azavea/temperate/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/azavea/temperate/compare/1.4.0...1.5.0
 [1.4.0]: https://github.com/azavea/temperate/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/azavea/temperate/compare/1.2.0...1.3.0
