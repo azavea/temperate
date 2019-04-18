@@ -40,7 +40,7 @@ class PlanItLocationManager(models.Manager):
         )
         if created:
             # Note: If this throws a Http404 exception, that will be caught in the serializer
-            map_cells = make_token_api_request('/api/map-cell/{}/{}/'.format(point.y, point.x),
+            map_cells = make_token_api_request('api/map-cell/{}/{}/'.format(point.y, point.x),
                                                {'distance': settings.CCAPI_DISTANCE})
             location.is_coastal = any(cell['properties']['proximity']['ocean']
                                       for cell in map_cells)
@@ -302,6 +302,39 @@ class PlanItUserManager(BaseUserManager):
 
         return self._create_user(email, first_name, last_name, password, **extra)
 
+    def add_via_email_to_organization(self, email, organization):
+        """Add a user to an organization via email address.
+
+        Return value is (user, was_created, was_added).
+        """
+        was_created = False
+        was_added = False
+        # If the user is already in the org, do nothing
+        try:
+            user = organization.users.get(email=email)
+            return (user, was_created, was_added)
+        except PlanItUser.DoesNotExist:
+            pass
+        # If the user exists but isn't in the org, add them.
+        try:
+            user = PlanItUser.objects.get(email=email)
+            user.organizations.add(organization)
+            # Handle the case where the user was removed from an organization and re-added. This
+            # succeeds even if the org is not in removed_organizations (and therefore is not
+            # removed).
+            user.removed_organizations.remove(organization)
+            if user.primary_organization is None:
+                user.primary_organization = organization
+                user.save()
+            was_added = True
+        # Otherwise, create a new user
+        except PlanItUser.DoesNotExist:
+            user = self.create_user(email, '', '', primary_organization=organization,
+                                    is_active=False)
+            was_created = True
+
+        return (user, was_created, was_added)
+
 
 class PlanItUser(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
@@ -314,6 +347,23 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
                                            blank=True)
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
+    # Stores organizations the user was recently removed from
+    removed_organizations = models.ManyToManyField('PlanItOrganization',
+                                                   related_name='former_users',
+                                                   blank=True)
+
+    trial_end_notified = models.BooleanField(
+        default=False,
+        help_text=(
+            'Indicates if the user has been notified about an upcoming trial expiration'
+        )
+    )
+    can_create_multiple_organizations = models.BooleanField(
+        default=False,
+        help_text=(
+            'Designates whether user can create multiple organizations.'
+        ),
+    )
 
     objects = PlanItUserManager()
 
@@ -334,18 +384,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
-    trial_end_notified = models.BooleanField(
-        default=False,
-        help_text=(
-            'Indicates if the user has been notified about an upcoming trial expiration'
-        )
-    )
-    can_create_multiple_organizations = models.BooleanField(
-        default=False,
-        help_text=(
-            'Designates whether user can create multiple organizations.'
-        ),
-    )
 
     class Meta:
         verbose_name = 'user'

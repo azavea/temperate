@@ -1,0 +1,14 @@
+{% load premailer %}
+{% premailer %}
+<html>
+  <p>
+  {% if user.first_name %}Dear {{ user.first_name }},{% else %}Hello,{% endif %}
+  </p>
+
+  <p>Thanks for using Temperate!</p>
+
+  <p>You have been removed from the Temperate organization {{ organization }}.</p>
+
+  <p>If you believe this was a mistake, please contact support at <a href="mailto:{{ support_email }}">{{ support_email }}</a>.</p>
+</html>
+{% endpremailer %}

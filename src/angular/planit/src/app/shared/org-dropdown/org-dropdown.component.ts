@@ -72,8 +72,8 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
     }).onErrorResumeNext().switchMap(() => {
       const newOrg: Organization = organization && this.dropdownOrganizations ?
         this.dropdownOrganizations.find(org => org.id === organization.id) || null : null;
-      const newOrgId = newOrg ? newOrg.id : null;
-      return this.userService.updatePrimaryOrg(this.dropdownUser, newOrgId);
+      this.dropdownUser.primary_organization = newOrg;
+      return this.userService.update(this.dropdownUser);
     }).subscribe(() => {
       if (!createNewOrg) {
         this.toastr.success('Changed primary organization');

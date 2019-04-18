@@ -9,7 +9,7 @@
 <div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label for="invite">Email</label>
-    <app-user-emails formControlName="invites" [errors]="inviteErrors" aria-labelledby="invite-header"></app-user-emails>
+    <app-user-emails formControlName="invites" [errors]="inviteErrors" (added)="addInvite($event)" (removed)="removeInvite($event)"  aria-labelledby="invite-header"></app-user-emails>
     <div class="form-control-error" *ngIf="form.controls.invites.errors">
       <span *ngIf="form.controls.invites.errors.server">
         *{{ form.controls.invites.errors.server }}
@@ -26,6 +26,7 @@
   <div class="step-footer-navigation">
     <button type="button"
             class="button button-primary"
+            [disabled]="requestPending"
             (click)="confirm()">
       <span *ngIf="!shouldSkip()">
         Send {{ form.controls.invites.value.length }}
