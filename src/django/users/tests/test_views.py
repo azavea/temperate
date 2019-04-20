@@ -769,8 +769,7 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
         location = LocationFactory(name='Test City', admin='ABC')
         org = OrganizationFactory(
             name=test_org_name,
-            location__name=location.name,
-            location__admin=location.admin,
+            location=location,
         )
 
         user_data = {
@@ -819,7 +818,7 @@ class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
         response = self.client.post(url, org_data, format='json')
         self.assertEqual(response.status_code, 400)
 
-        # should succeed to create second organization, once the user has that permission
+        # should succeed in creating second organization, once the user has that permission
         user.can_create_multiple_organizations = True
         user.save()
 
