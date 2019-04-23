@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
+### Added
+ - Added database constraints and validations to ensure it is not possible to create duplicate organizations or locations
 
 ## [1.8.0] - 2019-04-18
 ### Added
