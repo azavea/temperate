@@ -86,6 +86,13 @@ class AuthTokenSerializer(serializers.Serializer):
 class LocationSerializer(GeoFeatureModelSerializer):
     """Serializer for organization locations."""
 
+    def get_unique_together_validators(self):
+        """
+        Remove unique_together validations.
+        These are handled in the OrganizationSerializer.create(...) method
+        """
+        return []
+
     class Meta:
         model = PlanItLocation
         geo_field = 'point'

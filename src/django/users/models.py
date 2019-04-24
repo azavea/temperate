@@ -71,6 +71,7 @@ class PlanItLocation(models.Model):
 
     class Meta:
         verbose_name = 'location'
+        unique_together = (('name', 'admin', 'point'),)
 
     def natural_key(self):
         return (self.name, self.admin, self.point.coords[1], self.point.coords[0])
@@ -140,7 +141,7 @@ class PlanItOrganization(models.Model):
                                                related_name='organizations')
 
     class Meta:
-        unique_together = (("name", "location"),)
+        unique_together = (('name', 'location'),)
         verbose_name = 'organization'
 
     def __str__(self):
