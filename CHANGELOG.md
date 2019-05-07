@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
  - Added database constraints and validations to ensure it is not possible to create duplicate organizations or locations
+### Changed
+ - Do not list administrators under colleague list on settings page
 
 ## [1.8.0] - 2019-04-18
 ### Added
