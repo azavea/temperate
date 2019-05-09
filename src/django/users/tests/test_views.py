@@ -620,6 +620,27 @@ class OrganizationApiTestCase(APITestCase):
         # Request should not error
         self.assertEqual(response.status_code, 200)
 
+    def test_organization_users_exclude_admins(self):
+        """Exclude superusers from list of users serialized on the organization."""
+        other_email = 'other@example.com'
+        other_user = UserFactory(primary_organization=self.org,
+                                 email=other_email,
+                                 is_staff=False,
+                                 is_superuser=False)
+
+        # Add two users to organization, one of which is an admin, and one which is not.
+        self.org.users.add(other_user)
+        self.org.users.add(self.user)
+        self.assertEqual(other_user.is_superuser, False)
+        self.assertEqual(self.user.is_superuser, True)
+
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, 200)
+        json = response.json()
+        # Only the non-admin user should be listed under the organization user emails.
+        self.assertEqual(json['users'], [other_email, ])
+
     def test_city_profile_get(self):
         org = OrganizationFactory()
         self.user.organizations.add(org)
