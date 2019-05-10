@@ -4,6 +4,11 @@
   width: 0;
 }
 
+.subscription-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
 
 .subscription-modal-plan {
   margin-top: $space-large;

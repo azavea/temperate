@@ -66,7 +66,7 @@
               {{ customPlan.name === user?.primary_organization?.subscription ? 'Selected' : 'Contact us' }}
             </button>
 
-            <div class="plan-tag" 
+            <div class="plan-tag"
                  [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}"
                  *ngIf="customPlan.name === user?.primary_organization?.subscription">
                  {{ user?.primary_organization?.subscription_pending ? 'Pending' : 'Current plan' }}</div>
@@ -80,9 +80,23 @@
 <app-modal-template #selectSubscriptionModal
                     title="Upgrade subscription">
   <div *ngIf="activeModalStep === modalStep.Select">
-    <h2 class="subscription-modal-plan">
-      <span class="plan-name">{{ selectedPlan?.name | titlecase }}</span> package
-    </h2>
+    <header class="subscription-modal-header">
+      <h2 class="subscription-modal-plan">
+        <span class="plan-name">{{ selectedPlan?.name | titlecase }}</span> package
+      </h2>
+      <p>
+        <span>
+          {{ selectedPlan?.header }}
+        </span>
+        <span
+          *ngIf="selectedPlan?.nickName !== 'Free trial'">
+          •
+          &#36;{{ selectedPlan?.yearlyCost | number}}/yearly
+      </span>
+    </header>
+    <p class="text-medium">
+      {{ selectedPlan?.description }}
+    </p>
     <iframe name="manage-subscription-iframe"
             id="manage-subscription-iframe"
             src="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8">
