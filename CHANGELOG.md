@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
 
+## [1.9.0] - 2019-05-14
+### Added
+ - Added database constraints and validations to ensure it is not possible to create duplicate organizations or locations
+### Changed
+ - Do not list administrators under colleague list on settings page
+ - Updated text on subscription package selection modal
+
 ## [1.8.0] - 2019-04-18
 ### Added
  - Added ability to remove users from an organization to the settings page
@@ -31,7 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
  - Redirect users without a plan and an expired subscription to the subscription page
  - Users with multiple organizations with the same name can now correctly change orgs via the dropdown
-### Removed 
+### Removed
  - API and client app dependence on Climate API city id. Instead, the app uses the geom field of
    PlanItLocation for any location related queries.
 
@@ -139,7 +146,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.8.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.9.0...HEAD
+[1.9.0]: https://github.com/azavea/temperate/compare/1.8.0...1.9.0
 [1.8.0]: https://github.com/azavea/temperate/compare/1.7.0...1.8.0
 [1.7.0]: https://github.com/azavea/temperate/compare/1.6.0...1.7.0
 [1.6.0]: https://github.com/azavea/temperate/compare/1.5.0...1.6.0

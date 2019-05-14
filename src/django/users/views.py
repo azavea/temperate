@@ -275,8 +275,11 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        if (self.request.user.primary_organization and not
-           self.request.user.can_create_multiple_organizations):
+        # Lock current user row so we can avoid data races that would allow a user
+        # to create multiple organizations despite lacking permissions
+        user = PlanItUser.objects.select_for_update().get(pk=request.user.pk)
+
+        if user.primary_organization and not user.can_create_multiple_organizations:
             return Response('User already has an organization',
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -290,23 +293,23 @@ class OrganizationViewSet(mixins.CreateModelMixin,
             # Don't let a user send an email to themselves. We could also validate this and raise an
             # error, but in that case the user would presumably just delete themselves and try
             # again, so it's probably friendlier to do that for them and ignore the "error".
-            if email == self.request.user.email:
+            if email == user.email:
                 continue
-            user, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
+            invitee, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
                 email, organization
             )
 
             if was_created:
-                RegistrationView(request=request).send_invitation_email(user)
+                RegistrationView(request=request).send_invitation_email(invitee)
             # Let them know they've been added to the organization
             elif was_added:
-                user.email_user('registration/existing_user_invitation_email',
-                                {'user': user, 'organization': organization,
-                                 'login_url': settings.PLANIT_APP_HOME + '/login'})
+                invitee.email_user('registration/existing_user_invitation_email',
+                                   {'user': invitee, 'organization': organization,
+                                    'login_url': settings.PLANIT_APP_HOME + '/login'})
 
-        self.request.user.organizations.add(organization)
-        self.request.user.primary_organization = organization
-        self.request.user.save()
+        user.organizations.add(organization)
+        user.primary_organization = organization
+        user.save()
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

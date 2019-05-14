@@ -86,10 +86,29 @@ class AuthTokenSerializer(serializers.Serializer):
 class LocationSerializer(GeoFeatureModelSerializer):
     """Serializer for organization locations."""
 
+    def get_unique_together_validators(self):
+        """
+        Remove unique_together validations.
+        These are handled in the OrganizationSerializer.create(...) method
+        """
+        return []
+
     class Meta:
         model = PlanItLocation
         geo_field = 'point'
         fields = ('name', 'admin', 'datasets',)
+
+
+class OrganizationDisplayUsersField(serializers.ManyRelatedField):
+    """Filter users for display in the frontend to remove administrators.
+
+    https://github.com/encode/django-rest-framework/blob/3f19e66d9f2569895af6e91455e5cf53b8ce5640/rest_framework/relations.py#L532
+    """
+    def to_representation(self, iterable):
+        return [
+            self.child_relation.to_representation(value)
+            for value in iterable if not value.is_superuser
+        ]
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -104,7 +123,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                   slug_field='weather_event_id')
     invites = serializers.ListField(child=serializers.EmailField(), write_only=True, required=False)
 
-    users = serializers.SlugRelatedField(many=True, read_only=True, slug_field='email')
+    users = OrganizationDisplayUsersField(child_relation=serializers.SlugRelatedField(
+        slug_field='email', read_only=True), read_only=True)
 
     def validate_location(self, location_data):
         if 'name' not in location_data:
@@ -211,7 +231,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                   'subscription', 'subscription_end_date', 'subscription_pending',
                   'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
                   'community_systems', 'weather_events', 'users',)
-        read_only_fields = ('subscription_end_date', 'subscription_pending',)
+        read_only_fields = ('subscription_end_date', 'subscription_pending', 'users',)
 
 
 class UserSerializer(serializers.ModelSerializer):
