@@ -1,6 +1,6 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Headers, RequestOptions } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -19,9 +19,8 @@ export class InviteUserService {
     const body = JSON.stringify({
       'email': email
     });
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/accounts/invite_user/`;
-    return this.apiHttp.post(url, body, options);
+    return this.apiHttp.post(url, body, {headers: headers});
   }
 }

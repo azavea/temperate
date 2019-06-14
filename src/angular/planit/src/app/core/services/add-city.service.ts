@@ -1,6 +1,6 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Headers, RequestOptions } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -19,9 +19,8 @@ export class AddCityService {
       'state': form.controls.state.value,
       'notes': form.controls.notes.value
     });
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/api/add_city/`;
-    return this.apiHttp.post(url, body, options);
+    return this.apiHttp.post(url, body, {headers: headers});
   }
 }
