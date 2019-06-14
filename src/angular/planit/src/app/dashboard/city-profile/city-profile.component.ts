@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TypeaheadMatch } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { UserService } from '../../core/services/user.service';

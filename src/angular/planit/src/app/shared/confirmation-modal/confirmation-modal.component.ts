@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 import { ModalTemplateComponent } from '../modal-template/modal-template.component';
 

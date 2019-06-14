@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { UserService } from '../../core/services/user.service';
 import { Organization, User } from '../../shared';

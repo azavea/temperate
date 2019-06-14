@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../shared';

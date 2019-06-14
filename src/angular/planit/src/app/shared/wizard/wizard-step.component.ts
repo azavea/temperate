@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 
 import { MovingDirection } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { WizardSessionService } from '../../core/services/wizard-session.service';
 
