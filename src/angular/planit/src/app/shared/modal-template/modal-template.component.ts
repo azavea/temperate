@@ -1,8 +1,7 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { ModalOptions } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-modal-template',
