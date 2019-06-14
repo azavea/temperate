@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -125,7 +125,7 @@ const AGM_CONFIG = {
     BrowserAnimationsModule,
     CoreModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     // 3rd party
     AccordionModule.forRoot(),
     AgmCoreModule.forRoot(AGM_CONFIG),

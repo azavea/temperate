@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClient } from '@angular/http';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule,
+    HttpClient,
   ],
   declarations: [
   ],
