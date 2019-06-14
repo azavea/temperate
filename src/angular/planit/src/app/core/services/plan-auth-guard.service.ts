@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { Organization } from '../../shared/models/organization.model';
 import { AuthService } from './auth.service';
@@ -49,10 +49,10 @@ export class PlanAuthGuard implements CanActivate {
         } else {
           return true;
         }
-      })).first();
+      })).pipe(first());
     } else {
       this.router.navigate(['/']);
-      return Observable.from([false]);
+      return from([false]);
     }
   }
 }

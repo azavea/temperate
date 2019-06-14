@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, first, map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
@@ -23,13 +23,13 @@ export class PasswordResetGuard implements CanActivate {
       .pipe(map(data => {
         return true;
       }))
-      .catch(error => {
+      .pipe(catchError(error => {
         const errors = error.json();
         const tokenValid = errors.token === undefined && errors.uid === undefined;
         if (!tokenValid) {
           this.router.navigate(['/login'], {queryParams: {resetExpired: true}});
         }
-        return Observable.of(tokenValid);
-      }).first();
+        return of(tokenValid);
+      }), first());
   }
 }

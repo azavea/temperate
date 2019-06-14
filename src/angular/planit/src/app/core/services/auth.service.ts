@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
@@ -33,13 +34,12 @@ export class AuthService {
 
   getUserFromUidToken(uid, token): Observable<User | null> {
     const url = `${environment.apiUrl}/api/user/${uid}/${token}`;
-    return this.http.get(url).map(response => {
-      const user = response.json();
-      if (user) {
-        return new User(user);
+    return this.http.get(url).pipe(map(response => {
+      if (response) {
+        return new User(response);
       }
       return null;
-    });
+    }));
   }
 
   isAuthenticated(): boolean {
@@ -53,11 +53,11 @@ export class AuthService {
     });
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/api-token-auth/`;
-    return this.http.post(url, body, {headers: headers}).map(response => {
-      const token = response.json().token;
+    return this.http.post(url, body, {headers: headers}).pipe(map((response: any) => {
+      const token = response.token;
       this.setToken(token);
       this._loggedIn.next();
-    });
+    }));
   }
 
   logout(redirectTo: string = '/', redirectOptions: NavigationExtras = {}) {

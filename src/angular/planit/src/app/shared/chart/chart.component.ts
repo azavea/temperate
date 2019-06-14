@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable ,  Subscription } from 'rxjs';
+import { Observable, forkJoin, Subscription } from 'rxjs';
 
 import {
   ChartData,
@@ -139,7 +139,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     queryOpts.scenario = this.historicalScenario;
     const historical = this.indicatorService.getDataForLatLon(this.point, queryOpts);
 
-    this.dataSubscription = Observable.forkJoin(
+    this.dataSubscription = forkJoin(
       historical,
       future
     ).subscribe(data => {

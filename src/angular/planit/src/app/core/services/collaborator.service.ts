@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -16,7 +16,7 @@ export class CollaboratorService {
 
   list(): Observable<Collaborator[]> {
     if (this.values !== undefined) {
-      return Observable.of(this.values);
+      return of(this.values);
     }
     const url = `${environment.apiUrl}/api/collaborators/`;
     return this.apiHttp.get(url)

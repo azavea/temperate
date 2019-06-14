@@ -1,6 +1,8 @@
 import { Component, HostBinding, HostListener, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
+import { onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { PlanService } from '../../core/services/plan.service';
 
@@ -27,9 +29,8 @@ export class SubmitPlanButtonComponent {
       tagline: 'Are you sure you’re ready to submit your adaptation plan?',
       confirmButtonClass: 'button-primary',
       confirmText: 'Submit'
-    }).onErrorResumeNext().switchMap(() => {
-      return this.planService.submit();
-    }).subscribe(() => {
+    }).pipe(onErrorResumeNext, switchMap(() => this.planService.submit())
+    ).subscribe(() => {
       const success = `
         Thanks for submitting your adaptation plan!
         You will receive a copy of your submission via email.

@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
+import { onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { ActionService } from '../../core/services/action.service';
 import { Action, Risk } from '../../shared';
 import {
@@ -27,9 +30,8 @@ export class ActionCardContainerComponent implements OnInit {
     this.confirmDeleteModal.confirm({
       tagline: `Are you sure you want to remove ${risk.title()}?`,
       confirmText: 'Remove'
-    }).onErrorResumeNext().switchMap(() => {
-      return this.actionService.delete(action);
-    }).subscribe(a => {
+    }).pipe(onErrorResumeNext, switchMap(() => this.actionService.delete(action))
+    ).subscribe(a => {
       risk.action = null;
       this.risksChange.emit(this.risks);
     });

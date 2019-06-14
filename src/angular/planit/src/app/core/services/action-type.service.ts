@@ -27,6 +27,6 @@ export class ActionTypeService {
   }
 
   nameList() {
-    return this.list().pipe(map(actionTypes => actionTypes.pipe(map(at => at.name))));
+    return this.list().pipe(map(actionTypes => actionTypes.map(at => at.name)));
   }
 }

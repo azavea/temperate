@@ -8,7 +8,8 @@ import { FormGroup } from '@angular/forms';
 
 import { MovingDirection } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { WizardSessionService } from '../../core/services/wizard-session.service';
 
@@ -62,11 +63,9 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
 
     // Returning a promise with a true value will allow advancing to the next step
     return saveStream
-      .do(savedModel => {
+      .pipe(tap(savedModel => {
         this.session.setData(savedModel);
-      })
-      .map(() => true)
-      .catch((response) => {
+      }), map(() => true), catchError((response) => {
         const code = response.status;
         const genericError = 'Something went wrong. Please refresh the page and try again.';
         const genericRecoverableError = 'Something went wrong. Please try again.';
@@ -97,8 +96,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
         } else {
           this.toastr.error(genericError);
         }
-        return Observable.of(false);
-      })
-      .toPromise();
+        return of(false);
+      })).toPromise();
   }
 }

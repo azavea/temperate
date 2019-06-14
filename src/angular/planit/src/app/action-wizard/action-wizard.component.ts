@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { first, take } from 'rxjs/operators';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -77,7 +78,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
     } else {
       // Only allow jumping to other steps if we're not creating
       //  a new action
-      this.route.queryParams.take(1).subscribe((params: Params) => {
+      this.route.queryParams.pipe(take(1)).subscribe((params: Params) => {
         const indexes = {
           'review': 5
         };
@@ -97,7 +98,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
     // Update the URL with the action id once the action is saved
     this.session.data
-      .first(action => action.id !== undefined)
+      .pipe(first(action => action.id !== undefined))
       .subscribe((action) => {
         this.location.replaceState(`/actions/action/${action.id}`);
       });
