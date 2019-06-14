@@ -21,11 +21,11 @@ import { HazardsStepComponent } from './steps/hazards-step/hazards-step.componen
 export class PlanWizardComponent implements OnInit {
   // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(CommunitySystemsStepComponent) public communitySystemsStep:
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(CommunitySystemsStepComponent, {static: true}) public communitySystemsStep:
                                                    CommunitySystemsStepComponent;
-  @ViewChild(DueDateStepComponent) public dueDateStep: DueDateStepComponent;
-  @ViewChild(HazardsStepComponent) public hazardsStep: HazardsStepComponent;
+  @ViewChild(DueDateStepComponent, {static: true}) public dueDateStep: DueDateStepComponent;
+  @ViewChild(HazardsStepComponent, {static: true}) public hazardsStep: HazardsStepComponent;
 
   @Input() organization: Organization;
 

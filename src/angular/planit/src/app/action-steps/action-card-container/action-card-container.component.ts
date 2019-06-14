@@ -11,7 +11,7 @@ import {
   templateUrl: './action-card-container.component.html'
 })
 export class ActionCardContainerComponent implements OnInit {
-  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
+  @ViewChild('confirmDeleteModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
 
   @Input() public risks: Risk[];
   @Output() public risksChange = new EventEmitter<Risk[]>();

@@ -13,7 +13,7 @@ import { OrgSubscription, OrgSubscriptionOptions, OrgSubscriptionPlan, User } fr
   templateUrl: './expiration-modal.component.html'
 })
 export class ExpirationModalComponent implements OnInit {
-  @ViewChild('expirationModal') expirationModal: ModalDirective;
+  @ViewChild('expirationModal', {static: true}) expirationModal: ModalDirective;
   public downloadDisabled = false;
   public isModalShown = true;
   private user: User;

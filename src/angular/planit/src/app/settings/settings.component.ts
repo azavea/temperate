@@ -22,8 +22,8 @@ import { EditableInputComponent } from './editable-input/editable-input.componen
 })
 export class SettingsComponent implements OnInit {
 
-  @ViewChildren(EditableInputComponent) inputs: QueryList<EditableInputComponent>;
-  @ViewChild('confirmRemoveModal') confirmDeleteModal: ConfirmationModalComponent;
+  @ViewChildren(EditableInputComponent, {static: true}) inputs: QueryList<EditableInputComponent>;
+  @ViewChild('confirmRemoveModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
 
   public form: FormGroup;
   public minDate: Date = new Date();

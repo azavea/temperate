@@ -27,7 +27,7 @@ interface AggregateNeed {
 
 export class GroupedRiskComponent implements OnChanges, OnInit {
 
-  @ViewChild('indicatorChartModal')
+  @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
   @Input() risks: Risk[];

@@ -24,10 +24,10 @@ export class RiskPopoverComponent implements OnInit {
   public selectedIndicator: Indicator;
   public location: Location;
 
-  @ViewChild('indicatorModal')
+  @ViewChild('indicatorModal', {static: true})
   private indicatorModal: ModalTemplateComponent;
 
-  @ViewChild('popover')
+  @ViewChild('popover', {static: true})
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,

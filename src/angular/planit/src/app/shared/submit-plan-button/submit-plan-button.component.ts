@@ -12,7 +12,7 @@ import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-m
 })
 export class SubmitPlanButtonComponent {
 
-  @ViewChild('confirmSubmitModal') confirmSubmitModal: ConfirmationModalComponent;
+  @ViewChild('confirmSubmitModal', {static: true}) confirmSubmitModal: ConfirmationModalComponent;
 
   constructor(private toastr: ToastrService,
               private planService: PlanService) { }

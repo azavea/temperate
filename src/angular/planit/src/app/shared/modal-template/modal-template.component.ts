@@ -14,7 +14,7 @@ export class ModalTemplateComponent {
 
   public modalRef: BsModalRef;
 
-  @ViewChild(TemplateRef)
+  @ViewChild(TemplateRef, {static: true})
   private modal: TemplateRef<any>;
 
   private defaults: ModalOptions = {animated: false, class: 'modal-lg'};

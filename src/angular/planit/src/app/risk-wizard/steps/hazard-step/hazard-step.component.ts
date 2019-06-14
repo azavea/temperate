@@ -54,7 +54,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
   public indicators: Indicator[] = [];
 
-  @ViewChild('indicatorChartModal')
+  @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
   private sessionSubscription: Subscription;

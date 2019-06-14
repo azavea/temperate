@@ -55,7 +55,7 @@ export class IndicatorChartComponent implements OnInit, DoCheck {
   public temperatureUnits = TemperatureUnits;
   public precipitationUnits = PrecipitationUnits;
 
-  @ViewChild(ModelModalComponent)
+  @ViewChild(ModelModalComponent, {static: true})
   private modelModal: ModelModalComponent;
   private el: ElementRef;
 

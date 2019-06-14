@@ -18,9 +18,9 @@ import { InviteStepComponent } from './steps/invite-step/invite-step.component';
 })
 export class OrganizationWizardComponent implements OnInit {
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(CityStepComponent) public identifyStep: CityStepComponent;
-  @ViewChild(InviteStepComponent) public inviteStep: InviteStepComponent;
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(CityStepComponent, {static: true}) public identifyStep: CityStepComponent;
+  @ViewChild(InviteStepComponent, {static: true}) public inviteStep: InviteStepComponent;
 
   public form: FormGroup;
   public user: User;
