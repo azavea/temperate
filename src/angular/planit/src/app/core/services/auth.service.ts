@@ -1,5 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/common/http';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
@@ -23,7 +23,7 @@ export class AuthService {
 
   // TODO: Inject a window or localStorage service here to abstract implicit
   //       dependency on window
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected router: Router,
               private cache: APICacheService) {}
 
@@ -51,10 +51,9 @@ export class AuthService {
       'email': email,
       'password': password
     });
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/api-token-auth/`;
-    return this.http.post(url, body, options).map(response => {
+    return this.http.post(url, body, {headers: headers}).map(response => {
       const token = response.json().token;
       this.setToken(token);
       this._loggedIn.next();
@@ -75,9 +74,8 @@ export class AuthService {
       email
     });
     const url = `${environment.apiUrl}/accounts/password_reset/send_email/`;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(url, body, options);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, body, {headers: headers});
   }
 
   resetPassword(uid: string, token: string, new_password1: string,
@@ -89,9 +87,8 @@ export class AuthService {
       new_password2
     });
     const url = `${environment.apiUrl}/accounts/password_reset/`;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(url, body, options);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, body, {headers: headers});
   }
 
   private setToken(token: string | null) {

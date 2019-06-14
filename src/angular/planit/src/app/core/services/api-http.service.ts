@@ -1,8 +1,7 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { HttpBackend, HttpClient, HttpHeaders, HttpParams,
+         HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs,
-         Response, URLSearchParams } from '@angular/common/http';
+import { Observable, throwError as observableThrowError } from 'rxjs';
 
 import { AuthService } from './auth.service';
 
@@ -12,16 +11,16 @@ import { AuthService } from './auth.service';
  * and redirects unauthorized responses to the homepage.
  */
 @Injectable()
-export class PlanItApiHttp extends Http {
+export class PlanItApiHttp extends HttpClient {
 
-  constructor(protected _backend: ConnectionBackend,
-              protected _defaultOptions: RequestOptions,
+  constructor(protected _backend: HttpBackend,
+              protected _defaultHeaders: HttpHeaders,
               protected authService: AuthService) {
-    super(_backend, _defaultOptions);
+    super(_backend, _defaultHeaders);
   }
 
-  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-    return super.request(url, this.appendAPIHeaders(options)).catch((error: Response) => {
+  request(first: string | HttpRequest<any>, url?: string, options?: any): Observable<any> {
+    return super.request(url, this.appendAPIHeaders(options)).catch((error: HttpResponse) => {
       if (error.status === 401) {
         this.authService.logout();
       }
@@ -29,48 +28,51 @@ export class PlanItApiHttp extends Http {
     });
   }
 
-  get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+  get(url: string, options?: any): Observable<any> {
     return super.get(url, this.appendAPIHeaders(options));
   }
 
-  patch(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+  patch(url: string, body: any, options?: any): Observable<any> {
     return super.patch(url, body, this.appendAPIHeaders(options));
   }
 
-  post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+  post(url: string, body: any, options?: any): Observable<any> {
     return super.post(url, body, this.appendAPIHeaders(options));
   }
 
-  put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+  put(url: string, body: any, options?: any): Observable<any> {
     return super.put(url, body, this.appendAPIHeaders(options));
   }
 
-  delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+  delete(url: string, options?: any): Observable<any> {
     return super.delete(url, this.appendAPIHeaders(options));
   }
 
-  private appendAPIHeaders(options?: RequestOptionsArgs): RequestOptionsArgs {
+  private appendAPIHeaders(options?: any): any {
     const token = this.authService.getToken();
     if (!token) {
       this.authService.logout();
       return;
     }
-    if (options == null) {
-      options = new RequestOptions();
+    if (!options) {
+      options = {
+        headers: new HttpHeaders(),
+        params: new HttpParams()
+      };
     }
-    if (options.headers == null) {
-      options.headers = new Headers();
+    if (!options.headers) {
+      options.headers = new HttpHeaders();
     }
     options.headers.set('Authorization', 'Token ' + token);
     options.headers.set('Accept', 'application/json');
 
-    if (options.search == null) {
-      options.search = new URLSearchParams();
+    if (!options.params) {
+      options.params = new HttpParams();
     }
-    // Switch params to instance of URLSeachParams if options.search is string
-    //  so that we can always safely use the URLSearchParams.append() method to add 'format'
-    if (typeof options.search === 'string') {
-      options.search = new URLSearchParams(options.search);
+    // Switch params to instance of HttpParams if options.params is string
+    //  so that we can always safely use the HttpParams.append() method to add 'format'
+    if (typeof options.params === 'string') {
+      options.params = new HttpParams(options.params);
     }
 
     return options;
