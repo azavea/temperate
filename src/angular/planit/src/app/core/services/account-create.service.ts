@@ -1,7 +1,7 @@
 
 import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response } from '@angular/common/http';
 
 import * as cloneDeep from 'lodash.clonedeep';
 

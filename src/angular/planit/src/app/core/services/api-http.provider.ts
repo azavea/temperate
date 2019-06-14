@@ -1,4 +1,4 @@
-import { Http, RequestOptions, XHRBackend } from '@angular/http';
+import { Http, RequestOptions, XHRBackend } from '@angular/common/http';
 
 import { PlanItApiHttp } from './api-http.service';
 import { AuthService } from './auth.service';
