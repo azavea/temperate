@@ -15,7 +15,7 @@ import {
 })
 
 export class OrgDropdownComponent implements OnDestroy, OnInit {
-  @ViewChild('confirmOrgChangeModal') confirmOrgChangeModal: ConfirmationModalComponent;
+  @ViewChild('confirmOrgChangeModal', {static: true}) confirmOrgChangeModal: ConfirmationModalComponent;
 
   private dropdownUser: User;
   private dropdownPrimaryOrganization: Organization;

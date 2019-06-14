@@ -27,12 +27,12 @@ import { ReviewStepComponent } from './steps/review-step/review-step.component';
 export class RiskWizardComponent implements OnInit, AfterViewChecked {
   // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(IdentifyStepComponent) public identifyStep: IdentifyStepComponent;
-  @ViewChild(HazardStepComponent) public hazardStep: HazardStepComponent;
-  @ViewChild(ImpactStepComponent) public impactStep: ImpactStepComponent;
-  @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
-  @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(IdentifyStepComponent, {static: true}) public identifyStep: IdentifyStepComponent;
+  @ViewChild(HazardStepComponent, {static: true}) public hazardStep: HazardStepComponent;
+  @ViewChild(ImpactStepComponent, {static: true}) public impactStep: ImpactStepComponent;
+  @ViewChild(CapacityStepComponent, {static: true}) public capacityStep: CapacityStepComponent;
+  @ViewChild(ReviewStepComponent, {static: true}) public reviewStep: ReviewStepComponent;
 
   @Input() risk: Risk;
 

@@ -15,7 +15,7 @@ import { ModalTemplateComponent } from '../shared/modal-template/modal-template.
 })
 
 export class ActionStepsOverviewComponent implements OnInit {
-  @ViewChild('reviewYourPlanModal') reviewYourPlanModal: ModalTemplateComponent;
+  @ViewChild('reviewYourPlanModal', {static: true}) reviewYourPlanModal: ModalTemplateComponent;
 
   public risks: Risk[];
   public allRisks: Risk[];

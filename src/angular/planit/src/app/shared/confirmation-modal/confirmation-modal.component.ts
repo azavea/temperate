@@ -24,7 +24,7 @@ export interface ConfirmModalConfig {
 })
 export class ConfirmationModalComponent implements OnDestroy {
 
-  @ViewChild('modal') modal: ModalTemplateComponent;
+  @ViewChild('modal', {static: true}) modal: ModalTemplateComponent;
 
   public cancelText: string;
   public confirmButtonClass: string;

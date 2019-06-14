@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
 
   private weatherEvents: WeatherEvent[];
 
-  @ViewChild('trialWarningModal') private trialWarningModal: ModalTemplateComponent;
+  @ViewChild('trialWarningModal', {static: true}) private trialWarningModal: ModalTemplateComponent;
 
   constructor(private cache: CacheService,
               private organizationService: OrganizationService,

@@ -13,7 +13,7 @@ import {
 })
 export class AssessmentOverviewTableComponent implements OnInit {
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
+  @ViewChild('confirmDeleteModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
   @Input() risks: Risk[];
   @Output() risksChange = new EventEmitter<Risk[]>();
   @Input() showFullTitle = false;

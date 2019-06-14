@@ -34,13 +34,13 @@ interface NamedRisk {
 })
 export class ActionWizardComponent implements AfterViewInit, OnInit {
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(AssessStepComponent) public assessStep: AssessStepComponent;
-  @ViewChild(ImplementationStepComponent) public implementationStep: ImplementationStepComponent;
-  @ViewChild(ImprovementsStepComponent) public improvementsStep: ImprovementsStepComponent;
-  @ViewChild(CategoryStepComponent) public categoryStep: CategoryStepComponent;
-  @ViewChild(FundingStepComponent) public fundingStep: FundingStepComponent;
-  @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(AssessStepComponent, {static: true}) public assessStep: AssessStepComponent;
+  @ViewChild(ImplementationStepComponent, {static: true}) public implementationStep: ImplementationStepComponent;
+  @ViewChild(ImprovementsStepComponent, {static: true}) public improvementsStep: ImprovementsStepComponent;
+  @ViewChild(CategoryStepComponent, {static: true}) public categoryStep: CategoryStepComponent;
+  @ViewChild(FundingStepComponent, {static: true}) public fundingStep: FundingStepComponent;
+  @ViewChild(ReviewStepComponent, {static: true}) public reviewStep: ReviewStepComponent;
 
   @Input() action: Action;
 
