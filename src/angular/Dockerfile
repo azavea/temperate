@@ -1,4 +1,4 @@
-FROM node:6-slim
+FROM node:11-slim
 
 # Install Chrome for running ng test
 RUN set -ex \
