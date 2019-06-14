@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { RelatedAdaptiveValue } from '../../shared/models/related-adaptive-value.model';
@@ -19,10 +20,10 @@ export class RelatedAdaptiveValueService {
     }
     const url = `${environment.apiUrl}/api/related-adaptive-values/`;
     return this.apiHttp.get(url)
-      .map(resp => {
+      .pipe(map(resp => {
         this.values = resp.json() || [] as RelatedAdaptiveValue[];
         return this.values;
-      });
+      }));
   }
 
 }

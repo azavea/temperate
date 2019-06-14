@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
@@ -19,27 +20,27 @@ export class WeatherEventService {
     const request = this.apiHttp.get(url);
     const response = this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
 
-    return response.map((resp) => {
+    return response.pipe(map((resp) => {
       const data = resp.json() as WeatherEvent[];
       return data;
-    });
+    }));
   }
 
   get(weatherEventId: number): Observable<WeatherEvent> {
     const url = `${environment.apiUrl}/api/weather-event/${weatherEventId}/`;
     return this.apiHttp.get(url)
-      .map(resp => resp.json() as WeatherEvent);
+      .pipe(map(resp => resp.json() as WeatherEvent));
   }
 
   listForCurrentOrg(): Observable<OrgWeatherEvent[]> {
     const url = `${environment.apiUrl}/api/organization-weather-event/`;
     return this.apiHttp.get(url)
-      .map(resp => resp.json() || [] as OrgWeatherEvent[]);
+      .pipe(map(resp => resp.json() || [] as OrgWeatherEvent[]));
   }
 
   rankedEvents(): Observable<WeatherEvent[]> {
-    return this.listForCurrentOrg().map(events => {
+    return this.listForCurrentOrg().pipe(map(events => {
       return events.map(e => e.weather_event as WeatherEvent);
-    });
+    }));
   }
 }

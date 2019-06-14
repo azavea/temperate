@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as papa from 'papaparse';
+import { map } from 'rxjs/operators';
 
 import { PlanItApiHttp } from './api-http.service';
 
@@ -10,7 +11,7 @@ export class DownloadService {
   constructor(private apiHttp: PlanItApiHttp) {}
 
   downloadCSV(url: string, filename: string) {
-    return this.apiHttp.get(url).map(resp => {
+    return this.apiHttp.get(url).pipe(map(resp => {
       // Parse string to array of arrays
       const csvData = papa.parse(resp['_body'], { newline: '\r\n' });
 
@@ -23,7 +24,7 @@ export class DownloadService {
         'data:text/csv;charset=utf-8',
         'csv'
       );
-    }).subscribe();
+    })).subscribe();
   }
 
   private downloadFile(data: any, filename: string, contentType: string, extension: string) {

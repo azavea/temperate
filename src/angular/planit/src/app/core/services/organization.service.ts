@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
@@ -27,20 +28,20 @@ export class OrganizationService {
 
   create(organization: Organization): Observable<Organization> {
     const url = `${environment.apiUrl}/api/organizations/`;
-    return this.apiHttp.post(url, this.formatOrganization(organization)).map(resp => {
+    return this.apiHttp.post(url, this.formatOrganization(organization)).pipe(map(resp => {
       organization = new Organization(resp.json());
       this.userService.invalidate();
       return organization;
-    });
+    }));
   }
 
   update(organization: Organization): Observable<Organization> {
     const url = `${environment.apiUrl}/api/organizations/${organization.id}/`;
     // PATCH instead of PUT here to avoid errors regarding required fields that are already set
-    return this.apiHttp.patch(url, this.formatOrganization(organization)).map(resp => {
+    return this.apiHttp.patch(url, this.formatOrganization(organization)).pipe(map(resp => {
       organization = new Organization(resp.json());
       this.userService.invalidate();
       return organization;
-    });
+    }));
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { ActionCategory } from '../../shared/models/action-category.model';
@@ -13,9 +14,9 @@ export class ActionCategoryService {
 
   list(): Observable<ActionCategory[]> {
     const url = `${environment.apiUrl}/api/action-categories/`;
-    return this.apiHttp.get(url).map(resp => {
+    return this.apiHttp.get(url).pipe(map(resp => {
       const vals = resp.json() || [];
       return vals.map(r => r as ActionCategory);
-    });
+    }));
   }
 }
