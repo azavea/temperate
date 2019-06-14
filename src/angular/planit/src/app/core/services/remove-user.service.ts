@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Headers, RequestOptions } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 

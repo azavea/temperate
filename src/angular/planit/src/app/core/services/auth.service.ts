@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/common/http';
 import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';

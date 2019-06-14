@@ -2,7 +2,7 @@
 import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs,
-         Response, URLSearchParams } from '@angular/http';
+         Response, URLSearchParams } from '@angular/common/http';
 
 import { AuthService } from './auth.service';
 
