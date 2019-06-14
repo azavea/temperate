@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { Indicator, IndicatorService } from 'climate-change-components';
 

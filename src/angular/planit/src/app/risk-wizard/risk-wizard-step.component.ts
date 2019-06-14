@@ -2,7 +2,7 @@ import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { PreviousRouteGuard } from '../core/services/previous-route-guard.service';
 import { RiskService } from '../core/services/risk.service';

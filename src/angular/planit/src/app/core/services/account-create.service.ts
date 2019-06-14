@@ -1,8 +1,9 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable } from 'rxjs/Rx';
 
 import { User } from '../../shared';
 
@@ -32,7 +33,7 @@ export class AccountCreateService {
     return this.http.post(url, this.formatUser(user, key))
       .map(resp => resp.json() || {} as User)
       .catch((error: Response) => {
-        return Observable.throw(error);
+        return observableThrowError(error);
       });
   }
 }

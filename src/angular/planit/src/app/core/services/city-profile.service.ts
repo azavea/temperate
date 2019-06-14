@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { CityProfile, CityProfileOption, CityProfileSummary, Organization } from '../../shared/';
 import { PlanItApiHttp } from './api-http.service';

@@ -1,7 +1,8 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs,
          Response, URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
 
@@ -24,7 +25,7 @@ export class PlanItApiHttp extends Http {
       if (error.status === 401) {
         this.authService.logout();
       }
-      return Observable.throw(error);
+      return observableThrowError(error);
     });
   }
 

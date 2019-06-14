@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { MovingDirection } from 'ng2-archwizard';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { CommunitySystemService } from '../../../../core/services/community-system.service';
 import { OrganizationService } from '../../../../core/services/organization.service';

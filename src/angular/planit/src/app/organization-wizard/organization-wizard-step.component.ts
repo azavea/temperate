@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { OrganizationService } from '../core/services/organization.service';
 import { WizardSessionService } from '../core/services/wizard-session.service';

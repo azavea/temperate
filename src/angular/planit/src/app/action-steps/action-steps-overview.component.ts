@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AlertModule } from 'ngx-bootstrap';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { RiskService } from '../core/services/risk.service';
 import { Risk, WeatherEvent } from '../shared';
