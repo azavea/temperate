@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TypeaheadMatch } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { UserService } from '../../core/services/user.service';
@@ -41,9 +42,9 @@ export class CityProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.current().switchMap(user => {
+    this.userService.current().pipe(switchMap(user => {
       return this.cityProfileService.get(user.primary_organization);
-    }).subscribe(p => this.cityProfile = p);
+    })).subscribe(p => this.cityProfile = p);
 
     this.cityProfileService.listOptions().subscribe(options => {
       this.sectors = options['economic-sectors'].map(option => option.name);

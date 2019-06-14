@@ -2,6 +2,7 @@ import { HttpBackend, HttpClient, HttpHeaders, HttpParams,
          HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
@@ -14,18 +15,18 @@ import { AuthService } from './auth.service';
 export class PlanItApiHttp extends HttpClient {
 
   constructor(protected _backend: HttpBackend,
-              protected _defaultHeaders: HttpHeaders,
               protected authService: AuthService) {
-    super(_backend, _defaultHeaders);
+    super(_backend);
   }
 
   request(first: string | HttpRequest<any>, url?: string, options?: any): Observable<any> {
-    return super.request(url, this.appendAPIHeaders(options)).catch((error: HttpResponse) => {
-      if (error.status === 401) {
-        this.authService.logout();
-      }
-      return observableThrowError(error);
-    });
+    return super.request(url, this.appendAPIHeaders(options)).pipe(
+      catchError((error: HttpResponse<any>) => {
+        if (error.status === 401) {
+          this.authService.logout();
+        }
+        return observableThrowError(error);
+    }));
   }
 
   get(url: string, options?: any): Observable<any> {

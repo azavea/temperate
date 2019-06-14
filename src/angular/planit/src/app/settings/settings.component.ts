@@ -4,6 +4,8 @@ import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { InviteUserService } from '../core/services/invite-user.service';
 import { OrganizationService } from '../core/services/organization.service';
@@ -22,7 +24,7 @@ import { EditableInputComponent } from './editable-input/editable-input.componen
 })
 export class SettingsComponent implements OnInit {
 
-  @ViewChildren(EditableInputComponent, {static: true}) inputs: QueryList<EditableInputComponent>;
+  @ViewChildren(EditableInputComponent) inputs: QueryList<EditableInputComponent>;
   @ViewChild('confirmRemoveModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
 
   public form: FormGroup;
@@ -96,9 +98,9 @@ export class SettingsComponent implements OnInit {
         from your organization? This cannot be undone.`,
       confirmText: 'Yes',
       cancelText: 'No, take me back',
-    }).onErrorResumeNext().switchMap(() => {
+    }).pipe(onErrorResumeNext, switchMap(() => {
       return this.removeUserService.remove(email);
-    }).pipe(tap(a => {
+    }), tap(a => {
       if (selfRemoval) {
         this.userService.invalidate();
         window.location.pathname = '/';

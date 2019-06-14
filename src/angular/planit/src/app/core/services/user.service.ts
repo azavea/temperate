@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../shared';
@@ -55,9 +55,9 @@ export class UserService {
 
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
-    return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
+    return this.apiHttp.patch(url, this.formatUser(user)).pipe(switchMap(resp => {
       this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
-    });
+    }));
   }
 }

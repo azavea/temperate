@@ -1,16 +1,15 @@
-import { HttpClient, HttpHeaders, HttpXhrBackend } from '@angular/common/http';
+import { HttpClient, HttpXhrBackend } from '@angular/common/http';
 
 import { PlanItApiHttp } from './api-http.service';
 import { AuthService } from './auth.service';
 
 export function apiHttpLoader(xhrBackend: HttpXhrBackend,
-                              headers: HttpHeaders,
                               authService: AuthService) {
-                                return new PlanItApiHttp(xhrBackend, headers, authService);
+                                return new PlanItApiHttp(xhrBackend, authService);
                               }
 
 export let apiHttpProvider = {
   provide: PlanItApiHttp,
   useFactory: apiHttpLoader,
-  deps: [HttpXhrBackend, HttpHeaders, AuthService]
+  deps: [HttpXhrBackend, AuthService]
 };

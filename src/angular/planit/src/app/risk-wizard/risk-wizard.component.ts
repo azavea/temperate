@@ -9,6 +9,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
+import { first } from 'rxjs/operators';
 
 import { RiskService } from '../core/services/risk.service';
 import { WizardSessionService } from '../core/services/wizard-session.service';
@@ -58,7 +59,7 @@ export class RiskWizardComponent implements OnInit, AfterViewChecked {
 
     // Update the URL with the risk id once the risk is saved
     this.session.data
-      .first(risk => risk.id !== undefined)
+      .pipe(first(risk => risk.id !== undefined))
       .subscribe((risk) => {
         this.location.replaceState(`/assessment/risk/${risk.id}`);
       });

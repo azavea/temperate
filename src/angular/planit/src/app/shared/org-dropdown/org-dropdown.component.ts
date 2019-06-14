@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { UserService } from '../../core/services/user.service';
 import { Organization, User } from '../../shared';
@@ -15,7 +16,8 @@ import {
 })
 
 export class OrgDropdownComponent implements OnDestroy, OnInit {
-  @ViewChild('confirmOrgChangeModal', {static: true}) confirmOrgChangeModal: ConfirmationModalComponent;
+  @ViewChild('confirmOrgChangeModal',
+             {static: true}) confirmOrgChangeModal: ConfirmationModalComponent;
 
   private dropdownUser: User;
   private dropdownPrimaryOrganization: Organization;
@@ -69,12 +71,12 @@ export class OrgDropdownComponent implements OnDestroy, OnInit {
       tagline: tagline,
       confirmButtonClass: 'button-primary',
       confirmText: createNewOrg ? 'Create' : 'Switch'
-    }).onErrorResumeNext().switchMap(() => {
+    }).pipe(onErrorResumeNext, switchMap(() => {
       const newOrg: Organization = organization && this.dropdownOrganizations ?
         this.dropdownOrganizations.find(org => org.id === organization.id) || null : null;
       this.dropdownUser.primary_organization = newOrg;
       return this.userService.update(this.dropdownUser);
-    }).subscribe(() => {
+    })).subscribe(() => {
       if (!createNewOrg) {
         this.toastr.success('Changed primary organization');
       }

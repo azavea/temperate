@@ -1,11 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AgmCoreModule } from '@agm/core';
+import { first } from 'rxjs/operators';
 
 import {
   ApiModule,
@@ -203,7 +204,7 @@ export class AppModule {
                private datasetService: DatasetService,
                private scenarioService: ScenarioService,
                private modelService: ClimateModelService) {
-      this.userService.currentUser.first().subscribe(() => {
+      this.userService.currentUser.pipe(first()).subscribe(() => {
         // Issue an eager request for indicator static configuration data so it's already cached if
         // the user opens an indicator chart
         this.datasetService.list().subscribe();

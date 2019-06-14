@@ -2,6 +2,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -27,13 +28,12 @@ export class AccountCreateService {
     return user;
   }
 
-  public create(user: User, key?: string): Observable<User> {
+  public create(user: User, key?: string): Observable<Object> {
 
     const url = `${environment.apiUrl}/api/users/`;
     return this.http.post(url, this.formatUser(user, key))
-      .map(resp => resp.json() || {} as User)
-      .catch((error: Response) => {
+      .pipe(catchError((error: Response) => {
         return observableThrowError(error);
-      });
+      }));
   }
 }

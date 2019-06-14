@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 import { Organization } from '../../shared/models/organization.model';
 import { AuthService } from './auth.service';
@@ -37,7 +37,7 @@ export class ExpirationGuard implements CanActivate {
           return false;
         }
         return true;
-      })).first();
+      })).pipe(first());
     } else {
       return true;
     }

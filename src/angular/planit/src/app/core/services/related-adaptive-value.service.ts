@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -16,7 +16,7 @@ export class RelatedAdaptiveValueService {
 
   list(): Observable<RelatedAdaptiveValue[]> {
     if (this.values !== null) {
-      return Observable.of(this.values);
+      return of(this.values);
     }
     const url = `${environment.apiUrl}/api/related-adaptive-values/`;
     return this.apiHttp.get(url)

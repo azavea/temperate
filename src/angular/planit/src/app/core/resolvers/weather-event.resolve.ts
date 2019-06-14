@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { WeatherEventService } from '../../core/services/weather-event.service';
 import { WeatherEvent } from '../../shared/';
@@ -16,7 +16,7 @@ export class WeatherEventResolve implements Resolve<WeatherEvent> {
     if (typeof hazardId === 'string') {
       return this.weatherEventService.get(+hazardId);
     } else {
-      return Observable.of(undefined);
+      return of(undefined);
     }
   }
 }
