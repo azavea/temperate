@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
@@ -19,9 +20,9 @@ export class PasswordResetGuard implements CanActivate {
     // Check for token validity by attempting to reset the password with
     // invalid passwords.
     return this.authService.resetPassword(uid, token, 'bad', 'password')
-      .map(data => {
+      .pipe(map(data => {
         return true;
-      })
+      }))
       .catch(error => {
         const errors = error.json();
         const tokenValid = errors.token === undefined && errors.uid === undefined;

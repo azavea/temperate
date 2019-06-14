@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
@@ -19,13 +20,13 @@ export class ActionTypeService {
     const request = this.apiHttp.get(url);
     const response = this.cache.get(CORE_ACTIONTYPESERVICE_LIST, request);
 
-    return response.map((resp) => {
+    return response.pipe(map((resp) => {
       const data = resp.json() as ActionType[];
       return data;
-    });
+    }));
   }
 
   nameList() {
-    return this.list().map(actionTypes => actionTypes.map(at => at.name));
+    return this.list().pipe(map(actionTypes => actionTypes.pipe(map(at => at.name))));
   }
 }

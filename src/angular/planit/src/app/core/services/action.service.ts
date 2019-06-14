@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { Action } from '../../shared/models/action.model';
@@ -24,31 +25,31 @@ export class ActionService {
 
   list(): Observable<Action[]> {
     const url = `${environment.apiUrl}/api/actions/`;
-    return this.apiHttp.get(url).map(resp => {
+    return this.apiHttp.get(url).pipe(map(resp => {
       const vals = resp.json() || [];
       return vals.map(a => new Action(a));
-    });
+    }));
   }
 
   get(id: string): Observable<Action> {
    const url = `${environment.apiUrl}/api/actions/${id}/`;
-   return this.apiHttp.get(url).map(resp => {
+   return this.apiHttp.get(url).pipe(map(resp => {
      return new Action(resp.json());
-   });
+   }));
   }
 
   create(action: Action): Observable<Action> {
     const url = `${environment.apiUrl}/api/actions/`;
-    return this.apiHttp.post(url, this.formatAction(action)).map(resp => {
+    return this.apiHttp.post(url, this.formatAction(action)).pipe(map(resp => {
       return new Action(resp.json());
-    });
+    }));
   }
 
   update(action: Action): Observable<Action> {
     const url = `${environment.apiUrl}/api/actions/${action.id}/`;
-    return this.apiHttp.put(url, this.formatAction(action)).map(resp => {
+    return this.apiHttp.put(url, this.formatAction(action)).pipe(map(resp => {
       return new Action(resp.json());
-    });
+    }));
   }
 
   delete(action: Action) {

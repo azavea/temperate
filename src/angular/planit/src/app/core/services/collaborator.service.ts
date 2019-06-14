@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { Collaborator } from '../../shared/models/collaborator.model';
@@ -19,10 +20,10 @@ export class CollaboratorService {
     }
     const url = `${environment.apiUrl}/api/collaborators/`;
     return this.apiHttp.get(url)
-      .map(resp => {
+      .pipe(map(resp => {
         this.values = resp.json() || [] as Collaborator[];
         return this.values;
-      });
+      }));
   }
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../shared';
@@ -35,7 +36,7 @@ export class UserService {
     const url = `${environment.apiUrl}/api/user/`;
     const request = this.apiHttp.get(url);
     const response = this.cache.get(CORE_USERSERVICE_CURRENT, request);
-    return response.map((resp) => {
+    return response.pipe(map((resp) => {
       const json = resp.json();
       if (json) {
         const user = new User(json);
@@ -43,7 +44,7 @@ export class UserService {
         return user;
       }
       return null;
-    });
+    }));
   }
 
   invalidate() {
