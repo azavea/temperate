@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --delete-output-path false --disable-host-check",
-    "build": "ng build",
+    "start": "ng serve --disable-host-check",
+    "build": "ng build --no-delete-output-path",
     "test": "ng test",
     "lint": "ng lint --type-check",
     "lint:ci": "ng lint --type-check --force --format checkstyle > src/violations.xml",
