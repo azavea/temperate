@@ -9,7 +9,7 @@
     "lint": "ng lint --type-check",
     "lint:ci": "ng lint --type-check --force --format checkstyle > src/violations.xml",
     "e2e": "ng e2e",
-    "build:prod": "ng build --prod --aot --extract-css --env=prod",
+    "build:prod": "ng build --prod --aot --extract-css",
     "postinstall": "npm rebuild node-sass"
   },
   "private": true,
