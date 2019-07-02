@@ -75,6 +75,8 @@ import { SuggestedActionService } from './core/services/suggested-action.service
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
 
+import { httpInterceptorProviders } from './core/interceptors';
+
 import {
   AccordionModule,
   AlertModule,
@@ -162,6 +164,7 @@ const AGM_CONFIG = {
   exports: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
+    httpInterceptorProviders,
     AccountCreateService,
     ActionCategoryService,
     ActionTypeService,
