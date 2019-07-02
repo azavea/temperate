@@ -8,9 +8,9 @@ val extraResolvers = Seq(
 )
 
 lazy val commonSettings = Seq(
-  organization := "com.azavea",
-  version := "0",
-  scalaVersion := "2.11.11",
+  organization := "io.temperate",
+  version := "0.0.1-SNAPSHOT",
+  scalaVersion := "2.11.12",
   test in assembly := {},
   assemblyMergeStrategy in assembly := {
     case "log4j.properties" => MergeStrategy.first
@@ -43,7 +43,7 @@ lazy val root = (project in file("."))
   .settings(commonSettings: _*)
   .settings(libraryDependencies ++= generalDeps)
 
-lazy val backend = (project in file("backend"))
+lazy val api = (project in file("api"))
   .dependsOn(root)
   .settings(commonSettings: _*)
   .settings(resolvers ++= extraResolvers)

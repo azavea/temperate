@@ -1,4 +1,4 @@
-package com.azavea.climate
+package io.temperate.api
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -22,7 +22,7 @@ object Main extends App {
     Properties.envOrElse("HOST", "0.0.0.0")
 
   val port: Int =
-    Properties.envOrNone("PORT").map(_.toInt).getOrElse(8001)
+    Properties.envOrNone("PORT").map(_.toInt).getOrElse(8108)
 
   sys.addShutdownHook {
     Try(system.terminate())

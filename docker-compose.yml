@@ -67,3 +67,22 @@ services:
       - ./src/django:/usr/src
       - ./nginx/static:/static
       - $HOME/.aws:/root/.aws:ro
+  area-indicators:
+    image: openjdk:11-jre
+    entrypoint: java
+    command:
+      - "-jar"
+      - "api-assembly-0.0.1-SNAPSHOT.jar"
+    environment:
+      - COURSIER_CACHE=/root/.coursier
+      - ENVIRONMENT=development
+    ports:
+      - 8108:8108
+    volumes:
+      - ./src/area-indicators/:/opt/temperate/area-indicators/
+      - $HOME/.sbt:/root/.sbt
+      - $HOME/.coursier:/root/.coursier
+      - ./.bintray:/root/.bintray
+      - $HOME/.ivy2:/root/.ivy2
+      - $HOME/.aws:/root/.aws:ro
+    working_dir: /opt/temperate/area-indicators/api/target/scala-2.11/

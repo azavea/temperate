@@ -1,4 +1,4 @@
-package com.azavea.climate
+package io.temperate.api
 
 import geotrellis.vector._
 import geotrellis.vector.io._

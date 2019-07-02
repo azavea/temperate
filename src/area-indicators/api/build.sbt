@@ -1,4 +1,4 @@
-name := "backend"
+name := "api"
 
 libraryDependencies ++= Seq(
   "commons-io"                   % "commons-io"        % "2.6",

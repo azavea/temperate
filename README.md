@@ -150,6 +150,7 @@ yarn start --port 4211
 | [8000](http://localhost:8000) | Nginx |
 | [8100](http://localhost:8100) | Gunicorn |
 | [8101](http://localhost:8101) | Django debug server |
+| [8108](http://localhost:8108) | HTTP4S Area Indicators server |
 | [4210](http://localhost:4210) | ng serve |
 | [4210](http://localhost:4211) | ng serve (run from host manually using --port option) |
 
