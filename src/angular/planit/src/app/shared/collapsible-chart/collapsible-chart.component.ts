@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  Indicator
-} from 'climate-change-components';
 
+import { Indicator } from '../../climate-api';
 import { Location } from '../models/location.model';
 
 @Component({

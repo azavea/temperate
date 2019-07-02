@@ -18,7 +18,7 @@ import {
   isHistoricIndicator,
   isPercentileIndicator,
   isThresholdIndicator
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { UserService } from '../../core/services/user.service';
 import {

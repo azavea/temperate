@@ -14,7 +14,7 @@ import {
   ClimateModelService,
   DatasetService,
   ScenarioService
-} from 'climate-change-components';
+} from './climate-api';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -53,7 +53,6 @@ import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
 import { AddCityService } from './core/services/add-city.service';
-import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
@@ -149,8 +148,7 @@ const AGM_CONFIG = {
     // Local
     SharedModule,
     ApiModule.forRoot({
-      apiHost: environment.apiUrl + '/api/climate-api',
-      apiHttpInjectionToken: apiHttpProvider.provide
+      apiHost: environment.apiUrl + '/api/climate-api'
     }),
     ChartsModule,
     ActionStepsModule,
@@ -170,7 +168,6 @@ const AGM_CONFIG = {
     ActionResolve,
     ActionService,
     AddCityService,
-    apiHttpProvider,
     AuthService,
     AuthGuard,
     CacheService,

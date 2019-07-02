@@ -132,10 +132,6 @@ It is easier to download the data using the above script. If you want to update 
 - Save each sheet in CSV format
 - Update the CSVs on S3, located in the `s3://azavea-climate-sandbox` folder as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 
-#### Modifying and publishing the climate-change-components repository
-
-See [the wiki](https://github.com/azavea/temperate/wiki/Making-changes-to-the-Climate-Change-Components-library)
-
 ### Using Docker in the VM
 
 The other project scripts are meant to execute in the VM in the `/vagrant` directory.

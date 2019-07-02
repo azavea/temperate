@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Headers, Http, RequestOptions } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { APICacheService } from 'climate-change-components';
+import { APICacheService } from '../../climate-api';
 import { MarketingComponent } from '../../marketing/marketing.component';
 import { AuthService } from './auth.service';
 

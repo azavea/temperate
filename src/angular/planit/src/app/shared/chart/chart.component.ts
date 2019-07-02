@@ -25,7 +25,7 @@ import {
   IndicatorService,
   Scenario,
   TimeAggParam,
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { environment } from '../../../environments/environment';
 import { Point } from '../geojson';

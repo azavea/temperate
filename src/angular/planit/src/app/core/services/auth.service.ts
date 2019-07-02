@@ -5,8 +5,8 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
+import { APICacheService } from '../../climate-api';
 import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
 import { User } from '../../shared/';

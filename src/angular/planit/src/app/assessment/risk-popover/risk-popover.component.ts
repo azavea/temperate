@@ -5,7 +5,7 @@ import { PopoverDirective } from 'ngx-bootstrap/popover';
 import {
   Indicator,
   IndicatorService
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 import { Risk } from '../../shared/models/risk.model';

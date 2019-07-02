@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { PlanItApiHttp } from './api-http.service';
 import { DownloadService } from './download.service';
 
 import { environment } from '../../../environments/environment';
@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class PlanService {
 
-  constructor(private apiHttp: PlanItApiHttp,
+  constructor(private http: HttpClient,
               private downloadService: DownloadService) { }
 
   export() {
@@ -20,6 +20,6 @@ export class PlanService {
 
   submit() {
     const url = `${environment.apiUrl}/api/plan/submit/`;
-    return this.apiHttp.post(url, undefined);
+    return this.http.post(url, undefined);
   }
 }

@@ -5,18 +5,15 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { ActionCategory } from '../../shared/models/action-category.model';
-import { PlanItApiHttp } from './api-http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ActionCategoryService {
 
-  constructor(private apiHttp: PlanItApiHttp) {}
+  constructor(private http: HttpClient) {}
 
   list(): Observable<ActionCategory[]> {
     const url = `${environment.apiUrl}/api/action-categories/`;
-    return this.apiHttp.get(url).pipe(map(resp => {
-      const vals = resp.json() || [];
-      return vals.map(r => r as ActionCategory);
-    }));
+    return this.http.get<ActionCategory[]>(url);
   }
 }
