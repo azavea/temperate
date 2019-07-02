@@ -1,7 +1,4 @@
-import {
-  Dataset,
-  Scenario
-} from 'climate-change-components';
+import { Dataset, Scenario } from '../../climate-api';
 
 export const DEFAULT_SCENARIO: Scenario = {
   name: 'RCP85',

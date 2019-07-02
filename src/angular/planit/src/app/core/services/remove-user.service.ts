@@ -1,26 +1,21 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs';
-
-import { PlanItApiHttp } from '../../core/services/api-http.service';
-
-import { User } from '../../shared/';
 
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class RemoveUserService {
 
-  constructor(protected apiHttp: PlanItApiHttp) {}
+  constructor(protected http: HttpClient) {}
 
   remove(email: string): Observable<any> {
     const body = JSON.stringify({
       'email': email
     });
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/accounts/remove_user/`;
-    return this.apiHttp.post(url, body, {headers: headers});
+    return this.http.post(url, body, {headers: headers});
   }
 }

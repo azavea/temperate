@@ -1,16 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Indicator, IndicatorService } from 'climate-change-components';
-
 import { environment } from '../../../environments/environment';
+import { IndicatorService } from '../../climate-api';
 import { Action } from '../../shared/models/action.model';
 import { Risk } from '../../shared/models/risk.model';
-import { WeatherEvent } from '../../shared/models/weather-event.model';
-import { PlanItApiHttp } from './api-http.service';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -27,7 +25,7 @@ export class RiskService {
     }, new Map<string, Risk[]>());
   }
 
-  constructor(private apiHttp: PlanItApiHttp,
+  constructor(private http: HttpClient,
               private userService: UserService,
               private indicatorService: IndicatorService) {}
 
@@ -48,14 +46,14 @@ export class RiskService {
 
   list(): Observable<Risk[]> {
     const url = `${environment.apiUrl}/api/risks/`;
-    return this.apiHttp.get(url).pipe(map(resp => {
-      let vals = resp.json() || [];
-      vals = vals.map(r => {
+    return this.http.get<any[]>(url).pipe(map(resp => {
+      const vals = resp || [];
+      const risks: Risk[] = vals.map(r => {
         r.action = r.action ? new Action(r.action) : null;
         return new Risk(r);
       });
-      vals.sort((a: Risk, b: Risk) => a.compare(b));
-      return vals;
+      risks.sort((a: Risk, b: Risk) => a.compare(b));
+      return risks;
     }));
   }
 
@@ -75,8 +73,8 @@ export class RiskService {
 
   get(id: string): Observable<Risk> {
    const url = `${environment.apiUrl}/api/risks/${id}/`;
-   return this.apiHttp.get(url).pipe(map(resp => {
-     return new Risk(resp.json());
+   return this.http.get(url).pipe(map(resp => {
+     return new Risk(resp);
    }));
   }
 
@@ -89,27 +87,27 @@ export class RiskService {
 
   create(risk: Risk): Observable<Risk> {
     const url = `${environment.apiUrl}/api/risks/`;
-    return this.apiHttp.post(url, this.formatRisk(risk)).pipe(map(resp => {
+    return this.http.post(url, this.formatRisk(risk)).pipe(map(resp => {
       // Creating a risk can add a new weather event for the user's organization, so we need to
       // invalidate our cached version to refresh.
       this.userService.invalidate();
-      return new Risk(resp.json());
+      return new Risk(resp);
     }));
   }
 
   update(risk: Risk): Observable<Risk> {
     const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
-    return this.apiHttp.put(url, this.formatRisk(risk)).pipe(map(resp => {
+    return this.http.put(url, this.formatRisk(risk)).pipe(map(resp => {
       // Updating a risk can change the weather events for the user's organization, so we need to
       // invalidate our cached version to refresh.
       this.userService.invalidate();
-      return new Risk(resp.json());
+      return new Risk(resp);
     }));
   }
 
   delete(risk: Risk) {
     const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
-    return this.apiHttp.delete(url).pipe(map(resp => {
+    return this.http.delete(url).pipe(map(resp => {
       // Deleting a risk can remove a new weather event from the user's organization, so we need to
       // invalidate our cached version to refresh.
       this.userService.invalidate();
