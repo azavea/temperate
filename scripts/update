@@ -78,9 +78,7 @@ then
         docker-compose build nginx
 
         # Build Area Indicators
-        pushd "${DIR}/src/area-indicators"
-        echo "Updating Scala dependencies and building assembly JARs"
-        ./sbt "; update; api/assembly"
-popd
+        echo "Building Scala assembly JAR"
+        docker-compose run --rm --no-deps sbt ";update ;api/assembly"
     fi
 fi

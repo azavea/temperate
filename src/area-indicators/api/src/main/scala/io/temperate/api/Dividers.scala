@@ -3,15 +3,18 @@ package io.temperate.api
 import Operations.KV
 import Operations.Dictionary
 
-import java.time.{ ZonedDateTime, ZoneId, ZoneOffset }
-
+import java.time.{ZoneId, ZoneOffset, ZonedDateTime}
 
 object Dividers {
 
-  def divideByInfinity(collection: Seq[KV]): Map[ZonedDateTime, Seq[KV]] =  {
+  def divideByInfinity(collection: Seq[KV]): Map[ZonedDateTime, Seq[KV]] = {
     val time = collection
-      .sortBy({ kv => kv._1.time.toEpochSecond })
-      .head._1.time
+      .sortBy({ kv =>
+        kv._1.time.toEpochSecond
+      })
+      .head
+      ._1
+      .time
     Map(time -> collection)
   }
 
@@ -21,13 +24,14 @@ object Dividers {
     * divisions.
     */
   def divideByCalendarMonth(collection: Seq[KV]): Map[ZonedDateTime, Seq[KV]] = {
-    collection.groupBy({ kv =>
-      val time = kv._1.time
-      val year: Int = time.getYear
-      val month: Int = time.getMonth.getValue
-      val zone: ZoneId = time.getZone
-      ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, zone)
-    })
+    collection
+      .groupBy({ kv =>
+        val time         = kv._1.time
+        val year: Int    = time.getYear
+        val month: Int   = time.getMonth.getValue
+        val zone: ZoneId = time.getZone
+        ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, zone)
+      })
       .map({ case (zdt, kvs) => zdt -> kvs })
   }
 
@@ -37,12 +41,13 @@ object Dividers {
     * divisions.
     */
   def divideByCalendarYear(collection: Seq[KV]): Map[ZonedDateTime, Seq[KV]] = {
-    collection.groupBy({ kv =>
-      val time = kv._1.time
-      val year: Int = time.getYear
-      val zone: ZoneId = time.getZone
-      ZonedDateTime.of(year, 1, 1, 0, 0, 0, 0, zone)
-    })
+    collection
+      .groupBy({ kv =>
+        val time         = kv._1.time
+        val year: Int    = time.getYear
+        val zone: ZoneId = time.getZone
+        ZonedDateTime.of(year, 1, 1, 0, 0, 0, 0, zone)
+      })
       .map({ case (zdt, kvs) => zdt -> kvs })
   }
 

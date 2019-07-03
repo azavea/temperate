@@ -1,49 +1,88 @@
-import sbtassembly.PathList
+cancelable in Global := true
 
-val generalDeps = Seq(
-)
-
-val extraResolvers = Seq(
-  Resolver.mavenLocal
+lazy val commonDependencies = Seq(
+  Dependencies.specs2Core,
+  Dependencies.logbackClassic
 )
 
 lazy val commonSettings = Seq(
   organization := "io.temperate",
+  name := "area-indicators",
   version := "0.0.1-SNAPSHOT",
   scalaVersion := "2.11.12",
-  test in assembly := {},
-  assemblyMergeStrategy in assembly := {
-    case "log4j.properties" => MergeStrategy.first
-    case "reference.conf" => MergeStrategy.concat
-    case "application.conf" => MergeStrategy.concat
-    case PathList("META-INF", xs @ _*) =>
-      xs match {
-        case ("MANIFEST.MF" :: Nil) => MergeStrategy.discard
-          // Concatenate everything in the services directory to keep GeoTools happy.
-        case ("services" :: _ :: Nil) =>
-          MergeStrategy.concat
-          // Concatenate these to keep JAI happy.
-        case ("javax.media.jai.registryFile.jai" :: Nil) | ("registryFile.jai" :: Nil) | ("registryFile.jaiext" :: Nil) =>
-          MergeStrategy.concat
-        case (name :: Nil) => {
-          // Must exclude META-INF/*.([RD]SA|SF) to avoid "Invalid signature file digest for Manifest main attributes" exception.
-          if (name.endsWith(".RSA") || name.endsWith(".DSA") || name.endsWith(".SF"))
-            MergeStrategy.discard
-          else
-            MergeStrategy.first
-        }
-        case _ => MergeStrategy.first
-      }
-    case _ => MergeStrategy.first
-  },
-  shellPrompt := { s => Project.extract(s).currentProject.id + " > " }
+  scalafmtOnCompile := true,
+  scapegoatVersion := Versions.ScapegoatVersion,
+  scalacOptions := Seq(
+    "-Ypartial-unification",
+    // Required by ScalaFix
+    "-Yrangepos",
+    "-Ywarn-unused",
+    "-Ywarn-unused-import"
+  ),
+  autoCompilerPlugins := true,
+  addCompilerPlugin("org.spire-math"  %% "kind-projector"     % "0.9.6"),
+  addCompilerPlugin("com.olegpy"      %% "better-monadic-for" % "0.2.4"),
+  addCompilerPlugin("org.scalamacros" % "paradise"            % "2.1.0" cross CrossVersion.full),
+  addCompilerPlugin(scalafixSemanticdb)
 )
 
 lazy val root = (project in file("."))
   .settings(commonSettings: _*)
-  .settings(libraryDependencies ++= generalDeps)
+  .aggregate(api, datamodel)
+lazy val rootRef = LocalProject("root")
+
+///////////////
+// Datamodel //
+///////////////
+lazy val datamodelSettings = commonSettings ++ Seq(
+  name := "datamodel",
+  fork in run := true
+)
+
+lazy val datamodelDependencies = commonDependencies ++ Seq(
+  Dependencies.circeCore,
+  Dependencies.circeGeneric,
+  Dependencies.http4s,
+  Dependencies.http4sCirce
+)
+lazy val datamodel = (project in file("datamodel"))
+  .settings(datamodelSettings: _*)
+  .settings({libraryDependencies ++= datamodelDependencies
+  })
+
+///////////////
+//    API    //
+///////////////
+lazy val apiSettings = commonSettings ++ Seq(
+  name := "api",
+  fork in run := true,
+  assemblyJarName in assembly := "area-indicators-api-assembly.jar",
+  assemblyMergeStrategy in assembly := {
+    case "reference.conf"                       => MergeStrategy.concat
+    case "application.conf"                     => MergeStrategy.concat
+    case n if n.startsWith("META-INF/services") => MergeStrategy.concat
+    case n if n.endsWith(".SF") || n.endsWith(".RSA") || n.endsWith(".DSA") =>
+      MergeStrategy.discard
+    case "META-INF/MANIFEST.MF" => MergeStrategy.discard
+    case _                      => MergeStrategy.first
+  }
+)
+
+lazy val apiDependencies = commonDependencies ++ Seq(
+  Dependencies.http4s,
+  Dependencies.http4sCirce,
+  Dependencies.http4sDsl,
+  Dependencies.http4sServer,
+  Dependencies.geotrellisRaster,
+  Dependencies.geotrellisS3,
+  Dependencies.geotrellisSpark,
+  Dependencies.geotrellisVector,
+  Dependencies.sparkCore
+)
 
 lazy val api = (project in file("api"))
-  .dependsOn(root)
-  .settings(commonSettings: _*)
-  .settings(resolvers ++= extraResolvers)
+  .dependsOn(rootRef, datamodel)
+  .settings(apiSettings: _*)
+  .settings({
+    libraryDependencies ++= apiDependencies
+  })
