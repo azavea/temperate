@@ -1,9 +1,7 @@
-package io.temperate.api
+package io.temperate.datamodel
 
 import geotrellis.raster._
-
-import Operations.KV
-import Operations.Dictionary
+import _root_.io.temperate.datamodel.Operations.Dictionary
 
 object Narrowers {
 

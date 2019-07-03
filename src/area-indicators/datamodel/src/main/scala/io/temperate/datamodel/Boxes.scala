@@ -1,10 +1,8 @@
-package io.temperate.api
+package io.temperate.datamodel
 
-import Operations.KV
-import Operations.Dictionary
-import Operations.TimedDictionary
+import io.temperate.datamodel.Operations.TimedDictionary
 
-object Boxen {
+object Boxes {
 
   def count(predicate: TimedDictionary => Boolean)(
       dictionaries: Seq[TimedDictionary]): Seq[Double] = {
@@ -21,7 +19,7 @@ object Boxen {
     val xs =
       dictionaries
         .filter(predicate)
-        .map({ case (zdt, d) => d.getOrElse(variable, throw new Exception("No such variable")) })
+        .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
     List(xs.reduce(_ + _) / xs.length)
   }
 
@@ -30,7 +28,7 @@ object Boxen {
     List(
       dictionaries
         .filter(predicate)
-        .map({ case (zdt, d) => d.getOrElse(variable, throw new Exception("No such variable")) })
+        .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
         .reduce({ (x: Double, y: Double) =>
           if (x >= y) x; else y
         })
@@ -42,7 +40,7 @@ object Boxen {
     List(
       dictionaries
         .filter(predicate)
-        .map({ case (zdt, d) => d.getOrElse(variable, throw new Exception("No such variable")) })
+        .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
         .reduce({ (x: Double, y: Double) =>
           if (x <= y) x; else y
         })
@@ -58,7 +56,7 @@ object Boxen {
     }
 
     val xs = dictionaries
-      .map({ case (zdt, d) => d.getOrElse(variable, throw new Exception("No such variable")) })
+      .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
       .sorted
       .toArray
     val index = Math.round(math.min(xs.length * p, xs.length - 1)).toInt
@@ -71,7 +69,7 @@ object Boxen {
     List(
       dictionaries
         .filter(predicate)
-        .map({ case (zdt, d) => d.getOrElse(variable, throw new Exception("No such variable")) })
+        .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
         .sum
     )
   }
@@ -124,8 +122,8 @@ object Boxen {
         .filter(predicate)
         .map({
           case (zdt, d) =>
-            val tasmax = d.getOrElse("tasmax", throw new Exception("No such variable"))
-            val tasmin = d.getOrElse("tasmin", throw new Exception("No such variable"))
+            val tasmax = d.getOrElse("tasmax", throw InvalidVariableException("tasmax"))
+            val tasmin = d.getOrElse("tasmin", throw InvalidVariableException("tasmin"))
             tasmax - tasmin
         })
     List(xs.sum / xs.length)
@@ -142,7 +140,8 @@ object Boxen {
       dictionaries
         .filter(predicate)
         .map({
-          case (zdt, d) => baseline - d.getOrElse("tasavg", throw new Exception("No such variable"))
+          case (zdt, d) =>
+            baseline - d.getOrElse("tasavg", throw InvalidVariableException("tasavg"))
         })
         .sum
     )
@@ -154,7 +153,7 @@ object Boxen {
       dictionaries
         .filter(predicate)
         .map({
-          case (zdt, d) => 273.15 - d.getOrElse("tasavg", throw new Exception("No such variable"))
+          case (zdt, d) => 273.15 - d.getOrElse("tasavg", throw InvalidVariableException("tasavg"))
         })
         .scanLeft(0.0)(_ + _)
         .reduce({ (a: Double, b: Double) =>
@@ -168,7 +167,7 @@ object Boxen {
   def maxTasmin(dictionaries: Seq[TimedDictionary]): Seq[Double] = {
     List(
       dictionaries
-        .map({ case (_, d) => d.getOrElse("tasmin", throw new Exception) })
+        .map({ case (_, d) => d.getOrElse("tasmin", throw InvalidVariableException("tasmin")) })
         .reduce({ (a, x) =>
           math.max(a, x)
         })

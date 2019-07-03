@@ -1,19 +1,19 @@
-package io.temperate.api
+package io.temperate.datamodel
 
+import java.time.ZonedDateTime
+import java.util.concurrent.Executors
+
+import com.typesafe.scalalogging.LazyLogging
+
+import scala.concurrent._
 import geotrellis.raster._
 import geotrellis.spark._
 import geotrellis.spark.io._
 import geotrellis.spark.io.s3._
-import geotrellis.vector._
-import geotrellis.vector.io._
-
-import scala.concurrent._
-
-import java.time.{ ZonedDateTime, ZoneId, ZoneOffset }
-import java.util.concurrent.Executors
+import geotrellis.vector.Polygon
 
 
-object Operations {
+object Operations extends LazyLogging {
 
   val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)) // XXX
 
@@ -21,10 +21,10 @@ object Operations {
   type Dictionary = Map[String, Double]
   type TimedDictionary = (ZonedDateTime, Dictionary)
 
-  val bucket = "ingested-gddp-data"
-  val prefix = "rcp85_r1i1p1_CanESM2"
+  val bucket = "ingested-loca-data"
+  val prefix = "CCSM4"
   val as = S3AttributeStore(bucket, prefix)
-  val id = LayerId("rcp85_r1i1p1_CanESM2-4x4", 0)
+  val id = LayerId("CCSM4_rcp85_r6i1p1", 0)
   val dataset = S3CollectionLayerReader(as)
 
   /**
@@ -32,7 +32,7 @@ object Operations {
     * asynchrony.
     */
   def futureQuery(
-    startTime: ZonedDateTime, endTime: ZonedDateTime, area: MultiPolygon,
+    startTime: ZonedDateTime, endTime: ZonedDateTime, area: Polygon,
     divide: Seq[KV] => Map[ZonedDateTime, Seq[KV]],
     narrower: Seq[MultibandTile] => Dictionary,
     box: Seq[TimedDictionary] => Seq[Double]
@@ -52,7 +52,7 @@ object Operations {
     * @return           A map from dates to sequences of doubles.  The dates mark the beginnings of temporal divisions and the sequences of one or more scalers are the values derived from the respective chunks.
     */
   def query(
-    startTime: ZonedDateTime, endTime: ZonedDateTime, area: MultiPolygon,
+    startTime: ZonedDateTime, endTime: ZonedDateTime, area: Polygon,
     divide: Seq[KV] => Map[ZonedDateTime, Seq[KV]],
     narrower: Seq[MultibandTile] => Dictionary,
     box: Seq[TimedDictionary] => Seq[Double]
@@ -63,14 +63,18 @@ object Operations {
       .where(Between(startTime, endTime))
       .result.mask(area)
 
-    divide(collection) // map of zoned date times to sequences of key-value pairs
+    logger.info("Collection acquired, grouping...")
+    // map of zoned date times to sequences of key-value pairs
+    val grouped: Map[ZonedDateTime, Map[ZonedDateTime, Seq[(SpaceTimeKey, MultibandTile)]]] = divide(collection)
       .map({ pair =>
         val zdt: ZonedDateTime = pair._1
         val kvs: Seq[KV] = pair._2
         val group = kvs.groupBy({ kv => kv._1.time })
         (zdt, group)
-      }) // map of zoned date times to maps of zoned date times to sequences of key-value pairs
-      .map({ pair =>
+      })
+    logger.info("Narrowing...")
+    // map of zoned date times to maps of zoned date times to sequences of key-value pairs
+    val narrowed: Map[ZonedDateTime, List[(ZonedDateTime, Dictionary)]] = grouped.map({ pair =>
         val zdt: ZonedDateTime = pair._1
         val m: Map[ZonedDateTime, Seq[KV]] = pair._2
         val narrowed = m.map({ pair =>
@@ -81,14 +85,15 @@ object Operations {
         })
         .toList.sortBy({ pair => pair._1.toEpochSecond })
         (zdt, narrowed)
-      }) // map of zoned date times to sequences of dictionaries
-      .map({ pair =>
-        val zdt: ZonedDateTime = pair._1
-        val ds: Seq[TimedDictionary] = pair._2
-        val scalers = box(ds)
-        (zdt, scalers)
       })
-      .toMap
+    // map of zoned date times to sequences of dictionaries
+    logger.info("Boxing...")
+    val boxed: Map[ZonedDateTime, Seq[Double]] = narrowed.map({ pair =>
+      val zdt: ZonedDateTime = pair._1
+      val ds: Seq[TimedDictionary] = pair._2
+      val scalers = box(ds)
+      (zdt, scalers)
+    })
+    boxed
   }
-
 }

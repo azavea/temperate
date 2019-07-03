@@ -8,11 +8,30 @@ import org.http4s.server.blaze._
 import org.http4s.server.middleware._
 import org.http4s.server.Router
 
+import scala.concurrent.duration._
+
 object ApiServer extends IOApp {
+
+  // TODO: Expand to a middleware check so that responses aren't served
+  //       unless the origin header is properly set.
+  val corsConfig = CORSConfig(
+    anyOrigin = false,
+    allowedOrigins = Set(
+      "https://temperate.io",
+      "https://staging.temperate.io",
+      "http://localhost:8000",
+      "http://localhost:8108",
+      "http://localhost:4210"
+    ),
+    anyMethod = true,
+    allowCredentials = false,
+    maxAge = 1.day.toSeconds
+  )
 
   val httpApp: HttpApp[IO] = CORS(
     Router(
-      "/api/hello" -> HelloService.routes
+      "/healthcheck"  -> CORS(HealthcheckService.routes, corsConfig),
+      "/climate-data" -> CORS(IndicatorService.routes, corsConfig)
     )).orNotFound
 
   def run(args: List[String]): IO[ExitCode] =

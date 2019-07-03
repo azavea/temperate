@@ -129,21 +129,21 @@
 //        lazy val variable: String                                 = getVariable(_predicate, _variable)
 //        val box: Seq[TimedDictionary] => Seq[Double] = _operation match {
 //          case "maxTemperatureThreshold" | "minTemperatureThreshold" | "precipitationThreshold" =>
-//            Boxen.count(predicate1)
-//          case "averageHighTemperature"                  => Boxen.average(predicate1, "tasmax")
-//          case "averageLowTemperature"                   => Boxen.average(predicate1, "tasmin")
-//          case "maxHighTemperature"                      => Boxen.maximum(predicate1, "tasmax")
-//          case "minLowTemperature"                       => Boxen.minimum(predicate1, "tasmin")
-//          case "percentileHighTemperature"               => Boxen.percentile(predicate1, _baseline, "tasmax")
-//          case "percentileLowTemperature"                => Boxen.percentile(predicate1, _baseline, "tasmin")
-//          case "percentilePrecipitation"                 => Boxen.percentile(predicate1, _baseline, "pr")
-//          case "totalPrecipitation"                      => Boxen.total(predicate1, "pr")
-//          case "frostDays"                               => Boxen.count(getPredicate1(Some("tasmin<=273.15")))
-//          case "maxConsecutiveDryDays"                   => Boxen.maxStreak(getPredicate1(Some("pr<=0.0")))
-//          case "drySpells"                               => Boxen.countStreaks(getPredicate1(Some("pr<=0.0")), _baseline)
-//          case "heatingDegreeDays" | "coolingDegreeDays" => Boxen.degreeDays(predicate1, _baseline)
-//          case "diurnalTemperatureRange"                 => Boxen.diurnalTemperatureRange(predicate1)
-//          case "accumulatedFreezingDegreeDays"           => Boxen.accumulatedFreezingDegreeDays(predicate1)
+//            Boxes.count(predicate1)
+//          case "averageHighTemperature"                  => Boxes.average(predicate1, "tasmax")
+//          case "averageLowTemperature"                   => Boxes.average(predicate1, "tasmin")
+//          case "maxHighTemperature"                      => Boxes.maximum(predicate1, "tasmax")
+//          case "minLowTemperature"                       => Boxes.minimum(predicate1, "tasmin")
+//          case "percentileHighTemperature"               => Boxes.percentile(predicate1, _baseline, "tasmax")
+//          case "percentileLowTemperature"                => Boxes.percentile(predicate1, _baseline, "tasmin")
+//          case "percentilePrecipitation"                 => Boxes.percentile(predicate1, _baseline, "pr")
+//          case "totalPrecipitation"                      => Boxes.total(predicate1, "pr")
+//          case "frostDays"                               => Boxes.count(getPredicate1(Some("tasmin<=273.15")))
+//          case "maxConsecutiveDryDays"                   => Boxes.maxStreak(getPredicate1(Some("pr<=0.0")))
+//          case "drySpells"                               => Boxes.countStreaks(getPredicate1(Some("pr<=0.0")), _baseline)
+//          case "heatingDegreeDays" | "coolingDegreeDays" => Boxes.degreeDays(predicate1, _baseline)
+//          case "diurnalTemperatureRange"                 => Boxes.diurnalTemperatureRange(predicate1)
+//          case "accumulatedFreezingDegreeDays"           => Boxes.accumulatedFreezingDegreeDays(predicate1)
 //        }
 //
 //        pathEndOrSingleSlash {
@@ -199,7 +199,7 @@
 //                area,
 //                Dividers.divideByCalendarMonth,
 //                Narrowers.byMean,
-//                Boxen.maxTasmin
+//                Boxes.maxTasmin
 //              )
 //              .map({ f =>
 //                f.map({
@@ -234,7 +234,7 @@
 //                area,
 //                Dividers.divideByCalendarMonth,
 //                Narrowers.byMean,
-//                Boxen.maxTasmin
+//                Boxes.maxTasmin
 //              )
 //              .map({ f =>
 //                f.map({
@@ -269,7 +269,7 @@
 //                area,
 //                Dividers.divideByCalendarMonth,
 //                Narrowers.byMean,
-//                Boxen.maxTasmin
+//                Boxes.maxTasmin
 //              )
 //              .map({ f =>
 //                f.map({

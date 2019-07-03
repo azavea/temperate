@@ -76,7 +76,7 @@ services:
       - "-jar"
       - "area-indicators-api-assembly.jar"
     environment:
-      - AWS_PROFILE
+      - AWS_PROFILE=planit
       - COURSIER_CACHE=/root/.coursier
       - ENVIRONMENT=development
     ports:
@@ -92,7 +92,7 @@ services:
   sbt:
     image: hseeberger/scala-sbt:11.0.2_2.12.8_1.2.8
     environment:
-      - AWS_PROFILE
+      - AWS_PROFILE=planit
       - COURSIER_CACHE=/root/.coursier
     volumes:
       - ./src/area-indicators/:/opt/area-indicators

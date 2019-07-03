@@ -42,13 +42,18 @@ lazy val datamodelSettings = commonSettings ++ Seq(
 lazy val datamodelDependencies = commonDependencies ++ Seq(
   Dependencies.circeCore,
   Dependencies.circeGeneric,
+  Dependencies.commonsIO,
   Dependencies.http4s,
-  Dependencies.http4sCirce
+  Dependencies.http4sCirce,
+  Dependencies.geotrellisRaster,
+  Dependencies.geotrellisS3,
+  Dependencies.geotrellisSpark,
+  Dependencies.geotrellisVector,
+  Dependencies.sparkCore
 )
 lazy val datamodel = (project in file("datamodel"))
   .settings(datamodelSettings: _*)
-  .settings({libraryDependencies ++= datamodelDependencies
-  })
+  .settings({ libraryDependencies ++= datamodelDependencies })
 
 ///////////////
 //    API    //
@@ -72,12 +77,7 @@ lazy val apiDependencies = commonDependencies ++ Seq(
   Dependencies.http4s,
   Dependencies.http4sCirce,
   Dependencies.http4sDsl,
-  Dependencies.http4sServer,
-  Dependencies.geotrellisRaster,
-  Dependencies.geotrellisS3,
-  Dependencies.geotrellisSpark,
-  Dependencies.geotrellisVector,
-  Dependencies.sparkCore
+  Dependencies.http4sServer
 )
 
 lazy val api = (project in file("api"))
