@@ -46,9 +46,6 @@
       "@angular/router": [
         "../node_modules/@angular/router"
       ],
-      "climate-change-components": [
-        "../node_modules/climate-change-components/dist/climate-change-components"
-      ],
       "typescript": [
         "../node_modules/typescript"
       ]

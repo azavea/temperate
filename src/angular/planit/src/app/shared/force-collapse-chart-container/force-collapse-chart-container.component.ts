@@ -1,7 +1,6 @@
 import { Component, Input, ViewChildren } from '@angular/core';
 
-import { Indicator } from 'climate-change-components';
-
+import { Indicator } from '../../climate-api';
 import { CollapsibleChartComponent } from '../collapsible-chart/collapsible-chart.component';
 import { Location } from '../models/location.model';
 

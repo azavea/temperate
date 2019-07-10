@@ -1,41 +1,34 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
+import { APICacheService } from '../../climate-api';
 import { OrgWeatherEvent, WeatherEvent } from '../../shared';
 import { CORE_WEATHEREVENTSERVICE_LIST } from '../constants/cache';
-import { PlanItApiHttp } from './api-http.service';
 
 @Injectable()
 export class WeatherEventService {
 
-  constructor(private apiHttp: PlanItApiHttp,
+  constructor(private http: HttpClient,
               private cache: APICacheService) { }
 
   list(): Observable<WeatherEvent[]> {
     const url = `${environment.apiUrl}/api/weather-event/`;
-    const request = this.apiHttp.get(url);
-    const response = this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
-
-    return response.pipe(map((resp) => {
-      const data = resp.json() as WeatherEvent[];
-      return data;
-    }));
+    const request = this.http.get<WeatherEvent[]>(url);
+    return this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
   }
 
   get(weatherEventId: number): Observable<WeatherEvent> {
     const url = `${environment.apiUrl}/api/weather-event/${weatherEventId}/`;
-    return this.apiHttp.get(url)
-      .pipe(map(resp => resp.json() as WeatherEvent));
+    return this.http.get<WeatherEvent>(url);
   }
 
   listForCurrentOrg(): Observable<OrgWeatherEvent[]> {
     const url = `${environment.apiUrl}/api/organization-weather-event/`;
-    return this.apiHttp.get(url)
-      .pipe(map(resp => resp.json() || [] as OrgWeatherEvent[]));
+    return this.http.get<OrgWeatherEvent[]>(url);
   }
 
   rankedEvents(): Observable<WeatherEvent[]> {

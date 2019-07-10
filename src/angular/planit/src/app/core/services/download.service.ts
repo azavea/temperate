@@ -1,17 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as papa from 'papaparse';
 import { map } from 'rxjs/operators';
 
-import { PlanItApiHttp } from './api-http.service';
-
 @Injectable()
 export class DownloadService {
 
-  constructor(private apiHttp: PlanItApiHttp) {}
+  constructor(private http: HttpClient) {}
 
   downloadCSV(url: string, filename: string) {
-    return this.apiHttp.get(url).pipe(map(resp => {
+    return this.http.get(url).pipe(map(resp => {
       // Parse string to array of arrays
       const csvData = papa.parse(resp['_body'], { newline: '\r\n' });
 

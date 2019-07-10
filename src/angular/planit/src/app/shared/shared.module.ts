@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ChartsModule } from 'climate-change-components';
+import { ChartsModule } from '../climate-api/charts/charts.module';
 import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';

@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Indicator } from 'climate-change-components';
-
+import { Indicator } from '../../climate-api';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import {
