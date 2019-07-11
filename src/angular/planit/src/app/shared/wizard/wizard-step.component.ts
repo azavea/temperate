@@ -73,7 +73,7 @@ export abstract class WizardStepComponent<T, FormModel> implements OnInit {
         if (code === 400) {
           // Show the non-field error(s) in Toast, map form-field errors to
           // controls
-          const errors = response.json();
+          const errors = response.error;
           const {non_field_errors, ...otherErrors} = errors;
 
           // Put field-specific errors into the form controls so they can be

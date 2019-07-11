@@ -28,7 +28,7 @@ export class LoginFormComponent {
         this.router.navigateByUrl('/dashboard');
       },
       error => {
-        this.errors = error.json();
+        this.errors = error.error;
       }
     );
   }

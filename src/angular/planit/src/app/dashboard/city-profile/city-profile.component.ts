@@ -64,7 +64,7 @@ export class CityProfileComponent implements OnInit {
       this.cityProfile = p;
       this.toastr.success('Changes saved successfully.');
     }, error => {
-      this.errors = error.json();
+      this.errors = error.error;
       const message = `
         There was an error saving your city profile.
         Please check all form fields and try again.

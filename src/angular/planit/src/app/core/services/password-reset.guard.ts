@@ -24,7 +24,7 @@ export class PasswordResetGuard implements CanActivate {
         return true;
       }))
       .pipe(catchError(error => {
-        const errors = error.json();
+        const errors = error.error;
         const tokenValid = errors.token === undefined && errors.uid === undefined;
         if (!tokenValid) {
           this.router.navigate(['/login'], {queryParams: {resetExpired: true}});

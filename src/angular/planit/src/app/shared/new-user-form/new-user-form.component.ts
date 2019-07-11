@@ -41,7 +41,7 @@ export class NewUserFormComponent implements OnInit {
       this.activated = !!newUser.primary_organization;
       this.model = newUser;
     }, error => {
-      this.errors = error.json();
+      this.errors = error.error;
     });
   }
 

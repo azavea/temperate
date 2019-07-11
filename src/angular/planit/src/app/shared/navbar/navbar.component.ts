@@ -120,7 +120,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public hideRemovedOrganizations() {
     this.user.removed_organizations = [];
     this.userService.update(this.user).subscribe(() => {}, (result) => {
-      console.error('Error clearing removed organizations', result.json());
+      console.error('Error clearing removed organizations', result.error);
       this.toastr.error('Something went wrong, please try again.');
     });
   }
