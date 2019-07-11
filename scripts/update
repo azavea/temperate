@@ -6,6 +6,8 @@ if [[ -n "${PLANIT_DEBUG}" ]]; then
     set -x
 fi
 
+DIR="$(dirname "$0")/../"
+
 function usage() {
     echo -n \
          "Usage: $(basename "$0")
@@ -74,5 +76,9 @@ then
 
         # Build Nginx
         docker-compose build nginx
+
+        # Build Area Indicators
+        echo "Building Scala assembly JAR"
+        docker-compose run --rm --no-deps sbt ";update ;api/assembly"
     fi
 fi

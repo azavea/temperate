@@ -6,4 +6,5 @@ services:
     image: "planit-nginx:${GIT_COMMIT:-latest}"
   angular:
     image: "planit-spa:${GIT_COMMIT:-latest}"
-
+  area-indicators:
+    image: "planit-area-indicators:${GIT_COMMIT:-latest}"
