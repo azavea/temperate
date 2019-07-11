@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ActionCategory } from '../../shared/models/action-category.model';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ActionCategoryService {

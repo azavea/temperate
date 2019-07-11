@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Scenario } from '../models/scenario.model';
-import { ClimateApiConfig } from '../config';
-import { APICacheService } from './api-cache.service';
 import { HttpClient } from '@angular/common/http';
+import { ClimateApiConfig } from '../config';
+import { Scenario } from '../models/scenario.model';
+import { APICacheService } from './api-cache.service';
 
 /*
  * Scenario Service

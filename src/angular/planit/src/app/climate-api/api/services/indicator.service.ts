@@ -1,24 +1,24 @@
-import { HttpParams, HttpResponse, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Point } from 'geojson';
-import { of as observableOf, Observable } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { BasetempIndicatorQueryParams } from '../models/basetemp-indicator-query-params.model';
 import { City } from '../models/city.model';
-import { Indicator } from '../models/indicator.model';
+import { HistoricIndicatorQueryParams } from '../models/historic-indicator-query-params.model';
 import {
-  IndicatorQueryParams,
   IndicatorDistanceQueryParams,
+  IndicatorQueryParams,
 } from '../models/indicator-query-params.model';
 import {
-  IndicatorRequestOpts,
   IndicatorDistanceRequestOpts,
+  IndicatorRequestOpts,
 } from '../models/indicator-request-opts.model';
-import { ThresholdIndicatorQueryParams } from '../models/threshold-indicator-query-params.model';
-import { BasetempIndicatorQueryParams } from '../models/basetemp-indicator-query-params.model';
-import { HistoricIndicatorQueryParams } from '../models/historic-indicator-query-params.model';
-import { PercentileIndicatorQueryParams } from '../models/percentile-indicator-query-params.model';
+import { Indicator } from '../models/indicator.model';
 import { PercentileHistoricIndicatorQueryParams } from '../models/percentile-historic-indicator-query-params.model';
+import { PercentileIndicatorQueryParams } from '../models/percentile-indicator-query-params.model';
+import { ThresholdIndicatorQueryParams } from '../models/threshold-indicator-query-params.model';
 
 import { isBasetempIndicator,
          isHistoricIndicator,

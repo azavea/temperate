@@ -5,10 +5,10 @@
  *  will share a single subject. Avoids multiple calls for a result while the first is
  *  still pending.
  */
-import { throwError as observableThrowError, of as observableOf, Observable, Subject } from 'rxjs';
+import { Observable, Subject, of as observableOf, throwError as observableThrowError } from 'rxjs';
 
-import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
 
 interface CacheValue {
     expiry: number;

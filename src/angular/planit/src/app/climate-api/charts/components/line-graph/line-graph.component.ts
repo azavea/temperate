@@ -1,22 +1,22 @@
 import {
+  AfterContentInit,
   Component,
   ElementRef,
   HostListener,
   Input,
   OnChanges,
-  ViewEncapsulation,
-  AfterContentInit
+  ViewEncapsulation
 } from '@angular/core';
 
 import { ChartData } from '../../../api/models/chart-data.model';
-import { ChartService } from '../../../api/services/chart.service';
 import { DataPoint } from '../../../api/models/data-point.model';
 import { Indicator } from '../../../api/models/indicator.model';
 import { MultiDataPoint } from '../../../api/models/multi-data-point.model';
+import { ChartService } from '../../../api/services/chart.service';
 
 import * as D3 from 'd3';
-import { cloneDeep } from 'lodash';
 import $ from 'jquery';
+import { cloneDeep } from 'lodash';
 
 /*
 * Line graph component

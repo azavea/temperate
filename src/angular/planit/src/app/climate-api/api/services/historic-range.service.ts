@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { HistoricRange } from '../models/historic-range.model';
 import { ClimateApiConfig } from '../config';
+import { HistoricRange } from '../models/historic-range.model';
 import { APICacheService } from './api-cache.service';
 
 /*

@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 import { Indicator } from '../../../api/models/indicator.model';
-import { PrecipitationUnits, TemperatureUnits } from '../../../shared/extra-params.constants';
 import { ThresholdIndicatorQueryParams } from '../../../api/models/threshold-indicator-query-params.model';
+import { PrecipitationUnits, TemperatureUnits } from '../../../shared/extra-params.constants';
 
 /*
  * Threshold params component

@@ -1,12 +1,12 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import { HistoricRange } from '../../../api/models/historic-range.model';
-import { PercentileHistoricIndicatorQueryParams } from '../../../api/models/percentile-historic-indicator-query-params.model';
 import { HistoricPercentileParam, HistoricPercentileParamOptions } from '../../../api/models/historic-percentile-param.enum';
-import { HistoricRangeService } from '../../../api/services/historic-range.service';
+import { HistoricRange } from '../../../api/models/historic-range.model';
 import { Indicator } from '../../../api/models/indicator.model';
+import { PercentileHistoricIndicatorQueryParams } from '../../../api/models/percentile-historic-indicator-query-params.model';
+import { HistoricRangeService } from '../../../api/services/historic-range.service';
 
 /*
   * Historic range params component

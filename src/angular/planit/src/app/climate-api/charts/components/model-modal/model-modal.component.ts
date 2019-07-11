@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
+import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 import { ClimateModel } from '../../../api/models/climate-model.model';
-import { ClimateModelService } from '../../../api/services/climate-model.service';
 import { Dataset } from '../../../api/models/dataset.model';
-import { ModalOptions, ModalDirective } from 'ngx-bootstrap/modal';
+import { ClimateModelService } from '../../../api/services/climate-model.service';
 
 /*  Model Modal Component
     -- Requires input for selected dataset and models

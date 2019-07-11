@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Dataset } from '../models/dataset.model';
 import { ClimateApiConfig } from '../config';
+import { Dataset } from '../models/dataset.model';
 import { APICacheService } from './api-cache.service';
 
 /*

@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import { HistoricRange } from '../../../api/models/historic-range.model';
 import { HistoricIndicatorQueryParams } from '../../../api/models/historic-indicator-query-params.model';
-import { HistoricRangeService } from '../../../api/services/historic-range.service';
+import { HistoricRange } from '../../../api/models/historic-range.model';
 import { Indicator } from '../../../api/models/indicator.model';
+import { HistoricRangeService } from '../../../api/services/historic-range.service';
 
 /*
  * Historic range params component

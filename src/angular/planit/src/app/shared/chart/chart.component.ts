@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable, forkJoin, Subscription } from 'rxjs';
+import { Observable, Subscription, forkJoin } from 'rxjs';
 
 import {
   ChartData,

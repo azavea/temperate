@@ -1,8 +1,8 @@
-import { Indicator } from './indicator.model';
 import {
   IndicatorDistanceQueryParams,
   IndicatorQueryParams,
 } from './indicator-query-params.model';
+import { Indicator } from './indicator.model';
 import { Scenario } from './scenario.model';
 
 export interface IndicatorRequestOpts {

@@ -7,8 +7,8 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { APICacheService } from '../../climate-api';
-import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 import { User } from '../../shared';
+import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
 
 @Injectable()

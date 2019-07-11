@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
+  HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 import { catchError } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()

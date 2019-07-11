@@ -1,6 +1,6 @@
+import { Headers, Http, RequestOptions } from '@angular/common/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-import { Headers, Http, RequestOptions } from '@angular/common/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { APICacheService } from '../../climate-api';
