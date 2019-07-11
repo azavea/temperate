@@ -64,12 +64,13 @@ export class IndicatorService {
     if (!searchParams) {
       return observableOf({url: ''});
     }
-    return this.http.get(url, { params: searchParams }).pipe(map((resp: HttpResponse<any>) => {
-      // Append the queried URL to the JSON representation of the response body.
-      const result = resp.body;
-      result.url = resp.url;
-      return result;
-    }));
+    return this.http.get<any>(url, { observe: 'response', params: searchParams })
+      .pipe(map(resp => {
+        // Append the queried URL to the JSON representation of the response body.
+        const result = resp.body;
+        result.url = resp.url;
+        return result;
+      }));
   }
 
   private requestOptsToSearchParams(options: IndicatorRequestOpts): HttpParams {
