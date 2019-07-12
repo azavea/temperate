@@ -1,4 +1,4 @@
-import { Headers, Http, RequestOptions } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,7 +11,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AuthService, APICacheService],
-      imports: [ Headers, Http, RequestOptions, RouterTestingModule.withRoutes([
+      imports: [ HttpClientTestingModule, RouterTestingModule.withRoutes([
         { path: '*', component: MarketingComponent }
       ])],
       declarations: [ MarketingComponent ],
