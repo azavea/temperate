@@ -4,14 +4,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
     -- Requires handling unit selection
     Expected use:
-        <ccc-units-dropdown
+        <app-units-dropdown
             [units]="available_units"
             [unit]="your_unit"
             (unitSelected)="onUnitSelected($event)">
 */
 
 @Component({
-  selector: 'ccc-units-dropdown',
+  selector: 'app-units-dropdown',
   templateUrl: './units-dropdown.component.html'
 })
 export class UnitsDropdownComponent {

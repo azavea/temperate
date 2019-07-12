@@ -9,7 +9,7 @@ import { DatasetService } from '../../../api/services/dataset.service';
 
     -- Requires project input
     Expected use:
-        <ccc-dataset-toggle
+        <app-dataset-toggle
             [city]="selectedCity"
             [dataset]="yourDataset"
             [models]="selectedModels"
@@ -17,7 +17,7 @@ import { DatasetService } from '../../../api/services/dataset.service';
 */
 
 @Component({
-  selector: 'ccc-dataset-toggle',
+  selector: 'app-dataset-toggle',
   templateUrl: './dataset-toggle.component.html'
 })
 export class DatasetToggleComponent implements OnInit {

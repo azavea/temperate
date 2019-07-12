@@ -2,7 +2,9 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import { HistoricIndicatorQueryParams } from '../../../api/models/historic-indicator-query-params.model';
+import {
+  HistoricIndicatorQueryParams,
+} from '../../../api/models/historic-indicator-query-params.model';
 import { HistoricRange } from '../../../api/models/historic-range.model';
 import { Indicator } from '../../../api/models/indicator.model';
 import { HistoricRangeService } from '../../../api/services/historic-range.service';
@@ -12,7 +14,7 @@ import { HistoricRangeService } from '../../../api/services/historic-range.servi
  * Form to allow user to specify the historic range base year param
  */
 @Component({
-  selector: 'ccc-historic-parameters',
+  selector: 'app-historic-parameters',
   templateUrl: './historic.component.html'
 })
 export class HistoricComponent implements AfterViewInit, OnInit {

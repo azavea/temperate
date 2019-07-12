@@ -2,10 +2,15 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import { HistoricPercentileParam, HistoricPercentileParamOptions } from '../../../api/models/historic-percentile-param.enum';
+import {
+  HistoricPercentileParam,
+  HistoricPercentileParamOptions,
+} from '../../../api/models/historic-percentile-param.enum';
 import { HistoricRange } from '../../../api/models/historic-range.model';
 import { Indicator } from '../../../api/models/indicator.model';
-import { PercentileHistoricIndicatorQueryParams } from '../../../api/models/percentile-historic-indicator-query-params.model';
+import {
+  PercentileHistoricIndicatorQueryParams,
+} from '../../../api/models/percentile-historic-indicator-query-params.model';
 import { HistoricRangeService } from '../../../api/services/historic-range.service';
 
 /*
@@ -13,14 +18,15 @@ import { HistoricRangeService } from '../../../api/services/historic-range.servi
  * Form to allow user to specify the historic range base year param
  */
 @Component({
-  selector: 'ccc-percentile-historic-parameters',
+  selector: 'app-percentile-historic-parameters',
   templateUrl: './percentile-historic.component.html'
 })
 export class PercentileHistoricComponent implements AfterViewInit, OnInit {
 
     @Input() indicator: Indicator;
     @Input() extraParams: PercentileHistoricIndicatorQueryParams;
-    @Output() percentileHistoricParamSelected = new EventEmitter<PercentileHistoricIndicatorQueryParams>();
+    @Output() percentileHistoricParamSelected =
+      new EventEmitter<PercentileHistoricIndicatorQueryParams>();
 
     percentileHistoricForm: FormGroup;
 

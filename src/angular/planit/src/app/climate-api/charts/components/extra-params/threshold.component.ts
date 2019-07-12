@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 import { Indicator } from '../../../api/models/indicator.model';
-import { ThresholdIndicatorQueryParams } from '../../../api/models/threshold-indicator-query-params.model';
+import {
+  ThresholdIndicatorQueryParams,
+} from '../../../api/models/threshold-indicator-query-params.model';
 import { PrecipitationUnits, TemperatureUnits } from '../../../shared/extra-params.constants';
 
 /*
@@ -11,7 +13,7 @@ import { PrecipitationUnits, TemperatureUnits } from '../../../shared/extra-para
  * Multi-field form to allow user to specify threshold params
  */
 @Component({
-  selector: 'ccc-threshold-parameters',
+  selector: 'app-threshold-parameters',
   templateUrl: './threshold.component.html'
 })
 export class ThresholdComponent implements AfterViewInit, OnInit {
@@ -61,10 +63,13 @@ export class ThresholdComponent implements AfterViewInit, OnInit {
 
     createForm() {
         this.evaluateVariable();
+        const comparator = this.extraParams.threshold_comparator || this.defaultComparator;
+        const threshold = this.extraParams.threshold || this.defaultThreshold;
+        const thresholdUnit = this.extraParams.threshold_units || this.defaultUnit;
         this.thresholdForm = this.formBuilder.group({
-            comparatorCtl: [this.extraParams.threshold_comparator || this.defaultComparator, Validators.required],
-            thresholdCtl: [this.extraParams.threshold || this.defaultThreshold, Validators.required],
-            thresholdUnitCtl: [this.extraParams.threshold_units || this.defaultUnit, Validators.required]
+            comparatorCtl: [comparator, Validators.required],
+            thresholdCtl: [threshold, Validators.required],
+            thresholdUnitCtl: [thresholdUnit, Validators.required]
         });
 
         this.thresholdForm.valueChanges

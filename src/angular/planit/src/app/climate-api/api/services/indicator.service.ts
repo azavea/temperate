@@ -16,7 +16,9 @@ import {
   IndicatorRequestOpts,
 } from '../models/indicator-request-opts.model';
 import { Indicator } from '../models/indicator.model';
-import { PercentileHistoricIndicatorQueryParams } from '../models/percentile-historic-indicator-query-params.model';
+import {
+  PercentileHistoricIndicatorQueryParams,
+} from '../models/percentile-historic-indicator-query-params.model';
 import { PercentileIndicatorQueryParams } from '../models/percentile-indicator-query-params.model';
 import { ThresholdIndicatorQueryParams } from '../models/threshold-indicator-query-params.model';
 
@@ -47,7 +49,8 @@ export class IndicatorService {
   }
 
   public getDataForLatLon(point: Point, options: IndicatorDistanceRequestOpts) {
-    const url = `${this.config.apiHost}/api/climate-data/${point.coordinates[1]}/${point.coordinates[0]}/` +
+    const url = `${this.config.apiHost}/api/climate-data/` +
+                `${point.coordinates[1]}/${point.coordinates[0]}/` +
                 `${options.scenario.name}/indicator/${options.indicator.name}/`;
     return this.makeDataRequest(url, options);
   }
@@ -86,7 +89,10 @@ export class IndicatorService {
       }
       searchParams = searchParams.append('threshold', thresholdParams.threshold.toString());
       searchParams = searchParams.append('threshold_units', thresholdParams.threshold_units);
-      searchParams = searchParams.append('threshold_comparator', thresholdParams.threshold_comparator);
+      searchParams = searchParams.append(
+        'threshold_comparator',
+        thresholdParams.threshold_comparator,
+      );
     } else if (isBasetempIndicator(options.indicator.name)) {
       const basetempOpts = options.params as BasetempIndicatorQueryParams;
       // abort request if chart is in flux (these parameters are required)
@@ -99,17 +105,26 @@ export class IndicatorService {
                isPercentileIndicator(options.indicator.name)) {
       const percentileHistoricOpts = options.params as PercentileHistoricIndicatorQueryParams;
       if (percentileHistoricOpts.historic_range) {
-        searchParams = searchParams.append('historic_range', percentileHistoricOpts.historic_range.toString());
+        searchParams = searchParams.append(
+          'historic_range',
+          percentileHistoricOpts.historic_range.toString(),
+        );
       }
       // abort request if chart is in flux (these parameters are required)
       if (!percentileHistoricOpts.percentile) {
         return undefined;
       }
-      searchParams = searchParams.append('percentile', percentileHistoricOpts.percentile.toString());
+      searchParams = searchParams.append(
+        'percentile',
+        percentileHistoricOpts.percentile.toString(),
+      );
     } else if (isHistoricIndicator(options.indicator.name)) {
       const historicOpts = options.params as HistoricIndicatorQueryParams;
       if (historicOpts.historic_range) {
-        searchParams = searchParams.append('historic_range', historicOpts.historic_range.toString());
+        searchParams = searchParams.append(
+          'historic_range',
+          historicOpts.historic_range.toString(),
+        );
       }
     } else if (isPercentileIndicator(options.indicator.name)) {
       const percentileOpts = options.params as PercentileIndicatorQueryParams;
@@ -129,7 +144,10 @@ export class IndicatorService {
       searchParams = searchParams.append('years', options.params.years.join(','));
     }
     if (options.params.climateModels && options.params.climateModels.length) {
-      searchParams = searchParams.append('models', options.params.climateModels.map(m => m.name).join(','));
+      searchParams = searchParams.append(
+        'models',
+        options.params.climateModels.map(m => m.name).join(','),
+      );
     }
     if (options.params.time_aggregation) {
       searchParams = searchParams.append('time_aggregation', options.params.time_aggregation);

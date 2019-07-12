@@ -2,7 +2,9 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
-import { BasetempIndicatorQueryParams } from '../../../api/models/basetemp-indicator-query-params.model';
+import {
+  BasetempIndicatorQueryParams,
+} from '../../../api/models/basetemp-indicator-query-params.model';
 import { Indicator } from '../../../api/models/indicator.model';
 import { TemperatureUnits } from '../../../shared/extra-params.constants';
 
@@ -11,7 +13,7 @@ import { TemperatureUnits } from '../../../shared/extra-params.constants';
  * Multi-field form to allow user to specify the basetemp params
  */
 @Component({
-  selector: 'ccc-basetemp-parameters',
+  selector: 'app-basetemp-parameters',
   templateUrl: './basetemp.component.html'
 })
 export class BasetempComponent implements AfterViewInit, OnInit {
@@ -44,9 +46,11 @@ export class BasetempComponent implements AfterViewInit, OnInit {
     }
 
     createForm() {
+        const basetemp = this.extraParams.basetemp || this.defaultBasetemp;
+        const basetempUnit = this.extraParams.basetemp_units || this.defaultBasetempUnit;
         this.basetempForm = this.formBuilder.group({
-            basetempCtl: [this.extraParams.basetemp || this.defaultBasetemp, Validators.required],
-            basetempUnitCtl: [this.extraParams.basetemp_units || this.defaultBasetempUnit, Validators.required]
+            basetempCtl: [basetemp, Validators.required],
+            basetempUnitCtl: [basetempUnit, Validators.required]
         });
 
         this.basetempForm.valueChanges

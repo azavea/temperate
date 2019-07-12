@@ -23,7 +23,7 @@ import { cloneDeep } from 'lodash';
 * Contains all logic for drawing a line graph
 */
 @Component({
-selector: 'ccc-line-graph',
+selector: 'app-line-graph',
 encapsulation: ViewEncapsulation.None,
 template: `<ng-content></ng-content>`
 })

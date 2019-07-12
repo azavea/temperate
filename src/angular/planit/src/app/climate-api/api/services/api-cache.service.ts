@@ -32,7 +32,11 @@ export class APICacheService {
     }
   }
 
-  public get(key: string, fallback?: Observable<any>, maxAge: number = this.DEFAULT_MAX_AGE_S): Observable<any> | Subject<any> {
+  public get(
+    key: string,
+    fallback?: Observable<any>,
+    maxAge: number = this.DEFAULT_MAX_AGE_S
+  ): Observable<any> | Subject<any> {
     if (this.hasValidValue(key)) {
       return observableOf(this.cache.get(key).value);
     }

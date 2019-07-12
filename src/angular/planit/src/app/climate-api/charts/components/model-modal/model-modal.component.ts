@@ -10,7 +10,7 @@ import { ClimateModelService } from '../../../api/services/climate-model.service
     -- Emits selected model
     -- Items passed to [config] input are merged with the component's DEFAULT_MODAL_OPTIONS
     Expected use:
-        <ccc-model-modal
+        <app-model-modal
             [config]="bsModalOptions"
             [dataset]="yourDataset"
             [models]="yourSelectedModels"
@@ -18,7 +18,7 @@ import { ClimateModelService } from '../../../api/services/climate-model.service
 */
 
 @Component({
-  selector: 'ccc-model-modal',
+  selector: 'app-model-modal',
   templateUrl: './model-modal.component.html'
 })
 export class ModelModalComponent implements OnInit {

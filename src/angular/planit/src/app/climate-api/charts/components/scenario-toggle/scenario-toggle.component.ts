@@ -7,13 +7,13 @@ import { ScenarioService } from '../../../api/services/scenario.service';
 
     -- Requires project input
     Expected use:
-        <ccc-scenario-toggle
+        <app-scenario-toggle
             [scenario]="yourScenario"
             (scenarioSelected)="onScenarioSelected($event)">
 */
 
 @Component({
-  selector: 'ccc-scenario-toggle',
+  selector: 'app-scenario-toggle',
   templateUrl: './scenario-toggle.component.html'
 })
 export class ScenarioToggleComponent implements OnInit {

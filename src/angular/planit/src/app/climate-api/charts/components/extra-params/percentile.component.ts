@@ -3,13 +3,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 import { Indicator } from '../../../api/models/indicator.model';
-import { PercentileIndicatorQueryParams } from '../../../api/models/percentile-indicator-query-params.model';
+import {
+  PercentileIndicatorQueryParams,
+} from '../../../api/models/percentile-indicator-query-params.model';
 /*
  * Percentile params component
  * Uni-field form to allow user to specify the percentile params
  */
 @Component({
-  selector: 'ccc-percentile-parameters',
+  selector: 'app-percentile-parameters',
   templateUrl: './percentile.component.html'
 })
 export class PercentileComponent implements AfterViewInit, OnInit {
@@ -39,8 +41,9 @@ export class PercentileComponent implements AfterViewInit, OnInit {
     }
 
     createForm() {
+      const percentile = this.extraParams.percentile || this.defaultPercentile;
         this.percentileForm = this.formBuilder.group({
-            percentileCtl: [this.extraParams.percentile || this.defaultPercentile, Validators.required]
+            percentileCtl: [percentile, Validators.required]
         });
 
         this.percentileForm.valueChanges

@@ -17,7 +17,7 @@ import { AssessStepComponent } from './steps/assess-step/assess-step.component';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
 import {
-  ImplementationStepComponent
+  ImplementationStepComponent,
 } from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
@@ -37,8 +37,10 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
   @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
   @ViewChild(AssessStepComponent, {static: true}) public assessStep: AssessStepComponent;
-  @ViewChild(ImplementationStepComponent, {static: true}) public implementationStep: ImplementationStepComponent;
-  @ViewChild(ImprovementsStepComponent, {static: true}) public improvementsStep: ImprovementsStepComponent;
+  @ViewChild(ImplementationStepComponent, {static: true})
+  public implementationStep: ImplementationStepComponent;
+  @ViewChild(ImprovementsStepComponent, {static: true})
+  public improvementsStep: ImprovementsStepComponent;
   @ViewChild(CategoryStepComponent, {static: true}) public categoryStep: CategoryStepComponent;
   @ViewChild(FundingStepComponent, {static: true}) public fundingStep: FundingStepComponent;
   @ViewChild(ReviewStepComponent, {static: true}) public reviewStep: ReviewStepComponent;
