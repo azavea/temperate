@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator, Validators } from '@angular/forms';
 
-import { SequenceMatcher } from 'difflib';
+import { SequenceMatcher } from './difflib';
 
 import COMMON_PASSWORDS from './common-passwords';
 
