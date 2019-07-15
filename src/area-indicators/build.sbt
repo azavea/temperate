@@ -1,4 +1,8 @@
+import sbtlighter._
+
 cancelable in Global := true
+
+lazy val environment = sys.env.get("ENVIRONMENT").getOrElse("staging")
 
 lazy val commonDependencies = Seq(
   Dependencies.specs2Core,
@@ -29,6 +33,71 @@ lazy val commonSettings = Seq(
     "locationtech-releases" at "https://repo.locationtech.org/content/groups/releases",
     "locationtech-snapshots" at "https://repo.locationtech.org/content/groups/snapshots"
   ),
+
+  // SBT Lighter -- Easiest way to configure the plugin is globally for the entire project
+  //  even though it's just used in `ingest`.
+  sparkAwsRegion := "us-east-1",
+  sparkClusterName := s"area-indicators-ingest-${environment}",
+  sparkCoreEbsSize := None,
+  sparkCorePrice := Some(0.5),
+  sparkCoreType := "m5d.2xlarge",
+  sparkEmrApplications := Seq("Spark", "Zeppelin", "Ganglia"),
+  sparkEmrRelease := "emr-5.23.0",
+  sparkEmrServiceRole := "EMR_DefaultRole",
+  sparkMasterEbsSize := None,
+  sparkMasterPrice := Some(0.5),
+  sparkMasterType := "m5d.2xlarge",
+  sparkInstanceCount := 3,
+  sparkInstanceRole := "EMR_EC2_DefaultRole",
+  sparkS3JarFolder := s"s3://${environment}-us-east-1-climate-config-emr/jars/",
+  sparkS3LogUri := Some(s"s3://${environment}-us-east-1-climate-config-emr/logs/"),
+  sparkEmrConfigs := List(
+    EmrConfig("spark").withProperties(
+      "maximizeResourceAllocation" -> "true"
+    ),
+    EmrConfig("spark-defaults").withProperties(
+      "spark.driver.maxResultSize"        -> "8G",
+      "spark.dynamicAllocation.enabled"   -> "true",
+      "spark.shuffle.service.enabled"     -> "true",
+      "spark.shuffle.compress"            -> "true",
+      "spark.shuffle.spill.compress"      -> "true",
+      "spark.rdd.compress"                -> "true",
+      "spark.executor.extraJavaOptions"   -> "-XX:+UseParallelGC -Dgeotrellis.s3.threads.rdd.write=64",
+    ),
+    EmrConfig("yarn-site").withProperties(
+      "yarn.resourcemanager.am.max-attempts" -> "1",
+      "yarn.nodemanager.vmem-check-enabled"  -> "false",
+      "yarn.nodemanager.pmem-check-enabled"  -> "false"
+    )
+  ),
+  // sparkSubnetId := Some(""),
+  // sparkSecurityGroupIds := Seq(""),
+
+  // SBT Assembly
+  assemblyMergeStrategy in assembly := {
+    case "reference.conf"   => MergeStrategy.concat
+    case "application.conf" => MergeStrategy.concat
+    case PathList("META-INF", xs @ _*) =>
+      xs match {
+        case ("MANIFEST.MF" :: Nil) => MergeStrategy.discard
+        // Concatenate everything in the services directory to keep GeoTools happy.
+        case ("services" :: _ :: Nil) =>
+          MergeStrategy.concat
+        // Concatenate these to keep JAI happy.
+        case ("javax.media.jai.registryFile.jai" :: Nil) | ("registryFile.jai" :: Nil) |
+            ("registryFile.jaiext" :: Nil) =>
+          MergeStrategy.concat
+        case (name :: Nil) => {
+          // Must exclude META-INF/*.([RD]SA|SF) to avoid "Invalid signature file digest for Manifest main attributes" exception.
+          if (name.endsWith(".RSA") || name.endsWith(".DSA") || name.endsWith(".SF"))
+            MergeStrategy.discard
+          else
+            MergeStrategy.first
+        }
+        case _ => MergeStrategy.first
+      }
+    case _ => MergeStrategy.first
+  }
 )
 
 lazy val root = (project in file("."))
@@ -66,16 +135,7 @@ lazy val datamodel = (project in file("datamodel"))
 lazy val apiSettings = commonSettings ++ Seq(
   name := "api",
   fork in run := true,
-  assemblyJarName in assembly := "area-indicators-api-assembly.jar",
-  assemblyMergeStrategy in assembly := {
-    case "reference.conf"                       => MergeStrategy.concat
-    case "application.conf"                     => MergeStrategy.concat
-    case n if n.startsWith("META-INF/services") => MergeStrategy.concat
-    case n if n.endsWith(".SF") || n.endsWith(".RSA") || n.endsWith(".DSA") =>
-      MergeStrategy.discard
-    case "META-INF/MANIFEST.MF" => MergeStrategy.discard
-    case _                      => MergeStrategy.first
-  }
+  assemblyJarName in assembly := "area-indicators-api-assembly.jar"
 )
 
 lazy val apiDependencies = commonDependencies ++ Seq(
@@ -97,10 +157,11 @@ lazy val api = (project in file("api"))
 ///////////////
 lazy val ingestSettings = commonSettings ++ Seq(
   name := "ingest",
-  fork in run := true
+  fork in run := true,
+  assemblyJarName in assembly := "area-indicators-ingest-assembly.jar"
 )
 
-lazy val ingestDependencies = commonDependencies ++ Seq(
+lazy val ingestDependencies = commonDependencies ++ datamodelDependencies ++ Seq(
   Dependencies.decline
 )
 
