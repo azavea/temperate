@@ -4,6 +4,7 @@ import sbt._
 object Versions {
   val CirceVersion      = "0.11.1"
   val CommonsIOVersion  = "2.6"
+  val DeclineVersion    = "0.5.0"
   val GeotrellisVersion = "1.2.0"
   val Http4sVersion     = "0.20.3"
   val LogbackVersion    = "1.2.3"
@@ -16,6 +17,7 @@ object Dependencies {
   val circeCore        = "io.circe"                    %% "circe-core"          % Versions.CirceVersion
   val circeGeneric     = "io.circe"                    %% "circe-generic"       % Versions.CirceVersion
   val commonsIO        = "commons-io"                  % "commons-io"           % Versions.CommonsIOVersion
+  val decline          = "com.monovore"                %% "decline"             % Versions.DeclineVersion
   val geotrellisRaster = "org.locationtech.geotrellis" %% "geotrellis-raster"   % Versions.GeotrellisVersion
   val geotrellisS3     = "org.locationtech.geotrellis" %% "geotrellis-s3"       % Versions.GeotrellisVersion
   val geotrellisSpark  = "org.locationtech.geotrellis" %% "geotrellis-spark"    % Versions.GeotrellisVersion

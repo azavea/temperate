@@ -28,7 +28,7 @@ lazy val commonSettings = Seq(
 
 lazy val root = (project in file("."))
   .settings(commonSettings: _*)
-  .aggregate(api, datamodel)
+  .aggregate(api, datamodel, ingest)
 lazy val rootRef = LocalProject("root")
 
 ///////////////
@@ -86,3 +86,20 @@ lazy val api = (project in file("api"))
   .settings({
     libraryDependencies ++= apiDependencies
   })
+
+///////////////
+//  Ingest   //
+///////////////
+lazy val ingestSettings = commonSettings ++ Seq(
+  name := "ingest",
+  fork in run := true
+)
+
+lazy val ingestDependencies = commonDependencies ++ Seq(
+  Dependencies.decline
+)
+
+lazy val ingest = (project in file("ingest"))
+  .dependsOn(rootRef, datamodel)
+  .settings(ingestSettings: _*)
+  .settings({ libraryDependencies ++= ingestDependencies })
