@@ -6,10 +6,10 @@ import java.util.concurrent.Executors
 import com.typesafe.scalalogging.LazyLogging
 
 import scala.concurrent._
+import geotrellis.layer._
 import geotrellis.raster._
-import geotrellis.spark._
-import geotrellis.spark.io._
-import geotrellis.spark.io.s3._
+import geotrellis.store._
+import geotrellis.store.s3._
 import geotrellis.vector.Polygon
 
 
