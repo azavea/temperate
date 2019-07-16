@@ -16,11 +16,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class UnitsDropdownComponent {
 
-    @Input() units: [string];
-    @Input() unit: string;
-    @Output() unitSelected = new EventEmitter<string>();
+  @Input() units: [string];
+  @Input() unit: string;
+  @Output() unitSelected = new EventEmitter<string>();
 
-    public onUnitSelected(unit: string) {
-        this.unitSelected.emit(unit);
-    }
+  public onUnitSelected(unit: string) {
+    this.unitSelected.emit(unit);
+  }
 }

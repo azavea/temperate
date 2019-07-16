@@ -3,13 +3,13 @@ import { DataExportService } from './data-export.service';
 
 describe('DataExportService', () => {
 
-    let service: DataExportService;
+  let service: DataExportService;
 
-    beforeEach(() => {
-        service = new DataExportService();
-    });
+  beforeEach(() => {
+    service = new DataExportService();
+  });
 
-    it('should have a downloadAsJSON method', () => {
-        expect(service.downloadAsJSON).toBeDefined();
-    });
+  it('should have a downloadAsJSON method', () => {
+    expect(service.downloadAsJSON).toBeDefined();
+  });
 });

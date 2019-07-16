@@ -11,8 +11,8 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 
 interface CacheValue {
-    expiry: number;
-    value: any;
+  expiry: number;
+  value: any;
 }
 
 @Injectable({providedIn: 'root'})

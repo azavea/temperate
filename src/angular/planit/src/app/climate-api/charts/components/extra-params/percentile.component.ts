@@ -16,46 +16,46 @@ import {
 })
 export class PercentileComponent implements AfterViewInit, OnInit {
 
-    @Input() indicator: Indicator;
-    @Input() extraParams: PercentileIndicatorQueryParams;
-    @Output() percentileParamSelected = new EventEmitter<PercentileIndicatorQueryParams>();
+  @Input() indicator: Indicator;
+  @Input() extraParams: PercentileIndicatorQueryParams;
+  @Output() percentileParamSelected = new EventEmitter<PercentileIndicatorQueryParams>();
 
-    percentileForm: FormGroup;
+  percentileForm: FormGroup;
 
-    // default form values
-    private defaultPercentile = 50;
+  // default form values
+  private defaultPercentile = 50;
 
-    constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
-    ngOnInit() {
-        // must create form on init instead of constructor to capture @Input values
-        this.createForm();
-    }
+  ngOnInit() {
+    // must create form on init instead of constructor to capture @Input values
+    this.createForm();
+  }
 
-    ngAfterViewInit() {
-        // Since valueChanges triggers initially before parent is ready, wait until
-        // parent is ready here and trigger it to draw chart with extra parameters.
+  ngAfterViewInit() {
+    // Since valueChanges triggers initially before parent is ready, wait until
+    // parent is ready here and trigger it to draw chart with extra parameters.
+    this.percentileParamSelected.emit({
+      percentile: this.percentileForm.controls.percentileCtl.value
+    });
+  }
+
+  createForm() {
+    const percentile = this.extraParams.percentile || this.defaultPercentile;
+    this.percentileForm = this.formBuilder.group({
+      percentileCtl: [percentile, Validators.required]
+    });
+
+    this.percentileForm.valueChanges
+      .pipe(debounceTime(700))
+      .subscribe(form => {
+        // only accept percentiles [1, 100] as integers
+        const pctl = form.percentileCtl;
+        if (pctl > 100 || pctl < 1) { return; }
         this.percentileParamSelected.emit({
-            percentile: this.percentileForm.controls.percentileCtl.value
+          // TODO: #243 proper form feedback instead of rounding
+          percentile: Math.round(pctl)
         });
-    }
-
-    createForm() {
-      const percentile = this.extraParams.percentile || this.defaultPercentile;
-        this.percentileForm = this.formBuilder.group({
-            percentileCtl: [percentile, Validators.required]
-        });
-
-        this.percentileForm.valueChanges
-            .pipe(debounceTime(700))
-            .subscribe(form => {
-              // only accept percentiles [1, 100] as integers
-              const pctl = form.percentileCtl;
-              if (pctl > 100 || pctl < 1) { return; }
-              this.percentileParamSelected.emit({
-                  // TODO: #243 proper form feedback instead of rounding
-                  percentile: Math.round(pctl)
-              });
-          });
-    }
+      });
+  }
 }

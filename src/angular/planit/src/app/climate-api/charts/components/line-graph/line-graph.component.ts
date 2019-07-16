@@ -158,8 +158,8 @@ export class LineGraphComponent implements OnChanges, AfterContentInit {
 
     // Expects line data as DataPoint[]
     this.valueline = D3.line()
-    .x(d => this.xScale(d.date))
-    .y(d => this.yScale(d.value));
+      .x(d => this.xScale(d.date))
+      .y(d => this.yScale(d.value));
   }
 
   /* Will draw the X Axis */
