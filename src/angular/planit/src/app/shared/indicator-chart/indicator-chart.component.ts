@@ -88,19 +88,19 @@ export class IndicatorChartComponent implements OnInit, DoCheck {
     }
   }
 
-  modelsChanged(models: ClimateModel[]) {
+  onModelsChanged(models: ClimateModel[]) {
     window.setTimeout(() => this.models = models);
   }
 
-  scenarioSelected(scenario: Scenario) {
+  onScenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
   }
 
-  unitSelected(unit: string) {
+  onUnitSelected(unit: string) {
     this.unit = unit;
   }
 
-  datasetSelected(dataset: Dataset) {
+  onDatasetSelected(dataset: Dataset) {
     this.dataset = dataset;
   }
 

@@ -3,28 +3,28 @@
     <div class="chart-toggle">
       <span>Scenario</span>
       <app-scenario-toggle [scenario]="scenario"
-                           (onScenarioSelected)="scenarioSelected($event)">
+                           (scenarioSelected)="onScenarioSelected($event)">
       </app-scenario-toggle>
     </div>
     <div class="chart-toggle">
       <span>Models</span>
       <app-model-modal [dataset]="dataset"
                        [models]="models"
-                       (onModelsChanged)="modelsChanged($event)">
+                       (modelsChanged)="onModelsChanged($event)">
       </app-model-modal>
     </div>
     <div class="chart-toggle" *ngIf="indicator?.available_units">
       <span>Units</span>
       <app-units-dropdown [unit]="unit"
                           [units]="indicator.available_units"
-                          (unitSelected)="unitSelected($event)"></app-units-dropdown>
+                          (unitSelected)="onUnitSelected($event)"></app-units-dropdown>
     </div>
     <div class="chart-toggle">
       <span>Dataset</span>
       <app-dataset-toggle [dataset]="dataset"
                           [city]="location"
                           [models]="models"
-                          (onDatasetSelected)="datasetSelected($event)">
+                          (datasetSelected)="onDatasetSelected($event)">
       </app-dataset-toggle>
     </div>
   </div>
