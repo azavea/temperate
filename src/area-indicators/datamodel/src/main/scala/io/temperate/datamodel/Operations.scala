@@ -3,19 +3,21 @@ package io.temperate.datamodel
 import java.time.ZonedDateTime
 import java.util.concurrent.Executors
 
+import cats.effect.{ContextShift, IO}
 import com.typesafe.scalalogging.LazyLogging
-
-import scala.concurrent._
+import geotrellis.layer._
 import geotrellis.raster._
-import geotrellis.spark._
-import geotrellis.spark.io._
-import geotrellis.spark.io.s3._
+import geotrellis.store._
+import geotrellis.store.s3._
 import geotrellis.vector.Polygon
 
+import scala.concurrent._
 
 object Operations extends LazyLogging {
 
+
   val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)) // XXX
+  implicit val contextShift: ContextShift[IO] = IO.contextShift(ec)
 
   type KV = (SpaceTimeKey, MultibandTile)
   type Dictionary = Map[String, Double]
@@ -28,16 +30,16 @@ object Operations extends LazyLogging {
   val dataset = S3CollectionLayerReader(as)
 
   /**
-    * Perform a query, wrap the computation in a future for
+    * Perform a query, wrap the computation in IO for
     * asynchrony.
     */
-  def futureQuery(
+  def ioQuery(
     startTime: ZonedDateTime, endTime: ZonedDateTime, area: Polygon,
     divide: Seq[KV] => Map[ZonedDateTime, Seq[KV]],
     narrower: Seq[MultibandTile] => Dictionary,
     box: Seq[TimedDictionary] => Seq[Double]
-  ): Future[Map[ZonedDateTime, Seq[Double]]] = {
-    Future{ query(startTime, endTime, area, divide, narrower, box) }(ec)
+  ): IO[Map[ZonedDateTime, Seq[Double]]] = {
+    IO { query(startTime, endTime, area, divide, narrower, box) }
   }
 
   /**

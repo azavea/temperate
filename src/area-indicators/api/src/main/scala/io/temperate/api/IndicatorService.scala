@@ -3,7 +3,6 @@ package io.temperate.api
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import cats.effect._
 import com.typesafe.scalalogging.LazyLogging
 import geotrellis.vector.{Point, Polygon}
@@ -34,17 +33,17 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
       logger.info(s"Querying area: ${area}")
 
-      Ok(IO {
+      Ok(
         Operations
-          .query(startTime, endTime, area, divider, Narrowers.byMean, indicator.box)
-          .map {
-            case (k, v) => {
-              logger.info(s"JSON Formatting: ${k}")
-              k.format(formatter) -> v.toList
-            }
-          }
-          .asJson
-      })
+          .ioQuery(startTime, endTime, area, divider, Narrowers.byMean, indicator.box)
+          .map { m =>
+            m.map {
+              case (k, v) => {
+                logger.info(s"JSON Formatting: ${k}")
+                k.format(formatter) -> v.toList
+              }
+            }.asJson
+          })
     }
   }
 }

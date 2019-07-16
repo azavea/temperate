@@ -24,3 +24,13 @@ When you're ready to test integration with the other stack components, navigate 
 ```
 
 This will build the Java assembly JAR and then start all of the application services via docker-compose, including the area-indicators container.
+
+## Running the Ingest
+
+Trigger an ingest job via SBT using your Climate AWS profile:
+
+```bash
+AWS_PROFILE=planit ./sbt "ingest/sparkSubmit"
+```
+
+By default, the `staging` environment will be used. Pass `ENVIRONMENT=production` as an environment variable if you'd prefer to run a job using the production environment.
