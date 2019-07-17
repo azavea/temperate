@@ -16,12 +16,12 @@
     </div>
     <div class="chart-graphic" *ngIf="chartData && chartData.length">
         <div class="line-graph">
-            <ccc-line-graph
+            <app-line-graph
                 [data]="chartData"
                 [indicator]="indicator"
                 [hover]="isHover"
                 [unit]="unit">
-            </ccc-line-graph>
+            </app-line-graph>
         </div>
 
         <div *ngIf="maskSlider" class="row align-center">

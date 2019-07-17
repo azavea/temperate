@@ -1,9 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { APICacheService } from 'climate-change-components';
+import { APICacheService } from '../../climate-api';
 import { MarketingComponent } from '../../marketing/marketing.component';
 import { AuthService } from './auth.service';
 
@@ -11,7 +11,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AuthService, APICacheService],
-      imports: [ HttpModule, RouterTestingModule.withRoutes([
+      imports: [ HttpClientTestingModule, RouterTestingModule.withRoutes([
         { path: '*', component: MarketingComponent }
       ])],
       declarations: [ MarketingComponent ],

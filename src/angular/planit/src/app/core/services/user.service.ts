@@ -1,14 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
+import { APICacheService } from '../../climate-api';
 import { User } from '../../shared';
 import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
-import { PlanItApiHttp } from './api-http.service';
 
-import { APICacheService } from 'climate-change-components';
 
 @Injectable()
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
 
   public currentUser = this._currentUser.asObservable();
 
-  constructor(private apiHttp: PlanItApiHttp, private cache: APICacheService) {}
+  constructor(private http: HttpClient, private cache: APICacheService) {}
 
   private formatUser(user: User): any {
     const formattedUser = cloneDeep(user);
@@ -33,17 +34,16 @@ export class UserService {
 
   current(): Observable<User | null> {
     const url = `${environment.apiUrl}/api/user/`;
-    const request = this.apiHttp.get(url);
+    const request = this.http.get(url);
     const response = this.cache.get(CORE_USERSERVICE_CURRENT, request);
-    return response.map((resp) => {
-      const json = resp.json();
-      if (json) {
-        const user = new User(json);
+    return response.pipe(map((resp) => {
+      if (resp) {
+        const user = new User(resp);
         this._currentUser.next(user);
         return user;
       }
       return null;
-    });
+    }));
   }
 
   invalidate() {
@@ -54,9 +54,9 @@ export class UserService {
 
   update(user: User): Observable<User> {
     const url = `${environment.apiUrl}/api/users/${user.id}/`;
-    return this.apiHttp.patch(url, this.formatUser(user)).switchMap(resp => {
+    return this.http.patch(url, this.formatUser(user)).pipe(switchMap(resp => {
       this.cache.clear(CORE_USERSERVICE_CURRENT);
       return this.current();
-    });
+    }));
   }
 }

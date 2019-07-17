@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
-import { Indicator, IndicatorService } from 'climate-change-components';
 import { ToastrService } from 'ngx-toastr';
 
 import {
@@ -17,6 +16,7 @@ import {
   Risk,
 } from '../../../shared/';
 
+import { Indicator, IndicatorService } from '../../../climate-api';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
@@ -54,7 +54,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
   public indicators: Indicator[] = [];
 
-  @ViewChild('indicatorChartModal')
+  @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
   private sessionSubscription: Subscription;

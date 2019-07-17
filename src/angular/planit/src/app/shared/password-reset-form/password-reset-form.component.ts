@@ -44,7 +44,7 @@ export class PasswordResetFormComponent implements OnInit {
         this.router.navigate(['/login'], {queryParams: {reset: true}});
       },
       (errors) => {
-        this.errors = errors.json();
+        this.errors = errors.error;
       }
     );
   }

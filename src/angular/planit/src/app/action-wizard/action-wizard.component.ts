@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
+import { first, take } from 'rxjs/operators';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
@@ -16,7 +17,7 @@ import { AssessStepComponent } from './steps/assess-step/assess-step.component';
 import { CategoryStepComponent } from './steps/category-step/category-step.component';
 import { FundingStepComponent } from './steps/funding-step/funding-step.component';
 import {
-  ImplementationStepComponent
+  ImplementationStepComponent,
 } from './steps/implementation-step/implementation-step.component';
 import { ImprovementsStepComponent } from './steps/improvements-step/improvements-step.component';
 import { ReviewStepComponent } from './steps/review-step/review-step.component';
@@ -34,13 +35,15 @@ interface NamedRisk {
 })
 export class ActionWizardComponent implements AfterViewInit, OnInit {
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(AssessStepComponent) public assessStep: AssessStepComponent;
-  @ViewChild(ImplementationStepComponent) public implementationStep: ImplementationStepComponent;
-  @ViewChild(ImprovementsStepComponent) public improvementsStep: ImprovementsStepComponent;
-  @ViewChild(CategoryStepComponent) public categoryStep: CategoryStepComponent;
-  @ViewChild(FundingStepComponent) public fundingStep: FundingStepComponent;
-  @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(AssessStepComponent, {static: true}) public assessStep: AssessStepComponent;
+  @ViewChild(ImplementationStepComponent, {static: true})
+  public implementationStep: ImplementationStepComponent;
+  @ViewChild(ImprovementsStepComponent, {static: true})
+  public improvementsStep: ImprovementsStepComponent;
+  @ViewChild(CategoryStepComponent, {static: true}) public categoryStep: CategoryStepComponent;
+  @ViewChild(FundingStepComponent, {static: true}) public fundingStep: FundingStepComponent;
+  @ViewChild(ReviewStepComponent, {static: true}) public reviewStep: ReviewStepComponent;
 
   @Input() action: Action;
 
@@ -77,7 +80,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
     } else {
       // Only allow jumping to other steps if we're not creating
       //  a new action
-      this.route.queryParams.take(1).subscribe((params: Params) => {
+      this.route.queryParams.pipe(take(1)).subscribe((params: Params) => {
         const indexes = {
           'review': 5
         };
@@ -97,7 +100,7 @@ export class ActionWizardComponent implements AfterViewInit, OnInit {
 
     // Update the URL with the action id once the action is saved
     this.session.data
-      .first(action => action.id !== undefined)
+      .pipe(first(action => action.id !== undefined))
       .subscribe((action) => {
         this.location.replaceState(`/actions/action/${action.id}`);
       });

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { Organization } from '../../shared/models/organization.model';
 import { AuthService } from './auth.service';
@@ -19,7 +20,7 @@ export class ExpirationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
     const loggedIn = this.authService.isAuthenticated();
     if (loggedIn) {
-      return this.userService.current().map(user => {
+      return this.userService.current().pipe(map(user => {
         if (user.primary_organization) {
           const org = new Organization(user.primary_organization);
           if (org.isExpired() && org.hasPlan()) {
@@ -36,7 +37,7 @@ export class ExpirationGuard implements CanActivate {
           return false;
         }
         return true;
-      }).first();
+      })).pipe(first());
     } else {
       return true;
     }

@@ -9,8 +9,7 @@ import {
   Output
 } from '@angular/core';
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription, forkJoin } from 'rxjs';
 
 import {
   ChartData,
@@ -26,7 +25,7 @@ import {
   IndicatorService,
   Scenario,
   TimeAggParam,
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { environment } from '../../../environments/environment';
 import { Point } from '../geojson';
@@ -140,7 +139,7 @@ export class ChartComponent implements OnChanges, OnDestroy, OnInit {
     queryOpts.scenario = this.historicalScenario;
     const historical = this.indicatorService.getDataForLatLon(this.point, queryOpts);
 
-    this.dataSubscription = Observable.forkJoin(
+    this.dataSubscription = forkJoin(
       historical,
       future
     ).subscribe(data => {

@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import {
-  Indicator,
-  IndicatorService
-} from 'climate-change-components';
-
+import { Indicator, IndicatorService } from '../climate-api';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 

@@ -1,18 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import * as papa from 'papaparse';
-
-import { PlanItApiHttp } from './api-http.service';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class DownloadService {
 
-  constructor(private apiHttp: PlanItApiHttp) {}
+  constructor(private http: HttpClient) {}
 
   downloadCSV(url: string, filename: string) {
-    return this.apiHttp.get(url).map(resp => {
+    return this.http.get(url, { responseType: 'text' }).pipe(map(resp => {
       // Parse string to array of arrays
-      const csvData = papa.parse(resp['_body'], { newline: '\r\n' });
+      const csvData = papa.parse(resp, { newline: '\r\n' });
 
       // Convert back to a string, line returns are now handled correctly
       const csvString = papa.unparse(csvData);
@@ -23,7 +23,7 @@ export class DownloadService {
         'data:text/csv;charset=utf-8',
         'csv'
       );
-    }).subscribe();
+    })).subscribe();
   }
 
   private downloadFile(data: any, filename: string, contentType: string, extension: string) {

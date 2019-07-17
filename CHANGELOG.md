@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
+ - Updated Node.js to version 10
+ - Updated Angular to version 8
+ - The `climate-change-components` library is now a part of this project as the `climate-api` module instead of being installed as an NPM dependency
 
 ## [1.9.0] - 2019-05-14
 ### Added

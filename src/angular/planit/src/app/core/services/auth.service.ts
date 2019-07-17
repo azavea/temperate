@@ -1,11 +1,12 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
 import { NavigationExtras, Router } from '@angular/router';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { APICacheService } from 'climate-change-components';
 import { environment } from '../../../environments/environment';
+import { APICacheService } from '../../climate-api';
 import { CORE_USERSERVICE_CURRENT } from '../constants/cache';
 
 import { User } from '../../shared/';
@@ -23,7 +24,7 @@ export class AuthService {
 
   // TODO: Inject a window or localStorage service here to abstract implicit
   //       dependency on window
-  constructor(protected http: Http,
+  constructor(protected http: HttpClient,
               protected router: Router,
               private cache: APICacheService) {}
 
@@ -33,13 +34,12 @@ export class AuthService {
 
   getUserFromUidToken(uid, token): Observable<User | null> {
     const url = `${environment.apiUrl}/api/user/${uid}/${token}`;
-    return this.http.get(url).map(response => {
-      const user = response.json();
-      if (user) {
-        return new User(user);
+    return this.http.get(url).pipe(map(response => {
+      if (response) {
+        return new User(response);
       }
       return null;
-    });
+    }));
   }
 
   isAuthenticated(): boolean {
@@ -51,14 +51,13 @@ export class AuthService {
       'email': email,
       'password': password
     });
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${environment.apiUrl}/api-token-auth/`;
-    return this.http.post(url, body, options).map(response => {
-      const token = response.json().token;
+    return this.http.post(url, body, {headers: headers}).pipe(map((response: any) => {
+      const token = response.token;
       this.setToken(token);
       this._loggedIn.next();
-    });
+    }));
   }
 
   logout(redirectTo: string = '/', redirectOptions: NavigationExtras = {}) {
@@ -75,9 +74,8 @@ export class AuthService {
       email
     });
     const url = `${environment.apiUrl}/accounts/password_reset/send_email/`;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(url, body, options);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, body, {headers: headers});
   }
 
   resetPassword(uid: string, token: string, new_password1: string,
@@ -89,9 +87,8 @@ export class AuthService {
       new_password2
     });
     const url = `${environment.apiUrl}/accounts/password_reset/`;
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.post(url, body, options);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(url, body, {headers: headers});
   }
 
   private setToken(token: string | null) {

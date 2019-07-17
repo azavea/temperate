@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ChartsModule } from '../climate-api/charts/charts.module';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import {

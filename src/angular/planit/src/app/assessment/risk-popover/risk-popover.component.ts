@@ -5,7 +5,7 @@ import { PopoverDirective } from 'ngx-bootstrap/popover';
 import {
   Indicator,
   IndicatorService
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 import { Risk } from '../../shared/models/risk.model';
@@ -24,10 +24,10 @@ export class RiskPopoverComponent implements OnInit {
   public selectedIndicator: Indicator;
   public location: Location;
 
-  @ViewChild('indicatorModal')
+  @ViewChild('indicatorModal', {static: true})
   private indicatorModal: ModalTemplateComponent;
 
-  @ViewChild('popover')
+  @ViewChild('popover', {static: true})
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,

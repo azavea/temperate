@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
+import { Observable, from } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { Organization } from '../../shared/models/organization.model';
 import { AuthService } from './auth.service';
@@ -20,7 +21,7 @@ export class PlanAuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const loggedIn = this.authService.isAuthenticated();
     if (loggedIn) {
-      return this.userService.current().map(user => {
+      return this.userService.current().pipe(map(user => {
         if (user.primary_organization) {
           const org = new Organization(user.primary_organization);
           if (org.hasPlan()) {
@@ -48,10 +49,10 @@ export class PlanAuthGuard implements CanActivate {
         } else {
           return true;
         }
-      }).first();
+      })).pipe(first());
     } else {
       this.router.navigate(['/']);
-      return Observable.from([false]);
+      return from([false]);
     }
   }
 }

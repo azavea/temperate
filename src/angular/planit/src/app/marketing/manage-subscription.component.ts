@@ -23,7 +23,7 @@ enum SubscriptionModalStep {
 })
 export class ManageSubscriptionComponent implements OnInit {
 
-  @ViewChild('selectSubscriptionModal') subscriptionModal: ModalTemplateComponent;
+  @ViewChild('selectSubscriptionModal', {static: true}) subscriptionModal: ModalTemplateComponent;
 
   public activeModalStep = SubscriptionModalStep.Select;
   public customPlan = OrgSubscriptionOptions.get(OrgSubscription.Custom);

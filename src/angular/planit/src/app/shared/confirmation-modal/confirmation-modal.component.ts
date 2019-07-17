@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 
 import { ModalTemplateComponent } from '../modal-template/modal-template.component';
 
@@ -24,7 +24,7 @@ export interface ConfirmModalConfig {
 })
 export class ConfirmationModalComponent implements OnDestroy {
 
-  @ViewChild('modal') modal: ModalTemplateComponent;
+  @ViewChild('modal', {static: true}) modal: ModalTemplateComponent;
 
   public cancelText: string;
   public confirmButtonClass: string;

@@ -1,8 +1,9 @@
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import * as cloneDeep from 'lodash.clonedeep';
-import { Observable } from 'rxjs/Rx';
 
 import { User } from '../../shared';
 
@@ -15,7 +16,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class AccountCreateService {
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   private formatUser(user: User, key?: string): any {
     if (key) {
@@ -26,13 +27,12 @@ export class AccountCreateService {
     return user;
   }
 
-  public create(user: User, key?: string): Observable<User> {
+  public create(user: User, key?: string): Observable<Object> {
 
     const url = `${environment.apiUrl}/api/users/`;
     return this.http.post(url, this.formatUser(user, key))
-      .map(resp => resp.json() || {} as User)
-      .catch((error: Response) => {
-        return Observable.throw(error);
-      });
+      .pipe(catchError((error: Response) => {
+        return observableThrowError(error);
+      }));
   }
 }

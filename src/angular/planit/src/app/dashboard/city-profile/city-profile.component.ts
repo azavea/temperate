@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { TypeaheadMatch } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { UserService } from '../../core/services/user.service';
@@ -41,9 +42,9 @@ export class CityProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.current().switchMap(user => {
+    this.userService.current().pipe(switchMap(user => {
       return this.cityProfileService.get(user.primary_organization);
-    }).subscribe(p => this.cityProfile = p);
+    })).subscribe(p => this.cityProfile = p);
 
     this.cityProfileService.listOptions().subscribe(options => {
       this.sectors = options['economic-sectors'].map(option => option.name);
@@ -63,7 +64,7 @@ export class CityProfileComponent implements OnInit {
       this.cityProfile = p;
       this.toastr.success('Changes saved successfully.');
     }, error => {
-      this.errors = error.json();
+      this.errors = error.error;
       const message = `
         There was an error saving your city profile.
         Please check all form fields and try again.

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
@@ -120,7 +120,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public hideRemovedOrganizations() {
     this.user.removed_organizations = [];
     this.userService.update(this.user).subscribe(() => {}, (result) => {
-      console.error('Error clearing removed organizations', result.json());
+      console.error('Error clearing removed organizations', result.error);
       this.toastr.error('Something went wrong, please try again.');
     });
   }

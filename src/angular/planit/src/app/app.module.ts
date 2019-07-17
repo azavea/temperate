@@ -1,11 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AgmCoreModule } from '@agm/core';
+import { first } from 'rxjs/operators';
 
 import {
   ApiModule,
@@ -13,7 +14,7 @@ import {
   ClimateModelService,
   DatasetService,
   ScenarioService
-} from 'climate-change-components';
+} from './climate-api';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -52,7 +53,6 @@ import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
 import { AddCityService } from './core/services/add-city.service';
-import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
@@ -74,6 +74,8 @@ import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
+
+import { httpInterceptorProviders } from './core/interceptors';
 
 import {
   AccordionModule,
@@ -125,7 +127,7 @@ const AGM_CONFIG = {
     BrowserAnimationsModule,
     CoreModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     // 3rd party
     AccordionModule.forRoot(),
     AgmCoreModule.forRoot(AGM_CONFIG),
@@ -148,8 +150,7 @@ const AGM_CONFIG = {
     // Local
     SharedModule,
     ApiModule.forRoot({
-      apiHost: environment.apiUrl + '/api/climate-api',
-      apiHttpInjectionToken: apiHttpProvider.provide
+      apiHost: environment.apiUrl + '/api/climate-api'
     }),
     ChartsModule,
     ActionStepsModule,
@@ -163,13 +164,13 @@ const AGM_CONFIG = {
   exports: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
+    httpInterceptorProviders,
     AccountCreateService,
     ActionCategoryService,
     ActionTypeService,
     ActionResolve,
     ActionService,
     AddCityService,
-    apiHttpProvider,
     AuthService,
     AuthGuard,
     CacheService,
@@ -203,7 +204,7 @@ export class AppModule {
                private datasetService: DatasetService,
                private scenarioService: ScenarioService,
                private modelService: ClimateModelService) {
-      this.userService.currentUser.first().subscribe(() => {
+      this.userService.currentUser.pipe(first()).subscribe(() => {
         // Issue an eager request for indicator static configuration data so it's already cached if
         // the user opens an indicator chart
         this.datasetService.list().subscribe();

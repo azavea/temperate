@@ -1,5 +1,5 @@
+import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, Renderer } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 
