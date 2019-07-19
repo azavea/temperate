@@ -10,6 +10,7 @@ object Versions {
   val Http4sVersion            = "0.20.3"
   val LogbackVersion           = "1.2.3"
   val ScapegoatVersion         = "1.3.8"
+  val SealerateVersion         = "0.0.5"
   val SparkVersion             = "2.4.1"
   val Specs2Version            = "4.1.0"
 }
@@ -30,6 +31,7 @@ object Dependencies {
   val http4sServer          = "org.http4s"                  %% "http4s-blaze-server"     % Versions.Http4sVersion
   val http4sDsl             = "org.http4s"                  %% "http4s-dsl"              % Versions.Http4sVersion
   val logbackClassic        = "ch.qos.logback"              % "logback-classic"          % Versions.LogbackVersion
+  val sealerate             = "ca.mrvisser"                 %% "sealerate"               % Versions.SealerateVersion
   val sparkCore             = "org.apache.spark"            %% "spark-core"              % Versions.SparkVersion % "provided"
   val specs2Core            = "org.specs2"                  %% "specs2-core"             % Versions.Specs2Version % "test"
 }

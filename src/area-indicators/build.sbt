@@ -124,6 +124,7 @@ lazy val datamodelDependencies = commonDependencies ++ Seq(
   Dependencies.geotrellisS3,
   Dependencies.geotrellisSpark,
   Dependencies.geotrellisVector,
+  Dependencies.sealerate,
   Dependencies.sparkCore
 )
 lazy val datamodel = (project in file("datamodel"))
