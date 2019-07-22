@@ -30,6 +30,7 @@ lazy val commonSettings = Seq(
   addCompilerPlugin(scalafixSemanticdb),
   externalResolvers := Seq(
     DefaultMavenRepository,
+    Resolver.bintrayRepo("azavea", "geotrellis"),
     "locationtech-releases" at "https://repo.locationtech.org/content/groups/releases",
     "locationtech-snapshots" at "https://repo.locationtech.org/content/groups/snapshots"
   ),
@@ -123,6 +124,7 @@ lazy val datamodelDependencies = commonDependencies ++ Seq(
   Dependencies.geotrellisS3,
   Dependencies.geotrellisSpark,
   Dependencies.geotrellisVector,
+  Dependencies.sealerate,
   Dependencies.sparkCore
 )
 lazy val datamodel = (project in file("datamodel"))
@@ -162,7 +164,9 @@ lazy val ingestSettings = commonSettings ++ Seq(
 )
 
 lazy val ingestDependencies = commonDependencies ++ datamodelDependencies ++ Seq(
-  Dependencies.decline
+  Dependencies.decline,
+  Dependencies.geotrellisContribGdal,
+  Dependencies.geotrellisContribVlm
 )
 
 lazy val ingest = (project in file("ingest"))

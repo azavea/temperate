@@ -1,19 +1,37 @@
 package io.temperate.datamodel
 
-sealed abstract class Scenario(name: String, label: String, description: String, alias: String) {}
+import ca.mrvisser.sealerate
 
-case object RCP45      extends Scenario("rcp45", "RCP 4.5", "", "Low emissions")
-case object RCP85      extends Scenario("rcp85", "RCP 8.5", "", "High emissions")
-case object Historical extends Scenario("historical", "Historical", "", "")
+sealed trait Scenario {
+  def name: String
+  def label: String
+  def description: String
+  def alias: String
+}
 
 object Scenario {
-
-  def unapply(str: String): Option[Scenario] = {
-    str.trim.toLowerCase match {
-      case "rcp45"      => Some(RCP45)
-      case "rcp85"      => Some(RCP85)
-      case "historical" => Some(Historical)
-      case _            => None
-    }
+  case object RCP45 extends Scenario {
+    val name        = "rcp45"
+    val label       = "RCP 4.5"
+    val description = ""
+    val alias       = "Low emissions"
   }
+
+  case object RCP85 extends Scenario {
+    val name        = "rcp85"
+    val label       = "RCP 8.5"
+    val description = ""
+    val alias       = "High emissions"
+  }
+
+  case object Historical extends Scenario {
+    val name        = "historical"
+    val label       = "Historical"
+    val description = ""
+    val alias       = ""
+  }
+
+  def unapply(str: String): Option[Scenario] = Scenario.options.find(_.name == str)
+
+  val options: Set[Scenario] = sealerate.values[Scenario]
 }

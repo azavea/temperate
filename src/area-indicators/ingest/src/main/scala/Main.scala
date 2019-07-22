@@ -4,7 +4,7 @@ import cats.implicits._
 import com.monovore.decline._
 import org.apache.spark._
 
-object HelloWorld
+object Main
     extends CommandApp(
       name = "area-indicators-ingest",
       header = "Copy NetCDF Climate Data to GeoTrellis Avro Layers for Area Indicators API",
