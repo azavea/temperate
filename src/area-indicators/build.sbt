@@ -35,22 +35,22 @@ lazy val commonSettings = Seq(
     "locationtech-releases" at "https://repo.locationtech.org/content/groups/releases",
     "locationtech-snapshots" at "https://repo.locationtech.org/content/groups/snapshots"
   ),
-
   // SBT Lighter -- Easiest way to configure the plugin is globally for the
   // entire project even though it's just used in `ingest`.
   sparkAwsRegion := "us-east-1",
   sparkClusterName := s"area-indicators-ingest-${environment}",
   sparkCoreEbsSize := None,
-  sparkCorePrice := Some(0.5),
-  sparkCoreType := "m5d.2xlarge",
+  sparkCorePrice := Some(1.5),
+  sparkCoreType := "c5.9xlarge",
   sparkEmrApplications := Seq("Spark", "Zeppelin", "Ganglia"),
   sparkEmrRelease := "emr-5.23.0",
   sparkEmrServiceRole := "EMR_DefaultRole",
   sparkMasterEbsSize := None,
   sparkMasterPrice := Some(0.5),
   sparkMasterType := "m5d.2xlarge",
-  sparkInstanceCount := 3,
+  sparkInstanceCount := 9,
   sparkInstanceRole := "EMR_EC2_DefaultRole",
+  sparkJobFlowInstancesConfig := sparkJobFlowInstancesConfig.value.withEc2KeyName("area-indicators-emr"),
   sparkS3JarFolder := s"s3://${environment}-us-east-1-climate-planit-artifacts/area-indicators",
   sparkS3LogUri := Some(s"s3://${environment}-us-east-1-climate-planit-logs/area-indicators"),
   sparkS3PutObjectDecorator := { req =>
@@ -58,28 +58,39 @@ lazy val commonSettings = Seq(
     metadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION)
     req.withMetadata(metadata)
   },
+  sparkSubmitConfs := Map(
+    "spark.master" -> "yarn",
+    "spark.driver.memory" -> "1200M",
+    "spark.driver.cores" -> "2",
+    "spark.executor.memory" -> "2000M",
+    "spark.executor.cores" -> "1",
+    "spark.dynamicAllocation.enabled" -> "true",
+    "spark.dynamicAllocation.minExecutors" -> "400",
+    "spark.dynamicAllocation.maxExecutors" -> "800"
+),
   sparkEmrConfigs := List(
     EmrConfig("spark").withProperties(
-      "maximizeResourceAllocation" -> "true"
+      "maximizeResourceAllocation" -> "false" // be careful with setting this param to true
     ),
     EmrConfig("spark-defaults").withProperties(
-      "spark.driver.maxResultSize"        -> "8G",
-      "spark.dynamicAllocation.enabled"   -> "true",
-      "spark.shuffle.service.enabled"     -> "true",
-      "spark.shuffle.compress"            -> "true",
-      "spark.shuffle.spill.compress"      -> "true",
-      "spark.rdd.compress"                -> "true",
-      "spark.executor.extraJavaOptions"   -> "-XX:+UseParallelGC -Dgeotrellis.s3.threads.rdd.write=64"
+      "spark.driver.maxResultSize"      -> "4G",
+      "spark.dynamicAllocation.enabled" -> "false",
+      "spark.shuffle.service.enabled"   -> "true",
+      "spark.shuffle.compress"          -> "true",
+      "spark.shuffle.spill.compress"    -> "true",
+      "spark.rdd.compress"              -> "true",
+      "spark.driver.extraJavaOptions"   -> "-XX:+UseParallelGC -XX:+UseParallelOldGC -XX:OnOutOfMemoryError='kill -9 %p' -Dgeotrellis.s3.threads.rdd.write=64",
+      "spark.executor.extraJavaOptions" -> "-XX:+UseParallelGC -XX:+UseParallelOldGC -XX:OnOutOfMemoryError='kill -9 %p' -Dgeotrellis.s3.threads.rdd.write=64"
     ),
+//    EmrConfig("spark-env").withProperties(
+//      "LD_LIBRARY_PATH" -> "/usr/local/lib"
+//    ),
     EmrConfig("yarn-site").withProperties(
       "yarn.resourcemanager.am.max-attempts" -> "1",
       "yarn.nodemanager.vmem-check-enabled"  -> "false",
       "yarn.nodemanager.pmem-check-enabled"  -> "false"
     )
   ),
-  // sparkSubnetId := Some(""),
-  // sparkSecurityGroupIds := Seq(""),
-
   // SBT Assembly
   assemblyMergeStrategy in assembly := {
     case "reference.conf"   => MergeStrategy.concat
@@ -128,10 +139,8 @@ lazy val datamodelDependencies = commonDependencies ++ Seq(
   Dependencies.http4sCirce,
   Dependencies.geotrellisRaster,
   Dependencies.geotrellisS3,
-  Dependencies.geotrellisSpark,
   Dependencies.geotrellisVector,
-  Dependencies.sealerate,
-  Dependencies.sparkCore
+  Dependencies.sealerate
 )
 lazy val datamodel = (project in file("datamodel"))
   .settings(datamodelSettings: _*)
@@ -170,12 +179,25 @@ lazy val ingestSettings = commonSettings ++ Seq(
 )
 
 lazy val ingestDependencies = commonDependencies ++ datamodelDependencies ++ Seq(
+  Dependencies.circeCore,
   Dependencies.decline,
-  Dependencies.geotrellisContribGdal,
-  Dependencies.geotrellisContribVlm
+  Dependencies.geotrellisSpark,
+  Dependencies.geotrellisS3Spark,
+  Dependencies.sparkCore,
+  "com.amazonaws" % "aws-java-sdk-s3" % "1.11.92",
+  "edu.ucar" % "cdm" % "feature-s3+hdfs-bbd7f24" from "https://geotrellis-thredds-build-artifacts.s3.amazonaws.com/cdm-feature-s3%2Bhdfs-bbd7f24.jar"
+
 )
 
 lazy val ingest = (project in file("ingest"))
   .dependsOn(rootRef, datamodel)
   .settings(ingestSettings: _*)
-  .settings({ libraryDependencies ++= ingestDependencies })
+  .settings(
+    libraryDependencies ++= ingestDependencies,
+    dependencyOverrides ++= Seq(
+        DependencyOverrides.jacksonCore,
+        DependencyOverrides.jacksonDatabind,
+        DependencyOverrides.jacksonAnnotations,
+        DependencyOverrides.jacksonModuleScala
+    )
+  )
