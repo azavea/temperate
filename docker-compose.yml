@@ -90,7 +90,7 @@ services:
       - $HOME/.aws:/root/.aws:ro
     working_dir: /opt/area-indicators/api/target/scala-2.11/
   sbt:
-    image: hseeberger/scala-sbt:11.0.2_2.12.8_1.2.8
+    image: hseeberger/scala-sbt:11.0.3_1.2.8_2.12.8
     environment:
       - AWS_PROFILE=planit
       - COURSIER_CACHE=/root/.coursier
