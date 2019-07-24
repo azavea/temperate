@@ -102,4 +102,4 @@ services:
       - $HOME/.ivy2:/root/.ivy2
       - $HOME/.aws:/root/.aws:ro
     working_dir: /opt/area-indicators/
-    entrypoint: sbt
+    entrypoint: ./sbt
