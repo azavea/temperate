@@ -31,7 +31,8 @@ object ApiServer extends IOApp {
   val httpApp: HttpApp[IO] = CORS(
     Router(
       "/healthcheck"  -> CORS(HealthcheckService.routes, corsConfig),
-      "/climate-data" -> CORS(IndicatorService.routes, corsConfig)
+      "/climate-data" -> CORS(IndicatorService.routes, corsConfig),
+      "/"             -> CORS(DataService.routes, corsConfig)
     )).orNotFound
 
   def run(args: List[String]): IO[ExitCode] =

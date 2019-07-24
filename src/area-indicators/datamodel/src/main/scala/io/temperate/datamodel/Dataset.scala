@@ -63,7 +63,7 @@ object Dataset {
   }
 
   case object NexGddp extends Dataset {
-    val name: String       = "nex-gddp"
+    val name: String       = "NEX-GDDP"
     val resolution: Double = 0.25
 
     val models = Set[ClimateModel](
