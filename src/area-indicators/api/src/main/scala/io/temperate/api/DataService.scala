@@ -15,5 +15,9 @@ object DataService extends Http4sDsl[IO] with LazyLogging {
       Ok(model.asJson)
     case GET -> Root / "climate-model" =>
       Ok(ClimateModel.options.toList.sorted.asJson)
+    case GET -> Root / "dataset" / Dataset(dataset) =>
+      Ok(dataset.asJson)
+    case GET -> Root / "dataset" =>
+      Ok(Dataset.options.toList.sorted.asJson)
   }
 }
