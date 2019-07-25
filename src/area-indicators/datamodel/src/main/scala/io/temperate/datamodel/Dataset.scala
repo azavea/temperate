@@ -97,7 +97,7 @@ object Dataset {
     val url: URI           = URI.create("https://nex.nasa.gov/nex/projects/1356/")
     val resolution: Double = 0.25
 
-    val models = Set[ClimateModel](
+    val models: Set[ClimateModel] = Set[ClimateModel](
       Access10,
       BccCsm11,
       BnuEsm,

@@ -63,7 +63,7 @@ lazy val commonSettings = Seq(
       "spark.shuffle.compress"            -> "true",
       "spark.shuffle.spill.compress"      -> "true",
       "spark.rdd.compress"                -> "true",
-      "spark.executor.extraJavaOptions"   -> "-XX:+UseParallelGC -Dgeotrellis.s3.threads.rdd.write=64",
+      "spark.executor.extraJavaOptions"   -> "-XX:+UseParallelGC -Dgeotrellis.s3.threads.rdd.write=64"
     ),
     EmrConfig("yarn-site").withProperties(
       "yarn.resourcemanager.am.max-attempts" -> "1",
