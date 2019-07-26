@@ -1,4 +1,5 @@
 import sbtlighter._
+import com.amazonaws.services.s3.model.ObjectMetadata
 
 cancelable in Global := true
 
@@ -35,8 +36,8 @@ lazy val commonSettings = Seq(
     "locationtech-snapshots" at "https://repo.locationtech.org/content/groups/snapshots"
   ),
 
-  // SBT Lighter -- Easiest way to configure the plugin is globally for the entire project
-  //  even though it's just used in `ingest`.
+  // SBT Lighter -- Easiest way to configure the plugin is globally for the
+  // entire project even though it's just used in `ingest`.
   sparkAwsRegion := "us-east-1",
   sparkClusterName := s"area-indicators-ingest-${environment}",
   sparkCoreEbsSize := None,
@@ -50,8 +51,13 @@ lazy val commonSettings = Seq(
   sparkMasterType := "m5d.2xlarge",
   sparkInstanceCount := 3,
   sparkInstanceRole := "EMR_EC2_DefaultRole",
-  sparkS3JarFolder := s"s3://${environment}-us-east-1-climate-config-emr/jars/",
-  sparkS3LogUri := Some(s"s3://${environment}-us-east-1-climate-config-emr/logs/"),
+  sparkS3JarFolder := s"s3://${environment}-us-east-1-climate-planit-artifacts/area-indicators",
+  sparkS3LogUri := Some(s"s3://${environment}-us-east-1-climate-planit-logs/area-indicators"),
+  sparkS3PutObjectDecorator := { req =>
+    val metadata = new ObjectMetadata()
+    metadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION)
+    req.withMetadata(metadata)
+  },
   sparkEmrConfigs := List(
     EmrConfig("spark").withProperties(
       "maximizeResourceAllocation" -> "true"
