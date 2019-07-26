@@ -1,9 +1,17 @@
 package io.temperate.datamodel
 
-import ca.mrvisser.sealerate
+import java.time.LocalDate
 
-sealed trait ClimateModel {
+import ca.mrvisser.sealerate
+import io.circe.Encoder
+
+sealed trait ClimateModel extends Ordered[ClimateModel] {
   def name: String
+  def label: String                = name
+  def base_time: Option[LocalDate] = None
+  def datasets: Set[Dataset]       = Dataset.options.filter(d => d.models.map(_.name).contains(name))
+
+  def compare(that: ClimateModel): Int = { this.name.toLowerCase.compare(that.name.toLowerCase) }
 }
 
 object ClimateModel {
@@ -44,4 +52,8 @@ object ClimateModel {
   def unapply(str: String): Option[ClimateModel] = options.find(_.name == str)
 
   val options: Set[ClimateModel] = sealerate.values[ClimateModel]
+
+  implicit val encodeClimateModel: Encoder[ClimateModel] =
+    Encoder.forProduct4("datasets", "name", "label", "base_time")(m =>
+      (m.datasets.map(_.name), m.name, m.label, m.base_time.map(_.toString)))
 }
