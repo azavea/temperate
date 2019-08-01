@@ -18,9 +18,9 @@ object HealthcheckService {
 
   val S3Timeout = 5
 
-  val S3Bucket: String = "ingested-loca-data"
+  val S3Bucket: String = sys.env.getOrElse("AI_HEALTHCHECK_S3_BUCKET","ingested-loca-data")
   // The specific file checked is mostly arbitrary, we just want to ensure we can access *a* file
-  val S3Path: String = "CCSM4/_attributes/metadata__CCSM4_rcp85_r6i1p1__0.json"
+  val S3Path: String = sys.env.getOrElse("AI_HEALTHCHECK_S3_PATH", "CCSM4/_attributes/metadata__CCSM4_rcp85_r6i1p1__0.json")
 
   private def checkS3(implicit timer: Timer[IO], contextShift: ContextShift[IO]): IO[Boolean] = {
     var s3clientBuilder = S3AsyncClient
