@@ -49,6 +49,12 @@ sealed trait Dataset extends Ordered[Dataset] {
 
   def gridPointForLatLng(lon: Double, lat: Double): (Int, Int)
 
+  def latLngForGridPoint(x: Int, y: Int): (Double, Double)
+
+  // Convert point to raster grid and back to align it to the grid cells
+  def snapToGrid(point: Point): Point =
+    Point((latLngForGridPoint _).tupled(gridPointForLatLng(point)))
+
   protected def rasterExtent = RasterExtent(extent, xSize, ySize)
 
   // The greatest common divisor for xSize and ySize
@@ -121,6 +127,10 @@ object Dataset {
     def gridPointForLatLng(lon: Double, lat: Double): (Int, Int) = {
       val (x, y) = rasterExtent.mapToGrid(lon, lat)
       (x, ySize - y)
+    }
+
+    def latLngForGridPoint(x: Int, y: Int): (Double, Double) = {
+      rasterExtent.gridToMap(x, ySize - y)
     }
 
     def netCdfFileFor(model: ClimateModel,
@@ -201,6 +211,8 @@ object Dataset {
     )
 
     override def gridPointForLatLng(lon: Double, lat: Double): (Int, Int) = ???
+
+    override def latLngForGridPoint(x: Int, y: Int): (Double, Double) = ???
 
     def netCdfFileFor(model: ClimateModel,
                       scenario: Scenario,
