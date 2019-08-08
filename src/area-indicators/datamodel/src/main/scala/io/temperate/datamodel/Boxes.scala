@@ -47,13 +47,9 @@ object Boxes {
     )
   }
 
-  def percentile(predicate: TimedDictionary => Boolean,
-                 _baseline: Option[String],
-                 variable: String)(dictionaries: Seq[TimedDictionary]): Seq[Double] = {
-    val p = _baseline match {
-      case Some(s) => math.max(math.min((s.toDouble) / 100.0, 1.0), 0.0)
-      case None    => 0.50
-    }
+  def percentile(predicate: TimedDictionary => Boolean, baseline: Int, variable: String)(
+      dictionaries: Seq[TimedDictionary]): Seq[Double] = {
+    val p = math.max(math.min(baseline / 100.0, 1.0), 0.0)
 
     val xs = dictionaries
       .map({ case (zdt, d) => d.getOrElse(variable, throw InvalidVariableException(variable)) })
@@ -85,12 +81,8 @@ object Boxes {
     }
   }
 
-  def countStreaks(predicate: TimedDictionary => Boolean, _baseline: Option[String])(
+  def countStreaks(predicate: TimedDictionary => Boolean, baseline: Double)(
       dictionaries: Seq[TimedDictionary]): Seq[Double] = {
-    val baseline = _baseline match {
-      case Some(s) => s.toDouble
-      case None    => 0.0
-    }
 
     List(
       spans(dictionaries, predicate)
@@ -129,12 +121,8 @@ object Boxes {
     List(xs.sum / xs.length)
   }
 
-  def degreeDays(predicate: TimedDictionary => Boolean, _baseline: Option[String])(
+  def degreeDays(predicate: TimedDictionary => Boolean, baseline: Double)(
       dictionaries: Seq[TimedDictionary]): Seq[Double] = {
-    val baseline = _baseline match {
-      case Some(s) => s.toDouble
-      case None    => 0.0
-    }
 
     List(
       dictionaries
