@@ -1,30 +1,85 @@
 package io.temperate.datamodel
 
 import ca.mrvisser.sealerate
+import cats.data.Validated._
+import cats.data.ValidatedNel
+import cats.implicits._
 import io.circe.Encoder
 import io.temperate.datamodel.IndicatorParam._
 import io.temperate.datamodel.Operations.TimedDictionary
 
 sealed trait Indicator extends Ordered[Indicator] {
   def name: String
+
   def label: String
+
   def description: String
+
   def variables: Set[Variable]
+
   def available_units: List[String]
+
   def default_units: String
 
-  def box: Seq[TimedDictionary] => Seq[Double]
+  protected def box(predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double]
+  val datasets        = Datasets()
+  val models          = Models()
+  val timeAggregation = TimeAggregation()
+  val units           = Units(default_units, available_units)
+  val years           = Years()
 
-  def parameters: List[IndicatorParam] =
-    List(Agg(),
-         Datasets(),
-         Models(),
-         TimeAggregation(),
-         Units(default_units, available_units),
-         Years())
+  def parameters: Set[IndicatorParam[_]] = Set(datasets, models, timeAggregation, units, years)
+
   def valid_aggregations = List("yearly", "quarterly", "monthly", "offset_yearly")
 
-  def compare(that: Indicator): Int = { this.name.compare(that.name) }
+  def compare(that: Indicator): Int = {
+    this.name.compare(that.name)
+  }
+
+  def getBox(params: Map[String, Seq[String]],
+             scenario: Scenario): ValidatedNel[String, Seq[TimedDictionary] => Seq[Double]] = {
+    validate(params, scenario).map { _ =>
+      val predicate = getPredicate()
+      box(predicate)
+    }
+  }
+
+  def validate(reqParams: Map[String, Seq[String]],
+               scenario: Scenario): ValidatedNel[String, Unit] = {
+    var validations = validateAllowedParams(reqParams)
+    validations = validations.combine(validateExtraValues(reqParams))
+    parameters.foreach { param =>
+      reqParams.get(param.name) match {
+        case Some(seq) => validations = validations.combine(param.setValue(seq.head, scenario))
+        case None      =>
+      }
+    }
+    validations
+  }
+
+  private def validateAllowedParams(reqParams: Map[String, _]) = {
+    val unknownParams = reqParams.filterNot({ entry =>
+      parameters.map(_.name).contains(entry._1)
+    })
+    if (unknownParams.isEmpty) {
+      Valid()
+    } else {
+      "Unexpected parameter".invalidNel
+    }
+  }
+
+  private def validateExtraValues(reqParams: Map[String, Seq[String]]) = {
+    val extraVals = reqParams.filter { case (_, vals) => vals.length != 1 }
+    if (extraVals.isEmpty) {
+      Valid()
+    } else {
+      "Too many values provided for parameter".invalidNel
+    }
+  }
+
+  private def getPredicate(): TimedDictionary => Boolean = { _ =>
+    true
+  }
 }
 
 sealed trait CountedUnits extends Indicator {
@@ -48,48 +103,34 @@ sealed trait TemperatureUnits extends Indicator {
 }
 
 sealed trait BasetempParams extends Indicator {
-  override val parameters = List(Agg(),
-                                 Datasets(),
-                                 Models(),
-                                 Basetemp(),
-                                 BasetempUnits(),
-                                 TimeAggregation(),
-                                 Units(default_units, available_units),
-                                 Years())
-}
+  val basetemp      = Basetemp()
+  val basetempUnits = BasetempUnits()
 
-sealed trait HistoricParams extends Indicator {
-  override val parameters = List(Agg(),
-                                 Datasets(),
-                                 Models(),
-                                 HistoricRange(),
-                                 TimeAggregation(),
-                                 Units(default_units, available_units),
-                                 Years())
+  override val parameters: Set[IndicatorParam[_]] =
+    Set(basetemp, basetempUnits, datasets, models, timeAggregation, units, years)
 }
 
 sealed trait PercentileParams extends Indicator {
-  override val parameters = List(Agg(),
-                                 Datasets(),
-                                 Models(),
-                                 Percentile(defaultPercentile = 50),
-                                 TimeAggregation(),
-                                 Units(default_units, available_units),
-                                 Years())
+  val percentile = Percentile(defaultPercentile = 50)
+
+  override val parameters: Set[IndicatorParam[_]] =
+    Set(datasets, models, percentile, timeAggregation, units, years)
 }
 
 sealed trait ThresholdParams extends Indicator {
-  override val parameters = List(
-    Agg(),
-    Datasets(),
-    Models(),
-    Threshold(),
-    ThresholdComparator(),
-    ThresholdUnits(available_units),
-    TimeAggregation(),
-    Units(default_units, available_units),
-    Years()
-  )
+  val threshold           = Threshold()
+  val thresholdComparator = ThresholdComparator()
+  val thresholdUnits      = ThresholdUnits(available_units)
+
+  override val parameters: Set[IndicatorParam[_]] =
+    Set(datasets,
+        models,
+        timeAggregation,
+        threshold,
+        thresholdComparator,
+        thresholdUnits,
+        units,
+        years)
 }
 
 object Indicator {
@@ -101,7 +142,10 @@ object Indicator {
       "Maximum cumulative total of differences in average daily temperature and freezing for consecutive days across the aggregation period."
     val variables: Set[Variable] = Set(Variable.TasMax, Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = {
+      Boxes.accumulatedFreezingDegreeDays(predicate)
+    }
   }
 
   case object AverageHighTemperature extends Indicator with TemperatureUnits {
@@ -112,7 +156,10 @@ object Indicator {
       "Aggregated average high temperature, generated from daily data using all requested models."
     val variables: Set[Variable] = Set(Variable.TasMax)
 
-    def box = Boxes.average(_ => true, Variable.TasMax.name)
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = {
+      Boxes.average(predicate, Variable.TasMax.name)
+    }
   }
 
   case object AverageLowTemperature extends Indicator with TemperatureUnits {
@@ -123,7 +170,10 @@ object Indicator {
       "Aggregated average low temperature, generated from daily data using all requested models."
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = Boxes.average(_ => true, Variable.TasMin.name)
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = {
+      Boxes.average(predicate, Variable.TasMin.name)
+    }
   }
 
   case object CoolingDegreeDays extends Indicator with TemperatureUnits with BasetempParams {
@@ -134,7 +184,9 @@ object Indicator {
       "Total difference of daily average temperature to a reference base temperature."
     val variables: Set[Variable] = Set(Variable.TasMax, Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] =
+      Boxes.degreeDays(predicate, basetemp.value.getOrElse(basetemp.default))
   }
 
   case object DiurnalTemperatureRange extends Indicator with TemperatureUnits {
@@ -143,7 +195,8 @@ object Indicator {
     val description              = "Average difference between daily max and daily min temperature."
     val variables: Set[Variable] = Set(Variable.TasMax, Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object DrySpells extends Indicator with CountedUnits {
@@ -154,40 +207,8 @@ object Indicator {
       "Total number of times per period that there are 5 or more consecutive days without precipitation."
     val variables: Set[Variable] = Set(Variable.Precip)
 
-    def box = ???
-  }
-
-  case object ExtremeColdEvents extends Indicator with CountedUnits with HistoricParams {
-    val name  = "extreme_cold_events"
-    val label = "Extreme Cold Events"
-
-    val description =
-      "Total number of times per period daily minimum temperature is below the specified percentile of historic observations."
-    val variables: Set[Variable] = Set(Variable.TasMin)
-
-    def box = ???
-  }
-
-  case object ExtremeHeatEvents extends Indicator with CountedUnits with HistoricParams {
-    val name  = "extreme_heat_events"
-    val label = "Extreme Heat Events"
-
-    val description =
-      "Total number of times per period daily maximum temperature exceeds the specified percentile of historic observations."
-    val variables: Set[Variable] = Set(Variable.TasMax)
-
-    def box = ???
-  }
-
-  case object ExtremePrecipitationEvents extends Indicator with CountedUnits with HistoricParams {
-    val name  = "extreme_precipitation_events"
-    val label = "Extreme Precipitation Events"
-
-    val description =
-      "Total number of times per period daily average precipitation exceeds the specified percentile of historic observations."
-    val variables: Set[Variable] = Set(Variable.TasMax)
-
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object FrostDays extends Indicator with DaysUnits {
@@ -198,7 +219,8 @@ object Indicator {
       "Number of days per period in which the daily low temperature is below the freezing point of water."
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object HeatingDegreeDays extends Indicator with TemperatureUnits with BasetempParams {
@@ -209,7 +231,8 @@ object Indicator {
       "Total difference of daily average temperature to a reference base temperature."
     val variables: Set[Variable] = Set(Variable.TasMax, Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object MaxConsecutiveDryDays extends Indicator with DaysUnits {
@@ -218,7 +241,8 @@ object Indicator {
     val description              = "Maximum number of consecutive days with no precipitation."
     val variables: Set[Variable] = Set(Variable.Precip)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object MaxHighTemperature extends Indicator with TemperatureUnits {
@@ -229,7 +253,8 @@ object Indicator {
       "Maximum high temperature, generated from daily data using all requested models"
     val variables: Set[Variable] = Set(Variable.TasMax)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object MaxTemperatureThreshold extends Indicator with DaysUnits with ThresholdParams {
@@ -240,7 +265,8 @@ object Indicator {
       "Number of days where high temperature, generated from daily data using all requested models, fulfils the comparison"
     val variables: Set[Variable] = Set(Variable.TasMax)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object MinLowTemperature extends Indicator with TemperatureUnits {
@@ -251,7 +277,8 @@ object Indicator {
       "Minimum low temperature, generated from daily data using all requested models."
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object MinTemperatureThreshold extends Indicator with DaysUnits with ThresholdParams {
@@ -262,7 +289,8 @@ object Indicator {
       "Number of days where low temperature, generated from daily data using all requested models, fulfils the comparison."
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object PercentileLowTemperature
@@ -276,7 +304,8 @@ object Indicator {
       "The specified percentile of low temperature for each timespan. Defaults to 50th percentile (Median)."
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object PercentilePrecipitation
@@ -290,7 +319,8 @@ object Indicator {
       "The specified percentile of precipitation rate for each timespan. Defaults to 50th percentile (Median)."
     val variables: Set[Variable] = Set(Variable.Precip)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object PrecipitationThreshold extends Indicator with DaysUnits with ThresholdParams {
@@ -301,7 +331,8 @@ object Indicator {
       "Number of days where precipitation rate, generated from daily data using all requested models, fulfils the comparison."
     val variables: Set[Variable] = Set(Variable.Precip)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   case object TotalPrecipitation extends Indicator with PrecipitationUnits {
@@ -310,11 +341,13 @@ object Indicator {
     val description              = "Total Precipitation"
     val variables: Set[Variable] = Set(Variable.TasMin)
 
-    def box = ???
+    override protected def box(
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
   def unapply(str: String): Option[Indicator] = Indicator.options.find(_.name == str)
 
+  // values() doesn't like the mixin classes being part of the hierarchy, collect() will ignore them
   val options: Set[Indicator] = sealerate.collect[Indicator]
 
   implicit val encodeIndicator: Encoder[Indicator] =
