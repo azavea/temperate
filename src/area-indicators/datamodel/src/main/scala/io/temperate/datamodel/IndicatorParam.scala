@@ -146,7 +146,7 @@ object IndicatorParam {
   }
 
   case class TimeAggregation() extends IndicatorParam[String] {
-    private val choices = List("yearly", "quarterly", "monthly")
+    private val choices = List("yearly", "monthly")
     val name            = "time_aggregation"
 
     val default = "yearly"

@@ -8,6 +8,7 @@ import cats.effect._
 import com.typesafe.scalalogging.LazyLogging
 import geotrellis.vector.{Point, Polygon}
 import io.circe.syntax._
+import io.temperate.datamodel.IndicatorParam.{TimeAggregation, Years}
 import io.temperate.datamodel.Operations._
 import io.temperate.datamodel._
 import org.http4s._
@@ -21,10 +22,9 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
       indicator.getBox(req.multiParams, scenario) match {
         case Invalid(errors) => BadRequest(errors.toList.asJson)
         case Valid(box) =>
-          val formatter                                       = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
-          val startTime                                       = ZonedDateTime.parse("2020-01-01T00:00:00Z")
-          val endTime                                         = ZonedDateTime.parse("2030-01-01T00:00:00Z")
-          val divider: Seq[KV] => Map[ZonedDateTime, Seq[KV]] = Dividers.divideByCalendarYear
+          val formatter            = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+          val (startTime, endTime) = getTimes(indicator.years, scenario)
+          val divider              = getDivider(indicator.timeAggregation)
 
           val area = Polygon(
             Seq(
@@ -51,5 +51,21 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
       }
     }
+  }
+
+  private def getDivider(timeAgg: TimeAggregation): Seq[KV] => Map[ZonedDateTime, Seq[KV]] = {
+    timeAgg.value match {
+      case Some("yearly") | None => Dividers.divideByCalendarYear
+      case Some("monthly")       => Dividers.divideByCalendarMonth
+    }
+  }
+
+  private def getTimes(years: Years, scenario: Scenario): (ZonedDateTime, ZonedDateTime) = {
+    val (startYr, endYr) = years.value match {
+      case Some(ranges) => (ranges.head.start, ranges.last.end)
+      case _            => (scenario.years.start, scenario.years.end)
+    }
+    (ZonedDateTime.parse(s"$startYr-01-01T00:00:00Z"),
+     ZonedDateTime.parse(s"$endYr-01-01T00:00:00Z"))
   }
 }
