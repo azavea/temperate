@@ -1,32 +1,20 @@
 package io.temperate.datamodel
 
-import cats.data.Validated._
-import cats.data.ValidatedNel
+import cats.data.Validated
+import cats.data.Validated.Valid
 import cats.implicits._
 import io.circe.Encoder
 
-import scala.util.Try
+import scala.util.{Success, Try}
 
 sealed trait IndicatorParam[T] {
   def name: String
   def default: T
   def description: String
   def required: Boolean
+  def value: Option[T]
 
-  def validate(input: String): Option[T]
-
-  private var _value: Option[T]             = None
-  protected var _scenario: Option[Scenario] = None
-  def value: Option[T]                      = _value
-
-  def setValue(input: String, scenario: Scenario): ValidatedNel[String, Unit] = {
-    _scenario = Some(scenario)
-    _value = validate(input)
-    _value match {
-      case Some(_) => Valid()
-      case None    => s"Invalid value for parameter $name".invalidNel
-    }
-  }
+  def validate(input: String, scenario: Scenario): Validated[String, IndicatorParam[T]]
 }
 
 object IndicatorParam {
@@ -34,7 +22,7 @@ object IndicatorParam {
     choices.init.map(opt => s"'$opt'").mkString(", ") + " and " + choices.last
   }
 
-  case class Basetemp() extends IndicatorParam[Double] {
+  case class Basetemp(value: Option[Double] = None) extends IndicatorParam[Double] {
     val name = "basetemp"
 
     val default = 65.0
@@ -44,10 +32,12 @@ object IndicatorParam {
         "See the 'basetemp_units' for a discussion of the units this value uses."
     val required = false
 
-    override def validate(input: String): Option[Double] = Try(input.toDouble).toOption
+    override def validate(input: String, scenario: Scenario): Validated[String, Basetemp] = {
+      Try(input.toDouble).toOption.map(v => copy(value=Some(v))).toValid(s"Value for parameter $name is not a valid number")
+    }
   }
 
-  case class BasetempUnits() extends IndicatorParam[String] {
+  case class BasetempUnits(value: Option[String] = None) extends IndicatorParam[String] {
     private val choices = List("C", "F", "K")
 
     val name = "basetemp_units"
@@ -58,10 +48,12 @@ object IndicatorParam {
       s"Units for the value of the 'basetemp' parameter. Valid choices are ${formatChoices(choices)}. Defaults to '$default'."
     val required = false
 
-    override def validate(input: String): Option[String] = Some(input).filter(choices.contains)
+    override def validate(input: String, scenario: Scenario): Validated[String, BasetempUnits] = {
+      Some(input).filter(choices.contains).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class Datasets() extends IndicatorParam[Dataset] {
+  case class Datasets(value: Option[Dataset] = None) extends IndicatorParam[Dataset] {
     val name = "dataset"
 
     val default: Dataset = Dataset.NexGddp
@@ -70,10 +62,12 @@ object IndicatorParam {
       s"A single value defining which provider to use for raw climate data. If not provided, defaults to '${default.name}'."
     val required = false
 
-    override def validate(input: String): Option[Dataset] = Some(input).flatMap(Dataset.unapply)
+    override def validate(input: String, scenario: Scenario): Validated[String, Datasets] = {
+      Some(input).flatMap(Dataset.unapply).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class Models() extends IndicatorParam[Set[ClimateModel]] {
+  case class Models(value: Option[Set[ClimateModel]] = None) extends IndicatorParam[Set[ClimateModel]] {
     val name = "models"
 
     val default: Set[ClimateModel] = ClimateModel.options
@@ -83,30 +77,35 @@ object IndicatorParam {
         "only use the selected models. If not provided, defaults to all models."
     val required = false
 
-    override def validate(input: String): Option[Set[ClimateModel]] = {
+    override def validate(input: String, scenario: Scenario): Validated[String, Models] = {
       val models = input.split(",").map(ClimateModel.unapply)
       if (models.contains(None)) {
-        None
+        s"Invalid value for parameter $name".invalid
       } else {
-        Some(models.flatten.toSet)
+        copy(value=Some(models.flatten.toSet)).valid
       }
     }
   }
 
-  case class Percentile(defaultPercentile: Int) extends IndicatorParam[Int] {
+  case class Percentile(value: Option[Int] = None) extends IndicatorParam[Int] {
     val name = "percentile"
 
-    val default: Int = defaultPercentile
+    val default: Int = 50
 
     val description: String =
       "The percentile threshold used to determine the appropriate comparative level of an event or measurement. " +
-        s"Must be an integer in the range [0,100]. Defaults to $defaultPercentile"
+        s"Must be an integer in the range [0,100]. Defaults to $default"
     val required = false
 
-    override def validate(input: String): Option[Int] = Try(input.toInt).toOption
+    override def validate(input: String, scenario: Scenario): Validated[String, Percentile] = {
+      Try(input.toInt) match {
+        case Success(num) if num >= 0 && num <= 100 => copy(value=Some(num)).valid
+        case _ => s"Value for parameter $name is not an integer in the range 0 to 100".invalid
+      }
+    }
   }
 
-  case class Threshold() extends IndicatorParam[Double] {
+  case class Threshold(value: Option[Double] = None) extends IndicatorParam[Double] {
     val name = "threshold"
 
     val default = 0.0
@@ -115,10 +114,12 @@ object IndicatorParam {
       "Required. The value against which to compare climate data values in the unit specified by the 'threshold_units' parameter."
     val required = true
 
-    override def validate(input: String): Option[Double] = Try(input.toDouble).toOption
+    override def validate(input: String, scenario: Scenario): Validated[String, Threshold] = {
+      Try(input.toDouble).toOption.map(v => copy(value = Some(v))).toValid(s"Value for parameter $name is not a valid number")
+    }
   }
 
-  case class ThresholdUnits(units: List[String]) extends IndicatorParam[String] {
+  case class ThresholdUnits(units: List[String], value: Option[String] = None) extends IndicatorParam[String] {
     val name = "threshold_units"
 
     val default: String = ""
@@ -128,10 +129,12 @@ object IndicatorParam {
         s"Options: ${formatChoices(units)}"
     val required = true
 
-    override def validate(input: String): Option[String] = Some(input).filter(units.contains)
+    override def validate(input: String, scenario: Scenario): Validated[String, ThresholdUnits] = {
+      Some(input).filter(units.contains).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class ThresholdComparator() extends IndicatorParam[String] {
+  case class ThresholdComparator(value: Option[String] = None) extends IndicatorParam[String] {
     private val choices = List("lt", "gt", "lte", "gte")
     val name            = "threshold_comparator"
 
@@ -142,10 +145,12 @@ object IndicatorParam {
         "Signify: less than, greater than, less than or equals..."
     val required = true
 
-    override def validate(input: String): Option[String] = Some(input).filter(choices.contains)
+    override def validate(input: String, scenario: Scenario): Validated[String, ThresholdComparator] = {
+      Some(input).filter(choices.contains).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class TimeAggregation() extends IndicatorParam[String] {
+  case class TimeAggregation(value: Option[String] = None) extends IndicatorParam[String] {
     private val choices = List("yearly", "monthly")
     val name            = "time_aggregation"
 
@@ -155,23 +160,27 @@ object IndicatorParam {
       s"Time granularity to group data by for result structure. Options are ${formatChoices(choices)}. Defaults to 'yearly'."
     val required = false
 
-    override def validate(input: String): Option[String] = Some(input).filter(choices.contains)
+    override def validate(input: String, scenario: Scenario): Validated[String, TimeAggregation] = {
+      Some(input).filter(choices.contains).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class Units(defaultUnits: String, units: List[String]) extends IndicatorParam[String] {
+  case class Units(defaultUnits: String, units: List[String], value: Option[String] = None) extends IndicatorParam[String] {
     val name = "units"
 
     val default: String = defaultUnits
 
     val description: String =
       "Units in which to return the data. Defaults to Imperial units (Fahrenheit for temperature indicators and " +
-        s"inches for precipitation). Defaults to $default"
+        s"inches for precipitation). Options are ${formatChoices(units)}. Defaults to $default."
     val required = false
 
-    override def validate(input: String): Option[String] = Some(input).filter(units.contains)
+    override def validate(input: String, scenario: Scenario): Validated[String, Units] = {
+      Some(input).filter(units.contains).map(v => copy(value = Some(v))).toValid(s"Invalid value for parameter $name")
+    }
   }
 
-  case class Years() extends IndicatorParam[Seq[Range]] {
+  case class Years(value: Option[Seq[Range]] = None) extends IndicatorParam[Seq[Range]] {
     val name = "years"
 
     val default: Seq[Range] = List()
@@ -181,7 +190,7 @@ object IndicatorParam {
         "range is of the form 'start[:end]'. Examples: '2010', '2010:2020', '2010:2020,2030', '2010:2020,2030:2040'"
     val required = false
 
-    override def validate(input: String): Option[Seq[Range]] = {
+    override def validate(input: String, scenario: Scenario): Validated[String, Years] = {
       val years = input.split(",").map(_.split(":"))
       val ranges = years
         .map {
@@ -190,14 +199,14 @@ object IndicatorParam {
           case _                        => None
         }
         .map {
-          case Some(year) if _scenario.getOrElse(Scenario.RCP45).years.containsSlice(year) =>
+          case Some(year) if scenario.years.containsSlice(year) =>
             Some(year)
           case _ => None
         }
       if (ranges.contains(None)) {
-        None
+        s"Invalid value for parameter $name".invalid
       } else {
-        Some(ranges.flatten.toSeq)
+        copy(value=Some(ranges.flatten.toSeq)).valid
       }
     }
   }

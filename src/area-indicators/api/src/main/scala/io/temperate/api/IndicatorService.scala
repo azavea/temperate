@@ -19,9 +19,9 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
   val routes: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case req @ GET -> Root / Scenario(scenario) / "indicator" / Indicator(indicator) => {
-      indicator.getBox(req.multiParams, scenario) match {
+      indicator.validate(req.multiParams, scenario) match {
         case Invalid(errors) => BadRequest(errors.toList.asJson)
-        case Valid(box) =>
+        case Valid(indicator) =>
           val formatter            = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
           val (startTime, endTime) = getTimes(indicator.years, scenario)
           val divider              = getDivider(indicator.timeAggregation)
@@ -39,7 +39,7 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
           Ok(
             Operations
-              .ioQuery(startTime, endTime, area, divider, Narrowers.byMean, box)
+              .ioQuery(startTime, endTime, area, divider, Narrowers.byMean, indicator.getBox)
               .map { m =>
                 m.map {
                   case (k, v) => {

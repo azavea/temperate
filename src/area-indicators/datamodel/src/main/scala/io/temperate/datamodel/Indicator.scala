@@ -1,60 +1,59 @@
 package io.temperate.datamodel
 
+import java.time.ZonedDateTime
+
 import ca.mrvisser.sealerate
+import cats.Applicative
 import cats.data.Validated._
-import cats.data.ValidatedNel
+import cats.data.{Validated, ValidatedNel}
 import cats.implicits._
 import io.circe.Encoder
 import io.temperate.datamodel.IndicatorParam._
-import io.temperate.datamodel.Operations.TimedDictionary
+import io.temperate.datamodel.Operations.{Dictionary, TimedDictionary}
 
 sealed trait Indicator extends Ordered[Indicator] {
   def name: String
-
   def label: String
-
   def description: String
-
   def variables: Set[Variable]
-
   def available_units: List[String]
-
   def default_units: String
 
+  def datasets: Datasets
+  def models: Models
+  def timeAggregation: TimeAggregation
+  def units: Units
+  def years: Years
+
+  def parameters: Set[IndicatorParam[_]] = Set(
+    datasets,
+     models,
+     timeAggregation,
+     units,
+     years
+  )
+
   protected def box(predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double]
-  val datasets        = Datasets()
-  val models          = Models()
-  val timeAggregation = TimeAggregation()
-  val units           = Units(default_units, available_units)
-  val years           = Years()
-
-  def parameters: Set[IndicatorParam[_]] = Set(datasets, models, timeAggregation, units, years)
-
-  def valid_aggregations = List("yearly", "quarterly", "monthly", "offset_yearly")
 
   def compare(that: Indicator): Int = {
     this.name.compare(that.name)
   }
 
-  def getBox(params: Map[String, Seq[String]],
-             scenario: Scenario): ValidatedNel[String, Seq[TimedDictionary] => Seq[Double]] = {
-    validate(params, scenario).map { _ =>
-      val predicate = getPredicate()
-      box(predicate)
-    }
+  def getBox: Seq[TimedDictionary] => Seq[Double] = {
+    val predicate = getPredicate()
+    box(predicate)
   }
 
   def validate(reqParams: Map[String, Seq[String]],
-               scenario: Scenario): ValidatedNel[String, Unit] = {
-    var validations = validateAllowedParams(reqParams)
-    validations = validations.combine(validateExtraValues(reqParams))
-    parameters.foreach { param =>
+               scenario: Scenario): ValidatedNel[String, Indicator] = {
+    val validReqParams = validateAllowedParams(reqParams) combine validateExtraValues(reqParams)
+    val validIndicatorParams: ValidatedNel[String, List[IndicatorParam[_]]] = parameters.map { param =>
       reqParams.get(param.name) match {
-        case Some(seq) => validations = validations.combine(param.setValue(seq.head, scenario))
-        case None      =>
+        case Some(seq) => param.validate(seq.head, scenario).toValidatedNel
+        case None => param.validNel
       }
-    }
-    validations
+    }.toList.sequence
+    (validReqParams, validIndicatorParams).mapN((_, indicatorParams) => ???)
   }
 
   private def validateAllowedParams(reqParams: Map[String, _]) = {
@@ -103,24 +102,24 @@ sealed trait TemperatureUnits extends Indicator {
 }
 
 sealed trait BasetempParams extends Indicator {
-  val basetemp      = Basetemp()
-  val basetempUnits = BasetempUnits()
+  def basetemp: Basetemp
+  def basetempUnits: BasetempUnits
 
   override val parameters: Set[IndicatorParam[_]] =
     Set(basetemp, basetempUnits, datasets, models, timeAggregation, units, years)
 }
 
 sealed trait PercentileParams extends Indicator {
-  val percentile = Percentile(defaultPercentile = 50)
+  def percentile: Percentile
 
   override val parameters: Set[IndicatorParam[_]] =
     Set(datasets, models, percentile, timeAggregation, units, years)
 }
 
 sealed trait ThresholdParams extends Indicator {
-  val threshold           = Threshold()
-  val thresholdComparator = ThresholdComparator()
-  val thresholdUnits      = ThresholdUnits(available_units)
+  def threshold: Threshold
+  def thresholdComparator: ThresholdComparator
+  def thresholdUnits: ThresholdUnits
 
   override val parameters: Set[IndicatorParam[_]] =
     Set(datasets,
@@ -134,7 +133,15 @@ sealed trait ThresholdParams extends Indicator {
 }
 
 object Indicator {
-  case object AccumulatedFreezingDegreeDays extends Indicator with TemperatureUnits {
+
+  case class AccumulatedFreezingDegreeDays(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name  = "accumulated_freezing_degree_days"
     val label = "Accumulated Freezing Degree Days"
 
@@ -148,7 +155,14 @@ object Indicator {
     }
   }
 
-  case object AverageHighTemperature extends Indicator with TemperatureUnits {
+  case class AverageHighTemperature(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name  = "average_high_temperature"
     val label = "Average High Temperature"
 
@@ -162,7 +176,14 @@ object Indicator {
     }
   }
 
-  case object AverageLowTemperature extends Indicator with TemperatureUnits {
+  case class AverageLowTemperature(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name  = "average_low_temperature"
     val label = "Average Low Temperature"
 
@@ -176,7 +197,17 @@ object Indicator {
     }
   }
 
-  case object CoolingDegreeDays extends Indicator with TemperatureUnits with BasetempParams {
+  case class CoolingDegreeDays(
+      basetemp: Basetemp = Basetemp(),
+      basetempUnits: BasetempUnits = BasetempUnits(),
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits
+      with BasetempParams {
     val name  = "cooling_degree_days"
     val label = "Cooling Degree Days"
 
@@ -189,7 +220,14 @@ object Indicator {
       Boxes.degreeDays(predicate, basetemp.value.getOrElse(basetemp.default))
   }
 
-  case object DiurnalTemperatureRange extends Indicator with TemperatureUnits {
+  case class DiurnalTemperatureRange(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name                     = "diurnal_temperature_range"
     val label                    = "Diurnal Temperature Range"
     val description              = "Average difference between daily max and daily min temperature."
@@ -199,7 +237,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object DrySpells extends Indicator with CountedUnits {
+  case class DrySpells(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with CountedUnits {
     val name  = "dry_spells"
     val label = "Dry Spells"
 
@@ -211,7 +256,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object FrostDays extends Indicator with DaysUnits {
+  case class FrostDays(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with DaysUnits {
     val name  = "frost_days"
     val label = "Frost Days"
 
@@ -223,7 +275,17 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object HeatingDegreeDays extends Indicator with TemperatureUnits with BasetempParams {
+  case class HeatingDegreeDays(
+      basetemp: Basetemp = Basetemp(),
+      basetempUnits: BasetempUnits = BasetempUnits(),
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits
+      with BasetempParams {
     val name  = "heating_degree_days"
     val label = "Heating Degree Days"
 
@@ -235,7 +297,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object MaxConsecutiveDryDays extends Indicator with DaysUnits {
+  case class MaxConsecutiveDryDays(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with DaysUnits {
     val name                     = "max_consecutive_dry_days"
     val label                    = "Max Consecutive Dry Days"
     val description              = "Maximum number of consecutive days with no precipitation."
@@ -245,7 +314,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object MaxHighTemperature extends Indicator with TemperatureUnits {
+  case class MaxHighTemperature(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name  = "max_high_temperature"
     val label = "Maximum High Temperature"
 
@@ -257,7 +333,18 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object MaxTemperatureThreshold extends Indicator with DaysUnits with ThresholdParams {
+  case class MaxTemperatureThreshold(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      threshold: Threshold = Threshold(),
+      thresholdComparator: ThresholdComparator = ThresholdComparator(),
+      thresholdUnits: ThresholdUnits = ThresholdUnits(super.available_units),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with DaysUnits
+      with ThresholdParams {
     val name  = "max_temperature_threshold"
     val label = "Max Temperature Threshold"
 
@@ -269,7 +356,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object MinLowTemperature extends Indicator with TemperatureUnits {
+  case class MinLowTemperature(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with TemperatureUnits {
     val name  = "min_low_temperature"
     val label = "Minimum Low Temperature"
 
@@ -281,7 +375,18 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object MinTemperatureThreshold extends Indicator with DaysUnits with ThresholdParams {
+  case class MinTemperatureThreshold(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      threshold: Threshold = Threshold(),
+      thresholdComparator: ThresholdComparator = ThresholdComparator(),
+      thresholdUnits: ThresholdUnits = ThresholdUnits(super.available_units),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with DaysUnits
+      with ThresholdParams {
     val name  = "min_temperature_threshold"
     val label = "Min Temperature Threshold"
 
@@ -293,8 +398,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object PercentileLowTemperature
-      extends Indicator
+  case class PercentileLowTemperature(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      percentile: Percentile = Percentile(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
       with TemperatureUnits
       with PercentileParams {
     val name  = "percentile_low_temperature"
@@ -308,8 +419,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object PercentilePrecipitation
-      extends Indicator
+  case class PercentilePrecipitation(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      percentile: Percentile = Percentile(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
       with PrecipitationUnits
       with PercentileParams {
     val name  = "percentile_precipitation"
@@ -323,7 +440,18 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object PrecipitationThreshold extends Indicator with DaysUnits with ThresholdParams {
+  case class PrecipitationThreshold(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      threshold: Threshold = Threshold(),
+      thresholdComparator: ThresholdComparator = ThresholdComparator(),
+      thresholdUnits: ThresholdUnits = ThresholdUnits(super.available_units),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with DaysUnits
+      with ThresholdParams {
     val name  = "precipitation_threshold"
     val label = "Precipitation Threshold"
 
@@ -335,7 +463,14 @@ object Indicator {
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
   }
 
-  case object TotalPrecipitation extends Indicator with PrecipitationUnits {
+  case class TotalPrecipitation(
+      datasets: Datasets = Datasets(),
+      models: Models = Models(),
+      timeAggregation: TimeAggregation = TimeAggregation(),
+      units: Units = Units(super.default_units, super.available_units),
+      years: Years = Years()
+  ) extends Indicator
+      with PrecipitationUnits {
     val name                     = "total_precipitation"
     val label                    = "Total Precipitation"
     val description              = "Total Precipitation"
@@ -351,10 +486,9 @@ object Indicator {
   val options: Set[Indicator] = sealerate.collect[Indicator]
 
   implicit val encodeIndicator: Encoder[Indicator] =
-    Encoder.forProduct8("name",
+    Encoder.forProduct7("name",
                         "label",
                         "description",
-                        "valid_aggregations",
                         "variables",
                         "available_units",
                         "default_units",
@@ -363,9 +497,8 @@ object Indicator {
         (i.name,
          i.label,
          i.description,
-         i.valid_aggregations,
          i.variables.map(_.name),
          i.available_units,
          i.default_units,
-         i.parameters))
+         i.parameters.values.toList.sorted))
 }
