@@ -19,7 +19,7 @@ object ApiServer extends IOApp {
     allowedOrigins = Set(
       "https://temperate.io",
       "https://staging.temperate.io",
-      "http://localhost:8000",
+      "http://localhost:8102",
       "http://localhost:8108",
       "http://localhost:4210"
     ),

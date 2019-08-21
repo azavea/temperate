@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
 }
 
 if ENVIRONMENT == 'Development':
-    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:4211', 'localhost:8000',
+    CORS_ORIGIN_WHITELIST = ('localhost:4210', 'localhost:4211', 'localhost:8102',
                              PLANIT_APP)
 else:
     CORS_ORIGIN_WHITELIST = tuple()
