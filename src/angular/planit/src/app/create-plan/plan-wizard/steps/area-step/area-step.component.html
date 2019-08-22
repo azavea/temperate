@@ -1,0 +1,38 @@
+<div class="step-header">
+  <h2 class="step-title">Geographic area</h2>
+  <p>
+    Create a plan for your organization&rsquo;s community or draw an area of interest. All of the climate change data in Temperate will be specific to the area you select.
+  </p>
+</div>
+
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="nav-tabs">
+      <button class="button-tab tab-item"
+              [ngClass]="{active: areaTab === areaTabs.EnterCity}"
+              (click)="areaTab = areaTabs.EnterCity">
+        <span class="icon icon-search"></span>
+        Enter City
+      </button>
+      <button class="button-tab tab-item"
+              [ngClass]="{active: areaTab === areaTabs.DrawArea}"
+              (click)="areaTab = areaTabs.DrawArea">
+        <span class="icon icon-draw-polygon"></span>
+        Draw Area
+      </button>
+    </div>
+    <div class="tab-content" *ngIf="areaTab === areaTabs.EnterCity">
+      Enter your city!!
+    </div>
+    <div class="tab-content" *ngIf="areaTab === areaTabs.DrawArea">
+      Draw your area!!
+    </div>
+  </form>
+</div>
+
+<footer class="step-footer">
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary"
+            nextStep>Next</button>
+  </div>
+</footer>

@@ -28,7 +28,7 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   public formValid: boolean;
   public key: PlanStepKey = PlanStepKey.DueDate;
-  public navigationSymbol = '1';
+  public navigationSymbol = '2';
   public title = 'Expected finish date';
 
   public minDate: Date = new Date();

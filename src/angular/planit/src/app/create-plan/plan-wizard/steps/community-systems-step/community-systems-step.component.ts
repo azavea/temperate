@@ -35,7 +35,7 @@ export class CommunitySystemsStepComponent
   implements OnInit {
 
   public form: FormGroup;
-  public navigationSymbol = '3';
+  public navigationSymbol = '4';
   public title = 'Community systems at risk';
 
   private communitySystems: CommunitySystem[] = [];

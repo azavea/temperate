@@ -28,7 +28,7 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
 
   public form: FormGroup;
   public key = PlanStepKey.Hazards;
-  public navigationSymbol = '2';
+  public navigationSymbol = '3';
   public organization: Organization;
   public title = 'Your city’s top hazards';
   public tooltipText = {

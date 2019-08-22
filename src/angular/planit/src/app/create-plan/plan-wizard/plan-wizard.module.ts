@@ -8,6 +8,7 @@ import { BsDatepickerModule, TooltipModule } from 'ngx-bootstrap';
 
 import { SharedModule } from '../../shared/shared.module';
 import { PlanWizardComponent } from './plan-wizard.component';
+import { AreaStepComponent } from './steps/area-step/area-step.component';
 // tslint:disable-next-line:max-line-length
 import { CommunitySystemsStepComponent } from './steps/community-systems-step/community-systems-step.component';
 import { DueDateStepComponent } from './steps/due-date-step/due-date-step.component';
@@ -28,6 +29,7 @@ import { HazardsStepComponent } from './steps/hazards-step/hazards-step.componen
     PlanWizardComponent
   ],
   declarations: [
+    AreaStepComponent,
     CommunitySystemsStepComponent,
     DueDateStepComponent,
     HazardsStepComponent,
