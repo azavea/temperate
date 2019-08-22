@@ -34,14 +34,14 @@ Vagrant.configure(2) do |config|
   # NFS
   config.vm.network "private_network", ip: "192.168.10.100"
 
-  # Nginx
-  config.vm.network :forwarded_port, guest: 8000, host: 8000
-
   # Gunicorn
   config.vm.network :forwarded_port, guest: 8100, host: 8100
 
   # Django debug server
   config.vm.network :forwarded_port, guest: 8101, host: 8101
+
+  # Nginx
+  config.vm.network :forwarded_port, guest: 8102, host: 8102
 
   # Angular
   config.vm.network :forwarded_port, guest: 4210, host: 4210

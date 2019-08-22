@@ -144,7 +144,7 @@ $ ./scripts/server
 
 ### Nginx vs Angular
 
-By default `./scripts/server` will host the user interface using the Angular server on port 4210. This provides features in development like live refresh on code change. If you want to use Nginx to host on post 8000, you can do so with the `--nginx` flag
+By default `./scripts/server` will host the user interface using the Angular server on port 4210. This provides features in development like live refresh on code change. If you want to use Nginx to host on post 8102, you can do so with the `--nginx` flag
 
 ```bash
 $ vagrant ssh
@@ -166,9 +166,9 @@ yarn start --port 4211
 
 | Port                          | Service                                               |
 | ----------------------------- | ----------------------------------------------------- |
-| [8000](http://localhost:8000) | Nginx                                                 |
 | [8100](http://localhost:8100) | Gunicorn                                              |
 | [8101](http://localhost:8101) | Django debug server                                   |
+| [8102](http://localhost:8102) | Nginx                                                 |
 | [8108](http://localhost:8108) | HTTP4S Area Indicators server                         |
 | [4210](http://localhost:4210) | ng serve                                              |
 | [4210](http://localhost:4211) | ng serve (run from host manually using --port option) |

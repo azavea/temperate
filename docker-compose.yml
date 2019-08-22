@@ -31,7 +31,7 @@ services:
     depends_on:
       - django
     ports:
-      - "8000:443"
+      - "8102:443"
     volumes:
       - "./nginx/dist:/var/www"
       - "./nginx/static:/var/static"
