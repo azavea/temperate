@@ -34,6 +34,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { OrgDropdownComponent } from './org-dropdown/org-dropdown.component';
+import {
+  OrgLocationGeocoderComponent
+} from './org-location-geocoder/org-location-geocoder.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import {
   PasswordValidatorPopoverComponent
@@ -84,6 +87,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     OrgDropdownComponent,
+    OrgLocationGeocoderComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
@@ -113,6 +117,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     OrgDropdownComponent,
+    OrgLocationGeocoderComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
