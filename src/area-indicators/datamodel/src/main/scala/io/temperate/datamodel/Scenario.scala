@@ -15,9 +15,8 @@ sealed trait Scenario extends Ordered[Scenario] {
 
 object Scenario {
   case object RCP45 extends Scenario {
-    val name: String           = "rcp45"
-    val label: String          = "RCP 4.5"
-    val years: Range.Inclusive = 2006 to 2100
+    val name: String  = "rcp45"
+    val label: String = "RCP 4.5"
 
     val description
       : String = "Stabilization without overshoot pathway to 4.5 W/m2 at stabilization after 2100. See " +
@@ -27,9 +26,8 @@ object Scenario {
   }
 
   case object RCP85 extends Scenario {
-    val name: String           = "rcp85"
-    val label: String          = "RCP 8.5"
-    val years: Range.Inclusive = 2006 to 2100
+    val name: String  = "rcp85"
+    val label: String = "RCP 8.5"
 
     val description: String = "Rising radiative forcing pathway leading to 8.5 W/m2 in 2100. See " +
       "https://www.skepticalscience.com/rcp.php"
@@ -38,9 +36,8 @@ object Scenario {
   }
 
   case object Historical extends Scenario {
-    val name                   = "historical"
-    val label                  = "Historical"
-    val years: Range.Inclusive = 1950 to 2005
+    val name  = "historical"
+    val label = "Historical"
 
     val description =
       "A historical dataset from NEX GDDP for 1950 to 2005 that blends reanalysis data with observations"
