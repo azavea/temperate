@@ -32,7 +32,8 @@ object ApiServer extends IOApp {
     Router(
       "/healthcheck"  -> CORS(HealthcheckService.routes, corsConfig),
       "/climate-data" -> CORS(IndicatorService.routes, corsConfig),
-      "/"             -> CORS(DataService.routes, corsConfig)
+      "/map-cell"     -> CORS(MapCellService.routes, corsConfig),
+      "/"             -> CORS(MapCellService.routes, corsConfig)
     )).orNotFound
 
   def run(args: List[String]): IO[ExitCode] =
