@@ -33,8 +33,9 @@ lazy val commonSettings = Seq(
   externalResolvers := Seq(
     DefaultMavenRepository,
     Resolver.bintrayRepo("azavea", "geotrellis"),
-    "locationtech-releases" at "https://repo.locationtech.org/content/groups/releases",
-    "locationtech-snapshots" at "https://repo.locationtech.org/content/groups/snapshots"
+    "locationtech-releases" at "https://repo.locationtech.org/content/repositories/releases",
+    "locationtech-snapshots" at "https://repo.locationtech.org/content/repositories/snapshots/",
+    Resolver.file("local", file(Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns)
   ),
   // SBT Lighter -- Easiest way to configure the plugin is globally for the
   // entire project even though it's just used in `ingest`.
