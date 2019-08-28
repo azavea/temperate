@@ -15,14 +15,16 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
 import { OrganizationService } from '../../../../core/services/organization.service';
+import { WeatherEventService } from '../../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
-import { CommunitySystem, Organization } from '../../../../shared/';
+import { CommunitySystem, Location, Organization } from '../../../../shared/';
 
 import { PlanStepKey } from '../../plan-step-key';
 import { PlanWizardStepComponent } from '../../plan-wizard-step.component';
 
 export interface AreaFormModel {
-  area?: MultiPolygon;
+  location: Location,
+  bounds?: MultiPolygon;
 }
 
 enum AreaTabs {
@@ -45,7 +47,7 @@ export class AreaStepComponent
   public areaTab = AreaTabs.EnterCity;
   public areaTabs = AreaTabs;
 
-  private area?: MultiPolygon = null;
+  private bounds?: MultiPolygon = null;
 
   @Output() wizardCompleted = new EventEmitter();
 
@@ -54,9 +56,10 @@ export class AreaStepComponent
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
+              protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
               private fb: FormBuilder) {
-    super(session, orgService, toastr);
+    super(session, orgService, weatherEventService, toastr);
   }
 
   ngOnInit() {
@@ -67,23 +70,28 @@ export class AreaStepComponent
 
   getFormModel(): AreaFormModel {
     return {
-      area: null
+      location: this.form.controls.location.value,
+      bounds: this.bounds
     };
   }
 
   setupForm(data: AreaFormModel) {
     this.form = this.fb.group({
-      area: [data.area, []]
+      location: [data.location, []],
+      bounds: [data.bounds, []]
     });
   }
 
   fromModel(model: Organization): AreaFormModel {
     return {
-      area: null
+      location: model.location,
+      bounds: model.bounds
    };
   }
 
   toModel(data: AreaFormModel, model: Organization): Organization {
+    model.location = data.location || null;
+    model.bounds = data.bounds || null;
     return model;
   }
 }

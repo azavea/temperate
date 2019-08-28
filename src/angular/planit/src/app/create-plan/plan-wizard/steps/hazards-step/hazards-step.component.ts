@@ -39,10 +39,10 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
+              protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
-              private weatherEventService: WeatherEventService,
               private fb: FormBuilder) {
-    super(session, orgService, toastr);
+    super(session, orgService, weatherEventService, toastr);
   }
 
   ngOnInit() {
@@ -51,7 +51,8 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
     this.setupForm(this.fromModel(this.organization));
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
-      const orgWeatherEvents = this.getOrganizationEvents(this.organization);
+    });
+    this.weatherEventService.rankedEvents().subscribe(orgWeatherEvents => {
       this.form.controls.selectedEvents.setValue(orgWeatherEvents);
     });
   }

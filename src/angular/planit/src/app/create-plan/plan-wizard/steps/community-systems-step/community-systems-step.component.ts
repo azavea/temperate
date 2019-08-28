@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 
 import { CommunitySystemService } from '../../../../core/services/community-system.service';
 import { OrganizationService } from '../../../../core/services/organization.service';
+import { WeatherEventService } from '../../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
 import { CommunitySystem, Organization } from '../../../../shared/';
 
@@ -47,10 +48,11 @@ export class CommunitySystemsStepComponent
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
+              protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
               private communitySystemService: CommunitySystemService,
               private fb: FormBuilder) {
-    super(session, orgService, toastr);
+    super(session, orgService, weatherEventService, toastr);
   }
 
   ngOnInit() {

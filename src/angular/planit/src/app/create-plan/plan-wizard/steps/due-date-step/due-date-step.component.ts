@@ -6,6 +6,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrService } from 'ngx-toastr';
 
 import { OrganizationService } from '../../../../core/services/organization.service';
+import { WeatherEventService } from '../../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
 import {
   Organization,
@@ -36,10 +37,11 @@ export class DueDateStepComponent extends PlanWizardStepComponent<DueDateStepFor
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
+              protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
               protected fb: FormBuilder,
               private router: Router) {
-    super(session, orgService, toastr);
+    super(session, orgService, weatherEventService, toastr);
   }
 
   ngOnInit() {

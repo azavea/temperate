@@ -31,6 +31,24 @@ def get_org_from_context(context):
     return user.primary_organization
 
 
+def get_location(location_data):
+    try:
+        location = PlanItLocation.objects.from_point(
+            location_data['name'],
+            location_data['admin'],
+            location_data['point'],
+        )
+    except HTTPError as error:
+        # A 404 error indicates there are no map cells for this point
+        # Any other error we should let the client handle
+        if error.response.status_code == 404:
+            raise serializers.ValidationError({
+                'location': 'No climate data for this location'
+            })
+        raise
+    return location
+
+
 class PasswordResetSerializer(AuthPasswordResetSerializer):
     """
     Overrides the django-rest-auth password reset serializer to send HTML emails
@@ -181,20 +199,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         # Organization doesn't have an `invites` field.
         validated_data.pop('invites', [])
         instance = PlanItOrganization.objects.create(**validated_data)
-        try:
-            instance.location = PlanItLocation.objects.from_point(
-                location_data['name'],
-                location_data['admin'],
-                location_data['point'],
-            )
-        except HTTPError as error:
-            # A 404 error indicates there are no map cells for this point
-            # Any other error we should let the client handle
-            if error.response.status_code == 404:
-                raise serializers.ValidationError({
-                    'location': 'No climate data for this location'
-                })
-            raise
+        instance.location = get_location(location_data)
 
         instance.save()
 
@@ -203,19 +208,22 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
         return instance
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         location_data = validated_data.pop('location')
         for k, v in validated_data.items():
             setattr(instance, k, v)
-        instance.location = PlanItLocation.objects.from_point(
-            location_data['name'],
-            location_data['admin'],
-            location_data['point'],
-        )
-        instance.save()
 
-        if 'weather_events' in self.initial_data:
+        updated_location = get_location(location_data)
+        if instance.location_id != updated_location.pk:
+            instance.location = updated_location
+            # Reimport template weather events for new location
+            instance.weather_events.all().delete()
+            instance.import_weather_events()
+        elif 'weather_events' in self.initial_data:
             instance.update_weather_events(self.initial_data['weather_events'])
+
+        instance.save()
 
         return instance
 

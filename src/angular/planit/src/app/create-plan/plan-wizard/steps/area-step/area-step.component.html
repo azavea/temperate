@@ -22,7 +22,16 @@
       </button>
     </div>
     <div class="tab-content" *ngIf="areaTab === areaTabs.EnterCity">
-      Enter your city!!
+      <app-org-location-geocoder formControlName="location"></app-org-location-geocoder>
+      <div class="form-control-error"
+            *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
+        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">
+          This is a required field.</span>
+        <span *ngIf="form.controls.location.errors.server">
+          *{{ form.controls.location.errors.server }}</span>
+        <span *ngIf="form.controls.location.errors.city">
+          City not found.</span>
+      </div>
     </div>
     <div class="tab-content" *ngIf="areaTab === areaTabs.DrawArea">
       Draw your area!!

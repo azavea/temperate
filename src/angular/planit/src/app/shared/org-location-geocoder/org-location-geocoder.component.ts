@@ -24,7 +24,7 @@ export class OrgLocationGeocoderComponent implements ControlValueAccessor {
   private onChange = (_: any) => { };
 
   public writeValue(location: any) {
-    this.input = `${location.name}, ${location.admin}`;
+    this.input = location ? location.getFullName() : '';
   }
 
   public registerOnChange(fn: any) {
@@ -70,14 +70,16 @@ export class OrgLocationGeocoderComponent implements ControlValueAccessor {
 
   private getLocation() {
     return new Location({
-      name: this.address.name,
-      admin: this.getAdminFromAddress(this.address),
-      point: {
+      geometry: {
         type: 'Point',
         coordinates: [
           this.address.geometry.location.lng(),
           this.address.geometry.location.lat(),
         ]
+      },
+      properties: {
+        name: this.address.name,
+        admin: this.getAdminFromAddress(this.address),
       }
     });
   }
