@@ -1,9 +1,9 @@
-/* TODO: Copy prototype SCSS as part of #40 */
-
 @import 'bootstrap';
 
 @import 'ngx-bootstrap';
 @import '~ngx-toastr/toastr';
+
+ @import "~nouislider/distribute/nouislider.min.css";
 
 /* * * *
  * Utilities
@@ -80,7 +80,6 @@
   'components/tabs',
   'components/tooltip',
   'components/chart',
-  'components/timeslider',
   'components/top-concerns',
   'components/typeahead',
   'components/app-collapsible-chart',
