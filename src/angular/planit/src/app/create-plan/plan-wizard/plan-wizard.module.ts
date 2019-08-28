@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { AgmCoreModule } from '@agm/core';
 import { ArchwizardModule } from 'ng2-archwizard';
 import { BsDatepickerModule, TooltipModule } from 'ngx-bootstrap';
 
@@ -19,6 +20,7 @@ import { HazardsStepComponent } from './steps/hazards-step/hazards-step.componen
     CommonModule,
     SharedModule,
     RouterModule,
+    AgmCoreModule,
     TooltipModule,
     ArchwizardModule,
     BsDatepickerModule,

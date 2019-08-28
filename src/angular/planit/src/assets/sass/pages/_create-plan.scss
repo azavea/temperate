@@ -20,6 +20,32 @@ app-plan-step-due-date {
   }
 }
 
+app-plan-step-area {
+  .error {
+    color: $error-color;
+  }
+  .map-help {
+    display: flex;
+    justify-content: space-between;
+
+    &:first-child {
+      margin-right: auto;
+    }
+  }
+  .map-container {
+    position: relative;
+
+    agm-map {
+      height: 400px;
+    }
+    .redraw-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  }
+}
+
 .splash-container {
   position: absolute;
   left: 0;
