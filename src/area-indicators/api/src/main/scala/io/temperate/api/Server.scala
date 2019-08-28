@@ -2,6 +2,7 @@ package io.temperate.api
 
 import cats.effect._
 import cats.implicits._
+import io.temperate.api.services._
 import org.http4s._
 import org.http4s.implicits._
 import org.http4s.server.blaze._
@@ -33,7 +34,7 @@ object ApiServer extends IOApp {
       "/healthcheck"  -> CORS(HealthcheckService.routes, corsConfig),
       "/climate-data" -> CORS(IndicatorService.routes, corsConfig),
       "/map-cell"     -> CORS(MapCellService.routes, corsConfig),
-      "/"             -> CORS(MapCellService.routes, corsConfig)
+      "/"             -> CORS(DataService.routes, corsConfig)
     )).orNotFound
 
   def run(args: List[String]): IO[ExitCode] =

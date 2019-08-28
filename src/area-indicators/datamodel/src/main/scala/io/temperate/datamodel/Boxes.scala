@@ -1,7 +1,5 @@
 package io.temperate.datamodel
 
-import io.temperate.datamodel.Operations.TimedDictionary
-
 object Boxes {
 
   def count(predicate: TimedDictionary => Boolean)(

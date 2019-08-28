@@ -1,4 +1,4 @@
-package io.temperate.datamodel
+package io.temperate.api.operations
 
 import java.time.ZonedDateTime
 import java.util.concurrent.Executors
@@ -10,6 +10,8 @@ import geotrellis.raster._
 import geotrellis.store._
 import geotrellis.store.s3._
 import geotrellis.vector.Polygon
+import _root_.io.temperate.api.Config
+import _root_.io.temperate.datamodel._
 
 import scala.concurrent._
 
@@ -19,14 +21,10 @@ object Operations extends LazyLogging {
   val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors)) // XXX
   implicit val contextShift: ContextShift[IO] = IO.contextShift(ec)
 
-  type KV = (SpaceTimeKey, MultibandTile)
-  type Dictionary = Map[String, Double]
-  type TimedDictionary = (ZonedDateTime, Dictionary)
-
-  val bucket = "ingested-loca-data"
-  val prefix = "CCSM4"
+  val bucket = Config.gtLayerBucket
+  val prefix = Config.gtLayerKeyPath
   val as = S3AttributeStore(bucket, prefix)
-  val id = LayerId("CCSM4_rcp85_r6i1p1", 0)
+  val id = LayerId("loca-rcp85", 0)
   val dataset = S3CollectionLayerReader(as)
 
   /**

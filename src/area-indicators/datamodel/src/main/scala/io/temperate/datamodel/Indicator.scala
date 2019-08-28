@@ -6,7 +6,6 @@ import cats.data.ValidatedNel
 import cats.implicits._
 import io.circe.Encoder
 import io.temperate.datamodel.IndicatorParam._
-import io.temperate.datamodel.Operations.TimedDictionary
 
 sealed trait Indicator extends Ordered[Indicator] {
   def name: String

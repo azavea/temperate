@@ -1,8 +1,8 @@
-package io.temperate.api
-
-import io.temperate.datamodel.Operations.KV
+package io.temperate.api.operations
 
 import java.time.{ZoneId, ZonedDateTime}
+
+import io.temperate.datamodel.KV
 
 object Dividers {
 
