@@ -1,4 +1,4 @@
-package io.temperate.api
+package io.temperate.api.services
 
 import cats.effect._
 import com.typesafe.scalalogging.LazyLogging

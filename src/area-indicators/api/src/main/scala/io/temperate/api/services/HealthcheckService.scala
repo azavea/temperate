@@ -1,10 +1,11 @@
-package io.temperate.api
+package io.temperate.api.services
 
 import java.time.Duration
 import java.util.function.BiConsumer
 
 import cats.effect._
 import io.circe.syntax._
+import io.temperate.api.Config
 import org.http4s._
 import org.http4s.circe._
 import org.http4s.dsl.io._
@@ -18,27 +19,25 @@ object HealthcheckService {
 
   val S3Timeout = 5
 
-  val S3Bucket: String = sys.env.getOrElse("AI_HEALTHCHECK_S3_BUCKET", "ingested-loca-data")
+  val S3Bucket: String = Config.healthcheckBucket
 
   // The specific file checked is mostly arbitrary, we just want to ensure we can access *a* file
-  val S3Path: String = sys.env
-    .getOrElse("AI_HEALTHCHECK_S3_PATH", "CCSM4/_attributes/metadata__CCSM4_rcp85_r6i1p1__0.json")
+  val S3Path: String = Config.healthcheckKeyPath
 
   private def checkS3(implicit timer: Timer[IO], contextShift: ContextShift[IO]): IO[Boolean] = {
     var s3clientBuilder = S3AsyncClient
       .builder()
       .httpClient(
         NettyNioAsyncHttpClient.builder().readTimeout(Duration.ofSeconds(S3Timeout)).build())
-      .region(Region.US_EAST_1)
+      .region(Region.of(Config.awsRegion))
 
     // In production we'll authenticate via IAM roles and don't need to provide the AWS profile
-    val awsprofile = "AWS_PROFILE"
-    if (sys.env.contains(awsprofile)) {
+    if (sys.env.contains("AWS_PROFILE")) {
       s3clientBuilder = s3clientBuilder
         .credentialsProvider(
           ProfileCredentialsProvider
             .builder()
-            .profileName(sys.env(awsprofile))
+            .profileName(Config.awsProfile)
             .build()
         )
     }

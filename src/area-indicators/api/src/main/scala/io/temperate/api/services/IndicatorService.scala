@@ -1,4 +1,4 @@
-package io.temperate.api
+package io.temperate.api.services
 
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter
 import cats.data.Validated.{Invalid, Valid}
 import cats.effect._
 import com.typesafe.scalalogging.LazyLogging
-import geotrellis.vector.{Point, Polygon}
-import io.circe.syntax._
-import io.temperate.datamodel.IndicatorParam.{TimeAggregation, Years}
-import io.temperate.datamodel.Operations._
-import io.temperate.datamodel._
+import geotrellis.vector._
+import _root_.io.circe.syntax._
+import _root_.io.temperate.api.operations._
+import _root_.io.temperate.datamodel.IndicatorParam.{TimeAggregation, Years}
+import _root_.io.temperate.datamodel._
 import org.http4s._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
@@ -34,8 +34,9 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
               Point(-75.13069152832031, 39.961332959837826),
               Point(-75.2075958251953, 39.968174500886306)
             ))
+//          val area = Point(-75.16379, 39.95233).buffer(0.01).getEnvelope.asInstanceOf[Polygon]
 
-          logger.info(s"Querying area: ${area}")
+          logger.info(s"Querying area: ${area.toGeoJson}")
 
           Ok(
             Operations

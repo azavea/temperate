@@ -1,7 +1,7 @@
-package io.temperate.datamodel
+package io.temperate.api.operations
 
+import _root_.io.temperate.datamodel.Dictionary
 import geotrellis.raster._
-import _root_.io.temperate.datamodel.Operations.Dictionary
 
 object Narrowers {
 
@@ -58,5 +58,4 @@ object Narrowers {
       "pr"     -> pr
     )
   }
-
 }
