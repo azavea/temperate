@@ -25,6 +25,7 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
           val formatter            = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
           val (startTime, endTime) = getTimes(indicator.years, scenario)
           val divider              = getDivider(indicator.timeAggregation)
+          val dataset              = Dataset.Loca
 
           val area = Polygon(
             Seq(
@@ -40,7 +41,7 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
           Ok(
             Operations
-              .ioQuery(startTime, endTime, area, divider, Narrowers.byMean, box)
+              .ioQuery(startTime, endTime, area, divider, Narrowers.byMean, box, dataset, indicator)
               .map { m =>
                 m.map {
                   case (k, v) => {
@@ -56,8 +57,9 @@ object IndicatorService extends Http4sDsl[IO] with LazyLogging {
 
   private def getDivider(timeAgg: TimeAggregation): Seq[KV] => Map[ZonedDateTime, Seq[KV]] = {
     timeAgg.value match {
-      case Some("yearly") | None => Dividers.divideByCalendarYear
-      case Some("monthly")       => Dividers.divideByCalendarMonth
+      case Some("yearly")  => Dividers.divideByCalendarYear
+      case Some("monthly") => Dividers.divideByCalendarMonth
+      case _               => Dividers.divideByCalendarYear
     }
   }
 
