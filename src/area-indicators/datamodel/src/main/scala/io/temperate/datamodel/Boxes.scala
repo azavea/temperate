@@ -119,7 +119,7 @@ object Boxes {
     List(xs.sum / xs.length)
   }
 
-  def degreeDays(predicate: TimedDictionary => Boolean, baseline: Double)(
+  def degreeDays(predicate: TimedDictionary => Boolean, baseline: Double, isHeating: Boolean)(
       dictionaries: Seq[TimedDictionary]): Seq[Double] = {
 
     List(
@@ -127,7 +127,16 @@ object Boxes {
         .filter(predicate)
         .map({
           case (zdt, d) =>
-            baseline - d.getOrElse("tasavg", throw InvalidVariableException("tasavg"))
+            val tasmax = d.getOrElse("tasmax", throw InvalidVariableException("tasmax"))
+            val tasmin = d.getOrElse("tasmin", throw InvalidVariableException("tasmin"))
+            val tasavg = (tasmax + tasmin) / 2
+            if (isHeating && tasavg < baseline) {
+              baseline - tasavg
+            } else if (!isHeating && tasavg > baseline) {
+              tasavg - baseline
+            } else {
+              0
+            }
         })
         .sum
     )
@@ -139,7 +148,10 @@ object Boxes {
       dictionaries
         .filter(predicate)
         .map({
-          case (zdt, d) => 273.15 - d.getOrElse("tasavg", throw InvalidVariableException("tasavg"))
+          case (zdt, d) =>
+            val tasmax = d.getOrElse("tasmax", throw InvalidVariableException("tasmax"))
+            val tasmin = d.getOrElse("tasmin", throw InvalidVariableException("tasmin"))
+            273.15 - (tasmax + tasmin) / 2
         })
         .scanLeft(0.0)(_ + _)
         .reduce({ (a: Double, b: Double) =>

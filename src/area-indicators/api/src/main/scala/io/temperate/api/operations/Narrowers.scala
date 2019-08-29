@@ -1,6 +1,6 @@
 package io.temperate.api.operations
 
-import _root_.io.temperate.datamodel.Dictionary
+import _root_.io.temperate.datamodel._
 import geotrellis.raster._
 
 object Narrowers {
@@ -10,52 +10,27 @@ object Narrowers {
     * Converts an area (some tiles) into a dictionary of the form
     * Map("tasmin" -> x, "tasmax" -> y, "pr" -> z).
     */
-  def byMean(area: Seq[MultibandTile]): Dictionary = {
-    var count1: Int    = 0
-    var count2: Int    = 0
-    var count3: Int    = 0
-    var tasmin: Double = 0.0
-    var tasmax: Double = 0.0
-    var pr: Double     = 0.0
+  def byMean(area: Seq[MultibandTile], dataset: Dataset, indicator: Indicator): Dictionary = {
+    val models              = indicator.models.value.getOrElse(dataset.models)
+    var results: Dictionary = Map.empty[String, Double]
 
-    area.foreach({ tile =>
-      tile
-        .band(0)
-        .foreachDouble({ z: Double =>
-          if (!isNoData(z)) {
-            count1 = count1 + 1
-            tasmin = tasmin + z
+    indicator.variables.foreach { variable =>
+      var count: Int  = 0
+      var sum: Double = 0.0
+      area.foreach { mbTile =>
+        models.foreach { model =>
+          val index = dataset.tileIndex(model, variable)
+          val tile  = mbTile.band(index)
+          tile.foreachDouble { z: Double =>
+            if (!isNoData(z)) {
+              count = count + 1
+              sum = sum + z
+            }
           }
-        })
-
-      tile
-        .band(1)
-        .foreachDouble({ z: Double =>
-          if (!isNoData(z)) {
-            count2 = count2 + 1
-            tasmax = tasmax + z
-          }
-        })
-
-      tile
-        .band(2)
-        .foreachDouble({ z: Double =>
-          if (!isNoData(z)) {
-            count3 = count3 + 1
-            pr = pr + z
-          }
-        })
-    })
-
-    tasmin /= count1
-    tasmax /= count2
-    pr /= count3
-
-    Map(
-      "tasmin" -> tasmin,
-      "tasmax" -> tasmax,
-      "tasavg" -> (tasmin + tasmax) / 2.0,
-      "pr"     -> pr
-    )
+        }
+      }
+      results += (variable.name -> sum / count)
+    }
+    results
   }
 }

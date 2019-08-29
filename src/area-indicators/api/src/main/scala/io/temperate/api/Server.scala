@@ -41,6 +41,7 @@ object ApiServer extends IOApp {
     BlazeServerBuilder[IO]
       .bindHttp(8108, "0.0.0.0")
       .withHttpApp(httpApp)
+      .withIdleTimeout(60.seconds)
       .serve
       .compile
       .drain

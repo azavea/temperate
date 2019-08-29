@@ -1,10 +1,15 @@
-package io.temperate.ingest.methods
+package io.temperate.datamodel.methods
 
 import geotrellis.util.MethodExtensions
 import io.temperate.datamodel._
 import io.temperate.datamodel.ClimateModel._
 
-trait ExtraDatasetMethods extends MethodExtensions[Dataset] {
+/**
+  * This trait is an extension on Dataset as a separate file so that we can maintain
+  * these verbose static mappings in one place, without cluttering the core definition
+  * of what a Dataset is.
+  */
+trait TileIndexMethods extends MethodExtensions[Dataset] {
 
   def tileIndex(model: ClimateModel, variable: Variable): Int = {
     val modelIndex = climateModelIndex(model)

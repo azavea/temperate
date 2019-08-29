@@ -6,14 +6,13 @@ import geotrellis.raster._
 import geotrellis.spark._
 import geotrellis.spark.store.s3.S3LayerWriter
 import geotrellis.store._
+import geotrellis.store.avro.AvroRecordCodec
 import geotrellis.store.s3.S3AttributeStore
 import geotrellis.util._
 import _root_.io.circe.Encoder
+import _root_.io.temperate.datamodel._
 import org.apache.spark.SparkContext
 import ucar.nc2.NetcdfFile
-import _root_.io.temperate.datamodel._
-import geotrellis.store.avro.AvroRecordCodec
-import org.apache.spark.rdd.RDD
 
 import scala.reflect.ClassTag
 
@@ -21,8 +20,8 @@ class ClimateIngest(bucket: String, keyPrefix: String)(@transient implicit val s
     extends Serializable
     with LazyLogging {
 
-
-  def run(config: ProductionIngestConfig): Unit = {
+  def run[K: SpatialComponent: AvroRecordCodec: Boundable: Encoder: ClassTag](
+      config: IngestConfig[K]): Unit = {
     val climateModelCount = config.dataset.models.toSeq.size
     val variableCount     = Variable.options.toSeq.size
     val tileCount         = climateModelCount * variableCount

@@ -185,7 +185,7 @@ object Indicator {
 
     override protected def box(
         predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] =
-      Boxes.degreeDays(predicate, basetemp.value.getOrElse(basetemp.default))
+      Boxes.degreeDays(predicate, basetemp.value.getOrElse(basetemp.default), false)
   }
 
   case object DiurnalTemperatureRange extends Indicator with TemperatureUnits {
@@ -231,7 +231,8 @@ object Indicator {
     val variables: Set[Variable] = Set(Variable.TasMax, Variable.TasMin)
 
     override protected def box(
-        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] = ???
+        predicate: TimedDictionary => Boolean): Seq[TimedDictionary] => Seq[Double] =
+      Boxes.degreeDays(predicate, basetemp.value.getOrElse(basetemp.default), true)
   }
 
   case object MaxConsecutiveDryDays extends Indicator with DaysUnits {
