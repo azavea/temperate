@@ -51,8 +51,6 @@ object Main
             // Swap configs here depending on whether you want to write a debug SpatialKey
             // layer or a production SpaceTimeKey layer. Auto-selection based on a debug
             // flag got me stuck in compiler hell, so sorry about that.
-            // You'll also need to change the type of the config argument to the
-            // ClimateIngest.run method if you swap these.
             // val config = new DebugIngestConfig(dataset, scenario)
             val config = new ProductionIngestConfig(dataset, scenario)
 
