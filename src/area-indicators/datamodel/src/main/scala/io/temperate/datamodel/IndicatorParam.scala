@@ -37,7 +37,7 @@ object IndicatorParam {
   case class Basetemp() extends IndicatorParam[Double] {
     val name = "basetemp"
 
-    val default = 65.0
+    val default = 291.483 // 65F in K
 
     val description: String =
       s"The base temperature used to calculate the daily difference for degree days summations. Defaults to $default. " +
