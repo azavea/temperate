@@ -100,23 +100,37 @@ export class AreaStepComponent
         draggable: true,
         editable: true
       },
-      drawingMode: OverlayType.POLYGON
+      drawingMode: this.polygon === null ? OverlayType.POLYGON : null
     };
 
     this.drawingManager = new DrawingManager(options);
     google.maps.event.addListener(this.drawingManager, 'polygoncomplete', (polygon) => {
-      this.polygon = polygon;
-      this.polygonArea = this.getPolygonArea();
-      this.drawingManager.setDrawingMode(null);
+      this.setPolygon(polygon);
     });
     this.drawingManager.setMap(map);
   }
 
-  getPolygonArea() {
+  setPolygon(polygon: google.maps.Polygon) {
+    this.polygon = polygon;
+    this.setPolygonArea();
+
+    polygon.getPaths().forEach(path => {
+      google.maps.event.addListener(path, 'insert_at', () => this.setPolygonArea());
+      google.maps.event.addListener(path, 'remove_at', () => this.setPolygonArea());
+      google.maps.event.addListener(path, 'set_at', () => this.setPolygonArea());
+    });
+    google.maps.event.addListener(polygon, 'dragend', () => this.setPolygonArea());
+
+    if (this.drawingManager) {
+      this.drawingManager.setDrawingMode(null);
+    }
+  }
+
+  setPolygonArea() {
     const { computeArea } = google.maps.geometry.spherical;
     const SQ_M_PER_SQ_MI = 0.00000039;
 
-    return computeArea(this.polygon.getPath()) * SQ_M_PER_SQ_MI;
+    this.polygonArea = computeArea(this.polygon.getPath()) * SQ_M_PER_SQ_MI;
   }
 
   clearBounds() {
@@ -154,8 +168,7 @@ export class AreaStepComponent
       const coords = data.bounds.coordinates[0].slice(0, -1);
       const paths = coords.map(coord => ({lng: coord[0], lat: coord[1]}));
       this.mapsApiLoader.load().then(() => {
-        this.polygon = new google.maps.Polygon({ paths });
-        this.polygonArea = this.getPolygonArea();
+        this.setPolygon(new google.maps.Polygon({ paths, editable: true, draggable: true }));
       });
     }
   }
