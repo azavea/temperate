@@ -27,7 +27,7 @@ export class RiskPopoverComponent implements OnInit {
   @ViewChild('indicatorModal', {static: true})
   private indicatorModal: ModalTemplateComponent;
 
-  @ViewChild('popover', {static: true})
+  @ViewChild('popover', {static: false})
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,
