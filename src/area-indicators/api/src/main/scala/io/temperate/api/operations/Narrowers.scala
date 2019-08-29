@@ -11,13 +11,14 @@ object Narrowers {
     * Map("tasmin" -> x, "tasmax" -> y, "pr" -> z).
     */
   def byMean(area: Seq[MultibandTile], dataset: Dataset, indicator: Indicator): Dictionary = {
+    val models              = indicator.models.value.getOrElse(dataset.models)
     var results: Dictionary = Map.empty[String, Double]
 
     indicator.variables.foreach { variable =>
       var count: Int  = 0
       var sum: Double = 0.0
       area.foreach { mbTile =>
-        dataset.models.foreach { model =>
+        models.foreach { model =>
           val index = dataset.tileIndex(model, variable)
           val tile  = mbTile.band(index)
           tile.foreachDouble { z: Double =>
