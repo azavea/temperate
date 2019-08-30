@@ -187,7 +187,7 @@ lazy val ingestDependencies = commonDependencies ++ datamodelDependencies ++ Seq
   Dependencies.geotrellisS3Spark,
   Dependencies.sparkCore,
   "com.amazonaws" % "aws-java-sdk-s3" % "1.11.92",
-  "edu.ucar" % "cdm" % "feature-s3+hdfs-bbd7f24" from "https://geotrellis-thredds-build-artifacts.s3.amazonaws.com/cdm-feature-s3%2Bhdfs-bbd7f24.jar"
+  "edu.ucar" % "cdm" % "feature-s3+hdfs-bbd7f24" from "https://geotrellis-build-artifacts.s3.amazonaws.com/thredds/cdm-feature-s3%2Bhdfs-bbd7f24.jar"
 
 )
 
