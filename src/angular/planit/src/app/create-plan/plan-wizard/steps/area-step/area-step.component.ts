@@ -55,6 +55,8 @@ export class AreaStepComponent
   public polygon?: google.maps.Polygon = null;
   public polygonArea: Number = null;
 
+  public polygonOutOfBounds = false;
+
   public mapStyles = [
     {
       featureType: 'poi',
@@ -112,31 +114,42 @@ export class AreaStepComponent
 
   setPolygon(polygon: google.maps.Polygon) {
     this.polygon = polygon;
-    this.setPolygonArea();
+    this.checkPolygon();
 
     polygon.getPaths().forEach(path => {
-      google.maps.event.addListener(path, 'insert_at', () => this.setPolygonArea());
-      google.maps.event.addListener(path, 'remove_at', () => this.setPolygonArea());
-      google.maps.event.addListener(path, 'set_at', () => this.setPolygonArea());
+      google.maps.event.addListener(path, 'insert_at', () => this.checkPolygon());
+      google.maps.event.addListener(path, 'remove_at', () => this.checkPolygon());
+      google.maps.event.addListener(path, 'set_at', () => this.checkPolygon());
     });
-    google.maps.event.addListener(polygon, 'dragend', () => this.setPolygonArea());
+    google.maps.event.addListener(polygon, 'dragend', () => this.checkPolygon());
 
     if (this.drawingManager) {
       this.drawingManager.setDrawingMode(null);
     }
   }
 
-  setPolygonArea() {
+  checkPolygon() {
     const { computeArea } = google.maps.geometry.spherical;
-    const SQ_M_PER_SQ_MI = 0.00000039;
+    const SQ_M_PER_SQ_MI = 0.0000003861;
 
     this.polygonArea = computeArea(this.polygon.getPath()) * SQ_M_PER_SQ_MI;
+
+    const LOCA_EXTENT = new google.maps.LatLngBounds(
+      { lat: 23.4, lng: -126.0 }, // SW corner
+      { lat: 54.0, lng:  -66.0 }, // NE corner
+    );
+    const vertices = this.polygon.getPath().getArray();
+    this.polygonOutOfBounds = !vertices.every(point => {
+      return LOCA_EXTENT.contains(point);
+    });
+    return;
   }
 
   clearBounds() {
     this.polygon.setMap(null);
     this.polygon = null;
     this.polygonArea = null;
+    this.polygonOutOfBounds = false;
     this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
   }
 
@@ -144,7 +157,7 @@ export class AreaStepComponent
     if (this.areaTab === AreaTabs.EnterCity) {
       return this.form.controls.location.value !== null;
     }
-    return this.polygon !== null && this.polygonArea < this.maxArea;
+    return this.polygon !== null && this.polygonArea < this.maxArea && !this.polygonOutOfBounds;
   }
 
   shouldSave() {

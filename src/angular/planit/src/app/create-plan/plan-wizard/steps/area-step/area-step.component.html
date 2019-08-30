@@ -40,9 +40,12 @@
           [ngClass]="polygonArea >= maxArea ? 'error' : null">
           Please create a region that is under {{ maxArea | number }} sq mi.
         </span>
-        <span *ngIf="polygonArea">
+        <span *ngIf="polygonArea !== null">
           Total: <span [ngClass]="polygonArea > maxArea ? 'error' : null">{{ polygonArea | number : '1.0-0' }}</span> out of max <b>{{ maxArea | number }} sq mi.</b>
         </span>
+      </p>
+      <p class="error" *ngIf="polygonOutOfBounds">
+        Please limit your region to within the continental United States.
       </p>
       <div class="map-container">
         <agm-map
