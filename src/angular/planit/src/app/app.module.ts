@@ -98,7 +98,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 const AGM_CONFIG = {
   apiKey: environment.googleMapsApiKey,
-  libraries: ['places']
+  libraries: ['drawing', 'geometry', 'places']
 };
 
 

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
-import { Organization } from '../../shared';
+import { Location, Organization } from '../../shared';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -21,7 +21,20 @@ export class OrganizationService {
       // API expects date with no time portion, in ISO format (yyyy-mm-dd)
       formattedOrganization.plan_due_date = organization.plan_due_date.toISOString().substr(0, 10);
     }
+    formattedOrganization.location = this.formatLocation(organization.location);
     return Object.assign(formattedOrganization, {});
+  }
+
+  private formatLocation(location: Location): any {
+    // Location is served as GeoJSON for reads, but properties must be at
+    // top-level for writes
+    if (!location) {
+      return null;
+    }
+    const formattedLocation = cloneDeep(location);
+    formattedLocation.name = location.properties.name;
+    formattedLocation.admin = location.properties.admin;
+    return Object.assign(formattedLocation, {});
   }
 
   create(organization: Organization): Observable<Organization> {

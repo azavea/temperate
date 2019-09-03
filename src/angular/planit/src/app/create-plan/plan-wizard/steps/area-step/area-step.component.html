@@ -1,0 +1,75 @@
+<div class="step-header">
+  <h2 class="step-title">Geographic area</h2>
+  <p>
+    Create a plan for your organization&rsquo;s community or draw an area of interest. All of the climate change data in Temperate will be specific to the area you select.
+  </p>
+</div>
+
+<div class="step-content">
+  <form [formGroup]="form">
+    <div class="nav-tabs">
+      <button class="button-tab tab-item"
+              [ngClass]="{active: areaTab === areaTabs.EnterCity}"
+              (click)="areaTab = areaTabs.EnterCity">
+        <span class="icon icon-search"></span>
+        Enter City
+      </button>
+      <button class="button-tab tab-item"
+              [ngClass]="{active: areaTab === areaTabs.DrawArea}"
+              (click)="areaTab = areaTabs.DrawArea;">
+        <span class="icon icon-draw-polygon"></span>
+        Draw Area
+      </button>
+    </div>
+    <div class="tab-content" *ngIf="areaTab === areaTabs.EnterCity">
+      <app-org-location-geocoder formControlName="location"></app-org-location-geocoder>
+      <div class="form-control-error"
+            *ngIf="form.controls.location.errors && (form.controls.location.dirty || form.controls.location.touched)">
+        <span *ngIf="form.controls.location.errors.required || form.controls.location.errors.autocomplete">
+          This is a required field.</span>
+        <span *ngIf="form.controls.location.errors.server">
+          *{{ form.controls.location.errors.server }}</span>
+        <span *ngIf="form.controls.location.errors.city">
+          City not found.</span>
+      </div>
+    </div>
+    <div class="tab-content" *ngIf="areaTab === areaTabs.DrawArea">
+      <h3>Draw your plan&rsquo;s boundaries</h3>
+      <p class="map-help">
+        <span
+          [ngClass]="polygonArea >= maxArea ? 'error' : null">
+          Please create a region that is under {{ maxArea | number }} sq mi.
+        </span>
+        <span *ngIf="polygonArea !== null">
+          Total: <span [ngClass]="polygonArea > maxArea ? 'error' : null">{{ polygonArea | number : '1.0-0' }}</span> out of max <b>{{ maxArea | number }} sq mi.</b>
+        </span>
+      </p>
+      <p class="error" *ngIf="polygonOutOfBounds">
+        Please limit your region to within the continental United States.
+      </p>
+      <div class="map-container">
+        <agm-map
+          #gmap
+          [latitude]="organization.location.geometry.coordinates[1]"
+          [longitude]="organization.location.geometry.coordinates[0]"
+          [streetViewControl]="false"
+          [styles]="mapStyles"
+          (mapReady)="onMapReady($event)">
+        </agm-map>
+        <button
+          class="button redraw-btn"
+          *ngIf="polygon !== null"
+          (click)="clearBounds()">
+          <i class="icon icon-cancel"></i>Re-draw
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<footer class="step-footer">
+  <div class="step-footer-navigation">
+    <button type="button" class="button button-primary"
+            [disabled]="!isStepComplete()" nextStep>Next</button>
+  </div>
+</footer>

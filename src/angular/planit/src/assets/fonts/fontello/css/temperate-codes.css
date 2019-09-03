@@ -121,6 +121,8 @@
 .icon-list-alt:before { content: '\e877'; } /* '' */
 .icon-th-list:before { content: '\e878'; } /* '' */
 .icon-mail:before { content: '\e879'; } /* '' */
+.icon-draw-polygon:before { content: '\e87a'; } /* '' */
+.icon-search:before { content: '\e87b'; } /* '' */
 .icon-forestry:before { content: '\e8e6'; } /* '' */
 .icon-circle:before { content: '\e8fc'; } /* '' */
 .icon-circle-empty:before { content: '\e8fd'; } /* '' */

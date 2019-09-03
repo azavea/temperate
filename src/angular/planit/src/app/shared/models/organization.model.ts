@@ -1,3 +1,5 @@
+import { Polygon } from 'geojson';
+
 import { OrgUnitType } from '../constants/units-conversion';
 import { Location } from './location.model';
 import { OrgSubscription } from './org-subscription.model';
@@ -10,6 +12,7 @@ export class Organization {
   plan_setup_complete?: boolean;
   units: OrgUnitType;
   location: Location;
+  bounds?: Polygon;
   subscription: OrgSubscription;
   subscription_end_date?: Date;
   subscription_pending: boolean;

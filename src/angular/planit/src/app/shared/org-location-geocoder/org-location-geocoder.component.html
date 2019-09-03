@@ -1,0 +1,8 @@
+<input
+    class="form-control"
+    appGmapAutocomplete
+    [(ngModel)]="input"
+    [options]="{componentRestrictions: {'country': ['us', 'pr', 'vi', 'gu', 'mp']}}"
+    (placeChanged)="itemSelected($event)"
+    (blur)="itemBlurred()"
+/>

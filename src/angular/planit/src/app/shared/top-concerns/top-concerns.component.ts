@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
-import { WeatherEventService } from '../../core/services/weather-event.service';
 import { Concern, WeatherEvent } from '../../shared';
 
 
