@@ -1,13 +1,15 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "downlevelIteration": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "strictPropertyInitialization": false,
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,17 +18,38 @@
       "dom"
     ],
     "paths": {
-      "@angular/animations": ["../node_modules/@angular/animations"],
-      "@angular/common": ["../node_modules/@angular/common"],
-      "@angular/compiler": ["../node_modules/@angular/compiler"],
-      "@angular/core": ["../node_modules/@angular/core"],
-      "@angular/forms": ["../node_modules/@angular/forms"],
-      "@angular/http": ["../node_modules/@angular/http"],
-      "@angular/platform-browser": ["../node_modules/@angular/platform-browser"],
-      "@angular/platform-browser-dynamic": ["../node_modules/@angular/platform-browser-dynamic"],
-      "@angular/router": ["../node_modules/@angular/router"],
-      "typescript": ["../node_modules/typescript"]
+      "@angular/animations": [
+        "../node_modules/@angular/animations"
+      ],
+      "@angular/common": [
+        "../node_modules/@angular/common"
+      ],
+      "@angular/compiler": [
+        "../node_modules/@angular/compiler"
+      ],
+      "@angular/core": [
+        "../node_modules/@angular/core"
+      ],
+      "@angular/forms": [
+        "../node_modules/@angular/forms"
+      ],
+      "@angular/http": [
+        "../node_modules/@angular/http"
+      ],
+      "@angular/platform-browser": [
+        "../node_modules/@angular/platform-browser"
+      ],
+      "@angular/platform-browser-dynamic": [
+        "../node_modules/@angular/platform-browser-dynamic"
+      ],
+      "@angular/router": [
+        "../node_modules/@angular/router"
+      ],
+      "typescript": [
+        "../node_modules/typescript"
+      ]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "module": "esnext"
   }
 }

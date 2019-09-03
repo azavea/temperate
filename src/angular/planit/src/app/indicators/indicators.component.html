@@ -1,7 +1,7 @@
 <div class="main-container">
   <main class="main-content" role="main">
     <header class="page-header">
-      <h1 class="page-title-large">Climate data for {{city?.getFullName()}}</h1>
+      <h1 class="page-title-large">Climate data for {{location?.getFullName()}}</h1>
       <p class="paragraph-intro">You can use this page to look at temperature and precipitation data from two popular climate datasets: NASA NEX-GDDP or LOCA. See <a href="https://docs.climate.azavea.com/api_reference.html#dataset">datasets</a> for more information.</p>
       <p>For brevity, &ldquo;temperature&rdquo; refers to surface air temperature and &ldquo;historic&rdquo; refers to 1950-2006. The indicators below come from the <a href="https://climate.azavea.com">Climate Change API.</a></p>
     </header>
@@ -33,7 +33,7 @@
             *ngFor="let indicator of filteredIndicators"
             [isOpen]="accordionState[indicator.name]"
             [indicator]="indicator"
-            [apiCity]="apiCity"
+            [location]="location"
             (toggled)="indicatorToggled(indicator.name, $event)">
         </app-collapsible-chart>
       </div>

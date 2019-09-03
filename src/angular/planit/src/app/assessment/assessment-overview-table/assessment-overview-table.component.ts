@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
+import { onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { RiskService } from '../../core/services/risk.service';
 
 import { Action, Risk } from '../../shared';
@@ -13,7 +16,7 @@ import {
 })
 export class AssessmentOverviewTableComponent implements OnInit {
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal: ConfirmationModalComponent;
+  @ViewChild('confirmDeleteModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
   @Input() risks: Risk[];
   @Output() risksChange = new EventEmitter<Risk[]>();
   @Input() showFullTitle = false;
@@ -39,9 +42,8 @@ export class AssessmentOverviewTableComponent implements OnInit {
     this.confirmDeleteModal.confirm({
       tagline: `Are you sure you want to delete ${risk.title()}?`,
       confirmText: 'Delete'
-    }).onErrorResumeNext().switchMap(() => {
-      return this.riskService.delete(risk);
-    }).subscribe(() => {
+    }).pipe(onErrorResumeNext, switchMap(() => this.riskService.delete(risk))
+    ).subscribe(() => {
       this.risks = this.risks.filter(r => r.id !== risk.id);
       this.risksChange.emit(this.risks);
     });

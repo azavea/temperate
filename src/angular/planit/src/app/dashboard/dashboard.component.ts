@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { CacheService } from '../core/services/cache.service';
 import { OrganizationService } from '../core/services/organization.service';
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
   private weatherEvents: WeatherEvent[];
 
-  @ViewChild('trialWarningModal') private trialWarningModal: ModalTemplateComponent;
+  @ViewChild('trialWarningModal', {static: true}) private trialWarningModal: ModalTemplateComponent;
 
   constructor(private cache: CacheService,
               private organizationService: OrganizationService,
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getRisks();
-    Observable.forkJoin(
+    forkJoin(
       this.weatherEventService.list(),
       this.userService.current()
     ).subscribe(([events, user]: [WeatherEvent[], User]) => {
@@ -94,7 +95,7 @@ export class DashboardComponent implements OnInit {
     this.risks = undefined;
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
     this.saveEventsToAPI(selectedEvents)
-      .finally(() => this.getRisks())
+      .pipe(finalize(() => this.getRisks()))
       .subscribe();
     modal.close();
   }

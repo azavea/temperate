@@ -6,7 +6,8 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import Point
+from django.contrib.postgres.fields.array import ArrayField
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -33,38 +34,47 @@ logger = logging.getLogger(__name__)
 class PlanItLocationManager(models.Manager):
 
     @transaction.atomic
-    def from_api_city(self, api_city_id):
-        location, created = PlanItLocation.objects.get_or_create(api_city_id=api_city_id)
+    def from_point(self, name, admin, point):
+        location, created = PlanItLocation.objects.get_or_create(
+            name=name, admin=admin, point=point
+        )
         if created:
-            city = make_token_api_request('/api/city/{}/'.format(api_city_id))
-            location.name = city['properties']['name']
-            location.admin = city['properties']['admin']
-            location.point = GEOSGeometry(str(city['geometry']))
-            location.georegion = GeoRegion.objects.get_for_point(location.point)
-            location.is_coastal = city['properties']['proximity']['ocean']
+            # Note: If this throws a Http404 exception, that will be caught in the serializer
+            map_cells = make_token_api_request('api/map-cell/{}/{}/'.format(point.y, point.x),
+                                               {'distance': settings.CCAPI_DISTANCE})
+            location.is_coastal = any(cell['properties']['proximity']['ocean']
+                                      for cell in map_cells)
+            datasets = set()
+            for cell in map_cells:
+                datasets |= {dataset for dataset in cell['properties']['datasets']
+                             if dataset is not None}
+            location.datasets = list(datasets)
+            location.georegion = GeoRegion.objects.get_for_point(point)
             location.save()
         return location
 
-    def get_by_natural_key(self, api_city_id):
-        """Get or create the location based on its API City ID."""
-        return self.from_api_city(api_city_id)
+    def get_by_natural_key(self, name, admin, lat, lon):
+        """Get or create the location based on its name, admin and position."""
+        point = Point([lon, lat], srid=4326)
+        return self.get(name=name, admin=admin, point=point)
 
 
 class PlanItLocation(models.Model):
     name = models.CharField(max_length=256, null=False, blank=True)
     admin = models.CharField(max_length=16, null=False, blank=True)
-    api_city_id = models.IntegerField(null=True, blank=True)
     point = models.PointField(srid=4326, null=True, blank=True)
     georegion = models.ForeignKey(GeoRegion, null=True, blank=True)
     is_coastal = models.BooleanField(default=False)
+    datasets = ArrayField(models.CharField(max_length=48), blank=True, default=list)
 
     objects = PlanItLocationManager()
 
     class Meta:
         verbose_name = 'location'
+        unique_together = (('name', 'admin', 'point'),)
 
     def natural_key(self):
-        return (self.api_city_id,)
+        return (self.name, self.admin, self.point.coords[1], self.point.coords[0])
 
     def __str__(self):
         if self.admin:
@@ -81,6 +91,15 @@ class PlanItOrganization(models.Model):
     IMPERIAL = 'IMPERIAL'
     UNITS_CHOICES = ((IMPERIAL, 'imperial'),
                      (METRIC, 'metric'),)
+
+    class Source:
+        USER = 'user'
+        MISSY_IMPORTER = 'missy_importer'
+
+        CHOICES = (
+            (USER, 'User',),
+            (MISSY_IMPORTER, 'Missy Importer',),
+        )
 
     class Subscription:
         FREE_TRIAL = 'free_trial'
@@ -105,6 +124,7 @@ class PlanItOrganization(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)
+    source = models.CharField(max_length=16, choices=Source.CHOICES, default=Source.USER)
 
     subscription = models.CharField(max_length=16,
                                     choices=Subscription.CHOICES,
@@ -121,7 +141,7 @@ class PlanItOrganization(models.Model):
                                                related_name='organizations')
 
     class Meta:
-        unique_together = (("name", "location"),)
+        unique_together = (('name', 'location'),)
         verbose_name = 'organization'
 
     def __str__(self):
@@ -283,6 +303,39 @@ class PlanItUserManager(BaseUserManager):
 
         return self._create_user(email, first_name, last_name, password, **extra)
 
+    def add_via_email_to_organization(self, email, organization):
+        """Add a user to an organization via email address.
+
+        Return value is (user, was_created, was_added).
+        """
+        was_created = False
+        was_added = False
+        # If the user is already in the org, do nothing
+        try:
+            user = organization.users.get(email=email)
+            return (user, was_created, was_added)
+        except PlanItUser.DoesNotExist:
+            pass
+        # If the user exists but isn't in the org, add them.
+        try:
+            user = PlanItUser.objects.get(email=email)
+            user.organizations.add(organization)
+            # Handle the case where the user was removed from an organization and re-added. This
+            # succeeds even if the org is not in removed_organizations (and therefore is not
+            # removed).
+            user.removed_organizations.remove(organization)
+            if user.primary_organization is None:
+                user.primary_organization = organization
+                user.save()
+            was_added = True
+        # Otherwise, create a new user
+        except PlanItUser.DoesNotExist:
+            user = self.create_user(email, '', '', primary_organization=organization,
+                                    is_active=False)
+            was_created = True
+
+        return (user, was_created, was_added)
+
 
 class PlanItUser(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
@@ -295,6 +348,23 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
                                            blank=True)
     primary_organization = models.ForeignKey('PlanItOrganization', null=True, blank=True,
                                              on_delete=models.SET_NULL)
+    # Stores organizations the user was recently removed from
+    removed_organizations = models.ManyToManyField('PlanItOrganization',
+                                                   related_name='former_users',
+                                                   blank=True)
+
+    trial_end_notified = models.BooleanField(
+        default=False,
+        help_text=(
+            'Indicates if the user has been notified about an upcoming trial expiration'
+        )
+    )
+    can_create_multiple_organizations = models.BooleanField(
+        default=False,
+        help_text=(
+            'Designates whether user can create multiple organizations.'
+        ),
+    )
 
     objects = PlanItUserManager()
 
@@ -315,12 +385,6 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField('date joined', default=timezone.now)
-    trial_end_notified = models.BooleanField(
-        default=False,
-        help_text=(
-            'Indicates if the user has been notified about an upcoming trial expiration'
-        )
-    )
 
     class Meta:
         verbose_name = 'user'

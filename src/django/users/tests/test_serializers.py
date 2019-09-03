@@ -1,50 +1,58 @@
 from unittest import mock
 
 from django.contrib.gis.geos import Point
+from django.http import Http404
 from django.test import TestCase
+from rest_framework.test import APIRequestFactory
 
 from users.models import PlanItLocation, PlanItOrganization
-from users.serializers import OrganizationSerializer
+from users.serializers import OrganizationSerializer, RemoveUserSerializer
 
-from users.tests.factories import OrganizationFactory
+from users.tests.factories import OrganizationFactory, UserFactory
 
 
 class OrganizationSerializerTestCase(TestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
-    def test_create_no_existing_data(self, from_api_city_mock, import_weather_events_mock):
-        """Ensure a new location is created with its Location from from_api_city()."""
-        from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
+    def test_create_no_existing_data(self, from_point_mock, import_weather_events_mock):
+        """Ensure a new location is created with its Location from from_point()."""
+        from_point_mock.return_value = PlanItLocation.objects.create(name='Test Location')
+        point = Point(-75.16379, 39.95233, srid=4326)
 
-        city_id = 7
         data = {
             'name': 'Test Org',
             'location': {
-                # Don't embed api_city_id in a properties dict since we're calling create() directly
-                # and bypassing the GeoFeatureModelSerializer magic.
-                'api_city_id': city_id,
+                'name': 'Test City',
+                'admin': 'ABC',
+                'point': point,
             },
-            'units': 'METRIC'
+            'units': 'METRIC',
         }
 
         organization = OrganizationSerializer.create(None, dict(data))
 
         self.assertEqual(organization.name, data['name'])
         self.assertEqual(organization.units, data['units'])
-        from_api_city_mock.assert_called_with(city_id)
-        self.assertEqual(organization.location, from_api_city_mock.return_value)
+        from_point_mock.assert_called_with('Test City', 'ABC', point)
+        self.assertEqual(organization.location, from_point_mock.return_value)
 
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
-    def test_create_import_weather_rank(self, from_api_city_mock, import_weather_events_mock):
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
+    def test_create_import_weather_rank(self, from_point_mock, import_weather_events_mock):
         """Ensure that creating an Organization invokes import_weather_events()."""
-        from_api_city_mock.return_value = PlanItLocation.objects.create(name='Test Location')
+        from_point_mock.return_value = PlanItLocation.objects.create(name='Test Location')
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [
+                        -75.16379,
+                        39.95233
+                    ]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -68,23 +76,25 @@ class OrganizationSerializerTestCase(TestCase):
         - https://github.com/encode/django-rest-framework/issues/2996
         - https://medium.com/django-rest-framework/dealing-with-unique-constraints-in-nested-serializers-dade33b831d9 # NOQA
         """
-        city_id = 7
         PlanItLocation.objects.create(name='Test Location',
-                                      api_city_id=city_id,
+                                      admin='ABC',
                                       point=Point(0, 0, srid=4326))
         request_mock = mock.Mock()
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': city_id
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
         serializer = OrganizationSerializer(data=data, context={"request": request_mock})
 
-        # Serializer should not throw an error for the existing api_city_id
+        # Serializer should not throw an error for the existing location
         self.assertTrue(serializer.is_valid())
 
     def test_create_no_location_specified(self):
@@ -98,7 +108,7 @@ class OrganizationSerializerTestCase(TestCase):
         # Serializer should not allow an Organization to be created without a location
         self.assertFalse(serializer.is_valid())
 
-    def test_create_no_api_city_id_specified(self):
+    def test_create_no_location_data_specified(self):
         """Ensure the Serializer raises an error if the location does not have a valid entry."""
         data = {
             'name': 'Test Org',
@@ -109,8 +119,11 @@ class OrganizationSerializerTestCase(TestCase):
 
         # Serializer should not allow an Organization to be created without a valid location value
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(len(serializer.errors['location']), 1)
-        self.assertEqual(serializer.errors['location'][0], "Location ID is required.")
+        self.assertEqual(serializer.errors['location'], {
+            'name': ['This field is required.'],
+            'admin': ['This field is required.'],
+            'point': ['This field is required.']
+        })
 
     def test_org_plan_due_date_set(self):
         """Accept a valid year"""
@@ -118,9 +131,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'plan_due_date': '2500-01-30',
             'units': 'METRIC'
@@ -135,9 +151,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'plan_due_date': None,
             'units': 'METRIC'
@@ -157,9 +176,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'plan_due_date': 'garbage string',
             'units': 'METRIC'
@@ -175,9 +197,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'plan_due_date': '2018-01-20',
             'units': 'METRIC'
@@ -194,9 +219,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'subscription': PlanItOrganization.Subscription.BASIC,
             'units': 'METRIC'
@@ -208,9 +236,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'subscription': 'notavalidchoice',
             'units': 'METRIC'
@@ -224,9 +255,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'subscription': PlanItOrganization.Subscription.BASIC,
             'units': 'METRIC'
@@ -240,9 +274,12 @@ class OrganizationSerializerTestCase(TestCase):
         data = {
             'name': 'Test Org',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'subscription': PlanItOrganization.Subscription.BASIC,
             'units': 'METRIC'
@@ -254,3 +291,45 @@ class OrganizationSerializerTestCase(TestCase):
         self.assertTrue(serializer.errors and 'subscription' in serializer.errors)
         self.assertEqual(len(serializer.errors['subscription']), 1)
         self.assertTrue(serializer.errors['subscription'][0].startswith("Subscription cannot"))
+
+
+class RemoveUserSerializerTestCase(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.organization = OrganizationFactory(created_by=self.user)
+
+        self.request_factory = APIRequestFactory()
+        self.request = self.request_factory.get('/blah/')
+        self.request.user = self.user
+
+    def test_remove_user_that_doesnt_exist(self):
+        """Ensure validation 404s if user missing."""
+        serializer = RemoveUserSerializer(data={'email': 'not.there@missing.xyz'},
+                                          context={'request': self.request})
+        with self.assertRaises(Http404):
+            serializer.is_valid()
+
+    def test_remove_user_that_not_on_organization(self):
+        """Ensure validation 404s if user not part of organization."""
+        serializer = RemoveUserSerializer(data={'email': 'not.there@missing.xyz'},
+                                          context={'request': self.request})
+        with self.assertRaises(Http404):
+            serializer.is_valid()
+
+    def test_email_not_specified(self):
+        """Ensure validationfails if email blank."""
+        serializer = RemoveUserSerializer(data={'email': ''},
+                                          context={'request': self.request})
+        self.assertFalse(serializer.is_valid())
+
+    def test_email_invalid(self):
+        """Ensure validationfails if email invalid."""
+        serializer = RemoveUserSerializer(data={'email': 'not even an email'},
+                                          context={'request': self.request})
+        self.assertFalse(serializer.is_valid())
+
+    def test_valid(self):
+        """Ensure validation succeeds."""
+        serializer = RemoveUserSerializer(data={'email': self.user.email},
+                                          context={'request': self.request})
+        self.assertTrue(serializer.is_valid())

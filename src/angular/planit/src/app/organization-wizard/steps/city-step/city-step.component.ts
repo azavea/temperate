@@ -1,20 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
-import { City as ApiCity } from 'climate-change-components';
-import { CityService } from '../../../core/services/city.service';
 import { OrganizationService } from '../../../core/services/organization.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-import { Location, Organization } from '../../../shared';
+import { GmapAutocompleteDirective, Location, Organization } from '../../../shared';
 import { OrganizationStepKey } from '../../organization-step-key.enum';
 import { OrganizationWizardStepComponent } from '../../organization-wizard-step.component';
 
+type PlaceResult = google.maps.places.PlaceResult;
+
 interface CityStepFormModel {
-  location: ApiCity;
+  location: Location;
   name: string;
 }
 
@@ -27,58 +27,42 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
   public key: OrganizationStepKey = OrganizationStepKey.City;
 
-  public cities: Observable<ApiCity[]>;
-  public city: ApiCity = null;
+  public address: PlaceResult = null;
   public noResults = false;
 
   @Input() form: FormGroup;
 
   constructor(protected session: WizardSessionService<Organization>,
               protected organizationService: OrganizationService,
-              protected toastr: ToastrService,
-              private cityService: CityService) {
+              protected toastr: ToastrService) {
     super(session, organizationService, toastr);
   }
 
   ngOnInit() {
     super.ngOnInit();
     const organization = this.session.getData() || new Organization({});
-
-    this.cities = Observable.create((observer) => {
-      this.cityService
-        .search(this.form.controls.location.value)
-        .map(results => {
-          results.forEach(result => {
-            const displayName = this.getDisplayName(result);
-            result.properties['displayName'] = displayName;
-          });
-
-          return results;
-        })
-        .subscribe(res => observer.next(res));
-    });
   }
 
   fromModel(organization: Organization): CityStepFormModel {
-    let loc = null;
-
-    if (organization.location && organization.location.properties) {
-      loc = {
-        id: organization.location.properties.api_city_id,
-        properties: {
-          name: organization.location.properties.name
-        }
-      } as ApiCity;
-    }
     return {
-      location: loc,
+      location: organization.location,
       name: organization.name
     };
   }
 
   getFormModel(): CityStepFormModel {
     const data: CityStepFormModel = {
-      location: this.city,
+      location: new Location({
+        name: this.address.name,
+        admin: this.getAdminFromAddress(this.address),
+        point: {
+          type: 'Point',
+          coordinates: [
+            this.address.geometry.location.lng(),
+            this.address.geometry.location.lat(),
+          ]
+        }
+      }),
       name: this.form.controls.name.value
     };
     return data;
@@ -86,11 +70,7 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
 
   toModel(data: CityStepFormModel, organization: Organization) {
     if (!!data.location) {
-      organization.location = {
-        properties: {
-          api_city_id: data.location.id
-        }
-      } as Location;
+      organization.location = data.location;
     } else {
       organization.location = null;
     }
@@ -98,14 +78,9 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     return organization;
   }
 
-  itemSelected(event: TypeaheadMatch) {
-    const savedName = this.city ? this.getDisplayName(this.city) : null;
-    const formName = this.form.controls.location.value;
-
-    if (savedName !== formName) {
-      this.city = event.item ? event.item : null;
-      this.noResults = false;
-    }
+  itemSelected(address: PlaceResult) {
+    this.address = address;
+    this.form.controls.location.setValue(address.formatted_address);
   }
 
   itemBlurred() {
@@ -113,23 +88,22 @@ export class CityStepComponent extends OrganizationWizardStepComponent<CityStepF
     // to update the value, this will find a mis-match and set an error state. Using a timeout
     // means `itemSelected` will run first and all will be in order by the time this fires.
     setTimeout(() => {
-      const savedName = this.city ? this.getDisplayName(this.city) : null;
+      const savedName = this.address ? this.address.formatted_address : null;
       const formName = this.form.controls.location.value;
-
       if (formName && savedName !== formName) {
-        this.city = null;
+        this.address = null;
         this.form.controls.location.setErrors({city: true});
       }
     }, 100);
   }
 
-  onNoResults(noResults) {
-    // typeaheadNoResults gets triggered on every change, not just when there are no results,
-    // and passes a boolean for whether there are results or not. So we can just store it.
-    this.noResults = noResults;
-  }
-
-  getDisplayName(city: ApiCity): string {
-    return `${city.properties.name}, ${city.properties.admin}`;
+  getAdminFromAddress(address: PlaceResult): string {
+    let admin = '';
+    address.address_components.forEach(component => {
+      if (component.types.includes('administrative_area_level_1')) {
+        admin = component.short_name;
+      }
+    });
+    return admin;
   }
 }

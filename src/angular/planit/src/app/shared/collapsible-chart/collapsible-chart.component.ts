@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  City as ApiCity,
-  Indicator
-} from 'climate-change-components';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { IndicatorChartComponent } from '../indicator-chart/indicator-chart.component';
+import { Indicator } from '../../climate-api';
+import { Location } from '../models/location.model';
 
 @Component({
   selector: 'app-collapsible-chart',
@@ -14,7 +11,7 @@ export class CollapsibleChartComponent {
 
   @Input() isOpen: boolean;
   @Input() indicator: Indicator;
-  @Input() apiCity: ApiCity;
+  @Input() location: Location;
   @Output() toggled: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {}

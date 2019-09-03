@@ -3,6 +3,7 @@ from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Polygon, MultiPolygon
+from django.core import mail
 from django.test import override_settings, TestCase, Client
 from django.urls import reverse
 
@@ -21,6 +22,25 @@ from planit_data.tests.factories import (
     OrganizationRiskFactory,
     OrganizationWeatherEventFactory
 )
+
+# Mock response for a city from the CC_API
+MOCK_CC_API_DATACELLS = [{
+    'type': 'Feature',
+    'geometry': {
+        'type': 'Point',
+        'coordinates': [
+            -75.16379,
+            39.95233
+        ]
+    },
+    'properties': {
+        'datasets': ['NEX-GDDP'],
+        'distance_meters': 10000,
+        'proximity': {
+            'ocean': False
+        }
+    }
+}]
 
 
 class UserCreationApiTestCase(APITestCase):
@@ -48,6 +68,9 @@ class UserCreationApiTestCase(APITestCase):
         self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
         self.assertEqual(user.primary_organization, None,
                          'User should have no primary organization')
+
+        # check user cannot create multiple organizations by default
+        self.assertFalse(user.can_create_multiple_organizations)
 
     def test_user_created_can_log_in(self):
         user_data = {
@@ -182,30 +205,7 @@ class OrganizationCreationApiTestCase(APITestCase):
 
     @mock.patch('users.models.make_token_api_request')
     def test_org_created(self, api_wrapper_mock):
-        api_wrapper_mock.return_value = {
-            "id": 7,
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -75.16379,
-                    39.95233
-                ]
-            },
-            "properties": {
-                "datasets": [
-                    "NEX-GDDP",
-                    "LOCA"
-                ],
-                "name": "Philadelphia",
-                "admin": "PA",
-                "proximity": {
-                    "ocean": False
-                },
-                "population": 1526006,
-                "region": 11
-            }
-        }
+        api_wrapper_mock.return_value = MOCK_CC_API_DATACELLS
 
         # Create a GeoRegion that encompasses (-75.16379, 39.95233)
         GeoRegion.objects.create(
@@ -214,13 +214,15 @@ class OrganizationCreationApiTestCase(APITestCase):
                                        (-100, 0), (0, 0))))
         )
 
-        city_id = 7
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -232,7 +234,7 @@ class OrganizationCreationApiTestCase(APITestCase):
 
         # check organization exists
         org = PlanItOrganization.objects.get(name='Test Organization')
-        self.assertEqual(org.location.api_city_id, city_id)
+        self.assertEqual(org.location.name, 'Test City')
         self.assertEqual(org.units, org_data['units'])
 
     @mock.patch('users.models.make_token_api_request')
@@ -244,9 +246,12 @@ class OrganizationCreationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -261,17 +266,20 @@ class OrganizationCreationApiTestCase(APITestCase):
         # No PlanItOrganization objects should have been created
         self.assertFalse(PlanItOrganization.objects.all().exists())
 
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    def test_organization_saves_user_in_created_by(self, import_mock, from_api_city_mock):
-        from_api_city_mock.return_value = LocationFactory()
+    def test_organization_saves_user_in_created_by(self, import_mock, from_point_mock):
+        from_point_mock.return_value = LocationFactory()
 
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': 7,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -284,21 +292,23 @@ class OrganizationCreationApiTestCase(APITestCase):
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
     def test_organization_duplicate_name_allowed(self, import_mock):
         """Creating an organization with same name as another should succeed."""
-        location = LocationFactory(
-            api_city_id=5
-        )
+        location = LocationFactory(name='Other City', admin='BCD')
         # Make an existing object to conflict with
         org = OrganizationFactory(
             name="Test Name",
-            location__api_city_id=7
+            location__name='Test City',
+            location__admin='ABC'
         )
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': location.point.coords
+                },
+                'name': location.name,
+                'admin': location.admin,
             },
             'units': 'METRIC'
         }
@@ -314,15 +324,19 @@ class OrganizationCreationApiTestCase(APITestCase):
         # Make an existing object to conflict with
         org = OrganizationFactory(
             name="Test Name",
-            location__api_city_id=7
+            location__name='Test City',
+            location__admin='ABC'
         )
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -353,9 +367,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': '{} Changed'.format(starting_name),
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id + 1,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
             },
             'units': 'METRIC'
         }
@@ -375,9 +392,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': []
@@ -396,9 +416,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'community_systems': [new_community_system.id]
@@ -418,9 +441,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'community_systems': []
@@ -438,9 +464,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': [we.pk]
@@ -467,9 +496,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': self.org.name,
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'plan_setup_complete': True,
             'weather_events': [weather_event.pk],
@@ -505,9 +537,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': self.org.name,
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'plan_setup_complete': True,
             'weather_events': [we.pk for we in weather_events],
@@ -541,9 +576,12 @@ class OrganizationApiTestCase(APITestCase):
         org_data = {
             'name': 'Test Organization',
             'location': {
-                'properties': {
-                    'api_city_id': self.org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'METRIC',
             'weather_events': []
@@ -555,21 +593,24 @@ class OrganizationApiTestCase(APITestCase):
         self.assertEqual(0, OrganizationWeatherEvent.objects.filter(id=org_we.pk).count())
         self.assertEqual(response.status_code, 200)
 
-    @mock.patch.object(PlanItLocation.objects, 'from_api_city')
+    @mock.patch.object(PlanItLocation.objects, 'from_point')
     @mock.patch.object(PlanItOrganization, 'import_weather_events')
-    def test_organization_name_does_not_self_conflict(self, import_mock, from_api_city_mock):
+    def test_organization_name_does_not_self_conflict(self, import_mock, from_point_mock):
         """Updating an organization without changing its name should not error."""
         org = OrganizationFactory()
         self.user.organizations.add(org)
 
-        from_api_city_mock.return_value = org.location
+        from_point_mock.return_value = org.location
 
         org_data = {
             'name': org.name,
             'location': {
-                'properties': {
-                    'api_city_id': org.location.api_city_id,
-                }
+                'point': {
+                    'type': 'Point',
+                    'coordinates': self.org.location.point.coords
+                },
+                'name': self.org.location.name,
+                'admin': self.org.location.admin,
             },
             'units': 'IMPERIAL'
         }
@@ -578,6 +619,27 @@ class OrganizationApiTestCase(APITestCase):
 
         # Request should not error
         self.assertEqual(response.status_code, 200)
+
+    def test_organization_users_exclude_admins(self):
+        """Exclude superusers from list of users serialized on the organization."""
+        other_email = 'other@example.com'
+        other_user = UserFactory(primary_organization=self.org,
+                                 email=other_email,
+                                 is_staff=False,
+                                 is_superuser=False)
+
+        # Add two users to organization, one of which is an admin, and one which is not.
+        self.org.users.add(other_user)
+        self.org.users.add(self.user)
+        self.assertEqual(other_user.is_superuser, False)
+        self.assertEqual(self.user.is_superuser, True)
+
+        url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, 200)
+        json = response.json()
+        # Only the non-admin user should be listed under the organization user emails.
+        self.assertEqual(json['users'], [other_email, ])
 
     def test_city_profile_get(self):
         org = OrganizationFactory()
@@ -707,3 +769,156 @@ class CsrfTestCase(TestCase):
         # Ensure the request was accepted
         self.assertTrue(status.is_success(result.status_code),
                         "Expected success status, received {} instead".format(result.status_code))
+
+
+class PlanItUserMultipleOrganizationsApiTestCase(APITestCase):
+    """Check users can create multiple organizations if and only if the user flag for that is set"""
+
+    @mock.patch('users.models.make_token_api_request')
+    def test_can_create_multiple_organizations_with_flag(self, api_wrapper_mock):
+        api_wrapper_mock.return_value = MOCK_CC_API_DATACELLS
+
+        # Create a GeoRegion that encompasses the mock API city
+        GeoRegion.objects.create(
+            name="Test GeoRegion",
+            geom=MultiPolygon(Polygon(((0, 0), (0, 100), (-100, 100),
+                                       (-100, 0), (0, 0))))
+        )
+
+        test_org_name = 'Test Organization'
+
+        location = LocationFactory(name='Test City', admin='ABC')
+        org = OrganizationFactory(
+            name=test_org_name,
+            location=location,
+        )
+
+        user_data = {
+            'email': 'test@azavea.com',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'password': 'sooperseekrit'
+        }
+
+        user = PlanItUser.objects.create_user(**user_data)
+        user.organizations.add(org)
+        user.primary_organization = org
+        user.save()
+
+        token = Token.objects.get(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
+        url = reverse('planituser-detail', kwargs={'pk': user.pk})
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, 200)
+        result = response.json()
+        # should have response with one user, our test user, with one organization
+        self.assertEqual(result['email'], user_data['email'])
+        self.assertEqual(1, user.organizations.all().count(), 'User should have one organization')
+        self.assertEqual(user.primary_organization.name, test_org_name,
+                         'User should have primary organization set')
+
+        # attempt to create a second organization for the user
+        second_org_name = 'Second Organization'
+        org_data = {
+            'name': second_org_name,
+            'location': {
+                'point': {
+                    'type': 'Point',
+                    'coordinates': [-75.16379, 39.95233]
+                },
+                'name': 'Test City',
+                'admin': 'ABC',
+            },
+            'units': 'METRIC'
+        }
+
+        url = reverse('planitorganization-list')
+
+        # should fail to create second organization without user flag set for that permission
+        response = self.client.post(url, org_data, format='json')
+        self.assertEqual(response.status_code, 400)
+
+        # should succeed in creating second organization, once the user has that permission
+        user.can_create_multiple_organizations = True
+        user.save()
+
+        response = self.client.post(url, org_data, format='json')
+        self.assertEqual(response.status_code, 201)
+        result = response.json()
+        self.assertEqual(result['name'], second_org_name)
+
+
+class UserRemovalApiTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.client.force_authenticate(user=self.user)
+        self.org = self.user.primary_organization
+
+    def test_removal_sends_email(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject,
+                         'Removed from Temperate organization {}'.format(self.org))
+
+    def test_removal_returns_204(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        response = self.client.post(url, user_data, format='json')
+
+        # should get deleted status
+        self.assertEqual(response.status_code, 204)
+
+    def test_removal_does_not_delete_user(self):
+        user_data = {
+            'email': self.user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user still exists
+        user = PlanItUser.objects.get(email=self.user.email)
+        self.assertEqual(user.first_name, self.user.first_name)
+
+    def test_removed_no_other_orgs(self):
+        other_user = UserFactory(primary_organization=self.org,
+                                 email='person@home.place')
+        user_data = {
+            'email': other_user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user has no organizations
+        user = PlanItUser.objects.get(email=other_user.email)
+        self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
+        self.assertEqual(user.primary_organization, None,
+                         'User should have no primary organization')
+
+    def test_removed_has_other_orgs(self):
+        other_org = OrganizationFactory()
+        other_user = UserFactory(primary_organization=self.org,
+                                 organizations=[self.org, other_org],
+                                 email='person@home.place')
+        user_data = {
+            'email': other_user.email,
+        }
+
+        url = reverse('remove_user')
+        self.client.post(url, user_data, format='json')
+
+        # check user has one organization left, which has been set to be the primary org
+        user = PlanItUser.objects.get(email=other_user.email)
+        self.assertEqual(1, user.organizations.all().count(), 'User should have one organization')
+        self.assertEqual(user.primary_organization_id, other_org.pk,
+                         'User should have a primary organization')

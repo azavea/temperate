@@ -1,14 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
-import {
-  City as ApiCity,
-  Indicator,
-  IndicatorService
-} from 'climate-change-components';
 import { ToastrService } from 'ngx-toastr';
 
 import {
@@ -21,16 +16,14 @@ import {
   Risk,
 } from '../../../shared/';
 
+import { Indicator, IndicatorService } from '../../../climate-api';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
-// tslint:disable-next-line:max-line-length
-import { CollapsibleChartComponent } from '../../../shared/collapsible-chart/collapsible-chart.component';
 import { ModalTemplateComponent } from '../../../shared/modal-template/modal-template.component';
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
-import { CityService } from '../../../core/services/city.service';
 import { UserService } from '../../../core/services/user.service';
 
 interface HazardStepFormModel {
@@ -49,6 +42,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
 
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
+  public location: Location;
   public risk: Risk;
   public title = 'Hazard';
 
@@ -58,10 +52,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   // Can't *ngFor a map type or iterable, so instead we realize the iterable and use that in *ngFors
   public directionalFrequencyOptionsKeys = Array.from(OrgRiskDirectionalFrequencyOptions.keys());
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
-  public apiCity: ApiCity;
   public indicators: Indicator[] = [];
 
-  @ViewChild('indicatorChartModal')
+  @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
   private sessionSubscription: Subscription;
@@ -75,7 +68,6 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
               protected toastr: ToastrService,
               protected router: Router,
               protected previousRouteGuard: PreviousRouteGuard,
-              private cityService: CityService,
               private userService: UserService,
               private fb: FormBuilder,
               private indicatorService: IndicatorService) {
@@ -88,14 +80,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     this.setupForm(this.fromModel(this.risk));
     // Load initial risk indicators and subscribe to watch for weather event changes after
     this.updateRiskIndicators();
-    this.userService.current()
-      .switchMap((user) => {
-        const id = user.primary_organization.location.properties.api_city_id;
-        return this.cityService.get(id);
-      })
-      .subscribe((apiCity) => {
-        this.apiCity = apiCity;
-      });
+    this.userService.current().subscribe(user => {
+      this.location = user.primary_organization.location;
+    });
     this.setDisabled(this.risk);
 
     this.sessionSubscription = this.session.data.subscribe(risk => {

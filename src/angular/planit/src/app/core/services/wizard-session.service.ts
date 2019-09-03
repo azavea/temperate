@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 interface DataHandler<T> {
   // This handler has official support for editing the passed T object in place, rather than

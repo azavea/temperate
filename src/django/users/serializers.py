@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
+from django.shortcuts import get_object_or_404
+
+from requests.exceptions import HTTPError
 
 from rest_auth.serializers import (
     PasswordResetSerializer as AuthPasswordResetSerializer,
@@ -17,6 +20,15 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from users.models import CityProfile, PlanItLocation, PlanItOrganization, PlanItUser
 from users.serializer_fields import BitField
 from planit_data.models import CommunitySystem
+
+
+def get_org_from_context(context):
+    """Get current user's primary organization from the request context.
+
+    Used when serializing data filtered to current user's organization.
+    """
+    user = context['request'].user
+    return user.primary_organization
 
 
 class PasswordResetSerializer(AuthPasswordResetSerializer):
@@ -74,11 +86,29 @@ class AuthTokenSerializer(serializers.Serializer):
 class LocationSerializer(GeoFeatureModelSerializer):
     """Serializer for organization locations."""
 
+    def get_unique_together_validators(self):
+        """
+        Remove unique_together validations.
+        These are handled in the OrganizationSerializer.create(...) method
+        """
+        return []
+
     class Meta:
         model = PlanItLocation
         geo_field = 'point'
-        fields = ('name', 'admin', 'api_city_id',)
-        read_only_fields = ('name', 'admin', 'point',)
+        fields = ('name', 'admin', 'datasets',)
+
+
+class OrganizationDisplayUsersField(serializers.ManyRelatedField):
+    """Filter users for display in the frontend to remove administrators.
+
+    https://github.com/encode/django-rest-framework/blob/3f19e66d9f2569895af6e91455e5cf53b8ce5640/rest_framework/relations.py#L532
+    """
+    def to_representation(self, iterable):
+        return [
+            self.child_relation.to_representation(value)
+            for value in iterable if not value.is_superuser
+        ]
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -93,11 +123,16 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                                   slug_field='weather_event_id')
     invites = serializers.ListField(child=serializers.EmailField(), write_only=True, required=False)
 
-    users = serializers.SlugRelatedField(many=True, read_only=True, slug_field='email')
+    users = OrganizationDisplayUsersField(child_relation=serializers.SlugRelatedField(
+        slug_field='email', read_only=True), read_only=True)
 
     def validate_location(self, location_data):
-        if 'api_city_id' not in location_data:
-            raise serializers.ValidationError("Location ID is required.")
+        if 'name' not in location_data:
+            raise serializers.ValidationError("Location name is required.")
+        if 'admin' not in location_data:
+            raise serializers.ValidationError("Location admin is required.")
+        if 'point' not in location_data:
+            raise serializers.ValidationError("Location point is required.")
         return location_data
 
     def validate_plan_due_date(self, dt):
@@ -118,10 +153,15 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return name
 
         try:
-            api_city_id = self.initial_data['location']['properties']['api_city_id']
+            location_name = self.initial_data['location']['name']
+            admin = self.initial_data['location']['admin']
         except KeyError:
-            raise serializers.ValidationError('Location ID is required.')
-        if PlanItOrganization.objects.filter(name=name, location__api_city_id=api_city_id).exists():
+            raise serializers.ValidationError('Location is required.')
+
+        other_orgs = PlanItOrganization.objects.filter(
+            name=name, location__name=location_name, location__admin=admin
+        )
+        if other_orgs.exists():
             raise serializers.ValidationError('An organization with this name already exists.')
         return name
 
@@ -133,29 +173,30 @@ class OrganizationSerializer(serializers.ModelSerializer):
                                               "change is pending.")
         return subscription
 
-    def validate_invites(self, invites):
-        # TODO (#368): Only check for duplicate users in this organization instead of all
-        # organizations once users can switch their primary organization
-        existing_emails = PlanItUser.objects \
-            .filter(email__in=invites).values_list('email', flat=True)
-        if existing_emails:
-            raise serializers.ValidationError({email: 'A user with this email already exists.'
-                                               for email in existing_emails})
-        return invites
-
     @transaction.atomic
     def create(self, validated_data):
-        invites = validated_data.pop('invites', [])
         location_data = validated_data.pop('location')
 
+        # This is used at the viewset level but will cause an error if we use it here because
+        # Organization doesn't have an `invites` field.
+        validated_data.pop('invites', [])
         instance = PlanItOrganization.objects.create(**validated_data)
-        if 'api_city_id' in location_data:
-            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
-            instance.save()
+        try:
+            instance.location = PlanItLocation.objects.from_point(
+                location_data['name'],
+                location_data['admin'],
+                location_data['point'],
+            )
+        except HTTPError as error:
+            # A 404 error indicates there are no map cells for this point
+            # Any other error we should let the client handle
+            if error.response.status_code == 404:
+                raise serializers.ValidationError({
+                    'location': 'No climate data for this location'
+                })
+            raise
 
-        for email in invites:
-            PlanItUser.objects.create_user(email, '', '', primary_organization=instance,
-                                           is_active=False)
+        instance.save()
 
         # Copy the template WeatherEventRank objects for this new Organization
         instance.import_weather_events()
@@ -166,8 +207,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
         location_data = validated_data.pop('location')
         for k, v in validated_data.items():
             setattr(instance, k, v)
-        if location_data['api_city_id'] is not None:
-            instance.location = PlanItLocation.objects.from_api_city(location_data['api_city_id'])
+        instance.location = PlanItLocation.objects.from_point(
+            location_data['name'],
+            location_data['admin'],
+            location_data['point'],
+        )
         instance.save()
 
         if 'weather_events' in self.initial_data:
@@ -187,7 +231,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
                   'subscription', 'subscription_end_date', 'subscription_pending',
                   'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
                   'community_systems', 'weather_events', 'users',)
-        read_only_fields = ('subscription_end_date', 'subscription_pending',)
+        read_only_fields = ('subscription_end_date', 'subscription_pending', 'users',)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -197,27 +241,38 @@ class UserSerializer(serializers.ModelSerializer):
         Retrieves token if available for a user, or returns ``null``
     """
 
-    organizations = serializers.SlugRelatedField(many=True,
-                                                 queryset=PlanItOrganization.objects.all(),
-                                                 required=False,
-                                                 slug_field='name')
-    primary_organization = serializers.SlugRelatedField(queryset=PlanItOrganization.objects.all(),
-                                                        required=False,
-                                                        slug_field='name')
+    organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
+    removed_organizations = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=PlanItOrganization.objects.all(),
+        required=False
+    )
+    primary_organization = serializers.PrimaryKeyRelatedField(
+        queryset=PlanItOrganization.objects.all(),
+        allow_null=True,
+        required=False
+    )
 
     password = serializers.CharField(write_only=True, required=True, allow_blank=False,
                                      style={'input_type': 'password'})
 
+    can_create_multiple_organizations = serializers.BooleanField(read_only=True)
+
     class Meta:
         model = PlanItUser
-        fields = ('id', 'email', 'first_name', 'last_name', 'organizations',
-                  'primary_organization', 'password',)
+        fields = ('id', 'email', 'first_name', 'last_name', 'organizations', 'primary_organization',
+                  'removed_organizations', 'password', 'can_create_multiple_organizations',)
 
     def validate(self, data):
-        if (('primary_organization' in data and
-             data['primary_organization'] not in data['organizations'])):
+        if ('primary_organization' in data and data['primary_organization'] and
+                data['primary_organization'] not in data['organizations']):
+
             raise serializers.ValidationError(
-                "Primary Organization must be one of the user's Organizations"
+                "Primary organization must be one of the user's organizations"
             )
         if 'password' in data:
             # run built-in password validators; will raise ValidationError if it fails
@@ -233,6 +288,8 @@ class UserSerializer(serializers.ModelSerializer):
 class UserOrgSerializer(UserSerializer):
     """Return primary_organization as its full object on the user."""
 
+    organizations = OrganizationSerializer(many=True, read_only=True)
+    removed_organizations = OrganizationSerializer(many=True, read_only=True)
     primary_organization = OrganizationSerializer()
 
 
@@ -244,3 +301,14 @@ class CityProfileSerializer(serializers.ModelSerializer):
         model = CityProfile
         fields = '__all__'
         read_only_fields = ('organization',)
+
+
+class RemoveUserSerializer(serializers.Serializer):
+    email = serializers.EmailField(label='Email', required=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        org = get_org_from_context(self.context)
+        user = get_object_or_404(org.users, email=email)
+        attrs['user'] = user
+        return attrs

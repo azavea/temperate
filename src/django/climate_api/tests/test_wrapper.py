@@ -1,21 +1,24 @@
 from unittest import mock
 
+from django.conf import settings
+from django.contrib.gis.geos import Point
 from django.test import TestCase
 
-from climate_api.wrapper import make_indicator_api_request, make_token_api_request
+from climate_api.wrapper import make_indicator_point_api_request, make_token_api_request
 
 
 class ApiWrapperTestCase(TestCase):
     @mock.patch('climate_api.wrapper.make_token_api_request')
-    def test_make_indicator_api_request(self, api_wrapper):
+    def test_make_indicator_point_api_request(self, api_wrapper):
         indicator = mock.Mock()
         indicator.name = 'test_indicator'
-        city = 17
+        point = Point(10, 20, srid=4326)
         scenario = 'TEST'
-        result = make_indicator_api_request(indicator, city, scenario)
+        result = make_indicator_point_api_request(indicator, point, scenario)
 
         self.assertEqual(result, api_wrapper.return_value)
-        api_wrapper.assert_called_with('api/climate-data/17/TEST/indicator/test_indicator/', {})
+        api_wrapper.assert_called_with('api/climate-data/20.0/10.0/TEST/indicator/test_indicator/',
+                                       {'distance': settings.CCAPI_DISTANCE})
 
     @mock.patch('climate_api.utils.settings.CCAPI_REQUEST_TIMEOUT')
     @mock.patch('climate_api.wrapper.get_api_url')

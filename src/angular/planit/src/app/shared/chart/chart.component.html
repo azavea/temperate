@@ -16,12 +16,12 @@
     </div>
     <div class="chart-graphic" *ngIf="chartData && chartData.length">
         <div class="line-graph">
-            <ccc-line-graph
+            <app-line-graph
                 [data]="chartData"
                 [indicator]="indicator"
                 [hover]="isHover"
                 [unit]="unit">
-            </ccc-line-graph>
+            </app-line-graph>
         </div>
 
         <div *ngIf="maskSlider" class="row align-center">
@@ -50,6 +50,18 @@
         <div class="chart-legend chart-legend-datasets">
             <span *ngIf="dataset.name === 'NEX-GDDP'">Derived from the NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP) dataset. Data available at <a target="_blank" href="https://nex.nasa.gov/nex/projects/1356/">https://nex.nasa.gov/nex/projects/1356/<i class="icon-link-ext-alt"></i></a>.</span>
             <span *ngIf="dataset.name === 'LOCA'">Downscaled from CMIP5, using the Localized Constructed Analogs (LOCA) statistical technique. Data available at <a target="_blank" href="http://loca.ucsd.edu">loca.ucsd.edu<i class="icon-link-ext-alt"></i></a>.</span>
+        </div>
+
+        <div class="chart-options buttons">
+            <div class="chart-options-body">
+                <div class="chart-options-group btn-group">
+                    <button class="button" type="button"
+                        id="exportDropUp" (click)="onDownloadImageClicked()">
+                        <i class="icon icon-download"></i>
+                        Download
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

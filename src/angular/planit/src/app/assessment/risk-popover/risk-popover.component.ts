@@ -3,18 +3,15 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { PopoverDirective } from 'ngx-bootstrap/popover';
 
 import {
-  City as ApiCity,
   Indicator,
   IndicatorService
-} from 'climate-change-components';
+} from '../../climate-api';
 
-import { IndicatorChartComponent } from '../../shared/indicator-chart/indicator-chart.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
-import { Location } from '../../shared/models/location.model';
 import { Risk } from '../../shared/models/risk.model';
 
-import { CityService } from '../../core/services/city.service';
 import { UserService } from '../../core/services/user.service';
+import { Location } from '../../shared/';
 
 @Component({
   selector: 'va-risk-popover',
@@ -25,28 +22,22 @@ export class RiskPopoverComponent implements OnInit {
 
   public indicators: Indicator[];
   public selectedIndicator: Indicator;
-  public apiCity: ApiCity;
+  public location: Location;
 
-  @ViewChild('indicatorModal')
+  @ViewChild('indicatorModal', {static: true})
   private indicatorModal: ModalTemplateComponent;
 
-  @ViewChild('popover')
+  @ViewChild('popover', {static: false})
   private popoverElement: PopoverDirective;
 
   constructor (private indicatorService: IndicatorService,
-               private cityService: CityService,
                private userService: UserService) {}
 
   ngOnInit() {
     this.updateRiskIndicators();
-    this.userService.current()
-      .switchMap((user) => {
-        const id = user.primary_organization.location.properties.api_city_id;
-        return this.cityService.get(id);
-      })
-      .subscribe((apiCity) => {
-        this.apiCity = apiCity;
-      });
+    this.userService.current().subscribe((user) => {
+      this.location = user.primary_organization.location;
+    });
   }
 
   public openIndicatorModal(indicator: Indicator) {

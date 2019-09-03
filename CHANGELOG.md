@@ -5,8 +5,63 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
-
 ## [Unreleased]
+
+## [1.10.0] - 2019-09-03
+ - Updated Node.js to version 10
+ - Updated Angular to version 8
+ - The `climate-change-components` library is now a part of this project as the `climate-api` module instead of being installed as an NPM dependency
+
+## [1.9.0] - 2019-05-14
+### Added
+ - Added database constraints and validations to ensure it is not possible to create duplicate organizations or locations
+### Changed
+ - Do not list administrators under colleague list on settings page
+ - Updated text on subscription package selection modal
+
+## [1.8.0] - 2019-04-18
+### Added
+ - Added ability to remove users from an organization to the settings page
+ - Added ability for users to download charts as PNGs
+### Fixed
+ - Fixed bug where organization dropdown could be shown to a user with no organizations
+ - Fixed a bug where users can invite the same user to their organization twice.
+ - Fixed a bug where users could accidentally create duplicate organizations
+ - Fixed Climate API URL path used when creating organizations
+### Changed
+ - Existing users can now be invited to new and existing organizations.
+ - Changed text from "Send us a message" to "Ask an expert"
+
+## [1.7.0] - 2019-02-16
+### Changed
+ - Reverted pricing changes from previous release
+
+## [1.6.0] - 2019-01-16
+### Added
+ - A PlanItOrganization.source field. Refactors the Missy importer to use the field. The source default of USER should be backwards compatible with all other use cases within the application.
+ - Switched autocomplete in Organization Creation to the Google Places autocomplete. This is temporarily restricted to only US cities.
+### Fixed
+ - Redirect users without a plan and an expired subscription to the subscription page
+ - Users with multiple organizations with the same name can now correctly change orgs via the dropdown
+### Removed
+ - API and client app dependence on Climate API city id. Instead, the app uses the geom field of
+   PlanItLocation for any location related queries.
+
+## [1.5.0] - 2018-09-14
+### Added
+ - Allow users to switch organizations or create multiple new organizations
+
+## [1.4.0] - 2018-08-20
+### Added
+ - Temperate-specific terms of service and require opt-in to terms for registration
+
+## [1.3.0] - 2018-07-06
+### Changed
+- Use datasets property of Climate Change API cities when calculating concern values
+
+## [1.2.0] - 2018-07-03
+### Added
+- Pull SSL certificate ARN from remote state
 
 ## [1.1.0] - 2018-05-15
 ### Added
@@ -96,7 +151,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.9.0...HEAD
+[1.10.0]: https://github.com/azavea/temperate/compare/1.9.0...1.10.0
+[1.9.0]: https://github.com/azavea/temperate/compare/1.8.0...1.9.0
+[1.8.0]: https://github.com/azavea/temperate/compare/1.7.0...1.8.0
+[1.7.0]: https://github.com/azavea/temperate/compare/1.6.0...1.7.0
+[1.6.0]: https://github.com/azavea/temperate/compare/1.5.0...1.6.0
+[1.5.0]: https://github.com/azavea/temperate/compare/1.4.0...1.5.0
+[1.4.0]: https://github.com/azavea/temperate/compare/1.3.0...1.4.0
+[1.3.0]: https://github.com/azavea/temperate/compare/1.2.0...1.3.0
+[1.2.0]: https://github.com/azavea/temperate/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/azavea/temperate/compare/1.0.2...1.1.0
 [1.0.2]: https://github.com/azavea/temperate/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/azavea/temperate/compare/1.0.0...1.0.1

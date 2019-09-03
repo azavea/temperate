@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 import { PlanService } from '../../core/services/plan.service';
 import { RiskService } from '../../core/services/risk.service';

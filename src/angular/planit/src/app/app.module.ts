@@ -1,9 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+
+import { AgmCoreModule } from '@agm/core';
+import { first } from 'rxjs/operators';
 
 import {
   ApiModule,
@@ -11,7 +14,7 @@ import {
   ClimateModelService,
   DatasetService,
   ScenarioService
-} from 'climate-change-components';
+} from './climate-api';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -25,6 +28,7 @@ import { MethodologyComponent } from './marketing/methodology.component';
 import { PartnershipsComponent } from './marketing/partnerships.component';
 import { PlanSelectorComponent } from './marketing/plan-selector.component';
 import { PricingComponent } from './marketing/pricing.component';
+import { TermsOfServiceComponent } from './marketing/terms-of-service.component';
 import { PageNotFoundComponent } from './not-found.component';
 
 import { ActionStepsModule } from './action-steps/action-steps.module';
@@ -49,12 +53,10 @@ import { ActionCategoryService } from './core/services/action-category.service';
 import { ActionTypeService } from './core/services/action-type.service';
 import { ActionService } from './core/services/action.service';
 import { AddCityService } from './core/services/add-city.service';
-import { apiHttpProvider } from './core/services/api-http.provider';
 import { AuthGuard } from './core/services/auth-guard.service';
 import { AuthService } from './core/services/auth.service';
 import { CacheService } from './core/services/cache.service';
 import { CityProfileService } from './core/services/city-profile.service';
-import { CityService } from './core/services/city.service';
 import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
@@ -67,10 +69,13 @@ import { PlanAuthGuard } from './core/services/plan-auth-guard.service';
 import { PlanService } from './core/services/plan.service';
 import { PreviousRouteGuard } from './core/services/previous-route-guard.service';
 import { RelatedAdaptiveValueService } from './core/services/related-adaptive-value.service';
+import { RemoveUserService } from './core/services/remove-user.service';
 import { RiskService } from './core/services/risk.service';
 import { SuggestedActionService } from './core/services/suggested-action.service';
 import { UserService } from './core/services/user.service';
 import { WeatherEventService } from './core/services/weather-event.service';
+
+import { httpInterceptorProviders } from './core/interceptors';
 
 import {
   AccordionModule,
@@ -90,6 +95,13 @@ import { ForgotPasswordPageComponent } from './forgot-password-page/forgot-passw
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+
+const AGM_CONFIG = {
+  apiKey: environment.googleMapsApiKey,
+  libraries: ['places']
+};
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -106,7 +118,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlanSelectorComponent,
     PricingComponent,
     RegistrationPageComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    TermsOfServiceComponent,
   ],
   imports: [
     // Angular
@@ -114,9 +127,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     BrowserAnimationsModule,
     CoreModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     // 3rd party
     AccordionModule.forRoot(),
+    AgmCoreModule.forRoot(AGM_CONFIG),
     AlertModule.forRoot(),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
@@ -136,8 +150,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     // Local
     SharedModule,
     ApiModule.forRoot({
-      apiHost: environment.apiUrl + '/api/climate-api',
-      apiHttpInjectionToken: apiHttpProvider.provide
+      apiHost: environment.apiUrl + '/api/climate-api'
     }),
     ChartsModule,
     ActionStepsModule,
@@ -151,18 +164,17 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   exports: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
+    httpInterceptorProviders,
     AccountCreateService,
     ActionCategoryService,
     ActionTypeService,
     ActionResolve,
     ActionService,
     AddCityService,
-    apiHttpProvider,
     AuthService,
     AuthGuard,
     CacheService,
     CityProfileService,
-    CityService,
     CollaboratorService,
     CommunitySystemService,
     DownloadService,
@@ -175,6 +187,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PlanService,
     PreviousRouteGuard,
     RelatedAdaptiveValueService,
+    RemoveUserService,
     RiskResolve,
     RiskService,
     SuggestedActionResolve,
@@ -191,7 +204,7 @@ export class AppModule {
                private datasetService: DatasetService,
                private scenarioService: ScenarioService,
                private modelService: ClimateModelService) {
-      this.userService.currentUser.first().subscribe(() => {
+      this.userService.currentUser.pipe(first()).subscribe(() => {
         // Issue an eager request for indicator static configuration data so it's already cached if
         // the user opens an indicator chart
         this.datasetService.list().subscribe();

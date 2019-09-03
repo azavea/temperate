@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { RiskService } from '../core/services/risk.service';
 import { Action, Risk, WeatherEvent } from '../shared';

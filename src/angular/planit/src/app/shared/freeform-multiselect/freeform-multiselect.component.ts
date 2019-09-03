@@ -28,7 +28,7 @@ export class FreeformMultiselectComponent implements ControlValueAccessor, OnCha
 
   @Input() public options: string[] = [];
   @Input() public inputId: string = null;
-  @ViewChild('typeahead') typeahead;
+  @ViewChild('typeahead', {static: false}) typeahead;
 
   public selected = '';
   public unsaved = '';

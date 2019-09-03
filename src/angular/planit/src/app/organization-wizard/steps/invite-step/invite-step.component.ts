@@ -12,7 +12,7 @@ import { OrganizationStepKey } from '../../organization-step-key.enum';
 import { OrganizationWizardStepComponent } from '../../organization-wizard-step.component';
 
 interface InviteStepFormModel {
-  invites: string[];
+  invites: Set<string>;
 }
 
 @Component({
@@ -24,6 +24,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
 
   public key: OrganizationStepKey = OrganizationStepKey.Invite;
   public inviteErrors: { [key: string]: string} = {};
+  public requestPending = false;
 
   @Input() form: FormGroup;
   @Input() wizard: WizardComponent;
@@ -36,7 +37,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
   }
 
   fromModel(organization: Organization): InviteStepFormModel {
-    return {invites: organization.invites || []};
+    return {invites: new Set(organization.invites || [])};
   }
 
   getFormModel(): InviteStepFormModel {
@@ -47,7 +48,7 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
   }
 
   toModel(data: InviteStepFormModel, organization: Organization) {
-    organization.invites = data.invites;
+    organization.invites = Array.from(data.invites);
     return organization;
   }
 
@@ -55,11 +56,27 @@ export class InviteStepComponent extends OrganizationWizardStepComponent<InviteS
     return this.form.controls.invites.value.length === 0;
   }
 
+  addInvite(email) {
+    const invites = this.form.controls.invites.value;
+    invites.add(email);
+    this.form.controls.invites.setValue(invites);
+  }
+
+  removeInvite(email) {
+    const invites = this.form.controls.invites.value;
+    invites.delete(email);
+    this.form.controls.invites.setValue(invites);
+  }
+
   confirm() {
+    this.requestPending = true;
+
     this.save(undefined).then((success) => {
       if (success) {
         this.router.navigate(['/plan']);
       } else {
+        this.requestPending = false;
+
         const controls = this.form.controls;
         if (controls.location.invalid || controls.name.invalid) {
           this.wizard.navigation.goToStep(0);

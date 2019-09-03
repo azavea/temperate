@@ -13,6 +13,7 @@ export class NewUserFormComponent implements OnInit {
   public model: User = new User({});
   public submitted = false;
   public activated = false;
+  public acceptedTOS = false;
   public errors: any[] = [];
   public emailDisabled = false;
   public passwordVisible = false;
@@ -35,12 +36,12 @@ export class NewUserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.createUser().subscribe(newUser => {
+    this.createUser().subscribe((newUser: User) => {
       this.submitted = true;
       this.activated = !!newUser.primary_organization;
       this.model = newUser;
     }, error => {
-      this.errors = error.json();
+      this.errors = error.error;
     });
   }
 

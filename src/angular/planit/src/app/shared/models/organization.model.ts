@@ -3,7 +3,7 @@ import { Location } from './location.model';
 import { OrgSubscription } from './org-subscription.model';
 
 export class Organization {
-  id?: string;
+  id?: number;
   name: string;
   created_at: Date;
   plan_due_date?: Date;

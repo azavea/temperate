@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ChartsModule } from 'climate-change-components';
 import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ChartsModule } from '../climate-api/charts/charts.module';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
 import {
@@ -24,6 +24,7 @@ import {
 import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
+import { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
@@ -32,6 +33,7 @@ import { ModalTemplateComponent } from './modal-template/modal-template.componen
 import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
+import { OrgDropdownComponent } from './org-dropdown/org-dropdown.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import {
   PasswordValidatorPopoverComponent
@@ -72,6 +74,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
+    GmapAutocompleteDirective,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -80,6 +83,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
@@ -99,6 +103,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     FooterComponent,
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
+    GmapAutocompleteDirective,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -107,6 +112,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NavbarComponent,
     NewUserFormComponent,
     OptionDropdownComponent,
+    OrgDropdownComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,

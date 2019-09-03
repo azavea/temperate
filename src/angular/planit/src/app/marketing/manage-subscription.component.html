@@ -5,20 +5,20 @@
         <div class="overview">
           <h1 class="page-title-large">Manage subscription</h1>
           <p class="paragraph-intro">
-            You can upgrade or cancel your Temperate package at any time. If the below packages 
-            don't suit your needs, <a href="mailto:{{ supportEmail }}">contact us</a> so we can 
+            You can upgrade or cancel your Temperate package at any time. If the below packages
+            don't suit your needs, <a href="mailto:{{ supportEmail }}">contact us</a> so we can
             figure out what works for you.
           </p>
         </div>
-      
+
         <div class="current plan-notice" *ngIf="user?.primary_organization.isFreeTrial() && !user?.primary_organization?.subscription_pending">
           <h3 class="heading">Free trial</h3>
           <div class="description">
-            Your 15-day free trial ends on
+            Your free trial ends on
             {{ user?.primary_organization?.subscription_end_date | date:'longDate' }}
           </div>
         </div>
-        
+
         <div class="current plan-notice" *ngIf="!user?.primary_organization.isFreeTrial()">
           <div class="description" *ngIf="!user?.primary_organization?.subscription_pending">
             Your <strong>{{ getSubscription(user?.primary_organization?.subscription).nickName }}</strong> subscription ends on
@@ -38,7 +38,7 @@
                            (selected)="selectPlan($event)"></app-plan-selector>
       </div>
     </section>
-    
+
     <section class="section-extra-plans">
       <div class="section-content">
         <h3 class="heading text-center">Not seeing what you need above?</h3>
@@ -48,7 +48,7 @@
             <h4 class="tier">{{ customPlan.nickName }}</h4>
             <h4 class="heading">{{ customPlan.header }}</h4>
             <p class="description">{{ customPlan.description }}</p>
-            
+
             <span class="button-container"
                   tooltip="Further changes disabled while subscription pending"
                   placement="top"
@@ -66,8 +66,8 @@
               {{ customPlan.name === user?.primary_organization?.subscription ? 'Selected' : 'Contact us' }}
             </button>
 
-            <div class="plan-tag" 
-                 [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}" 
+            <div class="plan-tag"
+                 [ngClass]="{'positive': !user?.primary_organization?.subscription_pending}"
                  *ngIf="customPlan.name === user?.primary_organization?.subscription">
                  {{ user?.primary_organization?.subscription_pending ? 'Pending' : 'Current plan' }}</div>
           </div>
@@ -80,9 +80,23 @@
 <app-modal-template #selectSubscriptionModal
                     title="Upgrade subscription">
   <div *ngIf="activeModalStep === modalStep.Select">
-    <h2 class="subscription-modal-plan">
-      <span class="plan-name">{{ selectedPlan?.name | titlecase }}</span> package
-    </h2>
+    <header class="subscription-modal-header">
+      <h2 class="subscription-modal-plan">
+        <span class="plan-name">{{ selectedPlan?.name | titlecase }}</span> package
+      </h2>
+      <p>
+        <span>
+          {{ selectedPlan?.header }}
+        </span>
+        <span
+          *ngIf="selectedPlan?.nickName !== 'Free trial'">
+          •
+          &#36;{{ selectedPlan?.yearlyCost | number}}/yearly
+      </span>
+    </header>
+    <p class="text-medium">
+      {{ selectedPlan?.description }}
+    </p>
     <iframe name="manage-subscription-iframe"
             id="manage-subscription-iframe"
             src="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8">
@@ -125,7 +139,7 @@
   <div *ngIf="activeModalStep === modalStep.Review">
     <h2>Great! We&rsquo;re excited to help you on this journey</h2>
     <p>
-      You should receive an invoice in your email soon. Please pay the invoice within 
+      You should receive an invoice in your email soon. Please pay the invoice within
       30 days to continue building your adaptive plan in Temperate!
     </p>
     <footer class="modal-footer">

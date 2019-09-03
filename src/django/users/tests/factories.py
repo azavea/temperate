@@ -21,10 +21,10 @@ class LocationFactory(factory.DjangoModelFactory):
         return kwargs
 
     name = factory.Sequence(lambda n: 'Test Location {}'.format(n))
-    api_city_id = factory.Sequence(int)
     is_coastal = False
     georegion = factory.SubFactory('planit_data.tests.factories.GeoRegionFactory')
     point = Point(1, 1)
+    datasets = ['LOCA', 'NEX-GDDP']
 
 
 class OrganizationFactory(factory.DjangoModelFactory):

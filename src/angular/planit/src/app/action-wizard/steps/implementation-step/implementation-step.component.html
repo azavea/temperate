@@ -21,7 +21,9 @@
              autocomplete="off"
              formControlName="action_type"
              [typeahead]="actionTypes"
-             [typeaheadMinLength]="0">
+             [typeaheadMinLength]="0"
+             [typeaheadIsFirstItemActive]="false"
+             [typeaheadSelectFirstItem]="false">
     </div>
     <div class="form-control-container">
       <label for="action-goal">Action goal</label>
@@ -72,6 +74,7 @@
   <div class="step-footer-navigation">
     <button type="button" class="button"
             nextStep>Skip step</button>
+    &nbsp;
     <button type="button" class="button button-primary"
             [disabled]="!form.valid"
             nextStep>Next</button>

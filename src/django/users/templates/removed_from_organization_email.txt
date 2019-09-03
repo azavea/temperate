@@ -1,0 +1,7 @@
+{% if user.first_name %}Dear {{ user.first_name }},{% else %}Hello,{% endif %}
+
+Thanks for using Temperate!
+
+You have been removed from the Temperate organization {{ organization }}.
+
+If you believe this was a mistake, please contact support at {{ support_email }}.

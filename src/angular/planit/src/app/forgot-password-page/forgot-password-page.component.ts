@@ -36,7 +36,7 @@ export class ForgotPasswordPageComponent implements OnInit {
         this.errors = {};
       },
       error => {
-        this.errors = error.json();
+        this.errors = error.error;
         this.disabled = false;
       }
     );

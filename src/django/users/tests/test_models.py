@@ -8,6 +8,7 @@ from django.utils import timezone
 from users.models import PlanItLocation, PlanItOrganization, PlanItUser
 from planit_data.models import GeoRegion, OrganizationWeatherEvent, WeatherEvent, WeatherEventRank
 from planit_data.tests.factories import GeoRegionFactory
+from users.tests.factories import OrganizationFactory, UserFactory
 
 
 class OrganizationTestCase(TestCase):
@@ -170,119 +171,102 @@ class OrganizationTestCase(TestCase):
 class LocationManagerTestCase(TestCase):
     @mock.patch('users.models.make_token_api_request')
     @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
-    def test_from_api_city_no_location(self, get_for_point_mock, api_wrapper_mock):
-        """Ensure calling from_api_city makes an API call and parses response correctly."""
+    def test_from_point_no_location(self, get_for_point_mock, api_wrapper_mock):
+        """Ensure calling from_point makes an API call and parses response correctly."""
         get_for_point_mock.return_value = GeoRegionFactory()
-        api_wrapper_mock.return_value = {
-            "id": 7,
+        point = Point(0, 0, srid=4326)
+        api_wrapper_mock.return_value = [{
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [
-                    -75.16379,
-                    39.95233
-                ]
+                "coordinates": [0, 0]
             },
             "properties": {
-                "datasets": [
-                    "NEX-GDDP",
-                    "LOCA"
-                ],
-                "name": "Philadelphia",
-                "admin": "PA",
+                "datasets": ["NEX-GDDP"],
+                "distance_meters": 10,
                 "proximity": {
                     "ocean": False
-                },
-                "population": 1526006,
-                "region": 11
+                }
             }
-        }
+        }]
 
-        result = PlanItLocation.objects.from_api_city(7)
+        result = PlanItLocation.objects.from_point('Test', 'ABC', point)
 
-        self.assertEqual(result.api_city_id, 7)
-        self.assertEqual(result.point.coords, (-75.16379, 39.95233))
+        self.assertEqual(result.point.coords, point.coords)
         self.assertEqual(result.georegion, get_for_point_mock.return_value)
         self.assertFalse(result.is_coastal)
 
     @mock.patch('users.models.make_token_api_request')
     @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
-    def test_from_api_city_no_location_is_coastal(self, get_for_point_mock, api_wrapper_mock):
-        """Ensure calling from_api_city makes an API call and parses is_coastal correctly."""
+    def test_from_point_no_location_is_coastal(self, get_for_point_mock, api_wrapper_mock):
+        """Ensure calling from_point makes an API call and parses is_coastal correctly."""
         get_for_point_mock.return_value = GeoRegionFactory()
-        api_wrapper_mock.return_value = {
-            "id": 2,
+        api_wrapper_mock.return_value = [{
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [
-                    -118.24368,
-                    34.05223
-                ]
+                "coordinates": [0, 0]
             },
             "properties": {
-                "datasets": [
-                    "NEX-GDDP",
-                    "LOCA"
-                ],
-                "name": "Los Angeles",
-                "admin": "CA",
+                "datasets": ["NEX-GDDP", "LOCA"],
+                "distance_meters": 0,
                 "proximity": {
                     "ocean": True
-                },
-                "population": 3792621,
-                "region": 18
+                }
             }
-        }
+        }, {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [0, 0]
+            },
+            "properties": {
+                "datasets": ["NEX-GDDP", "LOCA"],
+                "distance_meters": 1000,
+                "proximity": {
+                    "ocean": False
+                }
+            }
+        }]
 
-        result = PlanItLocation.objects.from_api_city(2)
+        result = PlanItLocation.objects.from_point('Test', 'ABC', Point(0, 0, srid=4326))
 
         self.assertTrue(result.is_coastal)
 
     @mock.patch('users.models.make_token_api_request')
     @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
-    def test_from_api_city_uses_matching_georegion(self, get_for_point_mock, api_wrapper_mock):
-        """Ensure calling from_api_city makes an API call and parses is_coastal correctly."""
+    def test_from_point_uses_matching_georegion(self, get_for_point_mock, api_wrapper_mock):
+        """Ensure calling from_point calls GeoRegionManager.get_for_point."""
         get_for_point_mock.return_value = GeoRegionFactory()
-        api_wrapper_mock.return_value = {
-            "id": 2,
+        api_wrapper_mock.return_value = [{
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [
-                    -118.24368,
-                    34.05223
-                ]
+                "coordinates": [0, 0]
             },
             "properties": {
-                "datasets": [
-                    "NEX-GDDP",
-                    "LOCA"
-                ],
-                "name": "Los Angeles",
-                "admin": "CA",
+                "datasets": ["NEX-GDDP"],
+                "distance_meters": 1000,
                 "proximity": {
                     "ocean": True
-                },
-                "population": 3792621,
-                "region": 18
+                }
             }
-        }
+        }]
 
-        result = PlanItLocation.objects.from_api_city(2)
+        result = PlanItLocation.objects.from_point('Test', 'ABC', Point(0, 0, srid=4326))
 
         get_for_point_mock.assert_called_with(result.point)
 
     @mock.patch('users.models.make_token_api_request')
-    def test_from_api_city_existing_location(self, api_wrapper_mock):
-        """Ensure calling from_api_city with an existing Location does not make an API call."""
+    def test_from_point_existing_location(self, api_wrapper_mock):
+        """Ensure calling from_point with an existing Location does not make an API call."""
         location = PlanItLocation.objects.create(
             name='Test Location',
-            api_city_id=7,
+            admin='ABC',
             point=Point(0, 0, srid=4326)
         )
 
-        result = PlanItLocation.objects.from_api_city(7)
+        result = PlanItLocation.objects.from_point(location.name, location.admin, location.point)
 
         self.assertEqual(result, location)
         self.assertFalse(api_wrapper_mock.called)
@@ -290,7 +274,7 @@ class LocationManagerTestCase(TestCase):
 
 class PlanItUserTestCase(TestCase):
     def test_default_user_model(self):
-        """Ensure PlanItUser is the default user models
+        """Ensure PlanItUser is the default user model.
 
         `./manage.py createsuperuser` uses get_user_model to determine what class to invoke
         create_superuser on, this ensures the command will be directed to the correct class.
@@ -309,21 +293,87 @@ class PlanItUserTestCase(TestCase):
 
         self.assertFalse(user.is_superuser)
         self.assertFalse(user.is_staff)
+        self.assertFalse(user.can_create_multiple_organizations)
 
     def test_createsuperuser(self):
         user_data = {
             'email': 'test@azavea.com',
             'first_name': 'Test',
             'last_name': 'User',
-            'password': 'sooperseekrit'
+            'password': 'sooperseekrit',
+            'can_create_multiple_organizations': True
         }
         user = PlanItUser.objects.create_superuser(**user_data)
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_active)
+        self.assertTrue(user.can_create_multiple_organizations)
 
         # check user has no organizations
         self.assertEqual(0, user.organizations.all().count(), 'User should have no organizations')
         self.assertEqual(user.primary_organization, None,
                          'User should have no primary organization')
+
+    def test_add_user_via_email_no_org(self):
+        """Ensure that adding a user via email properly sets the organization."""
+        org = OrganizationFactory()
+        existing_user_no_org_email = 'existinguser@local.gov'
+        user = UserFactory(email=existing_user_no_org_email)
+        # The factory constructs the user with a new Organization by default, which is normally okay
+        # but in this case we don't want that, so clear it out.
+        user.organizations.clear()
+        user.primary_organization = None
+        user.save()
+        # Adding a user that has no org should update their primary_organization
+        self.assertIsNone(user.primary_organization)
+        new_user, created, added = PlanItUser.objects.add_via_email_to_organization(
+            existing_user_no_org_email, org
+        )
+        self.assertEqual(new_user, user)
+        self.assertFalse(created)
+        self.assertTrue(added)
+        self.assertEqual(new_user.primary_organization, org)
+        self.assertIn(org, new_user.organizations.all())
+
+    def test_add_user_via_email_same_org(self):
+        """Ensure that adding a user that has an org to that same org does nothing."""
+        org = OrganizationFactory()
+        existing_user_org_email = 'existinguser+org1@local.gov'
+        user = UserFactory(email=existing_user_org_email, primary_organization=org)
+        new_user, created, added = PlanItUser.objects.add_via_email_to_organization(
+            existing_user_org_email, org
+        )
+        self.assertEqual(new_user, user)
+        self.assertFalse(created)
+        self.assertFalse(added)
+
+    def test_add_user_via_email_different_org(self):
+        """Ensure that adding a user that has an org adds the org to that user's organizations."""
+        org1 = OrganizationFactory()
+        org2 = OrganizationFactory()
+        existing_user_org1_email = 'existinguser+org1@local.gov'
+        user = UserFactory(email=existing_user_org1_email, primary_organization=org1)
+        self.assertEqual(user.primary_organization, org1)
+        new_user, created, added = PlanItUser.objects.add_via_email_to_organization(
+            existing_user_org1_email, org2
+        )
+        self.assertEqual(new_user, user)
+        self.assertEqual(new_user.primary_organization, org1)
+        self.assertFalse(created)
+        self.assertTrue(added)
+        self.assertIn(org2, new_user.organizations.all())
+
+    def test_add_user_via_email_new_user(self):
+        """Ensure that adding a user that doesn't exist creates them in the correct organization."""
+        org = OrganizationFactory()
+        new_user_email = 'newuser@local.gov'
+        self.assertEqual(PlanItUser.objects.all().count(), 0)
+        new_user, created, added = PlanItUser.objects.add_via_email_to_organization(
+            new_user_email, org
+        )
+        self.assertEqual(PlanItUser.objects.all().count(), 1)
+        self.assertTrue(created)
+        self.assertFalse(added)
+        self.assertEqual(new_user.primary_organization, org)
+        self.assertIn(org, new_user.organizations.all())

@@ -9,6 +9,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 // Import from root doesn't seem to pickup types, so import directly from file
 import { WizardComponent } from 'ng2-archwizard/dist/components/wizard.component';
+import { first } from 'rxjs/operators';
 
 import { RiskService } from '../core/services/risk.service';
 import { WizardSessionService } from '../core/services/wizard-session.service';
@@ -27,12 +28,12 @@ import { ReviewStepComponent } from './steps/review-step/review-step.component';
 export class RiskWizardComponent implements OnInit, AfterViewChecked {
   // this.wizard.navigation and this.wizard.model are not available until after AfterViewInit
 
-  @ViewChild(WizardComponent) public wizard: WizardComponent;
-  @ViewChild(IdentifyStepComponent) public identifyStep: IdentifyStepComponent;
-  @ViewChild(HazardStepComponent) public hazardStep: HazardStepComponent;
-  @ViewChild(ImpactStepComponent) public impactStep: ImpactStepComponent;
-  @ViewChild(CapacityStepComponent) public capacityStep: CapacityStepComponent;
-  @ViewChild(ReviewStepComponent) public reviewStep: ReviewStepComponent;
+  @ViewChild(WizardComponent, {static: true}) public wizard: WizardComponent;
+  @ViewChild(IdentifyStepComponent, {static: true}) public identifyStep: IdentifyStepComponent;
+  @ViewChild(HazardStepComponent, {static: true}) public hazardStep: HazardStepComponent;
+  @ViewChild(ImpactStepComponent, {static: true}) public impactStep: ImpactStepComponent;
+  @ViewChild(CapacityStepComponent, {static: true}) public capacityStep: CapacityStepComponent;
+  @ViewChild(ReviewStepComponent, {static: true}) public reviewStep: ReviewStepComponent;
 
   @Input() risk: Risk;
 
@@ -58,7 +59,7 @@ export class RiskWizardComponent implements OnInit, AfterViewChecked {
 
     // Update the URL with the risk id once the risk is saved
     this.session.data
-      .first(risk => risk.id !== undefined)
+      .pipe(first(risk => risk.id !== undefined))
       .subscribe((risk) => {
         this.location.replaceState(`/assessment/risk/${risk.id}`);
       });

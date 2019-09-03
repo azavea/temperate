@@ -2,32 +2,27 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
   ViewChild
 } from '@angular/core';
 
 import {
-  Chart,
-  ChartData,
-  City as ApiCity,
   ClimateModel,
   Dataset,
   Indicator,
   IndicatorQueryParams,
-  IndicatorRequestOpts,
   ModelModalComponent,
   Scenario,
   isBasetempIndicator,
   isHistoricIndicator,
   isPercentileIndicator,
   isThresholdIndicator
-} from 'climate-change-components';
+} from '../../climate-api';
 
 import { UserService } from '../../core/services/user.service';
 import {
+  Location,
   OrgUnitType,
   PrecipitationUnits,
   TemperatureUnits
@@ -44,7 +39,7 @@ import {
 })
 export class IndicatorChartComponent implements OnInit, DoCheck {
   @Input() indicator: Indicator;
-  @Input() apiCity: ApiCity;
+  @Input() location: Location;
 
   public isThresholdIndicator = isThresholdIndicator;
   public isBasetempIndicator = isBasetempIndicator;
@@ -60,7 +55,7 @@ export class IndicatorChartComponent implements OnInit, DoCheck {
   public temperatureUnits = TemperatureUnits;
   public precipitationUnits = PrecipitationUnits;
 
-  @ViewChild(ModelModalComponent)
+  @ViewChild(ModelModalComponent, {static: true})
   private modelModal: ModelModalComponent;
   private el: ElementRef;
 
@@ -93,19 +88,19 @@ export class IndicatorChartComponent implements OnInit, DoCheck {
     }
   }
 
-  modelsChanged(models: ClimateModel[]) {
+  onModelsChanged(models: ClimateModel[]) {
     window.setTimeout(() => this.models = models);
   }
 
-  scenarioSelected(scenario: Scenario) {
+  onScenarioSelected(scenario: Scenario) {
     this.scenario = scenario;
   }
 
-  unitSelected(unit: string) {
+  onUnitSelected(unit: string) {
     this.unit = unit;
   }
 
-  datasetSelected(dataset: Dataset) {
+  onDatasetSelected(dataset: Dataset) {
     this.dataset = dataset;
   }
 

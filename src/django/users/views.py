@@ -42,6 +42,7 @@ from users.serializers import (
     OrganizationSerializer,
     PasswordResetSerializer,
     PasswordResetConfirmSerializer,
+    RemoveUserSerializer,
     UserSerializer,
     UserOrgSerializer,
 )
@@ -70,7 +71,7 @@ def get_user(self, uidb64, token):
     if not default_token_generator.check_token(user, token):
         raise ValidationError({'token': ['Invalid value']})
 
-    return Response(UserSerializer(user).data)
+    return Response(UserOrgSerializer(user).data)
 
 
 class RegistrationView(BaseRegistrationView):
@@ -274,21 +275,41 @@ class OrganizationViewSet(mixins.CreateModelMixin,
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        if self.request.user.primary_organization:
+        # Lock current user row so we can avoid data races that would allow a user
+        # to create multiple organizations despite lacking permissions
+        user = PlanItUser.objects.select_for_update().get(pk=request.user.pk)
+
+        if user.primary_organization and not user.can_create_multiple_organizations:
             return Response('User already has an organization',
                             status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        invites = serializer.initial_data.get('invites', [])
         serializer.save()
 
         organization = serializer.instance
-        for user in organization.users.all():
-            RegistrationView(request=request).send_invitation_email(user)
+        for email in invites:
+            # Don't let a user send an email to themselves. We could also validate this and raise an
+            # error, but in that case the user would presumably just delete themselves and try
+            # again, so it's probably friendlier to do that for them and ignore the "error".
+            if email == user.email:
+                continue
+            invitee, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
+                email, organization
+            )
 
-        self.request.user.organizations.add(organization)
-        self.request.user.primary_organization = organization
-        self.request.user.save()
+            if was_created:
+                RegistrationView(request=request).send_invitation_email(invitee)
+            # Let them know they've been added to the organization
+            elif was_added:
+                invitee.email_user('registration/existing_user_invitation_email',
+                                   {'user': invitee, 'organization': organization,
+                                    'login_url': settings.PLANIT_APP_HOME + '/login'})
+
+        user.organizations.add(organization)
+        user.primary_organization = organization
+        user.save()
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -358,9 +379,54 @@ class InviteUserView(JsonFormView):
         email = form.cleaned_data['email']
         organization = self.request.user.primary_organization
 
-        user = PlanItUser.objects.create_user(email, '', '', primary_organization=organization,
-                                              is_active=False)
+        user, was_created, was_added = PlanItUser.objects.add_via_email_to_organization(
+            email,
+            organization
+        )
+        if was_created:
+            RegistrationView(request=self.request).send_invitation_email(user)
+        # Let them know they've been added to the organization
+        elif was_added:
+            user.email_user('registration/existing_user_invitation_email',
+                            {'user': user, 'organization': organization,
+                             'login_url': settings.PLANIT_APP_HOME + '/login'})
 
-        RegistrationView(request=self.request).send_invitation_email(user)
 
-        return Response({'status': 'ok'})
+class RemoveUserView(APIView):
+    """Removes a user from the current user's primary_organization"""
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        with transaction.atomic():
+            serializer = RemoveUserSerializer(data=request.data, context={'request': request})
+
+            if not serializer.is_valid():
+                return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            organization = request.user.primary_organization
+            user_to_remove = serializer.validated_data['user']
+            reset_primary_org = user_to_remove.primary_organization_id == organization.pk
+            # If the primary organization is going to be removed, we need to manually
+            # unset it first to avoid an inconsistent state
+            if reset_primary_org:
+                user_to_remove.primary_organization = None
+
+            user_to_remove.organizations.remove(organization)
+            user_to_remove.removed_organizations.add(organization)
+
+            # If the primary_organization was previously updated, reset it to their first
+            # organization remaining if there are any. Setting the primary organization to another
+            # one prevents users without 'can_create_multiple_organizations' from accidentally
+            # being routed to the "Create Organization" wizard, which they should only be able to
+            # access when they have no Organizations yet.
+            if reset_primary_org and user_to_remove.organizations.exists():
+                user_to_remove.primary_organization = user_to_remove.organizations.all()[0]
+
+            user_to_remove.save()
+
+        user_to_remove.email_user('removed_from_organization_email', {
+            'organization': organization,
+            'support_email': settings.SUPPORT_EMAIL,
+        })
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

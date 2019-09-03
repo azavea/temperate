@@ -6,8 +6,10 @@ export class User {
   last_name: string;
   email: string;
   is_active: boolean;
-  organizations?: string[];
+  can_create_multiple_organizations: boolean;
+  organizations?: Organization[];
   primary_organization?: Organization;
+  removed_organizations?: Organization[];
   city?: number;
 
   constructor(object: Object) {
@@ -16,9 +18,23 @@ export class User {
     if (this.primary_organization) {
       this.primary_organization = new Organization(this.primary_organization);
     }
+    if (this.organizations && this.organizations.length) {
+      this.organizations = this.organizations.map(o => new Organization(o));
+    }
+    if (this.removed_organizations && this.removed_organizations.length) {
+      this.removed_organizations = this.removed_organizations.map(o => new Organization(o));
+    }
   }
 
   public name(): string {
     return this.first_name + ' ' + this.last_name;
+  }
+
+  public organizationIds() {
+    return (this.organizations || []).map(o => o.id);
+  }
+
+  public removedOrganizationIds() {
+    return (this.removed_organizations || []).map(o => o.id);
   }
 }

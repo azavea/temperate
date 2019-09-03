@@ -1,0 +1,23 @@
+<div class="user-dropdown" dropdown placement="bottom right">
+  <button dropdownToggle type="button"
+    class="button button-profile button-inverse-light dropdown-toggle">
+    {{ primaryOrganization?.name || 'Organization' }} <i class="icon-chevron icon-chevron-down"></i>
+  </button>
+  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+    <li role="menuitem"
+        *ngFor="let org of dropdownOrganizations"
+        [ngClass]="{active: org.id === primaryOrganization?.id }">
+      <a class="dropdown-item" (click)="setOrganization(org)">
+        <span [ngClass]="{'dropdown-label': org.name}">{{ org.name }}</span>
+      </a>
+    </li>
+    <li *ngIf="canCreateOrgs()" role="separator" class="divider"></li>
+    <li *ngIf="canCreateOrgs()" role="menuitem">
+      <a class="dropdown-item" (click)="setOrganization(undefined)">
+        <span [ngClass]="{'dropdown-label': 'Create new organization'}">Create new organization</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<app-confirmation-modal #confirmOrgChangeModal></app-confirmation-modal>

@@ -1,9 +1,7 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { City as ApiCity, Indicator } from 'climate-change-components';
-
-import { CityService } from '../../core/services/city.service';
+import { Indicator } from '../../climate-api';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import {
@@ -12,7 +10,7 @@ import {
   Risk,
   WeatherEvent,
   numberToRelativeOption,
-  relativeOptionToNumber
+  relativeOptionToNumber,
 } from '../../shared/';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 
@@ -28,7 +26,7 @@ interface AggregateNeed {
 
 export class GroupedRiskComponent implements OnChanges, OnInit {
 
-  @ViewChild('indicatorChartModal')
+  @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
   @Input() risks: Risk[];
@@ -36,24 +34,18 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
-  public apiCity: ApiCity;
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
+  public location: Location;
 
-  constructor(private cityService: CityService,
-              private userService: UserService,
+  constructor(private userService: UserService,
               private riskService: RiskService,
               private router: Router) { }
 
   ngOnInit() {
-    this.userService.current()
-      .switchMap((user) => {
-        const id = user.primary_organization.location.properties.api_city_id;
-        return this.cityService.get(id);
-      })
-      .subscribe((apiCity) => {
-        this.apiCity = apiCity;
-      });
+    this.userService.current().subscribe((user) => {
+      this.location = user.primary_organization.location;
+    });
   }
 
   ngOnChanges() {

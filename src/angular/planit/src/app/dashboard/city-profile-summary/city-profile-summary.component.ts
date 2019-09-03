@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { CityProfileService } from '../../core/services/city-profile.service';
 import { CityProfileSummary, Organization } from '../../shared/';

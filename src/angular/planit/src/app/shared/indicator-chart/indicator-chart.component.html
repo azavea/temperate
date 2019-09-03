@@ -2,70 +2,70 @@
   <div class="chart-controls">
     <div class="chart-toggle">
       <span>Scenario</span>
-      <ccc-scenario-toggle [scenario]="scenario"
-                           (onScenarioSelected)="scenarioSelected($event)">
-      </ccc-scenario-toggle>
+      <app-scenario-toggle [scenario]="scenario"
+                           (scenarioSelected)="onScenarioSelected($event)">
+      </app-scenario-toggle>
     </div>
     <div class="chart-toggle">
       <span>Models</span>
-      <ccc-model-modal [dataset]="dataset"
+      <app-model-modal [dataset]="dataset"
                        [models]="models"
-                       (onModelsChanged)="modelsChanged($event)">
-      </ccc-model-modal>
+                       (modelsChanged)="onModelsChanged($event)">
+      </app-model-modal>
     </div>
     <div class="chart-toggle" *ngIf="indicator?.available_units">
       <span>Units</span>
-      <ccc-units-dropdown [unit]="unit"
+      <app-units-dropdown [unit]="unit"
                           [units]="indicator.available_units"
-                          (unitSelected)="unitSelected($event)"></ccc-units-dropdown>
+                          (unitSelected)="onUnitSelected($event)"></app-units-dropdown>
     </div>
     <div class="chart-toggle">
       <span>Dataset</span>
-      <ccc-dataset-toggle [dataset]="dataset"
-                          [city]="apiCity"
+      <app-dataset-toggle [dataset]="dataset"
+                          [city]="location"
                           [models]="models"
-                          (onDatasetSelected)="datasetSelected($event)">
-      </ccc-dataset-toggle>
+                          (datasetSelected)="onDatasetSelected($event)">
+      </app-dataset-toggle>
     </div>
   </div>
   <div class="chart-controls">
-    <ccc-threshold-parameters
+    <app-threshold-parameters
         *ngIf="isThresholdIndicator(indicator.name)"
         [indicator]="indicator"
         [extraParams]="extraParams"
         (thresholdParamSelected)="onExtraParamsSelected($event)">
-    </ccc-threshold-parameters>
-    <ccc-basetemp-parameters
+    </app-threshold-parameters>
+    <app-basetemp-parameters
         *ngIf="isBasetempIndicator(indicator.name)"
         [indicator]="indicator"
         [extraParams]="extraParams"
         (basetempParamSelected)="onExtraParamsSelected($event)">
-    </ccc-basetemp-parameters>
+    </app-basetemp-parameters>
     <!-- both percentile and historic extra parameters -->
-    <ccc-percentile-historic-parameters
+    <app-percentile-historic-parameters
         *ngIf="isPercentileIndicator(indicator.name) &&
                isHistoricIndicator(indicator.name)"
         [indicator]="indicator"
         [extraParams]="extraParams"
         (percentileHistoricParamSelected)="onExtraParamsSelected($event)">
-    </ccc-percentile-historic-parameters>
-    <ccc-percentile-parameters
+    </app-percentile-historic-parameters>
+    <app-percentile-parameters
         *ngIf="isPercentileIndicator(indicator.name) &&
                !isHistoricIndicator(indicator.name)"
         [indicator]="indicator"
         [extraParams]="extraParams"
         (percentileParamSelected)="onExtraParamsSelected($event)">
-    </ccc-percentile-parameters>
-    <ccc-historic-parameters
+    </app-percentile-parameters>
+    <app-historic-parameters
         *ngIf="isHistoricIndicator(indicator.name) &&
                !isPercentileIndicator(indicator.name)"
         [indicator]="indicator"
         [extraParams]="extraParams"
         (historicParamSelected)="onExtraParamsSelected($event)">
-    </ccc-historic-parameters>
+    </app-historic-parameters>
   </div>
   <app-chart [indicator]="indicator"
-         [apiCity]="apiCity"
+         [point]="location.geometry"
          [models]="models"
          [dataset]="dataset"
          [scenario]="scenario"
