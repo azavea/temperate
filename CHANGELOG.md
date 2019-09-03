@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
+
+## [1.10.0] - 2019-09-03
  - Updated Node.js to version 10
  - Updated Angular to version 8
  - The `climate-change-components` library is now a part of this project as the `climate-api` module instead of being installed as an NPM dependency
@@ -150,6 +152,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 [Unreleased]: https://github.com/azavea/temperate/compare/1.9.0...HEAD
+[1.10.0]: https://github.com/azavea/temperate/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/azavea/temperate/compare/1.8.0...1.9.0
 [1.8.0]: https://github.com/azavea/temperate/compare/1.7.0...1.8.0
 [1.7.0]: https://github.com/azavea/temperate/compare/1.6.0...1.7.0
