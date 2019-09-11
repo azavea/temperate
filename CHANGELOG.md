@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
  - Updated Plan Wizard to allow selecting Organization boundaries
+ - Added map page
 
 ## [1.10.0] - 2019-09-03
  - Updated Node.js to version 10
