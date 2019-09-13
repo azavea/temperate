@@ -10,6 +10,7 @@
           #gmap
           [latitude]="location.geometry.coordinates[1]"
           [longitude]="location.geometry.coordinates[0]"
+          [zoom]="11"
           [streetViewControl]="false"
           [styles]="mapStyles"
           (mapReady)="onMapReady($event)">
