@@ -1,0 +1,22 @@
+<div class="main-container">
+  <main class="main-content" role="main">
+    <header class="page-header">
+      <h1 class="page-title-large">Map for {{location?.getFullName()}}</h1>
+    </header>
+
+    <section class="page-section">
+      <div class="map-container">
+        <agm-map
+          #gmap
+          [latitude]="location.geometry.coordinates[1]"
+          [longitude]="location.geometry.coordinates[0]"
+          [zoom]="11"
+          [streetViewControl]="false"
+          [styles]="mapStyles"
+          (mapReady)="onMapReady($event)">
+        </agm-map>
+      </div>
+
+    </section>
+  </main>
+</div>

@@ -39,6 +39,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
 import { FaqComponent } from './faq/faq.component';
 import { IndicatorsModule } from './indicators/indicators.module';
+import { MapModule } from './map/map.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
 import { SettingsModule } from './settings/settings.module';
 import { SharedModule } from './shared/shared.module';
@@ -158,6 +159,7 @@ const AGM_CONFIG = {
     CreatePlanModule,
     DashboardModule,
     IndicatorsModule,
+    MapModule,
     SettingsModule,
     AppRoutingModule
   ],

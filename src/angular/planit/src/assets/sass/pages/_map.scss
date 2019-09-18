@@ -1,0 +1,9 @@
+app-map {
+  .map-container {
+    position: relative;
+
+    agm-map {
+      height: 400px;
+    }
+  }
+}
