@@ -12,7 +12,6 @@ import { CORE_WEATHEREVENTSERVICE_LIST } from '../constants/cache';
 @Injectable()
 export class WeatherEventService {
 
-  private _currentWeatherEvents = new Subject<WeatherEvent[]>();
   private _currentOrgWeatherEvents = new Subject<OrgWeatherEvent[]>();
 
   constructor(private http: HttpClient,
@@ -21,11 +20,7 @@ export class WeatherEventService {
   list(): Observable<WeatherEvent[]> {
     const url = `${environment.apiUrl}/api/weather-event/`;
     const request = this.http.get<WeatherEvent[]>(url);
-    const response = this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
-    response.subscribe(events => {
-      this._currentWeatherEvents.next(events);
-    });
-    return this._currentWeatherEvents.asObservable();
+    return this.cache.get(CORE_WEATHEREVENTSERVICE_LIST, request);
   }
 
   get(weatherEventId: number): Observable<WeatherEvent> {
@@ -41,9 +36,7 @@ export class WeatherEventService {
 
   invalidate() {
     this.cache.clear(CORE_WEATHEREVENTSERVICE_LIST);
-    // Trigger requery and internal push to subjects in list() and
-    // listForCurrentOrg() calls
-    this.list().subscribe(() => undefined);
+    // Trigger requery and internal push to subject
     this.listForCurrentOrg().subscribe(() => undefined);
   }
 
