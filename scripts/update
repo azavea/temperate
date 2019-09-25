@@ -57,7 +57,9 @@ then
                     collaborators \
                     relatedadaptivevalues \
                     actioncategories \
-                    actiontypes
+                    actiontypes \
+                    climateassessmentregions \
+                    counties
 
         docker-compose \
             run --rm --entrypoint python \
