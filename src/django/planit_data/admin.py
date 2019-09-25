@@ -1,8 +1,10 @@
 from django.contrib import admin
 
 from .models import (
+    ClimateAssessmentRegion,
     CommunitySystem,
     Concern,
+    County,
     DefaultRisk,
     GeoRegion,
     Indicator,
@@ -23,10 +25,20 @@ for Model in (Concern,
     admin.site.register(Model)
 
 
+@admin.register(ClimateAssessmentRegion)
+class ClimateAssessmentRegionAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
 @admin.register(CommunitySystem)
 class CommunitySystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'display_class',)
     list_editable = ('display_class',)
+
+
+@admin.register(County)
+class CountyAdmin(admin.ModelAdmin):
+    list_display = ('geoid', 'name', 'state_fips',)
 
 
 @admin.register(DefaultRisk)
