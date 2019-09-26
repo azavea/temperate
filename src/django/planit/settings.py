@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'bootstrap3',
     'django_premailer',
+    'jsoneditor',
 
     # local apps
     'climate_api',

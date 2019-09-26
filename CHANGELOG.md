@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
  - Updated Plan Wizard to allow selecting Organization boundaries
  - Added map page
+ - Added County & ClimateAssessmentRegion models/fixtures
 
 ## [1.10.0] - 2019-09-03
  - Updated Node.js to version 10

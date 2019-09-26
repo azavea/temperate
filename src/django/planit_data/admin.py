@@ -1,8 +1,13 @@
 from django.contrib import admin
+from django.contrib.postgres.fields import JSONField
+
+from jsoneditor.forms import JSONEditor
 
 from .models import (
+    ClimateAssessmentRegion,
     CommunitySystem,
     Concern,
+    County,
     DefaultRisk,
     GeoRegion,
     Indicator,
@@ -23,10 +28,26 @@ for Model in (Concern,
     admin.site.register(Model)
 
 
+@admin.register(ClimateAssessmentRegion)
+class ClimateAssessmentRegionAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditor},
+    }
+
+
 @admin.register(CommunitySystem)
 class CommunitySystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'display_class',)
     list_editable = ('display_class',)
+
+
+@admin.register(County)
+class CountyAdmin(admin.ModelAdmin):
+    list_display = ('geoid', 'name', 'state_fips',)
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditor},
+    }
 
 
 @admin.register(DefaultRisk)
