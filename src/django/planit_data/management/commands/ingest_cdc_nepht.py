@@ -5,7 +5,6 @@ from os import path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 
 from planit_data.models import County
 
@@ -25,7 +24,7 @@ class Command(BaseCommand):
 
         for indicator in indicators:
             csv_path = path.join(settings.BASE_DIR, 'planit_data', 'data',
-                                indicator + '.csv')
+                                 indicator + '.csv')
 
             with open(csv_path) as csv_file:
                 csv_rows = list(csv.DictReader(csv_file))
@@ -37,17 +36,16 @@ class Command(BaseCommand):
                 # Need to remove formatting from some values
                 value = float(row['Value'].replace(',', ''))
                 # Not every export has FIPS codes with the correct leading 0
-                if len(geoid) == 4:
-                    geoid = '0' + geoid
+                geoid.zfill(5)
                 county_values[geoid][year] = value
 
             is_baseline = all(len(yearly_values) == 1
-                                for yearly_values in county_values.values())
+                              for yearly_values in county_values.values())
             # For baseline layers we don't need the year, only the value,
             # and can flatten the list
             if is_baseline:
                 county_values = {geoid: yearly_values.popitem()[1]
-                                    for geoid, yearly_values in county_values.items()}
+                                 for geoid, yearly_values in county_values.items()}
             for county in counties:
                 if county.geoid in county_values:
                     county.indicators[indicator] = county_values[county.geoid]

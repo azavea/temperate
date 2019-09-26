@@ -5,7 +5,6 @@ from os import path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 
 from planit_data.models import ClimateAssessmentRegion
 

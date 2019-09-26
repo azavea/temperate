@@ -1,4 +1,3 @@
-import csv
 import json
 import logging
 from os import path
@@ -6,7 +5,6 @@ from os import path
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 
 from planit_data.models import County
 

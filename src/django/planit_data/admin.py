@@ -32,7 +32,7 @@ for Model in (Concern,
 class ClimateAssessmentRegionAdmin(admin.ModelAdmin):
     list_display = ('name',)
     formfield_overrides = {
-        JSONField:{ 'widget':JSONEditor },
+        JSONField: {'widget': JSONEditor},
     }
 
 
@@ -46,7 +46,7 @@ class CommunitySystemAdmin(admin.ModelAdmin):
 class CountyAdmin(admin.ModelAdmin):
     list_display = ('geoid', 'name', 'state_fips',)
     formfield_overrides = {
-        JSONField:{ 'widget':JSONEditor },
+        JSONField: {'widget': JSONEditor},
     }
 
 
