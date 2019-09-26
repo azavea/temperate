@@ -59,6 +59,9 @@ class County(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'counties'
+
 
 class CommunitySystem(models.Model):
     """A group of people, structures or assets that could be affected by climate change.
