@@ -18,6 +18,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    County,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -26,6 +27,7 @@ from planit_data.models import (
 )
 from planit_data.serializers import (
     ConcernSerializer,
+    CountySerializer,
     CommunitySystemSerializer,
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
@@ -394,3 +396,19 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
             'concern',
             'indicators'
         ).order_by('name')
+
+
+class CountyViewSet(ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CountySerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        org = self.request.user.primary_organization
+        if org.bounds:
+            org_counties = County.objects.filter(geom__intersects=org.bounds)
+        else:
+            org_counties = County.objects.filter(geom__contains=org.location.point)
+        org_states = org_counties.distinct().values_list('state_fips', flat=True)
+
+        return County.objects.filter(state_fips__in=org_states)

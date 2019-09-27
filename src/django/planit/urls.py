@@ -51,6 +51,7 @@ router.register(r'weather-event', planit_data_views.WeatherEventViewSet,
 router.register(r'organization-weather-event', planit_data_views.OrganizationWeatherEventViewSet,
                 base_name='organizationweatherevent')
 router.register(r'concern', planit_data_views.ConcernViewSet, base_name='concern')
+router.register(r'counties', planit_data_views.CountyViewSet, base_name='county')
 
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',

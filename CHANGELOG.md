@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Updated Plan Wizard to allow selecting Organization boundaries
  - Added map page
  - Added County & ClimateAssessmentRegion models/fixtures
+ - Added County GeoJSON API endpoint
 ### Fixed
  - Fixed city profile missing from dashboard
 
