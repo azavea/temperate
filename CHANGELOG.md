@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
+### Added
  - Updated Plan Wizard to allow selecting Organization boundaries
  - Added map page
  - Added County & ClimateAssessmentRegion models/fixtures
+### Fixed
+ - Fixed city profile missing from dashboard
 
 ## [1.10.0] - 2019-09-03
+### Changed
  - Updated Node.js to version 10
  - Updated Angular to version 8
  - The `climate-change-components` library is now a part of this project as the `climate-api` module instead of being installed as an NPM dependency
