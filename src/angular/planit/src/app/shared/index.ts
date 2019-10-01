@@ -53,3 +53,4 @@ export { WizardStepComponent } from './wizard/wizard-step.component';
 
 export { Point } from './geojson';
 export { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
+export { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';

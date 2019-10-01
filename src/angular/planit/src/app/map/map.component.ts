@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AgmMap, MapsAPILoader } from '@agm/core';
 import { Polygon } from 'geojson';
