@@ -3,11 +3,6 @@
     <header class="page-header">
       <h1 class="page-title-small">{{ organization?.plan_due_date | date: 'yyyy' }} Adaptive Plan</h1>
       <h2 class="page-title-large">Dashboard</h2>
-      <div class="organization-details">
-        {{ organization?.location?.getFullName() || 'Your city' }}
-        <span class="separator"> &bull; </span>
-        {{ organization?.name || 'Your organization' }}
-      </div>
     </header>
 
     <section class="dashboard-container">
@@ -82,6 +77,9 @@
     </section>
 
     <aside class="dashboard-sidebar">
+      <div class="aside-block-container">
+        <app-city-minimap [organization]="organization"></app-city-minimap>
+      </div>
       <div class="aside-block-container">
         <app-city-profile-summary [organization]="organization"></app-city-profile-summary>
       </div>

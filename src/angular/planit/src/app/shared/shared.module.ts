@@ -25,6 +25,7 @@ import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
 import { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
+import { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
@@ -78,6 +79,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     GmapAutocompleteDirective,
+    GmapStaticMapComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -108,6 +110,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     GmapAutocompleteDirective,
+    GmapStaticMapComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,

@@ -16,6 +16,7 @@ import { AssessmentModule } from '../assessment/assessment.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { CheckboxGroupComponent } from './checkbox-group/checkbox-group.component';
+import { CityMinimapComponent } from './city-minimap/city-minimap.component';
 import {
   CityProfileSummaryComponent
 } from './city-profile-summary/city-profile-summary.component';
@@ -47,6 +48,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
   declarations: [
     AdaptationReviewComponent,
     CheckboxGroupComponent,
+    CityMinimapComponent,
     CityProfileComponent,
     CityProfileSummaryComponent,
     DashboardComponent,

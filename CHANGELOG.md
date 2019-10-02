@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added map page
  - Added County & ClimateAssessmentRegion models/fixtures
  - Added County GeoJSON API endpoint
+ - Added mini map to dashboard
 ### Fixed
  - Fixed city profile missing from dashboard
 
