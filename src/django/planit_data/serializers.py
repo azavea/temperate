@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from rest_framework.compat import unicode_to_repr
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    County,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -243,3 +245,11 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
+
+
+class CountySerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = County
+        geo_field = 'geom'
+        fields = ('name', 'state_fips', 'geoid', 'indicators',)
