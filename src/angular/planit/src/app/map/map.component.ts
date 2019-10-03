@@ -32,6 +32,19 @@ export class MapComponent implements OnInit {
     }
   ];
 
+  public layer: number = null;
+  public layers = [
+    {label: 'Wildfire hazard potential',
+     mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer'},
+    {label: 'Number of extreme precipitation days', county: 'extreme_precipitation_days'},
+    {label: 'Air quality: ozone levels', attribute: 'ozoneP',
+     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer'},
+    {label: 'Air quality: PM2.5 levels', attribute: 'pmP',
+     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer'},
+    {label: 'Drinking water contaminants', attribute: 'drinkP',
+     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer'},
+  ];
+
   constructor(protected userService: UserService,
               protected weatherEventService: WeatherEventService,
               private mapsApiLoader: MapsAPILoader) {}
@@ -60,5 +73,4 @@ export class MapComponent implements OnInit {
       map.fitBounds(this.polygonBounds);
     }
   }
-
 }

@@ -1,9 +1,22 @@
 app-map {
-  .map-container {
-    position: relative;
+  .main-content {
+    display: flex;
+    flex-direction: row;
+  }
 
-    agm-map {
-      height: 400px;
+  .map-sidebar {
+    flex: 0 0 30rem;
+  }
+
+  .map-container {
+    flex: auto;
+
+    .map-content {
+      position: relative;
+
+      agm-map {
+        height: 400px;
+      }
     }
   }
 }

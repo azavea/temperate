@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import { AgmCoreModule } from '@agm/core';
@@ -12,6 +13,7 @@ import { MapComponent } from './map.component';
   imports: [
     AgmCoreModule,
     CommonModule,
+    FormsModule,
     SharedModule,
     MapRoutingModule
   ],

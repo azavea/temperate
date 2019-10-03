@@ -1,11 +1,16 @@
 <div class="main-container">
   <main class="main-content" role="main">
-    <header class="page-header">
-      <h1 class="page-title-large">Map for {{location?.getFullName()}}</h1>
-    </header>
-
-    <section class="page-section">
-      <div class="map-container">
+    <aside class="map-sidebar">
+      <label>Visualization</label>
+      <select class="form-control"
+              (change)="setLayer()"
+              [(ngModel)]="layer">
+        <option [value]="null">---</option>
+        <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
+      </select>
+    </aside>
+    <section class="map-container">
+      <div class="map-content">
         <agm-map
           #gmap
           [latitude]="location.geometry.coordinates[1]"
