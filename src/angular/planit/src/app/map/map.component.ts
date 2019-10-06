@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { AgmMap, MapsAPILoader } from '@agm/core';
-import { Polygon } from 'geojson';
+import { MapComponent as OLMapComponent, ViewComponent } from 'ngx-openlayers';
+import { Polygon } from 'ol/geom';
+import * as proj from 'ol/proj';
 
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
@@ -16,21 +18,10 @@ import { CommunitySystem, Location, Organization } from '../shared';
 })
 export class MapComponent implements OnInit {
 
-  public location: Location;
-  public polygon?: google.maps.Polygon = null;
-  public polygonBounds?: google.maps.LatLngBounds = null;
+  @ViewChild(OLMapComponent, {static: true}) map;
 
-  public mapStyles = [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    }
-  ];
+  public organization: Organization;
+  public location: Location;
 
   public layer: number = null;
   public layers = [
@@ -45,32 +36,46 @@ export class MapComponent implements OnInit {
      featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer'},
   ];
 
+  private mapStyles = [
+    {
+      featureType: 'poi',
+      elementType: 'labels',
+      stylers: [
+        {
+          visibility: 'off'
+        }
+      ]
+    }
+  ];
+
   constructor(protected userService: UserService,
               protected weatherEventService: WeatherEventService,
               private mapsApiLoader: MapsAPILoader) {}
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
+      this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
 
       this.mapsApiLoader.load().then(() => {
+        // Setup OpenLayers <-> Google connection
+        // olgm module import must be delayed until Google Maps API has loaded
+        const GoogleLayer = require('olgm/layer/Google.js').default;
+        const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
+
+        const olmap = this.map.instance;
+        olmap.addLayer(new GoogleLayer());
+        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
+        olGM.activate();
+
+        // Set initial view extent to fit org bounds to map
         const bounds = user.primary_organization.bounds;
         if (user.primary_organization.bounds !== null) {
-          const coords = bounds.coordinates[0].slice(0, -1);
-          const paths = coords.map(coord => ({lng: coord[0], lat: coord[1]}));
-          this.polygonBounds = new google.maps.LatLngBounds();
-          paths.forEach(path => this.polygonBounds.extend(path));
-          this.polygon = new google.maps.Polygon({ paths, editable: false, draggable: false });
+          var extent = new Polygon(bounds.coordinates).getExtent();
+          extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
+          olmap.getView().fit(extent, olmap.getSize());
         }
       });
     });
-  }
-
-  onMapReady(map: google.maps.Map) {
-    if (this.polygon !== null) {
-      this.polygon.setMap(map);
-      // zoom to fit
-      map.fitBounds(this.polygonBounds);
-    }
   }
 }

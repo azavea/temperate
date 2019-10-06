@@ -14,8 +14,10 @@ app-map {
     .map-content {
       position: relative;
 
-      agm-map {
+      aol-map {
         height: 400px;
+        width: 100%;
+        display: block;
       }
     }
   }

@@ -11,15 +11,29 @@
     </aside>
     <section class="map-container">
       <div class="map-content">
-        <agm-map
-          #gmap
-          [latitude]="location.geometry.coordinates[1]"
-          [longitude]="location.geometry.coordinates[0]"
-          [zoom]="11"
-          [streetViewControl]="false"
-          [styles]="mapStyles"
-          (mapReady)="onMapReady($event)">
-        </agm-map>
+        <aol-map>
+          <aol-control-zoom [duration]="0"></aol-control-zoom>
+          <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
+          <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
+          <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
+          <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
+          <aol-view [zoom]="11">
+            <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
+          </aol-view>
+          <aol-layer-vector *ngIf="organization.bounds">
+            <aol-source-vector>
+              <aol-feature>
+                <aol-geometry-polygon>
+                  <aol-collection-coordinates
+                      [coordinates]="organization.bounds.coordinates"
+                      [srid]="'EPSG:4326'"
+                  >
+                  </aol-collection-coordinates>
+                </aol-geometry-polygon>
+              </aol-feature>
+            </aol-source-vector>
+          </aol-layer-vector>
+        </aol-map>
       </div>
 
     </section>
