@@ -20,9 +20,9 @@
           <aol-view [zoom]="11">
             <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
           </aol-view>
-          <aol-layer-vector *ngIf="organization.bounds">
+          <aol-layer-vector [zIndex]="2" #boundsLayer>
             <aol-source-vector>
-              <aol-feature>
+              <aol-feature *ngIf="organization.bounds">
                 <aol-geometry-polygon>
                   <aol-collection-coordinates
                       [coordinates]="organization.bounds.coordinates"
@@ -33,6 +33,12 @@
               </aol-feature>
             </aol-source-vector>
           </aol-layer-vector>
+          <aol-layer-image *ngIf="layer && layers[layer].mapTypeUrl" [zIndex]="1">
+            <aol-source-imagearcgisrest
+              projection="EPSG:3857"
+              [url]="layers[layer].mapTypeUrl"
+            ></aol-source-imagearcgisrest>
+          </aol-layer-image>
         </aol-map>
       </div>
 

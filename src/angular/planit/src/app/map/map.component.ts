@@ -19,6 +19,7 @@ import { CommunitySystem, Location, Organization } from '../shared';
 export class MapComponent implements OnInit {
 
   @ViewChild(OLMapComponent, {static: true}) map;
+  @ViewChild('boundsLayer', {static: true}) boundsLayer;
 
   public organization: Organization;
   public location: Location;
@@ -64,9 +65,6 @@ export class MapComponent implements OnInit {
         const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
 
         const olmap = this.map.instance;
-        olmap.addLayer(new GoogleLayer());
-        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
-        olGM.activate();
 
         // Set initial view extent to fit org bounds to map
         const bounds = user.primary_organization.bounds;
@@ -74,7 +72,13 @@ export class MapComponent implements OnInit {
           var extent = new Polygon(bounds.coordinates).getExtent();
           extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
           olmap.getView().fit(extent, olmap.getSize());
+          // Keep this layer in OL instead of Google so we can control zIndex
+          this.boundsLayer.instance.set('olgmWatch', false);
         }
+
+        olmap.addLayer(new GoogleLayer());
+        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
+        olGM.activate();
       });
     });
   }
