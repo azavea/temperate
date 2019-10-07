@@ -7,6 +7,7 @@ import Feature from 'ol/Feature';
 import { Polygon } from 'ol/geom';
 import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
+import { Fill, Stroke, Style } from 'ol/style';
 
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
@@ -147,5 +148,20 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (this.layer.mapTypeUrl) {
       this.fitToOrganization();
     }
+  }
+
+  styleFeature = (feature: Feature) => {
+    var val = feature.getProperties().indicators[this.layer.countyAttribute];
+    if (typeof val === "object") {
+      val = Object.values(val)[0];
+    }
+    const row = this.layer.legend.find(row => val >= row.min && val <= row.max);
+    return new Style({
+      stroke: new Stroke({
+        color: '#ccc',
+        width: 1
+      }),
+      fill: new Fill({ color: row.color })
+    })
   }
 }
