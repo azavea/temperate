@@ -35,14 +35,29 @@ export class MapComponent implements OnInit, AfterViewInit {
   public layer: any = null;
   public layers = [
     {label: 'Wildfire hazard potential',
-     mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer'},
-    {label: 'Number of extreme precipitation days', countyAttribute: 'extreme_precipitation_days'},
-    {label: 'Air quality: ozone levels', attribute: 'ozoneP', srid: '3310',
-     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer/1'},
-    {label: 'Air quality: PM2.5 levels', attribute: 'pmP', srid: '3310',
-     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer/1'},
-    {label: 'Drinking water contaminants', attribute: 'drinkP', srid: '3310',
-     featureUrl: 'http://services1.arcgis.com/PCHfdHz4GlDNAhBb/arcgis/rest/services/CES3FINAL_AGOL/FeatureServer/1'},
+     mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+     legend: [
+       {color: '#36A21E', label: 'Very low'},
+       {color: '#A0FF96', label: 'Low'},
+       {color: '#FEFF6E', label: 'Moderate'},
+       {color: '#FFA32D', label: 'High'},
+       {color: '#EE2922', label: 'Very high'},
+       {color: '#E0E0E0', label: 'Non-burnable'},
+       {color: '#166CFB', label: 'Water'},
+     ]
+    },
+    {label: 'Number of precipitation days',
+     countyAttribute: 'extreme_precipitation_days',
+     legend: [
+       {color: '#FFFF80', min: 0, max: 52},
+       {color: '#C7E9B4', min: 53, max: 105},
+       {color: '#7FCDBB', min: 106, max: 157},
+       {color: '#41B6C4', min: 158, max: 209},
+       {color: '#1D91C0', min: 210, max: 261},
+       {color: '#225EA8', min: 262, max: 313},
+       {color: '#0C2C84', min: 314, max: 365},
+     ]
+    },
   ];
 
   private mapStyles = [

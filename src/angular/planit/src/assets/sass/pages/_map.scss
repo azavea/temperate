@@ -6,6 +6,18 @@ app-map {
 
   .map-sidebar {
     flex: 0 0 30rem;
+
+    .legend {
+      list-style-type: none;
+      padding-left: 0.8rem;
+
+      .swatch {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #000;
+      }
+    }
   }
 
   .map-container {
