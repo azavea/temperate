@@ -37,6 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public layers = [
     {label: 'Wildfire hazard potential',
      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+     externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
      legend: [
        {color: '#36A21E', label: 'Very low'},
        {color: '#A0FF96', label: 'Low'},
@@ -155,13 +156,17 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (typeof val === "object") {
       val = Object.values(val)[0];
     }
+
     const row = this.layer.legend.find(row => val >= row.min && val <= row.max);
     return new Style({
       stroke: new Stroke({
         color: '#ccc',
         width: 1
       }),
-      fill: new Fill({ color: row.color })
-    })
+      fill: new Fill({
+        color: row.color
+      })
+    });
   }
+
 }

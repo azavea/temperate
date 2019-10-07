@@ -1,67 +1,70 @@
-<div class="main-container">
-  <main class="main-content" role="main">
-    <aside class="map-sidebar">
-      <label>Visualization</label>
-      <select class="form-control"
-              (change)="setLayer()"
-              [(ngModel)]="layerIndex">
-        <option [value]="null">---</option>
-        <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
-      </select>
-      <ul class="legend" *ngIf="layer">
-        <li *ngFor="let row of layer.legend">
-          <span class="swatch" [style.backgroundColor]="row.color"></span>
-          &nbsp;
-          <span *ngIf="row.label">{{ row.label }}</span>
-          <span *ngIf="row.min != undefined && row.max != undefined">{{ row.min }} &ndash; {{ row.max }}</span>
-        </li>
-      </ul>
-    </aside>
+<main class="main-content" role="main">
+  <aside class="map-sidebar">
+    <label>Visualization</label>
+    <select class="form-control"
+            (change)="setLayer()"
+            [(ngModel)]="layerIndex">
+      <option [value]="null">---</option>
+      <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
+    </select>
+    <a
+      *ngIf="layer && layer.externalLink"
+      href="{{ layer.externalLink }}"
+      target="_blank">
+      <i class="icon icon-question-circle"></i>
+      About this map
+    </a>
+    <label *ngIf="layer">Legend</label>
+    <ul class="legend" *ngIf="layer">
+      <li *ngFor="let row of layer.legend">
+        <span class="swatch" [style.backgroundColor]="row.color"></span>
+        &nbsp;
+        <span *ngIf="row.label">{{ row.label }}</span>
+        <span *ngIf="row.min != undefined && row.max != undefined">{{ row.min }} &ndash; {{ row.max }}</span>
+      </li>
+    </ul>
+  </aside>
 
-    <section class="map-container">
-      <div class="map-content">
-        <aol-map>
-          <aol-control-zoom [duration]="0"></aol-control-zoom>
-          <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
-          <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
-          <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
-          <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
-          <aol-view [zoom]="11">
-            <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
-          </aol-view>
-          <aol-layer-vector [zIndex]="2" #boundsLayer>
-            <aol-source-vector>
-              <aol-feature *ngIf="organization.bounds">
-                <aol-geometry-polygon>
-                  <aol-collection-coordinates
-                      [coordinates]="organization.bounds.coordinates"
-                      srid="EPSG:4326"
-                  >
-                  </aol-collection-coordinates>
-                </aol-geometry-polygon>
-              </aol-feature>
-            </aol-source-vector>
-          </aol-layer-vector>
-          <aol-layer-image *ngIf="layer && layer.mapTypeUrl" [zIndex]="1">
-            <aol-source-imagearcgisrest
-              projection="EPSG:3857"
-              [url]="layer.mapTypeUrl"
-            ></aol-source-imagearcgisrest>
-          </aol-layer-image>
-          <aol-layer-vector
-            #countyLayer
-            *ngIf="layer && layer.countyAttribute"
-            [style]="styleFeature"
-            [zIndex]="1">
-            <aol-source-geojson
-              defaultDataProjection="EPSG:4326"
-              featureProjection="EPSG:3857"
-            ></aol-source-geojson>
-          </aol-layer-vector>
-        </aol-map>
-        <p *ngIf="layer">{{ layer.label }}</p>
-      </div>
-
-    </section>
-  </main>
-</div>
+  <section class="map-container">
+    <div class="map-content">
+      <aol-map>
+        <aol-control-zoom [duration]="0"></aol-control-zoom>
+        <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
+        <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
+        <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
+        <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
+        <aol-view [zoom]="11">
+          <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
+        </aol-view>
+        <aol-layer-vector [zIndex]="2" #boundsLayer>
+          <aol-source-vector>
+            <aol-feature *ngIf="organization.bounds">
+              <aol-geometry-polygon>
+                <aol-collection-coordinates
+                    [coordinates]="organization.bounds.coordinates"
+                    srid="EPSG:4326"
+                >
+                </aol-collection-coordinates>
+              </aol-geometry-polygon>
+            </aol-feature>
+          </aol-source-vector>
+        </aol-layer-vector>
+        <aol-layer-image *ngIf="layer && layer.mapTypeUrl" [zIndex]="1">
+          <aol-source-imagearcgisrest
+            projection="EPSG:3857"
+            [url]="layer.mapTypeUrl"
+          ></aol-source-imagearcgisrest>
+        </aol-layer-image>
+        <aol-layer-vector
+          #countyLayer
+          *ngIf="layer && layer.countyAttribute"
+          [style]="styleFeature"
+          [zIndex]="1">
+          <aol-source-geojson
+            featureProjection="EPSG:3857"
+          ></aol-source-geojson>
+        </aol-layer-vector>
+      </aol-map>
+    </div>
+  </section>
+</main>
