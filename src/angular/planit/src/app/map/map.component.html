@@ -4,7 +4,7 @@
       <label>Visualization</label>
       <select class="form-control"
               (change)="setLayer()"
-              [(ngModel)]="layer">
+              [(ngModel)]="layerIndex">
         <option [value]="null">---</option>
         <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
       </select>
@@ -34,21 +34,24 @@
               </aol-feature>
             </aol-source-vector>
           </aol-layer-vector>
-          <aol-layer-image *ngIf="layer && layers[layer].mapTypeUrl" [zIndex]="1">
+          <aol-layer-image *ngIf="layer && layer.mapTypeUrl" [zIndex]="1">
             <aol-source-imagearcgisrest
               projection="EPSG:3857"
-              [url]="layers[layer].mapTypeUrl"
+              [url]="layer.mapTypeUrl"
             ></aol-source-imagearcgisrest>
           </aol-layer-image>
-          <aol-layer-vector *ngIf="layer && layers[layer].countyAttribute" [zIndex]="1">
+          <aol-layer-vector
+            #countyLayer
+            *ngIf="layer && layer.countyAttribute"
+            [style]="styleFeature"
+            [zIndex]="1">
             <aol-source-geojson
-              #countySource
               defaultDataProjection="EPSG:4326"
               featureProjection="EPSG:3857"
             ></aol-source-geojson>
           </aol-layer-vector>
         </aol-map>
-        <p *ngIf="layer">{{ layers[layer].label }}</p>
+        <p *ngIf="layer">{{ layer.label }}</p>
       </div>
 
     </section>

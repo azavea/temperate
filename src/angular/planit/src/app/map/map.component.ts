@@ -2,9 +2,11 @@ import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } 
 import { HttpClient } from '@angular/common/http';
 
 import { AgmMap, MapsAPILoader } from '@agm/core';
-import { MapComponent as OLMapComponent, SourceGeoJSONComponent, ViewComponent } from 'ngx-openlayers';
+import { LayerVectorComponent, MapComponent as OLMapComponent, ViewComponent } from 'ngx-openlayers';
+import Feature from 'ol/Feature';
 import { Polygon } from 'ol/geom';
 import * as proj from 'ol/proj';
+import { ImageSourceEvent } from 'ol/source/Image';
 
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
@@ -20,14 +22,17 @@ import { CommunitySystem, Location, Organization } from '../shared';
 })
 export class MapComponent implements OnInit, AfterViewInit {
 
+  public startingZoom = 11;
+
   @ViewChild(OLMapComponent, {static: true}) map;
   @ViewChild('boundsLayer', {static: true}) boundsLayer;
-  @ViewChildren('countySource') countySource !: QueryList<SourceGeoJSONComponent>;
+  @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
 
   public organization: Organization;
   public location: Location;
 
-  public layer: number = null;
+  public layerIndex: number = null;
+  public layer: any = null;
   public layers = [
     {label: 'Wildfire hazard potential',
      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer'},
@@ -71,11 +76,8 @@ export class MapComponent implements OnInit, AfterViewInit {
         const olmap = this.map.instance;
 
         // Set initial view extent to fit org bounds to map
-        const bounds = user.primary_organization.bounds;
+        this.fitToOrganization();
         if (user.primary_organization.bounds !== null) {
-          var extent = new Polygon(bounds.coordinates).getExtent();
-          extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
-          olmap.getView().fit(extent, olmap.getSize());
           // Keep this layer in OL instead of Google so we can control zIndex
           this.boundsLayer.instance.set('olgmWatch', false);
         }
@@ -88,20 +90,47 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.countySource.changes.subscribe(() => {
-      if (this.countySource.length === 0) {
+    this.countyLayer.changes.subscribe(() => {
+      if (this.countyLayer.length === 0) {
         return;
       }
-      const vectorSource = this.countySource.first.instance;
+      const countyLayer = this.countyLayer.first.instance;
+      const vectorSource = countyLayer.getSource();
 
       vectorSource.setLoader((extent, resolution, projection) => {
         var url = `${environment.apiUrl}/api/counties/`;
 
         this.http.get(url, { responseType: 'text' }).subscribe((response) => {
-          const features = vectorSource.getFormat().readFeatures(response);
-          vectorSource.addFeatures(features);
+          const olmap = this.map.instance;
+          // Double-check that the layer is still visible before loading data
+          if (countyLayer.getLayerState().sourceState === 'ready') {
+            const features = vectorSource.getFormat().readFeatures(response);
+            vectorSource.addFeatures(features);
+            olmap.getView().fit(vectorSource.getExtent(), olmap.getSize());
+          }
         });
       });
     });
+  }
+
+  fitToOrganization() {
+    const olmap = this.map.instance;
+    const olview = olmap.getView();
+    const bounds = this.organization.bounds;
+    if (bounds !== null) {
+      var extent = new Polygon(bounds.coordinates).getExtent();
+      extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
+      olview.fit(extent, olmap.getSize());
+    } else {
+      olview.setCenter(this.location.geometry);
+      olview.setZoom(this.startingZoom);
+    }
+  }
+
+  setLayer() {
+    this.layer = this.layers[this.layerIndex];
+    if (this.layer.mapTypeUrl) {
+      this.fitToOrganization();
+    }
   }
 }
