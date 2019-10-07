@@ -9,6 +9,7 @@
         <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
       </select>
     </aside>
+
     <section class="map-container">
       <div class="map-content">
         <aol-map>
@@ -26,7 +27,7 @@
                 <aol-geometry-polygon>
                   <aol-collection-coordinates
                       [coordinates]="organization.bounds.coordinates"
-                      [srid]="'EPSG:4326'"
+                      srid="EPSG:4326"
                   >
                   </aol-collection-coordinates>
                 </aol-geometry-polygon>
@@ -39,7 +40,15 @@
               [url]="layers[layer].mapTypeUrl"
             ></aol-source-imagearcgisrest>
           </aol-layer-image>
+          <aol-layer-vector *ngIf="layer && layers[layer].countyAttribute" [zIndex]="1">
+            <aol-source-geojson
+              #countySource
+              defaultDataProjection="EPSG:4326"
+              featureProjection="EPSG:3857"
+            ></aol-source-geojson>
+          </aol-layer-vector>
         </aol-map>
+        <p *ngIf="layer">{{ layers[layer].label }}</p>
       </div>
 
     </section>
