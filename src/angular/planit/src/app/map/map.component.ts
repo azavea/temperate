@@ -38,6 +38,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     {label: 'Wildfire hazard potential',
      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
      externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
+     attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute',
      legend: [
        {color: '#36A21E', label: 'Very low'},
        {color: '#A0FF96', label: 'Low'},
@@ -50,6 +51,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     },
     {label: 'Number of precipitation days',
      countyAttribute: 'extreme_precipitation_days',
+     attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019',
      legend: [
        {color: '#FFFF80', min: 0, max: 52},
        {color: '#C7E9B4', min: 53, max: 105},

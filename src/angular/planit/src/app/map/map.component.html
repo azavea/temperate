@@ -7,22 +7,27 @@
       <option [value]="null">---</option>
       <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
     </select>
-    <a
-      *ngIf="layer && layer.externalLink"
-      href="{{ layer.externalLink }}"
-      target="_blank">
-      <i class="icon icon-question-circle"></i>
-      About this map
-    </a>
-    <label *ngIf="layer">Legend</label>
-    <ul class="legend" *ngIf="layer">
-      <li *ngFor="let row of layer.legend">
-        <span class="swatch" [style.backgroundColor]="row.color"></span>
-        &nbsp;
-        <span *ngIf="row.label">{{ row.label }}</span>
-        <span *ngIf="row.min != undefined && row.max != undefined">{{ row.min }} &ndash; {{ row.max }}</span>
-      </li>
-    </ul>
+    <ng-container *ngIf="layer">
+      <a
+        *ngIf="layer.externalLink"
+        href="{{ layer.externalLink }}"
+        target="_blank">
+        <i class="icon icon-question-circle"></i>
+        About this map
+      </a>
+      <label>Legend</label>
+      <ul class="legend">
+        <li *ngFor="let row of layer.legend">
+          <span class="swatch" [style.backgroundColor]="row.color"></span>
+          &nbsp;
+          <span *ngIf="row.label">{{ row.label }}</span>
+          <span *ngIf="row.min != undefined && row.max != undefined">{{ row.min }} &ndash; {{ row.max }}</span>
+        </li>
+      </ul>
+      <div class="attribution">
+        &copy; <span class="attribution-text">{{ layer.attribution }}</span>
+      </div>
+    </ng-container>
   </aside>
 
   <section class="map-container">
