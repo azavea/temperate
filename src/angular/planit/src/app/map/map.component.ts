@@ -141,7 +141,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
       olview.fit(extent, olmap.getSize());
     } else {
-      olview.setCenter(this.location.geometry);
+      const center = proj.transform(this.location.geometry.coordinates,
+                                    proj.get('EPSG:4326'), proj.get('EPSG:3857'));
+      olview.setCenter(center);
       olview.setZoom(this.startingZoom);
     }
   }
@@ -151,6 +153,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (this.layer.mapTypeUrl) {
       this.fitToOrganization();
     }
+  }
+
+  updateMapSize() {
+    // Refresh container size of OL map, otherwise layers may look squashed
+    this.map.instance.updateSize();
   }
 
   styleFeature = (feature: Feature) => {

@@ -32,7 +32,7 @@
 
   <section class="map-container">
     <div class="map-content">
-      <aol-map>
+      <aol-map (onPreCompose)="updateMapSize()">
         <aol-control-zoom [duration]="0"></aol-control-zoom>
         <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
         <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
