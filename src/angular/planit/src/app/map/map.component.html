@@ -58,7 +58,7 @@
           <aol-layer-image *ngIf="layer.type === layerTypes.ImageArcGISRest" [zIndex]="1">
             <aol-source-imagearcgisrest
               [projection]="webMercator"
-              [url]="layer.mapTypeUrl"
+              [url]="layer.url"
             ></aol-source-imagearcgisrest>
           </aol-layer-image>
           <aol-layer-vector
@@ -76,7 +76,7 @@
             [renderMode]="'vector'"
             [style]="styleVectorFeature"
             [zIndex]="1">
-            <aol-source-vectortile [url]="layer.vectorTileUrl">
+            <aol-source-vectortile [url]="layer.url">
               <aol-format-mvt></aol-format-mvt>
               <aol-tilegrid [maxZoom]="layer.maxZoom"></aol-tilegrid>
             </aol-source-vectortile>

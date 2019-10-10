@@ -27,16 +27,10 @@ import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
 
-import { CommunitySystem, Location, Organization } from '../shared';
+import { CommunitySystem, LayerConfig, LayerType, Location, Organization } from '../shared';
 
 
 const BORDER_COLOR = '#ccc';
-
-enum LayerType {
-  CountyGeoJSON,
-  ImageArcGISRest,
-  VectorTile,
-}
 
 
 @Component({
@@ -59,12 +53,12 @@ export class MapComponent implements OnInit, AfterViewInit {
   public layerTypes = LayerType;
   public layerIndex: number = null;
   public layer: any = null;
-  public layers = [
+  public layers: LayerConfig[] = [
     {
       label: 'Wildfire hazard potential',
       type: LayerType.ImageArcGISRest,
-      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/' +
-                  'RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+      url: 'https://apps.fs.usda.gov/arcx/rest/services/' +
+           'RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
       externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
       attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program' +
                    ' - Fire Modeling Institute',
@@ -97,7 +91,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     {
       label: 'Air quality: ozone',
       type: LayerType.VectorTile,
-      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
       maxZoom: 8,
       showBordersAt: 10,
       attribute: 'ozoneP',
@@ -118,7 +112,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     {
       label: 'Air quality: PM 2.5',
       type: LayerType.VectorTile,
-      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
       maxZoom: 8,
       showBordersAt: 10,
       attribute: 'pmP',
@@ -139,7 +133,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     {
       label: 'Drinking water contamination',
       type: LayerType.VectorTile,
-      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
       maxZoom: 8,
       showBordersAt: 10,
       attribute: 'drinkP',
