@@ -15,11 +15,14 @@ import {
   MapComponent as OLMapComponent,
   ViewComponent,
 } from 'ngx-openlayers';
+import GeoJSON from 'ol/format/GeoJSON';
 import { Polygon } from 'ol/geom';
 import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../core/constants/map';
@@ -165,6 +168,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     }
   ];
 
+  private counties: BehaviorSubject<Feature[]> = new BehaviorSubject(undefined);
+
   constructor(protected userService: UserService,
               protected weatherEventService: WeatherEventService,
               private http: HttpClient,
@@ -174,6 +179,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.userService.current().subscribe((user) => {
       this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
+
+      this.getCounties();
 
       this.mapsApiLoader.load().then(() => {
         // Setup OpenLayers <-> Google connection
@@ -210,14 +217,14 @@ export class MapComponent implements OnInit, AfterViewInit {
       const vectorSource = countyLayer.getSource();
 
       vectorSource.setLoader((extent, resolution, projection) => {
-        const url = `${environment.apiUrl}/api/counties/`;
-
-        this.http.get(url, { responseType: 'text' }).subscribe((response) => {
+        this.counties.subscribe(counties => {
+          if (!counties) {
+            return;
+          }
           const olmap = this.map.instance;
           // Double-check that the layer is still visible before loading data
           if (countyLayer.getLayerState().sourceState === 'ready') {
-            const features = vectorSource.getFormat().readFeatures(response);
-            vectorSource.addFeatures(features);
+            vectorSource.addFeatures(counties);
             olmap.getView().fit(vectorSource.getExtent(), olmap.getSize());
           }
         });
@@ -305,4 +312,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private getCounties() {
+    const url = `${environment.apiUrl}/api/counties/`;
+
+    this.http.get(url, { responseType: 'text' }).subscribe(response => {
+      this.counties.next(new GeoJSON({ featureProjection: WEB_MERCATOR }).readFeatures(response));
+    });
+  }
 }
