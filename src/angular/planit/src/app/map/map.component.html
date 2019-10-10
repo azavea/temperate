@@ -38,8 +38,8 @@
         <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
         <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
         <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
-        <aol-view [zoom]="11">
-          <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
+        <aol-view [zoom]="startingZoom">
+          <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
         </aol-view>
         <aol-layer-vector [zIndex]="2" #boundsLayer>
           <aol-source-vector>
@@ -47,7 +47,7 @@
               <aol-geometry-polygon>
                 <aol-collection-coordinates
                     [coordinates]="organization.bounds.coordinates"
-                    srid="EPSG:4326"
+                    [srid]="wgs84"
                 >
                 </aol-collection-coordinates>
               </aol-geometry-polygon>
@@ -56,7 +56,7 @@
         </aol-layer-vector>
         <aol-layer-image *ngIf="layer && layer.mapTypeUrl" [zIndex]="1">
           <aol-source-imagearcgisrest
-            projection="EPSG:3857"
+            [projection]="webMercator"
             [url]="layer.mapTypeUrl"
           ></aol-source-imagearcgisrest>
         </aol-layer-image>
@@ -66,7 +66,7 @@
           [style]="styleFeature"
           [zIndex]="1">
           <aol-source-geojson
-            featureProjection="EPSG:3857"
+            [featureProjection]="webMercator"
           ></aol-source-geojson>
         </aol-layer-vector>
       </aol-map>

@@ -9,6 +9,7 @@ import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Stroke, Style } from 'ol/style';
 
+import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../core/constants/map';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 import { environment } from '../../environments/environment';
@@ -22,8 +23,9 @@ import { CommunitySystem, Location, Organization } from '../shared';
   templateUrl: './map.component.html'
 })
 export class MapComponent implements OnInit, AfterViewInit {
-
-  public startingZoom = 11;
+  public startingZoom = STARTING_MAP_ZOOM;
+  public wgs84 = WGS84;
+  public webMercator = WEB_MERCATOR;
 
   @ViewChild(OLMapComponent, {static: true}) map;
   @ViewChild('boundsLayer', {static: true}) boundsLayer;
@@ -138,13 +140,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     const bounds = this.organization.bounds;
     if (bounds !== null) {
       var extent = new Polygon(bounds.coordinates).getExtent();
-      extent = proj.transformExtent(extent, proj.get('EPSG:4326'), proj.get('EPSG:3857'));
+      extent = proj.transformExtent(extent, proj.get(WGS84), proj.get(WEB_MERCATOR));
       olview.fit(extent, olmap.getSize());
     } else {
       const center = proj.transform(this.location.geometry.coordinates,
-                                    proj.get('EPSG:4326'), proj.get('EPSG:3857'));
+                                    proj.get(WGS84), proj.get(WEB_MERCATOR));
       olview.setCenter(center);
-      olview.setZoom(this.startingZoom);
+      olview.setZoom(STARTING_MAP_ZOOM);
     }
   }
 
