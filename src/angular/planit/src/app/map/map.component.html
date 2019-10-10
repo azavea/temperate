@@ -55,7 +55,7 @@
           </aol-source-vector>
         </aol-layer-vector>
         <ng-container *ngIf="layer">
-          <aol-layer-image *ngIf="layer.type == layerTypes.ImageArcGISRest" [zIndex]="1">
+          <aol-layer-image *ngIf="layer.type === layerTypes.ImageArcGISRest" [zIndex]="1">
             <aol-source-imagearcgisrest
               [projection]="webMercator"
               [url]="layer.mapTypeUrl"
@@ -63,13 +63,24 @@
           </aol-layer-image>
           <aol-layer-vector
             #countyLayer
-            *ngIf="layer.type == layerTypes.CountyGeoJSON"
-            [style]="styleFeature"
+            *ngIf="layer.type === layerTypes.CountyGeoJSON"
+            [style]="styleCountyFeature"
             [zIndex]="1">
             <aol-source-geojson
               [featureProjection]="webMercator"
             ></aol-source-geojson>
           </aol-layer-vector>
+          <aol-layer-vectortile
+            #vectorTileLayer
+            *ngIf="layer.type === layerTypes.VectorTile"
+            [renderMode]="'vector'"
+            [style]="styleVectorFeature"
+            [zIndex]="1">
+            <aol-source-vectortile [url]="layer.vectorTileUrl">
+              <aol-format-mvt></aol-format-mvt>
+              <aol-tilegrid [maxZoom]="layer.maxZoom"></aol-tilegrid>
+            </aol-source-vectortile>
+          </aol-layer-vectortile>
         </ng-container>
       </aol-map>
     </div>

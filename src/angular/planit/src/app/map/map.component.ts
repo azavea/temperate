@@ -11,6 +11,7 @@ import {
 import { AgmMap, MapsAPILoader } from '@agm/core';
 import {
   LayerVectorComponent,
+  LayerVectorTileComponent,
   MapComponent as OLMapComponent,
   ViewComponent,
 } from 'ngx-openlayers';
@@ -29,9 +30,12 @@ import { WeatherEventService } from '../core/services/weather-event.service';
 import { CommunitySystem, Location, Organization } from '../shared';
 
 
+const BORDER_COLOR = '#ccc';
+
 enum LayerType {
   CountyGeoJSON,
   ImageArcGISRest,
+  VectorTile,
 }
 
 
@@ -47,6 +51,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   @ViewChild(OLMapComponent, {static: true}) map;
   @ViewChild('boundsLayer', {static: true}) boundsLayer;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
+  @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
 
   public organization: Organization;
   public location: Location;
@@ -87,6 +92,69 @@ export class MapComponent implements OnInit, AfterViewInit {
         {color: '#1D91C0', min: 210, max: 261},
         {color: '#225EA8', min: 262, max: 313},
         {color: '#0C2C84', min: 314, max: 365},
+      ]
+    },
+    {
+      label: 'Air quality: ozone',
+      type: LayerType.VectorTile,
+      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      maxZoom: 8,
+      showBordersAt: 10,
+      attribute: 'ozoneP',
+      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+      legend: [
+        {color: '#FFFFE5', min: 0, max: 10},
+        {color: '#F3FACA', min: 11, max: 20},
+        {color: '#D9F0CC', min: 21, max: 30},
+        {color: '#A8DDD1', min: 31, max: 40},
+        {color: '#7ECDD7', min: 41, max: 50},
+        {color: '#65B4D4', min: 51, max: 60},
+        {color: '#6991C4', min: 61, max: 70},
+        {color: '#717EBD', min: 71, max: 80},
+        {color: '#606DA1', min: 81, max: 90},
+        {color: '#56647E', min: 91, max: 100},
+      ]
+    },
+    {
+      label: 'Air quality: PM 2.5',
+      type: LayerType.VectorTile,
+      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      maxZoom: 8,
+      showBordersAt: 10,
+      attribute: 'pmP',
+      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+      legend: [
+        {color: '#FFFFE5', min: 0, max: 10},
+        {color: '#F3FACA', min: 11, max: 20},
+        {color: '#D9F0CC', min: 21, max: 30},
+        {color: '#A8DDD1', min: 31, max: 40},
+        {color: '#7ECDD7', min: 41, max: 50},
+        {color: '#65B4D4', min: 51, max: 60},
+        {color: '#6991C4', min: 61, max: 70},
+        {color: '#717EBD', min: 71, max: 80},
+        {color: '#606DA1', min: 81, max: 90},
+        {color: '#56647E', min: 91, max: 100},
+      ]
+    },
+    {
+      label: 'Drinking water contamination',
+      type: LayerType.VectorTile,
+      vectorTileUrl: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+      maxZoom: 8,
+      showBordersAt: 10,
+      attribute: 'drinkP',
+      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+      legend: [
+        {color: '#FFFFE5', min: 0, max: 10},
+        {color: '#F3FACA', min: 11, max: 20},
+        {color: '#D9F0CC', min: 21, max: 30},
+        {color: '#A8DDD1', min: 31, max: 40},
+        {color: '#7ECDD7', min: 41, max: 50},
+        {color: '#65B4D4', min: 51, max: 60},
+        {color: '#6991C4', min: 61, max: 70},
+        {color: '#717EBD', min: 71, max: 80},
+        {color: '#606DA1', min: 81, max: 90},
+        {color: '#56647E', min: 91, max: 100},
       ]
     },
   ];
@@ -136,6 +204,10 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.setupCountyLayer();
+  }
+
+  setupCountyLayer() {
     this.countyLayer.changes.subscribe(() => {
       if (this.countyLayer.length === 0) {
         return;
@@ -159,6 +231,18 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
   }
 
+  setupVectorTileLayer() {
+    if (this.vectorTileLayer.length === 0) {
+      return;
+    }
+
+    // Trigger refresh of tiles
+    const vectorTileLayer = this.vectorTileLayer.first.instance;
+    const vectorTileSource = vectorTileLayer.getSource();
+    vectorTileSource.dispatchEvent('change');
+  }
+
+
   fitToOrganization() {
     const olmap = this.map.instance;
     const olview = olmap.getView();
@@ -177,8 +261,11 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   setLayer() {
     this.layer = this.layers[this.layerIndex];
-    if (this.layer.mapTypeUrl) {
+    if (this.layer.type == LayerType.ImageArcGISRest || this.layer.type == LayerType.VectorTile) {
       this.fitToOrganization();
+    }
+    if (this.layer.type == LayerType.VectorTile) {
+      this.setupVectorTileLayer();
     }
   }
 
@@ -187,7 +274,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.map.instance.updateSize();
   }
 
-  styleFeature = (feature: Feature) => {
+  styleCountyFeature = (feature: Feature) => {
     let val = feature.getProperties().indicators[this.layer.attribute];
     // For baseline layers val will be a single numeric value
     // For Historical and projected layers, val will be an object with years
@@ -195,12 +282,28 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (typeof val === 'object') {
       val = Object.values(val)[0];
     }
+    return this.styleFeature(feature, val);
+  }
 
-    const row = this.layer.legend.find(r => val >= r.min && val <= r.max);
+  styleVectorFeature = (feature: Feature) => {
+    const val = feature.getProperties()[this.layer.attribute];
+    return this.styleFeature(feature, val);
+  }
+
+  private styleFeature(feature: Feature, val: number) {
+    const row = this.layer.legend.find(r => val >= r.min && val < r.max + 1);
+    const zoom = this.map.instance.getView().getZoom();
+
+    let strokeColor;
+    if (this.layer.showBordersAt) {
+      strokeColor = zoom >= this.layer.showBordersAt ? BORDER_COLOR : row.color;
+    } else {
+      strokeColor = BORDER_COLOR;
+    }
+
     return new Style({
       stroke: new Stroke({
-        color: '#ccc',
-        width: 1
+        color: strokeColor
       }),
       fill: new Fill({
         color: row.color
