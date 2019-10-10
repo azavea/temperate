@@ -90,71 +90,76 @@ export class MapComponent implements OnInit, AfterViewInit {
         {color: '#225EA8', min: 262, max: 313},
         {color: '#0C2C84', min: 314, max: 365},
       ]
-    },
-    {
-      label: 'Air quality: ozone',
-      type: LayerType.VectorTile,
-      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
-      maxZoom: 8,
-      showBordersAt: 10,
-      attribute: 'ozoneP',
-      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
-      legend: [
-        {color: '#FFFFE5', min: 0, max: 10},
-        {color: '#F3FACA', min: 11, max: 20},
-        {color: '#D9F0CC', min: 21, max: 30},
-        {color: '#A8DDD1', min: 31, max: 40},
-        {color: '#7ECDD7', min: 41, max: 50},
-        {color: '#65B4D4', min: 51, max: 60},
-        {color: '#6991C4', min: 61, max: 70},
-        {color: '#717EBD', min: 71, max: 80},
-        {color: '#606DA1', min: 81, max: 90},
-        {color: '#56647E', min: 91, max: 100},
-      ]
-    },
-    {
-      label: 'Air quality: PM 2.5',
-      type: LayerType.VectorTile,
-      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
-      maxZoom: 8,
-      showBordersAt: 10,
-      attribute: 'pmP',
-      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
-      legend: [
-        {color: '#FFFFE5', min: 0, max: 10},
-        {color: '#F3FACA', min: 11, max: 20},
-        {color: '#D9F0CC', min: 21, max: 30},
-        {color: '#A8DDD1', min: 31, max: 40},
-        {color: '#7ECDD7', min: 41, max: 50},
-        {color: '#65B4D4', min: 51, max: 60},
-        {color: '#6991C4', min: 61, max: 70},
-        {color: '#717EBD', min: 71, max: 80},
-        {color: '#606DA1', min: 81, max: 90},
-        {color: '#56647E', min: 91, max: 100},
-      ]
-    },
-    {
-      label: 'Drinking water contamination',
-      type: LayerType.VectorTile,
-      url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
-      maxZoom: 8,
-      showBordersAt: 10,
-      attribute: 'drinkP',
-      attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
-      legend: [
-        {color: '#FFFFE5', min: 0, max: 10},
-        {color: '#F3FACA', min: 11, max: 20},
-        {color: '#D9F0CC', min: 21, max: 30},
-        {color: '#A8DDD1', min: 31, max: 40},
-        {color: '#7ECDD7', min: 41, max: 50},
-        {color: '#65B4D4', min: 51, max: 60},
-        {color: '#6991C4', min: 61, max: 70},
-        {color: '#717EBD', min: 71, max: 80},
-        {color: '#606DA1', min: 81, max: 90},
-        {color: '#56647E', min: 91, max: 100},
-      ]
-    },
+    }
   ];
+
+  private stateLayers = {
+    '06': [
+      {
+        label: 'Air quality: ozone',
+        type: LayerType.VectorTile,
+        url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+        maxZoom: 8,
+        showBordersAt: 10,
+        attribute: 'ozoneP',
+        attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+        legend: [
+          {color: '#FFFFE5', min: 0, max: 10},
+          {color: '#F3FACA', min: 11, max: 20},
+          {color: '#D9F0CC', min: 21, max: 30},
+          {color: '#A8DDD1', min: 31, max: 40},
+          {color: '#7ECDD7', min: 41, max: 50},
+          {color: '#65B4D4', min: 51, max: 60},
+          {color: '#6991C4', min: 61, max: 70},
+          {color: '#717EBD', min: 71, max: 80},
+          {color: '#606DA1', min: 81, max: 90},
+          {color: '#56647E', min: 91, max: 100},
+        ]
+      },
+      {
+        label: 'Air quality: PM 2.5',
+        type: LayerType.VectorTile,
+        url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+        maxZoom: 8,
+        showBordersAt: 10,
+        attribute: 'pmP',
+        attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+        legend: [
+          {color: '#FFFFE5', min: 0, max: 10},
+          {color: '#F3FACA', min: 11, max: 20},
+          {color: '#D9F0CC', min: 21, max: 30},
+          {color: '#A8DDD1', min: 31, max: 40},
+          {color: '#7ECDD7', min: 41, max: 50},
+          {color: '#65B4D4', min: 51, max: 60},
+          {color: '#6991C4', min: 61, max: 70},
+          {color: '#717EBD', min: 71, max: 80},
+          {color: '#606DA1', min: 81, max: 90},
+          {color: '#56647E', min: 91, max: 100},
+        ]
+      },
+      {
+        label: 'Drinking water contamination',
+        type: LayerType.VectorTile,
+        url: 'https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf',
+        maxZoom: 8,
+        showBordersAt: 10,
+        attribute: 'drinkP',
+        attribution: 'CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment',
+        legend: [
+          {color: '#FFFFE5', min: 0, max: 10},
+          {color: '#F3FACA', min: 11, max: 20},
+          {color: '#D9F0CC', min: 21, max: 30},
+          {color: '#A8DDD1', min: 31, max: 40},
+          {color: '#7ECDD7', min: 41, max: 50},
+          {color: '#65B4D4', min: 51, max: 60},
+          {color: '#6991C4', min: 61, max: 70},
+          {color: '#717EBD', min: 71, max: 80},
+          {color: '#606DA1', min: 81, max: 90},
+          {color: '#56647E', min: 91, max: 100},
+        ]
+      },
+    ]
+  };
 
   private mapStyles = [
     {
@@ -181,26 +186,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.location = user.primary_organization.location;
 
       this.getCounties();
-
-      this.mapsApiLoader.load().then(() => {
-        // Setup OpenLayers <-> Google connection
-        // olgm module import must be delayed until Google Maps API has loaded
-        const GoogleLayer = require('olgm/layer/Google.js').default;
-        const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
-
-        const olmap = this.map.instance;
-
-        // Set initial view extent to fit org bounds to map
-        this.fitToOrganization();
-        if (user.primary_organization.bounds !== null) {
-          // Keep this layer in OL instead of Google so we can control zIndex
-          this.boundsLayer.instance.set('olgmWatch', false);
-        }
-
-        olmap.addLayer(new GoogleLayer());
-        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
-        olGM.activate();
-      });
+      this.setStateLayers();
+      this.setupMap();
     });
   }
 
@@ -317,6 +304,42 @@ export class MapComponent implements OnInit, AfterViewInit {
 
     this.http.get(url, { responseType: 'text' }).subscribe(response => {
       this.counties.next(new GeoJSON({ featureProjection: WEB_MERCATOR }).readFeatures(response));
+    });
+  }
+
+  private setupMap() {
+    this.mapsApiLoader.load().then(() => {
+      // Setup OpenLayers <-> Google connection
+      // olgm module import must be delayed until Google Maps API has loaded
+      const GoogleLayer = require('olgm/layer/Google.js').default;
+      const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
+
+      const olmap = this.map.instance;
+
+      // Set initial view extent to fit org bounds to map
+      this.fitToOrganization();
+      if (this.organization.bounds !== null) {
+        // Keep this layer in OL instead of Google so we can control zIndex
+        this.boundsLayer.instance.set('olgmWatch', false);
+      }
+
+      olmap.addLayer(new GoogleLayer());
+      const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
+      olGM.activate();
+    });
+  }
+
+  private setStateLayers() {
+    this.counties.subscribe(counties => {
+      if (!counties) {
+        return;
+      }
+      const stateFIPSCodes = new Set<string>(counties.map(c => c.getProperties().state_fips));
+      for (let stateFIPS of stateFIPSCodes) {
+        if (stateFIPS in this.stateLayers) {
+          this.layers = this.layers.concat(this.stateLayers[stateFIPS]);
+        }
+      }
     });
   }
 }
