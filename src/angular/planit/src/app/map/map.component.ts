@@ -1,18 +1,29 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 
 import { AgmMap, MapsAPILoader } from '@agm/core';
-import { LayerVectorComponent, MapComponent as OLMapComponent, ViewComponent } from 'ngx-openlayers';
-import Feature from 'ol/Feature';
+import {
+  LayerVectorComponent,
+  MapComponent as OLMapComponent,
+  ViewComponent,
+} from 'ngx-openlayers';
 import { Polygon } from 'ol/geom';
 import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Stroke, Style } from 'ol/style';
+import Feature from 'ol/Feature';
 
+import { environment } from '../../environments/environment';
 import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../core/constants/map';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
-import { environment } from '../../environments/environment';
 
 
 import { CommunitySystem, Location, Organization } from '../shared';
@@ -47,9 +58,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     {
       label: 'Wildfire hazard potential',
       type: LayerType.ImageArcGISRest,
-      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/' +
+                  'RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
       externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
-      attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute',
+      attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program' +
+                   ' - Fire Modeling Institute',
       legend: [
         {color: '#36A21E', label: 'Very low'},
         {color: '#A0FF96', label: 'Low'},
@@ -64,7 +77,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       label: 'Number of precipitation days',
       type: LayerType.CountyGeoJSON,
       attribute: 'extreme_precipitation_days',
-      attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019',
+      attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. ' +
+                   'Accessed on 10/07/2019',
       legend: [
         {color: '#FFFF80', min: 0, max: 52},
         {color: '#C7E9B4', min: 53, max: 105},
@@ -130,7 +144,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       const vectorSource = countyLayer.getSource();
 
       vectorSource.setLoader((extent, resolution, projection) => {
-        var url = `${environment.apiUrl}/api/counties/`;
+        const url = `${environment.apiUrl}/api/counties/`;
 
         this.http.get(url, { responseType: 'text' }).subscribe((response) => {
           const olmap = this.map.instance;
@@ -150,7 +164,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     const olview = olmap.getView();
     const bounds = this.organization.bounds;
     if (bounds !== null) {
-      var extent = new Polygon(bounds.coordinates).getExtent();
+      let extent = new Polygon(bounds.coordinates).getExtent();
       extent = proj.transformExtent(extent, proj.get(WGS84), proj.get(WEB_MERCATOR));
       olview.fit(extent, olmap.getSize());
     } else {
@@ -174,15 +188,15 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   styleFeature = (feature: Feature) => {
-    var val = feature.getProperties().indicators[this.layer.attribute];
+    let val = feature.getProperties().indicators[this.layer.attribute];
     // For baseline layers val will be a single numeric value
     // For Historical and projected layers, val will be an object with years
     // as keys and numbers as values
-    if (typeof val === "object") {
+    if (typeof val === 'object') {
       val = Object.values(val)[0];
     }
 
-    const row = this.layer.legend.find(row => val >= row.min && val <= row.max);
+    const row = this.layer.legend.find(r => val >= r.min && val <= r.max);
     return new Style({
       stroke: new Stroke({
         color: '#ccc',
