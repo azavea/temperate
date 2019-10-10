@@ -18,6 +18,12 @@ import { environment } from '../../environments/environment';
 import { CommunitySystem, Location, Organization } from '../shared';
 
 
+enum LayerType {
+  CountyGeoJSON,
+  ImageArcGISRest,
+}
+
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html'
@@ -34,35 +40,40 @@ export class MapComponent implements OnInit, AfterViewInit {
   public organization: Organization;
   public location: Location;
 
+  public layerTypes = LayerType;
   public layerIndex: number = null;
   public layer: any = null;
   public layers = [
-    {label: 'Wildfire hazard potential',
-     mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
-     externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
-     attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute',
-     legend: [
-       {color: '#36A21E', label: 'Very low'},
-       {color: '#A0FF96', label: 'Low'},
-       {color: '#FEFF6E', label: 'Moderate'},
-       {color: '#FFA32D', label: 'High'},
-       {color: '#EE2922', label: 'Very high'},
-       {color: '#E0E0E0', label: 'Non-burnable'},
-       {color: '#166CFB', label: 'Water'},
-     ]
+    {
+      label: 'Wildfire hazard potential',
+      type: LayerType.ImageArcGISRest,
+      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+      externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
+      attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute',
+      legend: [
+        {color: '#36A21E', label: 'Very low'},
+        {color: '#A0FF96', label: 'Low'},
+        {color: '#FEFF6E', label: 'Moderate'},
+        {color: '#FFA32D', label: 'High'},
+        {color: '#EE2922', label: 'Very high'},
+        {color: '#E0E0E0', label: 'Non-burnable'},
+        {color: '#166CFB', label: 'Water'},
+      ]
     },
-    {label: 'Number of precipitation days',
-     countyAttribute: 'extreme_precipitation_days',
-     attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019',
-     legend: [
-       {color: '#FFFF80', min: 0, max: 52},
-       {color: '#C7E9B4', min: 53, max: 105},
-       {color: '#7FCDBB', min: 106, max: 157},
-       {color: '#41B6C4', min: 158, max: 209},
-       {color: '#1D91C0', min: 210, max: 261},
-       {color: '#225EA8', min: 262, max: 313},
-       {color: '#0C2C84', min: 314, max: 365},
-     ]
+    {
+      label: 'Number of precipitation days',
+      type: LayerType.CountyGeoJSON,
+      attribute: 'extreme_precipitation_days',
+      attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019',
+      legend: [
+        {color: '#FFFF80', min: 0, max: 52},
+        {color: '#C7E9B4', min: 53, max: 105},
+        {color: '#7FCDBB', min: 106, max: 157},
+        {color: '#41B6C4', min: 158, max: 209},
+        {color: '#1D91C0', min: 210, max: 261},
+        {color: '#225EA8', min: 262, max: 313},
+        {color: '#0C2C84', min: 314, max: 365},
+      ]
     },
   ];
 
@@ -163,7 +174,10 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   styleFeature = (feature: Feature) => {
-    var val = feature.getProperties().indicators[this.layer.countyAttribute];
+    var val = feature.getProperties().indicators[this.layer.attribute];
+    // For baseline layers val will be a single numeric value
+    // For Historical and projected layers, val will be an object with years
+    // as keys and numbers as values
     if (typeof val === "object") {
       val = Object.values(val)[0];
     }

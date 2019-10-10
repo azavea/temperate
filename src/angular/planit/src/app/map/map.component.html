@@ -54,21 +54,23 @@
             </aol-feature>
           </aol-source-vector>
         </aol-layer-vector>
-        <aol-layer-image *ngIf="layer && layer.mapTypeUrl" [zIndex]="1">
-          <aol-source-imagearcgisrest
-            [projection]="webMercator"
-            [url]="layer.mapTypeUrl"
-          ></aol-source-imagearcgisrest>
-        </aol-layer-image>
-        <aol-layer-vector
-          #countyLayer
-          *ngIf="layer && layer.countyAttribute"
-          [style]="styleFeature"
-          [zIndex]="1">
-          <aol-source-geojson
-            [featureProjection]="webMercator"
-          ></aol-source-geojson>
-        </aol-layer-vector>
+        <ng-container *ngIf="layer">
+          <aol-layer-image *ngIf="layer.type == layerTypes.ImageArcGISRest" [zIndex]="1">
+            <aol-source-imagearcgisrest
+              [projection]="webMercator"
+              [url]="layer.mapTypeUrl"
+            ></aol-source-imagearcgisrest>
+          </aol-layer-image>
+          <aol-layer-vector
+            #countyLayer
+            *ngIf="layer.type == layerTypes.CountyGeoJSON"
+            [style]="styleFeature"
+            [zIndex]="1">
+            <aol-source-geojson
+              [featureProjection]="webMercator"
+            ></aol-source-geojson>
+          </aol-layer-vector>
+        </ng-container>
       </aol-map>
     </div>
   </section>
