@@ -4,7 +4,6 @@ export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
 export { ActionVisibilityOption } from './models/action-visibility-option.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
-export { Location } from './models/location.model';
 export {
   ActionPrioritized,
   CityProfile,
@@ -15,6 +14,8 @@ export {
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
+export { LayerConfig, LayerType } from './models/layer-config.model';
+export { Location } from './models/location.model';
 export { Organization } from './models/organization.model';
 export {
   OrgSubscription,
