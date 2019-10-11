@@ -4,10 +4,9 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { Polygon } from 'geojson';
 
 import { environment } from '../../../environments/environment';
+import { STARTING_MAP_ZOOM } from '../../core/constants/map';
 
 
-// zoom level for use with organizations without custom bounds
-const DEFAULT_ZOOM = '10';
 // request static Google map image sized this many pixels, squared
 const IMAGE_SIZE_PX = '200';
 const MAPTYPE = 'roadmap';
@@ -54,7 +53,7 @@ export class GmapStaticMapComponent implements OnInit {
       const center = `${this.latitude.toFixed(ROUND_COORD_PLACES)},
         ${this.longitude.toFixed(ROUND_COORD_PLACES)}`;
       params = params.set('center', center);
-      params = params.set('zoom', DEFAULT_ZOOM);
+      params = params.set('zoom', STARTING_MAP_ZOOM);
     }
 
     this.srcUrl = STATIC_MAP_BASE_URL + params.toString();

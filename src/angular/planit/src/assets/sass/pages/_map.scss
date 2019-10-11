@@ -1,9 +1,52 @@
 app-map {
-  .map-container {
-    position: relative;
+  .main-container {
+    height: 100%;
+  }
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
 
-    agm-map {
-      height: 400px;
+  .map-sidebar {
+    flex: 0 0 35rem;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .legend {
+      list-style-type: none;
+      padding-left: 0.8rem;
+
+      .swatch {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid #000;
+      }
+    }
+    .attribution {
+      margin-top: auto;
+      color: #888;
+      font-size: $text-tiny;
+      > .attribution-text {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .map-container {
+    flex: auto;
+
+    .map-content {
+      position: relative;
+      height: 100%;
+
+      aol-map {
+        height: 100%;
+        width: 100%;
+        display: block;
+      }
     }
   }
 }

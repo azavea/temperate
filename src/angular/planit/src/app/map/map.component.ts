@@ -1,8 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 
 import { AgmMap, MapsAPILoader } from '@agm/core';
-import { Polygon } from 'geojson';
+import {
+  LayerVectorComponent,
+  MapComponent as OLMapComponent,
+  ViewComponent,
+} from 'ngx-openlayers';
+import { Polygon } from 'ol/geom';
+import * as proj from 'ol/proj';
+import { ImageSourceEvent } from 'ol/source/Image';
+import { Fill, Stroke, Style } from 'ol/style';
+import Feature from 'ol/Feature';
 
+import { environment } from '../../environments/environment';
+import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../core/constants/map';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
@@ -10,17 +29,69 @@ import { WeatherEventService } from '../core/services/weather-event.service';
 import { CommunitySystem, Location, Organization } from '../shared';
 
 
+enum LayerType {
+  CountyGeoJSON,
+  ImageArcGISRest,
+}
+
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html'
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, AfterViewInit {
+  public startingZoom = STARTING_MAP_ZOOM;
+  public wgs84 = WGS84;
+  public webMercator = WEB_MERCATOR;
 
+  @ViewChild(OLMapComponent, {static: true}) map;
+  @ViewChild('boundsLayer', {static: true}) boundsLayer;
+  @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
+
+  public organization: Organization;
   public location: Location;
-  public polygon?: google.maps.Polygon = null;
-  public polygonBounds?: google.maps.LatLngBounds = null;
 
-  public mapStyles = [
+  public layerTypes = LayerType;
+  public layerIndex: number = null;
+  public layer: any = null;
+  public layers = [
+    {
+      label: 'Wildfire hazard potential',
+      type: LayerType.ImageArcGISRest,
+      mapTypeUrl: 'https://apps.fs.usda.gov/arcx/rest/services/' +
+                  'RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer',
+      externalLink: 'https://www.firelab.org/project/wildfire-hazard-potential',
+      attribution: 'Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program' +
+                   ' - Fire Modeling Institute',
+      legend: [
+        {color: '#36A21E', label: 'Very low'},
+        {color: '#A0FF96', label: 'Low'},
+        {color: '#FEFF6E', label: 'Moderate'},
+        {color: '#FFA32D', label: 'High'},
+        {color: '#EE2922', label: 'Very high'},
+        {color: '#E0E0E0', label: 'Non-burnable'},
+        {color: '#166CFB', label: 'Water'},
+      ]
+    },
+    {
+      label: 'Number of precipitation days',
+      type: LayerType.CountyGeoJSON,
+      attribute: 'extreme_precipitation_days',
+      attribution: 'Accessed From: https://ephtracking.cdc.gov/DataExplorer. ' +
+                   'Accessed on 10/07/2019',
+      legend: [
+        {color: '#FFFF80', min: 0, max: 52},
+        {color: '#C7E9B4', min: 53, max: 105},
+        {color: '#7FCDBB', min: 106, max: 157},
+        {color: '#41B6C4', min: 158, max: 209},
+        {color: '#1D91C0', min: 210, max: 261},
+        {color: '#225EA8', min: 262, max: 313},
+        {color: '#0C2C84', min: 314, max: 365},
+      ]
+    },
+  ];
+
+  private mapStyles = [
     {
       featureType: 'poi',
       elementType: 'labels',
@@ -34,31 +105,107 @@ export class MapComponent implements OnInit {
 
   constructor(protected userService: UserService,
               protected weatherEventService: WeatherEventService,
+              private http: HttpClient,
               private mapsApiLoader: MapsAPILoader) {}
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
+      this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
 
       this.mapsApiLoader.load().then(() => {
-        const bounds = user.primary_organization.bounds;
+        // Setup OpenLayers <-> Google connection
+        // olgm module import must be delayed until Google Maps API has loaded
+        const GoogleLayer = require('olgm/layer/Google.js').default;
+        const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
+
+        const olmap = this.map.instance;
+
+        // Set initial view extent to fit org bounds to map
+        this.fitToOrganization();
         if (user.primary_organization.bounds !== null) {
-          const coords = bounds.coordinates[0].slice(0, -1);
-          const paths = coords.map(coord => ({lng: coord[0], lat: coord[1]}));
-          this.polygonBounds = new google.maps.LatLngBounds();
-          paths.forEach(path => this.polygonBounds.extend(path));
-          this.polygon = new google.maps.Polygon({ paths, editable: false, draggable: false });
+          // Keep this layer in OL instead of Google so we can control zIndex
+          this.boundsLayer.instance.set('olgmWatch', false);
         }
+
+        olmap.addLayer(new GoogleLayer());
+        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
+        olGM.activate();
       });
     });
   }
 
-  onMapReady(map: google.maps.Map) {
-    if (this.polygon !== null) {
-      this.polygon.setMap(map);
-      // zoom to fit
-      map.fitBounds(this.polygonBounds);
+  ngAfterViewInit() {
+    this.countyLayer.changes.subscribe(() => {
+      if (this.countyLayer.length === 0) {
+        return;
+      }
+      const countyLayer = this.countyLayer.first.instance;
+      const vectorSource = countyLayer.getSource();
+
+      vectorSource.setLoader((extent, resolution, projection) => {
+        const url = `${environment.apiUrl}/api/counties/`;
+
+        this.http.get(url, { responseType: 'text' }).subscribe((response) => {
+          const olmap = this.map.instance;
+          // Double-check that the layer is still visible before loading data
+          if (countyLayer.getLayerState().sourceState === 'ready') {
+            const features = vectorSource.getFormat().readFeatures(response);
+            vectorSource.addFeatures(features);
+            olmap.getView().fit(vectorSource.getExtent(), olmap.getSize());
+          }
+        });
+      });
+    });
+  }
+
+  fitToOrganization() {
+    const olmap = this.map.instance;
+    const olview = olmap.getView();
+    const bounds = this.organization.bounds;
+    if (bounds !== null) {
+      let extent = new Polygon(bounds.coordinates).getExtent();
+      extent = proj.transformExtent(extent, proj.get(WGS84), proj.get(WEB_MERCATOR));
+      olview.fit(extent, olmap.getSize());
+    } else {
+      const center = proj.transform(this.location.geometry.coordinates,
+                                    proj.get(WGS84), proj.get(WEB_MERCATOR));
+      olview.setCenter(center);
+      olview.setZoom(STARTING_MAP_ZOOM);
     }
+  }
+
+  setLayer() {
+    this.layer = this.layers[this.layerIndex];
+    if (this.layer.mapTypeUrl) {
+      this.fitToOrganization();
+    }
+  }
+
+  updateMapSize() {
+    // Refresh container size of OL map, otherwise layers may look squashed
+    this.map.instance.updateSize();
+  }
+
+  styleFeature = (feature: Feature) => {
+    let val = feature.getProperties().indicators[this.layer.attribute];
+    // For baseline layers val will be a single numeric value
+    // For Historical and projected layers, val will be an object with years
+    // as keys and numbers as values
+    if (typeof val === 'object') {
+      val = Object.values(val)[0];
+    }
+
+    const row = this.layer.legend.find(r => val >= r.min && val <= r.max);
+    return new Style({
+      stroke: new Stroke({
+        color: '#ccc',
+        width: 1
+      }),
+      fill: new Fill({
+        color: row.color
+      })
+    });
   }
 
 }
