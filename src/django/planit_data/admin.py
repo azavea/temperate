@@ -10,6 +10,9 @@ from .models import (
     County,
     DefaultRisk,
     GeoRegion,
+    Impact,
+    ImpactCommunitySystemRank,
+    ImpactWeatherEventRank,
     Indicator,
     OrganizationAction,
     OrganizationRisk,
@@ -28,12 +31,24 @@ for Model in (Concern,
     admin.site.register(Model)
 
 
+class ImpactCommunitySystemInline(admin.TabularInline):
+    model = ImpactCommunitySystemRank
+    extra = 1
+
+
+class ImpactWeatherEventInline(admin.TabularInline):
+    model = ImpactWeatherEventRank
+    extra = 1
+
+
 @admin.register(ClimateAssessmentRegion)
 class ClimateAssessmentRegionAdmin(admin.ModelAdmin):
     list_display = ('name',)
+    exclude = ['geom']
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
+    inlines = [ImpactCommunitySystemInline, ImpactWeatherEventInline]
 
 
 @admin.register(CommunitySystem)
@@ -48,6 +63,11 @@ class CountyAdmin(admin.ModelAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
+
+
+@admin.register(Impact)
+class Impact(admin.ModelAdmin):
+    pass
 
 
 @admin.register(DefaultRisk)

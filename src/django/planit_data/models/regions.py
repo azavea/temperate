@@ -26,7 +26,7 @@ class ClimateAssessmentRegion(models.Model):
     """
     name = models.CharField(max_length=256, blank=False, null=False)
     geom = models.MultiPolygonField()
-    indicators = JSONField(default=dict)
+    indicators = JSONField(default=dict, blank=True)
 
     def __str__(self):
         return self.name
