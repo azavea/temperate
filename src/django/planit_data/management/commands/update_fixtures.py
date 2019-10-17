@@ -15,6 +15,8 @@ FIXTURES = {
         ('georegions.json', ['planit_data.georegion']),
         ('impacts.json', ['planit_data.impact']),
         ('impactcommunitysystemranks.json', ['planit_data.impactcommunitysystemrank']),
+        ('impactmaplayers.json', ['planit_data.impactmaplayer']),
+        ('impactmaplegendrows.json', ['planit_data.impactmaplegendrow']),
         ('impactweathereventranks.json', ['planit_data.impactweathereventrank']),
         ('indicators.json', ['planit_data.indicator']),
         ('relatedadaptivevalues.json', ['planit_data.relatedadaptivevalue']),

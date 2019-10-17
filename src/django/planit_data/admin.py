@@ -12,6 +12,8 @@ from .models import (
     GeoRegion,
     Impact,
     ImpactCommunitySystemRank,
+    ImpactMapLayer,
+    ImpactMapLegendRow,
     ImpactWeatherEventRank,
     Indicator,
     OrganizationAction,
@@ -24,6 +26,7 @@ from .models import (
 
 for Model in (Concern,
               GeoRegion,
+              Impact,
               Indicator,
               RelatedAdaptiveValue,
               WeatherEventRank,
@@ -38,6 +41,11 @@ class ImpactCommunitySystemInline(admin.TabularInline):
 
 class ImpactWeatherEventInline(admin.TabularInline):
     model = ImpactWeatherEventRank
+    extra = 1
+
+
+class ImpactMapLegendInline(admin.TabularInline):
+    model = ImpactMapLegendRow
     extra = 1
 
 
@@ -65,9 +73,9 @@ class CountyAdmin(admin.ModelAdmin):
     }
 
 
-@admin.register(Impact)
-class Impact(admin.ModelAdmin):
-    pass
+@admin.register(ImpactMapLayer)
+class ImpactMapLayerAdmin(admin.ModelAdmin):
+    inlines = [ImpactMapLegendInline]
 
 
 @admin.register(DefaultRisk)

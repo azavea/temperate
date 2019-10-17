@@ -55,6 +55,8 @@ then
                     communitysystems \
                     impacts \
                     impactcommunitysytemranks \
+                    impactmaplayers \
+                    impactmaplegendrows \
                     impactweathereventranks \
                     defaultrisks \
                     collaborators \

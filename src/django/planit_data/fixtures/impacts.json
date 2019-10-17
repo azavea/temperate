@@ -3,128 +3,152 @@
     "model": "planit_data.impact",
     "pk": 1,
     "fields": {
-        "name": "Maximum number of consecutive months of mild drought or worse",
-        "external_link": ""
+        "label": "Maximum number of consecutive months of mild drought or worse",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 2,
     "fields": {
-        "name": "Number of people within fema designated flood hazard area",
-        "external_link": ""
+        "label": "Number of people within fema designated flood hazard area",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 3,
     "fields": {
-        "name": "Number of extreme precipitation days",
-        "external_link": ""
+        "label": "Number of precipitation days",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 4,
     "fields": {
-        "name": "Air Quality: Ozone",
-        "external_link": ""
+        "label": "Air Quality: Ozone",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 5,
     "fields": {
-        "name": "Air Quality: PM2.5",
-        "external_link": ""
+        "label": "Air Quality: PM2.5",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 6,
     "fields": {
-        "name": "Drinking Water Contaminants",
-        "external_link": ""
+        "label": "Drinking Water Contaminants",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 7,
     "fields": {
-        "name": "% decrease in barley yields",
-        "external_link": ""
+        "label": "% decrease in barley yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 8,
     "fields": {
-        "name": "% decrease in corn yields",
-        "external_link": ""
+        "label": "% decrease in corn yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 9,
     "fields": {
-        "name": "% decrease in hay yields",
-        "external_link": ""
+        "label": "% decrease in hay yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 10,
     "fields": {
-        "name": "% decrease in sorghum yields",
-        "external_link": ""
+        "label": "% decrease in sorghum yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 11,
     "fields": {
-        "name": "% decrease in soybean yields",
-        "external_link": ""
+        "label": "% decrease in soybean yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 12,
     "fields": {
-        "name": "% decrease in wheat yields",
-        "external_link": ""
+        "label": "% decrease in wheat yields",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 13,
     "fields": {
-        "name": "Cost of damage to coastal properties",
-        "external_link": ""
+        "label": "Cost of damage to coastal properties",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 14,
     "fields": {
-        "name": "Economic damanges of inland flooding",
-        "external_link": ""
+        "label": "Economic damanges of inland flooding",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 15,
     "fields": {
-        "name": "Wildfire Hazard Potential",
-        "external_link": ""
+        "label": "Wildfire Hazard Potential",
+        "external_download_link": ""
     }
 },
 {
     "model": "planit_data.impact",
     "pk": 16,
     "fields": {
-        "name": "Emergency room department visits  for asthma per 10,000 people",
-        "external_link": ""
+        "label": "Emergency room department visits  for asthma per 10,000 people",
+        "external_download_link": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 17,
+    "fields": {
+        "label": "% decrease in rice yields",
+        "external_download_link": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 18,
+    "fields": {
+        "label": "% decrease in potato yields",
+        "external_download_link": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 19,
+    "fields": {
+        "label": "% decrease in cotton yields",
+        "external_download_link": ""
     }
 }
 ]
