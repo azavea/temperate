@@ -36,7 +36,7 @@ class ImpactMapLayer(models.Model):
             (VECTOR_TILE, VECTOR_TILE),
         ]
 
-    impact = models.OneToOneField(Impact, on_delete=models.CASCADE)
+    impact = models.OneToOneField(Impact, on_delete=models.CASCADE, related_name='map_layer')
     layer_type = models.CharField(max_length=20, choices=LayerType.ALL)
     attribution = models.CharField(max_length=256)
     url = models.URLField(blank=True)

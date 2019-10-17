@@ -19,6 +19,7 @@ from planit_data.models import (
     CommunitySystem,
     Concern,
     County,
+    Impact,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -29,6 +30,7 @@ from planit_data.serializers import (
     ConcernSerializer,
     CountySerializer,
     CommunitySystemSerializer,
+    ImpactSerializer,
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
@@ -410,5 +412,16 @@ class CountyViewSet(ReadOnlyModelViewSet):
         else:
             org_counties = County.objects.filter(geom__contains=org.location.point)
         org_states = org_counties.distinct().values_list('state_fips', flat=True)
-
         return County.objects.filter(state_fips__in=org_states)
+
+
+class ImpactViewSet(ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ImpactSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        return Impact.objects.all().prefetch_related(
+            'map_layer',
+            'map_layer__legend',
+        )
