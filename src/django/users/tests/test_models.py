@@ -170,7 +170,7 @@ class OrganizationTestCase(TestCase):
 
 class LocationManagerTestCase(TestCase):
     @mock.patch('users.models.make_token_api_request')
-    @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
+    @mock.patch('planit_data.models.regions.GeoRegionManager.get_for_point')
     def test_from_point_no_location(self, get_for_point_mock, api_wrapper_mock):
         """Ensure calling from_point makes an API call and parses response correctly."""
         get_for_point_mock.return_value = GeoRegionFactory()
@@ -197,7 +197,7 @@ class LocationManagerTestCase(TestCase):
         self.assertFalse(result.is_coastal)
 
     @mock.patch('users.models.make_token_api_request')
-    @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
+    @mock.patch('planit_data.models.regions.GeoRegionManager.get_for_point')
     def test_from_point_no_location_is_coastal(self, get_for_point_mock, api_wrapper_mock):
         """Ensure calling from_point makes an API call and parses is_coastal correctly."""
         get_for_point_mock.return_value = GeoRegionFactory()
@@ -234,7 +234,7 @@ class LocationManagerTestCase(TestCase):
         self.assertTrue(result.is_coastal)
 
     @mock.patch('users.models.make_token_api_request')
-    @mock.patch('planit_data.models.GeoRegionManager.get_for_point')
+    @mock.patch('planit_data.models.regions.GeoRegionManager.get_for_point')
     def test_from_point_uses_matching_georegion(self, get_for_point_mock, api_wrapper_mock):
         """Ensure calling from_point calls GeoRegionManager.get_for_point."""
         get_for_point_mock.return_value = GeoRegionFactory()
