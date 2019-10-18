@@ -32,6 +32,16 @@ class ClimateAssessmentRegion(models.Model):
         return self.name
 
 
+class CountyManager(GeoRegionManager):
+
+    def get_state_fips(self, org):
+        if org.bounds:
+            org_counties = self.get_queryset().filter(geom__intersects=org.bounds)
+        else:
+            org_counties = self.get_queryset().filter(geom__contains=org.location.point)
+        return org_counties.distinct().values_list('state_fips', flat=True)
+
+
 class County(models.Model):
     """Geometries for US counties.
 
@@ -43,7 +53,7 @@ class County(models.Model):
     geom = models.MultiPolygonField()
     indicators = JSONField(default=dict)
 
-    objects = GeoRegionManager()
+    objects = CountyManager()
 
     def __str__(self):
         return self.name
