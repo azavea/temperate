@@ -151,13 +151,17 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   setLayer() {
     this.impact = this.impacts[this.layerIndex];
-    this.layer = this.impact.map_layer;
-    if (this.layer.layer_type === LayerType.ImageArcGISRest ||
-        this.layer.layer_type === LayerType.VectorTile) {
-      this.fitToOrganization();
-    }
-    if (this.layer.layer_type === LayerType.VectorTile) {
-      this.setupVectorTileLayer();
+    if (this.impact) {
+      this.layer = this.impact.map_layer;
+      if (this.layer.layer_type === LayerType.ImageArcGISRest ||
+          this.layer.layer_type === LayerType.VectorTile) {
+        this.fitToOrganization();
+      }
+      if (this.layer.layer_type === LayerType.VectorTile) {
+        this.setupVectorTileLayer();
+      }
+    } else {
+      this.layer = null;
     }
   }
 
