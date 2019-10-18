@@ -46,8 +46,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
 
-  @ViewChild(OLMapComponent, {static: true}) map;
-  @ViewChild('boundsLayer', {static: true}) boundsLayer;
+  @ViewChild(OLMapComponent, {static: false}) map;
+  @ViewChild('boundsLayer', {static: false}) boundsLayer;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
 
@@ -58,7 +58,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public layerIndex: number = null;
   public layer: LayerConfig = null;
   public impact: Impact = null;
-  public impacts: Impact[] = [];
+  public impacts: Impact[] = null;
 
   private mapStyles = [
     {
@@ -82,7 +82,6 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCounties();
-    this.setupMap();
 
     this.userService.current().subscribe((user) => {
       this.organization = user.primary_organization;
@@ -90,6 +89,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
     this.impactService.list().subscribe((impacts) => {
       this.impacts = impacts.filter(i => i.map_layer);
+      this.setupMap();
     });
   }
 

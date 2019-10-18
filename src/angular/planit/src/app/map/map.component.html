@@ -1,4 +1,7 @@
-<main class="main-content" role="main">
+<div class="loading-wrapper" *ngIf="!impacts">
+  <div class="loading loading-spinner loading-large"></div>
+</div>
+<main class="main-content" role="main" *ngIf="impacts">
   <aside class="map-sidebar">
     <label>Visualization</label>
     <select class="form-control"
