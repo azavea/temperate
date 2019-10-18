@@ -1,7 +1,7 @@
 export enum LayerType {
-  CountyGeoJSON = "county",
-  ImageArcGISRest = "arcgis",
-  VectorTile = "vectortile",
+  CountyGeoJSON = 'county',
+  ImageArcGISRest = 'arcgis',
+  VectorTile = 'vectortile',
 }
 
 interface LegendRow {
