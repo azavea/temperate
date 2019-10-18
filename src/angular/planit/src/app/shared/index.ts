@@ -14,6 +14,7 @@ export {
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
+export { Impact } from './models/impact.model';
 export { LayerConfig, LayerType } from './models/layer-config.model';
 export { Location } from './models/location.model';
 export { Organization } from './models/organization.model';
