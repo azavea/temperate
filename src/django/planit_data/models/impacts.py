@@ -51,7 +51,8 @@ class ImpactMapLayer(models.Model):
 
 
 class ImpactMapLegendRow(models.Model):
-    impact_layer = models.ForeignKey(ImpactMapLayer, related_name='legend', on_delete=models.CASCADE)
+    impact_layer = models.ForeignKey(ImpactMapLayer, related_name='legend',
+                                     on_delete=models.CASCADE)
     color = models.CharField(max_length=7,
                              validators=[RegexValidator(r"^#([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$")])
     label = models.CharField(max_length=100, blank=True)

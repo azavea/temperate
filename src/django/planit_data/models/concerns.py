@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from django.db import IntegrityError
+from django.db import connection, transaction, IntegrityError
 from django.db.models import CASCADE
 
 from climate_api.wrapper import make_indicator_point_api_request
