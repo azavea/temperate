@@ -76,9 +76,5 @@ then
 
         # Build Nginx
         docker-compose build nginx
-
-        # Build Area Indicators
-        echo "Building Scala assembly JAR"
-        docker-compose run --rm --no-deps sbt ";update ;api/assembly"
     fi
 fi

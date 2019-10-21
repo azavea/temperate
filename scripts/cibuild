@@ -60,17 +60,5 @@ if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
                   -f docker-compose.yml \
                   -f docker-compose.test.yml \
                   build nginx
-
-        echo "Build jar for API subproject"
-        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
-            -f docker-compose.yml \
-            run --rm --no-deps \
-            sbt api/assembly
-
-        echo "Build scala container images"
-        GIT_COMMIT="${GIT_COMMIT}" docker-compose \
-            -f docker-compose.yml \
-            -f docker-compose.test.yml \
-            build area-indicators
     fi
 fi
