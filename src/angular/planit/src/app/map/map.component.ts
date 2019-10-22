@@ -22,7 +22,7 @@ import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../core/constants/map';
@@ -47,7 +47,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public webMercator = WEB_MERCATOR;
 
   @ViewChild(OLMapComponent, {static: false}) map;
-  @ViewChild('boundsLayer', {static: false}) boundsLayer;
+  @ViewChildren('boundsLayer') boundsLayer;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
 
@@ -82,6 +82,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCounties();
+      this.setupMap();
 
     this.userService.current().subscribe((user) => {
       this.organization = user.primary_organization;
@@ -89,7 +90,6 @@ export class MapComponent implements OnInit, AfterViewInit {
     });
     this.impactService.list().subscribe((impacts) => {
       this.impacts = impacts.filter(i => i.map_layer);
-      this.setupMap();
     });
   }
 
@@ -222,18 +222,22 @@ export class MapComponent implements OnInit, AfterViewInit {
       const GoogleLayer = require('olgm/layer/Google.js').default;
       const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
 
-      const olmap = this.map.instance;
+      // Wait for bounds layer to be visible before setting up OLGM connection
+      // This means the map and impacts will also have loaded at this point
+      this.boundsLayer.changes.pipe(take(1)).subscribe(() => {
+        const olmap = this.map.instance;
 
-      // Set initial view extent to fit org bounds to map
-      this.fitToOrganization();
-      if (this.organization.bounds !== null) {
-        // Keep this layer in OL instead of Google so we can control zIndex
-        this.boundsLayer.instance.set('olgmWatch', false);
-      }
+        // Set initial view extent to fit org bounds to map
+        this.fitToOrganization();
+        if (this.organization.bounds !== null) {
+          // Keep this layer in OL instead of Google so we can control zIndex
+          this.boundsLayer.first.instance.set('olgmWatch', false);
+        }
 
-      olmap.addLayer(new GoogleLayer());
-      const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
-      olGM.activate();
+        olmap.addLayer(new GoogleLayer());
+        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
+        olGM.activate();
+      });
     });
   }
 }
