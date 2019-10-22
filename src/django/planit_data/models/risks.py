@@ -45,7 +45,7 @@ class WeatherEvent(models.Model):
 
 
 class DefaultRisk(models.Model):
-    """A through model used to relate WeatherEvent to a list of ordered CommunitySytems.
+    """A through model used to relate WeatherEvent to a list of ordered CommunitySystems.
 
     Used to populate the starting list of risks when an Organization is created
     """
