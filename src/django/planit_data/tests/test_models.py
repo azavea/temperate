@@ -3,11 +3,8 @@ from unittest import mock
 from django.db.utils import IntegrityError
 from django.test import TestCase
 
-from planit_data.models import (
-    ConcernValue,
-    ConcernValueManager,
-    OrganizationWeatherEvent
-)
+from planit_data.models import OrganizationWeatherEvent
+from planit_data.models.concerns import ConcernValue, ConcernValueManager
 from planit_data.tests.factories import (
     ConcernFactory,
     ConcernValueFactory,
@@ -73,7 +70,7 @@ class ConcernTestCase(TestCase):
         data = concern.calculate(None)
         self.assertEqual(data['units'], None)
 
-    @mock.patch('planit_data.models.make_indicator_point_api_request')
+    @mock.patch('planit_data.models.concerns.make_indicator_point_api_request')
     def test_concern_no_indicator_skips_api_request(self, api_request_mock):
         api_request_mock.side_effect = RuntimeError('Static concerns should not make API requests')
 
@@ -81,7 +78,7 @@ class ConcernTestCase(TestCase):
         org = OrganizationFactory()
         concern.calculate(org)
 
-    @mock.patch('planit_data.models.ConcernValueManager.for_location')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.for_location')
     def test_get_calculated_values(self, for_location_mock):
         """Test that get_calculated_values relays the output of for_location()."""
         concern = ConcernFactory()
@@ -106,7 +103,7 @@ class ConcernValueTestCase(TestCase):
 
         self.assertEqual(result, concernvalue)
 
-    @mock.patch('planit_data.models.ConcernValueManager.calculate_change')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.calculate_change')
     def test_for_location_creates_concern_value_if_missing(self, calculate_change):
         """Test that for_location will create a ConcernValue object if one does not exist."""
         concern = ConcernFactory()
@@ -120,7 +117,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result.value, 13.1)
         self.assertEqual(result.units, 'in')
 
-    @mock.patch('planit_data.models.ConcernValueManager.get_average_value')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.get_average_value')
     def test_calculate_change_uses_get_average_value(self, get_average_value_mock):
         """calculate_change() uses get_average_value() for calculating difference."""
         location = LocationFactory()
@@ -138,7 +135,7 @@ class ConcernValueTestCase(TestCase):
                       ConcernValueManager.END_YEAR),
         ])
 
-    @mock.patch('planit_data.models.ConcernValueManager.get_average_value')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.get_average_value')
     def test_calculate_change_absolute_concern(self, get_average_value_mock):
         """calculate_change() uses simple difference for non-relative concerns."""
         location = LocationFactory()
@@ -156,7 +153,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result_value, 8.3)
         self.assertEqual(result_units, indicator_units)
 
-    @mock.patch('planit_data.models.ConcernValueManager.get_average_value')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.get_average_value')
     def test_calculate_change_relative_concern(self, get_average_value_mock):
         """calculate_change() compares values for relative concerns by ratio."""
         location = LocationFactory()
@@ -174,7 +171,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result_value, 1)
         self.assertEqual(result_units, None)
 
-    @mock.patch('planit_data.models.ConcernValueManager.get_average_value')
+    @mock.patch('planit_data.models.concerns.ConcernValueManager.get_average_value')
     def test_calculate_change_relative_concern_starting_zero(self, get_average_value_mock):
         """Relative concerns that start with a value of 0 fall back to absolute difference."""
         location = LocationFactory()
@@ -192,7 +189,7 @@ class ConcernValueTestCase(TestCase):
         self.assertEqual(result_value, 15.6)
         self.assertEqual(result_units, indicator_units)
 
-    @mock.patch('planit_data.models.make_indicator_point_api_request')
+    @mock.patch('planit_data.models.concerns.make_indicator_point_api_request')
     def test_get_average_value(self, api_indicator_mock):
         """get_average_value should return the mean of values in Climate API request data."""
         location = LocationFactory()

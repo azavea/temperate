@@ -53,6 +53,11 @@ then
                     weatherevents \
                     weathereventrank \
                     communitysystems \
+                    impacts \
+                    impactcommunitysystemranks \
+                    impactmaplayers \
+                    impactmaplegendrows \
+                    impactweathereventranks \
                     defaultrisks \
                     collaborators \
                     relatedadaptivevalues \

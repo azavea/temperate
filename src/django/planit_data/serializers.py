@@ -7,6 +7,9 @@ from planit_data.models import (
     CommunitySystem,
     Concern,
     County,
+    Impact,
+    ImpactMapLayer,
+    ImpactMapLegendRow,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -253,3 +256,35 @@ class CountySerializer(GeoFeatureModelSerializer):
         model = County
         geo_field = 'geom'
         fields = ('name', 'state_fips', 'geoid', 'indicators',)
+
+
+class ImpactMapLegendRowSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImpactMapLegendRow
+        fields = ('color', 'label', 'min_value', 'max_value',)
+
+
+class ImpactMapLayerSerializer(serializers.ModelSerializer):
+    legend = ImpactMapLegendRowSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ImpactMapLayer
+        fields = (
+            'layer_type',
+            'url',
+            'attribute',
+            'max_zoom',
+            'show_borders_at',
+            'external_link',
+            'attribution',
+            'legend',
+        )
+
+
+class ImpactSerializer(serializers.ModelSerializer):
+    map_layer = ImpactMapLayerSerializer()
+
+    class Meta:
+        model = Impact
+        fields = ('label', 'external_download_link', 'map_layer',)

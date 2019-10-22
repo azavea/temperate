@@ -6,7 +6,6 @@ from users.tests.factories import OrganizationFactory, LocationFactory
 from planit_data.models import (
     CommunitySystem,
     Concern,
-    ConcernValue,
     DefaultRisk,
     GeoRegion,
     Indicator,
@@ -16,6 +15,7 @@ from planit_data.models import (
     WeatherEvent,
     WeatherEventRank
 )
+from planit_data.models.concerns import ConcernValue
 
 
 class CommunitySystemFactory(factory.DjangoModelFactory):

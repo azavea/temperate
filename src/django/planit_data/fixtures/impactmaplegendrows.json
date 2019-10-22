@@ -1,0 +1,486 @@
+[
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 45,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#FFFF80",
+        "label": "",
+        "min_value": 0,
+        "max_value": 52
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 46,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#C7E9B4",
+        "label": "",
+        "min_value": 53,
+        "max_value": 105
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 47,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#7FCDBB",
+        "label": "",
+        "min_value": 106,
+        "max_value": 157
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 48,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#41B6C4",
+        "label": "",
+        "min_value": 158,
+        "max_value": 209
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 49,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#1D91C0",
+        "label": "",
+        "min_value": 210,
+        "max_value": 261
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 50,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#225EA8",
+        "label": "",
+        "min_value": 262,
+        "max_value": 313
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 51,
+    "fields": {
+        "impact_layer": 1,
+        "color": "#0C2C84",
+        "label": "",
+        "min_value": 314,
+        "max_value": 365
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 52,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#36A21E",
+        "label": "Very low",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 53,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#A0FF96",
+        "label": "Low",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 54,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#FEFF6E",
+        "label": "Moderate",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 55,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#FFA32D",
+        "label": "High",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 56,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#EE2922",
+        "label": "Very high",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 57,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#E0E0E0",
+        "label": "Non-burnable",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 58,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#166CFB",
+        "label": "Water",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 59,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#FFFFE5",
+        "label": "",
+        "min_value": 0,
+        "max_value": 10
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 60,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#F3FACA",
+        "label": "",
+        "min_value": 11,
+        "max_value": 20
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 61,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#D9F0CC",
+        "label": "",
+        "min_value": 21,
+        "max_value": 30
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 62,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#A8DDD1",
+        "label": "",
+        "min_value": 31,
+        "max_value": 40
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 63,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#7ECDD7",
+        "label": "",
+        "min_value": 41,
+        "max_value": 50
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 64,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#65B4D4",
+        "label": "",
+        "min_value": 51,
+        "max_value": 60
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 65,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#6991C4",
+        "label": "",
+        "min_value": 61,
+        "max_value": 70
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 66,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#717EBD",
+        "label": "",
+        "min_value": 71,
+        "max_value": 80
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 67,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#606DA1",
+        "label": "",
+        "min_value": 81,
+        "max_value": 90
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 68,
+    "fields": {
+        "impact_layer": 3,
+        "color": "#56647E",
+        "label": "",
+        "min_value": 91,
+        "max_value": 100
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 69,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#FFFFE5",
+        "label": "",
+        "min_value": 0,
+        "max_value": 10
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 70,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#F3FACA",
+        "label": "",
+        "min_value": 11,
+        "max_value": 20
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 71,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#D9F0CC",
+        "label": "",
+        "min_value": 21,
+        "max_value": 30
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 72,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#A8DDD1",
+        "label": "",
+        "min_value": 31,
+        "max_value": 40
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 73,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#7ECDD7",
+        "label": "",
+        "min_value": 41,
+        "max_value": 50
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 74,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#65B4D4",
+        "label": "",
+        "min_value": 51,
+        "max_value": 60
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 75,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#6991C4",
+        "label": "",
+        "min_value": 61,
+        "max_value": 70
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 76,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#717EBD",
+        "label": "",
+        "min_value": 71,
+        "max_value": 80
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 77,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#606DA1",
+        "label": "",
+        "min_value": 81,
+        "max_value": 90
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 78,
+    "fields": {
+        "impact_layer": 4,
+        "color": "#56647E",
+        "label": "",
+        "min_value": 91,
+        "max_value": 100
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 79,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#FFFFE5",
+        "label": "",
+        "min_value": 0,
+        "max_value": 10
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 80,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#F3FACA",
+        "label": "",
+        "min_value": 11,
+        "max_value": 20
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 81,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#D9F0CC",
+        "label": "",
+        "min_value": 21,
+        "max_value": 30
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 82,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#A8DDD1",
+        "label": "",
+        "min_value": 31,
+        "max_value": 40
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 83,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#7ECDD7",
+        "label": "",
+        "min_value": 41,
+        "max_value": 50
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 84,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#65B4D4",
+        "label": "",
+        "min_value": 51,
+        "max_value": 60
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 85,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#6991C4",
+        "label": "",
+        "min_value": 61,
+        "max_value": 70
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 86,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#717EBD",
+        "label": "",
+        "min_value": 71,
+        "max_value": 80
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 87,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#606DA1",
+        "label": "",
+        "min_value": 81,
+        "max_value": 90
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 88,
+    "fields": {
+        "impact_layer": 5,
+        "color": "#56647E",
+        "label": "",
+        "min_value": 91,
+        "max_value": 100
+    }
+}
+]

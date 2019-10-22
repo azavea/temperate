@@ -1,0 +1,77 @@
+[
+{
+    "model": "planit_data.impactmaplayer",
+    "pk": 1,
+    "fields": {
+        "impact": 3,
+        "layer_type": "county",
+        "attribution": "Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019",
+        "url": "",
+        "attribute": "extreme_precipitation_days",
+        "max_zoom": null,
+        "show_borders_at": null,
+        "external_link": "",
+        "state_fips": ""
+    }
+},
+{
+    "model": "planit_data.impactmaplayer",
+    "pk": 2,
+    "fields": {
+        "impact": 15,
+        "layer_type": "arcgis",
+        "attribution": "Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute",
+        "url": "https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer",
+        "attribute": "",
+        "max_zoom": null,
+        "show_borders_at": null,
+        "external_link": "https://www.firelab.org/project/wildfire-hazard-potential",
+        "state_fips": ""
+    }
+},
+{
+    "model": "planit_data.impactmaplayer",
+    "pk": 3,
+    "fields": {
+        "impact": 4,
+        "layer_type": "vectortile",
+        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
+        "attribute": "ozoneP",
+        "max_zoom": 8,
+        "show_borders_at": 10,
+        "external_link": "",
+        "state_fips": "06"
+    }
+},
+{
+    "model": "planit_data.impactmaplayer",
+    "pk": 4,
+    "fields": {
+        "impact": 5,
+        "layer_type": "vectortile",
+        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
+        "attribute": "pmP",
+        "max_zoom": 8,
+        "show_borders_at": 10,
+        "external_link": "",
+        "state_fips": "06"
+    }
+},
+{
+    "model": "planit_data.impactmaplayer",
+    "pk": 5,
+    "fields": {
+        "impact": 6,
+        "layer_type": "vectortile",
+        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
+        "attribute": "drinkP",
+        "max_zoom": 8,
+        "show_borders_at": 10,
+        "external_link": "",
+        "state_fips": "06"
+    }
+}
+]

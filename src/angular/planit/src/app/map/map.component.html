@@ -1,16 +1,19 @@
-<main class="main-content" role="main">
+<div class="loading-wrapper" *ngIf="!impacts">
+  <div class="loading loading-spinner loading-large"></div>
+</div>
+<main class="main-content" role="main" *ngIf="impacts">
   <aside class="map-sidebar">
     <label>Visualization</label>
     <select class="form-control"
             (change)="setLayer()"
             [(ngModel)]="layerIndex">
       <option [value]="null">---</option>
-      <option *ngFor="let layer of layers; index as i" [value]="i">{{ layer.label }}</option>
+      <option *ngFor="let impact of impacts; index as i" [value]="i">{{ impact.label }}</option>
     </select>
     <ng-container *ngIf="layer">
       <a
-        *ngIf="layer.externalLink"
-        href="{{ layer.externalLink }}"
+        *ngIf="layer.external_link"
+        href="{{ layer.external_link }}"
         target="_blank">
         <i class="icon icon-question-circle"></i>
         About this map
@@ -21,7 +24,7 @@
           <span class="swatch" [style.backgroundColor]="row.color"></span>
           &nbsp;
           <span *ngIf="row.label">{{ row.label }}</span>
-          <span *ngIf="row.min != undefined && row.max != undefined">{{ row.min }} &ndash; {{ row.max }}</span>
+          <span *ngIf="row.min_value != undefined && row.max_value != undefined">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
         </li>
       </ul>
       <div class="attribution">
@@ -55,7 +58,7 @@
           </aol-source-vector>
         </aol-layer-vector>
         <ng-container *ngIf="layer">
-          <aol-layer-image *ngIf="layer.type === layerTypes.ImageArcGISRest" [zIndex]="1">
+          <aol-layer-image *ngIf="layer.layer_type === layerTypes.ImageArcGISRest" [zIndex]="1">
             <aol-source-imagearcgisrest
               [projection]="webMercator"
               [url]="layer.url"
@@ -63,7 +66,7 @@
           </aol-layer-image>
           <aol-layer-vector
             #countyLayer
-            *ngIf="layer.type === layerTypes.CountyGeoJSON"
+            *ngIf="layer.layer_type === layerTypes.CountyGeoJSON"
             [style]="styleCountyFeature"
             [zIndex]="1">
             <aol-source-geojson
@@ -72,13 +75,13 @@
           </aol-layer-vector>
           <aol-layer-vectortile
             #vectorTileLayer
-            *ngIf="layer.type === layerTypes.VectorTile"
+            *ngIf="layer.layer_type === layerTypes.VectorTile"
             [renderMode]="'vector'"
             [style]="styleVectorFeature"
             [zIndex]="1">
             <aol-source-vectortile [url]="layer.url">
               <aol-format-mvt></aol-format-mvt>
-              <aol-tilegrid [maxZoom]="layer.maxZoom"></aol-tilegrid>
+              <aol-tilegrid [maxZoom]="layer.max_zoom"></aol-tilegrid>
             </aol-source-vectortile>
           </aol-layer-vectortile>
         </ng-container>

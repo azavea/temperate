@@ -1,30 +1,23 @@
 export enum LayerType {
-  CountyGeoJSON,
-  ImageArcGISRest,
-  VectorTile,
+  CountyGeoJSON = 'county',
+  ImageArcGISRest = 'arcgis',
+  VectorTile = 'vectortile',
 }
 
-interface LegendRowLabeled {
+interface LegendRow {
   color: string;
   label: string;
+  min_value?: number;
+  max_value?: number;
 }
-
-interface LegendRowGenerated {
-  color: string;
-  min: number;
-  max: number;
-}
-
-type LegendRow = LegendRowGenerated | LegendRowLabeled;
 
 export interface LayerConfig {
-  label: string;
-  type: LayerType;
+  layer_type: LayerType;
   url?: string;
   attribute?: string;
-  maxZoom?: number;
-  showBordersAt?: number;
-  externalLink?: string;
+  max_zoom?: number;
+  show_borders_at?: number;
+  external_link?: string;
   attribution: string;
   legend: LegendRow[];
 }
