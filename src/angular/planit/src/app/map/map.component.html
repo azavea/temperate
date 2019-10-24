@@ -86,6 +86,17 @@
           </aol-layer-vectortile>
         </ng-container>
       </aol-map>
+      <div class="chart-options slider" *ngIf="showSlider">
+          <div class="chart-options-body">
+              <nouislider class="chart-options-group"
+                          [config]="sliderConfig"
+                          [ngModel]="selectedYear"
+                          [min]="sliderMin"
+                          [max]="sliderMax"
+                          (change)="changeLayerYear($event)">
+              </nouislider>
+          </div>
+      </div>
     </div>
   </section>
 </main>
