@@ -15,8 +15,10 @@ import {
   MapComponent as OLMapComponent,
   ViewComponent,
 } from 'ngx-openlayers';
+import {buffer} from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Polygon } from 'ol/geom';
+import { fromExtent } from 'ol/geom/Polygon';
 import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Stroke, Style } from 'ol/style';
@@ -35,6 +37,7 @@ import { CommunitySystem, Impact, LayerConfig, LayerType, Location, Organization
 
 
 const BORDER_COLOR = '#ccc';
+const BUFFER_EXTENT = 100000; // buffer for organization bounds extent
 const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an explicit radix
 
 
@@ -184,6 +187,15 @@ export class MapComponent implements OnInit, AfterViewInit {
     if (bounds !== null) {
       let extent = new Polygon(bounds.coordinates).getExtent();
       extent = proj.transformExtent(extent, proj.get(WGS84), proj.get(WEB_MERCATOR));
+      extent = buffer(extent, BUFFER_EXTENT);
+      const maskExtent = proj.get(WEB_MERCATOR).getExtent();
+      const inversePolygon = fromExtent(maskExtent);
+      const boundsGeom = new GeoJSON({ featureProjection: WEB_MERCATOR }).readGeometry(bounds);
+      const boundsLinearRing = boundsGeom.getLinearRing(0);
+      inversePolygon.appendLinearRing(boundsLinearRing);
+      const polyFeature = new Feature({geometry: inversePolygon});
+      const boundsSource = this.boundsLayer.first.instance.getSource();
+      boundsSource.addFeature(polyFeature);
       olview.fit(extent, olmap.getSize());
     } else {
       const center = proj.transform(this.location.geometry.coordinates,

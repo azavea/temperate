@@ -46,15 +46,6 @@
         </aol-view>
         <aol-layer-vector [zIndex]="2" #boundsLayer>
           <aol-source-vector>
-            <aol-feature *ngIf="organization.bounds">
-              <aol-geometry-polygon>
-                <aol-collection-coordinates
-                    [coordinates]="organization.bounds.coordinates"
-                    [srid]="wgs84"
-                >
-                </aol-collection-coordinates>
-              </aol-geometry-polygon>
-            </aol-feature>
           </aol-source-vector>
         </aol-layer-vector>
         <ng-container *ngIf="layer">
