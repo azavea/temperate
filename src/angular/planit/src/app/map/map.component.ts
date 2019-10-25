@@ -35,6 +35,7 @@ import { CommunitySystem, Impact, LayerConfig, LayerType, Location, Organization
 
 
 const BORDER_COLOR = '#ccc';
+const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an explicit radix
 
 
 @Component({
@@ -60,6 +61,21 @@ export class MapComponent implements OnInit, AfterViewInit {
   public impact: Impact = null;
   public impacts: Impact[] = null;
 
+  public selectedYear = 0;
+  public sliderConfig: any = {
+    start: 0,
+    step: 1,
+    pips: {
+      mode: 'positions',
+      values: [0, 25, 50, 75, 100],
+      density: 4,
+      stepped: true
+    }
+  };
+
+  public sliderMin = 0;
+  public sliderMax = 100;
+  public showSlider = false;
   private mapStyles = [
     {
       featureType: 'poi',
@@ -71,6 +87,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       ]
     }
   ];
+  private selectedYearIndex = 0;
 
   private counties: BehaviorSubject<Feature[]> = new BehaviorSubject(undefined);
 
@@ -82,7 +99,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCounties();
-      this.setupMap();
+    this.setupMap();
+    this.selectedYearIndex = 0;
 
     this.userService.current().subscribe((user) => {
       this.organization = user.primary_organization;
@@ -113,6 +131,7 @@ export class MapComponent implements OnInit, AfterViewInit {
           const olmap = this.map.instance;
           // Double-check that the layer is still visible before loading data
           if (countyLayer.getLayerState().sourceState === 'ready') {
+            this.setupSlider(counties);
             vectorSource.addFeatures(counties);
             olmap.getView().fit(vectorSource.getExtent(), olmap.getSize());
           }
@@ -132,6 +151,31 @@ export class MapComponent implements OnInit, AfterViewInit {
     vectorTileSource.changed();
   }
 
+  changeLayerYear(newYear) {
+    this.selectedYearIndex = newYear - this.sliderMin;
+    // tell map to update the layer
+    const layer = this.countyLayer.first;
+    if (layer) {
+      layer.instance.getSource().changed();
+    }
+  }
+
+  setupSlider(features) {
+    if (!features || !features.length || typeof features[0] !== 'object') {
+      this.showSlider = false;
+      return;
+    }
+    const val = features[0].getProperties().indicators[this.layer.attribute];
+    const years = Object.keys(val);
+    const minYear = parseInt(years[0], PARSEINT_RADIX);
+    const maxYear = parseInt(years[years.length - 1], PARSEINT_RADIX);
+    this.sliderMin = minYear;
+    this.sliderMax = maxYear;
+    // Default to the last available year
+    this.selectedYear = this.sliderMax;
+    this.selectedYearIndex = this.sliderMax - this.sliderMin;
+    this.showSlider = true;
+  }
 
   fitToOrganization() {
     const olmap = this.map.instance;
@@ -150,6 +194,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   setLayer() {
+    this.showSlider = false;
     this.impact = this.impacts[this.layerIndex];
     if (this.impact) {
       this.layer = this.impact.map_layer;
@@ -176,7 +221,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     // For Historical and projected layers, val will be an object with years
     // as keys and numbers as values
     if (typeof val === 'object') {
-      val = Object.values(val)[0];
+      val = Object.values(val)[this.selectedYearIndex];
     }
     return this.styleFeature(feature, val);
   }
