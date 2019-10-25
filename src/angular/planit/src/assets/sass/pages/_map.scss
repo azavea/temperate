@@ -47,6 +47,24 @@ app-map {
         width: 100%;
         display: block;
       }
+
+      .slider {
+        position: absolute;
+        bottom: 5rem;
+        left: 30%;
+        right: 30%;
+        background: $dark-grey-background;
+        padding: 10px 30px 40px 20px;
+        border-radius: 15px;
+        width: 40%;
+
+        .noUi-pips {
+          color: $white;
+        }
+        .noUi-marker, .noUi-marker-large {
+          background: $neutral-2;
+        }
+      }
     }
   }
 }
