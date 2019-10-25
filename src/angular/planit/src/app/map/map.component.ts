@@ -156,7 +156,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     // tell map to update the layer
     const layer = this.countyLayer.first;
     if (layer) {
-      layer.instance.getSource().dispatchEvent('change');
+      layer.instance.getSource().changed();
     }
   }
 
