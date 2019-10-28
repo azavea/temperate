@@ -191,7 +191,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       const maskExtent = proj.get(WEB_MERCATOR).getExtent();
       const inversePolygon = fromExtent(maskExtent);
       const boundsGeom = new GeoJSON({ featureProjection: WEB_MERCATOR }).readGeometry(bounds);
-      const boundsLinearRing = boundsGeom.getLinearRing(0);
+      const boundsLinearRing = (<Polygon>boundsGeom).getLinearRing(0);
       inversePolygon.appendLinearRing(boundsLinearRing);
       const polyFeature = new Feature({geometry: inversePolygon});
       const boundsSource = this.boundsLayer.first.instance.getSource();
