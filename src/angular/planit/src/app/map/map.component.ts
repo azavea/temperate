@@ -18,10 +18,11 @@ import {
 import {buffer} from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Polygon } from 'ol/geom';
+import Point from 'ol/geom/Point';
 import { fromExtent } from 'ol/geom/Polygon';
 import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
-import { Fill, Stroke, Style } from 'ol/style';
+import { Fill, Icon, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
 import { BehaviorSubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -184,7 +185,10 @@ export class MapComponent implements OnInit, AfterViewInit {
     const olmap = this.map.instance;
     const olview = olmap.getView();
     const bounds = this.organization.bounds;
+    const boundsSource = this.boundsLayer.first.instance.getSource();
+    boundsSource.clear(); // clear existing features before adding new ones
     if (bounds !== null) {
+      // Present organization polygon bounds by masking the rest of the map around it
       let extent = new Polygon(bounds.coordinates).getExtent();
       extent = proj.transformExtent(extent, proj.get(WGS84), proj.get(WEB_MERCATOR));
       extent = buffer(extent, BUFFER_EXTENT);
@@ -194,12 +198,23 @@ export class MapComponent implements OnInit, AfterViewInit {
       const boundsLinearRing = (<Polygon>boundsGeom).getLinearRing(0);
       inversePolygon.appendLinearRing(boundsLinearRing);
       const polyFeature = new Feature({geometry: inversePolygon});
-      const boundsSource = this.boundsLayer.first.instance.getSource();
       boundsSource.addFeature(polyFeature);
       olview.fit(extent, olmap.getSize());
     } else {
+      // Show marker at organization's point
       const center = proj.transform(this.location.geometry.coordinates,
                                     proj.get(WGS84), proj.get(WEB_MERCATOR));
+      const pointFeature = new Feature({geometry: new Point(center)});
+      // Map marker icon downloaded from:
+      // https://cdn.mapmarker.io/api/v1/font-awesome/v5/pin
+      // ?icon=fa-circle-solid&size=50&hoffset=0&voffset=-1
+      pointFeature.setStyle(new Style({
+        image: new Icon({
+          crossOrigin: 'anonymous',
+          src: 'assets/images/map-marker.png'
+        })
+      }));
+      boundsSource.addFeature(pointFeature);
       olview.setCenter(center);
       olview.setZoom(STARTING_MAP_ZOOM);
     }
@@ -286,10 +301,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
         // Set initial view extent to fit org bounds to map
         this.fitToOrganization();
-        if (this.organization.bounds !== null) {
-          // Keep this layer in OL instead of Google so we can control zIndex
-          this.boundsLayer.first.instance.set('olgmWatch', false);
-        }
+        // Keep this layer in OL instead of Google so we can control zIndex
+        this.boundsLayer.first.instance.set('olgmWatch', false);
 
         olmap.addLayer(new GoogleLayer());
         const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
