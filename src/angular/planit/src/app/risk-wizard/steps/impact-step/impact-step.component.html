@@ -24,6 +24,16 @@
       </label>
       <textarea id="impact-description" formControlName="impact_description"></textarea>
     </div>
+    <div class="top-impacts" *ngIf="impacts && risk.weather_event && risk.community_system">
+      <h3>Effects of {{ risk.title() }}</h3>
+      <p>
+        Below are some of the effects that {{ risk.weather_event.name | lowercase }} is likely to have on {{ risk.community_system.name | lowercase }},
+        based on climate data. Use these details to help form your description above.
+      </p>
+      <div class="impact" *ngFor="let impact of impacts">
+        {{ impact.label }}
+      </div>
+    </div>
   </form>
 </div>
 

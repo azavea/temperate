@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
+import { ImpactService } from '../../../core/services/impact.service';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
+  Impact,
   OrgRiskRelativeImpactOptions,
   OrgRiskRelativeOption,
   Risk,
@@ -35,6 +37,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public navigationSymbol = '3';
   public risk: Risk;
   public title = 'Potential impact';
+  public impacts: Impact[];
 
   public relativeOptions = OrgRiskRelativeImpactOptions;
 
@@ -46,6 +49,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
               protected toastr: ToastrService,
               protected router: Router,
               protected previousRouteGuard: PreviousRouteGuard,
+              private impactService: ImpactService,
               private fb: FormBuilder) {
     super(session, riskService, toastr, router, previousRouteGuard);
   }
@@ -58,6 +62,10 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
     this.sessionSubscription = this.session.data.subscribe(risk => {
       this.risk = risk;
       this.setDisabled(risk);
+
+      this.impactService.rankedFor(risk.weather_event, risk.community_system).subscribe(impacts => {
+        this.impacts = impacts;
+      });
     });
   }
 
