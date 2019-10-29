@@ -30,9 +30,24 @@
         Below are some of the effects that {{ risk.weather_event.name | lowercase }} is likely to have on {{ risk.community_system.name | lowercase }},
         based on climate data. Use these details to help form your description above.
       </p>
-      <div class="impact" *ngFor="let impact of impacts">
-        {{ impact.label }}
-      </div>
+      <ng-container *ngFor="let impact of impacts; index as i">
+        <div
+          class="impact"
+          *ngIf="showAllImpacts || i < initialImpactsToShow">
+          {{ impact.label }}
+        </div>
+      </ng-container>
+      <a
+        class="show-all-impacts"
+        (click)="showAllImpacts = !showAllImpacts"
+        *ngIf="impacts.length > initialImpactsToShow">
+        <ng-container *ngIf="!showAllImpacts">
+          More <i class="icon icon-chevron-down"></i>
+        </ng-container>
+        <ng-container *ngIf="showAllImpacts">
+          Less <i class="icon icon-chevron-up"></i>
+        </ng-container>
+      </a>
     </div>
   </form>
 </div>

@@ -38,6 +38,8 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public risk: Risk;
   public title = 'Potential impact';
   public impacts: Impact[];
+  public showAllImpacts = false;
+  public initialImpactsToShow = 3;
 
   public relativeOptions = OrgRiskRelativeImpactOptions;
 

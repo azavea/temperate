@@ -14,5 +14,10 @@ app-risk-wizard {
       color: $brand-black;
       margin-bottom: 2px;
     }
+
+    .show-all-impacts {
+      cursor: pointer;
+      float: right;
+    }
   }
 }
