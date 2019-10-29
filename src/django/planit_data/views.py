@@ -423,6 +423,10 @@ class ImpactViewSet(ReadOnlyModelViewSet):
             Q(map_layer__state_fips__in=org_states)
         )
         return Impact.objects.filter(impact_filter).prefetch_related(
+            'community_system_ranks',
+            'community_system_ranks__georegion',
             'map_layer',
             'map_layer__legend',
+            'weather_event_ranks',
+            'weather_event_ranks__georegion',
         )
