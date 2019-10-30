@@ -70,7 +70,8 @@ class ImpactCommunitySystemRank(models.Model):
     """
     georegion = models.ForeignKey(ClimateAssessmentRegion, on_delete=models.CASCADE)
     community_system = models.ForeignKey(CommunitySystem, on_delete=models.CASCADE)
-    impact = models.ForeignKey(Impact, on_delete=models.CASCADE)
+    impact = models.ForeignKey(Impact, on_delete=models.CASCADE,
+                               related_name='community_system_ranks')
     order = models.IntegerField()
 
     class Meta:
@@ -88,7 +89,8 @@ class ImpactWeatherEventRank(models.Model):
     """
     georegion = models.ForeignKey(ClimateAssessmentRegion, on_delete=models.CASCADE)
     weather_event = models.ForeignKey(WeatherEvent, on_delete=models.CASCADE)
-    impact = models.ForeignKey(Impact, on_delete=models.CASCADE)
+    impact = models.ForeignKey(Impact, on_delete=models.CASCADE,
+                               related_name='weather_event_ranks')
     order = models.IntegerField()
 
     class Meta:

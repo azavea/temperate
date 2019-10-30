@@ -1,2 +1,92 @@
 [
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 1,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 1,
+        "impact": 5,
+        "order": 5
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 2,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 12,
+        "impact": 5,
+        "order": 1
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 3,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 12,
+        "impact": 4,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 4,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 7,
+        "impact": 13,
+        "order": 10
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 5,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 19,
+        "impact": 13,
+        "order": 6
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 6,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 15,
+        "impact": 12,
+        "order": 15
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 7,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 5,
+        "impact": 12,
+        "order": 20
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 8,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 16,
+        "impact": 3,
+        "order": 3
+    }
+},
+{
+    "model": "planit_data.impactweathereventrank",
+    "pk": 9,
+    "fields": {
+        "georegion": 7,
+        "weather_event": 12,
+        "impact": 16,
+        "order": 4
+    }
+}
 ]
