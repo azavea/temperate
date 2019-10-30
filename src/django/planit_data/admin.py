@@ -68,6 +68,7 @@ class CommunitySystemAdmin(admin.ModelAdmin):
 @admin.register(County)
 class CountyAdmin(admin.ModelAdmin):
     list_display = ('geoid', 'name', 'state_fips',)
+    search_fields = ('name',)
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
