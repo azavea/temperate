@@ -13,6 +13,14 @@ app-risk-wizard {
       padding: 1rem;
       color: $brand-black;
       margin-bottom: 2px;
+
+      .paste-link {
+        display: none;
+      }
+      &:hover .paste-link {
+        cursor: pointer;
+        display: inline;
+      }
     }
 
     .show-all-impacts {

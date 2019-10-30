@@ -35,6 +35,7 @@
           class="impact"
           *ngIf="showAllImpacts || i < initialImpactsToShow">
           {{ impact.tagline ? impact.tagline : impact.label }}
+          <a class="paste-link" (click)="pasteImpact(impact)">Paste above</a>
         </div>
       </ng-container>
       <a

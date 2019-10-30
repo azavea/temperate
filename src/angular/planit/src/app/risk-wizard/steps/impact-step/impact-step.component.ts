@@ -106,4 +106,14 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   isStepComplete(): boolean {
     return !!this.form.controls.impact_magnitude.value;
   }
+
+  pasteImpact(impact: Impact) {
+    let description = this.form.controls.impact_description.value;
+    const impactText = impact.tagline ? impact.tagline : impact.label;
+    if (description !== '') {
+      description += '\n';
+    }
+    description += impactText;
+    this.form.controls.impact_description.setValue(description);
+  }
 }
