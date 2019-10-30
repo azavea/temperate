@@ -34,7 +34,7 @@
         <div
           class="impact"
           *ngIf="showAllImpacts || i < initialImpactsToShow">
-          {{ impact.label }}
+          {{ impact.tagline ? impact.tagline : impact.label }}
         </div>
       </ng-container>
       <a
