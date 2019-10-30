@@ -303,6 +303,7 @@ class ImpactSerializer(serializers.ModelSerializer):
 
     community_system_ranks = serializers.SerializerMethodField()
     weather_event_ranks = serializers.SerializerMethodField()
+    tagline = serializers.SerializerMethodField()
 
     # These two serializer methods filter in Python instead of the DB to take advantage
     # of prefetching of data.
@@ -324,7 +325,11 @@ class ImpactSerializer(serializers.ModelSerializer):
         ]
         return ImpactWeatherEventRankSerializer(instance=rankings, many=True).data
 
+    def get_tagline(self, impact):
+        organization = get_org_from_context(self.context)
+        return impact.tagline(organization)
+
     class Meta:
         model = Impact
         fields = ('label', 'external_download_link', 'map_layer', 'weather_event_ranks',
-                  'community_system_ranks',)
+                  'community_system_ranks', 'tagline',)

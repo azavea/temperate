@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.core.validators import RegexValidator
 
-from .regions import ClimateAssessmentRegion
+from .regions import County, ClimateAssessmentRegion
 from .risks import CommunitySystem, WeatherEvent
 
 
@@ -9,13 +9,62 @@ class Impact(models.Model):
     """
     An impact of climate change, that may have an associated impact indicator value or map layer.
     """
+
+    class Region:
+        COUNTY = 'county'
+        NCA_REGION = 'nca'
+
+        CHOICES = (
+            (COUNTY, 'County'),
+            (NCA_REGION, 'National Climate Assessment region'),
+        )
+
     label = models.CharField(max_length=256, unique=True)
     external_download_link = models.URLField(blank=True)
     community_systems = models.ManyToManyField(CommunitySystem, through='ImpactCommunitySystemRank')
     weather_events = models.ManyToManyField(WeatherEvent, through='ImpactWeatherEventRank')
 
+    # Optional values used for calculating impact indicators
+    tagline_positive = models.CharField(max_length=256, blank=True)
+    tagline_negative = models.CharField(max_length=256, blank=True)
+    tagline_no_change = models.CharField(max_length=256, blank=True)
+    attribute = models.CharField(max_length=256, blank=True)
+    region = models.CharField(max_length=10, choices=Region.CHOICES, blank=True)
+
     class Meta:
         ordering = ['label']
+
+    def tagline(self, organization):
+        region = self._get_region(organization)
+        if region is None or self.attribute not in region.indicators:
+            return None
+
+        indicator_data = region.indicators[self.attribute]
+        indicator_data['region_name'] = region.name
+
+        if indicator_data['value'] > 0:
+            tagline = self.tagline_positive
+        elif indicator_data['value'] < 0:
+            tagline = self.tagline_negative
+            indicator_data['value'] = -indicator_data['value']
+        else:
+            tagline = self.tagline_no_change
+
+        return tagline.format(**indicator_data)
+
+    def _get_region(self, organization):
+        point = organization.location.point
+        if self.region == Impact.Region.COUNTY:
+            try:
+                return County.objects.get(geom__contains=point)
+            except County.DoesNotExist:
+                return None
+        elif self.region == Impact.Region.NCA_REGION:
+            try:
+                return ClimateAssessmentRegion.objects.get(geom__contains=point)
+            except ClimateAssessmentRegion.DoesNotExist:
+                return None
+        return None
 
     def __str__(self):
         return self.label
