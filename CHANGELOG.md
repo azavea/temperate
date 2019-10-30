@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added County GeoJSON API endpoint
  - Added mini map to dashboard
  - Added Impact & related models/fixtures
+ - Display related impacts in Risk wizard
 ### Fixed
  - Fixed city profile missing from dashboard
 
