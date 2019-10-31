@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint --type-check",
     "lint:ci": "ng lint --type-check --force --format checkstyle > src/violations.xml",
+    "lint:fix": "ng lint --fix --type-check",
     "e2e": "ng e2e",
     "build:prod": "ng build --prod --aot --extract-css",
     "postinstall": "npm rebuild node-sass"
