@@ -117,4 +117,22 @@ describe('ImpactService', () => {
     const rankedImpacts = service.rankImpacts(impacts, weatherEvent, communitySystem);
     expect(rankedImpacts[0].label).toBe('weather event only');
   }));
+
+  it('should use community system ranks when missing weather event ranks',
+     inject([ImpactService], (service: ImpactService) => {
+    const impacts: Impact[] = [{
+      label: 'a',
+      community_system_ranks: [{ community_system: 1, order: 2 }],
+      weather_event_ranks: []
+    }, {
+      label: 'b',
+      community_system_ranks: [{ community_system: 1, order: 1 }],
+      weather_event_ranks: []
+    }];
+    const weatherEvent = { id: 1 } as WeatherEvent;
+    const communitySystem = { id: 1 } as CommunitySystem;
+
+    const rankedImpacts = service.rankImpacts(impacts, weatherEvent, communitySystem);
+    expect(rankedImpacts[0].label).toBe('b');
+  }));
 });

@@ -85,9 +85,7 @@ export class ImpactService {
         return 1;
       }
 
-      // Shouldn't be possible to reach this stage
-      console.warn('Logic error in ImpactService.rankImpacts');
-      return 0;
+      return communitySystemA.order - communitySystemB.order;
     });
     return rankedImpacts;
   }
