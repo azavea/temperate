@@ -1,7 +1,31 @@
 app-risk-wizard {
   .icon-related-indicators {
     position: absolute;
-    top: $space-xxlarge; 
+    top: $space-xxlarge;
     right: $space-xxlarge;
+  }
+  app-risk-step-impact .top-impacts {
+    border-top: 1px solid $neutral-2;
+    padding-top: 2.5rem;
+
+    .impact {
+      background: $neutral-2;
+      padding: 1rem;
+      color: $brand-black;
+      margin-bottom: 2px;
+
+      .paste-link {
+        display: none;
+      }
+      &:hover .paste-link {
+        cursor: pointer;
+        display: inline;
+      }
+    }
+
+    .show-all-impacts {
+      cursor: pointer;
+      float: right;
+    }
   }
 }

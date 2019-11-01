@@ -24,6 +24,32 @@
       </label>
       <textarea id="impact-description" formControlName="impact_description"></textarea>
     </div>
+    <div class="top-impacts" *ngIf="impacts && risk.weather_event && risk.community_system">
+      <h3>Effects of {{ risk.title() }}</h3>
+      <p>
+        Below are some of the effects that {{ risk.weather_event.name | lowercase }} is likely to have on {{ risk.community_system.name | lowercase }},
+        based on climate data. Use these details to help form your description above.
+      </p>
+      <ng-container *ngFor="let impact of impacts; index as i">
+        <div
+          class="impact"
+          *ngIf="showAllImpacts || i < initialImpactsToShow">
+          {{ impact.tagline ? impact.tagline : impact.label }}
+          <a class="paste-link" (click)="pasteImpact(impact)">Paste above</a>
+        </div>
+      </ng-container>
+      <a
+        class="show-all-impacts"
+        (click)="showAllImpacts = !showAllImpacts"
+        *ngIf="impacts.length > initialImpactsToShow">
+        <ng-container *ngIf="!showAllImpacts">
+          More <i class="icon icon-chevron-down"></i>
+        </ng-container>
+        <ng-container *ngIf="showAllImpacts">
+          Less <i class="icon icon-chevron-up"></i>
+        </ng-container>
+      </a>
+    </div>
   </form>
 </div>
 

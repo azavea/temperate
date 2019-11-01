@@ -16,4 +16,5 @@ export interface Impact {
   map_layer?: LayerConfig;
   community_system_ranks: ImpactCommunitySystemRank[];
   weather_event_ranks: ImpactWeatherEventRank[];
+  tagline?: string;
 }
