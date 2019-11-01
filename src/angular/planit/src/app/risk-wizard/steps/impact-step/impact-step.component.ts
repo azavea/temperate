@@ -37,7 +37,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
   public navigationSymbol = '3';
   public risk: Risk;
   public title = 'Potential impact';
-  public impacts: Impact[];
+  public impacts: Impact[] = [];
   public showAllImpacts = false;
   public initialImpactsToShow = 3;
 
