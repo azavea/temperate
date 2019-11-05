@@ -47,6 +47,9 @@
       <p class="error" *ngIf="polygonOutOfBounds">
         Please limit your region to within the continental United States.
       </p>
+      <p class="error" *ngIf="form.controls.bounds.errors && form.controls.bounds.errors.server">
+        *{{ form.controls.bounds.errors.server }}
+      </p>
       <div class="map-container">
         <agm-map
           #gmap

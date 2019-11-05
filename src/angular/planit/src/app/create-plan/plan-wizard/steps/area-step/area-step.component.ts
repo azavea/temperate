@@ -151,6 +151,7 @@ export class AreaStepComponent
     this.polygonArea = null;
     this.polygonOutOfBounds = false;
     this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    this.form.controls.bounds.setErrors(null);
   }
 
   isStepComplete() {
@@ -172,8 +173,10 @@ export class AreaStepComponent
   }
 
   setupForm(data: AreaFormModel) {
-    // Note that the bounds are managed outside the form
+    // Note that the bounds are mostly managed outside the form, but we do
+    // funnel server-side validation errors through the FormGroup
     this.form = this.fb.group({
+      bounds: [data.bounds, []],
       location: [data.location, []]
     });
 
@@ -188,7 +191,13 @@ export class AreaStepComponent
 
   fromModel(model: Organization): AreaFormModel {
     return {
-      location: model.location,
+      location: new Location({
+        geometry: model.location.geometry,
+        properties: {
+          name: model.location.properties.name || model.creator_location_name,
+          admin: model.location.properties.name || model.creator_location_admin,
+        }
+      }),
       bounds: model.bounds
    };
   }
