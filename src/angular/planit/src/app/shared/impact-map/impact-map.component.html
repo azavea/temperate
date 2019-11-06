@@ -1,0 +1,95 @@
+<div class="loading-wrapper" *ngIf="!mapImpacts">
+  <div class="loading loading-spinner loading-large"></div>
+</div>
+<main class="main-content" role="main" *ngIf="mapImpacts">
+  <aside class="map-sidebar">
+    <label>Visualization</label>
+    <select class="form-control"
+            (change)="setLayer()"
+            [(ngModel)]="layerIndex"
+            *ngIf="mapImpacts && mapImpacts.length > 0">
+      <option [value]="null">---</option>
+      <option *ngFor="let impact of mapImpacts; index as i" [value]="i">{{ impact.label }}</option>
+    </select>
+    <ng-container *ngIf="mapImpacts && mapImpacts.length === 0"><span>No impacts have map data</span></ng-container>
+    <ng-container *ngIf="layer">
+      <a
+        *ngIf="layer.external_link"
+        href="{{ layer.external_link }}"
+        target="_blank">
+        <i class="icon icon-question-circle"></i>
+        About this map
+      </a>
+      <label>Legend</label>
+      <ul class="legend">
+        <li *ngFor="let row of layer.legend">
+          <span class="swatch" [style.backgroundColor]="row.color"></span>
+          &nbsp;
+          <span *ngIf="row.label">{{ row.label }}</span>
+          <span *ngIf="row.min_value != undefined && row.max_value != undefined">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
+        </li>
+      </ul>
+      <div class="attribution">
+        &copy; <span class="attribution-text">{{ layer.attribution }}</span>
+      </div>
+    </ng-container>
+  </aside>
+
+  <section class="map-container">
+    <div class="map-content">
+      <aol-map (onPreCompose)="updateMapSize()">
+        <aol-control-zoom [duration]="0"></aol-control-zoom>
+        <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
+        <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
+        <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
+        <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
+        <aol-view [zoom]="startingZoom">
+          <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
+        </aol-view>
+        <aol-layer-vector [zIndex]="2" #boundsLayer>
+          <aol-source-vector>
+          </aol-source-vector>
+        </aol-layer-vector>
+        <ng-container *ngIf="layer">
+          <aol-layer-image *ngIf="layer.layer_type === layerTypes.ImageArcGISRest" [zIndex]="1">
+            <aol-source-imagearcgisrest
+              [projection]="webMercator"
+              [url]="layer.url"
+            ></aol-source-imagearcgisrest>
+          </aol-layer-image>
+          <aol-layer-vector
+            #countyLayer
+            *ngIf="layer.layer_type === layerTypes.CountyGeoJSON"
+            [style]="styleCountyFeature"
+            [zIndex]="1">
+            <aol-source-geojson
+              [featureProjection]="webMercator"
+            ></aol-source-geojson>
+          </aol-layer-vector>
+          <aol-layer-vectortile
+            #vectorTileLayer
+            *ngIf="layer.layer_type === layerTypes.VectorTile"
+            [renderMode]="'vector'"
+            [style]="styleVectorFeature"
+            [zIndex]="1">
+            <aol-source-vectortile [url]="layer.url">
+              <aol-format-mvt></aol-format-mvt>
+              <aol-tilegrid [maxZoom]="layer.max_zoom"></aol-tilegrid>
+            </aol-source-vectortile>
+          </aol-layer-vectortile>
+        </ng-container>
+      </aol-map>
+      <div class="chart-options slider" *ngIf="showSlider">
+          <div class="chart-options-body">
+              <nouislider class="chart-options-group"
+                          [config]="sliderConfig"
+                          [ngModel]="selectedYear"
+                          [min]="sliderMin"
+                          [max]="sliderMax"
+                          (slide)="changeLayerYear($event)">
+              </nouislider>
+          </div>
+      </div>
+    </div>
+  </section>
+</main>

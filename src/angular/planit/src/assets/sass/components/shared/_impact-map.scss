@@ -1,4 +1,4 @@
-app-map {
+app-impact-map {
   .main-container {
     height: 100%;
   }
@@ -65,6 +65,14 @@ app-map {
           background: $neutral-2;
         }
       }
+    }
+  }
+}
+
+.modal-body {
+  app-impact-map {
+    .main-content {
+      height: 70vh;
     }
   }
 }
