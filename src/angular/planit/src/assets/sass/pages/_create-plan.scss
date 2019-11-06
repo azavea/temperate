@@ -21,6 +21,11 @@ app-plan-step-due-date {
 }
 
 app-plan-step-area {
+  .draw-header {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
   .error {
     color: $error-color;
   }
@@ -42,6 +47,8 @@ app-plan-step-area {
       position: absolute;
       top: 10px;
       right: 10px;
+      box-shadow: 0 0 10px rgba($neutral-5, 0.5),
+                  0 0 0px 2px rgba($neutral-5, 0.25);
     }
   }
 }

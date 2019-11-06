@@ -1,7 +1,7 @@
 <div class="step-header">
   <h2 class="step-title">Geographic area</h2>
   <p>
-    Create a plan for your organization&rsquo;s community or draw an area of interest. All of the climate change data in Temperate will be specific to the area you select.
+    Create a plan for your organization’s community or draw an area of interest. All of the climate change data in Temperate will be specific to the area you select.
   </p>
 </div>
 
@@ -34,14 +34,16 @@
       </div>
     </div>
     <div class="tab-content" *ngIf="areaTab === areaTabs.DrawArea">
-      <h3>Draw your plan&rsquo;s boundaries</h3>
+      <h3 class="draw-header">
+        Draw your plan’s boundaries
+      </h3>
       <p class="map-help">
         <span
           [ngClass]="polygonArea >= maxArea ? 'error' : null">
           Please create a region that is under {{ maxArea | number }} sq mi.
         </span>
         <span *ngIf="polygonArea !== null">
-          Total: <span [ngClass]="polygonArea > maxArea ? 'error' : null">{{ polygonArea | number : '1.0-0' }}</span> out of max <b>{{ maxArea | number }} sq mi.</b>
+          Total: <strong><span [ngClass]="polygonArea > maxArea ? 'error' : null">{{ polygonArea | number : '1.0-0' }}</span></strong> out of max <strong>{{ maxArea | number }} sq mi.</strong>
         </span>
       </p>
       <p class="error" *ngIf="polygonOutOfBounds">
