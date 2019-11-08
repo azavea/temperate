@@ -54,6 +54,7 @@ export class AreaStepComponent
   public drawingManager?: google.maps.drawing.DrawingManager = null;
   public polygon?: google.maps.Polygon = null;
   public polygonArea: Number = null;
+  public initialLocation: Location = null;
 
   public polygonOutOfBounds = false;
 
@@ -83,6 +84,7 @@ export class AreaStepComponent
   ngOnInit() {
     super.ngOnInit();
     this.organization = this.session.getData();
+    this.initialLocation = new Location(this.organization.location);
     this.setupForm(this.fromModel(this.organization));
   }
 
@@ -151,6 +153,7 @@ export class AreaStepComponent
     this.polygonArea = null;
     this.polygonOutOfBounds = false;
     this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    this.form.controls.bounds.setErrors(null);
   }
 
   isStepComplete() {
@@ -165,15 +168,24 @@ export class AreaStepComponent
   }
 
   getFormModel(): AreaFormModel {
-    return {
-      location: this.form.controls.location.value,
-      bounds: this.areaTab === AreaTabs.DrawArea ? this.getBounds() : null
-    };
+    if (this.areaTab === AreaTabs.DrawArea) {
+      return {
+        location: this.initialLocation,
+        bounds: this.getBounds()
+      };
+    } else {
+      return {
+        location: this.form.controls.location.value,
+        bounds: null
+      };
+    }
   }
 
   setupForm(data: AreaFormModel) {
-    // Note that the bounds are managed outside the form
+    // Note that the bounds are mostly managed outside the form, but we do
+    // funnel server-side validation errors through the FormGroup
     this.form = this.fb.group({
+      bounds: [data.bounds, []],
       location: [data.location, []]
     });
 
@@ -188,7 +200,13 @@ export class AreaStepComponent
 
   fromModel(model: Organization): AreaFormModel {
     return {
-      location: model.location,
+      location: new Location({
+        geometry: model.location.geometry,
+        properties: {
+          name: model.location.properties.name || model.creator_location_name,
+          admin: model.location.properties.name || model.creator_location_admin,
+        }
+      }),
       bounds: model.bounds
    };
   }

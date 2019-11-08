@@ -25,7 +25,7 @@
         <h3>City and Organization</h3>
         <div class="form-control-container">
           <label for="city">City</label>
-          <input id="city" class="form-control" type="text" disabled value="{{ user.primary_organization.location.getFullName() }}">
+          <input id="city" class="form-control" type="text" disabled value="{{ user.primary_organization.getLocationName() }}">
         </div>
         <div class="form-control-container">
           <label for="organization-name">Organization/department</label>
