@@ -54,6 +54,7 @@ export class AreaStepComponent
   public drawingManager?: google.maps.drawing.DrawingManager = null;
   public polygon?: google.maps.Polygon = null;
   public polygonArea: Number = null;
+  public initialLocation: Location = null;
 
   public polygonOutOfBounds = false;
 
@@ -83,6 +84,7 @@ export class AreaStepComponent
   ngOnInit() {
     super.ngOnInit();
     this.organization = this.session.getData();
+    this.initialLocation = new Location(this.organization.location);
     this.setupForm(this.fromModel(this.organization));
   }
 
@@ -166,10 +168,17 @@ export class AreaStepComponent
   }
 
   getFormModel(): AreaFormModel {
-    return {
-      location: this.form.controls.location.value,
-      bounds: this.areaTab === AreaTabs.DrawArea ? this.getBounds() : null
-    };
+    if (this.areaTab === AreaTabs.DrawArea) {
+      return {
+        location: this.initialLocation,
+        bounds: this.getBounds()
+      };
+    } else {
+      return {
+        location: this.form.controls.location.value,
+        bounds: null
+      };
+    }
   }
 
   setupForm(data: AreaFormModel) {

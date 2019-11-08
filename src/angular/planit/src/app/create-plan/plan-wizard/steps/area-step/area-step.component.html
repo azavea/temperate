@@ -53,8 +53,8 @@
       <div class="map-container">
         <agm-map
           #gmap
-          [latitude]="organization.location.geometry.coordinates[1]"
-          [longitude]="organization.location.geometry.coordinates[0]"
+          [latitude]="initialLocation.geometry.coordinates[1]"
+          [longitude]="initialLocation.geometry.coordinates[0]"
           [streetViewControl]="false"
           [styles]="mapStyles"
           (mapReady)="onMapReady($event)">
