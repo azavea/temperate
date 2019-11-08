@@ -3,18 +3,29 @@
     <header class="page-header" *ngIf="weatherEvent?.name">
       <h1 class="page-title-small">Vulnerability Assessment</h1>
       <h2 class="page-title-large">{{ weatherEvent?.name }}</h2>
-      <p class="paragraph-intro">
-        Based on your chosen top hazards and community systems, we have identified some risks as
-        a high priority to include in your vulnerability assessment.
-      </p>
-      <p>
-        <button class="button-link"
-                [popover]="learnMoreRiskPopover"
-                [outsideClick]="true"
-                container="body"
-                placement="right">Learn how we identify high-priority risks.</button>
+      <p class="paragraph-intro" *ngIf="weatherEvent">
+        Identify how {{ weatherEvent.name | lowercase }} may affect different aspects of your community.
       </p>
     </header>
+    <section class="hazard-impacts" *ngIf="impacts.length > 0">
+      <div class="impact-header">
+        <h3 class="text-small"><strong>Known effects of {{ weatherEvent.name | lowercase }}</strong></h3>
+        <a class="impact-toggle text-small" (click)="impactsShown = !impactsShown">
+          <ng-container *ngIf="impactsShown">Hide <i class="icon icon-chevron-up"></i></ng-container>
+          <ng-container *ngIf="!impactsShown">Show <i class="icon icon-chevron-down"></i></ng-container>
+        </a>
+      </div>
+      <div class="impact-body" *ngIf="impactsShown">
+        <p>
+          Here are some ways in which {{ weatherEvent.name | lowercase }} will affect your area, based on climate data. Keep them in mind as you build your vulnerability assessment.
+        </p>
+        <ul class="impact-list">
+          <li *ngFor="let impact of impacts">
+            {{ impact.tagline ? impact.tagline : impact.label }}
+          </li>
+        </ul>
+      </div>
+    </section>
     <section>
       <va-assessment-overview-table [(risks)]="risks"></va-assessment-overview-table>
       <button class="button" routerLink="risk/new">Add new risk</button>
@@ -28,12 +39,3 @@
     </section>
   </main>
 </div>
-
-<ng-template #learnMoreRiskPopover>
-  <div>
-    These potential risks were selected based on the geographic regions used by the
-    <a href="https://data.globalchange.gov/file/ca9c6f09-9890-41db-ace4-827f9cbeb93a" target="_blank">National Climate Assessment</a>
-    and the potential future climate hazards that are most likely to exist.
-    For more on this, visit our <a routerLink="/methodology">Methodology</a> page.
-  </div>
-</ng-template>
