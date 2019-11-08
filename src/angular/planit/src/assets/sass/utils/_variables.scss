@@ -195,8 +195,10 @@ $button-disabled-background: $neutral-2;
  * * * */
 $field-text-weight: $font-weight-regular;
 $field-border: 1px solid $neutral-1;
+$field-border-dark: 1px solid $neutral-2;
 $field-border-radius: $border-radius;
 $field-disabled-border-color: $neutral-2;
+$field-disabled-border-color-dark: $neutral-3;
 $field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
 $label-weight: $font-weight-bold;
 $required-color: $neutral-3;

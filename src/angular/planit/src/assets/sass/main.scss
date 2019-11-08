@@ -44,6 +44,7 @@
  * Components styling
  * * * */
 @import
+  'components/button',
   'components/dashboard/city-profile-summary',
   'components/dashboard/grouped-risk',
   'components/indicators/model-modal',
@@ -60,7 +61,6 @@
   'components/alert',
   'components/action-steps/action-picker',
   'components/wizard',
-  'components/button',
   'components/card',
   'components/action-steps/action-card',
   'components/dropdown',

@@ -56,6 +56,7 @@ const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an 
   templateUrl: './impact-map.component.html'
 })
 export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
+  @Input() showHeader = false;
   @Input() impacts: Impact[];
 
   public startingZoom = STARTING_MAP_ZOOM;

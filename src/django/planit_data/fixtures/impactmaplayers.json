@@ -5,12 +5,12 @@
     "fields": {
         "impact": 3,
         "layer_type": "county",
-        "attribution": "Accessed From: https://ephtracking.cdc.gov/DataExplorer. Accessed on 10/07/2019",
-        "url": "",
+        "attribution": "CDC NEPHT, accessed Oct 7, 2019",
+        "url": "https://ephtracking.cdc.gov/DataExplorer",
         "attribute": "extreme_precipitation_days",
         "max_zoom": null,
         "show_borders_at": null,
-        "external_link": "",
+        "external_link": "https://ephtracking.cdc.gov/DataExplorer", // TODO: make this more specific
         "state_fips": ""
     }
 },
@@ -20,7 +20,7 @@
     "fields": {
         "impact": 15,
         "layer_type": "arcgis",
-        "attribution": "Rocky Mountain Research Station - Fire, Fuel, and Smoke Science Program - Fire Modeling Institute",
+        "attribution": "Rocky Mountain Research Station",
         "url": "https://apps.fs.usda.gov/arcx/rest/services/RDW_Wildfire/RMRS_WildfireHazardPotential_2018/MapServer",
         "attribute": "",
         "max_zoom": null,
@@ -35,12 +35,12 @@
     "fields": {
         "impact": 4,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "attribution": "CalEnviroScreen 3.0",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "ozoneP",
         "max_zoom": 8,
         "show_borders_at": 10,
-        "external_link": "",
+        "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-ozone",
         "state_fips": "06"
     }
 },
@@ -50,12 +50,12 @@
     "fields": {
         "impact": 5,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "attribution": "CalEnviroScreen 3.0",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "pmP",
         "max_zoom": 8,
         "show_borders_at": 10,
-        "external_link": "",
+        "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-pm25",
         "state_fips": "06"
     }
 },
@@ -65,12 +65,12 @@
     "fields": {
         "impact": 6,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0, California Office of Environmental Health Hazard Assessment",
+        "attribution": "CalEnviroScreen 3.0",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "drinkP",
         "max_zoom": 8,
         "show_borders_at": 10,
-        "external_link": "",
+        "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/drinking-water-contaminants",
         "state_fips": "06"
     }
 }

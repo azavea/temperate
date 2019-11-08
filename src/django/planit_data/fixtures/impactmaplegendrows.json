@@ -78,33 +78,11 @@
 },
 {
     "model": "planit_data.impactmaplegendrow",
-    "pk": 52,
+    "pk": 56,
     "fields": {
         "impact_layer": 2,
-        "color": "#36A21E",
-        "label": "Very low",
-        "min_value": null,
-        "max_value": null
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 53,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#A0FF96",
-        "label": "Low",
-        "min_value": null,
-        "max_value": null
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 54,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#FEFF6E",
-        "label": "Moderate",
+        "color": "#EE2922",
+        "label": "Very high",
         "min_value": null,
         "max_value": null
     }
@@ -122,11 +100,33 @@
 },
 {
     "model": "planit_data.impactmaplegendrow",
-    "pk": 56,
+    "pk": 54,
     "fields": {
         "impact_layer": 2,
-        "color": "#EE2922",
-        "label": "Very high",
+        "color": "#FEFF6E",
+        "label": "Moderate",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 53,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#A0FF96",
+        "label": "Low",
+        "min_value": null,
+        "max_value": null
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 52,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#36A21E",
+        "label": "Very low",
         "min_value": null,
         "max_value": null
     }
