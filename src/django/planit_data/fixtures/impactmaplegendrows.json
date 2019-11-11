@@ -4,7 +4,7 @@
     "pk": 45,
     "fields": {
         "impact_layer": 1,
-        "color": "#FFFF80",
+        "color": "#eff3ff",
         "label": "",
         "min_value": 0,
         "max_value": 52
@@ -15,7 +15,7 @@
     "pk": 46,
     "fields": {
         "impact_layer": 1,
-        "color": "#C7E9B4",
+        "color": "#c6dbef",
         "label": "",
         "min_value": 53,
         "max_value": 105
@@ -26,7 +26,7 @@
     "pk": 47,
     "fields": {
         "impact_layer": 1,
-        "color": "#7FCDBB",
+        "color": "#9ecae1",
         "label": "",
         "min_value": 106,
         "max_value": 157
@@ -37,7 +37,7 @@
     "pk": 48,
     "fields": {
         "impact_layer": 1,
-        "color": "#41B6C4",
+        "color": "#6baed6",
         "label": "",
         "min_value": 158,
         "max_value": 209
@@ -48,7 +48,7 @@
     "pk": 49,
     "fields": {
         "impact_layer": 1,
-        "color": "#1D91C0",
+        "color": "#4292c6",
         "label": "",
         "min_value": 210,
         "max_value": 261
@@ -59,7 +59,7 @@
     "pk": 50,
     "fields": {
         "impact_layer": 1,
-        "color": "#225EA8",
+        "color": "#2171b5",
         "label": "",
         "min_value": 262,
         "max_value": 313
@@ -70,7 +70,7 @@
     "pk": 51,
     "fields": {
         "impact_layer": 1,
-        "color": "#0C2C84",
+        "color": "#084594",
         "label": "",
         "min_value": 314,
         "max_value": 365
@@ -158,7 +158,7 @@
     "pk": 59,
     "fields": {
         "impact_layer": 3,
-        "color": "#FFFFE5",
+        "color": "#fff5eb",
         "label": "",
         "min_value": 0,
         "max_value": 10
@@ -169,7 +169,7 @@
     "pk": 60,
     "fields": {
         "impact_layer": 3,
-        "color": "#F3FACA",
+        "color": "#fee6ce",
         "label": "",
         "min_value": 11,
         "max_value": 20
@@ -180,7 +180,7 @@
     "pk": 61,
     "fields": {
         "impact_layer": 3,
-        "color": "#D9F0CC",
+        "color": "#fdd0a2",
         "label": "",
         "min_value": 21,
         "max_value": 30
@@ -191,7 +191,7 @@
     "pk": 62,
     "fields": {
         "impact_layer": 3,
-        "color": "#A8DDD1",
+        "color": "#fdae6b",
         "label": "",
         "min_value": 31,
         "max_value": 40
@@ -202,7 +202,7 @@
     "pk": 63,
     "fields": {
         "impact_layer": 3,
-        "color": "#7ECDD7",
+        "color": "#fd8d3c",
         "label": "",
         "min_value": 41,
         "max_value": 50
@@ -213,7 +213,7 @@
     "pk": 64,
     "fields": {
         "impact_layer": 3,
-        "color": "#65B4D4",
+        "color": "#f16913",
         "label": "",
         "min_value": 51,
         "max_value": 60
@@ -224,7 +224,7 @@
     "pk": 65,
     "fields": {
         "impact_layer": 3,
-        "color": "#6991C4",
+        "color": "#d94801",
         "label": "",
         "min_value": 61,
         "max_value": 70
@@ -235,7 +235,7 @@
     "pk": 66,
     "fields": {
         "impact_layer": 3,
-        "color": "#717EBD",
+        "color": "#a63603",
         "label": "",
         "min_value": 71,
         "max_value": 80
@@ -246,7 +246,7 @@
     "pk": 67,
     "fields": {
         "impact_layer": 3,
-        "color": "#606DA1",
+        "color": "#7f2704",
         "label": "",
         "min_value": 81,
         "max_value": 90
@@ -257,7 +257,7 @@
     "pk": 68,
     "fields": {
         "impact_layer": 3,
-        "color": "#56647E",
+        "color": "#351002",
         "label": "",
         "min_value": 91,
         "max_value": 100
@@ -268,7 +268,7 @@
     "pk": 69,
     "fields": {
         "impact_layer": 4,
-        "color": "#FFFFE5",
+        "color": "#031024",
         "label": "",
         "min_value": 0,
         "max_value": 10
@@ -279,7 +279,7 @@
     "pk": 70,
     "fields": {
         "impact_layer": 4,
-        "color": "#F3FACA",
+        "color": "#08306b",
         "label": "",
         "min_value": 11,
         "max_value": 20
@@ -290,7 +290,7 @@
     "pk": 71,
     "fields": {
         "impact_layer": 4,
-        "color": "#D9F0CC",
+        "color": "#08519c",
         "label": "",
         "min_value": 21,
         "max_value": 30
@@ -301,7 +301,7 @@
     "pk": 72,
     "fields": {
         "impact_layer": 4,
-        "color": "#A8DDD1",
+        "color": "#2171b5",
         "label": "",
         "min_value": 31,
         "max_value": 40
@@ -312,7 +312,7 @@
     "pk": 73,
     "fields": {
         "impact_layer": 4,
-        "color": "#7ECDD7",
+        "color": "#4292c6",
         "label": "",
         "min_value": 41,
         "max_value": 50
@@ -323,7 +323,7 @@
     "pk": 74,
     "fields": {
         "impact_layer": 4,
-        "color": "#65B4D4",
+        "color": "#6baed6",
         "label": "",
         "min_value": 51,
         "max_value": 60
@@ -334,7 +334,7 @@
     "pk": 75,
     "fields": {
         "impact_layer": 4,
-        "color": "#6991C4",
+        "color": "#9ecae1",
         "label": "",
         "min_value": 61,
         "max_value": 70
@@ -345,7 +345,7 @@
     "pk": 76,
     "fields": {
         "impact_layer": 4,
-        "color": "#717EBD",
+        "color": "#c6dbef",
         "label": "",
         "min_value": 71,
         "max_value": 80
@@ -356,7 +356,7 @@
     "pk": 77,
     "fields": {
         "impact_layer": 4,
-        "color": "#606DA1",
+        "color": "#deebf7",
         "label": "",
         "min_value": 81,
         "max_value": 90
@@ -367,7 +367,7 @@
     "pk": 78,
     "fields": {
         "impact_layer": 4,
-        "color": "#56647E",
+        "color": "#f7fbff",
         "label": "",
         "min_value": 91,
         "max_value": 100
@@ -378,7 +378,7 @@
     "pk": 79,
     "fields": {
         "impact_layer": 5,
-        "color": "#FFFFE5",
+        "color": "#fff5eb",
         "label": "",
         "min_value": 0,
         "max_value": 10
@@ -389,7 +389,7 @@
     "pk": 80,
     "fields": {
         "impact_layer": 5,
-        "color": "#F3FACA",
+        "color": "#fee6ce",
         "label": "",
         "min_value": 11,
         "max_value": 20
@@ -400,7 +400,7 @@
     "pk": 81,
     "fields": {
         "impact_layer": 5,
-        "color": "#D9F0CC",
+        "color": "#fdd0a2",
         "label": "",
         "min_value": 21,
         "max_value": 30
@@ -411,7 +411,7 @@
     "pk": 82,
     "fields": {
         "impact_layer": 5,
-        "color": "#A8DDD1",
+        "color": "#fdae6b",
         "label": "",
         "min_value": 31,
         "max_value": 40
@@ -422,7 +422,7 @@
     "pk": 83,
     "fields": {
         "impact_layer": 5,
-        "color": "#7ECDD7",
+        "color": "#fd8d3c",
         "label": "",
         "min_value": 41,
         "max_value": 50
@@ -433,7 +433,7 @@
     "pk": 84,
     "fields": {
         "impact_layer": 5,
-        "color": "#65B4D4",
+        "color": "#f16913",
         "label": "",
         "min_value": 51,
         "max_value": 60
@@ -444,7 +444,7 @@
     "pk": 85,
     "fields": {
         "impact_layer": 5,
-        "color": "#6991C4",
+        "color": "#d94801",
         "label": "",
         "min_value": 61,
         "max_value": 70
@@ -455,7 +455,7 @@
     "pk": 86,
     "fields": {
         "impact_layer": 5,
-        "color": "#717EBD",
+        "color": "#a63603",
         "label": "",
         "min_value": 71,
         "max_value": 80
@@ -466,7 +466,7 @@
     "pk": 87,
     "fields": {
         "impact_layer": 5,
-        "color": "#606DA1",
+        "color": "#7f2704",
         "label": "",
         "min_value": 81,
         "max_value": 90
@@ -477,7 +477,7 @@
     "pk": 88,
     "fields": {
         "impact_layer": 5,
-        "color": "#56647E",
+        "color": "#351002",
         "label": "",
         "min_value": 91,
         "max_value": 100
