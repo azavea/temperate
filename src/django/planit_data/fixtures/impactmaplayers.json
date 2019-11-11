@@ -6,11 +6,11 @@
         "impact": 3,
         "layer_type": "county",
         "attribution": "CDC NEPHT, accessed Oct 7, 2019",
-        "url": "https://ephtracking.cdc.gov/DataExplorer",
+        "url": "",
         "attribute": "extreme_precipitation_days",
         "max_zoom": null,
         "show_borders_at": null,
-        "external_link": "https://ephtracking.cdc.gov/DataExplorer", // TODO: make this more specific
+        "external_link": "https://ephtracking.cdc.gov/DataExplorer",
         "state_fips": ""
     }
 },
