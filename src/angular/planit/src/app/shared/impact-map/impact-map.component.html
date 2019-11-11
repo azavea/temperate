@@ -48,13 +48,14 @@
         <hr>
         <div class="attribution">
           &copy;
-          <a *ngIf="layer.external_link"
-            href="{{ layer.external_link }}"
-            target="_blank"
-            class="attribution-text">
-            {{ layer.attribution }}
-          </a>
-          <span *ngIf="!layer.external_link">{{ layer.attribution }}</span>
+           <!-- TODO: Add attribution_link to impact map layer models #1345-->
+           <a *ngIf="layer.attribution_link"
+              href="{{ layer.attribution_link }}"
+              target="_blank"
+              class="attribution-text">
+             {{ layer.attribution }}
+           </a>
+           <span *ngIf="!layer.attribution_link">{{ layer.attribution }}</span>
         </div>
       </div>
     </ng-container>
