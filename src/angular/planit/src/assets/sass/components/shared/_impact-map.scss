@@ -11,8 +11,8 @@ app-impact-map {
   }
 
   .map-sidebar {
-    flex: 0 0 35rem;
-    padding: 2rem;
+    flex: 0 0 $map-sidebar-width;
+    padding: $space-xlarge;
     border-right: 2px solid $neutral-2;
     display: flex;
     flex-direction: column;
@@ -37,23 +37,23 @@ app-impact-map {
       .legend-row {
         display: flex;
         align-items: center;
-        margin-bottom: 1.25rem;
+        margin-bottom: $space-large;
         line-height: 0;
       }
 
       .swatch {
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.25rem;
-        border-radius: $border-radius;
-        border: 1px solid $white;
-        box-shadow: 0 0 0 1px rgba($neutral-2, 20%);
+        width: $swatch-width;
+        height: $swatch-width;
+        margin-right: $space-small;
+        border-radius: $swatch-border-radius;
+        border: $swatch-border;
+        box-shadow: $swatch-box-shadow;
       }
     }
 
     .label-legend {
-      margin-top: 2rem;
-      margin-bottom: 0.5rem;
+      margin-top: $space-xlarge;
+      margin-bottom: $space-base;
     }
 
     .footnotes {
@@ -61,7 +61,7 @@ app-impact-map {
     }
 
     .attribution {
-      color: #888;
+      color: $neutral-4;
       font-size: $text-tiny;
       font-variant-numeric: tabular-nums;
     }
@@ -82,7 +82,7 @@ app-impact-map {
 
       .slider {
         position: absolute;
-        bottom: 5rem;
+        bottom: $space-xxlarge;
         left: 50%;
         transform: translateX(-50%);
         min-width: 60rem;
@@ -102,6 +102,11 @@ app-impact-map {
     }
   }
 
+  .ol-zoom {
+    right: $space-medium;
+    left: auto;
+  }
+
   .ol-zoom-in,
   .ol-zoom-out {
     @include button-states($neutral-2);
@@ -115,9 +120,9 @@ app-impact-map {
 app-map + app-help-modal {
   #contact-iclei-button {
     font-size: $text-tiny;
-    padding: 0.25rem 1rem;
-    bottom: 3rem;
-    right: 1rem;
+    padding: $space-small $space-medium;
+    bottom: $space-xxlarge;
+    right: $space-medium;
     border-radius: 100%;
     width: 6.5rem;
     height: 6.5rem;
@@ -125,7 +130,7 @@ app-map + app-help-modal {
     border: 2px solid darken($brand-leaf, 7%);
 
     .icon {
-      margin-bottom: 0.5rem;
+      margin-bottom: $space-base;
       font-size: $text-base;
     }
   }

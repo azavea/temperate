@@ -799,3 +799,14 @@ $review-page-review-section-title-size: $text-small;
 $review-page-review-section-title-weight: $font-weight-bold;
 $review-page-review-item-background-dark: darken($gray, 4%);
 $review-page-review-item-background-light: lighten($gray, 2%);
+
+
+/* * * *
+ * Maps
+ *
+ * * * */
+$map-sidebar-width: 35rem;
+$swatch-width: 2rem;
+$swatch-border-radius: $border-radius;
+$swatch-border: 1px solid $white;
+$swatch-box-shadow: 0 0 0 1px rgba($neutral-2, 20%);
