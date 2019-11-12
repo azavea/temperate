@@ -268,7 +268,7 @@
     "pk": 69,
     "fields": {
         "impact_layer": 4,
-        "color": "#031024",
+        "color": "#fff5eb",
         "label": "",
         "min_value": 0,
         "max_value": 10
@@ -279,7 +279,7 @@
     "pk": 70,
     "fields": {
         "impact_layer": 4,
-        "color": "#08306b",
+        "color": "#fee6ce",
         "label": "",
         "min_value": 11,
         "max_value": 20
@@ -290,7 +290,7 @@
     "pk": 71,
     "fields": {
         "impact_layer": 4,
-        "color": "#08519c",
+        "color": "#fdd0a2",
         "label": "",
         "min_value": 21,
         "max_value": 30
@@ -301,7 +301,7 @@
     "pk": 72,
     "fields": {
         "impact_layer": 4,
-        "color": "#2171b5",
+        "color": "#fdae6b",
         "label": "",
         "min_value": 31,
         "max_value": 40
@@ -312,7 +312,7 @@
     "pk": 73,
     "fields": {
         "impact_layer": 4,
-        "color": "#4292c6",
+        "color": "#fd8d3c",
         "label": "",
         "min_value": 41,
         "max_value": 50
@@ -323,7 +323,7 @@
     "pk": 74,
     "fields": {
         "impact_layer": 4,
-        "color": "#6baed6",
+        "color": "#f16913",
         "label": "",
         "min_value": 51,
         "max_value": 60
@@ -334,7 +334,7 @@
     "pk": 75,
     "fields": {
         "impact_layer": 4,
-        "color": "#9ecae1",
+        "color": "#d94801",
         "label": "",
         "min_value": 61,
         "max_value": 70
@@ -345,7 +345,7 @@
     "pk": 76,
     "fields": {
         "impact_layer": 4,
-        "color": "#c6dbef",
+        "color": "#a63603",
         "label": "",
         "min_value": 71,
         "max_value": 80
@@ -356,7 +356,7 @@
     "pk": 77,
     "fields": {
         "impact_layer": 4,
-        "color": "#deebf7",
+        "color": "#7f2704",
         "label": "",
         "min_value": 81,
         "max_value": 90
@@ -367,7 +367,7 @@
     "pk": 78,
     "fields": {
         "impact_layer": 4,
-        "color": "#f7fbff",
+        "color": "#351002",
         "label": "",
         "min_value": 91,
         "max_value": 100
