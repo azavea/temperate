@@ -8,7 +8,6 @@
             (change)="setLayer()"
             [(ngModel)]="layerIndex"
             *ngIf="mapImpacts && mapImpacts.length > 0">
-      <option [value]="null">---</option>
       <option *ngFor="let impact of mapImpacts; index as i" [value]="i">{{ impact.label }}</option>
     </select>
     <ng-container *ngIf="mapImpacts && mapImpacts.length === 0"><span>No impacts have map data</span></ng-container>

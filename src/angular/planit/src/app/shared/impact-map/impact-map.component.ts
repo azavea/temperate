@@ -26,8 +26,8 @@ import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Icon, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
-import { BehaviorSubject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of as ObservableOf } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { APICacheService } from '../../climate-api/api/services/api-cache.service';
@@ -57,6 +57,7 @@ const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an 
 })
 export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() impacts: Impact[];
+  @Input() impact: Impact = null;
 
   public startingZoom = STARTING_MAP_ZOOM;
   public wgs84 = WGS84;
@@ -73,7 +74,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   public layerTypes = LayerType;
   public layerIndex: number = null;
   public layer: LayerConfig = null;
-  public impact: Impact = null;
   public mapImpacts: Impact[] = null;
 
   public selectedYear = 0;
@@ -103,6 +103,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     }
   ];
   private selectedYearIndex = 0;
+  private initialized = false;
 
   private counties: BehaviorSubject<Feature[]> = new BehaviorSubject(undefined);
 
@@ -121,16 +122,35 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
       this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
     });
+    this.initialized = true;
   }
 
   ngAfterViewInit() {
     this.setupCountyLayer();
+    if (this.mapImpacts) {
+      this.displayDefaultLayer();
+    }
   }
 
   ngOnChanges() {
     if (this.impacts && this.impacts.length) {
       this.mapImpacts = this.impacts.filter(i => i.map_layer);
+      if (this.initialized) {
+        this.displayDefaultLayer();
+      }
     }
+  }
+
+  displayDefaultLayer() {
+    const layerIndex = this.mapImpacts.indexOf(this.impact);
+    this.boundsLayerLoad().subscribe(() => {
+      if (layerIndex !== -1) {
+        this.layerIndex = layerIndex;
+      } else {
+        this.layerIndex = 0;
+      }
+      this.setLayer();
+    });
   }
 
   setupCountyLayer() {
@@ -273,6 +293,13 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
+  private boundsLayerLoad(): Observable<LayerVectorComponent> {
+    if (this.boundsLayer.first) {
+      return ObservableOf(this.boundsLayer.first).pipe(delay(0));
+    }
+    return this.boundsLayer.changes.pipe(take(1), delay(0));
+  }
+
   private styleFeature(feature: Feature, val: number) {
     const row = this.layer.legend.find(r => val >= r.min_value && val < r.max_value + 1);
     const zoom = this.map.instance.getView().getZoom();
@@ -311,7 +338,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
       // Wait for bounds layer to be visible before setting up OLGM connection
       // This means the map and impacts will also have loaded at this point
-      this.boundsLayer.changes.pipe(take(1)).subscribe(() => {
+      this.boundsLayerLoad().subscribe(() => {
         const olmap = this.map.instance;
 
         // Set initial view extent to fit org bounds to map
