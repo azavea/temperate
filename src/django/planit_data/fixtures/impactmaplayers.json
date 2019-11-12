@@ -5,7 +5,7 @@
     "fields": {
         "impact": 3,
         "layer_type": "county",
-        "attribution": "CDC NEPHT, accessed Oct 7, 2019",
+        "attribution": "Centers for Disease Control and Prevention, accessed Oct 7, 2019",
         "url": "",
         "attribute": "extreme_precipitation_days",
         "max_zoom": null,
