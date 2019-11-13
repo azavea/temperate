@@ -1,33 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
-import { AgmCoreModule } from '@agm/core';
-import { NouisliderModule } from 'ng2-nouislider';
-import { AngularOpenlayersModule  } from 'ngx-openlayers';
-
-import { SharedModule } from '../shared/shared.module';
 import { MapRoutingModule } from './map-routing.module';
 
-import { MapComponent } from './map.component';
+import { SharedModule } from '../shared/shared.module';
+import { MapPageComponent } from './map.component';
 
 @NgModule({
   imports: [
-    AgmCoreModule,
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    AngularOpenlayersModule,
-    NouisliderModule,
     SharedModule,
     MapRoutingModule
   ],
   declarations: [
-    MapComponent
+    MapPageComponent
   ],
   exports: [
-    MapComponent
+    MapPageComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

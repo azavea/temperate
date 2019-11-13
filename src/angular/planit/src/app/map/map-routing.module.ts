@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ExpirationGuard } from '../core/services/expiration-guard.service';
 import { PlanAuthGuard } from '../core/services/plan-auth-guard.service';
-import { MapComponent } from './map.component';
+import { MapPageComponent } from './map.component';
 
 const routes: Routes = [
   {
     path: 'map',
-    component: MapComponent,
+    component: MapPageComponent,
     canActivate: [ExpirationGuard, PlanAuthGuard]
   },
 ];

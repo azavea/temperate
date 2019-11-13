@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { AgmCoreModule } from '@agm/core';
 import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { AngularOpenlayersModule  } from 'ngx-openlayers';
 import { ChartsModule } from '../climate-api/charts/charts.module';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
@@ -27,6 +29,7 @@ import {
 import { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
 import { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { ImpactMapComponent } from './impact-map/impact-map.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -54,6 +57,8 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
 
 @NgModule({
   imports: [
+    AgmCoreModule,
+    AngularOpenlayersModule,
     CollapseModule,
     CommonModule,
     RouterModule,
@@ -64,7 +69,6 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ModalModule,
     NouisliderModule,
     PopoverModule,
-    RouterModule,
     TooltipModule,
     TypeaheadModule,
   ],
@@ -80,6 +84,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     FreeformMultiselectComponent,
     GmapAutocompleteDirective,
     GmapStaticMapComponent,
+    ImpactMapComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -112,6 +117,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     GmapAutocompleteDirective,
     GmapStaticMapComponent,
     HelpModalComponent,
+    ImpactMapComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
     LoginFormComponent,

@@ -2,9 +2,11 @@ import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Indicator } from '../../climate-api';
+import { ImpactService } from '../../core/services/impact.service';
 import { RiskService } from '../../core/services/risk.service';
 import { UserService } from '../../core/services/user.service';
 import {
+  Impact,
   Location,
   OrgRiskRelativeOption,
   Risk,
@@ -29,16 +31,22 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   @ViewChild('indicatorChartModal', {static: true})
   private indicatorsModal: ModalTemplateComponent;
 
+  @ViewChild('impactsMapModal', {static: true})
+  private impactsMapModal: ModalTemplateComponent;
+
   @Input() risks: Risk[];
   @Input() weatherEvent: WeatherEvent;
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
+  public impacts: Impact[];
+  public canShowImpacts = false;
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
   public location: Location;
 
-  constructor(private userService: UserService,
+  constructor(private impactService: ImpactService,
+              private userService: UserService,
               private riskService: RiskService,
               private router: Router) { }
 
@@ -49,7 +57,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    this.updateRelatedIndicators(this.risks);
+    this.updateRelatedModalData(this.risks);
     this.aggregateNeed = this.getAggregateNeed();
   }
 
@@ -84,6 +92,12 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
     }
   }
 
+  openMapModal() {
+    if (this.canShowImpacts) {
+      this.impactsMapModal.open();
+    }
+  }
+
   percentActionsAssessed() {
     return Math.floor(this.numberOfActionsAssessed() / this.risks.length * 100);
   }
@@ -115,7 +129,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
     }
   }
 
-  private updateRelatedIndicators(risks: Risk[]) {
+  private updateRelatedModalData(risks: Risk[]) {
     if (risks && risks.length) {
       this.modalRisk = risks[0];
       this.riskService.getRiskIndicators(this.modalRisk).subscribe(indicators => {
@@ -123,9 +137,17 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
         this.canShowIndicators = !!(this.modalRisk.weather_event.indicators &&
                                     this.modalRisk.weather_event.indicators.length);
       });
+      this.impactService.rankedFor(this.modalRisk.weather_event).subscribe(rankedImpacts => {
+        this.impacts = rankedImpacts.filter(i => i.map_layer);
+        this.canShowImpacts = !!(this.impacts &&
+                                 this.impacts.length &&
+                                 this.impacts.length > 0);
+      });
     } else {
       this.indicators = [];
+      this.impacts = [];
       this.canShowIndicators = false;
+      this.canShowImpacts = false;
     }
   }
 }
