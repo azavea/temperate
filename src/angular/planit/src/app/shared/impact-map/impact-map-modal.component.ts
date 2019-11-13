@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 import { ModalDirective, ModalOptions } from 'ngx-bootstrap/modal';
 
@@ -8,16 +15,20 @@ import { Impact } from '../../shared';
   selector: 'app-impact-map-modal',
   templateUrl: './impact-map-modal.component.html'
 })
-export class ImpactMapModalComponent {
+export class ImpactMapModalComponent implements AfterViewInit {
 
   @Input() impacts: Impact[];
+  @Input() impact: Impact;
   @Input() title: string;
+  @Output() modalHide = new EventEmitter<any>();
 
   @ViewChild(ModalDirective, { static: false }) modal: ModalDirective;
 
-  public onModalShown: EventEmitter<any>;
-
   constructor() {}
+
+  ngAfterViewInit() {
+    this.modal.onHide.subscribe(() => this.modalHide.emit());
+  }
 
   public show() {
     this.modal.show();

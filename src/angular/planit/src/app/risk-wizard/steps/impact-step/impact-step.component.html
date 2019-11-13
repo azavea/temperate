@@ -36,6 +36,18 @@
           *ngIf="showAllImpacts || i < initialImpactsToShow">
           {{ impact.tagline ? impact.tagline : impact.label }}
           <a class="paste-link" (click)="pasteImpact(impact)">Paste above</a>
+          <span class="map-impacts-trigger"
+                tooltip="See related impacts on a map"
+                placement="top"
+                container="body"
+                *ngIf="impact.map_layer">
+            <button
+              class="map-impacts-trigger-button button-icon-only"
+              (click)="openMapModal(impact)"
+            >
+              <span class="icon icon-map-marked-alt"></span>
+            </button>
+          </span>
         </div>
       </ng-container>
       <a
@@ -71,3 +83,10 @@
             nextStep>Next</button>
   </div>
 </footer>
+
+<app-impact-map-modal #impactsMapModal
+  title="Maps related to {{ risk.weather_event?.name }} on {{ risk.community_system?.name }}"
+  [impacts]="impacts"
+  [impact]="mapImpact"
+  (modalHide)="mapImpact = null">
+</app-impact-map-modal>
