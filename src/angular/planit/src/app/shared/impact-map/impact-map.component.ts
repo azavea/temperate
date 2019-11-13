@@ -19,6 +19,7 @@ import {
   SourceVectorComponent,
   ViewComponent,
 } from 'ngx-openlayers';
+import { applyStyle } from 'ol-mapbox-style';
 import { buffer } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Polygon } from 'ol/geom';
@@ -47,6 +48,8 @@ import {
   Risk,
 } from '../../shared';
 
+import basemapStyle from './basemapStyle.json';
+
 
 const BORDER_COLOR = '#ccc';
 const BUFFER_EXTENT = 100000; // buffer for organization bounds extent
@@ -70,6 +73,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChildren('boundsSource') boundsSource !: QueryList<SourceVectorComponent>;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
+  @ViewChildren('basemapLayer') basemapLayer !: QueryList<LayerVectorTileComponent>;
 
   public organization: Organization;
   public location: Location;
@@ -94,17 +98,9 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   public sliderMin = 0;
   public sliderMax = 100;
   public showSlider = false;
-  private mapStyles = [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    }
-  ];
+
+  // tslint:disable-next-line:max-line-length
+  private basemapTileUrl = 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf';
   private selectedYearIndex = 0;
   private initialized = false;
 
@@ -147,7 +143,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
   displayDefaultLayer() {
     const layerIndex = this.mapImpacts.indexOf(this.impact);
-    this.boundsLayerLoad().subscribe(() => {
+    this.layerLoaded(this.boundsSource).subscribe(() => {
       if (layerIndex !== -1) {
         this.layerIndex = layerIndex;
       } else {
@@ -297,11 +293,11 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
-  private boundsLayerLoad(): Observable<SourceVectorComponent> {
-    if (this.boundsSource.first) {
-      return ObservableOf(this.boundsSource.first).pipe(delay(0));
+  private layerLoaded<T>(layer: QueryList<T>): Observable<T> {
+    if (layer.first) {
+      return ObservableOf(layer.first).pipe(delay(0));
     }
-    return this.boundsSource.changes.pipe(take(1), delay(0));
+    return layer.changes.pipe(take(1), delay(0));
   }
 
   private styleFeature(feature: Feature, val: number) {
@@ -334,25 +330,19 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   private setupMap() {
-    this.mapsApiLoader.load().then(() => {
-      // Setup OpenLayers <-> Google connection
-      // olgm module import must be delayed until Google Maps API has loaded
-      const GoogleLayer = require('olgm/layer/Google.js').default;
-      const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
+    this.layerLoaded(this.boundsSource).subscribe(() => {
+      this.updateMapSize();
+      // Set initial view extent to fit org bounds to map
+      this.fitToOrganization();
+      if (this.mapImpacts) {
+        this.displayDefaultLayer();
+      }
+    });
 
-      // Wait for bounds layer to be visible before setting up OLGM connection
-      // This means the map and impacts will also have loaded at this point
-      this.boundsLayerLoad().subscribe(() => {
-        const olmap = this.map.instance;
-
-        // Set initial view extent to fit org bounds to map
-        this.fitToOrganization();
-        // Keep this layer in OL instead of Google so we can control zIndex
-        this.boundsLayer.first.instance.set('olgmWatch', false);
-        olmap.addLayer(new GoogleLayer());
-        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
-        olGM.activate();
-      });
+    this.layerLoaded(this.basemapLayer).subscribe(() => {
+      const basemapLayer = this.basemapLayer.first.instance;
+      applyStyle(basemapLayer, basemapStyle, 'esri');
+      const basemapSource = basemapLayer.getSource().setUrl(this.basemapTileUrl);
     });
   }
 }
