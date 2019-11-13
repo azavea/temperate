@@ -1,0 +1,21 @@
+<div class="modal fade" bsModal #modal="bs-modal"
+     tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h1 class="modal-title">{{ title }}</h1>
+        <button type="button"
+          class="button button-large button-icon button-inverse-dark modal-close"
+          aria-label="Close" (click)="modal.hide()">
+          <i class="icon-cancel"></i>
+        </button>
+      </header>
+      <div class="modal-body">
+        <app-impact-map
+          [impacts]="impacts"
+          [shown]="modal.onShown"
+        ></app-impact-map>
+      </div>
+    </div>
+  </div>
+</div>

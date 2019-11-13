@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
@@ -15,6 +16,7 @@ import {
   LayerVectorComponent,
   LayerVectorTileComponent,
   MapComponent as OLMapComponent,
+  SourceVectorComponent,
   ViewComponent,
 } from 'ngx-openlayers';
 import { buffer } from 'ol/extent';
@@ -58,13 +60,14 @@ const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an 
 export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() impacts: Impact[];
   @Input() impact: Impact = null;
+  @Input() shown: EventEmitter<any>;
 
   public startingZoom = STARTING_MAP_ZOOM;
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
 
   @ViewChild(OLMapComponent, {static: false}) map;
-  @ViewChildren('boundsLayer') boundsLayer;
+  @ViewChildren('boundsSource') boundsSource !: QueryList<SourceVectorComponent>;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
 
@@ -115,7 +118,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCounties();
-    this.setupMap();
     this.selectedYearIndex = 0;
 
     this.userService.current().subscribe((user) => {
@@ -127,8 +129,10 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.setupCountyLayer();
-    if (this.mapImpacts) {
-      this.displayDefaultLayer();
+    if (this.shown) {
+      this.shown.subscribe(() => this.setupMap());
+    } else {
+      this.setupMap();
     }
   }
 
@@ -220,7 +224,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     const olmap = this.map.instance;
     const olview = olmap.getView();
     const bounds = this.organization.bounds;
-    const boundsSource = this.boundsLayer.first.instance.getSource();
+    const boundsSource = this.boundsSource.first.instance;
     boundsSource.clear(); // clear existing features before adding new ones
     if (bounds !== null) {
       // Present organization polygon bounds by masking the rest of the map around it
@@ -293,11 +297,11 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
-  private boundsLayerLoad(): Observable<LayerVectorComponent> {
-    if (this.boundsLayer.first) {
-      return ObservableOf(this.boundsLayer.first).pipe(delay(0));
+  private boundsLayerLoad(): Observable<SourceVectorComponent> {
+    if (this.boundsSource.first) {
+      return ObservableOf(this.boundsSource.first).pipe(delay(0));
     }
-    return this.boundsLayer.changes.pipe(take(1), delay(0));
+    return this.boundsSource.changes.pipe(take(1), delay(0));
   }
 
   private styleFeature(feature: Feature, val: number) {
