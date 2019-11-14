@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
  - Updated Plan Wizard to allow selecting Organization boundaries
  - Added map page
- - Added map modal to Risks on Dashboard page
+ - Added map modal to Risks on Dashboard, Assessment Overview & Risk Wizard pages
  - Added County & ClimateAssessmentRegion models/fixtures
  - Added County GeoJSON API endpoint
  - Added mini map to dashboard
