@@ -38,20 +38,20 @@ export class ImpactService {
 
     if (communitySystem) {
       rankedImpacts = rankedImpacts.concat(impacts.filter(impact => {
-        return this.getCommunitySystemRank(impact, communitySystem) !== undefined;
+        const hasRank = this.getCommunitySystemRank(impact, communitySystem) !== undefined;
+        return !rankedImpacts.includes(impact) && hasRank;
       }));
     }
 
     rankedImpacts.sort((a, b) => {
       const weatherEventRankA = this.getWeatherEventRank(a, weatherEvent);
       const weatherEventRankB = this.getWeatherEventRank(b, weatherEvent);
-      // Without CS we're guaranteed to have ranks for weather events
-      if (!communitySystem) {
-        return weatherEventRankA.order - weatherEventRankB.order;
-      }
-
       const communitySystemA = this.getCommunitySystemRank(a, communitySystem);
       const communitySystemB = this.getCommunitySystemRank(b, communitySystem);
+
+      if (!communitySystemA && !communitySystemB) {
+        return weatherEventRankA.order - weatherEventRankB.order;
+      }
 
       // Impacts that match both WE & CS are sorted first
       if ((weatherEventRankA && communitySystemA) && !(weatherEventRankB && communitySystemB)) {
@@ -61,7 +61,7 @@ export class ImpactService {
         return 1;
       }
 
-      // If we have both weather events & hazards for each, prefer
+      // If we have both WE & CS for each, prefer
       // weather event ordering over community system
       if (weatherEventRankA && weatherEventRankB && communitySystemA && communitySystemB) {
         if (weatherEventRankA.order !== weatherEventRankB.order) {
@@ -92,6 +92,9 @@ export class ImpactService {
 
   private getCommunitySystemRank(
     impact: Impact, communitySystem: CommunitySystem): ImpactCommunitySystemRank {
+    if (!communitySystem) {
+      return null;
+    }
     return impact.community_system_ranks.find(r => r.community_system === communitySystem.id);
   }
 
