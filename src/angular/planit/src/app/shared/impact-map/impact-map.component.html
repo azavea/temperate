@@ -45,8 +45,13 @@
         <aol-view [zoom]="startingZoom">
           <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
         </aol-view>
-        <!-- basemap -->
         <aol-layer-vectortile [zIndex]="0" #basemapLayer>
+          <aol-source-vectortile>
+            <aol-format-mvt></aol-format-mvt>
+            <aol-tilegrid></aol-tilegrid>
+          </aol-source-vectortile>
+        </aol-layer-vectortile>
+        <aol-layer-vectortile [zIndex]="3" #labelsLayer>
           <aol-source-vectortile>
             <aol-format-mvt></aol-format-mvt>
             <aol-tilegrid></aol-tilegrid>

@@ -49,6 +49,7 @@ import {
 } from '../../shared';
 
 import basemapStyle from './basemapStyle.json';
+import labelsStyle from './labelsStyle.json';
 
 
 const BORDER_COLOR = '#ccc';
@@ -74,6 +75,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
   @ViewChildren('basemapLayer') basemapLayer !: QueryList<LayerVectorTileComponent>;
+  @ViewChildren('labelsLayer') labelsLayer !: QueryList<LayerVectorTileComponent>;
 
   public organization: Organization;
   public location: Location;
@@ -342,7 +344,13 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     this.layerLoaded(this.basemapLayer).subscribe(() => {
       const basemapLayer = this.basemapLayer.first.instance;
       applyStyle(basemapLayer, basemapStyle, 'esri');
-      const basemapSource = basemapLayer.getSource().setUrl(this.basemapTileUrl);
+      basemapLayer.getSource().setUrl(this.basemapTileUrl);
+    });
+
+    this.layerLoaded(this.labelsLayer).subscribe(() => {
+      const labelsLayer = this.labelsLayer.first.instance;
+      applyStyle(labelsLayer, labelsStyle, 'esri');
+      labelsLayer.getSource().setUrl(this.basemapTileUrl);
     });
   }
 }
