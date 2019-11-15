@@ -74,6 +74,7 @@ app-impact-map {
   app-impact-map {
     .main-content {
       height: 70vh;
+      flex-wrap: nowrap;
     }
   }
 }
