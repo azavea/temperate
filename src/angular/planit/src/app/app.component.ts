@@ -4,6 +4,7 @@ import { AfterViewInit, Component, Inject, Renderer } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 
 import { environment } from '../environments/environment';
+import { FullHeightService } from './core/services/full-height.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { environment } from '../environments/environment';
 export class AppComponent implements AfterViewInit {
   constructor(@Inject(DOCUMENT) private document: any,
               private renderer: Renderer,
+              private fullHeightService: FullHeightService,
               private modalService: BsModalService) {}
 
 
@@ -42,5 +44,9 @@ export class AppComponent implements AfterViewInit {
 
   public modalOpen() {
     return this.modalService.getModalsCount() > 0 ? '' : null;
+  }
+
+  public fullHeight() {
+    return this.fullHeightService.isFullHeight();
   }
 }

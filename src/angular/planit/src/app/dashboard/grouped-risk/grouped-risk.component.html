@@ -93,9 +93,7 @@
   </footer>
 </app-modal-template>
 
-<app-modal-template #impactsMapModal
-  title="Maps related to {{ modalRisk?.weather_event.name | lowercase }}">
-  <app-impact-map
-    [impacts]="impacts"
-  ></app-impact-map>
-</app-modal-template>
+<app-impact-map-modal #impactsMapModal
+  title="Maps related to {{ modalRisk?.weather_event.name | lowercase }}"
+  [impacts]="impacts">
+</app-impact-map-modal>

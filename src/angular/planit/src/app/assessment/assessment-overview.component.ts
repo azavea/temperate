@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { ImpactService } from '../core/services/impact.service';
 import { RiskService } from '../core/services/risk.service';
 import { Action, Impact, Risk, WeatherEvent } from '../shared';
+import { ImpactMapModalComponent } from '../shared/impact-map/impact-map-modal.component';
 
 @Component({
   selector: 'va-overview',
@@ -14,6 +15,10 @@ import { Action, Impact, Risk, WeatherEvent } from '../shared';
 })
 export class AssessmentOverviewComponent implements OnInit {
 
+  @ViewChild('impactsMapModal', {static: true})
+  private impactsMapModal: ImpactMapModalComponent;
+
+  public mapImpact: Impact;
   public risks: Risk[];
   public impacts: Impact[] = [];
   public impactsShown = true;
@@ -38,5 +43,10 @@ export class AssessmentOverviewComponent implements OnInit {
 
   getAssessedRisks() {
     return this.risks.filter(r => r.isAssessed());
+  }
+
+  openMapModal(impact: Impact) {
+    this.mapImpact = impact;
+    this.impactsMapModal.show();
   }
 }

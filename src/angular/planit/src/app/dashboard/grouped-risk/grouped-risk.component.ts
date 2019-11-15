@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Indicator } from '../../climate-api';
@@ -14,6 +21,7 @@ import {
   numberToRelativeOption,
   relativeOptionToNumber,
 } from '../../shared/';
+import { ImpactMapModalComponent } from '../../shared/impact-map/impact-map-modal.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 
 interface AggregateNeed {
@@ -32,7 +40,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   private indicatorsModal: ModalTemplateComponent;
 
   @ViewChild('impactsMapModal', {static: true})
-  private impactsMapModal: ModalTemplateComponent;
+  private impactsMapModal: ImpactMapModalComponent;
 
   @Input() risks: Risk[];
   @Input() weatherEvent: WeatherEvent;
@@ -44,21 +52,22 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public indicators: Indicator[] = [];
   public modalRisk: Risk;
   public location: Location;
+  public onImpactMapModalShown: EventEmitter<any>;
 
   constructor(private impactService: ImpactService,
               private userService: UserService,
               private riskService: RiskService,
               private router: Router) { }
 
+  ngOnChanges() {
+    this.updateRelatedModalData(this.risks);
+    this.aggregateNeed = this.getAggregateNeed();
+  }
+
   ngOnInit() {
     this.userService.current().subscribe((user) => {
       this.location = user.primary_organization.location;
     });
-  }
-
-  ngOnChanges() {
-    this.updateRelatedModalData(this.risks);
-    this.aggregateNeed = this.getAggregateNeed();
   }
 
   goToIndicators() {
@@ -94,7 +103,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
 
   openMapModal() {
     if (this.canShowImpacts) {
-      this.impactsMapModal.open();
+      this.impactsMapModal.show();
     }
   }
 

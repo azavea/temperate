@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -16,6 +16,7 @@ import {
   Risk,
   WizardStepComponent
 } from '../../../shared/';
+import { ImpactMapModalComponent } from '../../../shared/impact-map/impact-map-modal.component';
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
@@ -31,6 +32,11 @@ export interface ImpactStepFormModel {
 
 export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormModel>
                                  implements OnDestroy, OnInit {
+
+  @ViewChild('impactsMapModal', {static: true})
+  private impactsMapModal: ImpactMapModalComponent;
+
+  public mapImpact: Impact;
 
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
@@ -115,5 +121,10 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
     }
     description += impactText;
     this.form.controls.impact_description.setValue(description);
+  }
+
+  openMapModal(impact: Impact) {
+    this.mapImpact = impact;
+    this.impactsMapModal.show();
   }
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
@@ -15,8 +16,10 @@ import {
   LayerVectorComponent,
   LayerVectorTileComponent,
   MapComponent as OLMapComponent,
+  SourceVectorComponent,
   ViewComponent,
 } from 'ngx-openlayers';
+import { applyStyle } from 'ol-mapbox-style';
 import { buffer } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Polygon } from 'ol/geom';
@@ -26,8 +29,8 @@ import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Icon, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
-import { BehaviorSubject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of as ObservableOf } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { APICacheService } from '../../climate-api/api/services/api-cache.service';
@@ -45,6 +48,9 @@ import {
   Risk,
 } from '../../shared';
 
+import basemapStyle from './basemapStyle.json';
+import labelsStyle from './labelsStyle.json';
+
 
 const BORDER_COLOR = '#ccc';
 const BUFFER_EXTENT = 100000; // buffer for organization bounds extent
@@ -57,15 +63,19 @@ const PARSEINT_RADIX = 10; // eslint complains if parseInt is called without an 
 })
 export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() impacts: Impact[];
+  @Input() impact: Impact = null;
+  @Input() shown: EventEmitter<any>;
 
   public startingZoom = STARTING_MAP_ZOOM;
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
 
   @ViewChild(OLMapComponent, {static: false}) map;
-  @ViewChildren('boundsLayer') boundsLayer;
+  @ViewChildren('boundsSource') boundsSource !: QueryList<SourceVectorComponent>;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
+  @ViewChildren('basemapLayer') basemapLayer !: QueryList<LayerVectorTileComponent>;
+  @ViewChildren('labelsLayer') labelsLayer !: QueryList<LayerVectorTileComponent>;
 
   public organization: Organization;
   public location: Location;
@@ -73,7 +83,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   public layerTypes = LayerType;
   public layerIndex: number = null;
   public layer: LayerConfig = null;
-  public impact: Impact = null;
   public mapImpacts: Impact[] = null;
 
   public selectedYear = 0;
@@ -91,18 +100,11 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   public sliderMin = 0;
   public sliderMax = 100;
   public showSlider = false;
-  private mapStyles = [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    }
-  ];
+
+  // tslint:disable-next-line:max-line-length
+  private basemapTileUrl = 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf';
   private selectedYearIndex = 0;
+  private initialized = false;
 
   private counties: BehaviorSubject<Feature[]> = new BehaviorSubject(undefined);
 
@@ -114,23 +116,43 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getCounties();
-    this.setupMap();
     this.selectedYearIndex = 0;
 
     this.userService.current().subscribe((user) => {
       this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
     });
+    this.initialized = true;
   }
 
   ngAfterViewInit() {
     this.setupCountyLayer();
+    if (this.shown) {
+      this.shown.subscribe(() => this.setupMap());
+    } else {
+      this.setupMap();
+    }
   }
 
   ngOnChanges() {
     if (this.impacts && this.impacts.length) {
       this.mapImpacts = this.impacts.filter(i => i.map_layer);
+      if (this.initialized) {
+        this.displayDefaultLayer();
+      }
     }
+  }
+
+  displayDefaultLayer() {
+    const layerIndex = this.mapImpacts.indexOf(this.impact);
+    this.layerLoaded(this.boundsSource).subscribe(() => {
+      if (layerIndex !== -1) {
+        this.layerIndex = layerIndex;
+      } else {
+        this.layerIndex = 0;
+      }
+      this.setLayer();
+    });
   }
 
   setupCountyLayer() {
@@ -200,7 +222,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     const olmap = this.map.instance;
     const olview = olmap.getView();
     const bounds = this.organization.bounds;
-    const boundsSource = this.boundsLayer.first.instance.getSource();
+    const boundsSource = this.boundsSource.first.instance;
     boundsSource.clear(); // clear existing features before adding new ones
     if (bounds !== null) {
       // Present organization polygon bounds by masking the rest of the map around it
@@ -273,6 +295,13 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
+  private layerLoaded<T>(layer: QueryList<T>): Observable<T> {
+    if (layer.first) {
+      return ObservableOf(layer.first).pipe(delay(0));
+    }
+    return layer.changes.pipe(take(1), delay(0));
+  }
+
   private styleFeature(feature: Feature, val: number) {
     const row = this.layer.legend.find(r => val >= r.min_value && val < r.max_value + 1);
     const zoom = this.map.instance.getView().getZoom();
@@ -303,25 +332,25 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   private setupMap() {
-    this.mapsApiLoader.load().then(() => {
-      // Setup OpenLayers <-> Google connection
-      // olgm module import must be delayed until Google Maps API has loaded
-      const GoogleLayer = require('olgm/layer/Google.js').default;
-      const OLGoogleMaps = require('olgm/OLGoogleMaps.js').default;
+    this.layerLoaded(this.boundsSource).subscribe(() => {
+      this.updateMapSize();
+      // Set initial view extent to fit org bounds to map
+      this.fitToOrganization();
+      if (this.mapImpacts) {
+        this.displayDefaultLayer();
+      }
+    });
 
-      // Wait for bounds layer to be visible before setting up OLGM connection
-      // This means the map and impacts will also have loaded at this point
-      this.boundsLayer.changes.pipe(take(1)).subscribe(() => {
-        const olmap = this.map.instance;
+    this.layerLoaded(this.basemapLayer).subscribe(() => {
+      const basemapLayer = this.basemapLayer.first.instance;
+      applyStyle(basemapLayer, basemapStyle, 'esri');
+      basemapLayer.getSource().setUrl(this.basemapTileUrl);
+    });
 
-        // Set initial view extent to fit org bounds to map
-        this.fitToOrganization();
-        // Keep this layer in OL instead of Google so we can control zIndex
-        this.boundsLayer.first.instance.set('olgmWatch', false);
-        olmap.addLayer(new GoogleLayer());
-        const olGM = new OLGoogleMaps({ map: olmap, styles: this.mapStyles });
-        olGM.activate();
-      });
+    this.layerLoaded(this.labelsLayer).subscribe(() => {
+      const labelsLayer = this.labelsLayer.first.instance;
+      applyStyle(labelsLayer, labelsStyle, 'esri');
+      labelsLayer.getSource().setUrl(this.basemapTileUrl);
     });
   }
 }

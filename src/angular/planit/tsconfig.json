@@ -8,6 +8,8 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "strictPropertyInitialization": false,
     "target": "es2015",
     "typeRoots": [

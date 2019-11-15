@@ -29,6 +29,7 @@ import {
 import { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
 import { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { ImpactMapModalComponent } from './impact-map/impact-map-modal.component';
 import { ImpactMapComponent } from './impact-map/impact-map.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
@@ -85,6 +86,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     GmapAutocompleteDirective,
     GmapStaticMapComponent,
     ImpactMapComponent,
+    ImpactMapModalComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -118,6 +120,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     GmapStaticMapComponent,
     HelpModalComponent,
     ImpactMapComponent,
+    ImpactMapModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
     LoginFormComponent,

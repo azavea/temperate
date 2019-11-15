@@ -1,14 +1,13 @@
 <div class="loading-wrapper" *ngIf="!mapImpacts">
   <div class="loading loading-spinner loading-large"></div>
 </div>
-<main class="main-content" role="main" *ngIf="mapImpacts">
+<main class="main-content" role="main" *ngIf="mapImpacts && organization">
   <aside class="map-sidebar">
     <label>Visualization</label>
     <select class="form-control"
             (change)="setLayer()"
             [(ngModel)]="layerIndex"
             *ngIf="mapImpacts && mapImpacts.length > 0">
-      <option [value]="null">---</option>
       <option *ngFor="let impact of mapImpacts; index as i" [value]="i">{{ impact.label }}</option>
     </select>
     <ng-container *ngIf="mapImpacts && mapImpacts.length === 0"><span>No impacts have map data</span></ng-container>
@@ -46,8 +45,20 @@
         <aol-view [zoom]="startingZoom">
           <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
         </aol-view>
-        <aol-layer-vector [zIndex]="2" #boundsLayer>
-          <aol-source-vector>
+        <aol-layer-vectortile [zIndex]="0" #basemapLayer>
+          <aol-source-vectortile>
+            <aol-format-mvt></aol-format-mvt>
+            <aol-tilegrid></aol-tilegrid>
+          </aol-source-vectortile>
+        </aol-layer-vectortile>
+        <aol-layer-vectortile [zIndex]="3" #labelsLayer>
+          <aol-source-vectortile>
+            <aol-format-mvt></aol-format-mvt>
+            <aol-tilegrid></aol-tilegrid>
+          </aol-source-vectortile>
+        </aol-layer-vectortile>
+        <aol-layer-vector [zIndex]="2">
+          <aol-source-vector #boundsSource>
           </aol-source-vector>
         </aol-layer-vector>
         <ng-container *ngIf="layer">
