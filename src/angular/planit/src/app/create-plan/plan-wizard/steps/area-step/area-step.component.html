@@ -51,17 +51,35 @@
         *{{ form.controls.bounds.errors.server }}
       </p>
       <div class="map-container">
-        <agm-map
-          #gmap
-          [latitude]="initialLocation.geometry.coordinates[1]"
-          [longitude]="initialLocation.geometry.coordinates[0]"
-          [streetViewControl]="false"
-          [styles]="mapStyles"
-          (mapReady)="onMapReady($event)">
-        </agm-map>
+        <aol-map>
+        <aol-control-zoom></aol-control-zoom>
+          <aol-interaction-default></aol-interaction-default>
+          <aol-interaction-draw
+            *ngIf="!polygon"
+            type="Polygon"
+            (drawStart)="drawingStarted = true"
+            (drawEnd)="setPolygon($event)"
+          ></aol-interaction-draw>
+          <aol-interaction-translate
+            *ngIf="polygon"
+            [layers]="canDrag"
+            (translating)="checkPolygon()">
+          </aol-interaction-translate>
+
+          <aol-view [zoom]="12">
+            <aol-coordinate
+              [y]="initialLocation.geometry.coordinates[1]"
+              [x]="initialLocation.geometry.coordinates[0]"
+              [srid]="wgs84"></aol-coordinate>
+          </aol-view>
+          <aol-layer-vector [zIndex]="2" #bounds>
+            <aol-source-vector>
+            </aol-source-vector>
+          </aol-layer-vector>
+        </aol-map>
         <button
           class="button redraw-btn"
-          *ngIf="polygon !== null"
+          *ngIf="drawingStarted"
           (click)="clearBounds()">
           <i class="icon icon-cancel"></i>Re-draw
         </button>

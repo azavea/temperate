@@ -37,26 +37,11 @@
   <section class="map-container">
     <div class="map-content">
       <aol-map (onPreCompose)="updateMapSize()">
-        <aol-control-zoom [duration]="0"></aol-control-zoom>
-        <aol-interaction-doubleclickzoom [duration]="0"></aol-interaction-doubleclickzoom>
-        <aol-interaction-mousewheelzoom [duration]="0"></aol-interaction-mousewheelzoom>
-        <aol-interaction-pinchzoom [duration]="0"></aol-interaction-pinchzoom>
-        <aol-interaction-dragpan [kinetic]="false"></aol-interaction-dragpan>
+        <aol-control-zoom></aol-control-zoom>
+        <aol-interaction-default></aol-interaction-default>
         <aol-view [zoom]="startingZoom">
           <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
         </aol-view>
-        <aol-layer-vectortile [zIndex]="0" #basemapLayer>
-          <aol-source-vectortile>
-            <aol-format-mvt></aol-format-mvt>
-            <aol-tilegrid></aol-tilegrid>
-          </aol-source-vectortile>
-        </aol-layer-vectortile>
-        <aol-layer-vectortile [zIndex]="3" #labelsLayer>
-          <aol-source-vectortile>
-            <aol-format-mvt></aol-format-mvt>
-            <aol-tilegrid></aol-tilegrid>
-          </aol-source-vectortile>
-        </aol-layer-vectortile>
         <aol-layer-vector [zIndex]="2">
           <aol-source-vector #boundsSource>
           </aol-source-vector>

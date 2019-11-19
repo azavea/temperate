@@ -1,22 +1,42 @@
 import {
-  AfterViewChecked,
+  AfterViewInit,
   Component,
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { AgmMap, MapsAPILoader } from '@agm/core';
 import { Polygon } from 'geojson';
 import { MovingDirection } from 'ng2-archwizard';
+import {
+  LayerVectorComponent,
+  LayerVectorTileComponent,
+  MapComponent as OLMapComponent,
+  ViewComponent,
+} from 'ngx-openlayers';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { applyStyle } from 'ol-mapbox-style';
+import Collection from 'ol/Collection';
+import { containsCoordinate } from 'ol/extent';
+import OLPolygon from 'ol/geom/Polygon';
+import { DrawEvent } from 'ol/interaction/Draw';
+import Feature from 'ol/Feature';
+import GeoJSON from 'ol/format/GeoJSON';
+import { transformExtent } from 'ol/proj';
+import VectorSource from 'ol/source/Vector';
+import { getArea } from 'ol/sphere';
+import { Observable, Subscription, of as observableOf } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 
+import { WEB_MERCATOR, WGS84 } from '../../../../core/constants/map';
 import { OrganizationService } from '../../../../core/services/organization.service';
 import { WeatherEventService } from '../../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
+import { addBasemapToMap, componentLoaded } from '../../../../core/utilities/map.utility';
 import { CommunitySystem, Location, Organization } from '../../../../shared/';
 
 import { PlanStepKey } from '../../plan-step-key';
@@ -39,7 +59,13 @@ enum AreaTabs {
 
 export class AreaStepComponent
   extends PlanWizardStepComponent<AreaFormModel>
-  implements OnInit {
+  implements OnInit, AfterViewInit {
+
+  @ViewChildren(OLMapComponent) map;
+  @ViewChildren('bounds') bounds !: QueryList<LayerVectorComponent>;
+
+  public wgs84 = WGS84;
+  public webMercator = WEB_MERCATOR;
 
   public form: FormGroup;
   public navigationSymbol = '1';
@@ -51,24 +77,12 @@ export class AreaStepComponent
   public key: PlanStepKey = PlanStepKey.Area;
   public maxArea = 10000; // sq mi
 
-  public drawingManager?: google.maps.drawing.DrawingManager = null;
-  public polygon?: google.maps.Polygon = null;
+  public polygon: OLPolygon;
   public polygonArea: Number = null;
   public initialLocation: Location = null;
 
+  public drawingStarted = false;
   public polygonOutOfBounds = false;
-
-  public mapStyles = [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [
-        {
-          visibility: 'off'
-        }
-      ]
-    }
-  ];
 
   @Output() wizardCompleted = new EventEmitter();
 
@@ -76,7 +90,6 @@ export class AreaStepComponent
               protected orgService: OrganizationService,
               protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
-              private mapsApiLoader: MapsAPILoader,
               private fb: FormBuilder) {
     super(session, orgService, weatherEventService, toastr);
   }
@@ -88,71 +101,33 @@ export class AreaStepComponent
     this.setupForm(this.fromModel(this.organization));
   }
 
-  onMapReady(map: google.maps.Map) {
-    this.setupDrawingManager(map);
-    if (this.polygon !== null) {
-      this.polygon.setMap(map);
-    }
-  }
-
-  setupDrawingManager(map: google.maps.Map) {
-    const { DrawingManager, OverlayType } = google.maps.drawing;
-
-    const options = {
-      drawingControl: false,
-      polygonOptions: {
-        draggable: true,
-        editable: true
-      },
-      drawingMode: this.polygon === null ? OverlayType.POLYGON : null
-    };
-
-    this.drawingManager = new DrawingManager(options);
-    google.maps.event.addListener(this.drawingManager, 'polygoncomplete', (polygon) => {
-      this.setPolygon(polygon);
-    });
-    this.drawingManager.setMap(map);
-  }
-
-  setPolygon(polygon: google.maps.Polygon) {
-    this.polygon = polygon;
-    this.checkPolygon();
-
-    polygon.getPaths().forEach(path => {
-      google.maps.event.addListener(path, 'insert_at', () => this.checkPolygon());
-      google.maps.event.addListener(path, 'remove_at', () => this.checkPolygon());
-      google.maps.event.addListener(path, 'set_at', () => this.checkPolygon());
-    });
-    google.maps.event.addListener(polygon, 'dragend', () => this.checkPolygon());
-
-    if (this.drawingManager) {
-      this.drawingManager.setDrawingMode(null);
-    }
+  ngAfterViewInit() {
+    componentLoaded(this.map).subscribe((map: OLMapComponent) => addBasemapToMap(map.instance, 1));
+      componentLoaded(this.bounds).subscribe(bounds => {
+        if (this.polygon) {
+          bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
+        }
+      });
   }
 
   checkPolygon() {
-    const { computeArea } = google.maps.geometry.spherical;
     const SQ_M_PER_SQ_MI = 0.0000003861;
 
-    this.polygonArea = computeArea(this.polygon.getPath()) * SQ_M_PER_SQ_MI;
+    this.polygonArea = getArea(this.polygon) * SQ_M_PER_SQ_MI;
 
-    const LOCA_EXTENT = new google.maps.LatLngBounds(
-      { lat: 23.4, lng: -126.0 }, // SW corner
-      { lat: 54.0, lng:  -66.0 }, // NE corner
-    );
-    const vertices = this.polygon.getPath().getArray();
-    this.polygonOutOfBounds = !vertices.every(point => {
-      return LOCA_EXTENT.contains(point);
+    const LOCA_EXTENT = transformExtent([-126.0, 23.4, -66, 54], WGS84, WEB_MERCATOR);
+    this.polygonOutOfBounds = !this.polygon.getCoordinates()[0].every(point => {
+      return containsCoordinate(LOCA_EXTENT, point);
     });
     return;
   }
 
   clearBounds() {
-    this.polygon.setMap(null);
     this.polygon = null;
     this.polygonArea = null;
     this.polygonOutOfBounds = false;
-    this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    this.bounds.first.instance.getSource().clear();
+    this.drawingStarted = false;
     this.form.controls.bounds.setErrors(null);
   }
 
@@ -190,11 +165,10 @@ export class AreaStepComponent
     });
 
     if (data.bounds) {
-      const coords = data.bounds.coordinates[0].slice(0, -1);
-      const paths = coords.map(coord => ({lng: coord[0], lat: coord[1]}));
-      this.mapsApiLoader.load().then(() => {
-        this.setPolygon(new google.maps.Polygon({ paths, editable: true, draggable: true }));
-      });
+      this.polygon = new OLPolygon(data.bounds.coordinates);
+      this.polygon.transform(WGS84, WEB_MERCATOR);
+      this.checkPolygon();
+      this.drawingStarted = true;
     }
   }
 
@@ -218,16 +192,16 @@ export class AreaStepComponent
   }
 
   getBounds(): Polygon {
-    if (this.polygon === null) {
-      return null;
-    }
-    const coords = this.polygon.getPath().getArray().map(p =>
-      [p.lng(), p.lat()]
-    );
-    coords.push(coords[0]);
-    return {
-      type: 'Polygon',
-      coordinates: [coords]
-    };
+    return new GeoJSON().writeGeometryObject(this.polygon, { dataProjection: WGS84, featureProjection: WEB_MERCATOR });
+  }
+
+  canDrag = (layer) => {
+    return this.bounds.first.instance === layer;
+  }
+
+  setPolygon(event: DrawEvent) {
+    this.polygon = event.feature.getGeometry() as OLPolygon;
+    this.bounds.first.instance.getSource().addFeature(event.feature);
+    this.checkPolygon();
   }
 }

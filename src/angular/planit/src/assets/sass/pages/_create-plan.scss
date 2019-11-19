@@ -35,8 +35,10 @@ app-plan-step-area {
   .map-container {
     position: relative;
 
-    agm-map {
+    aol-map {
       height: 400px;
+      width: 100%;
+      display: block;
     }
     .redraw-btn {
       position: absolute;

@@ -11,7 +11,6 @@ import {
   ViewChildren,
 } from '@angular/core';
 
-import { AgmMap, MapsAPILoader } from '@agm/core';
 import {
   LayerVectorComponent,
   LayerVectorTileComponent,
@@ -29,7 +28,7 @@ import * as proj from 'ol/proj';
 import { ImageSourceEvent } from 'ol/source/Image';
 import { Fill, Icon, Stroke, Style } from 'ol/style';
 import Feature from 'ol/Feature';
-import { BehaviorSubject, Observable, of as ObservableOf } from 'rxjs';
+import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
 import { delay, map, take } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -37,6 +36,7 @@ import { APICacheService } from '../../climate-api/api/services/api-cache.servic
 import { STARTING_MAP_ZOOM, WEB_MERCATOR, WGS84 } from '../../core/constants/map';
 import { UserService } from '../../core/services/user.service';
 import { WeatherEventService } from '../../core/services/weather-event.service';
+import { addBasemapToMap, componentLoaded } from '../../core/utilities/map.utility';
 
 import {
   CommunitySystem,
@@ -47,9 +47,6 @@ import {
   Organization,
   Risk,
 } from '../../shared';
-
-import basemapStyle from './basemapStyle.json';
-import labelsStyle from './labelsStyle.json';
 
 
 const BORDER_COLOR = '#ccc';
@@ -74,8 +71,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   @ViewChildren('boundsSource') boundsSource !: QueryList<SourceVectorComponent>;
   @ViewChildren('countyLayer') countyLayer !: QueryList<LayerVectorComponent>;
   @ViewChildren('vectorTileLayer') vectorTileLayer !: QueryList<LayerVectorTileComponent>;
-  @ViewChildren('basemapLayer') basemapLayer !: QueryList<LayerVectorTileComponent>;
-  @ViewChildren('labelsLayer') labelsLayer !: QueryList<LayerVectorTileComponent>;
 
   public organization: Organization;
   public location: Location;
@@ -101,8 +96,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   public sliderMax = 100;
   public showSlider = false;
 
-  // tslint:disable-next-line:max-line-length
-  private basemapTileUrl = 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer/tile/{z}/{y}/{x}.pbf';
   private selectedYearIndex = 0;
   private initialized = false;
 
@@ -111,8 +104,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   constructor(protected userService: UserService,
               private cache: APICacheService,
               protected weatherEventService: WeatherEventService,
-              private http: HttpClient,
-              private mapsApiLoader: MapsAPILoader) {}
+              private http: HttpClient) {}
 
   ngOnInit() {
     this.getCounties();
@@ -145,7 +137,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
   displayDefaultLayer() {
     const layerIndex = this.mapImpacts.indexOf(this.impact);
-    this.layerLoaded(this.boundsSource).subscribe(() => {
+    componentLoaded(this.boundsSource).subscribe(() => {
       if (layerIndex !== -1) {
         this.layerIndex = layerIndex;
       } else {
@@ -295,13 +287,6 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
-  private layerLoaded<T>(layer: QueryList<T>): Observable<T> {
-    if (layer.first) {
-      return ObservableOf(layer.first).pipe(delay(0));
-    }
-    return layer.changes.pipe(take(1), delay(0));
-  }
-
   private styleFeature(feature: Feature, val: number) {
     const row = this.layer.legend.find(r => val >= r.min_value && val < r.max_value + 1);
     const zoom = this.map.instance.getView().getZoom();
@@ -332,25 +317,14 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   private setupMap() {
-    this.layerLoaded(this.boundsSource).subscribe(() => {
+    componentLoaded(this.boundsSource).subscribe(() => {
       this.updateMapSize();
+      addBasemapToMap(this.map.instance);
       // Set initial view extent to fit org bounds to map
       this.fitToOrganization();
       if (this.mapImpacts) {
         this.displayDefaultLayer();
       }
-    });
-
-    this.layerLoaded(this.basemapLayer).subscribe(() => {
-      const basemapLayer = this.basemapLayer.first.instance;
-      applyStyle(basemapLayer, basemapStyle, 'esri');
-      basemapLayer.getSource().setUrl(this.basemapTileUrl);
-    });
-
-    this.layerLoaded(this.labelsLayer).subscribe(() => {
-      const labelsLayer = this.labelsLayer.first.instance;
-      applyStyle(labelsLayer, labelsStyle, 'esri');
-      labelsLayer.getSource().setUrl(this.basemapTileUrl);
     });
   }
 }
