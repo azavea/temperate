@@ -65,7 +65,7 @@
           <aol-layer-vectortile
             #vectorTileLayer
             *ngIf="layer.layer_type === layerTypes.VectorTile"
-            [renderMode]="'vector'"
+            [renderMode]="'image'"
             [style]="styleVectorFeature"
             [zIndex]="1">
             <aol-source-vectortile [url]="layer.url">

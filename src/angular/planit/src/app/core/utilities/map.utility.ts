@@ -33,6 +33,7 @@ export function addBasemapToMap(map: Map, labelsZIndex = LABELS_Z_INDEX) {
     url: BASEMAP_TILE_URL
   };
   const basemapLayer = new VectorTileLayer({
+    renderMode: 'image',
     source: new VectorTileSource(sourceOpts),
     zIndex: BASEMAP_Z_INDEX,
   });
@@ -40,6 +41,7 @@ export function addBasemapToMap(map: Map, labelsZIndex = LABELS_Z_INDEX) {
   map.addLayer(basemapLayer);
 
   const labelsLayer = new VectorTileLayer({
+    renderMode: 'hybrid',
     source: new VectorTileSource(sourceOpts),
     zIndex: labelsZIndex,
   });
