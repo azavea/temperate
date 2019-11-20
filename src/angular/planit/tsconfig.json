@@ -49,7 +49,9 @@
       ],
       "typescript": [
         "../node_modules/typescript"
-      ]
+      ],
+      "ol": ["node_modules/@hanreev/types-ol/ol"],
+      "ol/*": ["node_modules/@hanreev/types-ol/ol/*"]
     },
     "baseUrl": ".",
     "module": "esnext"

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { AgmCoreModule } from '@agm/core';
 import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -58,7 +57,6 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
 
 @NgModule({
   imports: [
-    AgmCoreModule,
     AngularOpenlayersModule,
     CollapseModule,
     CommonModule,
