@@ -301,6 +301,13 @@ LOGGING = {
     }
 }
 
+# Geocoder settings
+ESRI_CLIENT_ID = os.getenv('ESRI_CLIENT_ID')
+ESRI_CLIENT_SECRET = os.getenv('ESRI_CLIENT_SECRET')
+if not ESRI_CLIENT_ID or not ESRI_CLIENT_SECRET:
+    raise ImproperlyConfigured(
+        'Environment variables ESRI_CLIENT_ID and ESRI_CLIENT_SECRET are required.')
+
 # APPLICATION SETTINGS
 
 PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/'

@@ -1,6 +1,7 @@
 import logging
 
 
+from django.conf import settings
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import QueryDict
@@ -10,6 +11,8 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
+
+from omgeo.services import EsriWGS
 
 from registration.backends.hmac.views import (
     RegistrationView as BaseRegistrationView,
@@ -47,10 +50,10 @@ from users.serializers import (
     UserOrgSerializer,
 )
 
-from django.conf import settings
-
 
 logger = logging.getLogger(__name__)
+ESRI_WGS = EsriWGS(settings={
+    'client_id': settings.ESRI_CLIENT_ID, 'client_secret': settings.ESRI_CLIENT_SECRET})
 
 
 @api_view(['GET'])
@@ -430,3 +433,15 @@ class RemoveUserView(APIView):
         })
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class EsriGeocoderTokenView(APIView):
+    """Retrieve temporary API token for use with Esri's geocoder."""
+
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            'esri_token': ESRI_WGS.get_token()
+        }
+        return Response(data)

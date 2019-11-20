@@ -27,6 +27,7 @@ from users.views import (
     AddCityView,
     CityProfileOptionsView,
     CurrentUserView,
+    EsriGeocoderTokenView,
     get_user,
     PlanitObtainAuthToken,
     OrganizationViewSet,
@@ -72,6 +73,7 @@ urlpatterns = [
         name='user_from_uid_token'),
     url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
     url(r'^api-token-auth/', PlanitObtainAuthToken.as_view(), name='token_auth'),
+    url(r'^esri-api-token/$', EsriGeocoderTokenView.as_view(), name='esri_token'),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),
