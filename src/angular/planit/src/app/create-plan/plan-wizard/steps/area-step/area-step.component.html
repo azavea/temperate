@@ -10,13 +10,13 @@
     <div class="nav-tabs">
       <button class="button-tab tab-item"
               [ngClass]="{active: areaTab === areaTabs.EnterCity}"
-              (click)="areaTab = areaTabs.EnterCity">
+              (click)="setTab(areaTabs.EnterCity)">
         <span class="icon icon-search"></span>
         Enter City
       </button>
       <button class="button-tab tab-item"
               [ngClass]="{active: areaTab === areaTabs.DrawArea}"
-              (click)="areaTab = areaTabs.DrawArea;">
+              (click)="setTab(areaTabs.DrawArea)">
         <span class="icon icon-draw-polygon"></span>
         Draw Area
       </button>
@@ -52,7 +52,7 @@
       </p>
       <div class="map-container">
         <aol-map>
-        <aol-control-zoom></aol-control-zoom>
+          <aol-control-zoom></aol-control-zoom>
           <aol-interaction-default></aol-interaction-default>
           <aol-interaction-draw
             #draw

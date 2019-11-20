@@ -104,12 +104,14 @@ export class AreaStepComponent
   }
 
   ngAfterViewInit() {
-    componentLoaded(this.map).subscribe((map: OLMapComponent) => addBasemapToMap(map.instance, 1));
-      componentLoaded(this.bounds).subscribe(bounds => {
-        if (this.polygon) {
-          bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
-        }
-      });
+    componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
+      addBasemapToMap(olmap.instance, 1);
+    });
+    componentLoaded(this.bounds).subscribe(bounds => {
+      if (this.polygon) {
+        bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
+      }
+    });
   }
 
   checkPolygon() {
@@ -198,7 +200,9 @@ export class AreaStepComponent
   }
 
   getBounds(): Polygon {
-    return new GeoJSON().writeGeometryObject(this.polygon, { dataProjection: WGS84, featureProjection: WEB_MERCATOR });
+    return new GeoJSON().writeGeometryObject(this.polygon, {
+      dataProjection: WGS84, featureProjection: WEB_MERCATOR
+    });
   }
 
   canDrag = (layer) => {
@@ -210,5 +214,14 @@ export class AreaStepComponent
     this.bounds.first.instance.getSource().addFeature(event.feature);
     this.checkPolygon();
     this.drawingStarted = false;
+  }
+
+  setTab(tab: AreaTabs) {
+    this.areaTab = tab;
+    if (tab === AreaTabs.DrawArea) {
+      componentLoaded(this.map).subscribe(olmap => {
+        addBasemapToMap(olmap.instance);
+      });
+    }
   }
 }
