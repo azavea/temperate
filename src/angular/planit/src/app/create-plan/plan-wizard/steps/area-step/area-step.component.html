@@ -55,6 +55,7 @@
         <aol-control-zoom></aol-control-zoom>
           <aol-interaction-default></aol-interaction-default>
           <aol-interaction-draw
+            #draw
             *ngIf="!polygon"
             type="Polygon"
             (drawStart)="drawingStarted = true"
@@ -79,7 +80,7 @@
         </aol-map>
         <button
           class="button redraw-btn"
-          *ngIf="drawingStarted"
+          *ngIf="polygon || drawingStarted"
           (click)="clearBounds()">
           <i class="icon icon-cancel"></i>Re-draw
         </button>

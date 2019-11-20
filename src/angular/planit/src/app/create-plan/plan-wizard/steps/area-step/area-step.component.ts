@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Polygon } from 'geojson';
 import { MovingDirection } from 'ng2-archwizard';
 import {
+  DrawInteractionComponent,
   LayerVectorComponent,
   LayerVectorTileComponent,
   MapComponent as OLMapComponent,
@@ -63,6 +64,7 @@ export class AreaStepComponent
 
   @ViewChildren(OLMapComponent) map;
   @ViewChildren('bounds') bounds !: QueryList<LayerVectorComponent>;
+  @ViewChildren('draw') draw !: QueryList<DrawInteractionComponent>;
 
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
@@ -127,6 +129,10 @@ export class AreaStepComponent
     this.polygonArea = null;
     this.polygonOutOfBounds = false;
     this.bounds.first.instance.getSource().clear();
+    if (this.draw.first) {
+      this.draw.first.instance.setActive(false);
+      this.draw.first.instance.setActive(true);
+    }
     this.drawingStarted = false;
     this.form.controls.bounds.setErrors(null);
   }
@@ -203,5 +209,6 @@ export class AreaStepComponent
     this.polygon = event.feature.getGeometry() as OLPolygon;
     this.bounds.first.instance.getSource().addFeature(event.feature);
     this.checkPolygon();
+    this.drawingStarted = false;
   }
 }
