@@ -14,6 +14,12 @@ export {
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
+export {
+  Candidate,
+  GeocoderResponse,
+  Suggestion,
+  SuggestResponse,
+} from './models/esri-geocoder-response.model';
 export { Impact } from './models/impact.model';
 export { LayerConfig, LayerType } from './models/layer-config.model';
 export { Location } from './models/location.model';
