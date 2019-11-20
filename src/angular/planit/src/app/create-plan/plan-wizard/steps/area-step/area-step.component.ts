@@ -104,14 +104,7 @@ export class AreaStepComponent
   }
 
   ngAfterViewInit() {
-    componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
-      addBasemapToMap(olmap.instance, 1);
-    });
-    componentLoaded(this.bounds).subscribe(bounds => {
-      if (this.polygon) {
-        bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
-      }
-    });
+    this.setupMap();
   }
 
   checkPolygon() {
@@ -219,9 +212,19 @@ export class AreaStepComponent
   setTab(tab: AreaTabs) {
     this.areaTab = tab;
     if (tab === AreaTabs.DrawArea) {
-      componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
-        addBasemapToMap(olmap.instance);
-      });
+      this.setupMap();
     }
+  }
+
+  private setupMap() {
+    this.drawingStarted = false;
+    componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
+      addBasemapToMap(olmap.instance, 1);
+    });
+    componentLoaded(this.bounds).subscribe(bounds => {
+      if (this.polygon) {
+        bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
+      }
+    });
   }
 }
