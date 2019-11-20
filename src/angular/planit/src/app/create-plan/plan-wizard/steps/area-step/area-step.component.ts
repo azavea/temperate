@@ -219,7 +219,7 @@ export class AreaStepComponent
   setTab(tab: AreaTabs) {
     this.areaTab = tab;
     if (tab === AreaTabs.DrawArea) {
-      componentLoaded(this.map).subscribe(olmap => {
+      componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
         addBasemapToMap(olmap.instance);
       });
     }
