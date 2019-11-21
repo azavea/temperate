@@ -79,6 +79,12 @@ figcaption {
   margin: 0 auto;
 }
 
+hr {
+  background-color: $neutral-2;
+  height: 1px;
+  border: 0;
+}
+
 .page-header p {
   max-width: 65rem;
 }

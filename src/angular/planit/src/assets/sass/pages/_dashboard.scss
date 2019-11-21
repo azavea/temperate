@@ -57,14 +57,19 @@ app-dashboard {
       font-weight: $font-weight-bold;
       justify-content: center;
 
-      h2 {
-        text-align: center;
-        width: 100%;
-      }
-      h3 {
+      .minimap-subheader {
+        font-size: $text-small;
         color: $page-title-small-color;
         text-align: center;
         text-transform: uppercase;
+        width: 100%;
+        margin-bottom: 0;
+        letter-spacing: 2px;
+      }
+
+      .minimap-org-name {
+        font-size: $text-large;
+        text-align: center;
         width: 100%;
       }
     }
@@ -73,11 +78,22 @@ app-dashboard {
       flex: 1 1 100%;
     }
 
-    img {
+    .minimap-container {
+      max-width: 20rem;
+      overflow: hidden;
       align-items: center;
       flex: 1 1 100%;
       margin-top: -80px;
-      mask-image: radial-gradient(circle at 50% 50%, white 60%, rgba(0, 0, 0, 0) 60%);
+      margin-bottom: 2rem;
+      line-height: 0;
+      border-radius: 100%;
+      border: 2px solid $neutral-1;
+      box-shadow: 0 -2px 2px solid $neutral-2;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 

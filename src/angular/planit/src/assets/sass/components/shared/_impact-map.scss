@@ -2,6 +2,7 @@ app-impact-map {
   .main-container {
     height: 100%;
   }
+
   .main-content {
     display: flex;
     flex-direction: row;
@@ -9,29 +10,59 @@ app-impact-map {
   }
 
   .map-sidebar {
-    flex: 0 0 35rem;
-    padding: 2rem;
+    flex: 0 0 $map-sidebar-width;
+    padding: $space-xlarge;
+    border-right: 2px solid $neutral-2;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+
+    .about-viz-link {
+      align-self: flex-start;
+
+      a {
+        border-bottom: none;
+      }
+
+      a:hover {
+        opacity: 0.85;
+      }
+    }
 
     .legend {
       list-style-type: none;
-      padding-left: 0.8rem;
+      padding-left: 0;
+
+      .legend-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: $space-large;
+        line-height: 0;
+      }
 
       .swatch {
-        display: inline-block;
-        width: 2rem;
-        height: 2rem;
-        border: 1px solid #000;
+        width: $swatch-width;
+        height: $swatch-width;
+        margin-right: $space-small;
+        border-radius: $swatch-border-radius;
+        border: $swatch-border;
+        box-shadow: $swatch-box-shadow;
       }
     }
-    .attribution {
+
+    .label-legend {
+      margin-top: $space-xlarge;
+      margin-bottom: $space-base;
+    }
+
+    .footnotes {
       margin-top: auto;
-      color: #888;
+    }
+
+    .attribution {
+      color: $neutral-4;
       font-size: $text-tiny;
-      > .attribution-text {
-        text-decoration: underline;
-      }
+      font-variant-numeric: tabular-nums;
     }
   }
 
@@ -51,9 +82,10 @@ app-impact-map {
 
       .slider {
         position: absolute;
-        bottom: 5rem;
-        left: 30%;
-        right: 30%;
+        bottom: $space-xxlarge;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 60rem;
         background: $dark-grey-background;
         padding: 10px 30px 40px 20px;
         border-radius: 15px;
@@ -62,10 +94,44 @@ app-impact-map {
         .noUi-pips {
           color: $white;
         }
+
         .noUi-marker, .noUi-marker-large {
           background: $neutral-2;
         }
       }
+    }
+  }
+
+  .ol-zoom {
+    right: $space-medium;
+    left: auto;
+  }
+
+  .ol-zoom-in,
+  .ol-zoom-out {
+    @include button-states($neutral-2);
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.5rem;
+  }
+}
+
+// Restyle the Help button so that it doesn’t overlap the map attribution
+app-map + app-help-modal {
+  #contact-iclei-button {
+    font-size: $text-tiny;
+    padding: $space-small $space-medium;
+    bottom: $space-xxlarge;
+    right: $space-medium;
+    border-radius: 100%;
+    width: 6.5rem;
+    height: 6.5rem;
+    line-height: 1;
+    border: 2px solid darken($brand-leaf, 7%);
+
+    .icon {
+      margin-bottom: $space-base;
+      font-size: $text-base;
     }
   }
 }

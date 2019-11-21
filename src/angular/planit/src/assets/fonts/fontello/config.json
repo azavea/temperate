@@ -1779,6 +1779,12 @@
       ]
     },
     {
+      "uid": "bc71f4c6e53394d5ba46b063040014f1",
+      "css": "cw",
+      "code": 59568,
+      "src": "fontawesome"
+    },
+    {
       "uid": "aaafc57606711978ce1817857229d8eb",
       "css": "plus",
       "code": 59500,

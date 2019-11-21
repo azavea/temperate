@@ -3,33 +3,59 @@
 </div>
 <main class="main-content" role="main" *ngIf="mapImpacts && organization">
   <aside class="map-sidebar">
-    <label>Visualization</label>
-    <select class="form-control"
+    <h1 *ngIf="showHeader">
+      Maps
+    </h1>
+    <p class="paragraph-intro">
+     Use the visualization input below to view location-based climate data for {{organization?.getLocationName()}}.
+    </p>
+    <label class="label-viz" for="viz-select">
+      Visualization
+    </label>
+    <select id="viz-select"
+            class="form-control form-control-dark"
             (change)="setLayer()"
             [(ngModel)]="layerIndex"
             *ngIf="mapImpacts && mapImpacts.length > 0">
       <option *ngFor="let impact of mapImpacts; index as i" [value]="i">{{ impact.label }}</option>
     </select>
-    <ng-container *ngIf="mapImpacts && mapImpacts.length === 0"><span>No impacts have map data</span></ng-container>
+
+
+
     <ng-container *ngIf="layer">
-      <a
-        *ngIf="layer.external_link"
-        href="{{ layer.external_link }}"
-        target="_blank">
-        <i class="icon icon-question-circle"></i>
-        About this map
-      </a>
-      <label>Legend</label>
-      <ul class="legend">
-        <li *ngFor="let row of layer.legend">
+      <label class="label-legend" for="map-legend">
+        Legend
+      </label>
+      <ul id="map-legend" class="legend">
+        <li class="legend-row" *ngFor="let row of layer.legend">
           <span class="swatch" [style.backgroundColor]="row.color"></span>
           &nbsp;
           <span *ngIf="row.label">{{ row.label }}</span>
           <span *ngIf="row.min_value != undefined && row.max_value != undefined">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
         </li>
       </ul>
-      <div class="attribution">
-        &copy; <span class="attribution-text">{{ layer.attribution }}</span>
+
+      <div class="footnotes">
+        <div class="about-viz-link">
+          <i *ngIf="layer.external_link" class="icon icon-question-circle"></i>
+          <a *ngIf="layer.external_link"
+            href="{{ layer.external_link }}"
+            target="_blank">
+            About this map
+          </a>
+        </div>
+        <hr>
+        <div class="attribution">
+          &copy;
+           <!-- TODO: Add attribution_link to impact map layer models #1345-->
+           <a *ngIf="layer.attribution_link"
+              href="{{ layer.attribution_link }}"
+              target="_blank"
+              class="attribution-text">
+             {{ layer.attribution }}
+           </a>
+           <span *ngIf="!layer.attribution_link">{{ layer.attribution }}</span>
+        </div>
       </div>
     </ng-container>
   </aside>

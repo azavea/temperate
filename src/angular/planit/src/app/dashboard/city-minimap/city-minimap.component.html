@@ -1,12 +1,16 @@
 <div class="aside-block" *ngIf="organization">
   <div class="aside-content aside-minimap">
-    <app-gmap-static-map
-      [bounds]="organization?.bounds"
-      [latitude]="organization?.location.geometry.coordinates[1]"
-      [longitude]="organization?.location.geometry.coordinates[0]">
+    <div class="minimap-container">
+      <app-gmap-static-map
+        [bounds]="organization?.bounds"
+        [latitude]="organization?.location.geometry.coordinates[1]"
+        [longitude]="organization?.location.geometry.coordinates[0]">
       </app-gmap-static-map>
-    <h3>Organization</h3>
-    <h2 class="text-large">
+    </div>
+    <h3 class="minimap-subheader">
+      Organization
+    </h3>
+    <h2 class="minimap-org-name">
       {{ organization?.name || 'Your organization' }}
     </h2>
   </div>

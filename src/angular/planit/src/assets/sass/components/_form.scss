@@ -31,7 +31,8 @@ label, .label {
   margin: 0.65rem 0 1.25rem;
 }
 
-.form-control, textarea {
+.form-control,
+textarea {
   display: block;
   margin: $space-base 0 $space-base;
   width: 100%;
@@ -43,6 +44,11 @@ label, .label {
   font-weight: $field-text-weight;
   border: $field-border;
   border-radius: $field-border-radius;
+
+  &-dark {
+    background-color: $white;
+    border: $field-border-dark;
+  }
 
   &:focus {
     @include button-focus-outline();

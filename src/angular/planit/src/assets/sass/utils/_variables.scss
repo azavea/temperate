@@ -195,8 +195,10 @@ $button-disabled-background: $neutral-2;
  * * * */
 $field-text-weight: $font-weight-regular;
 $field-border: 1px solid $neutral-1;
+$field-border-dark: 1px solid $neutral-2;
 $field-border-radius: $border-radius;
 $field-disabled-border-color: $neutral-2;
+$field-disabled-border-color-dark: $neutral-3;
 $field-error-border: 0 0 0 2px rgba($brand-danger, 0.8);
 $label-weight: $font-weight-bold;
 $required-color: $neutral-3;
@@ -797,3 +799,14 @@ $review-page-review-section-title-size: $text-small;
 $review-page-review-section-title-weight: $font-weight-bold;
 $review-page-review-item-background-dark: darken($gray, 4%);
 $review-page-review-item-background-light: lighten($gray, 2%);
+
+
+/* * * *
+ * Maps
+ *
+ * * * */
+$map-sidebar-width: 35rem;
+$swatch-width: 2rem;
+$swatch-border-radius: $border-radius;
+$swatch-border: 1px solid $white;
+$swatch-box-shadow: 0 0 0 1px rgba($neutral-2, 20%);
