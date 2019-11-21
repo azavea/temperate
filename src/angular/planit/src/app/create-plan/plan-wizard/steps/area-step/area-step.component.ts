@@ -33,7 +33,7 @@ import { getArea } from 'ol/sphere';
 import { Observable, Subscription, of as observableOf } from 'rxjs';
 import { delay, map, take } from 'rxjs/operators';
 
-import { WEB_MERCATOR, WGS84 } from '../../../../core/constants/map';
+import { LOCA_EXTENT, WEB_MERCATOR, WGS84 } from '../../../../core/constants/map';
 import { OrganizationService } from '../../../../core/services/organization.service';
 import { WeatherEventService } from '../../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../../core/services/wizard-session.service';
@@ -112,9 +112,9 @@ export class AreaStepComponent
 
     this.polygonArea = getArea(this.polygon) * SQ_M_PER_SQ_MI;
 
-    const LOCA_EXTENT = transformExtent([-126.0, 23.4, -66, 54], WGS84, WEB_MERCATOR);
+    const extent = transformExtent(LOCA_EXTENT, WGS84, WEB_MERCATOR);
     this.polygonOutOfBounds = !this.polygon.getCoordinates()[0].every(point => {
-      return containsCoordinate(LOCA_EXTENT, point);
+      return containsCoordinate(extent, point);
     });
     return;
   }
@@ -179,7 +179,7 @@ export class AreaStepComponent
         geometry: model.location.geometry,
         properties: {
           name: model.location.properties.name || model.creator_location_name,
-          admin: model.location.properties.name || model.creator_location_admin,
+          admin: model.location.properties.admin || model.creator_location_admin,
         }
       }),
       bounds: model.bounds

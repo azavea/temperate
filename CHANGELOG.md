@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added mini map to dashboard
  - Added Impact & related models/fixtures
  - Display related impacts in Risk wizard & vulnerability assessment overview
+ - Switched from Google Places to ESRI geocoder
 ### Fixed
  - Fixed city profile missing from dashboard
 

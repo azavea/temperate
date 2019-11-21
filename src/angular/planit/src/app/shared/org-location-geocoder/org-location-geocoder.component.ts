@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { GmapAutocompleteDirective, Location } from '..';
+import { TypeaheadMatch } from 'ngx-bootstrap';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-type PlaceResult = google.maps.places.PlaceResult;
+import { GeocoderResponse, Location, Suggestion } from '..';
+import { GeocoderService } from '../../core/services/geocoder.service';
 
 @Component({
   selector: 'app-org-location-geocoder',
@@ -16,10 +19,22 @@ type PlaceResult = google.maps.places.PlaceResult;
     }
   ]
 })
-export class OrgLocationGeocoderComponent implements ControlValueAccessor {
+export class OrgLocationGeocoderComponent implements ControlValueAccessor, OnInit {
 
-  public address: PlaceResult = null;
+  public suggestion: Suggestion = null;
   public input = '';
+  public geocoder: Observable<Suggestion[]>;
+
+  constructor(private geocoderService: GeocoderService) { }
+
+  ngOnInit() {
+    this.geocoder = Observable.create((observer) => {
+      this.geocoderService
+        .suggest(this.input)
+        .pipe(map(results => results.suggestions))
+        .subscribe(res => observer.next(res));
+    });
+  }
 
   private onChange = (_: any) => { };
 
@@ -33,13 +48,16 @@ export class OrgLocationGeocoderComponent implements ControlValueAccessor {
 
   public registerOnTouched(fn: any) {}
 
-  public itemSelected(address: PlaceResult) {
-    if (address.geometry) {
-      this.address = address;
-      this.input = address.formatted_address;
-      this.onChange(this.getLocation());
+  public itemSelected(match: TypeaheadMatch) {
+    const suggestion = match.item as Suggestion;
+    if (suggestion) {
+      this.suggestion = suggestion;
+      this.input = suggestion.text;
+      this.geocoderService.find(suggestion).subscribe((result) => {
+        this.onChange(this.getLocation(result));
+      });
     } else {
-      this.address = null;
+      this.suggestion = null;
     }
   }
 
@@ -48,38 +66,33 @@ export class OrgLocationGeocoderComponent implements ControlValueAccessor {
     // to update the value, this will find a mis-match and set an error state. Using a timeout
     // means `itemSelected` will run first and all will be in order by the time this fires.
     setTimeout(() => {
-      const savedName = this.address ? this.address.formatted_address : null;
+      const savedName = this.suggestion ? this.suggestion.text : null;
       const formName = this.input;
       if (formName && savedName !== formName) {
-        this.address = null;
+        this.suggestion = null;
         this.input = '';
         this.onChange(null);
       }
     }, 100);
   }
 
-  private getAdminFromAddress(address: PlaceResult): string {
-    let admin = '';
-    address.address_components.forEach(component => {
-      if (component.types.includes('administrative_area_level_1')) {
-        admin = component.short_name;
-      }
-    });
-    return admin;
-  }
+  private getLocation(result: GeocoderResponse) {
+    if (!result || !result.candidates || result.candidates.length === 0) {
+      return null;
+    }
 
-  private getLocation() {
+    const candidate = result.candidates[0];
     return new Location({
       geometry: {
         type: 'Point',
         coordinates: [
-          this.address.geometry.location.lng(),
-          this.address.geometry.location.lat(),
+          candidate.location.x,
+          candidate.location.y,
         ]
       },
       properties: {
-        name: this.address.name,
-        admin: this.getAdminFromAddress(this.address),
+        name: candidate.attributes['PlaceName'],
+        admin: candidate.attributes['RegionAbbr'],
       }
     });
   }

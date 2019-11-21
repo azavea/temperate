@@ -63,6 +63,7 @@ import { CommunitySystemService } from './core/services/community-system.service
 import { DownloadService } from './core/services/download.service';
 import { ExpirationGuard } from './core/services/expiration-guard.service';
 import { FullHeightService } from './core/services/full-height.service';
+import { GeocoderService } from './core/services/geocoder.service';
 import { ImpactService } from './core/services/impact.service';
 import { InviteUserService } from './core/services/invite-user.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
@@ -184,6 +185,7 @@ const AGM_CONFIG = {
     DownloadService,
     ExpirationGuard,
     FullHeightService,
+    GeocoderService,
     ImpactService,
     InviteUserService,
     LoggedInAuthGuard,
