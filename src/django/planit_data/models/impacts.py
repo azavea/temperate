@@ -107,6 +107,10 @@ class ImpactMapLegendRow(models.Model):
     label = models.CharField(max_length=100, blank=True)
     min_value = models.IntegerField(blank=True, null=True)
     max_value = models.IntegerField(blank=True, null=True)
+    order = models.IntegerField()
+
+    class Meta:
+        ordering = ['impact_layer', 'order']
 
     def __str__(self):
         return '{} {}'.format(self.impact_layer, self.color)
@@ -125,7 +129,7 @@ class ImpactCommunitySystemRank(models.Model):
 
     class Meta:
         unique_together = ('georegion', 'community_system', 'order')
-        ordering = ['georegion', 'community_system', 'order']
+        ordering = ['georegion', 'community_system']
 
     def __str__(self):
         return '{}: {}: {}'.format(self.georegion.name, self.order, self.community_system)
@@ -144,7 +148,7 @@ class ImpactWeatherEventRank(models.Model):
 
     class Meta:
         unique_together = ('georegion', 'weather_event', 'order')
-        ordering = ['georegion', 'weather_event', 'order']
+        ordering = ['georegion', 'weather_event']
 
     def __str__(self):
         return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
