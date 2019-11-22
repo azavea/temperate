@@ -9,6 +9,7 @@
     [typeahead]="geocoder"
     [typeaheadOptionField]="'text'"
     [typeaheadMinLength]="input.length > 0 ? 0 : 1"
+    (typeaheadNoResults)="noResults($event)"
     [typeaheadScrollable]="true"
     [typeaheadWaitMs]="100"
     [typeaheadOptionsInScrollableView]="5"

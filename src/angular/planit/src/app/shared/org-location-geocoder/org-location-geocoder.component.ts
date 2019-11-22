@@ -68,12 +68,18 @@ export class OrgLocationGeocoderComponent implements ControlValueAccessor, OnIni
     setTimeout(() => {
       const savedName = this.suggestion ? this.suggestion.text : null;
       const formName = this.input;
-      if (formName && savedName !== formName) {
+      if (savedName !== formName) {
         this.suggestion = null;
         this.input = '';
         this.onChange(null);
       }
     }, 100);
+  }
+
+  public noResults(hasNoResults: boolean) {
+    if (hasNoResults) {
+      this.onChange(null);
+    }
   }
 
   private getLocation(result: GeocoderResponse) {
