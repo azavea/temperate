@@ -1,13 +1,13 @@
 import { QueryList, ViewChildren } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
-import { delay, map, take } from 'rxjs/operators';
 import { applyStyle } from 'ol-mapbox-style';
 import MVT from 'ol/format/MVT';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import Map from 'ol/Map';
-import { createXYZ } from 'ol/tilegrid';
 import VectorTileSource from 'ol/source/VectorTile';
+import { createXYZ } from 'ol/tilegrid';
+import Map from 'ol/Map';
+import { Observable, of as observableOf } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 
 
 import basemapStyle from './basemapStyle.json';

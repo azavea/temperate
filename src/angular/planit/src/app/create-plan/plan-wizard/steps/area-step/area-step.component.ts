@@ -21,15 +21,15 @@ import {
 } from 'ngx-openlayers';
 import { ToastrService } from 'ngx-toastr';
 import { applyStyle } from 'ol-mapbox-style';
-import Collection from 'ol/Collection';
 import { containsCoordinate } from 'ol/extent';
+import GeoJSON from 'ol/format/GeoJSON';
 import OLPolygon from 'ol/geom/Polygon';
 import { DrawEvent } from 'ol/interaction/Draw';
-import Feature from 'ol/Feature';
-import GeoJSON from 'ol/format/GeoJSON';
 import { transformExtent } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { getArea } from 'ol/sphere';
+import Collection from 'ol/Collection';
+import Feature from 'ol/Feature';
 import { Observable, Subscription, of as observableOf } from 'rxjs';
 import { delay, map, take } from 'rxjs/operators';
 
