@@ -11,7 +11,8 @@
         "max_zoom": null,
         "show_borders_at": null,
         "external_link": "https://ephtracking.cdc.gov/DataExplorer",
-        "state_fips": ""
+        "state_fips": "",
+        "legend_units": "days"
     }
 },
 {
@@ -26,7 +27,8 @@
         "max_zoom": null,
         "show_borders_at": null,
         "external_link": "https://www.firelab.org/project/wildfire-hazard-potential",
-        "state_fips": ""
+        "state_fips": "",
+        "legend_units": ""
     }
 },
 {
@@ -41,7 +43,8 @@
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-ozone",
-        "state_fips": "06"
+        "state_fips": "06",
+        "legend_units": "percentile"
     }
 },
 {
@@ -56,7 +59,8 @@
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-pm25",
-        "state_fips": "06"
+        "state_fips": "06",
+        "legend_units": "percentile"
     }
 },
 {
@@ -71,7 +75,8 @@
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/drinking-water-contaminants",
-        "state_fips": "06"
+        "state_fips": "06",
+        "legend_units": "percentile"
     }
 }
 ]

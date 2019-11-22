@@ -24,7 +24,7 @@
 
     <ng-container *ngIf="layer">
       <label class="label-legend" for="map-legend">
-        Legend
+        Legend&nbsp;<span *ngIf="layer.legend_units" class="legend-units">({{ layer.legend_units }})</span>
       </label>
       <ul id="map-legend" class="legend">
         <li class="legend-row" *ngFor="let row of layer.legend">

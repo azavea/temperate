@@ -94,6 +94,7 @@ class ImpactMapLayer(models.Model):
     show_borders_at = models.IntegerField(blank=True, null=True)
     external_link = models.URLField(blank=True)
     state_fips = models.CharField(max_length=2, blank=True, default='')
+    legend_units = models.CharField(max_length=256, blank=True)
 
     def __str__(self):
         return self.impact.label

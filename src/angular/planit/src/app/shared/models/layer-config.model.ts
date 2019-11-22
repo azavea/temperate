@@ -19,5 +19,6 @@ export interface LayerConfig {
   show_borders_at?: number;
   external_link?: string;
   attribution: string;
+  legend_units?: string;
   legend: LegendRow[];
 }
