@@ -281,6 +281,7 @@ class ImpactMapLayerSerializer(serializers.ModelSerializer):
             'external_link',
             'attribution',
             'legend',
+            'legend_units',
         )
 
 

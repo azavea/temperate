@@ -7,7 +7,8 @@
         "color": "#eff3ff",
         "label": "",
         "min_value": 0,
-        "max_value": 52
+        "max_value": 52,
+        "order": 1
     }
 },
 {
@@ -18,7 +19,8 @@
         "color": "#c6dbef",
         "label": "",
         "min_value": 53,
-        "max_value": 105
+        "max_value": 105,
+        "order": 2
     }
 },
 {
@@ -29,7 +31,8 @@
         "color": "#9ecae1",
         "label": "",
         "min_value": 106,
-        "max_value": 157
+        "max_value": 157,
+        "order": 3
     }
 },
 {
@@ -40,7 +43,8 @@
         "color": "#6baed6",
         "label": "",
         "min_value": 158,
-        "max_value": 209
+        "max_value": 209,
+        "order": 4
     }
 },
 {
@@ -51,7 +55,8 @@
         "color": "#4292c6",
         "label": "",
         "min_value": 210,
-        "max_value": 261
+        "max_value": 261,
+        "order": 5
     }
 },
 {
@@ -62,7 +67,8 @@
         "color": "#2171b5",
         "label": "",
         "min_value": 262,
-        "max_value": 313
+        "max_value": 313,
+        "order": 6
     }
 },
 {
@@ -73,51 +79,8 @@
         "color": "#084594",
         "label": "",
         "min_value": 314,
-        "max_value": 365
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 56,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#EE2922",
-        "label": "Very high",
-        "min_value": null,
-        "max_value": null
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 55,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#FFA32D",
-        "label": "High",
-        "min_value": null,
-        "max_value": null
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 54,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#FEFF6E",
-        "label": "Moderate",
-        "min_value": null,
-        "max_value": null
-    }
-},
-{
-    "model": "planit_data.impactmaplegendrow",
-    "pk": 53,
-    "fields": {
-        "impact_layer": 2,
-        "color": "#A0FF96",
-        "label": "Low",
-        "min_value": null,
-        "max_value": null
+        "max_value": 365,
+        "order": 7
     }
 },
 {
@@ -128,7 +91,56 @@
         "color": "#36A21E",
         "label": "Very low",
         "min_value": null,
-        "max_value": null
+        "max_value": null,
+        "order": 5
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 53,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#A0FF96",
+        "label": "Low",
+        "min_value": null,
+        "max_value": null,
+        "order": 4
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 54,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#FEFF6E",
+        "label": "Moderate",
+        "min_value": null,
+        "max_value": null,
+        "order": 3
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 55,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#FFA32D",
+        "label": "High",
+        "min_value": null,
+        "max_value": null,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.impactmaplegendrow",
+    "pk": 56,
+    "fields": {
+        "impact_layer": 2,
+        "color": "#EE2922",
+        "label": "Very high",
+        "min_value": null,
+        "max_value": null,
+        "order": 1
     }
 },
 {
@@ -139,7 +151,8 @@
         "color": "#E0E0E0",
         "label": "Non-burnable",
         "min_value": null,
-        "max_value": null
+        "max_value": null,
+        "order": 6
     }
 },
 {
@@ -150,7 +163,8 @@
         "color": "#166CFB",
         "label": "Water",
         "min_value": null,
-        "max_value": null
+        "max_value": null,
+        "order": 7
     }
 },
 {
@@ -161,7 +175,8 @@
         "color": "#fff5eb",
         "label": "",
         "min_value": 0,
-        "max_value": 10
+        "max_value": 10,
+        "order": 1
     }
 },
 {
@@ -172,7 +187,8 @@
         "color": "#fee6ce",
         "label": "",
         "min_value": 11,
-        "max_value": 20
+        "max_value": 20,
+        "order": 2
     }
 },
 {
@@ -183,7 +199,8 @@
         "color": "#fdd0a2",
         "label": "",
         "min_value": 21,
-        "max_value": 30
+        "max_value": 30,
+        "order": 3
     }
 },
 {
@@ -194,7 +211,8 @@
         "color": "#fdae6b",
         "label": "",
         "min_value": 31,
-        "max_value": 40
+        "max_value": 40,
+        "order": 4
     }
 },
 {
@@ -205,7 +223,8 @@
         "color": "#fd8d3c",
         "label": "",
         "min_value": 41,
-        "max_value": 50
+        "max_value": 50,
+        "order": 5
     }
 },
 {
@@ -216,7 +235,8 @@
         "color": "#f16913",
         "label": "",
         "min_value": 51,
-        "max_value": 60
+        "max_value": 60,
+        "order": 6
     }
 },
 {
@@ -227,7 +247,8 @@
         "color": "#d94801",
         "label": "",
         "min_value": 61,
-        "max_value": 70
+        "max_value": 70,
+        "order": 7
     }
 },
 {
@@ -238,7 +259,8 @@
         "color": "#a63603",
         "label": "",
         "min_value": 71,
-        "max_value": 80
+        "max_value": 80,
+        "order": 8
     }
 },
 {
@@ -249,7 +271,8 @@
         "color": "#7f2704",
         "label": "",
         "min_value": 81,
-        "max_value": 90
+        "max_value": 90,
+        "order": 9
     }
 },
 {
@@ -260,7 +283,8 @@
         "color": "#351002",
         "label": "",
         "min_value": 91,
-        "max_value": 100
+        "max_value": 100,
+        "order": 10
     }
 },
 {
@@ -271,7 +295,8 @@
         "color": "#fff5eb",
         "label": "",
         "min_value": 0,
-        "max_value": 10
+        "max_value": 10,
+        "order": 1
     }
 },
 {
@@ -282,7 +307,8 @@
         "color": "#fee6ce",
         "label": "",
         "min_value": 11,
-        "max_value": 20
+        "max_value": 20,
+        "order": 2
     }
 },
 {
@@ -293,7 +319,8 @@
         "color": "#fdd0a2",
         "label": "",
         "min_value": 21,
-        "max_value": 30
+        "max_value": 30,
+        "order": 3
     }
 },
 {
@@ -304,7 +331,8 @@
         "color": "#fdae6b",
         "label": "",
         "min_value": 31,
-        "max_value": 40
+        "max_value": 40,
+        "order": 4
     }
 },
 {
@@ -315,7 +343,8 @@
         "color": "#fd8d3c",
         "label": "",
         "min_value": 41,
-        "max_value": 50
+        "max_value": 50,
+        "order": 5
     }
 },
 {
@@ -326,7 +355,8 @@
         "color": "#f16913",
         "label": "",
         "min_value": 51,
-        "max_value": 60
+        "max_value": 60,
+        "order": 6
     }
 },
 {
@@ -337,7 +367,8 @@
         "color": "#d94801",
         "label": "",
         "min_value": 61,
-        "max_value": 70
+        "max_value": 70,
+        "order": 7
     }
 },
 {
@@ -348,7 +379,8 @@
         "color": "#a63603",
         "label": "",
         "min_value": 71,
-        "max_value": 80
+        "max_value": 80,
+        "order": 8
     }
 },
 {
@@ -359,7 +391,8 @@
         "color": "#7f2704",
         "label": "",
         "min_value": 81,
-        "max_value": 90
+        "max_value": 90,
+        "order": 9
     }
 },
 {
@@ -370,7 +403,8 @@
         "color": "#351002",
         "label": "",
         "min_value": 91,
-        "max_value": 100
+        "max_value": 100,
+        "order": 10
     }
 },
 {
@@ -381,7 +415,8 @@
         "color": "#fcfbfd",
         "label": "",
         "min_value": 0,
-        "max_value": 10
+        "max_value": 10,
+        "order": 1
     }
 },
 {
@@ -392,7 +427,8 @@
         "color": "#efedf5",
         "label": "",
         "min_value": 11,
-        "max_value": 20
+        "max_value": 20,
+        "order": 2
     }
 },
 {
@@ -403,7 +439,8 @@
         "color": "#dadaeb",
         "label": "",
         "min_value": 21,
-        "max_value": 30
+        "max_value": 30,
+        "order": 3
     }
 },
 {
@@ -414,7 +451,8 @@
         "color": "#bcbddc",
         "label": "",
         "min_value": 31,
-        "max_value": 40
+        "max_value": 40,
+        "order": 4
     }
 },
 {
@@ -425,7 +463,8 @@
         "color": "#9e9ac8",
         "label": "",
         "min_value": 41,
-        "max_value": 50
+        "max_value": 50,
+        "order": 5
     }
 },
 {
@@ -436,7 +475,8 @@
         "color": "#807dba",
         "label": "",
         "min_value": 51,
-        "max_value": 60
+        "max_value": 60,
+        "order": 6
     }
 },
 {
@@ -447,7 +487,8 @@
         "color": "#6a51a3",
         "label": "",
         "min_value": 61,
-        "max_value": 70
+        "max_value": 70,
+        "order": 7
     }
 },
 {
@@ -458,7 +499,8 @@
         "color": "#54278f",
         "label": "",
         "min_value": 71,
-        "max_value": 80
+        "max_value": 80,
+        "order": 8
     }
 },
 {
@@ -469,7 +511,8 @@
         "color": "#3f007d",
         "label": "",
         "min_value": 81,
-        "max_value": 90
+        "max_value": 90,
+        "order": 9
     }
 },
 {
@@ -480,7 +523,8 @@
         "color": "#180031",
         "label": "",
         "min_value": 91,
-        "max_value": 100
+        "max_value": 100,
+        "order": 10
     }
 }
 ]

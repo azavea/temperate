@@ -103,6 +103,12 @@ To have changes that exist in your Temperate environment's database be written t
 ./scripts/manage update_fixtures
 ```
 
+To load the latest version of the fixtures without needing to run migrations, run:
+
+```bash
+./scripts/manage load_fixtures
+```
+
 ### Temperate Suggested Actions data
 
 Temperate draws upon real-world adaptation plan data to help inform and connect users. This info, dubbed "Missy's dataset" created by Missy Stults for her PhD, needs to be ingested.
