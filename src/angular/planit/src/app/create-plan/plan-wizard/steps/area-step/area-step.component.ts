@@ -136,7 +136,7 @@ export class AreaStepComponent
     if (this.areaTab === AreaTabs.EnterCity) {
       return this.form.controls.location.value !== null;
     }
-    return this.polygon !== null && this.polygonArea < this.maxArea && !this.polygonOutOfBounds;
+    return this.polygon && this.polygonArea < this.maxArea && !this.polygonOutOfBounds;
   }
 
   shouldSave() {
