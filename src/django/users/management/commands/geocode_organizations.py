@@ -63,6 +63,7 @@ class Command(BaseCommand):
                     # delete them and re-assign their organizations to use this location
                     conflicting_locations = (
                         PlanItLocation.objects.filter(name=loc.name, admin=loc.admin)
+                        .exclude(id=loc.id)
                     )
                     conflicting_ids = {l.id for l in conflicting_locations}
                     deleted_loc_ids |= conflicting_ids
