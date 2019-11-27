@@ -52,6 +52,21 @@
       <p class="error" *ngIf="form.controls.bounds.errors && form.controls.bounds.errors.server">
         *{{ form.controls.bounds.errors.server }}
       </p>
+      <div class="map-layer-switcher">
+        <label>
+          <input
+            name="tribalAreasToggle"
+            type="checkbox"
+            [(ngModel)]="showTribalAreas"
+            [ngModelOptions]="{standalone: true}"/>
+          Show tribal areas
+        </label>
+      </div>
+      <div #tribalNamePopup
+        class="tribal-name-popup"
+        [hidden]="!showTribalLabel">
+        <p *ngFor="let name of tribalAreaNames">{{name}}</p>
+      </div>
       <div class="map-container">
         <aol-map>
           <aol-control-zoom></aol-control-zoom>
@@ -79,6 +94,18 @@
             <aol-source-vector>
             </aol-source-vector>
           </aol-layer-vector>
+          <aol-layer-vectortile
+            *ngIf="showTribalAreas"
+            [renderMode]="'hybrid'"
+            [renderBuffer]="5"
+            [style]="styleTribalFeature"
+            [zIndex]="1">
+            <aol-source-vectortile
+              [url]="tribalAreasVectorUri">
+              <aol-format-mvt></aol-format-mvt>
+              <aol-tilegrid></aol-tilegrid>
+            </aol-source-vectortile>
+          </aol-layer-vectortile>
         </aol-map>
         <button
           class="button redraw-btn"

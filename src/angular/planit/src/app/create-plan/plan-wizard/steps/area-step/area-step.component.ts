@@ -1,12 +1,14 @@
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   OnDestroy,
   OnInit,
   Output,
   QueryList,
-  ViewChildren,
+  ViewChild,
+  ViewChildren
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -21,15 +23,18 @@ import {
 } from 'ngx-openlayers';
 import { ToastrService } from 'ngx-toastr';
 import { applyStyle } from 'ol-mapbox-style';
+import { pointerMove } from 'ol/events/condition';
 import { containsCoordinate } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import OLPolygon from 'ol/geom/Polygon';
 import { DrawEvent } from 'ol/interaction/Draw';
 import { transformExtent } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
+import VectorTileSource from 'ol/source/VectorTile';
 import { getArea } from 'ol/sphere';
-import Collection from 'ol/Collection';
+import { Fill, Icon, Stroke, Style, Text } from 'ol/style';
 import Feature from 'ol/Feature';
+import Overlay from 'ol/Overlay';
 import { Observable, Subscription, of as observableOf } from 'rxjs';
 import { delay, map, take } from 'rxjs/operators';
 
@@ -65,11 +70,13 @@ export class AreaStepComponent
   @ViewChildren(OLMapComponent) map;
   @ViewChildren('bounds') bounds !: QueryList<LayerVectorComponent>;
   @ViewChildren('draw') draw !: QueryList<DrawInteractionComponent>;
+  @ViewChild('tribalNamePopup', {static: false}) tribalNamePopup: ElementRef;
 
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
 
   public form: FormGroup;
+  public popupOverlay: Overlay;
   public navigationSymbol = '1';
   public title = 'Geographic area';
   public areaTab = AreaTabs.EnterCity;
@@ -85,6 +92,11 @@ export class AreaStepComponent
 
   public drawingStarted = false;
   public polygonOutOfBounds = false;
+  public showTribalAreas = false;
+  public showTribalLabel = true;
+  public tribalAreaNames = [];
+  // tslint:disable-next-line:max-line-length
+  public tribalAreasVectorUri = 'https://temperate-tiles.s3.amazonaws.com/tribalareas/{z}/{x}/{y}.pbf';
 
   @Output() wizardCompleted = new EventEmitter();
 
@@ -202,6 +214,17 @@ export class AreaStepComponent
     return this.bounds.first.instance === layer;
   }
 
+  styleTribalFeature(feature: Feature) {
+    return new Style({
+      stroke: new Stroke({
+        color: '#555555'
+      }),
+      fill: new Fill({
+        color: '#dddddd'
+      })
+    });
+  }
+
   setPolygon(event: DrawEvent) {
     this.polygon = event.feature.getGeometry() as OLPolygon;
     this.bounds.first.instance.getSource().addFeature(event.feature);
@@ -220,6 +243,44 @@ export class AreaStepComponent
     this.drawingStarted = false;
     componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
       addBasemapToMap(olmap.instance, 1);
+
+      if (this.popupOverlay) {
+        olmap.instance.removeOverlay(this.popupOverlay);
+      }
+
+      this.popupOverlay = new Overlay({
+        element: this.tribalNamePopup.nativeElement,
+        offset: [9, 9]
+      });
+      // This tells the map where to find the overlay; we control its appearance and content in
+      // the event handler below.
+      olmap.instance.addOverlay(this.popupOverlay);
+
+      // Populate the overlay with the name(s) of the tribal area(s) that the cursor is over
+      olmap.instance.on('pointermove', (evt) => {
+        if (!this.showTribalAreas || evt.dragging) {
+          return;
+        }
+        const pixel = olmap.instance.getEventPixel(evt.originalEvent);
+        const features = olmap.instance.getFeaturesAtPixel(pixel, {
+          // Don't check features in layers that are not the tribal areas layer.
+          layerFilter: (layer) => {
+            const source = layer.getSource();
+            if (source instanceof VectorTileSource) {
+              return source.getUrls().includes(this.tribalAreasVectorUri);
+            }
+            return false;
+          }
+        });
+        if (!features || features.length === 0) {
+          this.showTribalLabel = false;
+          return;
+        }
+
+        this.tribalAreaNames = [...new Set(features.map((feature) => feature.get('NAMELSAD')))];
+        this.showTribalLabel = true;
+        this.popupOverlay.setPosition(evt.coordinate);
+      });
     });
     componentLoaded(this.bounds).subscribe(bounds => {
       if (this.polygon) {
