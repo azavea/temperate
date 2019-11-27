@@ -32,7 +32,7 @@ export class GeocoderService {
     const extent = LOCA_EXTENT.join(',');
 
     // tslint:disable-next-line:max-line-length
-    const url = `http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?text=${input}&f=pjson&category=${categories}&searchExtent=${extent}&countryCode=USA`;
+    const url = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?text=${input}&f=pjson&category=${categories}&searchExtent=${extent}&countryCode=USA`;
 
     return this.http.get<SuggestResponse>(url);
   }
@@ -41,7 +41,7 @@ export class GeocoderService {
     return this.getToken().pipe(
       mergeMap(token => {
         // tslint:disable-next-line:max-line-length
-        const url = `http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?magicKey=${suggestion.magicKey}&f=pjson&outFields=PlaceName,RegionAbbr&forStorage=true&token=${token}&countryCode=USA`;
+        const url = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?magicKey=${suggestion.magicKey}&f=pjson&outFields=PlaceName,RegionAbbr&forStorage=true&token=${token}&countryCode=USA`;
         return this.http.get<GeocoderResponse>(url);
       })
     );
