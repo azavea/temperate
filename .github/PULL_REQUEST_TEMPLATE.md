@@ -20,5 +20,6 @@ Optional. Ancillary topics, caveats, alternative strategies that didn't work out
  * Include test case, and expected output
 
  - [ ] Is the CHANGELOG.md updated with any relevant additions, changes, fixes or removals following the format of [keepachangelog](https://keepachangelog.com/en/1.0.0/)?
+ - [ ] Have you tested any front-end changes using the AoT build (`./scripts/update && ./scripts/server --nginx`)?
 
 Closes #XXX
