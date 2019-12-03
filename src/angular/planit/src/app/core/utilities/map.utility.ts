@@ -1,13 +1,13 @@
 import { QueryList, ViewChildren } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
-import { delay, map, take } from 'rxjs/operators';
 import { applyStyle } from 'ol-mapbox-style';
 import MVT from 'ol/format/MVT';
 import VectorTileLayer from 'ol/layer/VectorTile';
-import Map from 'ol/Map';
-import { createXYZ } from 'ol/tilegrid';
 import VectorTileSource from 'ol/source/VectorTile';
+import { createXYZ } from 'ol/tilegrid';
+import Map from 'ol/Map';
+import { Observable, of as observableOf } from 'rxjs';
+import { delay, map, take } from 'rxjs/operators';
 
 
 import basemapStyle from './basemapStyle.json';
@@ -27,7 +27,7 @@ const BASEMAP_TILE_URL = 'https://basemaps.arcgis.com/arcgis/rest/services/World
 const BASEMAP_Z_INDEX = 0;
 const LABELS_Z_INDEX = 99;
 
-export function addBasemapToMap(map: Map, labelsZIndex = LABELS_Z_INDEX) {
+export function addBasemapToMap(olMap: Map, labelsZIndex = LABELS_Z_INDEX) {
   const sourceOpts = {
     format: new MVT(),
     url: BASEMAP_TILE_URL
@@ -38,7 +38,7 @@ export function addBasemapToMap(map: Map, labelsZIndex = LABELS_Z_INDEX) {
     zIndex: BASEMAP_Z_INDEX,
   });
   applyStyle(basemapLayer, basemapStyle, 'esri');
-  map.addLayer(basemapLayer);
+  olMap.addLayer(basemapLayer);
 
   const labelsLayer = new VectorTileLayer({
     renderMode: 'hybrid',
@@ -46,5 +46,5 @@ export function addBasemapToMap(map: Map, labelsZIndex = LABELS_Z_INDEX) {
     zIndex: labelsZIndex,
   });
   applyStyle(labelsLayer, labelsStyle, 'esri');
-  map.addLayer(labelsLayer);
+  olMap.addLayer(labelsLayer);
 }
