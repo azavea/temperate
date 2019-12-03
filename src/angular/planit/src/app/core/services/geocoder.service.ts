@@ -48,7 +48,7 @@ export class GeocoderService {
   }
 
   private getToken(): Observable<string> {
-    const req = this.http.get<EsriApiToken>(`${environment.apiUrl}/esri-api-token/`)
+    const req = this.http.get<EsriApiToken>(`${environment.apiUrl}/api/esri-api-token/`)
       .pipe(map(response => response.esri_token));
     return this.cache.get(this.ESRI_CLIENT_TOKEN_KEY, req, this.MAX_AGE);
   }

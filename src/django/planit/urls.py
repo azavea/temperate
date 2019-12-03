@@ -55,6 +55,8 @@ router.register(r'concern', planit_data_views.ConcernViewSet, base_name='concern
 router.register(r'counties', planit_data_views.CountyViewSet, base_name='county')
 router.register(r'impacts', planit_data_views.ImpactViewSet, base_name='impact')
 
+# NOTE: all URL patterns listed must match one of the prefixes specified in
+# 'nginx/etc/nginx/conf.d/default.conf' in order to function outside of the development setup
 urlpatterns = [
     url(r'^api/climate-api/(?P<route>.*)$',
         ClimateAPIProxyView.as_view(), name='climate-api-proxy'),
@@ -72,8 +74,8 @@ urlpatterns = [
         get_user,
         name='user_from_uid_token'),
     url(r'^api/user/$', CurrentUserView.as_view(), name='current_user'),
+    url(r'^api/esri-api-token/$', EsriGeocoderTokenView.as_view(), name='esri_token'),
     url(r'^api-token-auth/', PlanitObtainAuthToken.as_view(), name='token_auth'),
-    url(r'^esri-api-token/$', EsriGeocoderTokenView.as_view(), name='esri_token'),
 
     # Health check
     url(r'^health-check/', include('watchman.urls')),
