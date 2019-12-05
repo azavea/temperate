@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const isInternalUrl = environment.apiUrl === ""
+    const isInternalUrl = environment.apiUrl === ''
       ? req.url.startsWith('/') : req.url.startsWith(environment.apiUrl);
     if (!this.authService.isAuthenticated() || !isInternalUrl) {
       return next.handle(req);
