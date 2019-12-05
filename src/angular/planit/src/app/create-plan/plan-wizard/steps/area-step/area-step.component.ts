@@ -70,7 +70,7 @@ export class AreaStepComponent
   @ViewChildren(OLMapComponent) map;
   @ViewChildren('bounds') bounds !: QueryList<LayerVectorComponent>;
   @ViewChildren('draw') draw !: QueryList<DrawInteractionComponent>;
-  @ViewChild('tribalNamePopup', {static: false}) tribalNamePopup: ElementRef;
+  @ViewChild('overlayPopup', {static: false}) overlayPopup: ElementRef;
 
   public wgs84 = WGS84;
   public webMercator = WEB_MERCATOR;
@@ -93,10 +93,12 @@ export class AreaStepComponent
   public drawingStarted = false;
   public polygonOutOfBounds = false;
   public showTribalAreas = false;
-  public showTribalLabel = true;
-  public tribalAreaNames = [];
+  public showCounties = false;
+  public showOverlayLabel = true;
+  public areaNames = [];
   // tslint:disable-next-line:max-line-length
   public tribalAreasVectorUri = 'https://temperate-tiles.s3.amazonaws.com/tribalareas/{z}/{x}/{y}.pbf';
+  public countiesVectorUri = 'https://temperate-tiles.s3.amazonaws.com/counties/{z}/{x}/{y}.pbf';
 
   @Output() wizardCompleted = new EventEmitter();
 
@@ -129,6 +131,11 @@ export class AreaStepComponent
       return containsCoordinate(extent, point);
     });
     return;
+  }
+
+  onTranslating() {
+    this.showOverlayLabel = false;
+    this.checkPolygon();
   }
 
   clearBounds() {
@@ -225,6 +232,17 @@ export class AreaStepComponent
     });
   }
 
+  styleCountyFeature(feature: Feature) {
+    return new Style({
+      stroke: new Stroke({
+        color: '#555555'
+      }),
+      fill: new Fill({
+        color: '#dddddd'
+      })
+    });
+  }
+
   setPolygon(event: DrawEvent) {
     this.polygon = event.feature.getGeometry() as OLPolygon;
     this.bounds.first.instance.getSource().addFeature(event.feature);
@@ -242,49 +260,61 @@ export class AreaStepComponent
   private setupMap() {
     this.drawingStarted = false;
     componentLoaded(this.map).subscribe((olmap: OLMapComponent) => {
-      addBasemapToMap(olmap.instance, 1);
-
-      if (this.popupOverlay) {
-        olmap.instance.removeOverlay(this.popupOverlay);
-      }
-
-      this.popupOverlay = new Overlay({
-        element: this.tribalNamePopup.nativeElement,
-        offset: [9, 9]
-      });
-      // This tells the map where to find the overlay; we control its appearance and content in
-      // the event handler below.
-      olmap.instance.addOverlay(this.popupOverlay);
-
-      // Populate the overlay with the name(s) of the tribal area(s) that the cursor is over
-      olmap.instance.on('pointermove', (evt) => {
-        if (!this.showTribalAreas || evt.dragging) {
-          return;
-        }
-        const pixel = olmap.instance.getEventPixel(evt.originalEvent);
-        const features = olmap.instance.getFeaturesAtPixel(pixel, {
-          // Don't check features in layers that are not the tribal areas layer.
-          layerFilter: (layer) => {
-            const source = layer.getSource();
-            if (source instanceof VectorTileSource) {
-              return source.getUrls().includes(this.tribalAreasVectorUri);
-            }
-            return false;
-          }
-        });
-        if (!features || features.length === 0) {
-          this.showTribalLabel = false;
-          return;
-        }
-
-        this.tribalAreaNames = [...new Set(features.map((feature) => feature.get('NAMELSAD')))];
-        this.showTribalLabel = true;
-        this.popupOverlay.setPosition(evt.coordinate);
-      });
+      addBasemapToMap(olmap.instance, 3);
+      this.setupOverlayPopup(olmap);
     });
     componentLoaded(this.bounds).subscribe(bounds => {
       if (this.polygon) {
         bounds.instance.getSource().addFeature(new Feature({ geometry: this.polygon }));
+      }
+    });
+  }
+
+  private setupOverlayPopup(olmap: OLMapComponent) {
+    if (this.popupOverlay) {
+      olmap.instance.removeOverlay(this.popupOverlay);
+    }
+
+    this.popupOverlay = new Overlay({
+      element: this.overlayPopup.nativeElement,
+      offset: [9, 9]
+    });
+    // This tells the map where to find the overlay; we control its appearance and content in
+    // the event handler below.
+    olmap.instance.addOverlay(this.popupOverlay);
+
+    // Populate the overlay with the name(s) of the feature(s) that the cursor is over
+    olmap.instance.on('pointermove', (evt) => {
+      if (!(this.showTribalAreas || this.showCounties) || evt.dragging) {
+        return;
+      }
+      const pixel = olmap.instance.getEventPixel(evt.originalEvent);
+      const tribalFeatures = this.getFeaturesAtPixel(olmap, pixel, this.tribalAreasVectorUri);
+      const countyFeatures = this.getFeaturesAtPixel(olmap, pixel, this.countiesVectorUri);
+      if ((!tribalFeatures || tribalFeatures.length === 0)
+          && (!countyFeatures || countyFeatures.length === 0)) {
+        this.showOverlayLabel = false;
+        return;
+      }
+
+      this.areaNames = [
+        ...new Set(tribalFeatures.map((feature) => feature.get('NAMELSAD'))),
+        ...new Set(countyFeatures.map((feature) => feature.get('NAME') + ' County'))
+      ];
+      this.showOverlayLabel = true;
+      this.popupOverlay.setPosition(evt.coordinate);
+    });
+  }
+
+  private getFeaturesAtPixel(olmap: OLMapComponent, pixel, uri) {
+    return olmap.instance.getFeaturesAtPixel(pixel, {
+      // Don't check features in layers that are not the area layers.
+      layerFilter: (layer) => {
+        const source = layer.getSource();
+        if (source instanceof VectorTileSource) {
+          return source.getUrls().includes(uri);
+        }
+        return false;
       }
     });
   }

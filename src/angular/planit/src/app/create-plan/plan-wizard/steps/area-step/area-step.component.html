@@ -61,11 +61,19 @@
             [ngModelOptions]="{standalone: true}"/>
           Show tribal areas
         </label>
+        <label>
+          <input
+            name="countiesToggle"
+            type="checkbox"
+            [(ngModel)]="showCounties"
+            [ngModelOptions]="{standalone: true}"/>
+          Show counties
+        </label>
       </div>
-      <div #tribalNamePopup
-        class="tribal-name-popup"
-        [hidden]="!showTribalLabel">
-        <p *ngFor="let name of tribalAreaNames">{{name}}</p>
+      <div #overlayPopup
+        class="overlay-popup"
+        [hidden]="!showOverlayLabel">
+        <p *ngFor="let name of areaNames">{{name}}</p>
       </div>
       <div class="map-container">
         <aol-map>
@@ -81,7 +89,7 @@
           <aol-interaction-translate
             *ngIf="polygon"
             [layers]="canDrag"
-            (translating)="checkPolygon()">
+            (translating)="onTranslating()">
           </aol-interaction-translate>
 
           <aol-view [zoom]="12">
@@ -90,7 +98,7 @@
               [x]="initialLocation.geometry.coordinates[0]"
               [srid]="wgs84"></aol-coordinate>
           </aol-view>
-          <aol-layer-vector [zIndex]="2" #bounds>
+          <aol-layer-vector [zIndex]="4" #bounds>
             <aol-source-vector>
             </aol-source-vector>
           </aol-layer-vector>
@@ -99,11 +107,24 @@
             [renderMode]="'hybrid'"
             [renderBuffer]="5"
             [style]="styleTribalFeature"
-            [zIndex]="1">
+            [zIndex]="2">
             <aol-source-vectortile
               [url]="tribalAreasVectorUri">
               <aol-format-mvt></aol-format-mvt>
-              <aol-tilegrid></aol-tilegrid>
+              <aol-tilegrid [maxZoom]="14"></aol-tilegrid>
+            </aol-source-vectortile>
+          </aol-layer-vectortile>
+          <aol-layer-vectortile
+            *ngIf="showCounties"
+            [renderMode]="'hybrid'"
+            [renderBuffer]="5"
+            [opacity]="0.5"
+            [style]="styleCountyFeature"
+            [zIndex]="1">
+            <aol-source-vectortile
+              [url]="countiesVectorUri">
+              <aol-format-mvt></aol-format-mvt>
+              <aol-tilegrid [maxZoom]="7"></aol-tilegrid>
             </aol-source-vectortile>
           </aol-layer-vectortile>
         </aol-map>
