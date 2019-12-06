@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Added tribal areas and county layers to the organization area map
 ### Fixed
  - Fixed city profile missing from dashboard
+### Changed
+ - Updated API distance threshold to 30 miles
 
 ## [1.10.0] - 2019-09-03
 ### Changed
