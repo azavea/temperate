@@ -161,9 +161,9 @@
     "fields": {
         "label": "Cost of damage to coastal properties",
         "external_download_link": "",
-        "tagline_positive": "Economic damage to coastal properties in {region_name} will be ${difference} greater if protective adaptation measures are not implemented, totaling ${no_adaptation_sum} from 2000-2035 if no measures are taken.",
-        "tagline_negative": "Economic damage to coastal properties in {region_name} will be unimpacted by protective adaptation measures, totalling ${no_adaptation_sum} from 2000-2035 regardless of whether adaptation measures are taken.",
-        "tagline_no_change": "Economic damage to coastal properties in {region_name} will be unimpacted by protective adaptation measures, totalling ${no_adaptation_sum} from 2000-2035 regardless of whether adaptation measures are taken.",
+        "tagline_positive": "Without action, economic damage to coastal properties in {region_name} could total ${no_adaptation_sum} from 2000-2035. Protective adaptation measures could prevent ${difference} of damage.",
+        "tagline_negative": "Even if protective adaptation measures are undertaken, coastal properties in {region_name} will likely experience economic damage totaling ${no_adaptation_sum} from 2000-2035.",
+        "tagline_no_change": "Even if protective adaptation measures are undertaken, coastal properties in {region_name} will likely experience economic damage totaling ${no_adaptation_sum} from 2000-2035.",
         "attribute": "coastal_property_damage_impact",
         "region": "county"
     }
