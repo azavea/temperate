@@ -1,6 +1,7 @@
 import logging
 
 from django.core.management.base import BaseCommand
+from django.contrib.humanize.templatetags.humanize import intword
 
 from planit_data.models import County, ClimateAssessmentRegion
 
@@ -40,16 +41,18 @@ def calculate_drought_impact(county):
 
 
 def calculate_coastal_flooding_impact(county):
-    data = county.indicators['coastal_property_damage_no_adaptation']
-    baseline_years = [str(yr) for yr in range(2000, 2010)]
-    # End years chosen to match end years used in Top Hazards
-    end_years = [str(yr) for yr in range(2025, 2035)]
-    baseline_value = sum(data[yr] for yr in baseline_years) / 10
-    end_value = sum(data[yr] for yr in end_years) / 10
-    value = end_value - baseline_value
+    adaptation = county.indicators['coastal_property_damage_adaptation']
+    no_adaptation = county.indicators['coastal_property_damage_no_adaptation']
+    # End year chosen to match end year used in Top Hazards
+    era_years = [str(yr) for yr in range(2000, 2036)]
+    adaptation_sum = sum(adaptation[yr] for yr in era_years)
+    no_adaptation_sum = sum(no_adaptation[yr] for yr in era_years)
+    value = no_adaptation_sum - adaptation_sum
+
     county.indicators['coastal_property_damage_impact'] = {
-        'baseline_value': baseline_value,
-        'end_value': end_value,
+        'no_adaptation_sum': intword(no_adaptation_sum),
+        'adaptation_sum': intword(adaptation_sum),
+        'difference': intword(value),
         'value': value,
     }
 

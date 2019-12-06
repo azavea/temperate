@@ -56,7 +56,7 @@ class County(models.Model):
     objects = CountyManager()
 
     def __str__(self):
-        return self.name
+        return '{} County'.format(self.name)
 
     class Meta:
         verbose_name_plural = 'counties'

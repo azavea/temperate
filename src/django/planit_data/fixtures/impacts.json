@@ -161,9 +161,9 @@
     "fields": {
         "label": "Cost of damage to coastal properties",
         "external_download_link": "",
-        "tagline_positive": "Average yearly coastal flooding damages will increase by ${value:,.0f} by 2035, from a baseline of ${baseline_value:,.0f}",
-        "tagline_negative": "Average yearly coastal flooding damages will decrease by ${value:,.0f} by 2035, from a baseline of ${baseline_value:,.0f}",
-        "tagline_no_change": "Average yearly coastal flooding damages will be ${baseline_value:,.0f} in 2035",
+        "tagline_positive": "Economic damage to coastal properties in {region_name} will be ${difference} greater if protective adaptation measures are not implemented, totaling ${no_adaptation_sum} from 2000-2035 if no measures are taken.",
+        "tagline_negative": "Economic damage to coastal properties in {region_name} will be unimpacted by protective adaptation measures, totalling ${no_adaptation_sum} from 2000-2035 regardless of whether adaptation measures are taken.",
+        "tagline_no_change": "Economic damage to coastal properties in {region_name} will be unimpacted by protective adaptation measures, totalling ${no_adaptation_sum} from 2000-2035 regardless of whether adaptation measures are taken.",
         "attribute": "coastal_property_damage_impact",
         "region": "county"
     }

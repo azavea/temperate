@@ -40,7 +40,7 @@ class Impact(models.Model):
             return None
 
         indicator_data = region.indicators[self.attribute]
-        indicator_data['region_name'] = region.name
+        indicator_data['region_name'] = str(region)
 
         if indicator_data['value'] > 0:
             tagline = self.tagline_positive
