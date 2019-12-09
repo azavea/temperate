@@ -224,7 +224,8 @@ export class AreaStepComponent
   styleTribalFeature(feature: Feature) {
     return new Style({
       stroke: new Stroke({
-        color: '#555555'
+        color: '#85c005',
+        width: '2'
       }),
       fill: new Fill({
         color: '#dddddd'
@@ -235,7 +236,8 @@ export class AreaStepComponent
   styleCountyFeature(feature: Feature) {
     return new Style({
       stroke: new Stroke({
-        color: '#555555'
+        color: '#8186d9',
+        width: '2'
       }),
       fill: new Fill({
         color: '#dddddd'
