@@ -42,6 +42,8 @@ export function addBasemapToMap(olMap: Map, labelsZIndex = LABELS_Z_INDEX) {
 
   const labelsLayer = new VectorTileLayer({
     renderMode: 'hybrid',
+    renderBuffer: 1200,  // Arbitrarily number chosen via trial & error
+    declutter: true,
     source: new VectorTileSource(sourceOpts),
     zIndex: labelsZIndex,
   });

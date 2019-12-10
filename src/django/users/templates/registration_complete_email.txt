@@ -4,7 +4,7 @@ Welcome to Temperate!
 
 Sign in at {{ url }}
 
-We’re excited to help you on your journey to making your city more resilient to climate change.
+We’re excited to help you on your journey to becoming more resilient to climate change.
 
 Be sure to check out our FAQ at https://temperate.io/faq. And if you have further questions, don’t hesitate to reach us at {{ support_email }}.
 

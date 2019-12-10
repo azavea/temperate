@@ -85,7 +85,7 @@
 </footer>
 
 <app-impact-map-modal #impactsMapModal
-  title="Maps related to {{ risk.weather_event?.name }} on {{ risk.community_system?.name }}"
+  title="Maps related to {{ risk.weather_event?.name }} or {{ risk.community_system?.name }}"
   [impacts]="impacts"
   [impact]="mapImpact"
   (modalHide)="mapImpact = null">

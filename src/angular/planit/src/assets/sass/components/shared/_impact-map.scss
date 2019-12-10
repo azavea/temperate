@@ -139,12 +139,29 @@ app-map + app-help-modal {
     }
   }
 }
-
-.modal-body {
-  app-impact-map {
-    .main-content {
-      height: 70vh;
-      flex-wrap: nowrap;
-    }
+app-impact-map-modal {
+  .modal {
+    max-height: none;
+  }
+  .modal-dialog {
+    max-height: calc(100% - 50px);
+    height: 100%!important;
+    width: $modal-width-max!important;
+  }
+  .modal-body {
+    padding: 0!important;
+  }
+  .modal-open .modal {
+    overflow-y: hidden!important;
+  }
+  .map-sidebar {
+    overflow-y: auto;
+    height: 100%;
+  }
+  .main-content {
+    height: 80vh;
+    max-width: none!important;
+    flex-wrap: nowrap;
+    padding: 0!important;
   }
 }

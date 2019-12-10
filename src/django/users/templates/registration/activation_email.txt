@@ -1,6 +1,6 @@
 Hello there!
 
-We’re thrilled you’ve chosen Temperate to help develop your city’s climate adaptation plan.
+We’re thrilled you’ve chosen Temperate to help develop your climate adaptation plan.
 
 Click the link below to confirm your email address and activate your account. The link expires in {{ expiration_days }} days.
 
