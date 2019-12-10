@@ -5,17 +5,19 @@ app-risk-wizard {
     right: $space-xxlarge;
   }
   app-risk-step-impact .top-impacts {
-    border-top: 1px solid $neutral-2;
+    border-top: 1px solid $neutral-1;
     padding-top: 2.5rem;
 
     .impact {
-      background: $neutral-2;
+      background: $neutral-1;
+      border-radius: $border-radius;
       padding: 1rem;
       color: $brand-black;
       margin-bottom: 2px;
 
       .paste-link {
         display: none;
+        margin-left: 0.75rem;
       }
       &:hover .paste-link {
         cursor: pointer;
