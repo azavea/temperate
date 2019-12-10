@@ -1,12 +1,12 @@
 <div class="step-header">
-  <h2 class="step-title">Your city&rsquo;s top hazards</h2>
-  <p>The hazards selected here will help you start your vulnerability assessment. You can always add additional hazards later. Click the &ldquo;x&rdquo; to remove any hazards that you don&rsquo;t think belong in your assessment.</p>
+  <h2 class="step-title">Top hazards</h2>
+  <p>Select hazards that you need to include in your assessment. You can always add more later.</p>
 </div>
 
 <div class="step-content">
   <form [formGroup]="form">
     <div class="concerns-header">
-      <h3 class="concern-title">The hazards below have been <strong>pre-selected</strong> based on {{ organization?.getLocationName() || 'your city' }}&rsquo;s location.</h3>
+      <h3 class="concern-title">Hazards below were pre-selected for your area.</h3>
       <p class="concern-explanation">Calculations use the average of the projections for the years 2025&ndash;2035. See the <a routerLink="/methodology">Methodology</a> page for more information.
       </p>
     </div>
