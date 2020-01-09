@@ -39,6 +39,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ExpirationModalComponent } from './expiration-modal/expiration-modal.component';
 import { FaqComponent } from './faq/faq.component';
 import { IndicatorsModule } from './indicators/indicators.module';
+import { MapModule } from './map/map.module';
 import { OrganizationWizardModule } from './organization-wizard/organization-wizard.module';
 import { SettingsModule } from './settings/settings.module';
 import { SharedModule } from './shared/shared.module';
@@ -61,6 +62,9 @@ import { CollaboratorService } from './core/services/collaborator.service';
 import { CommunitySystemService } from './core/services/community-system.service';
 import { DownloadService } from './core/services/download.service';
 import { ExpirationGuard } from './core/services/expiration-guard.service';
+import { FullHeightService } from './core/services/full-height.service';
+import { GeocoderService } from './core/services/geocoder.service';
+import { ImpactService } from './core/services/impact.service';
 import { InviteUserService } from './core/services/invite-user.service';
 import { LoggedInAuthGuard } from './core/services/logged-in-auth-guard.service';
 import { OrganizationService } from './core/services/organization.service';
@@ -98,7 +102,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
 const AGM_CONFIG = {
   apiKey: environment.googleMapsApiKey,
-  libraries: ['places']
+  libraries: ['drawing', 'geometry', 'places']
 };
 
 
@@ -158,6 +162,7 @@ const AGM_CONFIG = {
     CreatePlanModule,
     DashboardModule,
     IndicatorsModule,
+    MapModule,
     SettingsModule,
     AppRoutingModule
   ],
@@ -179,6 +184,9 @@ const AGM_CONFIG = {
     CommunitySystemService,
     DownloadService,
     ExpirationGuard,
+    FullHeightService,
+    GeocoderService,
+    ImpactService,
     InviteUserService,
     LoggedInAuthGuard,
     OrganizationService,

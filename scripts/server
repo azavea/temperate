@@ -26,8 +26,8 @@ then
 		usage
 	elif [ "${1:-}" = "--nginx" ]
 	then
-		docker-compose -f docker-compose.yml up nginx django area-indicators
+		docker-compose -f docker-compose.yml up nginx django
 	else
-		docker-compose -f docker-compose.yml up django angular area-indicators
+		docker-compose -f docker-compose.yml up django angular
 	fi
 fi

@@ -4,7 +4,6 @@ export { ActionCategory } from './models/action-category.model';
 export { ActionType } from './models/action-type.model';
 export { ActionVisibilityOption } from './models/action-visibility-option.model';
 export { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
-export { Location } from './models/location.model';
 export {
   ActionPrioritized,
   CityProfile,
@@ -15,6 +14,15 @@ export {
 export { CityProfileSummary } from './models/city-profile-summary.model';
 export { CommunitySystem } from './models/community-system.model';
 export { Concern } from './models/concern.model';
+export {
+  Candidate,
+  GeocoderResponse,
+  Suggestion,
+  SuggestResponse,
+} from './models/esri-geocoder-response.model';
+export { Impact } from './models/impact.model';
+export { LayerConfig, LayerType } from './models/layer-config.model';
+export { Location } from './models/location.model';
 export { Organization } from './models/organization.model';
 export {
   OrgSubscription,
@@ -53,3 +61,4 @@ export { WizardStepComponent } from './wizard/wizard-step.component';
 
 export { Point } from './geojson';
 export { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
+export { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';

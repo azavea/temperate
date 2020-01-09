@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'bootstrap3',
     'django_premailer',
+    'jsoneditor',
 
     # local apps
     'climate_api',
@@ -300,6 +301,13 @@ LOGGING = {
     }
 }
 
+# Geocoder settings
+ESRI_CLIENT_ID = os.getenv('ESRI_CLIENT_ID')
+ESRI_CLIENT_SECRET = os.getenv('ESRI_CLIENT_SECRET')
+if not ESRI_CLIENT_ID or not ESRI_CLIENT_SECRET:
+    raise ImproperlyConfigured(
+        'Environment variables ESRI_CLIENT_ID and ESRI_CLIENT_SECRET are required.')
+
 # APPLICATION SETTINGS
 
 PASSWORD_RESET_URL = PLANIT_APP_HOME + '/reset-password/'
@@ -324,10 +332,10 @@ CCAPI_ROUTE_WHITELIST = (
     '^api/map-cell/[0-9.-]+/[0-9.-]+/$',
     '^api/scenario/$',
 )
-# Distance threshold for lat/lon data requests (roughly 20 miles).
+# Distance threshold for lat/lon data requests (roughly 30 miles).
 # This is also defined in src/angular/planit/src/environments/environment.common.ts
 # try to keep both in sync
-CCAPI_DISTANCE = 32000
+CCAPI_DISTANCE = 48000
 
 # Vulnerability Assessment Configuration
 # Max # of risks to make when creating an organization

@@ -4,6 +4,7 @@ import {
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../services/auth.service';
 
 /** Pass untouched request through to the next request handler. */
@@ -13,7 +14,9 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (!this.authService.isAuthenticated()) {
+    const isInternalUrl = environment.apiUrl === ''
+      ? req.url.startsWith('/') : req.url.startsWith(environment.apiUrl);
+    if (!this.authService.isAuthenticated() || !isInternalUrl) {
       return next.handle(req);
     }
 

@@ -5,7 +5,7 @@ import { Indicator, IndicatorService } from '../climate-api';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 
-import { Location, WeatherEvent } from '../shared';
+import { Location, Organization, WeatherEvent } from '../shared';
 
 interface AccordionState {
   [key: string]: boolean;
@@ -22,6 +22,7 @@ export class IndicatorsComponent implements OnInit {
   public allIndicators: Indicator[];
   public filteredIndicators: Indicator[];
   public location: Location;
+  public organization: Organization;
   public filters = new Map();
   public topConcerns: WeatherEvent[];
 
@@ -32,6 +33,7 @@ export class IndicatorsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.current().subscribe((user) => {
+      this.organization = user.primary_organization;
       this.location = user.primary_organization.location;
     });
 

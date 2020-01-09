@@ -119,6 +119,8 @@ data "template_file" "planit_app_https_ecs_task" {
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
     planit_app_home                  = "${var.planit_app_home}"
+    esri_client_id                   = "${var.esri_client_id}"
+    esri_client_secret               = "${var.esri_client_secret}"
   }
 }
 
@@ -203,6 +205,8 @@ data "template_file" "planit_app_management_ecs_task" {
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
     planit_app_home                  = "${var.planit_app_home}"
+    esri_client_id                   = "${var.esri_client_id}"
+    esri_client_secret               = "${var.esri_client_secret}"
   }
 }
 
@@ -236,6 +240,8 @@ data "template_file" "planit_app_send_trial_expiration_emails_ecs_task" {
     ccapi_password                   = "${var.ccapi_password}"
     ccapi_host                       = "${var.ccapi_host}"
     planit_app_home                  = "${var.planit_app_home}"
+    esri_client_id                   = "${var.esri_client_id}"
+    esri_client_secret               = "${var.esri_client_secret}"
   }
 }
 

@@ -34,6 +34,12 @@ CCAPI_EMAIL=test@test.com
 CCAPI_PASSWORD=testpw
 ```
 
+You will also need to add Esri credentials for geocoding, which can be found in the Temperate app in the [Azavea Esri account](https://developers.arcgis.com/applications/dab66240dd264cc6b44fba60609de51d) (use the 'ESRI Company Account' credentials in LastPass).
+```
+ESRI_CLIENT_ID=<ID>
+ESRI_CLIENT_SECRET=<SECRET>
+```
+
 #### Initial set-up of Vagrant environment
 
 After `docker-compose.env` has been configured, create and provision the Vagrant VM:
@@ -101,6 +107,12 @@ To have changes that exist in your Temperate environment's database be written t
 
 ```bash
 ./scripts/manage update_fixtures
+```
+
+To load the latest version of the fixtures without needing to run migrations, run:
+
+```bash
+./scripts/manage load_fixtures
 ```
 
 ### Temperate Suggested Actions data

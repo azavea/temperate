@@ -1,19 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
+import { ImpactService } from '../../../core/services/impact.service';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import {
+  Impact,
   OrgRiskRelativeImpactOptions,
   OrgRiskRelativeOption,
   Risk,
   WizardStepComponent
 } from '../../../shared/';
+import { ImpactMapModalComponent } from '../../../shared/impact-map/impact-map-modal.component';
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
@@ -30,11 +33,19 @@ export interface ImpactStepFormModel {
 export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormModel>
                                  implements OnDestroy, OnInit {
 
+  @ViewChild('impactsMapModal', {static: true})
+  private impactsMapModal: ImpactMapModalComponent;
+
+  public mapImpact: Impact;
+
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Impact;
   public navigationSymbol = '3';
   public risk: Risk;
   public title = 'Potential impact';
+  public impacts: Impact[] = [];
+  public showAllImpacts = false;
+  public initialImpactsToShow = 3;
 
   public relativeOptions = OrgRiskRelativeImpactOptions;
 
@@ -46,6 +57,7 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
               protected toastr: ToastrService,
               protected router: Router,
               protected previousRouteGuard: PreviousRouteGuard,
+              private impactService: ImpactService,
               private fb: FormBuilder) {
     super(session, riskService, toastr, router, previousRouteGuard);
   }
@@ -58,6 +70,10 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
     this.sessionSubscription = this.session.data.subscribe(risk => {
       this.risk = risk;
       this.setDisabled(risk);
+
+      this.impactService.rankedFor(risk.weather_event, risk.community_system).subscribe(impacts => {
+        this.impacts = impacts;
+      });
     });
   }
 
@@ -95,5 +111,20 @@ export class ImpactStepComponent extends RiskWizardStepComponent<ImpactStepFormM
 
   isStepComplete(): boolean {
     return !!this.form.controls.impact_magnitude.value;
+  }
+
+  pasteImpact(impact: Impact) {
+    let description = this.form.controls.impact_description.value;
+    const impactText = impact.tagline ? impact.tagline : impact.label;
+    if (description !== '') {
+      description += '\n';
+    }
+    description += impactText;
+    this.form.controls.impact_description.setValue(description);
+  }
+
+  openMapModal(impact: Impact) {
+    this.mapImpact = impact;
+    this.impactsMapModal.show();
   }
 }

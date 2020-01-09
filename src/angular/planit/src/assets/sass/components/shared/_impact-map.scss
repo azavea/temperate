@@ -1,0 +1,167 @@
+app-impact-map {
+  .main-container {
+    height: 100%;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+  }
+
+  .map-sidebar {
+    flex: 0 0 $map-sidebar-width;
+    padding: $space-xlarge;
+    border-right: 2px solid $neutral-2;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .about-viz-link {
+      align-self: flex-start;
+
+      a {
+        border-bottom: none;
+      }
+
+      a:hover {
+        opacity: 0.85;
+      }
+    }
+
+    .legend-units {
+      color: $neutral-3;
+    }
+
+    .legend {
+      list-style-type: none;
+      padding-left: 0;
+
+      .legend-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: $space-large;
+        line-height: 0;
+      }
+
+      .swatch {
+        width: $swatch-width;
+        height: $swatch-width;
+        margin-right: $space-small;
+        border-radius: $swatch-border-radius;
+        border: $swatch-border;
+        box-shadow: $swatch-box-shadow;
+      }
+    }
+
+    .label-legend {
+      margin-top: $space-xlarge;
+      margin-bottom: $space-base;
+    }
+
+    .footnotes {
+      margin-top: auto;
+    }
+
+    .attribution {
+      color: $neutral-4;
+      font-size: $text-tiny;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .map-container {
+    flex: auto;
+    height: 100%;
+
+    .map-content {
+      position: relative;
+      height: 100%;
+
+      aol-map {
+        height: 100%;
+        width: 100%;
+        display: block;
+      }
+
+      .slider {
+        position: absolute;
+        bottom: $space-xxlarge;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 60rem;
+        background: $dark-grey-background;
+        padding: 10px 30px 40px 20px;
+        border-radius: 15px;
+        width: 40%;
+
+        .noUi-pips {
+          color: $white;
+        }
+
+        .noUi-marker, .noUi-marker-large {
+          background: $neutral-2;
+        }
+      }
+    }
+  }
+
+  .ol-zoom {
+    right: $space-medium;
+    left: auto;
+  }
+
+  .ol-zoom-in,
+  .ol-zoom-out {
+    @include button-states($neutral-2);
+    width: 4rem;
+    height: 4rem;
+    font-size: 2.5rem;
+  }
+}
+
+// Restyle the Help button so that it doesn’t overlap the map attribution
+app-map + app-help-modal {
+  #contact-iclei-button {
+    font-size: $text-tiny;
+    padding: $space-small $space-medium;
+    bottom: $space-xxlarge;
+    right: $space-medium;
+    border-radius: 100%;
+    width: 6.5rem;
+    height: 6.5rem;
+    line-height: 1;
+    border: 2px solid darken($brand-leaf, 7%);
+
+    .icon {
+      margin-bottom: $space-base;
+      font-size: $text-base;
+    }
+  }
+}
+app-impact-map-modal {
+  .modal {
+    max-height: none;
+  }
+  .modal-dialog {
+    max-height: calc(100% - 50px);
+    height: 100%!important;
+    width: $modal-width-max!important;
+  }
+  .modal-body {
+    padding: 0!important;
+  }
+  .modal-open .modal {
+    overflow-y: hidden!important;
+  }
+  .map-sidebar {
+    overflow-y: auto;
+    height: 100%;
+  }
+  .main-content {
+    height: 80vh;
+    max-width: none!important;
+    flex-wrap: nowrap;
+    padding: 0!important;
+  }
+}

@@ -79,8 +79,10 @@ class PlanItLocation(models.Model):
     def __str__(self):
         if self.admin:
             return "{}, {}".format(self.name, self.admin)
-        else:
+        elif self.name:
             return self.name
+        else:
+            return str(self.point.tuple)
 
 
 class PlanItOrganization(models.Model):
@@ -121,6 +123,10 @@ class PlanItOrganization(models.Model):
     name = models.CharField(max_length=256, blank=False, null=False)
     units = models.CharField(max_length=16, choices=UNITS_CHOICES, default=IMPERIAL)
     location = models.ForeignKey(PlanItLocation, on_delete=models.SET_NULL, null=True, blank=True)
+    creator_location_name = models.CharField(max_length=256, null=True, blank=True)
+    creator_location_admin = models.CharField(max_length=16, null=True, blank=True)
+
+    bounds = models.PolygonField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('users.PlanItUser', null=True, default=None,
                                    on_delete=models.SET_NULL)

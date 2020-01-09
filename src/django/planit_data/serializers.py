@@ -1,10 +1,17 @@
 from rest_framework import serializers
 from rest_framework.compat import unicode_to_repr
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from action_steps.serializers import ActionCategoryField
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    County,
+    Impact,
+    ImpactCommunitySystemRank,
+    ImpactMapLayer,
+    ImpactMapLegendRow,
+    ImpactWeatherEventRank,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -243,3 +250,87 @@ class RelatedAdaptiveValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = RelatedAdaptiveValue
         fields = ('name',)
+
+
+class CountySerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = County
+        geo_field = 'geom'
+        fields = ('name', 'state_fips', 'geoid', 'indicators',)
+
+
+class ImpactMapLegendRowSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImpactMapLegendRow
+        fields = ('color', 'label', 'min_value', 'max_value',)
+
+
+class ImpactMapLayerSerializer(serializers.ModelSerializer):
+    legend = ImpactMapLegendRowSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ImpactMapLayer
+        fields = (
+            'layer_type',
+            'url',
+            'attribute',
+            'max_zoom',
+            'show_borders_at',
+            'external_link',
+            'attribution',
+            'legend',
+            'legend_units',
+        )
+
+
+class ImpactCommunitySystemRankSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImpactCommunitySystemRank
+        fields = ('community_system', 'order',)
+
+
+class ImpactWeatherEventRankSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ImpactWeatherEventRank
+        fields = ('weather_event', 'order',)
+
+
+class ImpactSerializer(serializers.ModelSerializer):
+    map_layer = ImpactMapLayerSerializer()
+
+    community_system_ranks = serializers.SerializerMethodField()
+    weather_event_ranks = serializers.SerializerMethodField()
+    tagline = serializers.SerializerMethodField()
+
+    # These two serializer methods filter in Python instead of the DB to take advantage
+    # of prefetching of data.
+    # Has to be done in a SerializerMethodField() to have access to the serializer context
+
+    def get_community_system_ranks(self, impact):
+        organization = get_org_from_context(self.context)
+        rankings = [
+            rank for rank in impact.community_system_ranks.all()
+            if rank.georegion.geom.contains(organization.location.point)
+        ]
+        return ImpactCommunitySystemRankSerializer(instance=rankings, many=True).data
+
+    def get_weather_event_ranks(self, impact):
+        organization = get_org_from_context(self.context)
+        rankings = [
+            rank for rank in impact.weather_event_ranks.all()
+            if rank.georegion.geom.contains(organization.location.point)
+        ]
+        return ImpactWeatherEventRankSerializer(instance=rankings, many=True).data
+
+    def get_tagline(self, impact):
+        organization = get_org_from_context(self.context)
+        return impact.tagline(organization)
+
+    class Meta:
+        model = Impact
+        fields = ('label', 'external_download_link', 'map_layer', 'weather_event_ranks',
+                  'community_system_ranks', 'tagline',)

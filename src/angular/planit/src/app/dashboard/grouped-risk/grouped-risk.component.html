@@ -14,20 +14,36 @@
     <span class="risks-number">&bull; {{ risks.length }} risks</span>
   </h4>
 
-  <span class="indicators-trigger"
-        container="body"
-        tooltip="No related climate data"
-        *ngIf="!canShowIndicators">
-    <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
-  </span>
+  <div class="modal-triggers">
+    <span class="indicators-trigger"
+          container="body"
+          tooltip="No related climate data"
+          *ngIf="!canShowIndicators">
+      <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-indicators"></span></button>
+    </span>
 
-  <span class="indicators-trigger"
-        tooltip="See related climate data"
-        placement="top"
-        container="body"
-        *ngIf="canShowIndicators">
-    <button class="indicators-trigger-button button-icon-only" (click)="openModal()"><span class="icon icon-indicators"></span></button>
-  </span>
+    <span class="indicators-trigger"
+          tooltip="See related climate data"
+          placement="top"
+          container="body"
+          *ngIf="canShowIndicators">
+      <button class="indicators-trigger-button button-icon-only" (click)="openModal()"><span class="icon icon-indicators"></span></button>
+    </span>
+    <span class="map-impacts-trigger"
+          tooltip="No related impacts with map data"
+          placement="top"
+          container="body"
+          *ngIf="!canShowImpacts">
+      <button class="indicators-trigger-button disabled button-icon-only"><span class="icon icon-map-marked-alt"></span></button>
+    </span>
+    <span class="map-impacts-trigger"
+          tooltip="See related impacts on a map"
+          placement="top"
+          container="body"
+          *ngIf="canShowImpacts">
+      <button class="indicators-trigger-button button-icon-only" (click)="openMapModal()"><span class="icon icon-map-marked-alt"></span></button>
+    </span>
+  </div>
 </div>
 
 <div class="grouped-risk-summary">
@@ -76,3 +92,8 @@
     <button class="button" (click)="goToIndicators()">See all climate data</button>
   </footer>
 </app-modal-template>
+
+<app-impact-map-modal #impactsMapModal
+  title="Maps related to {{ modalRisk?.weather_event.name | lowercase }}"
+  [impacts]="impacts">
+</app-impact-map-modal>

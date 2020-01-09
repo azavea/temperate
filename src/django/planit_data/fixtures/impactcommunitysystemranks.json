@@ -1,0 +1,172 @@
+[
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 1,
+    "fields": {
+        "georegion": 7,
+        "community_system": 8,
+        "impact": 5,
+        "order": 3
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 2,
+    "fields": {
+        "georegion": 7,
+        "community_system": 8,
+        "impact": 15,
+        "order": 1
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 3,
+    "fields": {
+        "georegion": 7,
+        "community_system": 1,
+        "impact": 3,
+        "order": 10
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 4,
+    "fields": {
+        "georegion": 7,
+        "community_system": 4,
+        "impact": 12,
+        "order": 15
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 5,
+    "fields": {
+        "georegion": 7,
+        "community_system": 14,
+        "impact": 2,
+        "order": 2
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 6,
+    "fields": {
+        "georegion": 7,
+        "community_system": 2,
+        "impact": 6,
+        "order": 30
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 7,
+    "fields": {
+        "georegion": 7,
+        "community_system": 8,
+        "impact": 16,
+        "order": 5
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 8,
+    "fields": {
+        "georegion": 7,
+        "community_system": 2,
+        "impact": 3,
+        "order": 11
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 9,
+    "fields": {
+        "georegion": 7,
+        "community_system": 4,
+        "impact": 1,
+        "order": 8
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 10,
+    "fields": {
+        "georegion": 7,
+        "community_system": 15,
+        "impact": 1,
+        "order": 20
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 11,
+    "fields": {
+        "georegion": 7,
+        "community_system": 11,
+        "impact": 1,
+        "order": 50
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 12,
+    "fields": {
+        "georegion": 7,
+        "community_system": 1,
+        "impact": 1,
+        "order": 4
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 13,
+    "fields": {
+        "georegion": 7,
+        "community_system": 10,
+        "impact": 1,
+        "order": 51
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 14,
+    "fields": {
+        "georegion": 7,
+        "community_system": 7,
+        "impact": 6,
+        "order": 31
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 15,
+    "fields": {
+        "georegion": 7,
+        "community_system": 10,
+        "impact": 3,
+        "order": 52
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 16,
+    "fields": {
+        "georegion": 7,
+        "community_system": 21,
+        "impact": 3,
+        "order": 100
+    }
+},
+{
+    "model": "planit_data.impactcommunitysystemrank",
+    "pk": 17,
+    "fields": {
+        "georegion": 7,
+        "community_system": 4,
+        "impact": 3,
+        "order": 7
+    }
+}
+]

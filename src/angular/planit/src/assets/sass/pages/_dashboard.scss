@@ -53,8 +53,47 @@ app-dashboard {
     flex-wrap: wrap;
     justify-content: space-between;
 
+    &.aside-minimap {
+      font-weight: $font-weight-bold;
+      justify-content: center;
+
+      .minimap-subheader {
+        font-size: $text-small;
+        color: $page-title-small-color;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+        margin-bottom: 0;
+        letter-spacing: 2px;
+      }
+
+      .minimap-org-name {
+        font-size: $text-large;
+        text-align: center;
+        width: 100%;
+      }
+    }
+
     p {
       flex: 1 1 100%;
+    }
+
+    .minimap-container {
+      max-width: 20rem;
+      overflow: hidden;
+      align-items: center;
+      flex: 1 1 100%;
+      margin-top: -80px;
+      margin-bottom: 2rem;
+      line-height: 0;
+      border-radius: 100%;
+      border: 2px solid $neutral-1;
+      box-shadow: 0 -2px 2px solid $neutral-2;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
     }
   }
 
@@ -65,7 +104,7 @@ app-dashboard {
       margin-right: 2px;
     }
   }
-  
+
   .nav-tabs {
     display: flex;
   }
@@ -80,7 +119,7 @@ app-dashboard {
   .tab-content {
     padding-bottom: 0;
   }
-  
+
   .tab-assessment {
     padding-bottom: $space-medium;
   }
@@ -93,7 +132,7 @@ app-dashboard {
       th:nth-child(2) {
         width: 40%;
       }
-      
+
       // Hack so that the help icon doesn't get its own line
       @media all and (min-width: 68.125em) and (max-width: 75.188em) {
         th:nth-child(3), th:nth-child(4) {

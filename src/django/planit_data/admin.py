@@ -1,10 +1,20 @@
 from django.contrib import admin
+from django.contrib.postgres.fields import JSONField
+
+from jsoneditor.forms import JSONEditor
 
 from .models import (
+    ClimateAssessmentRegion,
     CommunitySystem,
     Concern,
+    County,
     DefaultRisk,
     GeoRegion,
+    Impact,
+    ImpactCommunitySystemRank,
+    ImpactMapLayer,
+    ImpactMapLegendRow,
+    ImpactWeatherEventRank,
     Indicator,
     OrganizationAction,
     OrganizationRisk,
@@ -16,6 +26,7 @@ from .models import (
 
 for Model in (Concern,
               GeoRegion,
+              Impact,
               Indicator,
               RelatedAdaptiveValue,
               WeatherEventRank,
@@ -23,10 +34,49 @@ for Model in (Concern,
     admin.site.register(Model)
 
 
+class ImpactCommunitySystemInline(admin.TabularInline):
+    model = ImpactCommunitySystemRank
+    extra = 1
+
+
+class ImpactWeatherEventInline(admin.TabularInline):
+    model = ImpactWeatherEventRank
+    extra = 1
+
+
+class ImpactMapLegendInline(admin.TabularInline):
+    model = ImpactMapLegendRow
+    extra = 1
+
+
+@admin.register(ClimateAssessmentRegion)
+class ClimateAssessmentRegionAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    exclude = ['geom']
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditor},
+    }
+    inlines = [ImpactCommunitySystemInline, ImpactWeatherEventInline]
+
+
 @admin.register(CommunitySystem)
 class CommunitySystemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'display_class',)
     list_editable = ('display_class',)
+
+
+@admin.register(County)
+class CountyAdmin(admin.ModelAdmin):
+    list_display = ('geoid', 'name', 'state_fips',)
+    search_fields = ('name',)
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditor},
+    }
+
+
+@admin.register(ImpactMapLayer)
+class ImpactMapLayerAdmin(admin.ModelAdmin):
+    inlines = [ImpactMapLegendInline]
 
 
 @admin.register(DefaultRisk)

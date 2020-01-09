@@ -1,0 +1,16 @@
+<input
+    class="form-control"
+    autocomplete="forced-false"
+    placeholder="Enter a location"
+    [(ngModel)]="input"
+    (blur)="itemBlurred()"
+    (typeaheadOnBlur)="itemBlurred()"
+    (typeaheadOnSelect)="itemSelected($event)"
+    [typeahead]="geocoder"
+    [typeaheadOptionField]="'text'"
+    [typeaheadMinLength]="input.length > 0 ? 0 : 1"
+    (typeaheadNoResults)="noResults($event)"
+    [typeaheadScrollable]="true"
+    [typeaheadWaitMs]="100"
+    [typeaheadOptionsInScrollableView]="5"
+/>

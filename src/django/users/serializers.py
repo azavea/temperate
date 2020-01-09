@@ -31,6 +31,44 @@ def get_org_from_context(context):
     return user.primary_organization
 
 
+def get_location(location_data):
+    try:
+        location = PlanItLocation.objects.from_point(
+            location_data['name'],
+            location_data['admin'],
+            location_data['point'],
+        )
+    except HTTPError as error:
+        # A 404 error indicates there are no map cells for this point
+        # Any other error we should let the client handle
+        if error.response.status_code == 404:
+            raise serializers.ValidationError({
+                'location': 'No climate data for this location'
+            })
+        raise
+    return location
+
+
+def get_location_for_bounds(bounds):
+    # Use the centroid if possible, but it's more important that the point is
+    # contained inside the bounds
+    point = bounds.centroid
+    if not bounds.contains(point):
+        point = bounds.point_on_surface
+
+    try:
+        location = PlanItLocation.objects.from_point('', '', point)
+    except HTTPError as error:
+        # A 404 error indicates there are no map cells for this point
+        # Any other error we should let the client handle
+        if error.response.status_code == 404:
+            raise serializers.ValidationError({
+                'bounds': 'No climate data for this area'
+            })
+        raise
+    return location
+
+
 class PasswordResetSerializer(AuthPasswordResetSerializer):
     """
     Overrides the django-rest-auth password reset serializer to send HTML emails
@@ -181,20 +219,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         # Organization doesn't have an `invites` field.
         validated_data.pop('invites', [])
         instance = PlanItOrganization.objects.create(**validated_data)
-        try:
-            instance.location = PlanItLocation.objects.from_point(
-                location_data['name'],
-                location_data['admin'],
-                location_data['point'],
-            )
-        except HTTPError as error:
-            # A 404 error indicates there are no map cells for this point
-            # Any other error we should let the client handle
-            if error.response.status_code == 404:
-                raise serializers.ValidationError({
-                    'location': 'No climate data for this location'
-                })
-            raise
+        instance.location = get_location(location_data)
+        instance.creator_location_name = location_data['name']
+        instance.creator_location_admin = location_data['admin']
 
         instance.save()
 
@@ -203,19 +230,31 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
         return instance
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         location_data = validated_data.pop('location')
         for k, v in validated_data.items():
             setattr(instance, k, v)
-        instance.location = PlanItLocation.objects.from_point(
-            location_data['name'],
-            location_data['admin'],
-            location_data['point'],
-        )
-        instance.save()
 
-        if 'weather_events' in self.initial_data:
+        if validated_data.get('bounds'):
+            updated_location = get_location_for_bounds(validated_data['bounds'])
+        else:
+            updated_location = get_location(location_data)
+
+        if instance.location_id != updated_location.pk:
+            # If the old location was only used by this organization, we can safely delete it
+            loc_orgs = list(instance.location.planitorganization_set.values_list('pk', flat=True))
+            if loc_orgs == [instance.pk]:
+                instance.location.delete()
+
+            instance.location = updated_location
+            # Reimport template weather events for new location
+            instance.weather_events.all().delete()
+            instance.import_weather_events()
+        elif 'weather_events' in self.initial_data:
             instance.update_weather_events(self.initial_data['weather_events'])
+
+        instance.save()
 
         return instance
 
@@ -227,10 +266,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanItOrganization
-        fields = ('id', 'created_at', 'name', 'location', 'units', 'invites',
-                  'subscription', 'subscription_end_date', 'subscription_pending',
-                  'plan_due_date', 'plan_name', 'plan_hyperlink', 'plan_setup_complete',
-                  'community_systems', 'weather_events', 'users',)
+        fields = ('id', 'created_at', 'name', 'location', 'creator_location_name',
+                  'creator_location_admin', 'units', 'invites', 'subscription',
+                  'subscription_end_date', 'subscription_pending', 'plan_due_date',
+                  'plan_name', 'plan_hyperlink', 'plan_setup_complete', 'community_systems',
+                  'weather_events', 'users', 'bounds',)
         read_only_fields = ('subscription_end_date', 'subscription_pending', 'users',)
 
 

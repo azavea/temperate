@@ -18,6 +18,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from planit_data.models import (
     CommunitySystem,
     Concern,
+    County,
+    Impact,
     OrganizationAction,
     OrganizationRisk,
     OrganizationWeatherEvent,
@@ -26,7 +28,9 @@ from planit_data.models import (
 )
 from planit_data.serializers import (
     ConcernSerializer,
+    CountySerializer,
     CommunitySystemSerializer,
+    ImpactSerializer,
     OrganizationRiskSerializer,
     OrganizationActionSerializer,
     OrganizationWeatherEventSerializer,
@@ -394,3 +398,35 @@ class WeatherEventViewSet(ReadOnlyModelViewSet):
             'concern',
             'indicators'
         ).order_by('name')
+
+
+class CountyViewSet(ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CountySerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        org_states = County.objects.get_state_fips(self.request.user.primary_organization)
+        return County.objects.filter(state_fips__in=org_states)
+
+
+class ImpactViewSet(ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ImpactSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        org_states = County.objects.get_state_fips(self.request.user.primary_organization)
+        impact_filter = (
+            Q(map_layer=None) |
+            Q(map_layer__state_fips='') |
+            Q(map_layer__state_fips__in=org_states)
+        )
+        return Impact.objects.filter(impact_filter).prefetch_related(
+            'community_system_ranks',
+            'community_system_ranks__georegion',
+            'map_layer',
+            'map_layer__legend',
+            'weather_event_ranks',
+            'weather_event_ranks__georegion',
+        )

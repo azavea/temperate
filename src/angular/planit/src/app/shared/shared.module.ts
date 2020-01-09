@@ -7,6 +7,7 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { BsDropdownModule, ModalModule, TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { AngularOpenlayersModule  } from 'ngx-openlayers';
 import { ChartsModule } from '../climate-api/charts/charts.module';
 
 import { AdaptiveNeedBoxComponent } from './adaptive-need-box/adaptive-need-box.component';
@@ -25,7 +26,10 @@ import {
   FreeformMultiselectComponent
 } from './freeform-multiselect/freeform-multiselect.component';
 import { GmapAutocompleteDirective } from './gmap-autocomplete/gmap-autocomplete.directive';
+import { GmapStaticMapComponent } from './gmap-static-map/gmap-static-map.component';
 import { HelpModalComponent } from './help-modal/help-modal.component';
+import { ImpactMapModalComponent } from './impact-map/impact-map-modal.component';
+import { ImpactMapComponent } from './impact-map/impact-map.component';
 import { IndicatorChartComponent } from './indicator-chart/indicator-chart.component';
 import { LDProgressbarDirective } from './ldProgressbar/ld-progressbar.directive';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -34,6 +38,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { NewUserFormComponent } from './new-user-form/new-user-form.component';
 import { OptionDropdownComponent } from './option-dropdown/option-dropdown.component';
 import { OrgDropdownComponent } from './org-dropdown/org-dropdown.component';
+import {
+  OrgLocationGeocoderComponent
+} from './org-location-geocoder/org-location-geocoder.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
 import {
   PasswordValidatorPopoverComponent
@@ -50,6 +57,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
 
 @NgModule({
   imports: [
+    AngularOpenlayersModule,
     CollapseModule,
     CommonModule,
     RouterModule,
@@ -60,7 +68,6 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ModalModule,
     NouisliderModule,
     PopoverModule,
-    RouterModule,
     TooltipModule,
     TypeaheadModule,
   ],
@@ -75,6 +82,9 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     GmapAutocompleteDirective,
+    GmapStaticMapComponent,
+    ImpactMapComponent,
+    ImpactMapModalComponent,
     HelpModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
@@ -84,6 +94,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     OrgDropdownComponent,
+    OrgLocationGeocoderComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,
@@ -104,7 +115,10 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     ForceCollapseChartContainerComponent,
     FreeformMultiselectComponent,
     GmapAutocompleteDirective,
+    GmapStaticMapComponent,
     HelpModalComponent,
+    ImpactMapComponent,
+    ImpactMapModalComponent,
     IndicatorChartComponent,
     LDProgressbarDirective,
     LoginFormComponent,
@@ -113,6 +127,7 @@ import { UserEmailsComponent } from './user-emails/user-emails.component';
     NewUserFormComponent,
     OptionDropdownComponent,
     OrgDropdownComponent,
+    OrgLocationGeocoderComponent,
     PasswordResetFormComponent,
     PasswordValidatorDirective,
     PasswordValidatorPopoverComponent,

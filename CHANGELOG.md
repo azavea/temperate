@@ -5,9 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
-## [Unreleased]
+## [1.11.0] - 2020-01-09
+### Added
+ - Updated Plan Wizard to allow selecting Organization boundaries
+ - Added map page
+ - Added map modal to Risks on Dashboard, Assessment Overview & Risk Wizard pages
+ - Added County & ClimateAssessmentRegion models/fixtures
+ - Added County GeoJSON API endpoint
+ - Added mini map to dashboard
+ - Added Impact & related models/fixtures
+ - Display related impacts in Risk wizard & vulnerability assessment overview
+ - Switched from Google Places to ESRI geocoder
+ - Added 'geocode_organizations' management command
+ - Added tribal areas and county layers to the organization area map
+### Fixed
+ - Fixed city profile missing from dashboard
+### Changed
+ - Updated API distance threshold to 30 miles
 
 ## [1.10.0] - 2019-09-03
+### Changed
  - Updated Node.js to version 10
  - Updated Angular to version 8
  - The `climate-change-components` library is now a part of this project as the `climate-api` module instead of being installed as an NPM dependency
@@ -151,7 +168,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.9.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.11.0...HEAD
+[1.11.0]: https://github.com/azavea/temperate/compare/1.10.0...1.11.0
 [1.10.0]: https://github.com/azavea/temperate/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/azavea/temperate/compare/1.8.0...1.9.0
 [1.8.0]: https://github.com/azavea/temperate/compare/1.7.0...1.8.0

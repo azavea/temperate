@@ -1,0 +1,249 @@
+[
+{
+    "model": "planit_data.impact",
+    "pk": 1,
+    "fields": {
+        "label": "Maximum number of consecutive months of mild drought or worse",
+        "external_download_link": "",
+        "tagline_positive": "Drought durations have increased from {baseline_value:.0f} to {end_value:.0f} months in {region_name} since 1976",
+        "tagline_negative": "Drought durations have decreased from {baseline_value:.0f} to {end_value:.0f} months in {region_name} since 1976",
+        "tagline_no_change": "Droughts have lasted on average {baseline_value:.0f} months in {region_name} since 1976",
+        "attribute": "drought_duration_impact",
+        "region": "county"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 2,
+    "fields": {
+        "label": "Number of people within FEMA-designated flood hazard area",
+        "external_download_link": "",
+        "tagline_positive": "There were {value:,.0f} people in {region_name} living in a FEMA-designated floodzone as of 2011",
+        "tagline_negative": "There were {value:,.0f} people in {region_name} living in a FEMA-designated floodzone as of 2011",
+        "tagline_no_change": "There were {value:,.0f} people in {region_name} living in a FEMA-designated floodzone as of 2011",
+        "attribute": "fema_floodzone_population_impact",
+        "region": "county"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 3,
+    "fields": {
+        "label": "Number of precipitation days",
+        "external_download_link": "",
+        "tagline_positive": "",
+        "tagline_negative": "",
+        "tagline_no_change": "",
+        "attribute": "",
+        "region": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 4,
+    "fields": {
+        "label": "Air Quality: Ozone",
+        "external_download_link": "",
+        "tagline_positive": "",
+        "tagline_negative": "",
+        "tagline_no_change": "",
+        "attribute": "",
+        "region": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 5,
+    "fields": {
+        "label": "Air Quality: PM2.5",
+        "external_download_link": "",
+        "tagline_positive": "",
+        "tagline_negative": "",
+        "tagline_no_change": "",
+        "attribute": "",
+        "region": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 6,
+    "fields": {
+        "label": "Drinking Water Contaminants",
+        "external_download_link": "",
+        "tagline_positive": "",
+        "tagline_negative": "",
+        "tagline_no_change": "",
+        "attribute": "",
+        "region": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 7,
+    "fields": {
+        "label": "% decrease in barley yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for barley will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for barley will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for barley will not change significantly by 2035",
+        "attribute": "barley_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 8,
+    "fields": {
+        "label": "% decrease in corn yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for corn will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for corn will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for corn will not change significantly by 2035",
+        "attribute": "corn_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 9,
+    "fields": {
+        "label": "% decrease in hay yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for hay will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for hay will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for hay will not change significantly by 2035",
+        "attribute": "hay_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 10,
+    "fields": {
+        "label": "% decrease in sorghum yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for sorghum will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for sorghum will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for sorghum will not change significantly by 2035",
+        "attribute": "sorghum_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 11,
+    "fields": {
+        "label": "% decrease in soybean yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for soybeans will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for soybeans will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for soybeans will not change significantly by 2035",
+        "attribute": "soybean_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 12,
+    "fields": {
+        "label": "% decrease in wheat yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for wheat will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for wheat will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for wheat will not change significantly by 2035",
+        "attribute": "wheat_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 13,
+    "fields": {
+        "label": "Cost of damage to coastal properties",
+        "external_download_link": "",
+        "tagline_positive": "Without action, economic damage to coastal properties in {region_name} could total ${no_adaptation_sum} from 2000-2035. Protective adaptation measures could prevent ${difference} of damage.",
+        "tagline_negative": "Even if protective adaptation measures are undertaken, coastal properties in {region_name} will likely experience economic damage totaling ${no_adaptation_sum} from 2000-2035.",
+        "tagline_no_change": "Even if protective adaptation measures are undertaken, coastal properties in {region_name} will likely experience economic damage totaling ${no_adaptation_sum} from 2000-2035.",
+        "attribute": "coastal_property_damage_impact",
+        "region": "county"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 14,
+    "fields": {
+        "label": "Economic damanges of inland flooding",
+        "external_download_link": "",
+        "tagline_positive": "Average yearly inland flooding damages will increase by ${value:,.0f} by 2035, from a baseline of ${baseline_value:,.0f}",
+        "tagline_negative": "Average yearly inland flooding damages will decrease by ${value:,.0f} by 2035, from a baseline of ${baseline_value:,.0f}",
+        "tagline_no_change": "Average yearly inland flooding damages will be ${baseline_value:,.0f} in 2035",
+        "attribute": "inland_flooding_annual_damages_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 15,
+    "fields": {
+        "label": "Wildfire Hazard Potential",
+        "external_download_link": "",
+        "tagline_positive": "",
+        "tagline_negative": "",
+        "tagline_no_change": "",
+        "attribute": "",
+        "region": ""
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 16,
+    "fields": {
+        "label": "Emergency room department visits  for asthma per 10,000 people",
+        "external_download_link": "",
+        "tagline_positive": "Asthma-related ER visits have increased by {value:.2n}% from {baseline_year} to {end_year}",
+        "tagline_negative": "Asthma-related ER visits have decreased by {value:.2n}% from {baseline_year} to {end_year}",
+        "tagline_no_change": "Asthma-related ER visits have not changed from {baseline_year} to {end_year}",
+        "attribute": "asthma_er_visits_impact",
+        "region": "county"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 17,
+    "fields": {
+        "label": "% decrease in rice yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for rice will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for rice will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for rice will not change significantly by 2035",
+        "attribute": "rice_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 18,
+    "fields": {
+        "label": "% decrease in potato yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for potatoes will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for potatoes will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for potatoes will not change significantly by 2035",
+        "attribute": "potato_yields_impact",
+        "region": "nca"
+    }
+},
+{
+    "model": "planit_data.impact",
+    "pk": 19,
+    "fields": {
+        "label": "% decrease in cotton yields",
+        "external_download_link": "",
+        "tagline_positive": "Yields for cotton will increase by {value:.2n}% by 2035",
+        "tagline_negative": "Yields for cotton will decrease by {value:.2n}% by 2035",
+        "tagline_no_change": "Yields for cotton will not change significantly by 2035",
+        "attribute": "cotton_yields_impact",
+        "region": "nca"
+    }
+}
+]

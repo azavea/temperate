@@ -3,7 +3,9 @@
 @import 'ngx-bootstrap';
 @import '~ngx-toastr/toastr';
 
- @import "~nouislider/distribute/nouislider.min.css";
+ @import '~nouislider/distribute/nouislider.min.css';
+
+ @import '~ol/ol.css';
 
 /* * * *
  * Utilities
@@ -42,6 +44,7 @@
  * Components styling
  * * * */
 @import
+  'components/button',
   'components/dashboard/city-profile-summary',
   'components/dashboard/grouped-risk',
   'components/indicators/model-modal',
@@ -51,13 +54,13 @@
   'components/marketing/faq',
   'components/marketing/marketing-cta',
   'components/shared/app-chart',
+  'components/shared/impact-map',
   'components/shared/ld-progressbar',
   'components/shared/option-dropdown',
   'components/shared/plan-cards',
   'components/alert',
   'components/action-steps/action-picker',
   'components/wizard',
-  'components/button',
   'components/card',
   'components/action-steps/action-card',
   'components/dropdown',

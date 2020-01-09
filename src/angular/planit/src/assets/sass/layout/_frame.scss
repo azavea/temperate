@@ -37,7 +37,7 @@
     width: 100%;
   }
 }
-  
+
 .page-template {
   @media all and (min-width: 45.625em) {
     margin: auto;
@@ -46,7 +46,7 @@
 
   .page-header {
     margin: 0 $space-xxlarge;
-    
+
     @media all and (min-width: 31.250em) {
       margin: 0;
     }
@@ -74,5 +74,9 @@
     background-color: $main-background;
     position: relative;
     min-height: 1px; // IE11 hack per https://github.com/philipwalton/flexbugs/issues/75
+
+    &.full-height {
+      flex: 1;
+    }
   }
 }

@@ -46,18 +46,7 @@ then
 
         docker-compose \
             run --rm --entrypoint python \
-            django manage.py loaddata \
-                    georegions \
-                    indicators \
-                    concerns \
-                    weatherevents \
-                    weathereventrank \
-                    communitysystems \
-                    defaultrisks \
-                    collaborators \
-                    relatedadaptivevalues \
-                    actioncategories \
-                    actiontypes
+            django manage.py load_fixtures
 
         docker-compose \
             run --rm --entrypoint python \
@@ -74,9 +63,5 @@ then
 
         # Build Nginx
         docker-compose build nginx
-
-        # Build Area Indicators
-        echo "Building Scala assembly JAR"
-        docker-compose run --rm --no-deps sbt ";update ;api/assembly"
     fi
 fi

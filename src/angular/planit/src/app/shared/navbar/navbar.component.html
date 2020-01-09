@@ -10,6 +10,10 @@
        *ngIf="showLink()"
        routerLink="/indicators"
        routerLinkActive="current">Climate data</a>
+    <a class="button button-inverse-light"
+       *ngIf="showLink()"
+       routerLink="/map"
+       routerLinkActive="current">Maps</a>
     <app-org-dropdown *ngIf="showOrgDropdown()"></app-org-dropdown>
     <app-user-dropdown></app-user-dropdown>
   </div>

@@ -9,23 +9,9 @@
 <div class="step-content" [formGroup]="form">
   <div class="form-control-container">
     <label>Find your city</label>
-    <input
-        class="form-control"
-        formControlName="location"
-        appGmapAutocomplete
-        [options]="{componentRestrictions: {'country': ['us', 'pr', 'vi', 'gu', 'mp']}}"
-        (placeChanged)="itemSelected($event)"
-        (blur)="itemBlurred()"
-    />
+    <app-org-location-geocoder formControlName="location"></app-org-location-geocoder>
     <div class="form-control-hint">
-      <div *ngIf="noResults">
-        Please select an available city or
-        <app-add-city-modal>request that we add one.</app-add-city-modal>
-        <div *ngIf="!form.controls.location.errors || !form.controls.location.errors.city">
-          City not found.
-        </div>
-      </div>
-      <div *ngIf="!noResults">
+      <div>
         Please note that we don't have all cities at this time.
         <app-add-city-modal>Not seeing yours?</app-add-city-modal>
       </div>

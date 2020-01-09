@@ -18,7 +18,7 @@
       <div class="suggested-actions-overview">
         <div class="recommended">Recommended</div>
         <h2 class="title">Begin with suggested actions</h2>
-        <p class="description">We&rsquo;ve gathered actions that some cities have undertaken over the years and will recommend some for you to start with.</p>
+        <p class="description">We’ve gathered actions that other municipalities have undertaken.</p>
       </div>
       <button *ngIf="!loading" class="button button-positive suggested-actions-button" (click)="showPrompt = false">
         Get started
@@ -63,7 +63,7 @@
   </div>
   <div class="modal-body" *ngIf="!loading">
     <p class="suggested-actions-description">
-      When faced with similar challenges, cities in your region have chosen to undertake the following actions.
+      When faced with similar challenges, municipalities in your region have chosen to undertake the following actions.
     </p>
     <div class="suggested-action" *ngFor="let suggestion of suggestedActions">
       <div class="action-main">

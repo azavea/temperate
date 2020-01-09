@@ -28,9 +28,9 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
 
   public form: FormGroup;
   public key = PlanStepKey.Hazards;
-  public navigationSymbol = '2';
+  public navigationSymbol = '3';
   public organization: Organization;
-  public title = 'Your city’s top hazards';
+  public title = 'Top hazards';
   public tooltipText = {
     explainHazardConcerns: 'See the Methodology page for more information.'
   };
@@ -39,10 +39,10 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
 
   constructor(protected session: WizardSessionService<Organization>,
               protected orgService: OrganizationService,
+              protected weatherEventService: WeatherEventService,
               protected toastr: ToastrService,
-              private weatherEventService: WeatherEventService,
               private fb: FormBuilder) {
-    super(session, orgService, toastr);
+    super(session, orgService, weatherEventService, toastr);
   }
 
   ngOnInit() {
@@ -51,7 +51,8 @@ export class HazardsStepComponent extends PlanWizardStepComponent<HazardsFormMod
     this.setupForm(this.fromModel(this.organization));
     this.weatherEventService.list().subscribe(events => {
       this.weatherEvents = events;
-      const orgWeatherEvents = this.getOrganizationEvents(this.organization);
+    });
+    this.weatherEventService.rankedEvents().subscribe(orgWeatherEvents => {
       this.form.controls.selectedEvents.setValue(orgWeatherEvents);
     });
   }

@@ -91,6 +91,14 @@
             {
                 "name": "PLANIT_APP_HOME",
                 "value": "${planit_app_home}"
+            },
+            {
+                "name": "ESRI_CLIENT_ID",
+                "value": "${esri_client_id}"
+            },
+            {
+                "name": "ESRI_CLIENT_SECRET",
+                "value": "${esri_client_secret}"
             }
         ],
         "logConfiguration": {

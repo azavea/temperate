@@ -1,3 +1,5 @@
+import { Polygon } from 'geojson';
+
 import { OrgUnitType } from '../constants/units-conversion';
 import { Location } from './location.model';
 import { OrgSubscription } from './org-subscription.model';
@@ -10,6 +12,9 @@ export class Organization {
   plan_setup_complete?: boolean;
   units: OrgUnitType;
   location: Location;
+  creator_location_name?: string;
+  creator_location_admin?: string;
+  bounds?: Polygon;
   subscription: OrgSubscription;
   subscription_end_date?: Date;
   subscription_pending: boolean;
@@ -33,6 +38,13 @@ export class Organization {
     if (this.location) {
       this.location = new Location(this.location);
     }
+  }
+
+  public getLocationName() {
+    if (!this.location || !this.location.getFullName()) {
+      return `${this.creator_location_name}, ${this.creator_location_admin}`;
+    }
+    return this.location.getFullName();
   }
 
   public hasPlan(): boolean {
