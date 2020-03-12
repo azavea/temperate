@@ -31,7 +31,7 @@
           <span class="swatch" [style.backgroundColor]="row.color"></span>
           &nbsp;
           <span *ngIf="row.label">{{ row.label }}</span>
-          <span *ngIf="row.min_value != undefined && row.max_value != undefined">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
+          <span *ngIf="!row.label">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
         </li>
       </ul>
 

@@ -29,7 +29,7 @@
     "model": "planit_data.impact",
     "pk": 3,
     "fields": {
-        "label": "Number of precipitation days",
+        "label": "Number of extreme precipitation days",
         "external_download_link": "",
         "tagline_positive": "",
         "tagline_negative": "",
