@@ -289,7 +289,10 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   private styleFeature(feature: Feature, val: number) {
-    const row = this.layer.legend.find(r => val >= r.min_value && val < r.max_value + 1);
+    const row = this.layer.legend.find(r => (
+      (r.min_value === null || val >= r.min_value)
+      && (r.max_value === null || val < r.max_value + 1)
+    ));
     const zoom = this.map.instance.getView().getZoom();
 
     let strokeColor;

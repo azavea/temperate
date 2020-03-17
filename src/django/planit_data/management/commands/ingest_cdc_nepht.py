@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 # Need to remove formatting from some values
                 value = float(row['Value'].replace(',', ''))
                 # Not every export has FIPS codes with the correct leading 0
-                geoid.zfill(5)
+                geoid = geoid.zfill(5)
                 county_values[geoid][year] = value
 
             is_baseline = all(len(yearly_values) == 1

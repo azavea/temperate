@@ -95,6 +95,7 @@ class ImpactMapLayer(models.Model):
     external_link = models.URLField(blank=True)
     state_fips = models.CharField(max_length=2, blank=True, default='')
     legend_units = models.CharField(max_length=256, blank=True)
+    layer_description = models.TextField(blank=False)
 
     def __str__(self):
         return self.impact.label

@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## [Unreleased]
+### Updated
+ - Updated map page to show layer descriptions
+ - Change data source for extreme precipitation layer
+
 ## [1.11.0] - 2020-01-09
 ### Added
  - Updated Plan Wizard to allow selecting Organization boundaries
