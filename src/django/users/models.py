@@ -8,6 +8,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
 from django.contrib.postgres.fields.array import ArrayField
+from django.contrib.postgres.fields.citext import CIEmailField
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -348,7 +349,7 @@ class PlanItUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-    email = models.EmailField('email address', unique=True)
+    email = CIEmailField('email address', unique=True)
     organizations = models.ManyToManyField('PlanItOrganization',
                                            related_name='users',
                                            blank=True)
