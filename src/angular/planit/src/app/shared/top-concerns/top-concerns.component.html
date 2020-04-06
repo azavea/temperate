@@ -4,7 +4,7 @@
 <div class="card-content top-concerns empty-state"
      *ngIf="!(weatherEvents?.length > 0) && (areConcernsCalculated >= 2)">
      <p class="empty-state-header">None yet</p>
-     <p class="empty-state-text">Choose hazards that you believe are your city&rsquo;s top concerns.</p>
+     <p class="empty-state-text">Choose hazards that you believe are your location’s top concerns.</p>
 </div>
 <div class="top-concerns">
   <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}"
