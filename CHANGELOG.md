@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Updated
  - Updated map page to show layer descriptions
  - Change data source for extreme precipitation layer
+ - Made PlanItUser.email case insensitive
 
 ## [1.11.0] - 2020-01-09
 ### Added
