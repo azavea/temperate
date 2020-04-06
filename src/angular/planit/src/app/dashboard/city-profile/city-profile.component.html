@@ -1,7 +1,7 @@
 <div class="main-container">
   <main class="main-content city-profile" role="main">
     <header class="page-header">
-      <h1 class="page-title-large">City Profile</h1>
+      <h1 class="page-title-large">Location Details</h1>
       <p class="paragraph-intro">Enter information about your location, including any long-term goals you hope to achieve.</p>
       <p>These questions can be answered at any point in the process of developing your plan.</p>
       <button class="button button-primary" (click)="save()">Save changes</button>
@@ -13,7 +13,7 @@
         <!-- START About section -->
         <accordion-group [(isOpen)]="isOpen[sections.About]">
           <header accordion-heading>
-            <h2 class="panel-label">About your city</h2>
+            <h2 class="panel-label">About your location</h2>
             <span class="badge badge-danger" *ngIf="!cityProfile.sectionCompleted(sections.About)">
               {{ cityProfile.getSectionRequiredCount(sections.About) }} required
             </span>
@@ -77,14 +77,14 @@
           </div>
           <div class="form-control-container">
             <label for="sustainability-description">
-              Describe the sustainability goal of your city
+              Describe the sustainability goal of your community
             </label>
             <textarea id="sustainability-description" class="form-control" rows="6"
                    [(ngModel)]="cityProfile.about_sustainability_description"></textarea>
           </div>
           <div class="form-control-container">
             <label for="sustainability-progress">
-              Describe your city's progress on meeting the goal above
+              Describe your community’s progress on meeting the goal above
             </label>
             <textarea id="sustainability-progress" class="form-control" rows="6"
                    [(ngModel)]="cityProfile.about_sustainability_progress"></textarea>
@@ -112,7 +112,7 @@
           </header>
           <div class="form-control-container">
             <label for="assessment-status" class="profile-required">
-              Has your city already begun a vulnerability assessment?
+              Has your community already begun a vulnerability assessment?
             </label>
             <div id="assessment-status" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
               <button class="button button-primary" role="radio"
@@ -187,7 +187,7 @@
           </header>
           <div class="form-control-container">
             <label for="plan-status" class="profile-required">
-              Does your city have a plan that addresses adaptation?
+              Does your community have a plan that addresses adaptation?
             </label>
             <div id="plan-status" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
               <button class="button button-primary" role="radio"
@@ -224,7 +224,7 @@
           </header>
           <div class="form-control-container">
             <label for="action-status" class="profile-required">
-              Has your city identified specific adaptation actions?
+              Has your community identified specific adaptation actions?
             </label>
             <div id="action-status" class="button-group form-control-container" data-toggle="buttons" role="radiogroup">
               <button class="button button-primary" role="radio"
@@ -246,7 +246,7 @@
             </div>
             <div class="form-control-container">
               <label for="action-progress">
-                Describe your city's progress in undertaking these actions
+                Describe your community’s progress in undertaking these actions
               </label>
               <textarea id="action-progress" class="form-control" rows="6"
                      [(ngModel)]="cityProfile.action_prioritized_description"></textarea>

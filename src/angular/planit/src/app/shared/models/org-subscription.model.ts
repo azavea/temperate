@@ -64,7 +64,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 2900,
     header: '+ 10 hrs consulting',
     // tslint:disable-next-line:max-line-length
-    description: 'Need help interpreting data? Suggestions for what risks are most vital for your city to assess? The Insights package is great for cities who want a little more support and guidance as they create their adaptation plan.',
+    description: 'Need help interpreting data? Suggestions for what risks are most vital for your community to assess? The Insights package is great for communities in need of a little more support and guidance as they create their adaptation plan.',
     iconClass: 'icon-question',
     visible: true,
     yearlyValue: 1500
@@ -76,7 +76,7 @@ export const OrgSubscriptionOptions = new Map<OrgSubscription, OrgSubscriptionPl
     yearlyCost: 4200,
     header: '+ 20 hrs consulting',
     // tslint:disable-next-line:max-line-length
-    description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your city’s changing climate!',
+    description: 'Get guidance and support every step of the way. By the time you submit your plan, you will have a great handle on assessing hazards, prioritizing risks, and developing strategies for your community’s changing climate!',
     iconClass: 'icon-question',
     visible: true,
     yearlyValue: 3000

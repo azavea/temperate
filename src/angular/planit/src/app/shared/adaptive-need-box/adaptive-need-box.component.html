@@ -2,9 +2,9 @@
   <div class="popover-row">
     <p class="popover-title">How is <strong>adaptive need</strong> calculated?</p>
     <p>
-      Adaptive need represents a risk&rsquo;s priority, from yellow (lowest) to deep red 
-      (highest). Its value depends on the risk&rsquo;s <strong>potential impact</strong> 
-      and your city&rsquo;s <strong>adaptive capacity</strong> to manage it.
+      Adaptive need represents a risk’s priority, from yellow (lowest) to deep red
+      (highest). Its value depends on the risk’s <strong>potential impact</strong>
+      and your location’s <strong>adaptive capacity</strong> to manage it.
     </p>
   </div>
 
@@ -55,12 +55,12 @@
                 triggers="mouseenter:mouseleave"
       *ngIf="(potentialImpactBin !== undefined &&
              adaptiveCapacityBin !== undefined)">&nbsp;</span>
-<span class="adaptive-need-box-empty" 
+<span class="adaptive-need-box-empty"
       tooltip="You haven’t assessed this risk yet"
       placement="right"
       container="body"
       *ngIf="!potentialImpact || !adaptiveCapacity">&nbsp;</span>
-<span class="adaptive-need-box-unsure" 
+<span class="adaptive-need-box-unsure"
       tooltip="You answered unsure on the potential impact or adaptive capacity step of the vulnerability assessment wizard"
       placement="right"
       container="body"

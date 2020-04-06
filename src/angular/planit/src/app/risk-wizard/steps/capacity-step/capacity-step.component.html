@@ -4,7 +4,7 @@
   </div>
   <h3 class="step-title">Adaptive capacity</h3>
   <p *ngIf="!isDisabled">
-    Determine how capable you think your city is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
+    Determine how capable you think your community is at mitigating the future impact of <strong>{{ risk.weather_event?.name | lowercase }} on {{ risk.community_system?.name | lowercase }}</strong> here.
   </p>
 </div>
 
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="form-control-container">
-      <label for="adaptive-capacity-description">Describe your city's capacity to mitigate this hazard's impact<span class="optional">optional</span></label>
+      <label for="adaptive-capacity-description">Describe your community’s capacity to mitigate this hazard’s impact<span class="optional">optional</span></label>
       <textarea id="adaptive-capacity-description" formControlName="adaptive_capacity_description"></textarea>
     </div>
   </form>

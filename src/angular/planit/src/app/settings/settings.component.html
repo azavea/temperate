@@ -22,13 +22,13 @@
       </section>
 
       <section class="settings-section">
-        <h3>City and Organization</h3>
+        <h3>Organization</h3>
         <div class="form-control-container">
-          <label for="city">City</label>
+          <label for="city">Location</label>
           <input id="city" class="form-control" type="text" disabled value="{{ user.primary_organization.getLocationName() }}">
         </div>
         <div class="form-control-container">
-          <label for="organization-name">Organization/department</label>
+          <label for="organization-name">Name</label>
           <app-editable-input inputId="organization-name" [(value)]="user.primary_organization.name" (saved)="organizationSave()" (editted)="edit($event)"></app-editable-input>
         </div>
       </section>

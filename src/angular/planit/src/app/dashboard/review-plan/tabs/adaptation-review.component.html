@@ -89,12 +89,12 @@
           <span class="review-description">{{ risk.action?.getVisibilityLabel() || '--' }}</span>
         </div>
         <div class="review-item">
-          <span class="answer-label">Effect on your city&rsquo;s adaptive capacity:</span>
+          <span class="answer-label">Effect on your community’s adaptive capacity:</span>
           <div class="review-description" *ngIf="risk.action?.improvements_adaptive_capacity">{{ risk.action?.improvements_adaptive_capacity }}</div>
           <span class="review-description" *ngIf="!risk.action?.improvements_adaptive_capacity">--</span>
         </div>
         <div class="review-item">
-          <span class="answer-label">Reduction in this risk&rsquo;s potential impacts:</span>
+          <span class="answer-label">Reduction in this risk’s potential impacts:</span>
           <div class="review-description" *ngIf="risk.action?.improvements_impacts">{{ risk.action?.improvements_impacts }}</div>
           <span class="review-description" *ngIf="!risk.action?.improvements_impacts">--</span>
         </div>

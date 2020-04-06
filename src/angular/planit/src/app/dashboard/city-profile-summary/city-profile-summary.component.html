@@ -3,7 +3,7 @@
   <div class="aside-content all-complete" *ngIf="isDone(required) && isDone(overall)">
     <h3 class="aside-title" (click)="updateSummaries()">
       <span class="icon icon-ok-circled"></span>
-      City profile
+      Location details
     </h3>
     <a routerLink="/city-profile" class="button button-small">Manage</a>
   </div>
@@ -12,7 +12,7 @@
   <h3 class="aside-title"
       (click)="updateSummaries()"
       *ngIf="!isDone(required) || !isDone(overall)">
-      City profile
+      Location details
   </h3>
 
   <div class="aside-content in-progress" *ngIf="required && overall && !isDone(overall)">
