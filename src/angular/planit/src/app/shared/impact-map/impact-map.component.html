@@ -6,9 +6,6 @@
     <h1 *ngIf="showHeader">
       Maps
     </h1>
-    <p class="paragraph-intro">
-     Use the visualization input below to view location-based climate data for {{organization?.getLocationName()}}.
-    </p>
     <label class="label-viz" for="viz-select">
       Visualization
     </label>
@@ -23,6 +20,7 @@
 
 
     <ng-container *ngIf="layer">
+      <div>{{ layer.layer_description }}</div>
       <label class="label-legend" for="map-legend">
         Legend&nbsp;<span *ngIf="layer.legend_units" class="legend-units">({{ layer.legend_units }})</span>
       </label>
@@ -31,7 +29,7 @@
           <span class="swatch" [style.backgroundColor]="row.color"></span>
           &nbsp;
           <span *ngIf="row.label">{{ row.label }}</span>
-          <span *ngIf="row.min_value != undefined && row.max_value != undefined">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
+          <span *ngIf="!row.label">{{ row.min_value }} &ndash; {{ row.max_value }}</span>
         </li>
       </ul>
 

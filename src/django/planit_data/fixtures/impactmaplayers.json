@@ -5,14 +5,15 @@
     "fields": {
         "impact": 3,
         "layer_type": "county",
-        "attribution": "Centers for Disease Control and Prevention, accessed Oct 7, 2019",
+        "attribution": "CDC National Environmental Public Health Tracking Network",
         "url": "",
         "attribute": "extreme_precipitation_days",
         "max_zoom": null,
         "show_borders_at": null,
         "external_link": "https://ephtracking.cdc.gov/DataExplorer",
         "state_fips": "",
-        "legend_units": "days"
+        "legend_units": "days",
+        "layer_description": "Climate change is increasing heavy precipitation events in certain areas of the US, which can result in injuries, infectious disease, death and effects on mental health, as well as infrastructure and economic risks, water insecurity and harvest losses. On the map, higher values indicate more days per year of rainfall over 2 inches (1979-2016) and presumably greater risks to community health, economic security, infrastructure, and natural resources."
     }
 },
 {
@@ -28,7 +29,8 @@
         "show_borders_at": null,
         "external_link": "https://www.firelab.org/project/wildfire-hazard-potential",
         "state_fips": "",
-        "legend_units": ""
+        "legend_units": "",
+        "layer_description": "Increased warming, drought, and insect outbreaks, caused by or linked to climate change, have increased wildfires and impacts to people and ecosystems ranging from traumatic injury and respiratory impacts to loss of species, property and infrastructure. On the map, higher percentiles indicate relatively higher relative wildfire risk to highly valued resources and assets (2018) and presumably greater risks to community health, economic security, infrastructure, and natural resources."
     }
 },
 {
@@ -37,14 +39,15 @@
     "fields": {
         "impact": 4,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0",
+        "attribution": "CalEnviroScreen",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "ozoneP",
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-ozone",
         "state_fips": "06",
-        "legend_units": "percentile"
+        "legend_units": "percentile",
+        "layer_description": "Changes in the climate can result in weather conditions more conducive to higher levels of ground-level ozone (O3), the main ingredient of smog, which can cause lung irritation, inflammation, worsening of chronic health conditions, and premature deaths. On the map, higher percentiles indicate greater 3-year average concentration of ozone between May-October (2012-2014) and presumably greater risks to community health."
     }
 },
 {
@@ -53,14 +56,15 @@
     "fields": {
         "impact": 5,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0",
+        "attribution": "CalEnviroScreen",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "pmP",
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/air-quality-pm25",
         "state_fips": "06",
-        "legend_units": "percentile"
+        "legend_units": "percentile",
+        "layer_description": "Climate change is expected to alter several meteorological factors and increase the frequency and intensity of wildfires, which can lead to higher levels of Particulate Matter (PM2.5), very small particles of organic chemicals, dust, soot, and metals. These air pollutants can move deep into the lungs and result in adverse health outcomes, including heart and lung disease. On the map, higher percentiles indicate greater 3-year average concentration of PM2.5 (2012-2014) and presumably greater risks to community health."
     }
 },
 {
@@ -69,14 +73,15 @@
     "fields": {
         "impact": 6,
         "layer_type": "vectortile",
-        "attribution": "CalEnviroScreen 3.0",
+        "attribution": "CalEnviroScreen",
         "url": "https://temperate-tiles.s3.amazonaws.com/calenviroscreen/{z}/{x}/{y}.pbf",
         "attribute": "drinkP",
         "max_zoom": 8,
         "show_borders_at": 10,
         "external_link": "https://oehha.ca.gov/calenviroscreen/indicator/drinking-water-contaminants",
         "state_fips": "06",
-        "legend_units": "percentile"
+        "legend_units": "percentile",
+        "layer_description": "Climate change drives temperature increases and severe storms and related runoff, which can increase the level of bacteria, chemicals, and other pathogens and toxins in drinking water and cause illness and birth complications. Low income and rural communities, particularly those served by small community water systems, can be disproportionately exposed to contaminants in their drinking water. On the map, higher percentiles indicate greater concentration of contaminants (2005-2013) and presumably greater risks to community health."
     }
 }
 ]

@@ -21,4 +21,5 @@ export interface LayerConfig {
   attribution: string;
   legend_units?: string;
   legend: LegendRow[];
+  layer_description: string;
 }
