@@ -292,7 +292,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
     return new Style({
       stroke: new Stroke({
-        color: '#ed5c14',
+        color: '#cd00cd',
         width: '4'
       }),
       fill: new Fill({
