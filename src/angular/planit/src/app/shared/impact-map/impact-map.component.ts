@@ -288,6 +288,19 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
     return this.styleFeature(feature, val);
   }
 
+  styleBounds = (feature: Feature) => {
+
+    return new Style({
+      stroke: new Stroke({
+        color: '#ed5c14',
+        width: '4'
+      }),
+      fill: new Fill({
+        color: 'rgba(0,0,0,0)'
+      })
+    });
+  }
+
   private styleFeature(feature: Feature, val: number) {
     const row = this.layer.legend.find(r => (
       (r.min_value === null || val >= r.min_value)
@@ -304,7 +317,7 @@ export class ImpactMapComponent implements OnChanges, OnInit, AfterViewInit {
 
     return new Style({
       stroke: new Stroke({
-        color: strokeColor
+        color: 'rgba(255,255,255,0.4)'
       }),
       fill: new Fill({
         color: row.color
