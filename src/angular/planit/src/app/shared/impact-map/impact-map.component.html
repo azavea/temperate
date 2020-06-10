@@ -66,7 +66,7 @@
         <aol-view [zoom]="startingZoom">
           <aol-coordinate [x]="location.geometry.coordinates[0]" [y]="location.geometry.coordinates[1]" [srid]="wgs84"></aol-coordinate>
         </aol-view>
-        <aol-layer-vector [zIndex]="2">
+        <aol-layer-vector [zIndex]="2" [style]="styleBounds">
           <aol-source-vector #boundsSource>
           </aol-source-vector>
         </aol-layer-vector>
