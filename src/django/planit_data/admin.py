@@ -113,6 +113,15 @@ class OrganizationActionAdmin(admin.ModelAdmin):
                      'organization_risk__organization__name',
                      'organization_risk__organization__location__name')
 
+    # Need to select_related for Organization Risk or it will make entirely too many SQL queries
+    # Unfortunately not straight-forward to do for FK fields
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        qs = form.base_fields["organization_risk"].queryset
+        qs = qs.select_related("organization", "weather_event", "community_system")
+        form.base_fields["organization_risk"].queryset = qs
+        return form
+
 
 @admin.register(WeatherEvent)
 class WeatherEventAdmin(admin.ModelAdmin):
