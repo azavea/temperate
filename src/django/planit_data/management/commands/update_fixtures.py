@@ -7,10 +7,13 @@ from django.conf import settings
 FIXTURES = {
     'planit_data': [
         # Organized (filename, model_list)
+        ('indicators.json', ['planit_data.indicator']),
+        ('concerns.json', ['planit_data.concern']),
+        ('weatherevents.json', ['planit_data.weatherevent']),
+
         ('climateassessmentregions.json', ['planit_data.climateassessmentregion']),
         ('communitysystems.json', ['planit_data.communitysystem']),
         ('counties.json', ['planit_data.county']),
-        ('concerns.json', ['planit_data.concern']),
         ('defaultrisks.json', ['planit_data.defaultrisk']),
         ('georegions.json', ['planit_data.georegion']),
         ('impacts.json', ['planit_data.impact']),
@@ -18,10 +21,8 @@ FIXTURES = {
         ('impactmaplayers.json', ['planit_data.impactmaplayer']),
         ('impactmaplegendrows.json', ['planit_data.impactmaplegendrow']),
         ('impactweathereventranks.json', ['planit_data.impactweathereventrank']),
-        ('indicators.json', ['planit_data.indicator']),
         ('relatedadaptivevalues.json', ['planit_data.relatedadaptivevalue']),
         ('weathereventrank.json', ['planit_data.weathereventrank']),
-        ('weatherevents.json', ['planit_data.weatherevent']),
     ],
     'action_steps': [
         ('actioncategories.json', ['action_steps.actioncategory']),
