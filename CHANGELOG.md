@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## Unreleased
+### Fixed
+ - Improved loading performance of Organization Action admin detail page
+
 ## [1.12.0] - 2020-04-09
 ### Updated
  - Updated map page to show layer descriptions
