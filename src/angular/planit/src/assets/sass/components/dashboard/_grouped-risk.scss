@@ -48,7 +48,7 @@
   border-bottom-left-radius: $border-radius;
   margin-bottom: $space-medium;
 
-  @media all and (min-width: 70.000em) {
+  @media all and (min-width: 70em) {
     display: flex;
   }
 }
@@ -58,8 +58,8 @@
   background: $grouped-risk-progress-container-background;
   padding: $space-xlarge $space-large;
   border-radius: $border-radius;
-  
-  @media all and (min-width: 70.000em) {
+
+  @media all and (min-width: 70em) {
     flex: 0 1 50%;
   }
 
@@ -92,12 +92,16 @@
   color: $grouped-risk-indicator-color;
 }
 
-// Action specific styles 
+.grouped-risk-header .modal-triggers .button-group {
+  display: inline-flex;
+}
+
+// Action specific styles
 .grouped-risk-progress-action-empty,
 .grouped-risk-progress-action {
   margin-top: $space-tiny;
 
-  @media all and (min-width: 70.000em) {
+  @media all and (min-width: 70em) {
     margin-left: $space-tiny;
     margin-top: 0;
   }
@@ -106,7 +110,8 @@
 .grouped-risk-progress-action-empty {
   pointer-events: none;
 
-  .grouped-risk-progress-title, .button {
+  .grouped-risk-progress-title,
+  .button {
     opacity: 0.25;
   }
 }

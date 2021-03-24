@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   AccordionModule,
+  BsDropdownModule,
   PopoverModule,
   ProgressbarModule,
   TooltipModule,
@@ -34,6 +35,7 @@ import { PlanSummaryComponent } from './review-plan/tabs/plan-summary.component'
     CommonModule,
     ActionStepsModule,
     AssessmentModule,
+    BsDropdownModule,
     DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,

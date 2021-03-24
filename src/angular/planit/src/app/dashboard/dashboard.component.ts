@@ -119,6 +119,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onRisksDeleted(weatherEvent: WeatherEvent) {
+    this.risks = this.risks.filter((risk) => risk.weather_event.id !== weatherEvent.id);
+    this.groupedRisks = this.getGroupedRisks();
+  }
+
   private getGroupedRisks(): Risk[][] {
     if (this.risks === undefined) {
       return undefined;

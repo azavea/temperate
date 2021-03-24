@@ -43,6 +43,16 @@
           *ngIf="canShowImpacts">
       <button class="indicators-trigger-button button-icon-only" (click)="openMapModal()"><span class="icon icon-map-marked-alt"></span></button>
     </span>
+    <div class="button-group" dropdown>
+      <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+        <span class="icon-ellipsis-h"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+        <li class="action-destructive" role="menuitem">
+          <a class="dropdown-item" (click)="deleteRisks(risks)">Remove</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -97,3 +107,5 @@
   title="Maps related to {{ modalRisk?.weather_event.name | lowercase }}"
   [impacts]="impacts">
 </app-impact-map-modal>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

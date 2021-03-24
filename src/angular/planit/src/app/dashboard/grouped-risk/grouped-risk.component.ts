@@ -4,9 +4,12 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin, onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Indicator } from '../../climate-api';
 import { ImpactService } from '../../core/services/impact.service';
@@ -21,6 +24,7 @@ import {
   numberToRelativeOption,
   relativeOptionToNumber,
 } from '../../shared/';
+import { ConfirmationModalComponent } from '../../shared/confirmation-modal/confirmation-modal.component';
 import { ImpactMapModalComponent } from '../../shared/impact-map/impact-map-modal.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 
@@ -35,15 +39,18 @@ interface AggregateNeed {
 })
 
 export class GroupedRiskComponent implements OnChanges, OnInit {
+  @ViewChild('confirmDeleteModal', { static: true })
+  confirmDeleteModal: ConfirmationModalComponent;
 
-  @ViewChild('indicatorChartModal', {static: true})
+  @ViewChild('indicatorChartModal', { static: true })
   private indicatorsModal: ModalTemplateComponent;
 
-  @ViewChild('impactsMapModal', {static: true})
+  @ViewChild('impactsMapModal', { static: true })
   private impactsMapModal: ImpactMapModalComponent;
 
   @Input() risks: Risk[];
   @Input() weatherEvent: WeatherEvent;
+  @Output() risksDeleted = new EventEmitter<void>();
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
@@ -136,6 +143,21 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
       const average = totals.count ? Math.ceil(totals.total / totals.count) : undefined;
       return numberToRelativeOption(average);
     }
+  }
+
+  deleteRisks() {
+    this.confirmDeleteModal
+      .confirm({
+        tagline: `Are you sure you want to delete the <b>${this.risks.length}</b> risks associated with the hazard <b>${this.weatherEvent.name}</b>?`,
+        confirmText: 'Delete',
+      })
+      .pipe(
+        onErrorResumeNext,
+        switchMap(() => forkJoin(this.risks.map((risk) => this.riskService.delete(risk))))
+      )
+      .subscribe(() => {
+        this.risksDeleted.emit();
+      });
   }
 
   private updateRelatedModalData(risks: Risk[]) {
