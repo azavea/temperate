@@ -50,10 +50,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getRisks();
-    forkJoin(
+    forkJoin([
       this.weatherEventService.list(),
       this.userService.current()
-    ).subscribe(([events, user]: [WeatherEvent[], User]) => {
+    ]).subscribe(([events, user]: [WeatherEvent[], User]) => {
       this.weatherEvents = events;
       this.organization = user.primary_organization;
       this.setSelectedEvents();
