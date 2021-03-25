@@ -7,14 +7,9 @@
      <p class="empty-state-text">Choose hazards that you believe are your location’s top concerns.</p>
 </div>
 <div class="top-concerns">
-  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}"
-        [ngClass]="{'pre-selected':isReadOnly(weatherEvent)}">
+  <div *ngFor="let weatherEvent of weatherEvents" class="concern {{weatherEvent.display_class}}">
     <div class="concern-actions">
-      <span *ngIf="isReadOnly(weatherEvent)"
-          class="icon icon-lock"
-          title="This hazard cannot be removed"></span>
-      <button *ngIf="!isReadOnly(weatherEvent)"
-        class="button button-danger button-small button-icon"
+      <button class="button button-danger button-small button-icon"
         title="Remove from top concerns"
         (click)="remove(weatherEvent)"><i class="icon-cancel"></i></button>
     </div>

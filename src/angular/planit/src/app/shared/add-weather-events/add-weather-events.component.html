@@ -1,5 +1,4 @@
 <app-top-concerns [weatherEvents]="selectedEvents"
-                  [readOnlyEvents]="readOnlyEvents"
                   (removed)="remove($event)"></app-top-concerns>
 <div class="switch-list-container">
   <div class="switch-list">
@@ -8,7 +7,7 @@
       <div class="loading loading-spinner loading-large"></div>
     </div>
     <button class="switch-item"
-        [ngClass]="{selected: isSelected(option), 'pre-selected': isReadOnly(option)}"
+        [ngClass]="{selected: isSelected(option)}"
         *ngFor="let option of weatherEvents"
         (click)="addOrRemove(option)">
       <span *ngIf="isSelected(option)"
@@ -23,8 +22,6 @@
         <h4 class="switch-title">{{ option.name }}</h4>
         <p class="switch-description" *ngIf="option.description">{{ option.description }}</p>
       </div>
-      <span *ngIf="isReadOnly(option)"
-            class="icon icon-readonly icon-lock" title="This hazard can't be removed from your top concerns"></span>
     </button>
   </div>
 </div>
