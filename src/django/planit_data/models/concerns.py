@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from django.db import connection, transaction, IntegrityError
+from django.db import IntegrityError
 from django.db.models import CASCADE
 
 from climate_api.wrapper import make_indicator_point_api_request
@@ -179,49 +179,3 @@ class WeatherEventRank(models.Model):
 
     def __str__(self):
         return '{}: {}: {}'.format(self.georegion.name, self.order, self.weather_event)
-
-
-class OrganizationWeatherEvent(models.Model):
-    """Organization specific ranked weather events.
-
-    To preserve user data, deleting an instance of this model will not delete any related
-    OrganizationRisk objects.
-
-    """
-    organization = models.ForeignKey('users.PlanItOrganization', related_name='weather_events')
-    weather_event = models.ForeignKey(WeatherEvent)
-    order = models.IntegerField()
-
-    def save(self, *args, **kwargs):
-        if self.order is None:
-            # Lock table to avoid race condition where two instances saved at about
-            # the same time can end up attempting to save with the same order value
-            with transaction.atomic(), connection.cursor() as cursor:
-                lock_query = 'LOCK TABLE {} IN ACCESS EXCLUSIVE MODE'.format(
-                    self._meta.db_table)
-                cursor.execute(lock_query)
-
-                self._assign_default_order()
-                super().save(*args, **kwargs)
-        else:
-            super().save(*args, **kwargs)
-
-    def _assign_default_order(self):
-        """Assign a simple default order such that new objects are inserted at end of list.
-
-        When no order is provided. We'll need to address this differently if we ever want the user
-        to be able to re-order their top concerns in the app UI.
-
-        """
-        last = (OrganizationWeatherEvent.objects.filter(organization=self.organization)
-                                                .order_by('order')
-                                                .last())
-        self.order = last.order + 1 if last is not None else 1
-
-    class Meta:
-        unique_together = (('organization', 'order'),
-                           ('organization', 'weather_event'))
-        ordering = ['organization', 'order']
-
-    def __str__(self):
-        return '{}: {}: {}'.format(self.organization.name, self.order, self.weather_event)

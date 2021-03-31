@@ -1,6 +1,10 @@
 import uuid
 
+from compositefk.fields import CompositeForeignKey
+from django_bulk_update.manager import BulkUpdateManager
+
 from django.contrib.gis.db import models
+from django.db import connection, transaction
 from django.db.models import SET_NULL
 from django.contrib.postgres.fields import ArrayField
 
@@ -62,36 +66,89 @@ class DefaultRisk(models.Model):
         return "{} on {}".format(self.weather_event.name, self.community_system.name)
 
 
+class Directional:
+    UNSURE = 'unsure'
+    DECREASING = 'decreasing'
+    NO_CHANGE = 'no change'
+    INCREASING = 'increasing'
+
+    CHOICES = (
+        (UNSURE, 'Unsure'), (DECREASING, 'Decreasing'), (NO_CHANGE, 'No change'),
+        (INCREASING, 'Increasing'),
+    )
+
+
+class Relative:
+    UNSURE = 'unsure'
+    LOW = 'low'
+    MODERATELY_LOW = 'mod low'
+    MODERATE = 'moderate'
+    MODERATELY_HIGH = 'mod high'
+    HIGH = 'high'
+
+    CHOICES = (
+        (UNSURE, 'Unsure'), (LOW, 'Low'), (MODERATELY_LOW, 'Moderately low'),
+        (MODERATE, 'Moderate'), (MODERATELY_HIGH, 'Moderately high'), (HIGH, 'High')
+    )
+
+
+class OrganizationWeatherEvent(models.Model):
+    """
+    Organization specific ranked weather events.
+
+    Also stores assessment data related to specific weather events instead of individual risks
+    """
+    organization = models.ForeignKey('users.PlanItOrganization', related_name='weather_events')
+    weather_event = models.ForeignKey(WeatherEvent)
+    order = models.IntegerField()
+
+    probability = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
+    frequency = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+    intensity = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+
+    objects = BulkUpdateManager()
+
+    def save(self, *args, **kwargs):
+        if self.order is None:
+            # Lock table to avoid race condition where two instances saved at about
+            # the same time can end up attempting to save with the same order value
+            with transaction.atomic(), connection.cursor() as cursor:
+                lock_query = 'LOCK TABLE {} IN ACCESS EXCLUSIVE MODE'.format(
+                    self._meta.db_table)
+                cursor.execute(lock_query)
+
+                self._assign_default_order()
+                super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
+
+    def _assign_default_order(self):
+        """Assign a simple default order such that new objects are inserted at end of list.
+
+        When no order is provided. We'll need to address this differently if we ever want the user
+        to be able to re-order their top concerns in the app UI.
+
+        """
+        last = (OrganizationWeatherEvent.objects.filter(organization=self.organization)
+                                                .order_by('order')
+                                                .last())
+        self.order = last.order + 1 if last is not None else 1
+
+    class Meta:
+        unique_together = (('organization', 'order'),
+                           ('organization', 'weather_event'))
+        ordering = ['organization', 'order']
+
+    def __str__(self):
+        return '{}: {}: {}'.format(self.organization.name, self.order, self.weather_event)
+
+
 class OrganizationRisk(models.Model):
     """An evaluation of the risk a weather event poses on a community system.
 
     Organizations assess the impact of weather events to community systems and
     their adaptive capacity
     """
-
-    class Directional:
-        UNSURE = 'unsure'
-        DECREASING = 'decreasing'
-        NO_CHANGE = 'no change'
-        INCREASING = 'increasing'
-
-        CHOICES = (
-            (UNSURE, 'Unsure'), (DECREASING, 'Decreasing'), (NO_CHANGE, 'No change'),
-            (INCREASING, 'Increasing'),
-        )
-
-    class Relative:
-        UNSURE = 'unsure'
-        LOW = 'low'
-        MODERATELY_LOW = 'mod low'
-        MODERATE = 'moderate'
-        MODERATELY_HIGH = 'mod high'
-        HIGH = 'high'
-
-        CHOICES = (
-            (UNSURE, 'Unsure'), (LOW, 'Low'), (MODERATELY_LOW, 'Moderately low'),
-            (MODERATE, 'Moderate'), (MODERATELY_HIGH, 'Moderately high'), (HIGH, 'High')
-        )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     weather_event = models.ForeignKey('WeatherEvent', null=True, blank=True, default=None,
@@ -101,9 +158,11 @@ class OrganizationRisk(models.Model):
     organization = models.ForeignKey('users.PlanItOrganization', null=False, blank=False,
                                      on_delete=models.CASCADE)
 
-    probability = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
-    frequency = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
-    intensity = models.CharField(max_length=16, blank=True, choices=Directional.CHOICES)
+    organization_weather_event = CompositeForeignKey(
+        OrganizationWeatherEvent, on_delete=models.CASCADE, related_name='risks', to_fields={
+            'organization': 'organization',
+            'weather_event': 'weather_event'
+        })
 
     impact_magnitude = models.CharField(max_length=16, blank=True, choices=Relative.CHOICES)
     impact_description = models.TextField(blank=True)

@@ -1,4 +1,4 @@
-from .concerns import Concern, Indicator, OrganizationWeatherEvent, WeatherEventRank  # NOQA
+from .concerns import Concern, Indicator, WeatherEventRank  # NOQA
 from .impacts import (  # NOQA
     Impact,
     ImpactCommunitySystemRank,
@@ -12,6 +12,7 @@ from .risks import (  # NOQA
     DefaultRisk,
     OrganizationAction,
     OrganizationRisk,
+    OrganizationWeatherEvent,
     RelatedAdaptiveValue,
     WeatherEvent,
 )

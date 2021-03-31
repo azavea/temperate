@@ -212,6 +212,9 @@ class OrganizationWeatherEventTestCase(APITestCase):
 
         self.assertDictEqual(response.json(), {
             'id': org_we.id,
+            'probability': '',
+            'frequency': '',
+            'intensity': '',
             'weather_event': {
                 'id': org_we.weather_event.id,
                 'name': org_we.weather_event.name,
@@ -323,12 +326,9 @@ class OrganizationRiskTestCase(APITestCase):
                 'name': org_risk.community_system.name,
                 'display_class': '',
             },
-            'frequency': '',
             'id': str(org_risk.id),
             'impact_description': '',
             'impact_magnitude': '',
-            'intensity': '',
-            'probability': '',
             'related_adaptive_values': [],
             'weather_event': {
                 'coastal_only': False,
@@ -385,11 +385,8 @@ class OrganizationRiskTestCase(APITestCase):
             'adaptive_capacity': '',
             'adaptive_capacity_description': '',
             'community_system': community_system.id,
-            'frequency': '',
             'impact_description': '',
             'impact_magnitude': '',
-            'intensity': '',
-            'probability': '',
             'related_adaptive_values': [],
             'weather_event': weather_event.id
         }
@@ -416,11 +413,8 @@ class OrganizationRiskTestCase(APITestCase):
             'adaptive_capacity': '',
             'adaptive_capacity_description': '',
             'community_system': community_system.id,
-            'frequency': '',
             'impact_description': '',
             'impact_magnitude': '',
-            'intensity': '',
-            'probability': '',
             'related_adaptive_values': [],
             'weather_event': ''
         }
@@ -439,11 +433,8 @@ class OrganizationRiskTestCase(APITestCase):
             'adaptive_capacity': '',
             'adaptive_capacity_description': '',
             'community_system': '',
-            'frequency': '',
             'impact_description': '',
             'impact_magnitude': '',
-            'intensity': '',
-            'probability': '',
             'related_adaptive_values': [],
             'weather_event': weather_event.id
         }
