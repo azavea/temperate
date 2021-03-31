@@ -112,6 +112,9 @@ class OrganizationRisk(models.Model):
     related_adaptive_values = ArrayField(models.CharField(max_length=150), default=list)
     adaptive_capacity_description = models.TextField(blank=True)
 
+    # This field is set to True once the user has modified this individual risk
+    is_modified = models.BooleanField(default=False)
+
     class Meta:
         unique_together = ('weather_event', 'community_system', 'organization')
 
