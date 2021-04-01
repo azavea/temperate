@@ -210,7 +210,8 @@ class OrganizationRiskSerializer(serializers.ModelSerializer):
         model = OrganizationRisk
         fields = ('id', 'action', 'weather_event', 'community_system', 'impact_magnitude',
                   'impact_description', 'adaptive_capacity', 'related_adaptive_values',
-                  'adaptive_capacity_description', 'organization', 'organization_weather_event')
+                  'adaptive_capacity_description', 'organization', 'organization_weather_event',
+                  'is_modified',)
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationRisk.objects.all(),

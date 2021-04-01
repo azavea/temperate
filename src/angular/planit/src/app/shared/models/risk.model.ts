@@ -23,6 +23,7 @@ export class Risk {
   adaptive_capacity?: OrgRiskRelativeOption;
   related_adaptive_values: string[] = [];
   adaptive_capacity_description = '';
+  is_modified: boolean;
 
   static areAnyRisksAssessed(risks: Risk[]): boolean {
     return !!risks.find(risk => risk.isAssessed());
@@ -50,11 +51,23 @@ export class Risk {
   }
 
   isAssessed(): boolean {
-    return every(this.getAssessmentPropsAsBools());
+    return (
+      every(this.getWeatherEventAssessmentPropsAsBools()) && every(this.getAssessmentPropsAsBools())
+    );
   }
 
   isPartiallyAssessed(): boolean {
+    return (
+      this.is_modified && (this.isRiskPartiallyAssessed() || this.isWeatherEventPartiallyAssessed())
+    );
+  }
+
+  isRiskPartiallyAssessed(): boolean {
     return some(this.getAssessmentPropsAsBools());
+  }
+
+  isWeatherEventPartiallyAssessed(): boolean {
+    return some(this.getWeatherEventAssessmentPropsAsBools());
   }
 
   compare(other: Risk): number {
@@ -122,13 +135,15 @@ export class Risk {
     ];
   }
 
-  private getAssessmentPropsAsBools(): boolean[] {
+  private getWeatherEventAssessmentPropsAsBools(): boolean[] {
     return [
       !!this.organization_weather_event.probability,
       !!this.organization_weather_event.frequency,
       !!this.organization_weather_event.intensity,
-      !!this.impact_magnitude,
-      !!this.adaptive_capacity,
     ];
+  }
+
+  private getAssessmentPropsAsBools(): boolean[] {
+    return [!!this.impact_magnitude, !!this.adaptive_capacity];
   }
 }

@@ -28,7 +28,7 @@ import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 import { UserService } from '../../../core/services/user.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -185,11 +185,18 @@ export class HazardStepComponent
   }
 
   persistChanges(model: Risk): Observable<Risk> {
+    // First we persist form changes to OrgWeatherEvent model, then set is_modified on the risk
     return this.weatherEventService.update(model.organization_weather_event).pipe(
-      map(organization_weather_event => {
-        return new Risk({ ...model, organization_weather_event });
+      switchMap(organization_weather_event => {
+        let risk = new Risk({ ...model, organization_weather_event });
+        risk.is_modified = risk.is_modified || risk.isWeatherEventPartiallyAssessed();
+        return super.persistChanges(risk);
       })
     );
+  }
+
+  shouldSave() {
+    return this.orgWeatherEvents && this.form.dirty && !this.isDisabled;
   }
 
   private getOrgWeatherEvent(weatherEvent: WeatherEvent) {
