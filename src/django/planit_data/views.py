@@ -221,7 +221,7 @@ class OrganizationRiskView(ModelViewSet):
     def update(self, request, pk=None, partial=None):
         weather_event_ids = None
         if pk:
-            new_weather_event_id = request.data['weather_event']
+            new_weather_event_id = int(request.data['weather_event'])
             old_weather_event = WeatherEvent.objects.get(organizationrisk=pk)
             if new_weather_event_id != old_weather_event.id:
                 print("Updating weather event list")

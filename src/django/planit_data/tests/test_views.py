@@ -326,6 +326,23 @@ class OrganizationRiskTestCase(APITestCase):
                 'name': org_risk.community_system.name,
                 'display_class': '',
             },
+            'is_modified': False,
+            'organization_weather_event': {
+                'id': org_risk.organization_weather_event.id,
+                'order': org_risk.organization_weather_event.order,
+                'weather_event': {
+                    'coastal_only': False,
+                    'concern': None,
+                    'display_class': '',
+                    'description': '',
+                    'id': org_risk.weather_event.id,
+                    'indicators': [],
+                    'name': org_risk.weather_event.name
+                },
+                'probability': '',
+                'frequency': '',
+                'intensity': '',
+            },
             'id': str(org_risk.id),
             'impact_description': '',
             'impact_magnitude': '',
@@ -503,12 +520,8 @@ class OrganizationRiskTestCase(APITestCase):
         # Create a pre-existing weather event to sit in the background
         OrganizationWeatherEventFactory(organization=org)
 
-        org_risk = OrganizationRiskFactory(organization=org)
-        OrganizationWeatherEventFactory(
-            weather_event=org_risk.weather_event,
-            organization=self.user.primary_organization
-        )
-        original_weather_event = org_risk.weather_event
+        original_weather_event = WeatherEventFactory()
+        org_risk = OrganizationRiskFactory(organization=org, weather_event=original_weather_event)
         new_weather_event = WeatherEventFactory()
 
         # Update the organization risk to use the new community system
@@ -539,12 +552,13 @@ class OrganizationRiskTestCase(APITestCase):
         # Create a pre-existing weather event to sit in the background
         OrganizationWeatherEventFactory(organization=org)
 
-        org = self.user.primary_organization
-        org_risk = OrganizationRiskFactory(organization=org)
-        OrganizationWeatherEventFactory(
-            weather_event=org_risk.weather_event,
+        weather_event = WeatherEventFactory()
+        org_event = OrganizationWeatherEventFactory(
+            weather_event=weather_event,
             organization=self.user.primary_organization
         )
+        org = self.user.primary_organization
+        org_risk = OrganizationRiskFactory(organization=org, organization_weather_event=org_event)
 
         url = reverse('organizationrisk-detail', kwargs={'pk': org_risk.id})
         response = self.client.delete(url)

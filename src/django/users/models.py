@@ -183,11 +183,14 @@ class PlanItOrganization(models.Model):
 
         for org_weather_event in weather_events:
             org_weather_event.order = event_order[org_weather_event.weather_event.id]
+
         OrganizationWeatherEvent.objects.bulk_update(weather_events, ['order'])
 
-        for event_id in new_event_ids:
-            OrganizationWeatherEvent.objects.create(
-                weather_event_id=event_id, organization_id=self.pk, order=event_order[event_id])
+        OrganizationWeatherEvent.objects.bulk_create([
+            OrganizationWeatherEvent(weather_event_id=event_id,
+                                     organization_id=self.pk, order=event_order[event_id])
+            for event_id in new_event_ids
+        ])
 
         if self.plan_setup_complete:
             self.import_risks()
