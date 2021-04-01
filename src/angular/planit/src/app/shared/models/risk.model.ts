@@ -9,8 +9,8 @@ import { OrgRiskDirectionalIntensityOptions } from './org-risk-directional-inten
 import { OrgRiskRelativeChanceOptions } from './org-risk-relative-chance-options.model';
 import { OrgRiskRelativeImpactOptions } from './org-risk-relative-impact-options.model';
 import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
-import { WeatherEvent } from './weather-event.model';
 import { OrgWeatherEvent } from './org-weather-event.model';
+import { WeatherEvent } from './weather-event.model';
 
 export class Risk {
   id?: string;

@@ -231,7 +231,8 @@ class OrganizationRiskView(ModelViewSet):
                                         .distinct())
                 weather_event_ids.add(new_weather_event_id)
         response = super().update(request, pk, partial)
-        # Need to wait to update organization weather events so we don't create a risk that conflicts with this one
+        # Need to wait to update organization weather events so we don't create a risk that
+        # conflicts with this one
         if weather_event_ids:
             organization.update_weather_events(weather_event_ids)
 

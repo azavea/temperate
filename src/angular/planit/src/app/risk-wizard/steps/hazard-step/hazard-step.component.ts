@@ -3,6 +3,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -28,7 +29,6 @@ import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
 
 import { UserService } from '../../../core/services/user.service';
-import { map, switchMap } from 'rxjs/operators';
 
 interface HazardStepFormModel {
   frequency: OrgRiskDirectionalOption;
@@ -150,7 +150,7 @@ export class HazardStepComponent
       intensity: orgWeatherEvent && orgWeatherEvent.intensity,
       probability: orgWeatherEvent && orgWeatherEvent.probability,
     };
-  };
+  }
 
   public toModel: (data: HazardStepFormModel, model: Risk) => Risk = (data, model) => {
     const orgWeatherEvent = this.getOrgWeatherEvent(model.weather_event);
@@ -159,7 +159,7 @@ export class HazardStepComponent
     orgWeatherEvent.probability = data.probability;
     model.organization_weather_event = orgWeatherEvent;
     return model;
-  };
+  }
 
   public openModal() {
     this.indicatorsModal.open();
@@ -188,7 +188,7 @@ export class HazardStepComponent
     // First we persist form changes to OrgWeatherEvent model, then set is_modified on the risk
     return this.weatherEventService.update(model.organization_weather_event).pipe(
       switchMap(organization_weather_event => {
-        let risk = new Risk({ ...model, organization_weather_event });
+        const risk = new Risk({ ...model, organization_weather_event });
         risk.is_modified = risk.is_modified || risk.isWeatherEventPartiallyAssessed();
         return super.persistChanges(risk);
       })

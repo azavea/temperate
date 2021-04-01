@@ -3,17 +3,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { ToastrService } from 'ngx-toastr';
 
-import {
-  CommunitySystem,
-  OrgWeatherEvent,
-  Risk,
-  WeatherEvent,
-  WizardStepComponent,
-} from '../../../shared/';
+import { CommunitySystem, Risk, WeatherEvent } from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
@@ -23,7 +18,6 @@ import { WizardSessionService } from '../../../core/services/wizard-session.serv
 
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
-import { tap } from 'rxjs/operators';
 
 interface IdentifyStepFormModel {
   weather_event: WeatherEvent;
@@ -121,7 +115,7 @@ export class IdentifyStepComponent
     risk.weather_event = data.weather_event;
     risk.community_system = data.community_system;
     return risk;
-  };
+  }
 
   shouldSave() {
     return this.isStepComplete();

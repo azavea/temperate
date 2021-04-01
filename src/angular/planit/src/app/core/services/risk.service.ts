@@ -121,8 +121,8 @@ export class RiskService {
     const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
     return this.http.delete(url).pipe(
       map(resp => {
-        // Deleting a risk can remove a new weather event from the user's organization, so we need to
-        // invalidate our cached version to refresh.
+        // Deleting a risk can remove a new weather event from the user's organization, so we need
+        // to invalidate our cached version to refresh.
         this.userService.invalidate();
         return resp;
       })
