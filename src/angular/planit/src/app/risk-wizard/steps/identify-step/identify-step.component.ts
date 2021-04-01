@@ -2,16 +2,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { ToastrService } from 'ngx-toastr';
 
 import {
   CommunitySystem,
+  OrgWeatherEvent,
   Risk,
   WeatherEvent,
-  WizardStepComponent
+  WizardStepComponent,
 } from '../../../shared/';
 
 import { CommunitySystemService } from '../../../core/services/community-system.service';
@@ -22,6 +23,7 @@ import { WizardSessionService } from '../../../core/services/wizard-session.serv
 
 import { RiskStepKey } from '../../risk-step-key';
 import { RiskWizardStepComponent } from '../../risk-wizard-step.component';
+import { tap } from 'rxjs/operators';
 
 interface IdentifyStepFormModel {
   weather_event: WeatherEvent;
@@ -30,11 +32,11 @@ interface IdentifyStepFormModel {
 
 @Component({
   selector: 'app-risk-step-identify',
-  templateUrl: 'identify-step.component.html'
+  templateUrl: 'identify-step.component.html',
 })
-export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepFormModel>
-                                   implements OnDestroy, OnInit {
-
+export class IdentifyStepComponent
+  extends RiskWizardStepComponent<IdentifyStepFormModel>
+  implements OnDestroy, OnInit {
   public formValid: boolean;
   public key: RiskStepKey = RiskStepKey.Identify;
   public navigationSymbol = '1';
@@ -49,15 +51,16 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   private weather_event: WeatherEvent = null;
   private community_system: CommunitySystem = null;
 
-
-  constructor(protected session: WizardSessionService<Risk>,
-              protected riskService: RiskService,
-              protected toastr: ToastrService,
-              protected fb: FormBuilder,
-              protected router: Router,
-              private weatherEventService: WeatherEventService,
-              private communitySystemService: CommunitySystemService,
-              protected previousRouteGuard: PreviousRouteGuard) {
+  constructor(
+    protected session: WizardSessionService<Risk>,
+    protected riskService: RiskService,
+    protected toastr: ToastrService,
+    protected fb: FormBuilder,
+    protected router: Router,
+    private weatherEventService: WeatherEventService,
+    private communitySystemService: CommunitySystemService,
+    protected previousRouteGuard: PreviousRouteGuard
+  ) {
     super(session, riskService, toastr, router, previousRouteGuard);
   }
 
@@ -73,14 +76,16 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
       this.community_system = this.risk.community_system;
     }
 
-    this.weatherEventService.list()
-      .subscribe(weatherEvents => this.weatherEvents = weatherEvents);
-    this.communitySystemService.list()
-      .subscribe(communitySystems => this.communitySystems = communitySystems);
+    this.weatherEventService
+      .list()
+      .subscribe(weatherEvents => (this.weatherEvents = weatherEvents));
+    this.communitySystemService
+      .list()
+      .subscribe(communitySystems => (this.communitySystems = communitySystems));
 
     this.sessionSubscription = this.session.data.subscribe(risk => {
-        this.risk = risk;
-      });
+      this.risk = risk;
+    });
   }
 
   ngOnDestroy() {
@@ -90,32 +95,33 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
   fromModel(risk: Risk): IdentifyStepFormModel {
     return {
       weather_event: risk.weather_event,
-      community_system: risk.community_system
+      community_system: risk.community_system,
     };
   }
 
   getFormModel(): IdentifyStepFormModel {
     const data: IdentifyStepFormModel = {
       weather_event: this.weather_event,
-      community_system: this.community_system
+      community_system: this.community_system,
     };
     return data;
   }
 
   setupForm(data: IdentifyStepFormModel) {
     this.form = this.fb.group({
-      'weather_event': [data.weather_event ? data.weather_event.name : '',
-                       [Validators.required]],
-      'community_system': [data.community_system ? data.community_system.name : '',
-                          [Validators.required]]
+      weather_event: [data.weather_event ? data.weather_event.name : '', [Validators.required]],
+      community_system: [
+        data.community_system ? data.community_system.name : '',
+        [Validators.required],
+      ],
     });
   }
 
-  toModel(data: IdentifyStepFormModel, risk: Risk) {
+  public toModel: (data: IdentifyStepFormModel, risk: Risk) => Risk = (data, risk) => {
     risk.weather_event = data.weather_event;
     risk.community_system = data.community_system;
     return risk;
-  }
+  };
 
   shouldSave() {
     return this.isStepComplete();
@@ -139,7 +145,7 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
     const found = options.find(option => option.name === val);
     if (!found) {
       this[key] = null;
-      this.form.controls[key].setErrors({'autocomplete': true});
+      this.form.controls[key].setErrors({ autocomplete: true });
     } else {
       this[key] = found;
     }
@@ -148,5 +154,9 @@ export class IdentifyStepComponent extends RiskWizardStepComponent<IdentifyStepF
 
   isStepComplete() {
     return !!this.weather_event && !!this.community_system;
+  }
+
+  persistChanges(model: Risk): Observable<Risk> {
+    return super.persistChanges(model).pipe(tap(() => this.weatherEventService.invalidate()));
   }
 }
