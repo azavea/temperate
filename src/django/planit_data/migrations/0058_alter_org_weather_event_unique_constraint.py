@@ -34,7 +34,7 @@ def _unmake_deferrable(apps, schema_editor):
     Reverse the unique constraint to be not deferrable
     """
     # Get the db name of unique constraint
-    OrganizationWeatherEvent = apps.get_model('myapp', 'OrganizationWeatherEvent')
+    OrganizationWeatherEvent = apps.get_model('planit_data', 'OrganizationWeatherEvent')
     CONSTRAINT_NAME = schema_editor._constraint_names(OrganizationWeatherEvent,
                                                       ['organization_id', 'order'],
                                                       unique=True)[0]
