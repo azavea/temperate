@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,12 +14,15 @@ import {
   OrgRiskDirectionalOption,
   OrgRiskRelativeChanceOptions,
   OrgRiskRelativeOption,
+  OrgWeatherEvent,
   Risk,
+  WeatherEvent,
 } from '../../../shared/';
 
 import { Indicator, IndicatorService } from '../../../climate-api';
 import { PreviousRouteGuard } from '../../../core/services/previous-route-guard.service';
 import { RiskService } from '../../../core/services/risk.service';
+import { WeatherEventService } from '../../../core/services/weather-event.service';
 import { WizardSessionService } from '../../../core/services/wizard-session.service';
 import { ModalTemplateComponent } from '../../../shared/modal-template/modal-template.component';
 import { RiskStepKey } from '../../risk-step-key';
@@ -34,12 +38,11 @@ interface HazardStepFormModel {
 
 @Component({
   selector: 'app-risk-step-hazard',
-  templateUrl: 'hazard-step.component.html'
+  templateUrl: 'hazard-step.component.html',
 })
-
-export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormModel>
-                                 implements OnDestroy, OnInit {
-
+export class HazardStepComponent
+  extends RiskWizardStepComponent<HazardStepFormModel>
+  implements OnDestroy, OnInit {
   public key = RiskStepKey.Hazard;
   public navigationSymbol = '2';
   public location: Location;
@@ -54,7 +57,9 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   public directionalIntensityOptionsKeys = Array.from(OrgRiskDirectionalIntensityOptions.keys());
   public indicators: Indicator[] = [];
 
-  @ViewChild('indicatorChartModal', {static: true})
+  public orgWeatherEvents: OrgWeatherEvent[] = [];
+
+  @ViewChild('indicatorChartModal', { static: true })
   private indicatorsModal: ModalTemplateComponent;
 
   private sessionSubscription: Subscription;
@@ -63,14 +68,17 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     and frequency. If there are no available data for this hazard, you may want to consult the
     National Climate Assessment, States At Risk, or use the help icon to contact ICLEI-USA.`;
 
-  constructor(protected session: WizardSessionService<Risk>,
-              protected riskService: RiskService,
-              protected toastr: ToastrService,
-              protected router: Router,
-              protected previousRouteGuard: PreviousRouteGuard,
-              private userService: UserService,
-              private fb: FormBuilder,
-              private indicatorService: IndicatorService) {
+  constructor(
+    protected session: WizardSessionService<Risk>,
+    protected riskService: RiskService,
+    protected toastr: ToastrService,
+    protected router: Router,
+    protected previousRouteGuard: PreviousRouteGuard,
+    private weatherEventService: WeatherEventService,
+    private userService: UserService,
+    private fb: FormBuilder,
+    private indicatorService: IndicatorService
+  ) {
     super(session, riskService, toastr, router, previousRouteGuard);
   }
 
@@ -90,6 +98,11 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
       this.updateRiskIndicators();
       this.setDisabled(risk);
     });
+
+    this.weatherEventService.listForCurrentOrg().subscribe(orgWeatherEvents => {
+      this.orgWeatherEvents = orgWeatherEvents;
+      this.setupForm(this.fromModel(this.risk));
+    });
   }
 
   ngOnDestroy() {
@@ -100,7 +113,7 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
     const data: HazardStepFormModel = {
       frequency: this.form.controls.frequency.value,
       intensity: this.form.controls.intensity.value,
-      probability: this.form.controls.probability.value
+      probability: this.form.controls.probability.value,
     };
     return data;
   }
@@ -124,24 +137,27 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
 
   setupForm(data: HazardStepFormModel) {
     this.form = this.fb.group({
-      'frequency': [data.frequency, []],
-      'intensity': [data.intensity, []],
-      'probability': [data.probability, []],
+      frequency: [data.frequency, []],
+      intensity: [data.intensity, []],
+      probability: [data.probability, []],
     });
   }
 
-  fromModel(model: Risk): HazardStepFormModel {
+  public fromModel: (model: Risk) => HazardStepFormModel = model => {
+    const orgWeatherEvent = this.getOrgWeatherEvent(model.weather_event);
     return {
-      frequency: model.frequency,
-      intensity: model.intensity,
-      probability: model.probability
+      frequency: orgWeatherEvent && orgWeatherEvent.frequency,
+      intensity: orgWeatherEvent && orgWeatherEvent.intensity,
+      probability: orgWeatherEvent && orgWeatherEvent.probability,
     };
   }
 
-  toModel(data: HazardStepFormModel, model: Risk): Risk {
-    model.frequency = data.frequency;
-    model.intensity = data.intensity;
-    model.probability = data.probability;
+  public toModel: (data: HazardStepFormModel, model: Risk) => Risk = (data, model) => {
+    const orgWeatherEvent = this.getOrgWeatherEvent(model.weather_event);
+    orgWeatherEvent.frequency = data.frequency;
+    orgWeatherEvent.intensity = data.intensity;
+    orgWeatherEvent.probability = data.probability;
+    model.organization_weather_event = orgWeatherEvent;
     return model;
   }
 
@@ -150,8 +166,11 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   }
 
   isStepComplete(): boolean {
-    return !!this.form.controls.frequency.value && !!this.form.controls.intensity.value
-      && !!this.form.controls.probability.value;
+    return (
+      !!this.form.controls.frequency.value &&
+      !!this.form.controls.intensity.value &&
+      !!this.form.controls.probability.value
+    );
   }
 
   relatedIndicatorsTooltip(): string {
@@ -163,5 +182,26 @@ export class HazardStepComponent extends RiskWizardStepComponent<HazardStepFormM
   goToIndicators() {
     this.indicatorsModal.close();
     this.router.navigate(['/indicators']);
+  }
+
+  persistChanges(model: Risk): Observable<Risk> {
+    // First we persist form changes to OrgWeatherEvent model, then set is_modified on the risk
+    return this.weatherEventService.update(model.organization_weather_event).pipe(
+      switchMap(organization_weather_event => {
+        const risk = new Risk({ ...model, organization_weather_event });
+        risk.is_modified = risk.is_modified || risk.isWeatherEventPartiallyAssessed();
+        return super.persistChanges(risk);
+      })
+    );
+  }
+
+  shouldSave() {
+    return this.orgWeatherEvents && this.form.dirty && !this.isDisabled;
+  }
+
+  private getOrgWeatherEvent(weatherEvent: WeatherEvent) {
+    return (
+      weatherEvent && this.orgWeatherEvents.find(we => we.weather_event.id === weatherEvent.id)
+    );
   }
 }

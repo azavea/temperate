@@ -175,13 +175,22 @@ class PlanItOrganization(models.Model):
 
     @transaction.atomic
     def update_weather_events(self, weather_event_ids):
-        self.weather_events.all().delete()
+        self.weather_events.exclude(weather_event_id__in=weather_event_ids).delete()
+        weather_events = self.weather_events.all()
+        existing_event_ids = {e.weather_event.id for e in weather_events}
+        new_event_ids = {id for id in weather_event_ids if id not in existing_event_ids}
+        event_order = {event_id: index + 1 for index, event_id in enumerate(weather_event_ids)}
 
-        OrganizationWeatherEvent.objects.bulk_create(
-            OrganizationWeatherEvent(weather_event_id=event_id, organization_id=self.pk,
-                                     order=index + 1)
-            for index, event_id in enumerate(weather_event_ids)
-        )
+        for org_weather_event in weather_events:
+            org_weather_event.order = event_order[org_weather_event.weather_event.id]
+
+        OrganizationWeatherEvent.objects.bulk_update(weather_events, ['order'])
+
+        OrganizationWeatherEvent.objects.bulk_create([
+            OrganizationWeatherEvent(weather_event_id=event_id,
+                                     organization_id=self.pk, order=event_order[event_id])
+            for event_id in new_event_ids
+        ])
 
         if self.plan_setup_complete:
             self.import_risks()

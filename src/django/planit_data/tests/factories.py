@@ -97,6 +97,7 @@ class DefaultRiskFactory(factory.DjangoModelFactory):
 class OrganizationWeatherEventFactory(factory.DjangoModelFactory):
     class Meta:
         model = OrganizationWeatherEvent
+        django_get_or_create = ('organization', 'weather_event')
 
     organization = factory.SubFactory(OrganizationFactory)
     weather_event = factory.SubFactory(WeatherEventFactory)
@@ -110,6 +111,10 @@ class OrganizationRiskFactory(factory.DjangoModelFactory):
     organization = factory.SubFactory(OrganizationFactory)
     weather_event = factory.SubFactory(WeatherEventFactory)
     community_system = factory.SubFactory(CommunitySystemFactory)
+    organization_weather_event = factory.RelatedFactory(
+        OrganizationWeatherEventFactory,
+        organization=factory.SelfAttribute('..organization'),
+        weather_event=factory.SelfAttribute('..weather_event'))
 
 
 class OrganizationActionFactory(factory.DjangoModelFactory):
