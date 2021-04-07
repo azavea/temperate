@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
+### Added
+ - Added option to bulk delete hazards
 ### Changed
  - Update risk schema to share data for hazard-related fields
+ - Allow removing hazards
 
 ## [1.13.0] - 2021-01-21
 ### Fixed
