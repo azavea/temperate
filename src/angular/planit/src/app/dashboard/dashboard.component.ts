@@ -12,7 +12,9 @@ import { RiskService } from '../core/services/risk.service';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 import { Organization, Risk, User, WeatherEvent } from '../shared/';
-import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
+import {
+  ConfirmationModalComponent
+} from '../shared/confirmation-modal/confirmation-modal.component';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
 enum ViewTabs {

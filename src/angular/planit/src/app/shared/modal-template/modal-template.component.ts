@@ -11,7 +11,7 @@ import { emit } from 'process';
 export class ModalTemplateComponent {
   @Input() title: String;
   @Input() modalOptions: ModalOptions;
-  @Output() onHidden = new EventEmitter<void>();
+  @Output() hidden = new EventEmitter<void>();
 
   public modalRef: BsModalRef;
 
@@ -22,7 +22,9 @@ export class ModalTemplateComponent {
 
   constructor(private modalService: BsModalService) {
     this.modalService.onHidden.subscribe(reason => {
-      reason !== null && this.onHidden.emit();
+      if (reason !== null) {
+        this.hidden.emit();
+      }
     });
   }
 
@@ -34,7 +36,9 @@ export class ModalTemplateComponent {
   public close(emitEvent?: boolean) {
     if (this.modalRef) {
       this.modalRef.hide();
-      emitEvent && this.onHidden.emit();
+      if (emitEvent) {
+        this.hidden.emit();
+      }
     }
   }
 

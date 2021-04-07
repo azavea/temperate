@@ -24,7 +24,9 @@ import {
   numberToRelativeOption,
   relativeOptionToNumber,
 } from '../../shared/';
-import { ConfirmationModalComponent } from '../../shared/confirmation-modal/confirmation-modal.component';
+import {
+  ConfirmationModalComponent
+} from '../../shared/confirmation-modal/confirmation-modal.component';
 import { ImpactMapModalComponent } from '../../shared/impact-map/impact-map-modal.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 

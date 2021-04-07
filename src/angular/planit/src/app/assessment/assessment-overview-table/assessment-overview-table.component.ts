@@ -6,7 +6,9 @@ import { switchMap } from 'rxjs/operators';
 import { RiskService } from '../../core/services/risk.service';
 
 import { Risk, WeatherEvent } from '../../shared';
-import { ConfirmationModalComponent } from '../../shared/confirmation-modal/confirmation-modal.component';
+import {
+  ConfirmationModalComponent
+} from '../../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'va-assessment-overview-table',

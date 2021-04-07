@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import * as cloneDeep from 'lodash.clonedeep';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -130,14 +129,17 @@ export class RiskService {
   }
 
   deleteMany(risks: Risk[]) {
-    return forkJoin(risks.map(risk => {
-      const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
-      return this.http.delete(url);
-    }))
-    .pipe(tap(() => {
-      // Deleting a risk can remove a new weather event from the user's organization, so we need to
-      // invalidate our cached version to refresh.
-      this.userService.invalidate();
-    }));
+    return forkJoin(
+      risks.map(risk => {
+        const url = `${environment.apiUrl}/api/risks/${risk.id}/`;
+        return this.http.delete(url);
+      })
+    ).pipe(
+      tap(() => {
+        // Deleting a risk can remove a new weather event from the user's organization, so we need
+        // to invalidate our cached version to refresh.
+        this.userService.invalidate();
+      })
+    );
   }
 }
