@@ -175,22 +175,10 @@ export class DashboardComponent implements OnInit {
 
   private deleteRisksForWeatherEvents(events: WeatherEvent[]): Observable<unknown> {
     const risks = this.risks.filter(r => events.some(event => event.id === r.weather_event.id));
-    let eventNames = events
-      .slice(0, -1)
-      .map(e => `<b>${e.name}</b>`)
-      .join(', ');
-    if (events.length > 1) {
-      eventNames += ` and <b>${events[events.length - 1].name}</b>`;
-    } else {
-      eventNames = `<b>${events[0].name}</b>`;
-    }
+
     return this.confirmDeleteModal
       .confirm({
-        tagline: `Are you sure you want to remove the ${eventNames} hazard${
-          events.length > 1 ? 's' : ''
-        }? This will also remove the <b>${risks.length}</b> risks associated with ${
-          events.length > 1 ? 'them' : 'it'
-        }.`,
+        tagline: Risk.deleteRisksTagline(risks, events),
         confirmText: 'Delete',
       })
       .pipe(switchMap(() => forkJoin(risks.map(risk => this.riskService.delete(risk)))));

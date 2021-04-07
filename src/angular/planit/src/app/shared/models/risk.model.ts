@@ -29,6 +29,23 @@ export class Risk {
     return !!risks.find(risk => risk.isAssessed());
   }
 
+  static deleteRisksTagline(risks: Risk[], events: WeatherEvent[]): string {
+    let eventNames = events
+      .slice(0, -1)
+      .map(e => `<b>${e.name}</b>`)
+      .join(', ');
+    if (events.length > 1) {
+      eventNames += ` and <b>${events[events.length - 1].name}</b>`;
+    } else {
+      eventNames = `<b>${events[0].name}</b>`;
+    }
+    return `Are you sure you want to remove the ${eventNames} hazard${
+      events.length > 1 ? 's' : ''
+    }? This will also remove the <b>${risks.length}</b> risks associated with ${
+      events.length > 1 ? 'them' : 'it'
+    }.`;
+  }
+
   constructor(object: any) {
     Object.assign(this, object);
     if (object.community_system) {

@@ -35,9 +35,8 @@ interface AggregateNeed {
 
 @Component({
   selector: 'app-grouped-risk',
-  templateUrl: 'grouped-risk.component.html'
+  templateUrl: 'grouped-risk.component.html',
 })
-
 export class GroupedRiskComponent implements OnChanges, OnInit {
   @ViewChild('confirmDeleteModal', { static: true })
   confirmDeleteModal: ConfirmationModalComponent;
@@ -61,10 +60,12 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public location: Location;
   public onImpactMapModalShown: EventEmitter<any>;
 
-  constructor(private impactService: ImpactService,
-              private userService: UserService,
-              private riskService: RiskService,
-              private router: Router) { }
+  constructor(
+    private impactService: ImpactService,
+    private userService: UserService,
+    private riskService: RiskService,
+    private router: Router
+  ) {}
 
   ngOnChanges() {
     this.updateRelatedModalData(this.risks);
@@ -72,7 +73,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.userService.current().subscribe((user) => {
+    this.userService.current().subscribe(user => {
       this.location = user.primary_organization.location;
     });
   }
@@ -83,9 +84,11 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   isAdaptiveNeedBoxVisible() {
-    return this.aggregateNeed &&
-        this.aggregateNeed.capacity !== OrgRiskRelativeOption.Unsure &&
-        this.aggregateNeed.impact !== OrgRiskRelativeOption.Unsure;
+    return (
+      this.aggregateNeed &&
+      this.aggregateNeed.capacity !== OrgRiskRelativeOption.Unsure &&
+      this.aggregateNeed.impact !== OrgRiskRelativeOption.Unsure
+    );
   }
 
   numberOfActionsAssessed() {
@@ -115,11 +118,11 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   percentActionsAssessed() {
-    return Math.floor(this.numberOfActionsAssessed() / this.risks.length * 100);
+    return Math.floor((this.numberOfActionsAssessed() / this.risks.length) * 100);
   }
 
   percentRisksAssessed() {
-    return Math.floor(this.numberOfRisksAssessed() / this.risks.length * 100);
+    return Math.floor((this.numberOfRisksAssessed() / this.risks.length) * 100);
   }
 
   getAggregateNeed(): AggregateNeed {
@@ -127,19 +130,22 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
     //  along each axis. The average on each axis is then rounded up to the next worst bucket.
     return {
       impact: getRelativeOptionAverage(this.risks, 'impact_magnitude'),
-      capacity: getRelativeOptionAverage(this.risks, 'adaptive_capacity')
+      capacity: getRelativeOptionAverage(this.risks, 'adaptive_capacity'),
     };
 
     function getRelativeOptionAverage(risks: Risk[], property: string): OrgRiskRelativeOption {
-      const totals = risks.reduce((accum, risk) => {
-        const val = relativeOptionToNumber(risk[property]);
-        const total = typeof val === 'number' ? val : 0;
-        const count = typeof val === 'number' ? 1 : 0;
-        return {
-          total: accum.total + total,
-          count: accum.count + count
-        };
-      }, {total: 0, count: 0});
+      const totals = risks.reduce(
+        (accum, risk) => {
+          const val = relativeOptionToNumber(risk[property]);
+          const total = typeof val === 'number' ? val : 0;
+          const count = typeof val === 'number' ? 1 : 0;
+          return {
+            total: accum.total + total,
+            count: accum.count + count,
+          };
+        },
+        { total: 0, count: 0 }
+      );
       const average = totals.count ? Math.ceil(totals.total / totals.count) : undefined;
       return numberToRelativeOption(average);
     }
@@ -148,12 +154,12 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   deleteRisks() {
     this.confirmDeleteModal
       .confirm({
-        tagline: `Are you sure you want to delete the <b>${this.risks.length}</b> risks associated with the hazard <b>${this.weatherEvent.name}</b>?`,
+        tagline: Risk.deleteRisksTagline(this.risks, [this.weatherEvent]),
         confirmText: 'Delete',
       })
       .pipe(
         onErrorResumeNext,
-        switchMap(() => forkJoin(this.risks.map((risk) => this.riskService.delete(risk))))
+        switchMap(() => forkJoin(this.risks.map(risk => this.riskService.delete(risk))))
       )
       .subscribe(() => {
         this.risksDeleted.emit();
@@ -165,14 +171,13 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
       this.modalRisk = risks[0];
       this.riskService.getRiskIndicators(this.modalRisk).subscribe(indicators => {
         this.indicators = indicators;
-        this.canShowIndicators = !!(this.modalRisk.weather_event.indicators &&
-                                    this.modalRisk.weather_event.indicators.length);
+        this.canShowIndicators = !!(
+          this.modalRisk.weather_event.indicators && this.modalRisk.weather_event.indicators.length
+        );
       });
       this.impactService.rankedFor(this.modalRisk.weather_event).subscribe(rankedImpacts => {
         this.impacts = rankedImpacts.filter(i => i.map_layer);
-        this.canShowImpacts = !!(this.impacts &&
-                                 this.impacts.length &&
-                                 this.impacts.length > 0);
+        this.canShowImpacts = !!(this.impacts && this.impacts.length && this.impacts.length > 0);
       });
     } else {
       this.indicators = [];
