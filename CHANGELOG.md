@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## [Unreleased]
+### Changed
+ - Update risk schema to share data for hazard-related fields
+
 ## [1.13.0] - 2021-01-21
 ### Fixed
  - Improved loading performance of Organization Action admin detail page
