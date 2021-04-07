@@ -90,7 +90,7 @@
   p {
     color: $wizard-step-prompt-color;
     font-size: $wizard-step-prompt-size;
-    max-width: $paragraph-max-width;
+    max-width: $paragraph-max-width + 1rem;
   }
 }
 

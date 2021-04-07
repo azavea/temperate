@@ -27,7 +27,7 @@ export class AssessmentOverviewTableComponent implements OnInit {
                       'systems, as well as institutions, humans, and other organisms. Systems ' +
                       'with High Adaptive Capacity are better able to cope with climate change ' +
                       'impacts.',
-    potentialImpact: 'The degree to which the risk will affect the city overall.',
+    potentialImpact: 'The degree to which the risk will affect the community overall.',
     risk: 'A potential future climate hazard and the social, civic, economic, or ecological ' +
           'system that may be affected.',
     communitySystem: 'The social, civic, economic, or ecological system that may be affected ' +
