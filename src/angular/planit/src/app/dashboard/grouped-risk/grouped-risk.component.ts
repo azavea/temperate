@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, onErrorResumeNext } from 'rxjs';
+import { onErrorResumeNext } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { Indicator } from '../../climate-api';
@@ -159,7 +159,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
       })
       .pipe(
         onErrorResumeNext,
-        switchMap(() => forkJoin(this.risks.map(risk => this.riskService.delete(risk))))
+        switchMap(() => this.riskService.deleteMany(this.risks))
       )
       .subscribe(() => {
         this.risksDeleted.emit();

@@ -181,7 +181,7 @@ export class DashboardComponent implements OnInit {
         tagline: Risk.deleteRisksTagline(risks, events),
         confirmText: 'Delete',
       })
-      .pipe(switchMap(() => forkJoin(risks.map(risk => this.riskService.delete(risk)))));
+      .pipe(switchMap(() => this.riskService.deleteMany(risks)));
   }
 
   public resetScroll() {

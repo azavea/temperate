@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
-import { forkJoin, onErrorResumeNext } from 'rxjs';
+import { onErrorResumeNext } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { RiskService } from '../../core/services/risk.service';
@@ -60,7 +60,7 @@ export class AssessmentOverviewTableComponent implements OnInit {
       })
       .pipe(
         onErrorResumeNext,
-        switchMap(() => forkJoin(this.risks.map(risk => this.riskService.delete(risk))))
+        switchMap(() => this.riskService.deleteMany(this.risks))
       )
       .subscribe(() => {
         this.risks = [];
