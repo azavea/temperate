@@ -21,7 +21,18 @@
         <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity" containerClass="tooltip-wide"></span>
       </th>
       <th scope="col" class="hidden-header">Status</th>
-      <th scope="col" class="hidden-header">More</th>
+      <th scope="col">
+        <div class="button-group" dropdown *ngIf="weatherEvent">
+          <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+            <span class="icon-ellipsis-h"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+            <li class="action-destructive" role="menuitem">
+              <a class="dropdown-item" (click)="deleteRisks()">Remove all</a>
+            </li>
+          </ul>
+        </div>
+      </th>
     </tr>
   </thead>
   <tbody>

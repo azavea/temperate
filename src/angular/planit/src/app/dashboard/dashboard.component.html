@@ -55,6 +55,7 @@
             <app-grouped-risk
                 *ngFor="let risks of groupedRisks"
                 [risks]="risks"
+                (risksDeleted)="onRisksDeleted(risks[0].weather_event)"
                 [weatherEvent]="risks[0].weather_event">
             </app-grouped-risk>
           </div>
@@ -99,14 +100,13 @@
   </main>
 </div>
 
-<app-modal-template #weatherEventsModal title="Add hazard">
+<app-modal-template #weatherEventsModal title="Add hazard" (hidden)="setSelectedEvents()">
   <h2>Your community’s top hazards</h2>
   <p>
     Calculations use the average of the projections for the years 2025&ndash;2035. See
     the <a routerLink="/methodology" (click)="cancelModal(weatherEventsModal);resetScroll()">Methodology</a> page for more information.
   </p>
-  <app-add-weather-events [formControl]="selectedEventsControl"
-                          [readOnlyEvents]="weatherEventsAtLastSave()"></app-add-weather-events>
+  <app-add-weather-events [formControl]="selectedEventsControl"></app-add-weather-events>
   <footer class="modal-footer">
     <button class="button button-primary"
             (click)="saveWeatherEventsModal(weatherEventsModal)">Save</button>
@@ -133,3 +133,5 @@
     </div>
   </div>
 </app-modal-template>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

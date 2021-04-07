@@ -4,9 +4,12 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { onErrorResumeNext } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Indicator } from '../../climate-api';
 import { ImpactService } from '../../core/services/impact.service';
@@ -21,6 +24,9 @@ import {
   numberToRelativeOption,
   relativeOptionToNumber,
 } from '../../shared/';
+import {
+  ConfirmationModalComponent
+} from '../../shared/confirmation-modal/confirmation-modal.component';
 import { ImpactMapModalComponent } from '../../shared/impact-map/impact-map-modal.component';
 import { ModalTemplateComponent } from '../../shared/modal-template/modal-template.component';
 
@@ -31,19 +37,21 @@ interface AggregateNeed {
 
 @Component({
   selector: 'app-grouped-risk',
-  templateUrl: 'grouped-risk.component.html'
+  templateUrl: 'grouped-risk.component.html',
 })
-
 export class GroupedRiskComponent implements OnChanges, OnInit {
+  @ViewChild('confirmDeleteModal', { static: true })
+  confirmDeleteModal: ConfirmationModalComponent;
 
-  @ViewChild('indicatorChartModal', {static: true})
+  @ViewChild('indicatorChartModal', { static: true })
   private indicatorsModal: ModalTemplateComponent;
 
-  @ViewChild('impactsMapModal', {static: true})
+  @ViewChild('impactsMapModal', { static: true })
   private impactsMapModal: ImpactMapModalComponent;
 
   @Input() risks: Risk[];
   @Input() weatherEvent: WeatherEvent;
+  @Output() risksDeleted = new EventEmitter<void>();
 
   public aggregateNeed: AggregateNeed;
   public canShowIndicators = false;
@@ -54,10 +62,12 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   public location: Location;
   public onImpactMapModalShown: EventEmitter<any>;
 
-  constructor(private impactService: ImpactService,
-              private userService: UserService,
-              private riskService: RiskService,
-              private router: Router) { }
+  constructor(
+    private impactService: ImpactService,
+    private userService: UserService,
+    private riskService: RiskService,
+    private router: Router
+  ) {}
 
   ngOnChanges() {
     this.updateRelatedModalData(this.risks);
@@ -65,7 +75,7 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.userService.current().subscribe((user) => {
+    this.userService.current().subscribe(user => {
       this.location = user.primary_organization.location;
     });
   }
@@ -76,9 +86,11 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   isAdaptiveNeedBoxVisible() {
-    return this.aggregateNeed &&
-        this.aggregateNeed.capacity !== OrgRiskRelativeOption.Unsure &&
-        this.aggregateNeed.impact !== OrgRiskRelativeOption.Unsure;
+    return (
+      this.aggregateNeed &&
+      this.aggregateNeed.capacity !== OrgRiskRelativeOption.Unsure &&
+      this.aggregateNeed.impact !== OrgRiskRelativeOption.Unsure
+    );
   }
 
   numberOfActionsAssessed() {
@@ -108,11 +120,11 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
   }
 
   percentActionsAssessed() {
-    return Math.floor(this.numberOfActionsAssessed() / this.risks.length * 100);
+    return Math.floor((this.numberOfActionsAssessed() / this.risks.length) * 100);
   }
 
   percentRisksAssessed() {
-    return Math.floor(this.numberOfRisksAssessed() / this.risks.length * 100);
+    return Math.floor((this.numberOfRisksAssessed() / this.risks.length) * 100);
   }
 
   getAggregateNeed(): AggregateNeed {
@@ -120,22 +132,40 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
     //  along each axis. The average on each axis is then rounded up to the next worst bucket.
     return {
       impact: getRelativeOptionAverage(this.risks, 'impact_magnitude'),
-      capacity: getRelativeOptionAverage(this.risks, 'adaptive_capacity')
+      capacity: getRelativeOptionAverage(this.risks, 'adaptive_capacity'),
     };
 
     function getRelativeOptionAverage(risks: Risk[], property: string): OrgRiskRelativeOption {
-      const totals = risks.reduce((accum, risk) => {
-        const val = relativeOptionToNumber(risk[property]);
-        const total = typeof val === 'number' ? val : 0;
-        const count = typeof val === 'number' ? 1 : 0;
-        return {
-          total: accum.total + total,
-          count: accum.count + count
-        };
-      }, {total: 0, count: 0});
+      const totals = risks.reduce(
+        (accum, risk) => {
+          const val = relativeOptionToNumber(risk[property]);
+          const total = typeof val === 'number' ? val : 0;
+          const count = typeof val === 'number' ? 1 : 0;
+          return {
+            total: accum.total + total,
+            count: accum.count + count,
+          };
+        },
+        { total: 0, count: 0 }
+      );
       const average = totals.count ? Math.ceil(totals.total / totals.count) : undefined;
       return numberToRelativeOption(average);
     }
+  }
+
+  deleteRisks() {
+    this.confirmDeleteModal
+      .confirm({
+        tagline: Risk.deleteRisksTagline(this.risks, [this.weatherEvent]),
+        confirmText: 'Delete',
+      })
+      .pipe(
+        onErrorResumeNext,
+        switchMap(() => this.riskService.deleteMany(this.risks))
+      )
+      .subscribe(() => {
+        this.risksDeleted.emit();
+      });
   }
 
   private updateRelatedModalData(risks: Risk[]) {
@@ -143,14 +173,13 @@ export class GroupedRiskComponent implements OnChanges, OnInit {
       this.modalRisk = risks[0];
       this.riskService.getRiskIndicators(this.modalRisk).subscribe(indicators => {
         this.indicators = indicators;
-        this.canShowIndicators = !!(this.modalRisk.weather_event.indicators &&
-                                    this.modalRisk.weather_event.indicators.length);
+        this.canShowIndicators = !!(
+          this.modalRisk.weather_event.indicators && this.modalRisk.weather_event.indicators.length
+        );
       });
       this.impactService.rankedFor(this.modalRisk.weather_event).subscribe(rankedImpacts => {
         this.impacts = rankedImpacts.filter(i => i.map_layer);
-        this.canShowImpacts = !!(this.impacts &&
-                                 this.impacts.length &&
-                                 this.impacts.length > 0);
+        this.canShowImpacts = !!(this.impacts && this.impacts.length && this.impacts.length > 0);
       });
     } else {
       this.indicators = [];

@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, forkJoin } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { Observable, forkJoin, onErrorResumeNext } from 'rxjs';
+import { catchError, finalize, switchMap } from 'rxjs/operators';
 
 import { CacheService } from '../core/services/cache.service';
 import { OrganizationService } from '../core/services/organization.service';
@@ -12,19 +12,27 @@ import { RiskService } from '../core/services/risk.service';
 import { UserService } from '../core/services/user.service';
 import { WeatherEventService } from '../core/services/weather-event.service';
 import { Organization, Risk, User, WeatherEvent } from '../shared/';
+import {
+  ConfirmationModalComponent
+} from '../shared/confirmation-modal/confirmation-modal.component';
 import { ModalTemplateComponent } from '../shared/modal-template/modal-template.component';
 
 enum ViewTabs {
   Grouped,
   Assessment,
-  ActionSteps
+  ActionSteps,
 }
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('confirmDeleteModal', { static: true })
+  confirmDeleteModal: ConfirmationModalComponent;
+
+  @ViewChild('weatherEventsModal', { static: true })
+  weatherEventsModal: ModalTemplateComponent;
 
   public risks: Risk[];
   public groupedRisks: Risk[][];
@@ -37,36 +45,38 @@ export class DashboardComponent implements OnInit {
 
   private weatherEvents: WeatherEvent[];
 
-  @ViewChild('trialWarningModal', {static: true}) private trialWarningModal: ModalTemplateComponent;
+  @ViewChild('trialWarningModal', { static: true })
+  private trialWarningModal: ModalTemplateComponent;
 
-  constructor(private cache: CacheService,
-              private organizationService: OrganizationService,
-              private userService: UserService,
-              public planService: PlanService,
-              private riskService: RiskService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private weatherEventService: WeatherEventService) { }
+  constructor(
+    private cache: CacheService,
+    private organizationService: OrganizationService,
+    private userService: UserService,
+    public planService: PlanService,
+    private riskService: RiskService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private weatherEventService: WeatherEventService
+  ) {}
 
   ngOnInit() {
     this.getRisks();
-    forkJoin(
-      this.weatherEventService.list(),
-      this.userService.current()
-    ).subscribe(([events, user]: [WeatherEvent[], User]) => {
-      this.weatherEvents = events;
-      this.organization = user.primary_organization;
-      this.setSelectedEvents();
+    forkJoin([this.weatherEventService.list(), this.userService.current()]).subscribe(
+      ([events, user]: [WeatherEvent[], User]) => {
+        this.weatherEvents = events;
+        this.organization = user.primary_organization;
+        this.setSelectedEvents();
 
-      const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
-      if (!shownWarning) {
-        this.trialDaysRemaining = this.organization.trialDaysRemaining();
-        if (this.organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
-          this.openModal(this.trialWarningModal);
-          this.cache.set(CacheService.APP_DASHBOARD_TRIALWARNING, true);
+        const shownWarning = this.cache.get(CacheService.APP_DASHBOARD_TRIALWARNING);
+        if (!shownWarning) {
+          this.trialDaysRemaining = this.organization.trialDaysRemaining();
+          if (this.organization.isFreeTrial() && this.trialDaysRemaining <= 3) {
+            this.openModal(this.trialWarningModal);
+            this.cache.set(CacheService.APP_DASHBOARD_TRIALWARNING, true);
+          }
         }
       }
-    });
+    );
   }
 
   onRisksChanged() {
@@ -84,20 +94,36 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  setSelectedEvents() {
+    this.selectedEventsControl.setValue(this.weatherEventsAtLastSave());
+  }
+
   upgradeSubscription() {
     this.trialWarningModal.close();
     this.router.navigate(['subscription']);
   }
 
   saveWeatherEventsModal(modal: ModalTemplateComponent) {
-    // Trigger spinner display so that it's shown for both the save queries and the
-    // risks requery
-    this.risks = undefined;
     const selectedEvents = this.selectedEventsControl.value as WeatherEvent[];
-    this.saveEventsToAPI(selectedEvents)
-      .pipe(finalize(() => this.getRisks()))
-      .subscribe();
-    modal.close();
+    const deletedEvents = this.weatherEventsAtLastSave().filter(
+      event => !selectedEvents.some(e => e.id === event.id)
+    );
+    if (deletedEvents.length > 0) {
+      this.weatherEventsModal.close();
+      this.deleteRisksForWeatherEvents(deletedEvents)
+        .pipe(
+          catchError(err => {
+            this.weatherEventsModal.open();
+            throw err;
+          }),
+          onErrorResumeNext
+        )
+        .subscribe(() => {
+          this.saveEventsModal(selectedEvents, modal);
+        });
+    } else {
+      this.saveEventsModal(selectedEvents, modal);
+    }
   }
 
   weatherEventsAtLastSave() {
@@ -119,6 +145,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onRisksDeleted(weatherEvent: WeatherEvent) {
+    this.risks = this.risks.filter(risk => risk.weather_event.id !== weatherEvent.id);
+    this.groupedRisks = this.getGroupedRisks();
+  }
+
   private getGroupedRisks(): Risk[][] {
     if (this.risks === undefined) {
       return undefined;
@@ -129,14 +160,30 @@ export class DashboardComponent implements OnInit {
     return Array.from(names.map(name => groupedRisks.get(name)));
   }
 
-  private setSelectedEvents() {
-    this.selectedEventsControl.setValue(this.weatherEventsAtLastSave());
+  private saveEventsModal(selectedEvents: WeatherEvent[], modal: ModalTemplateComponent) {
+    // Trigger spinner display so that it's shown for both the save queries and the
+    // risks requery
+    this.risks = undefined;
+    this.saveEventsToAPI(selectedEvents)
+      .pipe(finalize(() => this.getRisks()))
+      .subscribe();
+    modal.close();
   }
 
   private saveEventsToAPI(events: WeatherEvent[]): Observable<Organization> {
-
     this.organization.weather_events = events.map(e => e.id);
     return this.organizationService.update(this.organization);
+  }
+
+  private deleteRisksForWeatherEvents(events: WeatherEvent[]): Observable<unknown> {
+    const risks = this.risks.filter(r => events.some(event => event.id === r.weather_event.id));
+
+    return this.confirmDeleteModal
+      .confirm({
+        tagline: Risk.deleteRisksTagline(risks, events),
+        confirmText: 'Delete',
+      })
+      .pipe(switchMap(() => this.riskService.deleteMany(risks)));
   }
 
   public resetScroll() {
