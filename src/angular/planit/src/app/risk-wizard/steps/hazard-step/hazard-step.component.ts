@@ -63,6 +63,7 @@ export class HazardStepComponent
   private indicatorsModal: ModalTemplateComponent;
 
   private sessionSubscription: Subscription;
+  public allRisks: Risk[] = [];
 
   public probabilityTooltipText = `Viewing related indicators helps you think through probability
     and frequency. If there are no available data for this hazard, you may want to consult the
@@ -103,6 +104,8 @@ export class HazardStepComponent
       this.orgWeatherEvents = orgWeatherEvents;
       this.setupForm(this.fromModel(this.risk));
     });
+
+    this.riskService.list().subscribe(risks => (this.allRisks = risks));
   }
 
   ngOnDestroy() {
@@ -163,6 +166,21 @@ export class HazardStepComponent
 
   public openModal() {
     this.indicatorsModal.open();
+  }
+
+  public hasPendingChanges() {
+    return (
+      this.risk.organization_weather_event &&
+      (this.risk.organization_weather_event.frequency !== this.form.controls.frequency.value ||
+        this.risk.organization_weather_event.intensity !== this.form.controls.intensity.value ||
+        this.risk.organization_weather_event.probability !== this.form.controls.probability.value)
+    );
+  }
+
+  public getRelatedRisks() {
+    return this.allRisks.filter(
+      r => r.weather_event.id === this.risk.weather_event.id && r.id !== this.risk.id
+    );
   }
 
   isStepComplete(): boolean {

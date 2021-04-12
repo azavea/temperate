@@ -54,6 +54,9 @@
     </div>
   </form>
 </div>
+  <div *ngIf="allRisks && hasPendingChanges() && getRelatedRisks().length > 0" class="alert alert-warning">
+    This will also update the <strong>{{ getRelatedRisks().length }}</strong> other risk{{ getRelatedRisks().length !== 1 ? 's' : '' }} related to <strong>{{ risk.weather_event.name | lowercase }}</strong>.
+  </div>
 
 <footer class="step-footer">
   <div class="step-footer-exit">
