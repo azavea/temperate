@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!--When making a new release, remember to update the magic links at the bottom.-->
 ## [Unreleased]
 ### Added
+ - Added references to pdf containing additional resources
  - Added option to bulk delete hazards
 ### Changed
+ - Updated marketing site image to show a small town instead of a city
  - Update risk schema to share data for hazard-related fields
  - Allow removing hazards
  - Update copy to remove references to city and five year planning horizon
