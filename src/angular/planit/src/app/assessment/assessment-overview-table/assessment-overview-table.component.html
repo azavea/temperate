@@ -21,7 +21,18 @@
         <span class="tooltip-trigger icon-question-circle" [tooltip]="tooltipText.adaptiveCapacity" containerClass="tooltip-wide"></span>
       </th>
       <th scope="col" class="hidden-header">Status</th>
-      <th scope="col" class="hidden-header">More</th>
+      <th scope="col">
+        <div class="button-group" dropdown *ngIf="weatherEvent">
+          <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+            <span class="icon-ellipsis-h"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+            <li class="action-destructive" role="menuitem">
+              <a class="dropdown-item" (click)="deleteRisks()">Remove all</a>
+            </li>
+          </ul>
+        </div>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -41,9 +52,9 @@
       <td>{{ risk.getAdaptiveCapacityLabel() || '--' }}</td>
       <td>
         <button class="button button-small button-primary va-status-button"
-                *ngIf="!risk.isAssessed() && !risk.isPartiallyAssessed()"
+                *ngIf="!risk.isPartiallyAssessed()"
                 [routerLink]="'/assessment/risk/' + risk.id">Assess</button>
-        <progressbar *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"
+        <progressbar *ngIf="risk.isPartiallyAssessed()"
                      [max]="risk.getTotalPropCount()"
                      [value]="risk.getCompletedPropCount()"></progressbar>
       </td>
@@ -53,13 +64,13 @@
             <span class="icon-ellipsis-h"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-            <li role="menuitem" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()">
+            <li role="menuitem" *ngIf="risk.isPartiallyAssessed()">
               <a class="dropdown-item" disabled [routerLink]="'/assessment/risk/' + risk.id">Edit</a>
             </li>
-            <li role="menuitem" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()">
+            <li role="menuitem" *ngIf="risk.isPartiallyAssessed()">
               <a class="dropdown-item" [routerLink]="'/assessment/risk/' + risk.id" [queryParams]="{goToStep:4}">Review</a>
             </li>
-            <div class="divider" *ngIf="risk.isPartiallyAssessed() || risk.isAssessed()"></div>
+            <div class="divider" *ngIf="risk.isPartiallyAssessed()"></div>
             <li class="action-destructive" role="menuitem">
               <a class="dropdown-item" (click)="deleteRisk(risk)">Remove</a>
             </li>

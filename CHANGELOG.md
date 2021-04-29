@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## [1.14.0] - 2021-04-29
+### Added
+ - Added references to pdf containing additional resources
+ - Added option to bulk delete hazards
+### Changed
+ - Updated marketing site image to show a small town instead of a city
+ - Update risk schema to share data for hazard-related fields
+ - Allow removing hazards
+ - Update copy to remove references to city and five year planning horizon
+
 ## [1.13.0] - 2021-01-21
 ### Fixed
  - Improved loading performance of Organization Action admin detail page
@@ -178,7 +188,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.13.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.14.0...HEAD
+[1.14.0]: https://github.com/azavea/temperate/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/azavea/temperate/compare/1.12.0...1.13.0
 [1.12.0]: https://github.com/azavea/temperate/compare/1.11.0...1.12.0
 [1.11.0]: https://github.com/azavea/temperate/compare/1.10.0...1.11.0

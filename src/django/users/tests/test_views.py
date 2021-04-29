@@ -486,7 +486,7 @@ class OrganizationApiTestCase(APITestCase):
 
     def test_add_weather_event_creates_new_sample_risks(self):
         """Adding a WeatherEvent should create 2 sample Risks if any Risks already exist."""
-        OrganizationRiskFactory(organization=self.org)
+        org_risk = OrganizationRiskFactory(organization=self.org)
         community_system = CommunitySystemFactory()
         weather_event = WeatherEventFactory()
 
@@ -504,7 +504,7 @@ class OrganizationApiTestCase(APITestCase):
                 'admin': self.org.location.admin,
             },
             'plan_setup_complete': True,
-            'weather_events': [weather_event.pk],
+            'weather_events': [org_risk.weather_event.pk, weather_event.pk],
             'community_systems': [community_system.pk]
         }
         url = reverse('planitorganization-detail', kwargs={'pk': self.org.id})

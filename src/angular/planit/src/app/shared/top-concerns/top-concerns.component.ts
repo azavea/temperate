@@ -2,15 +2,12 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 
 import { Concern, WeatherEvent } from '../../shared';
 
-
 @Component({
   selector: 'app-top-concerns',
-  templateUrl: './top-concerns.component.html'
+  templateUrl: './top-concerns.component.html',
 })
 export class TopConcernsComponent implements OnChanges {
-
   @Input() weatherEvents: WeatherEvent[];
-  @Input() readOnlyEvents: WeatherEvent[];
 
   @Output() removed = new EventEmitter<WeatherEvent>();
 
@@ -41,16 +38,8 @@ export class TopConcernsComponent implements OnChanges {
     return concern.units !== 'count' && concern.units !== 'days';
   }
 
-  isReadOnly(weatherEvent: WeatherEvent) {
-    return this.readOnlyEvents &&
-      this.readOnlyEvents.findIndex(e => e.id === weatherEvent.id) !== -1;
-  }
-
   remove(weatherEvent: WeatherEvent) {
-    // Only remove if readOnlyEvents unset or we don't find the event in readOnlyEvents
-    if (!this.isReadOnly(weatherEvent)) {
-      this.removed.emit(weatherEvent);
-    }
+    this.removed.emit(weatherEvent);
   }
 
   units(concern: Concern): string {

@@ -30,6 +30,7 @@ class OrganizationDefault(object):
     Based on DRF `CurrentUserDefault`:
     http://www.django-rest-framework.org/api-guide/validators/#currentuserdefault
     """
+
     def set_context(self, serializer_field):
         self.organization = get_org_from_context(serializer_field.context)
 
@@ -155,44 +156,6 @@ class OrganizationActionSerializer(serializers.ModelSerializer):
                   'categories', 'funding')
 
 
-class OrganizationRiskSerializer(serializers.ModelSerializer):
-    """Serialize organization risks for viewing, with related models.
-
-    Only show 1 action for MVP even though Risk:Action is 1:M."""
-    weather_event = WeatherEventField(many=False)
-    community_system = CommunitySystemField(many=False)
-
-    action = serializers.SerializerMethodField()
-
-    organization = OrganizationPKField(
-        default=OrganizationDefault(),
-        many=False,
-        write_only=True
-    )
-
-    def get_action(self, obj):
-        try:
-            # Use slicing ([0]) instead of .first() to use prefetched data
-            action = obj.organizationaction_set.all()[0]
-            return OrganizationActionSerializer(action).data
-        except IndexError:
-            return None
-
-    class Meta:
-        model = OrganizationRisk
-        fields = ('id', 'action', 'weather_event', 'community_system', 'probability',
-                  'frequency', 'intensity', 'impact_magnitude', 'impact_description',
-                  'adaptive_capacity', 'related_adaptive_values', 'adaptive_capacity_description',
-                  'organization')
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=OrganizationRisk.objects.all(),
-                fields=('organization', 'weather_event', 'community_system'),
-                message='There is already a Risk for this Hazard and Community System'
-            )
-        ]
-
-
 class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
     organization = OrganizationPKField(
         default=OrganizationDefault(),
@@ -207,13 +170,53 @@ class OrganizationWeatherEventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrganizationWeatherEvent
-        fields = ('id', 'organization', 'weather_event', 'order',)
+        fields = ('id', 'organization', 'weather_event', 'order', 'probability', 'frequency',
+                  'intensity',)
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=OrganizationWeatherEvent.objects.all(),
                 fields=('organization', 'weather_event',),
                 message='There is already a OrganizationWeatherEvent for this Organization ' +
                         'and WeatherEvent'
+            )
+        ]
+
+
+class OrganizationRiskSerializer(serializers.ModelSerializer):
+    """Serialize organization risks for viewing, with related models.
+
+    Only show 1 action for MVP even though Risk:Action is 1:M."""
+    weather_event = WeatherEventField(many=False)
+    community_system = CommunitySystemField(many=False)
+
+    action = serializers.SerializerMethodField()
+
+    organization = OrganizationPKField(
+        default=OrganizationDefault(),
+        many=False,
+        write_only=True
+    )
+    organization_weather_event = OrganizationWeatherEventSerializer(many=False, read_only=True)
+
+    def get_action(self, obj):
+        try:
+            # Use slicing ([0]) instead of .first() to use prefetched data
+            action = obj.organizationaction_set.all()[0]
+            return OrganizationActionSerializer(action).data
+        except IndexError:
+            return None
+
+    class Meta:
+        model = OrganizationRisk
+        fields = ('id', 'action', 'weather_event', 'community_system', 'impact_magnitude',
+                  'impact_description', 'adaptive_capacity', 'related_adaptive_values',
+                  'adaptive_capacity_description', 'organization', 'organization_weather_event',
+                  'is_modified',)
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=OrganizationRisk.objects.all(),
+                fields=('organization', 'weather_event', 'community_system'),
+                message='There is already a Risk for this Hazard and Community System'
             )
         ]
 

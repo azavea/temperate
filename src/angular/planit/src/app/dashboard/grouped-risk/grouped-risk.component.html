@@ -43,6 +43,16 @@
           *ngIf="canShowImpacts">
       <button class="indicators-trigger-button button-icon-only" (click)="openMapModal()"><span class="icon icon-map-marked-alt"></span></button>
     </span>
+    <div class="button-group" dropdown>
+      <button dropdownToggle type="button" class="button-icon-only dropdown-toggle">
+        <span class="icon-ellipsis-h"></span>
+      </button>
+      <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+        <li class="action-destructive" role="menuitem">
+          <a class="dropdown-item" (click)="deleteRisks(risks)">Remove</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -80,8 +90,7 @@
     These climate change data indicators may help you think through the probability and
     frequency of this hazard. You may also want to consult the
     <a href="https://data.globalchange.gov/file/ca9c6f09-9890-41db-ace4-827f9cbeb93a" target="_blank">
-    National Climate Assessment,</a> <a href="http://statesatrisk.org/" target="_blank">States At Risk,</a> or use the help icon to contact
-    ICLEI-USA.
+    National Climate Assessment,</a>{{ " " }}<a href="http://statesatrisk.org/" target="_blank">States At Risk,</a> or this list of <a href="/assets/outside-resources.pdf" target="_blank">additional resources.</a>
   </p>
 
   <app-force-collapse-chart-container
@@ -97,3 +106,5 @@
   title="Maps related to {{ modalRisk?.weather_event.name | lowercase }}"
   [impacts]="impacts">
 </app-impact-map-modal>
+
+<app-confirmation-modal #confirmDeleteModal></app-confirmation-modal>

@@ -39,7 +39,7 @@
       </div>
     </section>
     <section>
-      <va-assessment-overview-table [(risks)]="risks"></va-assessment-overview-table>
+      <va-assessment-overview-table [(risks)]="risks" [weatherEvent]="weatherEvent"></va-assessment-overview-table>
       <button class="button" routerLink="risk/new">Add new risk</button>
       &nbsp;
       <button class="button button-positive"

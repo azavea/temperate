@@ -5,21 +5,21 @@ import { switchMap } from 'rxjs/operators';
 
 import { RiskService } from '../../core/services/risk.service';
 
-import { Action, Risk } from '../../shared';
+import { Risk, WeatherEvent } from '../../shared';
 import {
   ConfirmationModalComponent
 } from '../../shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'va-assessment-overview-table',
-  templateUrl: './assessment-overview-table.component.html'
+  templateUrl: './assessment-overview-table.component.html',
 })
 export class AssessmentOverviewTableComponent implements OnInit {
-
-  @ViewChild('confirmDeleteModal', {static: true}) confirmDeleteModal: ConfirmationModalComponent;
+  @ViewChild('confirmDeleteModal', { static: true }) confirmDeleteModal: ConfirmationModalComponent;
   @Input() risks: Risk[];
   @Output() risksChange = new EventEmitter<Risk[]>();
   @Input() showFullTitle = false;
+  @Input() weatherEvent: WeatherEvent;
 
   public tooltipText = {
     adaptiveCapacity: 'The ability to respond to change, deal with potential damage, and take ' +
@@ -27,7 +27,7 @@ export class AssessmentOverviewTableComponent implements OnInit {
                       'systems, as well as institutions, humans, and other organisms. Systems ' +
                       'with High Adaptive Capacity are better able to cope with climate change ' +
                       'impacts.',
-    potentialImpact: 'The degree to which the risk will affect the city overall.',
+    potentialImpact: 'The degree to which the risk will affect the community overall.',
     risk: 'A potential future climate hazard and the social, civic, economic, or ecological ' +
           'system that may be affected.',
     communitySystem: 'The social, civic, economic, or ecological system that may be affected ' +
@@ -39,14 +39,34 @@ export class AssessmentOverviewTableComponent implements OnInit {
   }
 
   deleteRisk(risk: Risk) {
-    this.confirmDeleteModal.confirm({
-      tagline: `Are you sure you want to delete ${risk.title()}?`,
-      confirmText: 'Delete'
-    }).pipe(onErrorResumeNext, switchMap(() => this.riskService.delete(risk))
-    ).subscribe(() => {
-      this.risks = this.risks.filter(r => r.id !== risk.id);
-      this.risksChange.emit(this.risks);
-    });
+    this.confirmDeleteModal
+      .confirm({
+        tagline: `Are you sure you want to delete ${risk.title()}?`,
+        confirmText: 'Delete',
+      })
+      .pipe(
+        onErrorResumeNext,
+        switchMap(() => this.riskService.delete(risk))
+      )
+      .subscribe(() => {
+        this.risks = this.risks.filter(r => r.id !== risk.id);
+        this.risksChange.emit(this.risks);
+      });
   }
 
+  deleteRisks() {
+    this.confirmDeleteModal
+      .confirm({
+        tagline: Risk.deleteRisksTagline(this.risks, [this.weatherEvent]),
+        confirmText: 'Delete',
+      })
+      .pipe(
+        onErrorResumeNext,
+        switchMap(() => this.riskService.deleteMany(this.risks))
+      )
+      .subscribe(() => {
+        this.risks = [];
+        this.risksChange.emit(this.risks);
+      });
+  }
 }

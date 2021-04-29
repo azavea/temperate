@@ -6,10 +6,10 @@ import { CommunitySystem } from './community-system.model';
 import { OrgRiskAdaptiveCapacityOptions } from './org-risk-adaptive-capacity-options.model';
 import { OrgRiskDirectionalFrequencyOptions } from './org-risk-directional-frequency-options.model';
 import { OrgRiskDirectionalIntensityOptions } from './org-risk-directional-intensity-options.model';
-import { OrgRiskDirectionalOption } from './org-risk-directional-option.model';
 import { OrgRiskRelativeChanceOptions } from './org-risk-relative-chance-options.model';
 import { OrgRiskRelativeImpactOptions } from './org-risk-relative-impact-options.model';
 import { OrgRiskRelativeOption } from './org-risk-relative-option.model';
+import { OrgWeatherEvent } from './org-weather-event.model';
 import { WeatherEvent } from './weather-event.model';
 
 export class Risk {
@@ -17,17 +17,33 @@ export class Risk {
   action?: Action;
   weather_event: WeatherEvent;
   community_system: CommunitySystem;
+  organization_weather_event: OrgWeatherEvent;
   impact_magnitude?: OrgRiskRelativeOption;
   impact_description = '';
   adaptive_capacity?: OrgRiskRelativeOption;
   related_adaptive_values: string[] = [];
   adaptive_capacity_description = '';
-  frequency?: OrgRiskDirectionalOption;
-  intensity?: OrgRiskDirectionalOption;
-  probability?: OrgRiskRelativeOption;
+  is_modified: boolean;
 
   static areAnyRisksAssessed(risks: Risk[]): boolean {
     return !!risks.find(risk => risk.isAssessed());
+  }
+
+  static deleteRisksTagline(risks: Risk[], events: WeatherEvent[]): string {
+    let eventNames = events
+      .slice(0, -1)
+      .map(e => `<b>${e.name}</b>`)
+      .join(', ');
+    if (events.length > 1) {
+      eventNames += ` and <b>${events[events.length - 1].name}</b>`;
+    } else {
+      eventNames = `<b>${events[0].name}</b>`;
+    }
+    return `Are you sure you want to remove the ${eventNames} hazard${
+      events.length > 1 ? 's' : ''
+    }? This will also remove the <b>${risks.length}</b> risks associated with ${
+      events.length > 1 ? 'them' : 'it'
+    }.`;
   }
 
   constructor(object: any) {
@@ -38,22 +54,37 @@ export class Risk {
     if (object.weather_event) {
       this.weather_event = Object.assign({}, object.weather_event);
     }
+    if (object.organization_weather_event) {
+      this.organization_weather_event = Object.assign({}, object.organization_weather_event);
+    }
   }
 
   title(): string {
-    const communitySystem = this.community_system && this.community_system.name
-      ? this.community_system.name : '--';
-    const weatherEvent = this.weather_event && this.weather_event.name
-      ? this.weather_event.name : '--';
+    const communitySystem =
+      this.community_system && this.community_system.name ? this.community_system.name : '--';
+    const weatherEvent =
+      this.weather_event && this.weather_event.name ? this.weather_event.name : '--';
     return `${weatherEvent} on ${communitySystem.toLowerCase()}`;
   }
 
   isAssessed(): boolean {
-    return every(this.getAssessmentPropsAsBools());
+    return (
+      every(this.getWeatherEventAssessmentPropsAsBools()) && every(this.getAssessmentPropsAsBools())
+    );
   }
 
   isPartiallyAssessed(): boolean {
+    return (
+      this.is_modified && (this.isRiskPartiallyAssessed() || this.isWeatherEventPartiallyAssessed())
+    );
+  }
+
+  isRiskPartiallyAssessed(): boolean {
     return some(this.getAssessmentPropsAsBools());
+  }
+
+  isWeatherEventPartiallyAssessed(): boolean {
+    return some(this.getWeatherEventAssessmentPropsAsBools());
   }
 
   compare(other: Risk): number {
@@ -72,27 +103,37 @@ export class Risk {
   }
 
   public getAdaptiveCapacityLabel() {
-    if (!this.adaptive_capacity) { return undefined; }
+    if (!this.adaptive_capacity) {
+      return undefined;
+    }
     return OrgRiskAdaptiveCapacityOptions.get(this.adaptive_capacity).label;
   }
 
   public getProbabilityLabel() {
-    if (!this.probability) { return undefined; }
-    return OrgRiskRelativeChanceOptions.get(this.probability).label;
+    if (!this.organization_weather_event || !this.organization_weather_event.probability) {
+      return undefined;
+    }
+    return OrgRiskRelativeChanceOptions.get(this.organization_weather_event.probability).label;
   }
 
   public getFrequencyLabel() {
-    if (!this.frequency) { return undefined; }
-    return OrgRiskDirectionalFrequencyOptions.get(this.frequency).label;
+    if (!this.organization_weather_event || !this.organization_weather_event.frequency) {
+      return undefined;
+    }
+    return OrgRiskDirectionalFrequencyOptions.get(this.organization_weather_event.frequency).label;
   }
 
   public getIntensityLabel() {
-    if (!this.intensity) { return undefined; }
-    return OrgRiskDirectionalIntensityOptions.get(this.intensity).label;
+    if (!this.organization_weather_event || !this.organization_weather_event.intensity) {
+      return undefined;
+    }
+    return OrgRiskDirectionalIntensityOptions.get(this.organization_weather_event.intensity).label;
   }
 
   public getImpactMagnitudeLabel() {
-    if (!this.impact_magnitude) { return undefined; }
+    if (!this.impact_magnitude) {
+      return undefined;
+    }
     return OrgRiskRelativeImpactOptions.get(this.impact_magnitude).label;
   }
 
@@ -100,24 +141,26 @@ export class Risk {
     // Do not include weather_event and community_system. They are required, but cannot be left
     //  blank in the wizards, so we omit them from progressbar completion
     return [
-      !!this.frequency,
-      !!this.intensity,
-      !!this.probability,
+      !!this.organization_weather_event.frequency,
+      !!this.organization_weather_event.intensity,
+      !!this.organization_weather_event.probability,
       !!this.impact_magnitude,
       !!this.impact_description,
       !!this.adaptive_capacity,
       !!this.adaptive_capacity_description,
-      !!this.related_adaptive_values
+      !!this.related_adaptive_values,
+    ];
+  }
+
+  private getWeatherEventAssessmentPropsAsBools(): boolean[] {
+    return [
+      !!this.organization_weather_event.probability,
+      !!this.organization_weather_event.frequency,
+      !!this.organization_weather_event.intensity,
     ];
   }
 
   private getAssessmentPropsAsBools(): boolean[] {
-    return [
-      !!this.probability,
-      !!this.frequency,
-      !!this.intensity,
-      !!this.impact_magnitude,
-      !!this.adaptive_capacity
-    ];
+    return [!!this.impact_magnitude, !!this.adaptive_capacity];
   }
 }

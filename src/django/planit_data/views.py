@@ -54,9 +54,9 @@ class PlanView(APIView):
     FIELD_MAPPING = {
         'weather_event__name': 'Hazard',
         'community_system__name': 'Community System',
-        'probability': 'Risk Probability',
-        'frequency': 'Risk Frequency',
-        'intensity': 'Risk Intensity',
+        'organization_weather_event__probability': 'Risk Probability',
+        'organization_weather_event__frequency': 'Risk Frequency',
+        'organization_weather_event__intensity': 'Risk Intensity',
         'impact_magnitude': 'Risk Impact Magnitude',
         'impact_description': 'Risk Impact Description',
         'adaptive_capacity': 'Risk Adaptive Capacity',
@@ -76,6 +76,8 @@ class PlanView(APIView):
     def get_data_for_organization(self, org):
         return OrganizationRisk.objects.filter(
             organization=org
+        ).select_related(
+            'organization_weather_event'
         ).prefetch_related(
             'organizationaction',
             'weather_event',
@@ -187,6 +189,7 @@ class OrganizationRiskView(ModelViewSet):
             'weather_event',
             'weather_event__concern',
             'weather_event__concern__indicator',
+            'organization_weather_event',
         ).prefetch_related(
             'organizationaction_set',
             'organizationaction_set__categories',
@@ -215,9 +218,10 @@ class OrganizationRiskView(ModelViewSet):
         return response
 
     @transaction.atomic
-    def update(self, request, pk=None):
+    def update(self, request, pk=None, partial=None):
+        weather_event_ids = None
         if pk:
-            new_weather_event_id = request.data['weather_event']
+            new_weather_event_id = int(request.data['weather_event'])
             old_weather_event = WeatherEvent.objects.get(organizationrisk=pk)
             if new_weather_event_id != old_weather_event.id:
                 print("Updating weather event list")
@@ -226,8 +230,13 @@ class OrganizationRiskView(ModelViewSet):
                 weather_event_ids = set(remaining_risks.values_list('weather_event_id', flat=True)
                                         .distinct())
                 weather_event_ids.add(new_weather_event_id)
-                organization.update_weather_events(weather_event_ids)
-        return super().update(request, pk)
+        response = super().update(request, pk, partial)
+        # Need to wait to update organization weather events so we don't create a risk that
+        # conflicts with this one
+        if weather_event_ids:
+            organization.update_weather_events(weather_event_ids)
+
+        return response
 
     @transaction.atomic
     def destroy(self, request, pk=None):
@@ -240,6 +249,8 @@ class OrganizationRiskView(ModelViewSet):
                     organization=organization,
                     weather_event=weather_event
                 ).delete()
+                # OrganizationWeatherEvent will cascade and delete this risk as well
+                return Response(None, status=status.HTTP_204_NO_CONTENT)
 
         return super().destroy(request, pk=pk)
 
