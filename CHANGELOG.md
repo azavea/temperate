@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## [1.14.1] - 2021-04-30
+### Changed
+ - Updated ICLEI logo on the partnership page
+
 ## [1.14.0] - 2021-04-29
 ### Added
  - Added references to pdf containing additional resources
