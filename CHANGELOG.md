@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
-## [Unreleased]
+## [1.15.0] - 2022-02-09
 ### Changed
  - Replaced form to contact ICLEI with a prompt to email Azavea
 
@@ -196,7 +196,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.14.1...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.15.0...HEAD
+[1.15.0]: https://github.com/azavea/temperate/compare/1.14.1...1.15.0
 [1.14.1]: https://github.com/azavea/temperate/compare/1.14.0...1.14.1
 [1.14.0]: https://github.com/azavea/temperate/compare/1.13.0...1.14.0
 [1.13.0]: https://github.com/azavea/temperate/compare/1.12.0...1.13.0
