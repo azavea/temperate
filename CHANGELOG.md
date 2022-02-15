@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
+## [Unreleased]
+### Fixed
+ - Updated 'urllib3' and 'django_amazon_ses' to fix sending email
+
 ## [1.15.0] - 2022-02-09
 ### Changed
  - Replaced form to contact ICLEI with a prompt to email Azavea
