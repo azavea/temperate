@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!--When making a new release, remember to update the magic links at the bottom.-->
-## [Unreleased]
+## [1.15.1] - 2022-02-15
 ### Fixed
  - Updated 'urllib3' and 'django_amazon_ses' to fix sending email
 
@@ -200,7 +200,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/azavea/temperate/compare/1.15.0...HEAD
+[Unreleased]: https://github.com/azavea/temperate/compare/1.15.1...HEAD
+[1.15.1]: https://github.com/azavea/temperate/compare/1.15.0...1.15.1
 [1.15.0]: https://github.com/azavea/temperate/compare/1.14.1...1.15.0
 [1.14.1]: https://github.com/azavea/temperate/compare/1.14.0...1.14.1
 [1.14.0]: https://github.com/azavea/temperate/compare/1.13.0...1.14.0
