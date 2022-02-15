@@ -226,7 +226,7 @@ if ENVIRONMENT == 'Development':
     #   https://github.com/EliotBerriot/django-dbes/issues/4
     # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    EMAIL_BACKEND = 'django_amazon_ses.backends.boto.EmailBackend'
+    EMAIL_BACKEND = 'django_amazon_ses.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'noreply@temperate.io'
 SUPPORT_EMAIL = 'support@temperate.io'
