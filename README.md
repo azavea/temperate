@@ -2,9 +2,7 @@
 
 ### Requirements
 
-- Vagrant 1.8.1+
-- VirtualBox 4.3+
-- Ansible 2.3+
+- Docker
 
 ### Quick setup
 
@@ -34,24 +32,23 @@ CCAPI_EMAIL=test@test.com
 CCAPI_PASSWORD=testpw
 ```
 
-You will also need to add Esri credentials for geocoding, which can be found in the Temperate app in the [Azavea Esri account](https://developers.arcgis.com/applications/dab66240dd264cc6b44fba60609de51d) (use the 'ESRI Company Account' credentials in LastPass).
+You will also need to add Esri credentials for geocoding, which can be found in the Temperate app in the [Azavea Esri account](https://developers.arcgis.com/applications/dab66240dd264cc6b44fba60609de51d) ('ESRI Company Account' credentials in LastPass are to get you in the ESRI portal).
 ```
 ESRI_CLIENT_ID=<ID>
 ESRI_CLIENT_SECRET=<SECRET>
 ```
 
-#### Initial set-up of Vagrant environment
+#### Initial set-up
 
-After `docker-compose.env` has been configured, create and provision the Vagrant VM:
+After `docker-compose.env` has been configured, you can create the docker images
 
 ```bash
 $ ./scripts/setup
 ```
 
-With the Vagrant VM provisioned, start the Docker containers:
+With that you can start the server
 
 ```bash
-$ vagrant ssh
 $ ./scripts/server
 ```
 
@@ -122,7 +119,6 @@ Temperate draws upon real-world adaptation plan data to help inform and connect 
 #### Ingesting the data
 
 ```bash
-$ vagrant ssh
 $ ./scripts/ingest_missy_dataset
 ```
 
@@ -144,22 +140,11 @@ It is easier to download the data using the above script. If you want to update 
 - Save each sheet in CSV format
 - Update the CSVs on S3, located in the `s3://azavea-climate-sandbox` folder as `missy_cities.csv` and `missy_strategies_with_weather_events.csv`.
 
-### Using Docker in the VM
-
-The other project scripts are meant to execute in the VM in the `/vagrant` directory.
-To run the containers during development use the following commands:
-
-```bash
-$ vagrant ssh
-$ ./scripts/server
-```
-
 ### Nginx vs Angular
 
 By default `./scripts/server` will host the user interface using the Angular server on port 4210. This provides features in development like live refresh on code change. If you want to use Nginx to host on post 8102, you can do so with the `--nginx` flag
 
 ```bash
-$ vagrant ssh
 $ ./scripts/server --nginx
 ```
 
@@ -212,9 +197,7 @@ yarn start --port 4211
 
 ### Docker
 
-This project uses Docker containers inside the Vagrant box.
-Below are a few Docker commands you can use to get oriented to what's happening in the VM.
-You'll need to `vagrant ssh` into the VM to use them:
+Below are a few Docker commands
 
 | Command                              | Description                                           |
 | ------------------------------------ | ----------------------------------------------------- |
