@@ -1,13 +1,13 @@
 version: '2.3'
 services:
   database:
-    image: quay.io/azavea/postgis:2.2-postgres9.5-slim
+    image: postgis/postgis:13-3.1
     environment:
       - POSTGRES_USER=planit
       - POSTGRES_PASSWORD=planit
       - POSTGRES_DB=planit
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "planit"]
+      test: "pg_isready -h database -U planit"
       interval: 3s
       timeout: 3s
       retries: 3
